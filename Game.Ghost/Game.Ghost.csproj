@@ -15,7 +15,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
-    <Content Include="src\js\script.js" />
+    <Content Include="src\js\Setup.js" />
+    <Content Include="src\js\Environment.js" />
     <Content Include="test\sample.html" />
     <Content Include="test\sample.js" />
   </ItemGroup>
