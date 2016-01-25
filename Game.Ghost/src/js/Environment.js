@@ -11,7 +11,7 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
      * @param {game entity} entity - Game entity
      * @returns {object} data-pkg of environment 
      */
-    var setupEnv = function (entity) {
+    var SetupEnv = function (entity) {
         if (entity == null) throw new Error('Container not specified.');
         var scene, camera, renderer;
         var SCREEN_WIDTH, SCREEN_HEIGHT;
@@ -19,6 +19,7 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
         /*creates empty scene object and renderer*/
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .1, 5000);
+        camera.position.set(200, 0, 200);
         renderer = new THREE.WebGLRenderer({ antialias: true });
 
         // add renderer to dom
@@ -61,7 +62,5 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
      * Setup game with the viewport domelement
      * @param {game entity} entity - Game entity
      */
-    GAME.SetupEnv = function (entity) {
-        setupEnv(entity);
-    };
+    GAME.SetupEnv = SetupEnv;
 })(window.Rendxx.Game.Ghost);

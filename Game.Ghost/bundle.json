@@ -34,7 +34,7 @@
       "#test#/sample": [ "#test#/sample.less" ]
     },
     "js": {
-      "#dest#/Game.Ghost": [ "#src#/Environment.js","#src#/Setup.js" ]
+      "#dest#/Game.Ghost": [ "#src#/Environment.js","#src#/Map.js","#src#/Setup.js" ]
     }
   }
 }
