@@ -81,6 +81,7 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
         var planeMaterial = new THREE.MeshPhongMaterial({ color: 0xeeeeee });
         plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.rotation.x = -.5 * Math.PI;
+        plane.receiveShadow = true;
         scene.add(plane);
 
         /*add wall*/
