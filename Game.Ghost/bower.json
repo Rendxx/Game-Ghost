@@ -1,0 +1,17 @@
+{
+  "name": "game-ghost",
+  "description": "",
+  "main": [
+  ],
+  "dependencies": {
+    "jquery": "^2.2.0",
+    "three.js": "^0.73.0",
+    "three.js-controls": "^0.0.67",
+    "stats.js": "*",
+    "dat-gui": "^0.5.1"
+  },
+  "authors": [
+  ],
+  "license": "MIT",
+  "private": true
+}
