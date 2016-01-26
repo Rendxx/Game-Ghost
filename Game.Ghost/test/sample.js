@@ -22,25 +22,24 @@
     // dat-gui
     var guiControls = new function () {
         /*ambient light values*/
-        this.ambColor = 0xdddddd;
+        this.ambColor = 0x000000;
 
-        /*directional light values*/
-        this.dirColor = 0xffffff;
-        this.lightXD = 20;
-        this.lightYD = 35;
-        this.lightZD = 40;
-        this.intensityD = 1;
-        this.shadowCameraNearD = 0;
-        this.shadowCameraFarD = 75;
-        this.shadowLeft = -5;
-        this.shadowRight = 5;
-        this.shadowTop = 5;
-        this.shadowBottom = -5;
-        this.shadowCameraVisibleD = false;
-        this.shadowMapWidthD = 2056;
-        this.shadowMapHeightD = 2056;
-        this.shadowBiasD = 0.00;
-        this.shadowDarknessD = 0.5;
+        /*spot light values*/
+        this.lightX = 20;
+        this.lightY = 5;
+        this.lightZ = 40;
+        this.intensity = 1;
+        this.distance = 80;
+        this.angle = 1.570;
+        this.exponent = 0;
+        this.shadowCameraNear = 10;
+        this.shadowCameraFar = 80;
+        this.shadowCameraFov = 50;
+        this.shadowCameraVisible = false;
+        this.shadowMapWidth = 2056;
+        this.shadowMapHeight = 2056;
+        this.shadowBias = 0.00;
+        this.shadowDarkness = 1;
     }
 
     datGUI = new dat.GUI();
@@ -50,80 +49,68 @@
         game.map.light[0].color.setHex(value);
     });
 
-    /*Directional gui controls*/
-    var directFolder = datGUI.addFolder('Directional Light');
-    directFolder.addColor(guiControls, 'dirColor').onChange(function (value) {
-        game.map.light[1].color.setHex(value);
-    });
-    directFolder.add(guiControls, 'lightXD', -60, 180).onChange(function (value) {
+    /*spot gui controls*/
+    var shadowHelper_spot = null;
+    var spotFolder = datGUI.addFolder('Spot Light');
+    spotFolder.add(guiControls, 'lightX', -60, 180).onChange(function (value) {
         game.map.light[1].position.x = value;
     });
-    directFolder.add(guiControls, 'lightYD', 0, 180).onChange(function (value) {
+    spotFolder.add(guiControls, 'lightY', 0, 180).onChange(function (value) {
         game.map.light[1].position.y = value;
     });
-    directFolder.add(guiControls, 'lightZD', -60, 180).onChange(function (value) {
+    spotFolder.add(guiControls, 'lightZ', -60, 180).onChange(function (value) {
         game.map.light[1].position.z = value;
     });
-    directFolder.add(guiControls, 'intensityD', 0.01, 5).onChange(function (value) {
+    spotFolder.add(guiControls, 'intensity', 0.01, 5).onChange(function (value) {
         game.map.light[1].intensity = value;
     });
-    directFolder.add(guiControls, 'shadowCameraNearD', 0, 100).name("Near").onChange(function (value) {
+    spotFolder.add(guiControls, 'distance', 0, 1000).onChange(function (value) {
+        game.map.light[1].distance = value;
+    });
+    spotFolder.add(guiControls, 'angle', 0.001, 1.570).onChange(function (value) {
+        game.map.light[1].angle = value;
+    });
+    spotFolder.add(guiControls, 'exponent', 0, 50).onChange(function (value) {
+        game.map.light[1].exponent = value;
+    });
+    spotFolder.add(guiControls, 'shadowCameraNear', 0, 100).name("Near").onChange(function (value) {
         game.map.light[1].shadow.camera.near = value;
-        if (shadowHelper_direct != null) shadowHelper_direct.update();
+        if (shadowHelper_spot != null) shadowHelper_spot.update();
         game.map.light[1].shadow.camera.updateProjectionMatrix();
     });
-    directFolder.add(guiControls, 'shadowLeft', -30, 30).name("Left").onChange(function (value) {
-        game.map.light[1].shadow.camera.left = value;
-        if (shadowHelper_direct != null) shadowHelper_direct.update();
-        game.map.light[1].shadow.camera.updateProjectionMatrix();
-    });
-    directFolder.add(guiControls, 'shadowRight', -30, 30).name("Right").onChange(function (value) {
-        game.map.light[1].shadow.camera.right = value;
-        if (shadowHelper_direct != null) shadowHelper_direct.update();
-        game.map.light[1].shadow.camera.updateProjectionMatrix();
-    });
-    directFolder.add(guiControls, 'shadowTop', -30, 30).name("Top").onChange(function (value) {
-        game.map.light[1].shadow.camera.top = value;
-        if (shadowHelper_direct != null) shadowHelper_direct.update();
-        game.map.light[1].shadow.camera.updateProjectionMatrix();
-    });
-    directFolder.add(guiControls, 'shadowBottom', -30, 30).name("Bottom").onChange(function (value) {
-        game.map.light[1].shadow.camera.bottom = value;
-        if (shadowHelper_direct != null) shadowHelper_direct.update();
-        game.map.light[1].shadow.camera.updateProjectionMatrix();
-    });
-    directFolder.add(guiControls, 'shadowCameraFarD', 0, 100).name("Far").onChange(function (value) {
+    spotFolder.add(guiControls, 'shadowCameraFar', 0, 5000).name("Far").onChange(function (value) {
         game.map.light[1].shadow.camera.far = value;
-        if (shadowHelper_direct != null) shadowHelper_direct.update();
+        if (shadowHelper_spot != null) shadowHelper_spot.update();
         game.map.light[1].shadow.camera.updateProjectionMatrix();
     });
-    var shadowHelper_direct = null;
-    directFolder.add(guiControls, 'shadowCameraVisibleD').onChange(function (value) {
-
+    spotFolder.add(guiControls, 'shadowCameraFov', 1, 180).name("Fov").onChange(function (value) {
+        game.map.light[1].shadow.camera.fov = value;
+        if (shadowHelper_spot != null) shadowHelper_spot.update();
+        game.map.light[1].shadow.camera.updateProjectionMatrix();
+    });
+    spotFolder.add(guiControls, 'shadowCameraVisible').onChange(function (value) {
         if (value) {
-            if (shadowHelper_direct == null) {
-                shadowHelper_direct = new THREE.CameraHelper(game.map.light[1].shadow.camera);
-                game.env.scene.add(shadowHelper_direct);
+            if (shadowHelper_spot == null) {
+                shadowHelper_spot = new THREE.CameraHelper(game.map.light[1].shadow.camera);
+                game.env.scene.add(shadowHelper_spot);
             }
         } else {
-            if (shadowHelper_direct != null) {
-                game.env.scene.remove(shadowHelper_direct);
-                shadowHelper_direct = null;
+            if (shadowHelper_spot != null) {
+                game.env.scene.remove(shadowHelper_spot);
+                shadowHelper_spot = null;
             }
         }
-        if (shadowHelper_direct != null) shadowHelper_direct.update();
+        if (shadowHelper_spot != null) shadowHelper_spot.update();
         game.map.light[1].shadow.camera.updateProjectionMatrix();
     });
-    directFolder.add(guiControls, 'shadowBiasD', 0, 1).onChange(function (value) {
+    spotFolder.add(guiControls, 'shadowBias', 0, 1).onChange(function (value) {
         game.map.light[1].shadowBias = value;
-        if (shadowHelper_direct != null) shadowHelper_direct.update();
+        if (shadowHelper_spot != null) shadowHelper_spot.update();
         game.map.light[1].shadow.camera.updateProjectionMatrix();
     });
-    directFolder.add(guiControls, 'shadowDarknessD', 0, 1).onChange(function (value) {
+    spotFolder.add(guiControls, 'shadowDarkness', 0, 1).onChange(function (value) {
         game.map.light[1].shadowDarkness = value;
-        if (shadowHelper_direct != null) shadowHelper_direct.update();
+        if (shadowHelper_spot != null) shadowHelper_spot.update();
         game.map.light[1].shadow.camera.updateProjectionMatrix();
     });
-
-
 });
