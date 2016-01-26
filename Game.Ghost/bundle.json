@@ -9,12 +9,14 @@
     "js": {
       "src": "src/js",
       "dest": "js",
-      "test": "test"
+      "test": "test",
+      "mapDesigner": "mapDesigner"
     },
     "less": {
       "src": "src/less",
       "dest": "css",
-      "test": "test"
+      "test": "test",
+      "mapDesigner": "mapDesigner"
     }
   },
 
@@ -31,10 +33,11 @@
       "#dest#/dat-gui": "#src#/dat-gui/build/*.{js,map}"
     },
     "less": {
-      "#test#/sample": [ "#test#/sample.less" ]
+      "#test#/sample": [ "#test#/sample.less" ],
+      "#mapDesigner#/index": [ "#mapDesigner#/index.less" ]
     },
     "js": {
-      "#dest#/Game.Ghost": [ "#src#/Environment.js","#src#/Map.js","#src#/Setup.js" ]
+      "#dest#/Game.Ghost": [ "#src#/Environment.js", "#src#/Map.js", "#src#/Setup.js" ]
     }
   }
 }

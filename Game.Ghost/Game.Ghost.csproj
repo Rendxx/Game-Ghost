@@ -18,6 +18,8 @@
     <Content Include="src\js\Map.js" />
     <Content Include="src\js\Setup.js" />
     <Content Include="src\js\Environment.js" />
+    <Content Include="mapDesigner\index.html" />
+    <Content Include="mapDesigner\index.js" />
     <Content Include="test\sample.html" />
     <Content Include="test\sample.js" />
   </ItemGroup>
@@ -29,6 +31,7 @@
   <ItemGroup>
     <None Include="bower.json" />
     <None Include="bundle.json" />
+    <Content Include="mapDesigner\index.less" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
