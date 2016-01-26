@@ -4,15 +4,18 @@
 <head>
     <meta charset="utf-8" />
     <link type="text/css" rel="stylesheet" href="index.css"/>
-    <title>GHOST</title>
+    <title>Map Designer</title>
 </head>
 <body>
     <div class="instruction"></div>
-    <div class="typeList"><div class="clear"></div></div>
-    <div class="container"></div>
+    <div class="stuffPanel"><div class="clear"></div></div>
+    <div class="gridPanel"></div>
 
     <script type="text/javascript" src="../lib/jquery.js"></script>
     <script type="text/javascript" src="../lib/dat.gui.min.js"></script>
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="_index.js"></script>
+    <script type="text/javascript">
+        var mapDesigner = window.Rendxx.MapDesigner.Create({});
+    </script>
 </body>
 </html>

@@ -1,96 +1,173 @@
 $(function () {
-    // data
-    var _gridSize = 10;
-    var _keyCode_0 = 48;
+    // global data ---------------------------------------------------------------------------------------------------
     var _html = {
         grid: '<div class="grid"></div>',
-        typeItem: '<div class="typeItem"></div>'
+        typeItem: '<div class="typeItem"></div>',
+        hover: '<div class="box-hover"></div>',
+        stuff: '<div class="box-stuff"></div>'
     };
     var typeData = [
-        { name: 'Wall', id: 1 },
-        { name: 'Door', id: 2 },
-        { name: 'Table 1*1', id: 3 },
-        { name: 'Table 1*2', id: 4 },
-        { name: 'Table 1*3', id: 5 },
-        { name: 'Table 2*3', id: 6 },
-        { name: 'Cabinet High 1*2', id: 7 },
-        { name: 'Cabinet Low 1*1', id: 8 },
-        { name: 'Cabinet Low 1*2', id: 9 },
-        { name: 'Chair', id: 10 }
+        { name: '<b>Wall</b><br/>[?*?]', id: 1 },
+        { name: '<b>Door</b><br/>[1*1]', id: 2, w: 1, h: 1 },
+
+        { name: '<b>Table</b><br/>[1*1]', id: 3, w: 1, h: 1},
+        { name: '<b>Table</b><br/>[2*1]', id: 4, w: 2, h: 1 },
+        { name: '<b>Table</b><br/>[3*1]', id: 5, w: 3, h: 1 },
+        { name: '<b>Table</b><br/>[3*2]', id: 6, w: 3, h: 2 },
+
+        { name: '<b>Cabinet High</b><br/>[2*1]', id: 7, w: 2, h: 1 },
+        { name: '<b>Cabinet Low</b><br/>[1*1]', id: 8, w: 1, h: 1 },
+        { name: '<b>Cabinet Low</b><br/>[2*1]', id: 9, w: 2, h: 1 },
+
+        { name: '<b>Chair</b><br/>[1*1]', id: 10, w: 1, h: 1 },
     ];
 
-    // dat gui
-    var para = new function(){
+    // html
+    // cache
+    var gridType = 0;
+
+    // dat-gui -------------------------------------------------------------------------------------------------------
+    var gridPara = new function () {
         this.width = 50;
         this.height = 50;
         this.change = function () {
             createGrid();
         };
     };
+
     var datGUI;
-
-    // html
-    var container = $('.container'),
-        typeList = $('.typeList'),
-        grids = null,
-        types = null;
-
-    var pos1 = null,     // 1st click point position
-        gridType = 0;
-
-    // dat-gui
     datGUI = new dat.GUI();
-    datGUI.add(para, 'width', 10, 100).name('Width');
-    datGUI.add(para, 'height', 10, 100).name('Height');
-    datGUI.add(para, 'change').name('Change');
+    datGUI.add(gridPara, 'width', 10, 100).name('Width');
+    datGUI.add(gridPara, 'height', 10, 100).name('Height');
+    datGUI.add(gridPara, 'change').name('Change');
 
-    // create types
+    // types ---------------------------------------------------------------------------------------------------------
+    var html_typeList = $('.typeList'),
+        html_types = null;
+
     var createTypes = function () {
-        for (var i = 0, l = typeData.length; i < l; i++) {
-            types[i] = $(_html.typeItem).appendTo(typeList);
+        html_types = {};
+        for (var i = typeData.length - 1; i >= 0; i--) {
+            html_types[typeData[i].id] = $(_html.typeItem).prependTo(html_typeList).html(typeData[i].name)
+                .click({ id: typeData[i].id }, function (e) {
+                    setType(e.data.id)
+                });
         }
     };
 
-    // create grid
-    var createGrid = function () {
-        var wid = para.width;
-        var hgt = para.height;
+    var setType = function (id) {
+        gridType = id;
+        html_types[id].addClass('hover');
+        html_types[id].siblings().removeClass('hover');
+    };
 
-        container.empty().css({
-            width: _gridSize * wid,
-            height: _gridSize * hgt
-        });
-        grids = [];
-        pos1 = null;
+    createTypes();
+    setType(1);
 
+    // grid --------------------------------------------------------------------------------------------------------------
+});
+
+// create --------------------------------------------------------------------------------------------------------------
+var stuffMap = null;
+var stuffList = null;
+var initStuff = function (wid, hgt) {
+    if (stuffMap == null) {
+        stuffMap = [];
+        stuffList = [];
         for (var i = 0; i < wid; i++) {
-            grids[i] = [];
+            stuffMap[i] = [];
             for (var j = 0; j < hgt; j++) {
-                grids[i][j] = $(_html.grid).css({
-                    top: _gridSize * i,
-                    left: _gridSize * j
-                }).appendTo(container);
-                grids[i][j].click({i:i,j:j},function (e) {
-                    if (pos1 == null) {
-                        pos1 = [e.data.i, e.data.j];
-                        gridType = 0;
-                    } else {
-
-                    }
-                });
+                stuffMap[i][j] = 0;
             }
         }
-    };
+        return;
+    } else {
+        if (wid < stuffMap.length) {
+            for (var i = tuffMap.length - 1; i >= wid; i--) {
+                for (var j = tuffMap[0].length - 1; j >=0; j--) {
+                    if (stuffMap[i][j]>0) removeStuff(stuffMap[i][j]);
+                }
+            }
+        }
+        if (hgt < stuffMap.length) {
+            for (var i = 0; i < wid; i++) {
+                for (var j = tuffMap[0].length - 1; j >= hgt; j--) {
+                    if (stuffMap[i][j] > 0) removeStuff(stuffMap[i][j]);
+                }
+            }
+        }
+        var stuffMap_old = stuffMap;
+        var w_old = stuffMap_old.length;
+        var h_old = stuffMap_old[0].length;
+        stuffMap = [];
+        for (var i = 0; i < wid; i++) {
+            stuffMap[i] = [];
+            for (var j = 0; j < hgt; j++) {
+                stuffMap[i][j] = (i < w_old && j < h_old) ? stuffMap_old[i][j] : 0;
+            }
+        }
+    }
+};
 
-    var setType = function (t) {
-        gridType = t;
-    };
+/**
+ * add a stuff
+ * @param typeDat - type data 
+ * @param y - anchor, should be original top-left: top
+ * @param x - anchor, should be original top-left: left
+ * @param rotation - 0 to 3, clockwise means 0,90,180,270
+ */
+var addStuff = function (typeDat, y, x, rotation) {
+    rotation = rotation || 0;
 
-   
-    $(document).on('keydown', function (e) {
-        if (pos1 == null) return false;
-        setType(e.which - _keyCode_0);
+    var top, bottom, left, right;
+    switch (rotation) {
+        case 0:
+            top = y;
+            bottom = y + typeDat.h -1;
+            left = x;
+            right = x + typeDat.w - 1;
+            break;
+        case 1:
+            top = y;
+            bottom = y + typeDat.w - 1;
+            left = x - typeDat.h + 1;
+            right = x;
+            break;
+        case 2:
+            top = y - typeDat.h + 1;
+            bottom = y;
+            left = x - typeDat.w + 1;
+            right = x;
+            break;
+        case 3:
+            top = y - typeDat.w + 1;
+            bottom = y;
+            left = x;
+            right = x + typeDat.h - 1;
+            break;
+        default:
+            break;
+    }
+
+    var htmlObj = $(_html.stuff).appendTo(html_gridContainer).css({
+        width:typeDat.w*_gridSize,
+        height:typeDat.h*_gridSize,
+        top:
     });
 
-    createGrid();
-});
+    var stuff = {
+        id: typeDat.id,
+        html: 
+    };
+};
+
+var removeStuff = function (id) {
+    if (id == 0 || stuffList[id] == null) return;
+    stuffList[id].html.remove();
+    for (var t = stuffList[id].top, b = stuffList[id].bottom; t <= b; ti++) {
+        for (var l = stuffList[id].left, r = stuffList[id].right; l <= r; l++) {
+            stuffMap[t][l] = 0;
+        }
+    }
+    stuffList[id] = null;
+};

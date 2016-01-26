@@ -4,45 +4,93 @@
     width: 100%;
     height: 100%;
     background-color: #f2f2f2;
-    overflow:hidden;
+    overflow: hidden;
+    font-family: Calibri;
+    font-size: 14px;
 
     body {
         margin: 0;
         padding: 0;
-        width:100%;
-        height:auto;
+        width: 100%;
+        height: auto;
 
-        .instruction{
-
+        .instruction {
         }
 
-        .typeList{
+        .stuffPanel {
+            position: relative;
+            margin-right: 100px;
+            overflow: hidden;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
 
-        }
+            .stuffSelector {
+                margin: 2px;
+                border-radius: 3px;
+                background-color: #ddd;
+                color: #666;
+                text-align: center;
+                padding: 4px;
+                line-height: 20px;
+                font-size: 14px;
+                float: left;
+                width: 100px;
+                cursor: pointer;
 
-        .container{
-            position:absolute;
-            top:20px;
-            left:10px;
+                b{
+                    color: #333;
+                }
 
-            .grid{
-                width:8px;
-                height:8px;
-                border:1px solid #ddd;
-                background-color:#fff;
-                position:absolute;
-                cursor:pointer;
+                &:hover {
+                    background-color: #6490f8;
+                    color: #eee;
+                    b{
+                        color: #fff;
+                    }
+                }
 
-                &:hover{
-                    border:1px solid #67b9ff;
+                &.hover {
+                    background-color: #3772ff;
+                    color: #eee;
+                    b{
+                        color: #fff;
+                    }
                 }
             }
         }
 
-        .clear{
-            width:0;
-            height:0;
-            clear:both;
+        .gridPanel {
+            position: relative;
+            margin-left:10px;
+            background-color: #fff;
+            border: 6px solid #ccc;
+            border-radius:3px;
+
+            .grid {
+                width: 8px;
+                height: 8px;
+                border: 1px solid #ddd;
+                position: absolute;
+                cursor: pointer;
+                z-index:20;
+
+                &:hover {
+                    border: 1px solid #67b9ff;
+                }
+            }
+
+            .box-hover{
+                position: absolute;
+                z-index:1;
+                background-color:#90ccff;
+            }
+        }
+
+        .clear {
+            width: 0;
+            height: 0;
+            clear: both;
         }
     }
 }

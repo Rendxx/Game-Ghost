@@ -15,6 +15,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
+    <Content Include="mapDesigner\Data.js" />
+    <Content Include="mapDesigner\DatGui.js" />
+    <Content Include="mapDesigner\Stuff.js" />
+    <Content Include="mapDesigner\Main.js" />
+    <Content Include="mapDesigner\GridPanel.js" />
     <Content Include="src\js\Map.js" />
     <Content Include="src\js\Setup.js" />
     <Content Include="src\js\Environment.js" />
