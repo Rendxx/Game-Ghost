@@ -12,7 +12,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
 
         entity.datGui.onChange = function (dat) {
-            entity.gird.reset(dat.height, width);
+            entity.gird.reset(dat.height, dat.width);
         };
 
         entity.gird.reset(Data.grid.height, Data.grid.width);
