@@ -9,88 +9,84 @@
     font-size: 14px;
 
     body {
+        position: relative;
         margin: 0;
         padding: 0;
         width: 100%;
-        height: auto;
+        height: 100%;
 
         .instruction {
         }
 
         .stuffPanel {
-            position: relative;
-            margin-right: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
             overflow: hidden;
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-            margin-bottom: 10px;
+            background-color: #333;
+            height: 100%;
 
             .stuffSelector {
-                margin: 2px;
-                border-radius: 3px;
-                background-color: #ddd;
-                color: #666;
-                text-align: center;
-                padding: 4px;
+                color: rgba(255, 255, 255, 0.5);
+                text-align: right;
+                padding: 16px 16px;
                 line-height: 20px;
                 font-size: 14px;
-                float: left;
-                width: 100px;
+                width: 160px;
                 cursor: pointer;
+                border-bottom: 1px solid #313131;
+                -moz-transition-duration: 0.1s;
+                -o-transition-duration: 0.1s;
+                -webkit-transition-duration: 0.1s;
+                transition-duration: 0.1s;
 
-                b{
-                    color: #333;
+                b {
+                    font-weight: 400;
+                    color: #fff;
                 }
 
                 &:hover {
-                    background-color: #6490f8;
-                    color: #eee;
-                    b{
-                        color: #fff;
-                    }
+                    background-color: #5b7442;
                 }
 
                 &.hover {
-                    background-color: #3772ff;
-                    color: #eee;
-                    b{
-                        color: #fff;
+                    background-color: #82BB48;
+                }
+            }
+        }
+
+        .gridPanel-wrap {
+            position: relative;
+            margin-left: 200px;
+            height: 100%;
+            overflow: scroll;
+
+            .gridPanel {
+                position: relative;
+                margin-top: 20px;
+                margin-left: 20px;
+                background-color: #fff;
+                border: 6px solid #ccc;
+
+                .grid {
+                    width: 8px;
+                    height: 8px;
+                    border: 1px solid #ddd;
+                    position: absolute;
+                    cursor: pointer;
+                    z-index: 20;
+
+                    &:hover {
+                        border: 1px solid #67b9ff;
                     }
                 }
-            }
-        }
 
-        .gridPanel {
-            position: relative;
-            margin-left:10px;
-            background-color: #fff;
-            border: 6px solid #ccc;
-            border-radius:3px;
-
-            .grid {
-                width: 8px;
-                height: 8px;
-                border: 1px solid #ddd;
-                position: absolute;
-                cursor: pointer;
-                z-index:20;
-
-                &:hover {
-                    border: 1px solid #67b9ff;
+                .box-hover {
+                    position: absolute;
+                    z-index: 1;
+                    background-color: #90ccff;
                 }
             }
-
-            .box-hover{
-                position: absolute;
-                z-index:1;
-                background-color:#90ccff;
-            }
-        }
-
-        .clear {
-            width: 0;
-            height: 0;
-            clear: both;
         }
     }
 }

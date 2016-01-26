@@ -13,19 +13,19 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             stuffSelector: '<div class="stuffSelector"></div>',
         },
         stuffType: [
-            { name: '<b>Wall</b><br/>[?*?]', id: 1 },
-            { name: '<b>Door</b><br/>[1*1]', id: 2, w: 1, h: 1 },
+            { name: '[?*?] <b>Wall</b>', id: 1 },
+            { name: '[1*1] <b>Door</b>', id: 2, w: 1, h: 1 },
 
-            { name: '<b>Table</b><br/>[1*1]', id: 3, w: 1, h: 1 },
-            { name: '<b>Table</b><br/>[2*1]', id: 4, w: 2, h: 1 },
-            { name: '<b>Table</b><br/>[3*1]', id: 5, w: 3, h: 1 },
-            { name: '<b>Table</b><br/>[3*2]', id: 6, w: 3, h: 2 },
+            { name: '[1*1] <b>Table</b>', id: 3, w: 1, h: 1 },
+            { name: '[2*1] <b>Table</b>', id: 4, w: 2, h: 1 },
+            { name: '[3*1] <b>Table</b>', id: 5, w: 3, h: 1 },
+            { name: '[3*2] <b>Table</b>', id: 6, w: 3, h: 2 },
 
-            { name: '<b>Cabinet High</b><br/>[2*1]', id: 7, w: 2, h: 1 },
-            { name: '<b>Cabinet Low</b><br/>[1*1]', id: 8, w: 1, h: 1 },
-            { name: '<b>Cabinet Low</b><br/>[2*1]', id: 9, w: 2, h: 1 },
+            { name: '[2*1] <b>Cabinet High</b>', id: 7, w: 2, h: 1 },
+            { name: '[1*1] <b>Cabinet Low</b>', id: 8, w: 1, h: 1 },
+            { name: '[2*1] <b>Cabinet Low</b>', id: 9, w: 2, h: 1 },
 
-            { name: '<b>Chair</b><br/>[1*1]', id: 10, w: 1, h: 1 }
+            { name: '[1*1] <b>Chair</b>', id: 10, w: 1, h: 1 }
         ]
     };
 
