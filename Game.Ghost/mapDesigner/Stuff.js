@@ -5,7 +5,11 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
     var Data = MapDesigner.Data;
 
     var StuffInstance = function (instance) {
-        var that = this;
+        var that = this,
+            _h = -1,
+            _w = -1,
+            _x = -1,
+            _y = -1;
 
         this.id = -1;
         this.top = -1;
@@ -33,8 +37,41 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         this.move = function (x, y) {
-            this.x = x;
-            this.y = y;
+            _x = this.x = x;
+            _y = this.y = y;
+            calculatePos();
+        };
+
+        // extend for wall
+        this.extend = function (x, y) {
+            this.h = y - _y;
+            this.w = x - _x;
+            if (this.h < 0) {
+                this.y = y;
+                this.h *= -1;
+            } else {
+                this.y = _y;
+            }
+            if (this.w < 0) {
+                this.x = x;
+                this.w *= -1;
+            } else {
+                this.x = _x;
+            }
+            this.h++;
+            this.w++;
+            calculatePos();
+            //console.log('           ');
+            //console.log('x: ' + this.x);
+            //console.log('y: ' + this.y);
+            //console.log('w: ' + this.w);
+            //console.log('h: ' + this.h);
+        };
+
+        // recover from extend
+        this.recover = function () {
+            this.h = _h;
+            this.w = _w;
             calculatePos();
         };
 
@@ -67,6 +104,12 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 default:
                     break;
             }
+            that.ele.css({
+                width: that.w * Data.grid.size,
+                height: that.h * Data.grid.size,
+                top: that.y * Data.grid.size,
+                left: that.x * Data.grid.size
+            });
         };
 
         this.reset = function (data) {
@@ -75,6 +118,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             this.y = 0;
             this.h = data.h;
             this.w = data.w;
+            _h = this.h;
+            _w = this.w;
+
             this.id = data.id;
             this.ele.width(this.w * Data.grid.size).height(this.h * Data.grid.size);
             this.rotate(0);
@@ -154,22 +200,22 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             if (tmpStuff.id <= 0) return;
             if (!isWallLock) {
                 tmpStuff.move(x, y);
-                tmpStuff.ele.css({
-                    top: y * Data.grid.size,
-                    left: x * Data.grid.size
-                });
             } else {
-
+                tmpStuff.extend(x, y);
             }
             check();
         };
 
         this.setStuff = function (x, y) {
             if (tmpStuff.id <= 0) return;
+            if (tmpStuff.ele.hasClass('warning')) return;
             if (tmpStuff.id == 1 && !isWallLock) {
-
+                isWallLock = true;
             } else {
                 addStuff(x, y);
+                tmpStuff.recover();
+                tmpStuff.move(x, y);
+                isWallLock = false;
             }
         };
 
@@ -198,7 +244,6 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         var addStuff = function (x, y) {
-            if (tmpStuff.ele.hasClass('warning')) return;
             count++;
             var s = new StuffInstance(tmpStuff);
             s.ele.appendTo(container).css({
