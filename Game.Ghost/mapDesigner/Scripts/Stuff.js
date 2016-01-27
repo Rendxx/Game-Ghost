@@ -160,10 +160,39 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             mouseY = 0,
             count = 0;
 
-        // public data
-        this.current = 1;
-
         // method
+        this.getList = function () {
+            return stuffList;
+        };
+
+        this.reset = function (hgt, wid, stuff_in) {
+            if (stuffList != null) {
+                for (var i = 0, l = stuffList.length; i < l; i++) {
+                    removeStuff(i);
+                }
+            }
+
+            _html.container.css({
+                width: Data.grid.size * wid,
+                height: Data.grid.size * hgt
+            });
+            stuffMap = [];
+            stuffList = [];
+            count = 0;
+            for (var i = 0; i < hgt; i++) {
+                stuffMap[i] = [];
+                for (var j = 0; j < wid; j++) {
+                    stuffMap[i][j] = 0;
+                }
+            }
+            
+            for (var i = 0; i < stuff_in.length; i++) {
+                if (stuff_in[i] == null) continue;
+                addStuff(stuff_in[i]);
+            }
+            return;
+        };
+
         this.resize = function (hgt, wid) {
             _html.container.css({
                 width: Data.grid.size * wid,
@@ -188,9 +217,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 var w_old = stuffMap_old.length;
                 var h_old = stuffMap_old[0].length;
                 stuffMap = [];
-                for (var i = 0; i < wid; i++) {
+                for (var i = 0; i < hgt; i++) {
                     stuffMap[i] = [];
-                    for (var j = 0; j < hgt; j++) {
+                    for (var j = 0; j < wid; j++) {
                         stuffMap[i][j] = (i < w_old && j < h_old) ? stuffMap_old[i][j] : 0;
                     }
                 }
@@ -215,7 +244,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             if (tmpStuff.id == 1 && !isWallLock) {
                 isWallLock = true;
             } else {
-                addStuff(x, y);
+                addStuff(tmpStuff);
                 tmpStuff.recover();
                 tmpStuff.move(x, y);
                 isWallLock = false;
@@ -246,9 +275,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             else tmpStuff.ele.removeClass('warning');
         };
 
-        var addStuff = function (x, y) {
+        var addStuff = function (stuff_in) {
             count++;
-            var s = new StuffInstance(tmpStuff);
+            var s = new StuffInstance(stuff_in);
             s.ele.appendTo(container).css({
                 top: s.y * Data.grid.size,
                 left: s.x * Data.grid.size

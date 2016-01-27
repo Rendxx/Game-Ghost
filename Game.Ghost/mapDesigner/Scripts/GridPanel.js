@@ -15,12 +15,18 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
         var that = this;
 
+        // public data
+        this.width = -1;
+        this.height = -1;
+
         // callback
         this.onClick = null;
         this.onMouseEnter = null;
 
         // method
         this.reset = function (hgt, wid) {
+            this.width = wid;
+            this.height = hgt;
             // sensor
             _html.sensorPanel.empty().css({
                 width: Data.grid.size * wid,

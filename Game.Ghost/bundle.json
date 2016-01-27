@@ -39,7 +39,15 @@
     },
     "js": {
       "#dest#/Game.Ghost": [ "#src#/Environment.js", "#src#/Map.js", "#src#/Setup.js" ],
-      "#mapDesigner#/_index": [ "#mapDesigner#/Data.js", "#mapDesigner#/GridPanel.js", "#mapDesigner#/Stuff.js",  "#mapDesigner#/StuffSelector.js", "#mapDesigner#/DatGui.js", "#mapDesigner#/Main.js" ]
+      "#mapDesigner#/_index": [
+        "#mapDesigner#/Scripts/Data.js",
+        "#mapDesigner#/Scripts/GridPanel.js",
+        "#mapDesigner#/Scripts/Stuff.js",
+        "#mapDesigner#/Scripts/StuffSelector.js",
+        "#mapDesigner#/Scripts/DatGui.js",
+        "#mapDesigner#/Scripts/FileManager.js",
+        "#mapDesigner#/Scripts/Main.js" 
+      ]
     }
   }
 }

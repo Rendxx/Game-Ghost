@@ -17,6 +17,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             stuffSelector: '<div class="stuffSelector"></div>',
             stuff: '<div class="stuff"></div>',
             hotKey: '<div class="hotKey"></div>',
+            fileBtn: '<div class="fileBtn"></div>'
         },
         stuffType: [
             { name: '<b>None</b>', id: 0 },

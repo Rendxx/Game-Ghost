@@ -15,8 +15,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
-    <Content Include="mapDesigner\Data.js" />
-    <Content Include="mapDesigner\DatGui.js" />
+    <Content Include="mapDesigner\Scripts\Data.js" />
+    <Content Include="mapDesigner\Scripts\DatGui.js" />
     <Content Include="mapDesigner\Images\Cabinet_1.png" />
     <Content Include="mapDesigner\Images\Cabinet_2.png" />
     <Content Include="mapDesigner\Images\Cabinet_3.png" />
@@ -27,10 +27,11 @@
     <Content Include="mapDesigner\Images\table_3.png" />
     <Content Include="mapDesigner\Images\table_4.png" />
     <Content Include="mapDesigner\Images\wall.png" />
-    <Content Include="mapDesigner\Stuff.js" />
-    <Content Include="mapDesigner\StuffSelector.js" />
-    <Content Include="mapDesigner\Main.js" />
-    <Content Include="mapDesigner\GridPanel.js" />
+    <Content Include="mapDesigner\Scripts\Stuff.js" />
+    <Content Include="mapDesigner\Scripts\FileManager.js" />
+    <Content Include="mapDesigner\Scripts\StuffSelector.js" />
+    <Content Include="mapDesigner\Scripts\Main.js" />
+    <Content Include="mapDesigner\Scripts\GridPanel.js" />
     <Content Include="src\js\Map.js" />
     <Content Include="src\js\Setup.js" />
     <Content Include="src\js\Environment.js" />
