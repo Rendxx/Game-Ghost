@@ -3,14 +3,18 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
 (function (MapDesigner) {
     var Data = {
+        hotKey:{
+            rotate:'q'
+        },
         grid: {
             width: 50,      // width og grid matrix
             height: 50,     // height og grid matrix
-            size: 10        // size of grid
+            size: 14        // size of grid
         },
         html: {
             grid: '<div class="grid"></div>',
             stuffSelector: '<div class="stuffSelector"></div>',
+            stuff: '<div class="stuff"></div>',
         },
         stuffType: [
             { name: '[?*?] <b>Wall</b>', id: 1 },

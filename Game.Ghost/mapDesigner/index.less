@@ -18,7 +18,7 @@
         .instruction {
         }
 
-        .stuffPanel {
+        .stuffSelectorList {
             position: absolute;
             top: 0;
             left: 0;
@@ -59,25 +59,26 @@
             position: relative;
             margin-left: 200px;
             height: 100%;
+            background-color: #fff;
             overflow: scroll;
 
             .gridPanel {
                 position: relative;
                 margin-top: 20px;
                 margin-left: 20px;
-                background-color: #fff;
                 border: 6px solid #ccc;
+                z-index: 100;
 
                 .grid {
-                    width: 8px;
-                    height: 8px;
+                    width: 12px;
+                    height: 12px;
                     border: 1px solid #ddd;
                     position: absolute;
                     cursor: pointer;
                     z-index: 20;
 
                     &:hover {
-                        border: 1px solid #67b9ff;
+                        border: 1px solid #82BB48;
                     }
                 }
 
@@ -85,6 +86,31 @@
                     position: absolute;
                     z-index: 1;
                     background-color: #90ccff;
+                }
+            }
+
+            .stuffPanel {
+                position: absolute;
+                top: 0;
+                left: 0;
+                margin-top: 20px;
+                margin-left: 20px;
+                background-color: #fff;
+                border: 6px solid #ccc;
+                z-index: 10;
+
+                .stuff {
+                    position: absolute;
+                    background-color: #698a9d;
+                    -moz-transform-origin: 7px 7px;
+                    -ms-transform-origin: 7px 7px;
+                    -o-transform-origin: 7px 7px;
+                    -webkit-transform-origin: 7px 7px;
+                    transform-origin: 7px 7px;
+
+                    &._tmp {
+                        opacity: 0.5;
+                    }
                 }
             }
         }

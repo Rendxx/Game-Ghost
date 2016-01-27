@@ -34,10 +34,10 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                         left: Data.grid.size * j
                     }).appendTo(_html.container);
                     _html.grids[i][j].click({ i: i, j: j }, function (e) {
-                        if (that.onClick) that.onClick(i, j);
+                        if (that.onClick) that.onClick(e.data.j, e.data.i);
                     });
                     _html.grids[i][j].on('mouseenter', { i: i, j: j }, function (e) {
-                        if (that.onMouseEnter) that.onMouseEnter(i, j);
+                        if (that.onMouseEnter) that.onMouseEnter(e.data.j, e.data.i);
                     });
                 }
             }
