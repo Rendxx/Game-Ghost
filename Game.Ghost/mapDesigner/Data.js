@@ -3,8 +3,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
 (function (MapDesigner) {
     var Data = {
-        hotKey:{
-            rotate:'q'
+        hotKey: {
+            rotate: 'q',
+            del: 'd'
         },
         grid: {
             width: 50,      // width og grid matrix

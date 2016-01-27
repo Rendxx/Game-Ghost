@@ -6,13 +6,14 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
     var Create = function () {
         var entity = {};
-        entity.gird = new MapDesigner.GridPanel($('.gridPanel'));
+        entity.gird = new MapDesigner.GridPanel($('.sensorPanel'), $('.gridPanel'));
         entity.stuffSelector = new MapDesigner.StuffSelector($('.stuffSelectorList'));
         entity.datGui = new MapDesigner.DatGui();
         entity.stuff = new MapDesigner.Stuff($('.stuffPanel'));
 
 
         entity.datGui.onChange = function (dat) {
+            dat = dat || {};
             entity.gird.reset(dat.height, dat.width);
             entity.stuff.resize(dat.height, dat.width);
         };

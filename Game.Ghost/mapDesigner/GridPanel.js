@@ -4,10 +4,12 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 (function (MapDesigner) {
     var Data = MapDesigner.Data;
 
-    var GridPanel = function (container) {
+    var GridPanel = function (sensorPanel, gridPanel) {
         // data -----------------------------------------------------
         var _html = {
-            container: container,
+            sensorPanel: sensorPanel,
+            gridPanel: gridPanel,
+            canvas: null,
             grids: null,
             hover: null
         };
@@ -19,7 +21,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
         // method
         this.reset = function (hgt, wid) {
-            _html.container.empty().css({
+            // sensor
+            _html.sensorPanel.empty().css({
                 width: Data.grid.size * wid,
                 height: Data.grid.size * hgt
             });
@@ -30,9 +33,11 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 _html.grids[i] = [];
                 for (var j = 0; j < wid; j++) {
                     _html.grids[i][j] = $(Data.html.grid).css({
+                        width: Data.grid.size,
+                        height: Data.grid.size,
                         top: Data.grid.size * i,
                         left: Data.grid.size * j
-                    }).appendTo(_html.container);
+                    }).appendTo(_html.sensorPanel);
                     _html.grids[i][j].click({ i: i, j: j }, function (e) {
                         if (that.onClick) that.onClick(e.data.j, e.data.i);
                     });
@@ -41,6 +46,36 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     });
                 }
             }
+
+            // grid
+            _html.gridPanel.empty().css({
+                width: Data.grid.size * wid,
+                height: Data.grid.size * hgt
+            });
+            var w = Data.grid.size * wid;
+            var h = Data.grid.size * hgt;
+            _html.canvas = $("<canvas/>")
+                .attr('width', Data.grid.size * wid)
+                .attr('height', Data.grid.size * hgt)
+                .width(Data.grid.size * wid)
+                .height(Data.grid.size * hgt)
+                .appendTo(_html.gridPanel);
+
+            var ctx = _html.canvas[0].getContext("2d");
+            for (var i = 1; i < hgt; i++) {
+                ctx.moveTo(0, Data.grid.size * i + 0.5);
+                ctx.lineTo(w, Data.grid.size * i + 0.5);
+            }
+
+
+            for (var j = 1; j < wid; j++) {
+                ctx.moveTo(Data.grid.size * j + 0.5, 0);
+                ctx.lineTo(Data.grid.size * j + 0.5, h);
+            }
+
+            ctx.strokeStyle = "#cccccc";
+            //ctx.setLineDash([5, 2]);
+            ctx.stroke();
         };
     };
 

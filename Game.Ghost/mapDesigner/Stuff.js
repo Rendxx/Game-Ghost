@@ -107,6 +107,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             stuffList = null,
             tmpStuff = null,
             isWallLock = false,
+            mouseX = 0,
+            mouseY = 0,
             count = 0;
 
         // public data
@@ -147,6 +149,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         this.showFigure = function (x, y) {
+            mouseX = x;
+            mouseY = y;
             if (tmpStuff.id <= 0) return;
             if (!isWallLock) {
                 tmpStuff.move(x, y);
@@ -157,6 +161,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             } else {
 
             }
+            check();
         };
 
         this.setStuff = function (x, y) {
@@ -164,13 +169,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             if (tmpStuff.id == 1 && !isWallLock) {
 
             } else {
-                var s = new StuffInstance(tmpStuff);
-                s.ele.appendTo(container).css({
-                    top: s.y * Data.grid.size,
-                    left: s.x * Data.grid.size
-                });
-                stuffList[count] = s;
-                count++;
+                addStuff(x, y);
             }
         };
 
@@ -184,10 +183,41 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
         };
 
+        var check = function () {
+            var illegal = false;
+            for (var i = tmpStuff.top; i <= tmpStuff.bottom; i++) {
+                for (var j = tmpStuff.left; j <= tmpStuff.right; j++) {
+                    if (i >= stuffMap.length || j >= stuffMap[0].length || stuffMap[i][j] != 0) {
+                        illegal = true;
+                        break;
+                    }
+                }
+            }
+            if (illegal) tmpStuff.ele.addClass('warning');
+            else tmpStuff.ele.removeClass('warning');
+        };
+
+        var addStuff = function (x, y) {
+            if (tmpStuff.ele.hasClass('warning')) return;
+            count++;
+            var s = new StuffInstance(tmpStuff);
+            s.ele.appendTo(container).css({
+                top: s.y * Data.grid.size,
+                left: s.x * Data.grid.size
+            });
+            stuffList[count] = s;
+
+            for (var i = s.top; i <= s.bottom; i++) {
+                for (var j = s.left; j <= s.right; j++) {
+                    stuffMap[i][j] = count;
+                }
+            }
+        };
+
         var removeStuff = function (id) {
             if (id == 0 || stuffList[id] == null) return;
-            stuffList[id].html.remove();
-            for (var t = stuffList[id].top, b = stuffList[id].bottom; t <= b; ti++) {
+            stuffList[id].ele.remove();
+            for (var t = stuffList[id].top, b = stuffList[id].bottom; t <= b; t++) {
                 for (var l = stuffList[id].left, r = stuffList[id].right; l <= r; l++) {
                     stuffMap[t][l] = 0;
                 }
@@ -198,18 +228,20 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var _init = function () {
             tmpStuff = new StuffInstance();
             tmpStuff.ele.addClass('_tmp').appendTo(container);
-            //container.on('mouseenter',function(e){
-            //    tmpStuff.show();
-            //});
-            //container.on('mouseleave',function(e){
-            //    tmpStuff.hide();
-            //});
 
             $(document).on('keypress', function (e) {
-                if (String.fromCharCode(e.which).toLowerCase() == Data.hotKey.rotate) {
-                    if (tmpStuff.id < 1) return;
-                    tmpStuff.rotate((tmpStuff.rotation+1)%4);
-                    return false;
+                switch (String.fromCharCode(e.which).toLowerCase()) {
+                    case Data.hotKey.rotate:
+                        if (tmpStuff.id < 1) return;
+                        tmpStuff.rotate((tmpStuff.rotation + 1) % 4);
+                        check();
+                        return false;
+                    case Data.hotKey.del:
+                        var id = stuffMap[mouseY][mouseX];
+                        if (id == 0) return;
+                        removeStuff(id);
+                        check();
+                        return false;
                 }
             })
         };
