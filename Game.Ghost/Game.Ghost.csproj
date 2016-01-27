@@ -17,6 +17,16 @@
     <Content Include="gulpfile.js" />
     <Content Include="mapDesigner\Data.js" />
     <Content Include="mapDesigner\DatGui.js" />
+    <Content Include="mapDesigner\Images\Cabinet_1.png" />
+    <Content Include="mapDesigner\Images\Cabinet_2.png" />
+    <Content Include="mapDesigner\Images\Cabinet_3.png" />
+    <Content Include="mapDesigner\Images\chair.png" />
+    <Content Include="mapDesigner\Images\door.png" />
+    <Content Include="mapDesigner\Images\table_1.png" />
+    <Content Include="mapDesigner\Images\table_2.png" />
+    <Content Include="mapDesigner\Images\table_3.png" />
+    <Content Include="mapDesigner\Images\table_4.png" />
+    <Content Include="mapDesigner\Images\wall.png" />
     <Content Include="mapDesigner\Stuff.js" />
     <Content Include="mapDesigner\StuffSelector.js" />
     <Content Include="mapDesigner\Main.js" />
@@ -37,6 +47,10 @@
     <None Include="bower.json" />
     <None Include="bundle.json" />
     <Content Include="mapDesigner\index.less" />
+    <Content Include="mapDesigner\Document\stuff-output-1.fla" />
+    <Content Include="mapDesigner\Document\stuff-output-2.fla" />
+    <Content Include="mapDesigner\Document\stuff-output-3.fla" />
+    <Content Include="mapDesigner\Document\Stuff.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

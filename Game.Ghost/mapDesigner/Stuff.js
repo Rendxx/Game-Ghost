@@ -121,7 +121,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             _h = this.h;
             _w = this.w;
 
+            this.ele.removeClass('stuff-' + that.id);
             this.id = data.id;
+            this.ele.addClass('stuff-' + that.id);
             this.ele.width(this.w * Data.grid.size).height(this.h * Data.grid.size);
             this.rotate(0);
         };
@@ -135,7 +137,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 that.y = instance.y;
                 that.h = instance.h;
                 that.w = instance.w;
-                that.ele.width(that.w * Data.grid.size).height(that.h * Data.grid.size);
+                that.ele.width(that.w * Data.grid.size).height(that.h * Data.grid.size)
+                        .addClass('stuff-' + that.id);
                 that.rotate(instance.rotation);
             } 
         };
@@ -233,7 +236,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             var illegal = false;
             for (var i = tmpStuff.top; i <= tmpStuff.bottom; i++) {
                 for (var j = tmpStuff.left; j <= tmpStuff.right; j++) {
-                    if (i >= stuffMap.length || j >= stuffMap[0].length || stuffMap[i][j] != 0) {
+                    if (i<0 || j< 0 || i >= stuffMap.length || j >= stuffMap[0].length || stuffMap[i][j] != 0) {
                         illegal = true;
                         break;
                     }
