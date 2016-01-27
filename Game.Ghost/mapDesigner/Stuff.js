@@ -147,7 +147,12 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         this.changeType = function (stuffData) {
-            tmpStuff.reset(stuffData);
+            if (stuffData.id == 0)
+                tmpStuff.ele.hide();
+            else {
+                tmpStuff.reset(stuffData);
+                tmpStuff.ele.show();
+            }
         };
 
         var removeStuff = function (id) {
