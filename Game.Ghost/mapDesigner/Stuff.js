@@ -280,7 +280,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             $(document).on('keypress', function (e) {
                 switch (String.fromCharCode(e.which).toLowerCase()) {
                     case Data.hotKey.rotate:
-                        if (tmpStuff.id < 1) return;
+                        if (tmpStuff.id <= 1) return;
                         tmpStuff.rotate((tmpStuff.rotation + 1) % 4);
                         check();
                         return false;

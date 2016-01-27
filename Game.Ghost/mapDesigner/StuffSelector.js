@@ -32,6 +32,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     });
             }
 
+            $(Data.html.hotKey).appendTo(_html.container).html('<b>[Q]</b> to rotate');
+            $(Data.html.hotKey).appendTo(_html.container).html('<b>[D]</b> to delete');
             // init
             _html.selector[Data.stuffType[0].id].click();
         };
