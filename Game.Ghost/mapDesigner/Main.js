@@ -18,6 +18,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         entity.gird.onMouseEnter = entity.stuff.showFigure;
+        entity.gird.onClick = entity.stuff.setStuff;
         entity.stuffSelector.onChange = entity.stuff.changeType;
 
         entity.gird.reset(Data.grid.height, Data.grid.width);

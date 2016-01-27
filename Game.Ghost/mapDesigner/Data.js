@@ -19,7 +19,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         stuffType: [
             { name: '<b>None</b>', id: 0 },
 
-            { name: '[?*?] <b>Wall</b>', id: 1 },
+            { name: '[?*?] <b>Wall</b>', id: 1, w: 1, h: 1 },
             { name: '[1*1] <b>Door</b>', id: 2, w: 1, h: 1 },
 
             { name: '[1*1] <b>Table</b>', id: 3, w: 1, h: 1 },

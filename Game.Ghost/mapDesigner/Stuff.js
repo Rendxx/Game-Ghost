@@ -4,7 +4,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 (function (MapDesigner) {
     var Data = MapDesigner.Data;
 
-    var StuffInstance = function () {
+    var StuffInstance = function (instance) {
         var that = this;
 
         this.id = -1;
@@ -80,12 +80,21 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             this.rotate(0);
         };
 
-        var _init = function () {
+        var _init = function (instance) {
             that.ele = $(Data.html.stuff);
+            if (instance != null) {
+                that.id = instance.id;
+                that.rotation = instance.rotation;
+                that.x = instance.x;
+                that.y = instance.y;
+                that.h = instance.h;
+                that.w = instance.w;
+                that.ele.width(that.w * Data.grid.size).height(that.h * Data.grid.size);
+                that.rotate(instance.rotation);
+            } 
         };
-        _init();
+        _init(instance);
     };
-
 
     var Stuff = function (container) {
         // data -----------------------------------------------------
@@ -97,6 +106,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             stuffMap = null,
             stuffList = null,
             tmpStuff = null,
+            isWallLock = false,
             count = 0;
 
         // public data
@@ -137,16 +147,35 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         this.showFigure = function (x, y) {
-            if (tmpStuff.id > 1) {
+            if (tmpStuff.id <= 0) return;
+            if (!isWallLock) {
                 tmpStuff.move(x, y);
                 tmpStuff.ele.css({
                     top: y * Data.grid.size,
                     left: x * Data.grid.size
                 });
+            } else {
+
+            }
+        };
+
+        this.setStuff = function (x, y) {
+            if (tmpStuff.id <= 0) return;
+            if (tmpStuff.id == 1 && !isWallLock) {
+
+            } else {
+                var s = new StuffInstance(tmpStuff);
+                s.ele.appendTo(container).css({
+                    top: s.y * Data.grid.size,
+                    left: s.x * Data.grid.size
+                });
+                stuffList[count] = s;
+                count++;
             }
         };
 
         this.changeType = function (stuffData) {
+            isWallLock = false;
             if (stuffData.id == 0)
                 tmpStuff.ele.hide();
             else {
@@ -178,6 +207,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
             $(document).on('keypress', function (e) {
                 if (String.fromCharCode(e.which).toLowerCase() == Data.hotKey.rotate) {
+                    if (tmpStuff.id < 1) return;
                     tmpStuff.rotate((tmpStuff.rotation+1)%4);
                     return false;
                 }

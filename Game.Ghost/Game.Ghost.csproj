@@ -25,7 +25,6 @@
     <Content Include="src\js\Setup.js" />
     <Content Include="src\js\Environment.js" />
     <Content Include="mapDesigner\index.html" />
-    <Content Include="mapDesigner\index.js" />
     <Content Include="test\sample.html" />
     <Content Include="test\sample.js" />
   </ItemGroup>
