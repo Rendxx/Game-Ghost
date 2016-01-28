@@ -8,7 +8,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var gird = new MapDesigner.GridPanel($('.sensorPanel'), $('.gridPanel'));
         var stuffSelector = new MapDesigner.StuffSelector($('.stuffSelectorList'));
         var datGui = new MapDesigner.DatGui();
-        var stuff = new MapDesigner.Stuff($('.stuffPanel'));
+        var stuff = new MapDesigner.Stuff($('.stuffPanel'), $('.wallPanel'));
         var fileManager = new MapDesigner.FileManager($('.stuffSelectorList'), gird, stuff);
 
         datGui.onChange = function (dat) {

@@ -145,15 +145,38 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         _init(instance);
     };
 
-    var Stuff = function (container) {
+    var WallInstance = function (){
+        this.x = -1;
+        this.y = -1
+        this.len = -1;
+        this.rotation = -1;
+        this.ele = null;
+
+        this.createEle = function (){
+            var m_str ="rotate(" + this.rotation*90 + "deg)";
+            this.ele = $(Data.html.wall).css({
+                width: this.len * Data.grid.size,
+                top: this.y * Data.grid.size,
+                left: this.x * Data.grid.size,
+                "-ms-transform": m_str,
+                "-webkit-transform": m_str,
+                "transform": m_str
+            });
+            return this.ele;
+        };
+    };
+
+    var Stuff = function (container, wallPanel) {
         // data -----------------------------------------------------
         var _html = {
             container: container,
+            wallPanel: wallPanel,
             selector: null
         };
         var that = this,
             stuffMap = null,
             stuffList = null,
+            wallList = null,
             tmpStuff = null,
             isWallLock = false,
             mouseX = 0,
@@ -176,6 +199,11 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 width: Data.grid.size * wid,
                 height: Data.grid.size * hgt
             });
+            _html.wallPanel.css({
+                width: Data.grid.size * wid,
+                height: Data.grid.size * hgt
+            });
+
             stuffMap = [];
             stuffList = [];
             count = 0;
@@ -190,11 +218,16 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 if (stuff_in[i] == null) continue;
                 addStuff(stuff_in[i]);
             }
+            createWall();
             return;
         };
 
         this.resize = function (hgt, wid) {
             _html.container.css({
+                width: Data.grid.size * wid,
+                height: Data.grid.size * hgt
+            });
+            _html.wallPanel.css({
                 width: Data.grid.size * wid,
                 height: Data.grid.size * hgt
             });
@@ -248,6 +281,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 tmpStuff.recover();
                 tmpStuff.move(x, y);
                 isWallLock = false;
+                if (tmpStuff.id == 1) createWall();
             }
         };
 
@@ -261,6 +295,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
         };
 
+        // private method
         var check = function () {
             var illegal = false;
             for (var i = tmpStuff.top; i <= tmpStuff.bottom; i++) {
@@ -302,6 +337,71 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             stuffList[id] = null;
         };
 
+        var createWall = function () {
+            if (stuffMap == null) return;
+            var hgt = stuffMap.length;
+            var wid = stuffMap[0].length;
+            var wall = null;
+
+            var findWall = function (x, y, r) {
+                if (wall == null) {
+                    wall = new WallInstance();
+                    wall.x = x;
+                    wall.y = y;
+                    wall.len = 1;
+                    wall.rotation = r;
+                } else {
+                    wall.len++;
+                }
+            };
+
+            var noWall = function () {
+                if (wall != null) {
+                    wall.createEle().appendTo(wallPanel);
+                    wall = null;
+                }
+            };
+
+            wallPanel.empty();
+            wallList = [];
+            for (var i = 1; i < hgt; i++) {
+                for (var j = wid-1; j >=0; j--) {
+                    if (stuffMap[i - 1][j] != 1 && stuffMap[i][j] == 1) {
+                        findWall(j,i,2);
+                    } else {
+                        noWall();
+                    }
+                }
+            }
+            for (var i = 0; i < hgt-1; i++) {
+                for (var j = 0; j < wid; j++) {
+                    if (stuffMap[i + 1][j] != 1 && stuffMap[i][j] == 1) {
+                        findWall(j, i, 0);
+                    } else {
+                        noWall();
+                    }
+                }
+            }
+            for (var j = 1; j < wid; j++) {
+                for (var i = 0; i < hgt; i++) {
+                    if (stuffMap[i][j - 1] != 1 && stuffMap[i][j] == 1) {
+                        findWall(j, i, 1);
+                    } else {
+                        noWall();
+                    }
+                }
+            }
+            for (var j = 0; j < wid-1; j++) {
+                for (var i = 0; i < hgt; i++) {
+                    if (stuffMap[i][j + 1] != 1 && stuffMap[i][j] == 1) {
+                        findWall(j, i, 3);
+                    } else {
+                        noWall();
+                    }
+                }
+            }
+        };
+
         var _init = function () {
             tmpStuff = new StuffInstance();
             tmpStuff.ele.addClass('_tmp').appendTo(container);
@@ -316,7 +416,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     case Data.hotKey.del:
                         var id = stuffMap[mouseY][mouseX];
                         if (id == 0) return;
+                        var typeId = stuffList[id].id;
                         removeStuff(id);
+                        if (typeId == 1) createWall();
                         check();
                         return false;
                 }

@@ -16,6 +16,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             grid: '<div class="grid"></div>',
             stuffSelector: '<div class="stuffSelector"></div>',
             stuff: '<div class="stuff"></div>',
+            wall: '<div class="wall"></div>',
             hotKey: '<div class="hotKey"></div>',
             fileBtn: '<div class="fileBtn"></div>'
         },
