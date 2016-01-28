@@ -49,7 +49,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                         width: component.grid.width,
                         height: component.grid.height,
                     },
-                    stuff: component.stuff.getList()
+                    stuff: component.stuff.getList(),
+                    wall: component.stuff.getWall()
                 };
                 var content = JSON.stringify(data);
                 blob[0] = new Blob([content], { type: 'application/json' });

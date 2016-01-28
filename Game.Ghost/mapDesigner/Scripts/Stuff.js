@@ -188,11 +188,12 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
     };
 
-    var Stuff = function (container, wallPanel) {
+    var Stuff = function (container, wallPanel, sensorPanel) {
         // data -----------------------------------------------------
         var _html = {
             container: container,
             wallPanel: wallPanel,
+            sensorPanel: sensorPanel,
             selector: null
         };
         var that = this,
@@ -208,6 +209,10 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         // method
         this.getList = function () {
             return stuffList;
+        };
+
+        this.getWall = function () {
+            return wallList;
         };
 
         this.reset = function (hgt, wid, stuff_in) {
@@ -480,6 +485,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var _init = function () {
             tmpStuff = new StuffInstance();
             tmpStuff.ele.addClass('_tmp').appendTo(container);
+
+            sensorPanel.hover(function () { tmpStuff.ele.show(); }, function () { tmpStuff.ele.hide(); })
 
             $(document).on('keypress', function (e) {
                 switch (String.fromCharCode(e.which).toLowerCase()) {
