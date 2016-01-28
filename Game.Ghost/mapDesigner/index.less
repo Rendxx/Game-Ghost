@@ -104,6 +104,9 @@
         }
 
         .gridPanel-wrap {
+            @grid-size: 16px;
+            @border-weight:8px;
+
             position: relative;
             top: 0;
             left: 0;
@@ -116,7 +119,7 @@
                 position: relative;
                 margin-top: 20px;
                 margin-left: 20px;
-                border: 6px solid #ccc;
+                border: @border-weight solid transparent;
                 z-index: 100;
 
                 .grid {
@@ -141,19 +144,22 @@
                 left: 0;
                 margin-top: 20px;
                 margin-left: 20px;
-                border: 6px solid #ccc;
+                border: @border-weight solid transparent;
                 z-index: 30;
-                overflow: hidden;
+                overflow: visible;
 
                 .wall {
                     position: absolute;
-                    -moz-transform-origin: 0 0;
-                    -ms-transform-origin: 0 0;
-                    -o-transform-origin: 0 0;
-                    -webkit-transform-origin: 0 0;
-                    transform-origin: 0 0;
+                    -moz-transform-origin: 1px 1px;
+                    -ms-transform-origin: 1px 1px;
+                    -o-transform-origin: 1px 1px;
+                    -webkit-transform-origin: 1px 1px;
+                    transform-origin: 1px 1px;
+                    margin-top:-1px;
+                    margin-left:-1px;
+                    padding:0 1px;
                     height:3px;
-                    box-shadow:0 -2px 3px -2px rgba(0, 0, 0, 0.7) inset;
+                    /*box-shadow:0 -2px 3px -2px rgba(0, 0, 0, 0.7) inset;*/
                     background-color:#222;
                     z-index: 10;
                 }
@@ -164,17 +170,17 @@
                 left: 0;
                 margin-top: 20px;
                 margin-left: 20px;
-                border: 6px solid #ccc;
+                border: @border-weight solid transparent;
                 z-index: 20;
                 overflow: hidden;
 
                 .stuff {
                     position: absolute;
-                    -moz-transform-origin: 8px 8px;
-                    -ms-transform-origin: 8px 8px;
-                    -o-transform-origin: 8px 8px;
-                    -webkit-transform-origin: 8px 8px;
-                    transform-origin: 8px 8px;
+                    -moz-transform-origin: @grid-size/2 @grid-size/2;
+                    -ms-transform-origin: @grid-size/2 @grid-size/2;
+                    -o-transform-origin: @grid-size/2 @grid-size/2;
+                    -webkit-transform-origin: @grid-size/2 @grid-size/2;
+                    transform-origin: @grid-size/2 @grid-size/2;
                     z-index: 10;
                     opacity: 1;
                     background-position: center center;
@@ -195,7 +201,7 @@
                         background-image:url(Images/wall.png);
                         background-position:0 0;
                         background-repeat:repeat;
-                        background-size:16px 16px;
+                        background-size:@grid-size @grid-size;
                     }
 
                     &.stuff-2{
@@ -242,7 +248,7 @@
                 left: 0;
                 margin-top: 20px;
                 margin-left: 20px;
-                border: 6px solid #ccc;
+                border: @border-weight solid #999;
                 z-index: 10;
             }
         }
