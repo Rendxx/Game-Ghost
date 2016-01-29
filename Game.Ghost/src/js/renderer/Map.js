@@ -8,34 +8,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
  */
 (function (RENDERER) {
     var Data = RENDERER.Data;
-    /**
-     * Create lights
-     */
-    var SetupLight = function (scene) {
-        var lights = [
-            new THREE.AmbientLight(),
-            new THREE.SpotLight()
-        ];
-
-        var lightTarget = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial({ color: 0xff3300 }));
-        scene.add(lightTarget);
-
-        // Ambient
-        lights[0].color.setHex(Data.light.ambient.ambColor);
-        scene.add(lights[0]);
-
-        // Spot
-        lights[1].castShadow = true;
-        lights[1].position.set(Data.light.spot.lightX, Data.light.spot.lightY, Data.light.spot.lightZ);
-        lights[1].intensity = Data.light.spot.intensity;
-        lights[1].shadowCameraNear = Data.light.spot.shadowCameraNear;
-        lights[1].shadowCameraFar = Data.light.spot.shadowCameraFar;
-        lights[1].shadowCameraVisible = Data.light.spot.shadowCameraVisible;
-        lights[1].shadowBias = Data.light.spot.shadowBias;
-        lights[1].shadowDarkness = Data.light.spot.shadowDarkness;
-        scene.add(lights[1]);
-        return lights;
-    };
 
     /**
      * Create walls, desks, chairs and doors
@@ -125,6 +97,125 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             item: item
         };
     };
+
+
+    var Map = function (entity) {
+        // private data ----------------------------
+        var that = this;
+
+        // public data -----------------------------
+        this.wall = null;
+        this.light = null;
+        this.item = null;
+        this.ground = null;
+
+        // public method ---------------------------
+        /**
+         * Reset map with given data
+         */
+        this.reset = function (data) {
+            if (data == null) throw new Error('Data missing');
+            setupGround(entity.env.scene, data.grid);
+            setupWall(entity.env.scene, data.wall, data.stuff);
+            setupItem(entity.env.scene, data.item);
+        };
+
+        // private method
+
+        var setupLight = function (scene) {
+            if (that.light != null) {
+                for (var i = 0, l = that.light.length; i < l; i++) scene.remove(that.light[i]);
+                that.light = null;
+            }
+
+            that.lights = [
+                new THREE.AmbientLight(),
+                new THREE.SpotLight()
+            ];
+
+            var lightTarget = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial({ color: 0xff3300 }));
+            scene.add(lightTarget);
+
+            // Ambient
+            that.lights[0].color.setHex(Data.light.ambient.ambColor);
+            scene.add(that.lights[0]);
+
+            // Spot
+            that.lights[1].castShadow = true;
+            that.lights[1].position.set(Data.light.spot.lightX, Data.light.spot.lightY, Data.light.spot.lightZ);
+            that.lights[1].intensity = Data.light.spot.intensity;
+            that.lights[1].shadowCameraNear = Data.light.spot.shadowCameraNear;
+            that.lights[1].shadowCameraFar = Data.light.spot.shadowCameraFar;
+            that.lights[1].shadowCameraVisible = Data.light.spot.shadowCameraVisible;
+            that.lights[1].shadowBias = Data.light.spot.shadowBias;
+            that.lights[1].shadowDarkness = Data.light.spot.shadowDarkness;
+            scene.add(that.lights[1]);
+        };
+
+        var setupGround = function (scene, grid) {
+            if (that.ground != null) {
+                for (var i = 0, l = that.ground.length; i < l; i++) scene.remove(that.ground[i]);
+                that.ground = null;
+            }
+
+            /*create ground*/
+            var planeGeometry = new THREE.PlaneGeometry(grid.width * Data.grid.size, grid.height * Data.grid.size);
+            var planeMaterial = new THREE.MeshPhongMaterial({ color: 0xeeeeee });
+            var ground = new THREE.Mesh(planeGeometry, planeMaterial);
+            ground.rotation.x = -.5 * Math.PI;
+            ground.receiveShadow = true;
+            scene.add(ground);
+
+            /*create ceiling*/
+            var planeGeometry = new THREE.PlaneGeometry(grid.width * Data.grid.size, grid.height * Data.grid.size);
+            var planeMaterial = new THREE.MeshPhongMaterial({ color: 0xeeeeee });
+            var ceiling = new THREE.Mesh(planeGeometry, planeMaterial);
+            ceiling.rotation.x = .5 * Math.PI;
+            ceiling.position.y = 7.5;
+            scene.add(ceiling);
+
+            that.ground = [
+                ground,
+                ceiling
+            ];
+        };
+
+        var setupWall = function (scene, wall, stuff) {
+            if (that.wall != null) {
+                for (var i = 0, l = that.wall.length; i < l; i++) scene.remove(that.wall[i]);
+                that.wall = null;
+            }
+        };
+
+        var setupItem = function (item) {
+            if (that.item != null) {
+                for (var i = 0, l = that.item.length; i < l; i++) scene.remove(that.item[i]);
+                that.item = null;
+            }
+            if (item == null || item.length == 0) return;
+        };
+
+        // Add stuff
+        var addWall = function (x, y, rotation, len) {
+
+        };
+
+        var addStyff = function (dat) {
+
+        };
+
+        var _init = function () {
+            setupLight(entity.env.scene);
+        };
+
+        _init();
+    };
+
+
+
+
+
+
 
     /**
      * Game map
