@@ -1,12 +1,13 @@
 ﻿window.Rendxx = window.Rendxx || {};
 window.Rendxx.Game = window.Rendxx.Game || {};
 window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
+window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
 /**
  * Setup map, including light, wall and other stuff
  */
-(function (GAME) {
-    var Data = GAME.Data;
+(function (RENDERER) {
+    var Data = RENDERER.Data;
     /**
      * Create lights
      */
@@ -130,5 +131,5 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
      * @param {game entity} entity - Game entity
      * @param {object} mapData - data used to setup a map
      */
-    GAME.Map = Map;
-})(window.Rendxx.Game.Ghost);
+    RENDERER.Map = Map;
+})(window.Rendxx.Game.Ghost.Renderer);

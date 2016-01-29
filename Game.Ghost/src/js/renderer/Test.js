@@ -1,13 +1,14 @@
 ﻿window.Rendxx = window.Rendxx || {};
 window.Rendxx.Game = window.Rendxx.Game || {};
 window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
+window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
 /**
  * Test controller, use dat-gui to adjust game parameter 
  */
-(function (GAME) {
+(function (RENDERER) {
 
-    GAME.Test = function (entity) {
+    RENDERER.Test = function (entity) {
         var wall = SetupWall(entity.env.scene);
         var light = SetupLight(entity.env.scene);
         var item = SetupItem(entity.env.scene);
@@ -18,4 +19,4 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
             item: item
         };
     };
-})(window.Rendxx.Game.Ghost);
+})(window.Rendxx.Game.Ghost.Renderer);

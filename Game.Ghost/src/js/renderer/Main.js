@@ -1,11 +1,12 @@
 ﻿window.Rendxx = window.Rendxx || {};
 window.Rendxx.Game = window.Rendxx.Game || {};
 window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
+window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
 /**
  * Main entry of Game.Ghost 
  */
-(function (GAME) {
+(function (RENDERER) {
     /**
      * Game Entity
      */
@@ -26,10 +27,10 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
      * @param {number} playerNumber - player number
      * @param {object} map - data used to create a map
      */
-    GAME.Create = function (container, playerNumber, map) {
+    RENDERER.Create = function (container, playerNumber, map) {
         var entity = new Entity(container, playerNumber);
-        entity.env = new GAME.SetupEnv(entity);
-        entity.map = new GAME.Map(entity, map);
+        entity.env = new RENDERER.SetupEnv(entity);
+        entity.map = new RENDERER.Map(entity, map);
         return entity;
     };
-})(window.Rendxx.Game.Ghost);
+})(window.Rendxx.Game.Ghost.Renderer);

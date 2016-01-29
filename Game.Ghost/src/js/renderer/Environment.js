@@ -1,11 +1,12 @@
 ﻿window.Rendxx = window.Rendxx || {};
 window.Rendxx.Game = window.Rendxx.Game || {};
 window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
+window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
 /**
  * Setup base environment in three.js 
  */
-(function (GAME) {
+(function (RENDERER) {
     /**
      * Setup environment in three.js
      * @param {game entity} entity - Game entity
@@ -25,7 +26,7 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 
         // private method -------------------------------------------------
 
-        // Render scene on screen
+        // Renderer scene on screen
         var animate = function () {
             requestAnimationFrame(animate);
             if (entity.onRender != null) entity.onRender();
@@ -75,5 +76,5 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
      * Setup game with the viewport domelement
      * @param {game entity} entity - Game entity
      */
-    GAME.SetupEnv = SetupEnv;
-})(window.Rendxx.Game.Ghost);
+    RENDERER.SetupEnv = SetupEnv;
+})(window.Rendxx.Game.Ghost.Renderer);

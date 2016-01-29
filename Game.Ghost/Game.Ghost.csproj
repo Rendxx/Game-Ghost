@@ -32,11 +32,11 @@
     <Content Include="mapDesigner\Scripts\StuffSelector.js" />
     <Content Include="mapDesigner\Scripts\Main.js" />
     <Content Include="mapDesigner\Scripts\GridPanel.js" />
-    <Content Include="src\js\render\Data.js" />
-    <Content Include="src\js\render\Map.js" />
-    <Content Include="src\js\render\Test.js" />
-    <Content Include="src\js\render\Main.js" />
-    <Content Include="src\js\render\Environment.js" />
+    <Content Include="src\js\renderer\Data.js" />
+    <Content Include="src\js\renderer\Map.js" />
+    <Content Include="src\js\renderer\Test.js" />
+    <Content Include="src\js\renderer\Main.js" />
+    <Content Include="src\js\renderer\Environment.js" />
     <Content Include="mapDesigner\index.html" />
     <Content Include="test\sample.html" />
     <Content Include="test\sample.js" />

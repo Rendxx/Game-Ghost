@@ -1,11 +1,12 @@
 ﻿window.Rendxx = window.Rendxx || {};
 window.Rendxx.Game = window.Rendxx.Game || {};
 window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
+window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
 /**
  * Data field
  */
-(function (GAME) {
+(function (RENDERER) {
     var Data = {
         grid: {
             size: 16        // size of grid
@@ -34,5 +35,5 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
         }
     };
 
-    GAME.Data = Data;
-})(window.Rendxx.Game.Ghost);
+    RENDERER.Data = Data;
+})(window.Rendxx.Game.Ghost.Renderer);
