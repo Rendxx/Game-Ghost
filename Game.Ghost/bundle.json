@@ -38,7 +38,12 @@
       "#mapDesigner#/index": [ "#mapDesigner#/index.less" ]
     },
     "js": {
-      "#dest#/Game.Ghost": [ "#src#/Environment.js", "#src#/Map.js", "#src#/Setup.js" ],
+      "#dest#/Game.Ghost": [
+        "#src#/Environment.js",
+        "#src#/Map.js",
+        "#src#/Test.js",
+        "#src#/Main.js"
+      ],
       "#mapDesigner#/_index": [
         "#mapDesigner#/Scripts/Data.js",
         "#mapDesigner#/Scripts/GridPanel.js",

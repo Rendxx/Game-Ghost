@@ -13,23 +13,23 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
      */
     var SetupEnv = function (entity) {
         if (entity == null) throw new Error('Container not specified.');
-        var scene, camera, renderer;
-        var SCREEN_WIDTH, SCREEN_HEIGHT;
 
-        /*creates empty scene object and renderer*/
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .1, 5000);
-        camera.position.set(200, 0, 200);
-        renderer = new THREE.WebGLRenderer({ antialias: true });
+        // data ----------------------------------------------
+        var that = this,
+            SCREEN_WIDTH = 0,
+            SCREEN_HEIGHT = 0;
 
-        // add renderer to dom
-        $(entity.domElement).append(renderer.domElement);
+        this.scene = null;
+        this.camera = null;
+        this.renderer = null;
+
+        // private method -------------------------------------------------
 
         // Render scene on screen
         var animate = function () {
             requestAnimationFrame(animate);
             if (entity.onRender != null) entity.onRender();
-            renderer.render(scene, camera);
+            that.renderer.render(scene, camera);
         }
 
         // set resize
@@ -37,25 +37,38 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
             SCREEN_WIDTH = window.innerWidth;
             SCREEN_HEIGHT = window.innerHeight;
 
-            camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-            camera.updateProjectionMatrix();
+            that.camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+            that.camera.updateProjectionMatrix();
 
-            renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+            that.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         };
 
-        renderer.setClearColor(0x000000);
-        renderer.shadowMapEnabled = true;
-        renderer.shadowMapSoft = true;
-        resize();
+        var _init = function () {
 
-        $(window).resize(resize);
-        animate();
+            /*creates empty scene object and renderer*/
+            SCREEN_WIDTH = window.innerWidth;
+            SCREEN_HEIGHT = window.innerHeight;
 
-        return {
-            scene: scene,
-            camera: camera,
-            renderer: renderer
+            that.scene = new THREE.Scene();
+            that.camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, .1, 5000);
+            that.camera.position.set(200, 0, 200);
+            that.renderer = new THREE.WebGLRenderer({ antialias: true });
+            that.renderer.setClearColor(0x000000);
+            that.renderer.shadowMapEnabled = true;
+            that.renderer.shadowMapSoft = true;
+
+            // add renderer to dom
+            $(entity.domElement).append(that.renderer.domElement);
+
+            // bind resize function
+            $(window).resize(resize);
+
+            // run funciton for 1st time
+            resize();
+            animate();
         };
+
+        _init();
     };
 
     /**

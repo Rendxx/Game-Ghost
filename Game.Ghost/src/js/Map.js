@@ -3,9 +3,10 @@ window.Rendxx.Game = window.Rendxx.Game || {};
 window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 
 /**
- * Map creator
+ * Setup map, including light, wall and other stuff
  */
 (function (GAME) {
+    var Data = GAME.Data;
     /**
      * Create lights
      */
@@ -18,42 +19,19 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
         var lightTarget = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial({ color: 0xff3300 }));
         scene.add(lightTarget);
 
-        var lightData = new function () {
-            /*ambient light values*/
-            this.ambColor = 0x000000;
-
-            /*spot light values*/
-            this.lightX = 20;
-            this.lightY = 5;
-            this.lightZ = 40;
-            this.intensity = 1;
-            this.distance = 80;
-            this.angle = 1.570;
-            this.exponent = 0;
-            this.shadowCameraNear = 10;
-            this.shadowCameraFar = 80;
-            this.shadowCameraFov = 50;
-            this.shadowCameraVisible = false;
-            this.shadowMapWidth = 2056;
-            this.shadowMapHeight = 2056;
-            this.shadowBias = 0.00;
-            this.shadowDarkness = 1;
-            this.target = lightTarget;
-        }
-
         // Ambient
-        lights[0].color.setHex(lightData.ambColor);
+        lights[0].color.setHex(Data.light.ambient.ambColor);
         scene.add(lights[0]);
 
         // Spot
         lights[1].castShadow = true;
-        lights[1].position.set(lightData.lightX, lightData.lightY, lightData.lightZ);
-        lights[1].intensity = lightData.intensity;
-        lights[1].shadowCameraNear = lightData.shadowCameraNear;
-        lights[1].shadowCameraFar = lightData.shadowCameraFar;
-        lights[1].shadowCameraVisible = lightData.shadowCameraVisible;
-        lights[1].shadowBias = lightData.shadowBias;
-        lights[1].shadowDarkness = lightData.shadowDarkness;
+        lights[1].position.set(Data.light.spot.lightX, Data.light.spot.lightY, Data.light.spot.lightZ);
+        lights[1].intensity = Data.light.spot.intensity;
+        lights[1].shadowCameraNear = Data.light.spot.shadowCameraNear;
+        lights[1].shadowCameraFar = Data.light.spot.shadowCameraFar;
+        lights[1].shadowCameraVisible = Data.light.spot.shadowCameraVisible;
+        lights[1].shadowBias = Data.light.spot.shadowBias;
+        lights[1].shadowDarkness = Data.light.spot.shadowDarkness;
         scene.add(lights[1]);
         return lights;
     };
