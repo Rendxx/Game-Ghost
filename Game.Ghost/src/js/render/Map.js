@@ -99,15 +99,17 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
         };
     };
 
+
+
+
+
     /**
      * Create items
      */
     var SetupItem = function (scene) {
 
     };
-
-
-
+    
     /**
      * Create game map
      */
@@ -124,9 +126,9 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
     };
 
     /**
-     * Create game map
+     * Game map
      * @param {game entity} entity - Game entity
      * @param {object} mapData - data used to setup a map
      */
-    GAME.SetupMap = SetupMap;
+    GAME.Map = Map;
 })(window.Rendxx.Game.Ghost);

@@ -28,8 +28,8 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
      */
     GAME.Create = function (container, playerNumber, map) {
         var entity = new Entity(container, playerNumber);
-        entity.env = GAME.SetupEnv(entity);
-        entity.map = GAME.SetupMap(entity, map);
+        entity.env = new GAME.SetupEnv(entity);
+        entity.map = new GAME.Map(entity, map);
         return entity;
     };
 })(window.Rendxx.Game.Ghost);
