@@ -185,6 +185,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 for (var i = 0, l = that.wall.length; i < l; i++) scene.remove(that.wall[i]);
                 that.wall = null;
             }
+            that.wall = [];
+            for (var i = 0, l = wall.length; i < l; i++) {
+                that.wall.push(createWall(wall[i]));
+            }
         };
 
         var setupItem = function (item) {
@@ -193,15 +197,83 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 that.item = null;
             }
             if (item == null || item.length == 0) return;
+            that.item = [];
+            for (var i = 0, l = item.length; i < l; i++) {
+                that.item.push(createStyff(item[i]));
+            }
         };
 
         // Add stuff
-        var addWall = function (x, y, rotation, len) {
+        var createWall = function (dat) {
+            var x = (dat.left + dat.right + 1) / 2 * Data.grid.size;
+            var y = (dat.top + dat.bottom + 1) / 2 * Data.grid.size;
+            var r = dat.rotation - 2;
+            var len = dat.len * Data.grid.size;
 
+            var geometry = new THREE.PlaneGeometry(len * Data.grid.size, 2 * Data.grid.size, len, 2);
+            var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee });
+            var mesh = new THREE.Mesh(geometry, material);
+
+            mesh.rotation.y = r / 2 * Math.PI;
+            mesh.position.x = x;
+            mesh.position.y = Data.grid.size;
+            mesh.position.z = z
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            scene.add(mesh);
+            return mesh;
         };
 
-        var addStyff = function (dat) {
+        var createStyff = function (dat) {
+            var id = dat.id;
+            var x = (dat.left + dat.right + 1) / 2 * Data.grid.size;
+            var y = (dat.top + dat.bottom + 1) / 2 * Data.grid.size;
+            var r = dat.rotation;
+            var w = (dat.right - dat.left + 1) * Data.grid.size;
+            var h = (dat.bottom - dat.top + 1) * Data.grid.size;
+            var mesh = null;
 
+            switch (dat.id) {
+                case 1: // wall top
+                    var geometry = new THREE.BoxGeometry(w, 1, 2 * Data.grid.size);
+                    var material = new THREE.MeshBasicMaterial({ color: 0x333333 });
+                    var mesh = new THREE.Mesh(geometry, material);
+
+                    mesh.rotation.y = r / 180 * Math.PI;
+                    mesh.position.x = x;
+                    mesh.position.y = Data.grid.size;
+                    mesh.position.z = y
+                    scene.add(mesh);
+                    break;
+                case 2: // door
+                    var geometry = new THREE.BoxGeometry(w, 1, 2 * Data.grid.size);
+                    var material = new THREE.MeshBasicMaterial({ color: 0x333333 });
+                    var mesh = new THREE.Mesh(geometry, material);
+
+                    mesh.rotation.y = r / 180 * Math.PI;
+                    mesh.position.x = x;
+                    mesh.position.y = Data.grid.size;
+                    mesh.position.z = y
+                    scene.add(mesh);
+                    break;
+                case 3: // table 1
+                    break;
+                case 4: // table 2
+                    break;
+                case 5: // table 3
+                    break;
+                case 6: // table 4
+                    break;
+                case 7: // cabinet 1
+                    break;
+                case 8: // cabinet 2
+                    break;
+                case 9: // cabinet 3
+                    break;
+                case 10: // chair
+                    break;
+            }
+            return mesh;
         };
 
         var _init = function () {
