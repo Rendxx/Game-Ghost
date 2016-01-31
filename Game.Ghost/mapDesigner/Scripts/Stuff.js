@@ -385,6 +385,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             var noWall = function () {
                 if (wall != null) {
                     wall.createEle().appendTo(wallPanel);
+                    wallList.push(wall);
                     wall = null;
                 }
             };
