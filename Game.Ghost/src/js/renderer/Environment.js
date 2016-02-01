@@ -30,7 +30,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var animate = function () {
             requestAnimationFrame(animate);
             if (entity.onRender != null) entity.onRender();
-            that.renderer.render(scene, camera);
+            that.renderer.render(that.scene, that.camera);
         }
 
         // set resize

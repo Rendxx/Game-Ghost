@@ -16,6 +16,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.playerNumber = playerNumber;
         this.env = null;
         this.map = null;
+        this.test = null;
 
         // callback
         this.onRender = null;
@@ -31,6 +32,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var entity = new Entity(container, playerNumber);
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity, map);
+        entity.test = new RENDERER.Test(entity);
         return entity;
     };
 })(window.Rendxx.Game.Ghost.Renderer);
