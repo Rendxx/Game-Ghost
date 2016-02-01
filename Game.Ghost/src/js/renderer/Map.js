@@ -113,10 +113,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 scene.add(mesh);
                 that.wall.push(mesh);
             }
-            return;
             for (var i = 0, l = stuff.length; i < l; i++) {
                 if (stuff[i] == null) continue;
                 var mesh = createStuff(stuff[i]);
+                if (mesh == null) continue;
                 scene.add(mesh);
                 that.wall.push(mesh);
             }
@@ -149,7 +149,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             } else {
                 y += len / 2;
             }
-            console.log(x, y, len, r);
+            //console.log(x, y, len, r);
             x *= Data.grid.size;
             y *= Data.grid.size;
             len *= Data.grid.size;
@@ -171,37 +171,58 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var createStuff = function (dat) {
             if (dat == null) return null;
             var id = dat.id;
-            var x = (dat.left + dat.right + 1) / 2 * Data.grid.size;
-            var y = (dat.top + dat.bottom + 1) / 2 * Data.grid.size;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size;
             var r = dat.rotation;
             var w = (dat.right - dat.left + 1) * Data.grid.size;
             var h = (dat.bottom - dat.top + 1) * Data.grid.size;
             var mesh = null;
 
+
+            console.log(id, x, y, w, h, r);
             switch (dat.id) {
                 case 1: // wall top
-                    var geometry = new THREE.BoxGeometry(w * Data.grid.size, 1, h * Data.grid.size);
-                    var material = new THREE.MeshBasicMaterial({ color: 0x333333 });
-                    mesh = new THREE.Mesh(geometry, material);
+                    //var geometry = new THREE.BoxGeometry(w * Data.grid.size, 1, h * Data.grid.size);
+                    //var material = new THREE.MeshBasicMaterial({ color: 0x333333 });
+                    //mesh = new THREE.Mesh(geometry, material);
 
-                    mesh.rotation.y = r / 180 * Math.PI;
-                    mesh.position.x = x;
-                    mesh.position.y = Data.grid.size;
-                    mesh.position.z = y;
-                    break;
+                    //mesh.rotation.y = r / 180 * Math.PI;
+                    //mesh.position.x = x;
+                    //mesh.position.y = Data.grid.size;
+                    //mesh.position.z = y;
+                    //break;
                 case 2: // door
-                    var geometry = new THREE.BoxGeometry(w, 1, 2 * Data.grid.size);
-                    var material = new THREE.MeshBasicMaterial({ color: 0xCA3A3A });    // red
+                    var depth = 2 * Data.grid.size;
+                    var geometry = new THREE.BoxGeometry(w, h, depth);
+                    var material = new THREE.MeshPhongMaterial({ color: 0xFF8100 });    // blue
                     mesh = new THREE.Mesh(geometry, material);
 
                     mesh.rotation.y = r / 180 * Math.PI;
                     mesh.position.x = x;
                     mesh.position.y = Data.grid.size;
-                    mesh.position.z = y;
+                    mesh.position.z = depth / 2;
                     break;
                 case 3: // table 1
+                    var depth = Data.grid.size;
+                    var geometry = new THREE.BoxGeometry(w, h, depth);
+                    var material = new THREE.MeshPhongMaterial({ color: 0x0072FF });    // orange
+                    mesh = new THREE.Mesh(geometry, material);
+
+                    mesh.rotation.y = r / 180 * Math.PI;
+                    mesh.position.x = x;
+                    mesh.position.y = Data.grid.size;
+                    mesh.position.z = depth / 2;
                     break;
                 case 4: // table 2
+                    var depth = Data.grid.size;
+                    var geometry = new THREE.BoxGeometry(w, h, depth);
+                    var material = new THREE.MeshPhongMaterial({ color: 0x0072FF });    // orange
+                    mesh = new THREE.Mesh(geometry, material);
+
+                    mesh.rotation.y = r / 180 * Math.PI;
+                    mesh.position.x = x;
+                    mesh.position.y = Data.grid.size;
+                    mesh.position.z = depth / 2;
                     break;
                 case 5: // table 3
                     break;
