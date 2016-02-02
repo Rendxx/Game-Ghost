@@ -57,6 +57,7 @@
     <Content Include="mapDesigner\Document\Stuff.fla" />
     <Content Include="Model\table.2.blend" />
     <Content Include="Model\table.2.blend1" />
+    <Content Include="Model\table.2.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
