@@ -9,16 +9,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 (function (RENDERER) {
     var Data = {
         grid: {
-            size: 16        // size of grid
+            size: 4        // size of grid
         },
         light: {
             ambient: {
                 ambColor: 0x333333
             },
             spot: {
-                lightX : 20,
+                lightX : 28,
                 lightY : 5,
-                lightZ : 40,
+                lightZ : -10,
                 intensity : 1,
                 distance : 80,
                 angle : 1.570,
