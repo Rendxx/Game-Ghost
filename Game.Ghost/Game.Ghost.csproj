@@ -32,6 +32,7 @@
     <Content Include="mapDesigner\Scripts\StuffSelector.js" />
     <Content Include="mapDesigner\Scripts\Main.js" />
     <Content Include="mapDesigner\Scripts\GridPanel.js" />
+    <Content Include="Model\wood-2.jpg" />
     <Content Include="src\js\renderer\Data.js" />
     <Content Include="src\js\renderer\Map.js" />
     <Content Include="src\js\renderer\Test.js" />
