@@ -13,7 +13,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         },
         light: {
             ambient: {
-                ambColor: 0x000000
+                ambColor: 0x333333
             },
             spot: {
                 lightX : 20,
