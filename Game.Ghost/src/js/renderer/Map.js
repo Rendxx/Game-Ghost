@@ -151,8 +151,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             y *= Data.grid.size;
             len *= Data.grid.size;
 
+            var texture = THREE.ImageUtils.loadTexture('/Model/wall.png');
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.x = len/8;
+
             var geometry = new THREE.PlaneGeometry(len, 2 * Data.grid.size, len, 2);
-            var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee });
+            var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
             material.side = THREE.DoubleSide;
             var mesh = new THREE.Mesh(geometry, material);
 
@@ -180,14 +185,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
             switch (dat.id) {
                 case 1: // wall top
-                    var geometry = new THREE.PlaneGeometry(w,h);
-                    var material = new THREE.MeshBasicMaterial({ color: 0x333333 });
+                    var texture = THREE.ImageUtils.loadTexture('/Model/wall-top.png');
+                    texture.wrapS = THREE.RepeatWrapping;
+                    texture.wrapT = THREE.RepeatWrapping;
+                    texture.repeat.x = w / 4;
+                    texture.repeat.y = h / 4;
+
+                    var geometry = new THREE.PlaneGeometry(w,h,w,h);
+                    var material = new THREE.MeshBasicMaterial({ color: 0xeeeeee, map: texture });
+                    material.side = THREE.DoubleSide;
                     mesh = new THREE.Mesh(geometry, material);
 
                     mesh.position.x = x;
                     mesh.position.y = 2 * Data.grid.size;
                     mesh.position.z = y;
-                    mesh.rotation.y = r / 180 * Math.PI;
+                    //mesh.rotation.y = r / 180 * Math.PI;
                     mesh.rotation.x = -.5 * Math.PI;
                     break;
                 case 2: // door
@@ -368,11 +380,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         _init();
     };
-
-
-
-
-
 
 
     /**
