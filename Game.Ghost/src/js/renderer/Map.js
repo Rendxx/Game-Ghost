@@ -216,17 +216,20 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     mesh.rotation.y = r / 180 * Math.PI;
                     break;
                 case 3: // table 1
-                    var depth = Data.grid.size;
-                    var geometry = new THREE.BoxGeometry(w, depth, h);
-                    var material = new THREE.MeshPhongMaterial({ color: 0xFF8100 });    // orange
-                    mesh = new THREE.Mesh(geometry, material);
-                    mesh.castShadow = true;
-                    mesh.receiveShadow = true;
+                    var loader = new THREE.JSONLoader();
+                    loader.load('/Model/table.1.json', function (geometry, materials) {
+                        var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+                        mesh.castShadow = true;
+                        mesh.receiveShadow = true;
 
-                    mesh.position.x = x;
-                    mesh.position.y = depth / 2;
-                    mesh.position.z = y;
-                    mesh.rotation.y = r / 180 * Math.PI;
+                        mesh.position.x = x;
+                        //mesh.position.y = depth/2;
+                        mesh.position.z = y;
+                        mesh.rotation.y = r / 180 * Math.PI;
+
+                        scene.add(mesh);
+                        that.wall.push(mesh);
+                    });
                     break;
                 case 4: // table 2
                     //var depth = Data.grid.size;
