@@ -213,7 +213,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     mesh.position.x = x;
                     mesh.position.y = depth / 2;
                     mesh.position.z = y;
-                    mesh.rotation.y = r / 180 * Math.PI;
+                    mesh.rotation.y = (4 - r) / 2 * Math.PI;
                     break;
                 case 3: // table 1
                     var loader = new THREE.JSONLoader();
@@ -225,7 +225,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         mesh.position.x = x;
                         //mesh.position.y = depth/2;
                         mesh.position.z = y;
-                        mesh.rotation.y = r / 180 * Math.PI;
+                        mesh.rotation.y = (4 - r) / 2 * Math.PI;
 
                         scene.add(mesh);
                         that.wall.push(mesh);
@@ -241,7 +241,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         mesh.position.x = x;
                         //mesh.position.y = depth/2;
                         mesh.position.z = y;
-                        mesh.rotation.y = r / 180 * Math.PI;
+                        mesh.rotation.y = (4 - r) / 2 * Math.PI;
 
                         scene.add(mesh);
                         that.wall.push(mesh);
@@ -257,7 +257,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         mesh.position.x = x;
                         //mesh.position.y = depth/2;
                         mesh.position.z = y;
-                        mesh.rotation.y = r / 180 * Math.PI;
+                        mesh.rotation.y = (4 - r) / 2 * Math.PI;
 
                         scene.add(mesh);
                         that.wall.push(mesh);
@@ -273,38 +273,44 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         mesh.position.x = x;
                         //mesh.position.y = depth/2;
                         mesh.position.z = y;
-                        mesh.rotation.y = r / 180 * Math.PI;
+                        mesh.rotation.y = (4 - r) / 2 * Math.PI;
 
                         scene.add(mesh);
                         that.wall.push(mesh);
                     });
                     return;
                 case 7: // cabinet 1
-                    var depth = Data.grid.size;
-                    var geometry = new THREE.BoxGeometry(w, depth, h);
-                    var material = new THREE.MeshPhongMaterial({ color: 0x50CEAF });    // green
-                    mesh = new THREE.Mesh(geometry, material);
-                    mesh.castShadow = true;
-                    mesh.receiveShadow = true;
+                    var loader = new THREE.JSONLoader();
+                    loader.load('/Model/cabinet.1.json', function (geometry, materials) {
+                        var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+                        mesh.castShadow = true;
+                        mesh.receiveShadow = true;
 
-                    mesh.position.x = x;
-                    mesh.position.y = depth / 2;
-                    mesh.position.z = y;
-                    mesh.rotation.y = r / 180 * Math.PI;
-                    break;
+                        mesh.position.x = x;
+                        //mesh.position.y = depth/2;
+                        mesh.position.z = y;
+                        mesh.rotation.y = (4 - r) / 2 * Math.PI;
+
+                        scene.add(mesh);
+                        that.wall.push(mesh);
+                    });
+                    return;
                 case 8: // cabinet 2
-                    var depth = Data.grid.size;
-                    var geometry = new THREE.BoxGeometry(w, depth, h);
-                    var material = new THREE.MeshPhongMaterial({ color: 0x50CEAF });    // green
-                    mesh = new THREE.Mesh(geometry, material);
-                    mesh.castShadow = true;
-                    mesh.receiveShadow = true;
+                    var loader = new THREE.JSONLoader();
+                    loader.load('/Model/cabinet.2.json', function (geometry, materials) {
+                        var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+                        mesh.castShadow = true;
+                        mesh.receiveShadow = true;
 
-                    mesh.position.x = x;
-                    mesh.position.y = depth / 2;
-                    mesh.position.z = y;
-                    mesh.rotation.y = r / 180 * Math.PI;
-                    break;
+                        mesh.position.x = x;
+                        //mesh.position.y = depth/2;
+                        mesh.position.z = y;
+                        mesh.rotation.y = (4 - r) / 2 * Math.PI;
+
+                        scene.add(mesh);
+                        that.wall.push(mesh);
+                    });
+                    return;
                 case 9: // cabinet 3
                     var depth = Data.grid.size*2;
                     var geometry = new THREE.BoxGeometry(w, depth, h);
@@ -316,7 +322,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     mesh.position.x = x;
                     mesh.position.y = depth / 2;
                     mesh.position.z = y;
-                    mesh.rotation.y = r / 180 * Math.PI;
+                    mesh.rotation.y = (4 - r) / 2 * Math.PI;
                     break;
                 case 10: // chair
                     var depth = Data.grid.size;
@@ -329,7 +335,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     mesh.position.x = x;
                     mesh.position.y = depth / 2;
                     mesh.position.z = y;
-                    mesh.rotation.y = r / 180 * Math.PI;
+                    mesh.rotation.y = (4 - r) / 2 * Math.PI;
                     break;
             }
             if (mesh != null) {
