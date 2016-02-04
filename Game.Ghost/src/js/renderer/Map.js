@@ -230,18 +230,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         scene.add(mesh);
                         that.wall.push(mesh);
                     });
-                    break;
+                    return;
                 case 4: // table 2
-                    //var depth = Data.grid.size;
-                    //var geometry = new THREE.BoxGeometry(w, depth, h);
-                    //var material = new THREE.MeshPhongMaterial({ color: 0xFF8100 });    // orange
-                    //mesh = new THREE.Mesh(geometry, material);
-
-                    //mesh.position.x = x;
-                    //mesh.position.y = depth/2;
-                    //mesh.position.z = y;
-                    //mesh.rotation.y = r / 180 * Math.PI;
-
                     var loader = new THREE.JSONLoader();
                     loader.load('/Model/table.2.json', function (geometry, materials) {
                         var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
@@ -258,18 +248,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     });
                     return;
                 case 5: // table 3
-                    var depth = Data.grid.size;
-                    var geometry = new THREE.BoxGeometry(w, depth, h);
-                    var material = new THREE.MeshPhongMaterial({ color: 0xFF8100 });    // orange
-                    mesh = new THREE.Mesh(geometry, material);
-                    mesh.castShadow = true;
-                    mesh.receiveShadow = true;
+                    var loader = new THREE.JSONLoader();
+                    loader.load('/Model/table.3.json', function (geometry, materials) {
+                        var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+                        mesh.castShadow = true;
+                        mesh.receiveShadow = true;
 
-                    mesh.position.x = x;
-                    mesh.position.y = depth / 2;
-                    mesh.position.z = y;
-                    mesh.rotation.y = r / 180 * Math.PI;
-                    break;
+                        mesh.position.x = x;
+                        //mesh.position.y = depth/2;
+                        mesh.position.z = y;
+                        mesh.rotation.y = r / 180 * Math.PI;
+
+                        scene.add(mesh);
+                        that.wall.push(mesh);
+                    });
+                    return;
                 case 6: // table 4
                     var depth = Data.grid.size;
                     var geometry = new THREE.BoxGeometry(w, depth, h);
