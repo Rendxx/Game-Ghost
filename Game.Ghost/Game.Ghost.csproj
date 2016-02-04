@@ -14,6 +14,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Document\Notice.txt" />
     <Content Include="gulpfile.js" />
     <Content Include="mapDesigner\Scripts\Data.js" />
     <Content Include="mapDesigner\Scripts\DatGui.js" />
@@ -32,12 +33,14 @@
     <Content Include="mapDesigner\Scripts\StuffSelector.js" />
     <Content Include="mapDesigner\Scripts\Main.js" />
     <Content Include="mapDesigner\Scripts\GridPanel.js" />
+    <Content Include="Model\steel.jpg" />
     <Content Include="Model\wall-top.png" />
     <Content Include="Model\wall.jpg" />
     <Content Include="Model\wall.png" />
     <Content Include="Model\wood-2.jpg" />
     <Content Include="Model\wood-table.jpg" />
     <Content Include="Model\wood-table.png" />
+    <Content Include="src\js\lib\OBJLoader.js" />
     <Content Include="src\js\renderer\Data.js" />
     <Content Include="src\js\renderer\Map.js" />
     <Content Include="src\js\renderer\Test.js" />
@@ -85,6 +88,11 @@
     <Content Include="Model\cabinet.3.blend" />
     <Content Include="Model\cabinet.3.json" />
     <Content Include="Model\cabinet.3.blend1" />
+    <Content Include="Model\door.blend" />
+    <Content Include="Model\door.blend1" />
+    <Content Include="Model\door.json" />
+    <Content Include="Model\door.mtl" />
+    <Content Include="Model\door.obj" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

@@ -203,18 +203,50 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     mesh.rotation.x = -.5 * Math.PI;
                     break;
                 case 2: // door
-                    var depth = 2 * Data.grid.size;
-                    var geometry = new THREE.BoxGeometry(w, depth, h);
-                    var material = new THREE.MeshPhongMaterial({ color: 0x0072FF });    // blue
-                    mesh = new THREE.Mesh(geometry, material);
-                    mesh.castShadow = true;
-                    mesh.receiveShadow = true;
+                    var manager = new THREE.LoadingManager();
+                    manager.onProgress = function (item, loaded, total) {
+                        console.log(item, loaded, total);
+                    };
+                    var onProgress = function (xhr) {
+                        if (xhr.lengthComputable) {
+                            var percentComplete = xhr.loaded / xhr.total * 100;
+                            console.log(Math.round(percentComplete, 2) + '% downloaded');
+                        }
+                    };
+                    var onError = function (xhr) {
+                    };
 
-                    mesh.position.x = x;
-                    mesh.position.y = depth / 2;
-                    mesh.position.z = y;
-                    mesh.rotation.y = (4 - r) / 2 * Math.PI;
-                    break;
+                    var texture = {
+                        'DoorMat': new THREE.Texture(),
+                        'LockerMat': new THREE.Texture(),
+                    };
+                    var loader = new THREE.ImageLoader(manager);
+                    loader.load('/Model/wood-2.jpg', function (image) {
+                        texture['DoorMat'].image = image;
+                        texture['DoorMat'].needsUpdate = true;
+                        texture['DoorMat'].wrapS = texture['DoorMat'].wrapT = THREE.RepeatWrapping;
+                    });
+                    var loader = new THREE.ImageLoader(manager);
+                    loader.load('/Model/steel.jpg', function (image) {
+                        texture['LockerMat'].image = image;
+                        texture['LockerMat'].needsUpdate = true;
+                        texture['LockerMat'].wrapS = texture['LockerMat'].wrapT = THREE.RepeatWrapping;
+                    });
+
+                    var loader = new THREE.OBJLoader();
+                    loader.load('/Model/door.obj', function (object) {
+                        object.traverse(function (child) {
+                            if (child instanceof THREE.Mesh) {
+                                child.material.map = texture[child.material.name];
+                            }
+                        });
+                        object.position.x = x;
+                        object.position.z = y;
+                        object.rotation.y = (4 - r) / 2 * Math.PI;
+                        scene.add(object);
+                        that.wall.push(object);
+                    }, onProgress, onError);
+                    return;
                 case 3: // table 1
                     var loader = new THREE.JSONLoader();
                     loader.load('/Model/table.1.json', function (geometry, materials) {

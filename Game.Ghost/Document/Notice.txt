@@ -1,0 +1,2 @@
+﻿Add this in iis config to support .obj:
+            <mimeMap fileExtension=".obj" mimeType="application/octet-stream" />

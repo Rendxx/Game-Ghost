@@ -39,6 +39,7 @@
     },
     "js": {
       "#dest#/Game.Ghost.Renderer": [
+        "#src#/lib/OBJLoader.js",
         "#src#/renderer/Data.js",
         "#src#/renderer/Environment.js",
         "#src#/renderer/Map.js",
