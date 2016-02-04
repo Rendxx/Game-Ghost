@@ -264,18 +264,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     });
                     return;
                 case 6: // table 4
-                    var depth = Data.grid.size;
-                    var geometry = new THREE.BoxGeometry(w, depth, h);
-                    var material = new THREE.MeshPhongMaterial({ color: 0xFF8100 });    // orange
-                    mesh = new THREE.Mesh(geometry, material);
-                    mesh.castShadow = true;
-                    mesh.receiveShadow = true;
+                    var loader = new THREE.JSONLoader();
+                    loader.load('/Model/table.4.json', function (geometry, materials) {
+                        var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+                        mesh.castShadow = true;
+                        mesh.receiveShadow = true;
 
-                    mesh.position.x = x;
-                    mesh.position.y = depth / 2;
-                    mesh.position.z = y;
-                    mesh.rotation.y = r / 180 * Math.PI;
-                    break;
+                        mesh.position.x = x;
+                        //mesh.position.y = depth/2;
+                        mesh.position.z = y;
+                        mesh.rotation.y = r / 180 * Math.PI;
+
+                        scene.add(mesh);
+                        that.wall.push(mesh);
+                    });
+                    return;
                 case 7: // cabinet 1
                     var depth = Data.grid.size;
                     var geometry = new THREE.BoxGeometry(w, depth, h);
