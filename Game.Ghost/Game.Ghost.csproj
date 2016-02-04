@@ -82,6 +82,9 @@
     <Content Include="Model\cabinet.2.blend" />
     <Content Include="Model\cabinet.2.blend1" />
     <Content Include="Model\cabinet.2.json" />
+    <Content Include="Model\cabinet.3.blend" />
+    <Content Include="Model\cabinet.3.json" />
+    <Content Include="Model\cabinet.3.blend1" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
