@@ -35,7 +35,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             { name: '[2*1] <b>Cabinet Low</b>', id: 8, w: 2, h: 1 },
             { name: '[2*1] <b>Cabinet High</b>', id: 9, w: 2, h: 1 },
 
-            { name: '[1*1] <b>Chair</b>', id: 10, w: 1, h: 1 }
+            { name: '[1*1] <b>Chair</b>', id: 10, w: 1, h: 1 },
+            { name: '[2*1] <b>Shelf</b>', id: 11, w: 2, h: 1 }
         ]
     };
 
