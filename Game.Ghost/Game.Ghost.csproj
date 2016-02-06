@@ -100,6 +100,7 @@
     <Content Include="Model\shelf.blend" />
     <Content Include="Model\shelf.blend1" />
     <Content Include="Model\shelf.json" />
+    <Content Include="Model\player.blend" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
