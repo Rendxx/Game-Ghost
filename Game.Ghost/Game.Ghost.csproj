@@ -34,6 +34,7 @@
     <Content Include="mapDesigner\Scripts\StuffSelector.js" />
     <Content Include="mapDesigner\Scripts\Main.js" />
     <Content Include="mapDesigner\Scripts\GridPanel.js" />
+    <Content Include="Model\Player-Texture-2.png" />
     <Content Include="Model\Player-Texture.png" />
     <Content Include="Model\player-uv.png" />
     <Content Include="Model\steel.jpg" />
@@ -43,6 +44,8 @@
     <Content Include="Model\wood-2.jpg" />
     <Content Include="Model\wood-table.jpg" />
     <Content Include="Model\wood-table.png" />
+    <Content Include="Model\wool.jpg" />
+    <Content Include="Model\wool2.png" />
     <Content Include="src\js\lib\OBJLoader.js" />
     <Content Include="src\js\renderer\Data.js" />
     <Content Include="src\js\renderer\Map.js" />
@@ -104,6 +107,7 @@
     <Content Include="Model\shelf.json" />
     <Content Include="Model\player.blend" />
     <Content Include="Model\Player-Texture.fla" />
+    <Content Include="Model\player.blend1" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
