@@ -62,6 +62,9 @@
             },
             Walk: function () {
                 fadeAction('Walk');
+            },
+            Back: function () {
+                fadeAction('Back');
             }
         };
         datGUI = new dat.GUI();
@@ -73,6 +76,7 @@
         datGUI.add(guiControls, 'Idel2').name('Idel 2');
         datGUI.add(guiControls, 'Run').name('Run');
         datGUI.add(guiControls, 'Walk').name('Walk');
+        datGUI.add(guiControls, 'Back').name('Back');
 
         $("#webGL-container").append(renderer.domElement);
         // status track
@@ -96,16 +100,18 @@
             mesh.castShadow = true;
             mesh.receiveShadow = true;
 
-            action.Def = new THREE.AnimationAction(geometry.animations[0]);
-            action.Idle = new THREE.AnimationAction(geometry.animations[1]);
-            action.Idle2 = new THREE.AnimationAction(geometry.animations[2]);
-            action.Run = new THREE.AnimationAction(geometry.animations[3]);
-            action.Walk = new THREE.AnimationAction(geometry.animations[4]);
+            action.Back = new THREE.AnimationAction(geometry.animations[0]);
+            action.Def = new THREE.AnimationAction(geometry.animations[1]);
+            action.Idle = new THREE.AnimationAction(geometry.animations[2]);
+            action.Idle2 = new THREE.AnimationAction(geometry.animations[3]);
+            action.Run = new THREE.AnimationAction(geometry.animations[4]);
+            action.Walk = new THREE.AnimationAction(geometry.animations[5]);
             action.Idle.Def = 1;
             action.Idle.weight = 0;
             action.Idle2.weight = 0;
             action.Run.weight = 0;
             action.Walk.weight = 0;
+            action.Back.weight = 0;
 
             mixer = new THREE.AnimationMixer(mesh);
             mixer.addAction(action.Def);
@@ -113,6 +119,8 @@
             mixer.addAction(action.Idle2);
             mixer.addAction(action.Run);
             mixer.addAction(action.Walk);
+
+            mixer.addAction(action.Back);
 
             scene.add(mesh);
 
