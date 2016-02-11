@@ -31,9 +31,9 @@
         axis = new THREE.AxisHelper(10);
         scene.add(axis);
 
-        grid = new THREE.GridHelper(50, 5);
-        grid.setColors(new THREE.Color("rgb(255,0,0)"), 0x000000);
-        scene.add(grid);
+        //grid = new THREE.GridHelper(50, 5);
+        //grid.setColors(new THREE.Color("rgb(255,0,0)"), 0x000000);
+        //scene.add(grid);
 
         camera.position.x = 40;
         camera.position.y = 40;
@@ -42,11 +42,12 @@
 
         // Ambient
         light = new THREE.AmbientLight();
-        light.color.setHex(0x999999);
+        light.color.setHex(0xffffff);
         scene.add(light);
 
         // dat gui
         guiControls = {
+            ambColor: 0x555555,
             Def: function () {
                 fadeAction('Def');
             },
@@ -64,6 +65,9 @@
             }
         };
         datGUI = new dat.GUI();
+        datGUI.addColor(guiControls, 'ambColor').onChange(function (value) {
+            light.color.setHex(value);
+        });
         datGUI.add(guiControls, 'Def').name('Def');
         datGUI.add(guiControls, 'Idle1').name('Idle 1');
         datGUI.add(guiControls, 'Idel2').name('Idel 2');
