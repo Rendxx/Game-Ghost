@@ -5,6 +5,7 @@
     var stats;
     var SCREEN_WIDTH, SCREEN_HEIGHT;
     var sk_helper;
+    var player;
 
     var action = {}, mixer, fadeAction;
 
@@ -47,6 +48,7 @@
 
         // dat gui
         guiControls = {
+            rotation:0,
             ambColor: 0x555555,
             Def: function () {
                 fadeAction('Def');
@@ -71,6 +73,7 @@
             }
         };
         datGUI = new dat.GUI();
+        datGUI.add(guiControls, 'rotation', -90, 90).name('Rotation');
         datGUI.addColor(guiControls, 'ambColor').onChange(function (value) {
             light.color.setHex(value);
         });
@@ -130,6 +133,8 @@
 
             scene.add(mesh);
 
+            player = mesh;
+
             //sk_helper = new THREE.SkeletonHelper(mesh);
             //scene.add(sk_helper);
             //mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
@@ -143,6 +148,11 @@
         /*necessary to make lights function*/
         //cubeMaterial.needsUpdate = true;
         //torMaterial.needsUpdate = true;
+        if (player != null) {
+            for (var i = 0; i < 20; i++)
+                player.skeleton.bones[i].rotation.z = guiControls.rotation / 180 * Math.PI;
+
+        }
     }
 
 
@@ -160,9 +170,9 @@
         requestAnimationFrame(animate);
         render();
         stats.update();
-        if (sk_helper) sk_helper.update();
 
         var delta = clock.getDelta();
+        if (sk_helper) sk_helper.update();
         if (mixer) mixer.update(delta);
         renderer.render(scene, camera);
     }
