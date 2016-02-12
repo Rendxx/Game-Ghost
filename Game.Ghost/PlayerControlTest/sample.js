@@ -65,6 +65,9 @@
             },
             Back: function () {
                 fadeAction('Back');
+            },
+            Turn: function () {
+                fadeAction('Turn');
             }
         };
         datGUI = new dat.GUI();
@@ -77,6 +80,7 @@
         datGUI.add(guiControls, 'Run').name('Run');
         datGUI.add(guiControls, 'Walk').name('Walk');
         datGUI.add(guiControls, 'Back').name('Back');
+        datGUI.add(guiControls, 'Turn').name('Turn');
 
         $("#webGL-container").append(renderer.domElement);
         // status track
@@ -105,13 +109,15 @@
             action.Idle = new THREE.AnimationAction(geometry.animations[2]);
             action.Idle2 = new THREE.AnimationAction(geometry.animations[3]);
             action.Run = new THREE.AnimationAction(geometry.animations[4]);
-            action.Walk = new THREE.AnimationAction(geometry.animations[5]);
+            action.Turn = new THREE.AnimationAction(geometry.animations[5]);
+            action.Walk = new THREE.AnimationAction(geometry.animations[6]);
             action.Idle.Def = 1;
             action.Idle.weight = 0;
             action.Idle2.weight = 0;
             action.Run.weight = 0;
             action.Walk.weight = 0;
             action.Back.weight = 0;
+            action.Turn.weight = 0;
 
             mixer = new THREE.AnimationMixer(mesh);
             mixer.addAction(action.Def);
@@ -119,8 +125,8 @@
             mixer.addAction(action.Idle2);
             mixer.addAction(action.Run);
             mixer.addAction(action.Walk);
-
             mixer.addAction(action.Back);
+            mixer.addAction(action.Turn);
 
             scene.add(mesh);
 
