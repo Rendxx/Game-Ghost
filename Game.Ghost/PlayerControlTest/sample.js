@@ -321,8 +321,8 @@
 
     function move() {
         if (moving == null) return;
-        var deltaX = playerData.speed[moving] / 70 * Math.sin(moveDirection);
-        var deltaZ = playerData.speed[moving] / 70 * Math.cos(moveDirection);
+        var deltaX = playerData.speed[moving] / 100 * Math.sin(moveDirection);
+        var deltaZ = playerData.speed[moving] / 100 * Math.cos(moveDirection);
         player.position.x += deltaX;
         player.position.z += deltaZ;
     };
