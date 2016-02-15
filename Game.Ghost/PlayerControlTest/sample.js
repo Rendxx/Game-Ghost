@@ -1,11 +1,12 @@
 ﻿$(function () {
     var scene, camera, renderer;
     var controls, guiControls, datGUI;
-    var axis, grid, light;
+    var axis, grid, light, panel;
     var stats;
     var SCREEN_WIDTH, SCREEN_HEIGHT;
     var sk_helper;
-    var player;
+    var player, playerData;
+    var planeGeometry, planeMaterial;
 
     var action = {}, mixer, fadeAction;
 
@@ -32,14 +33,18 @@
         axis = new THREE.AxisHelper(10);
         scene.add(axis);
 
-        //grid = new THREE.GridHelper(50, 5);
-        //grid.setColors(new THREE.Color("rgb(255,0,0)"), 0x000000);
-        //scene.add(grid);
-
         camera.position.x = 40;
         camera.position.y = 40;
         camera.position.z = 40;
         camera.lookAt(scene.position);
+
+        /*panel*/
+        planeGeometry = new THREE.PlaneGeometry(100, 100, 100);
+        planeMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
+        plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        plane.rotation.x = -.5 * Math.PI;
+        plane.receiveShadow = true;
+        scene.add(plane);
 
         // Ambient
         light = new THREE.AmbientLight();
@@ -48,7 +53,7 @@
 
         // dat gui
         guiControls = {
-            rotation:0,
+            rotation: 0,
             ambColor: 0x555555,
             Def: function () {
                 fadeAction('Def');
@@ -92,8 +97,6 @@
         stats.domElement.style.left = '0px';
         stats.domElement.style.top = '0px';
         $("#webGL-container").append(stats.domElement);
-
-        AddBlenderMesh('/Model/player-2.json');
     }
 
     function AddBlenderMesh(file) {
@@ -135,8 +138,8 @@
 
             player = mesh;
 
-            //sk_helper = new THREE.SkeletonHelper(mesh);
-            //scene.add(sk_helper);
+            sk_helper = new THREE.SkeletonHelper(mesh);
+            scene.add(sk_helper);
             //mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
             //mesh.castShadow = true;
             //mesh.receiveShadow = true;
@@ -144,14 +147,159 @@
         });
     }
 
+    function LoadPlayerData(file) {
+        $.getJSON(file, function (json) {
+            playerData = json;
+        });
+    };
+
+    function SetupControl() {
+        var moveDirction = 0;
+        var direction = [0, 5];
+        /*
+         * direction[0]: move direction
+         * direction[1]: head direction
+         * 
+         * 0: not move
+         * 
+         * 5 4 3
+         * 6 0 2
+         * 7 8 1
+         */
+
+        var keyCode = {
+            'up': 104,
+            'down': 101,
+            'left': 100,
+            'right': 102,
+            'w': 87,
+            's': 83,
+            'a': 65,
+            'd': 68
+        };
+
+        var codeMap = {};
+        codeMap[keyCode['up']] = false;
+        codeMap[keyCode['down']] = false;
+        codeMap[keyCode['left']] = false;
+        codeMap[keyCode['right']] = false;
+        codeMap[keyCode['w']] = false;
+        codeMap[keyCode['s']] = false;
+        codeMap[keyCode['a']] = false;
+        codeMap[keyCode['d']] = false;
+
+        $("body").keydown(function (e) {
+            if (player == null || playerData == null) return;
+            if (e.keyCode in codeMap) {
+                //console.log(e.keyCode);
+                codeMap[e.keyCode] = true;
+                getDirection(codeMap);
+                controlPlayer(direction);
+                e.preventDefault();
+            }
+        }).keyup(function (e) {
+            if (player == null || playerData == null) return;
+            if (e.keyCode in codeMap) {
+                codeMap[e.keyCode] = false;
+                getDirection(codeMap, true);
+                controlPlayer(direction);
+                e.preventDefault();
+            }
+        });
+
+        var getDirection = function (codeMap, keyUp) {
+            // head
+            var up = codeMap[keyCode['up']],
+                down = codeMap[keyCode['down']],
+                left = codeMap[keyCode['left']],
+                right = codeMap[keyCode['right']];
+            if (down) {          // down
+                if (left) direction[1] = 7;          // left
+                else if (right) direction[1] = 1;     // right
+                else direction[1] = 8;
+            } else if (up) {   // up
+                if (left) direction[1] = 5;          // left
+                else if (right) direction[1] = 3;     // right
+                else direction[1] = 4;
+            } else if (left) {   // left
+                direction[1] = 6;
+            } else if (right) {   // right
+                direction[1] = 2;
+            } else {   // no move
+                direction[1] = 0;
+            }
+
+            // move
+            up = codeMap[keyCode['w']];
+            down = codeMap[keyCode['s']];
+            left = codeMap[keyCode['a']];
+            right = codeMap[keyCode['d']];
+            if (down) {          // down
+                if (left) direction[0] = 7;          // left
+                else if (right) direction[0] = 1;     // right
+                else direction[0] = 8;
+            } else if (up) {   // up
+                if (left) direction[0] = 5;          // left
+                else if (right) direction[0] = 3;     // right
+                else direction[0] = 4;
+            } else if (left) {   // left
+                direction[0] = 6;
+            } else if (right) {   // right
+                direction[0] = 2;
+            } else {   // no move
+                direction[0] = 9;
+            }
+            if (direction[0] != 0) direction[0] -= 4;
+        };
+
+        var controlPlayer = function (direction) {
+            if (direction[1] != 0) moveDirction = direction[1] * 45;
+
+            var r = direction[0];
+            if (r == 5) r = 0;
+            var r_head = 0, r_body = 0;
+
+            var back = false;
+
+            if (Math.abs(r) <= 2) {
+                r_head = r * 45;
+                r_body = r_head + moveDirction;
+            } else {
+                if (r < 0) r += 4;
+                else r -= 4;
+                r_head = r * 45;
+                r_body = r_head + moveDirction;
+                back = true;
+            }
+            console.log('direction[0] (move): ' + direction[0]);
+            console.log('direction[1] (head): ' + direction[1]);
+            console.log('moveDirction: ' + moveDirction);
+            console.log('r_head: ' + r_head);
+            console.log('r_body: ' + r_body);
+            console.log(' ');
+
+            guiControls.rotation = r_head;
+            player.rotation.y = r_body / 180 * Math.PI
+            if (direction[0] == 5) {
+                fadeAction('Idle');
+                return;
+            }
+            if (!back)
+                fadeAction('Walk');
+            else
+                fadeAction('Back');
+
+        };
+    };
+
     function render() {
         /*necessary to make lights function*/
         //cubeMaterial.needsUpdate = true;
         //torMaterial.needsUpdate = true;
         if (player != null) {
-            for (var i = 0; i < 20; i++)
-                player.skeleton.bones[i].rotation.z = guiControls.rotation / 180 * Math.PI;
-
+            var r = guiControls.rotation / 180 * Math.PI / 3;
+            player.skeleton.bones[3].rotation.z = r * 2;
+            player.skeleton.bones[4].rotation.z = r;
         }
     }
 
@@ -172,9 +320,9 @@
         stats.update();
 
         var delta = clock.getDelta();
-        if (sk_helper) sk_helper.update();
-        if (mixer) mixer.update(delta);
         renderer.render(scene, camera);
+        if (mixer) mixer.update(delta);
+        if (sk_helper) sk_helper.update();
     }
 
     $(window).resize(function () {
@@ -189,4 +337,8 @@
 
     init();
     animate();
+
+    AddBlenderMesh('/Model/player-2.json');
+    LoadPlayerData('/Model/player-2.data.json');
+    SetupControl();
 });

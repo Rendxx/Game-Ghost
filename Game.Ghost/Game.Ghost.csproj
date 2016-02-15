@@ -118,6 +118,7 @@
     <Content Include="ModelBuilder\Player\player-2.blend" />
     <Content Include="ModelBuilder\Player\player-2.blend1" />
     <Content Include="Model\player-2.json" />
+    <Content Include="Model\player-2.data.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
