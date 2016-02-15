@@ -5,7 +5,7 @@
     var stats;
     var SCREEN_WIDTH, SCREEN_HEIGHT;
     var sk_helper;
-    var player, playerData;
+    var player, playerData, moving, moveDirection;
     var planeGeometry, planeMaterial;
 
     var action = {}, mixer, fadeAction;
@@ -271,23 +271,29 @@
                 r_body = r_head + moveDirction;
                 back = true;
             }
-            console.log('direction[0] (move): ' + direction[0]);
-            console.log('direction[1] (head): ' + direction[1]);
-            console.log('moveDirction: ' + moveDirction);
-            console.log('r_head: ' + r_head);
-            console.log('r_body: ' + r_body);
-            console.log(' ');
+            //console.log('direction[0] (move): ' + direction[0]);
+            //console.log('direction[1] (head): ' + direction[1]);
+            //console.log('moveDirction: ' + moveDirction);
+            //console.log('r_head: ' + r_head);
+            //console.log('r_body: ' + r_body);
+            //console.log(' ');
 
             guiControls.rotation = r_head;
-            player.rotation.y = r_body / 180 * Math.PI
+            moveDirection = r_body / 180 * Math.PI;
+            player.rotation.y = moveDirection;
+            moving = null;
             if (direction[0] == 5) {
                 fadeAction('Idle');
                 return;
             }
-            if (!back)
+            if (!back){
                 fadeAction('Walk');
-            else
+                moving = "walk";
+            }
+            else {
                 fadeAction('Back');
+                moving = "back";
+            }
 
         };
     };
@@ -313,10 +319,18 @@
         };
     }();
 
+    function move() {
+        if (moving == null) return;
+        var deltaX = playerData.speed[moving] / 70 * Math.sin(moveDirection);
+        var deltaZ = playerData.speed[moving] / 70 * Math.cos(moveDirection);
+        player.position.x += deltaX;
+        player.position.z += deltaZ;
+    };
 
     function animate() {
         requestAnimationFrame(animate);
         render();
+        move();
         stats.update();
 
         var delta = clock.getDelta();
