@@ -155,7 +155,7 @@
 
     function SetupControl() {
         var moveDirction = 0;
-        var direction = [0, 5];
+        var direction = [0, 0];
         var rush = false;
         /*
          * direction[0]: move direction
@@ -254,9 +254,8 @@
             } else if (right) {   // right
                 direction[0] = 2;
             } else {   // no move
-                direction[0] = 9;
+                direction[0] = 0;
             }
-            if (direction[0] != 0) direction[0] -= 4;
         };
 
         var controlPlayer = function (direction) {

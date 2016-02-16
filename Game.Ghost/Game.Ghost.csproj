@@ -51,6 +51,8 @@
     <Content Include="Model\steel.jpg" />
     <Content Include="Model\wall-top.png" />
     <Content Include="Model\wall.png" />
+    <Content Include="PlayerControlTest\Character.js" />
+    <Content Include="PlayerControlTest\Data.js" />
     <Content Include="PlayerControlTest\sample.html" />
     <Content Include="PlayerControlTest\sample.js" />
     <Content Include="src\js\lib\OBJLoader.js" />
