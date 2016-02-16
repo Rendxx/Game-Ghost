@@ -156,6 +156,7 @@
     function SetupControl() {
         var moveDirction = 0;
         var direction = [0, 5];
+        var rush = false;
         /*
          * direction[0]: move direction
          * direction[1]: head direction
@@ -175,7 +176,8 @@
             'w': 87,
             's': 83,
             'a': 65,
-            'd': 68
+            'd': 68,
+            'space': 32
         };
 
         var codeMap = {};
@@ -187,11 +189,12 @@
         codeMap[keyCode['s']] = false;
         codeMap[keyCode['a']] = false;
         codeMap[keyCode['d']] = false;
+        codeMap[keyCode['space']] = false;
 
         $("body").keydown(function (e) {
             if (player == null || playerData == null) return;
+            //console.log(e.keyCode);
             if (e.keyCode in codeMap) {
-                //console.log(e.keyCode);
                 codeMap[e.keyCode] = true;
                 getDirection(codeMap);
                 controlPlayer(direction);
@@ -208,6 +211,10 @@
         });
 
         var getDirection = function (codeMap, keyUp) {
+            // rush
+            rush = codeMap[keyCode['space']];
+            //console.log(codeMap);
+
             // head
             var up = codeMap[keyCode['up']],
                 down = codeMap[keyCode['down']],
@@ -286,9 +293,14 @@
                 fadeAction('Idle');
                 return;
             }
-            if (!back){
-                fadeAction('Walk');
-                moving = "walk";
+            if (!back) {
+                if (rush) {
+                    fadeAction('Run');
+                    moving = "run";
+                } else {
+                    fadeAction('Walk');
+                    moving = "walk";
+                }
             }
             else {
                 fadeAction('Back');

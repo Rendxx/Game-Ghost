@@ -1,7 +1,7 @@
 ﻿{
   "speed": {
-    "walk": 2,
-    "run": 3,
+    "walk": 5,
+    "run": 9,
     "back": -2
   }
 }
