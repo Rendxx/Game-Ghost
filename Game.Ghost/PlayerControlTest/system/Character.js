@@ -89,6 +89,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 this.x += speed * Math.sin(this.currentRotation.body);
                 this.y += speed * Math.cos(this.currentRotation.body);
             }
+
+            console.log("[" + this.requiredRotation.body + ", " + this.requiredRotation.head  + "]"
+                + "[" + this.currentRotation.body + ", " + this.currentRotation.head + ", " + this.currentRotation.headBody + "]")
         };
 
         // private method ------------------------------------------------

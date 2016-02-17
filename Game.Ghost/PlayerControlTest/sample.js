@@ -117,24 +117,24 @@
         codeMap[keyCode['space']] = false;
 
         $("body").keydown(function (e) {
-            if (player == null || playerData == null) return;
+            if (character_sys == null) return;
             //console.log(e.keyCode);
             if (e.keyCode in codeMap) {
                 codeMap[e.keyCode] = true;
                 getDirection(codeMap);
                 //controlPlayer(direction);
-                if (character_sys != null) {
-                    character_sys.move((direction[0] - 1) * 45, rush, direction[0] == 0);
-                    character_sys.headMove((direction[1] - 1) * 45);
-                }
+                character_sys.move(direction[0] == 0 ? 0 : (direction[0] - 1) * 45, rush, direction[0] == 0);
+                character_sys.headMove(direction[1] == 0 ? 0 : (direction[1] - 1) * 45);
                 e.preventDefault();
             }
         }).keyup(function (e) {
-            if (player == null || playerData == null) return;
+            if (character_sys == null) return;
             if (e.keyCode in codeMap) {
                 codeMap[e.keyCode] = false;
                 getDirection(codeMap, true);
-                controlPlayer(direction);
+                character_sys.move(direction[0] == 0 ? 0 : (direction[0] - 1) * 45, rush, direction[0] == 0);
+                character_sys.headMove(direction[1] == 0 ? 0 : (direction[1] - 1) * 45);
+                //controlPlayer(direction);
                 e.preventDefault();
             }
         });
