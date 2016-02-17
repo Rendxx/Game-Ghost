@@ -8,7 +8,7 @@
     var player, playerData, moving, moveDirection;
     var planeGeometry, planeMaterial;
 
-    var action = {}, mixer, fadeAction;
+    var character_sys, character_render;
 
     var clock = new THREE.Clock();
     /*variables for lights*/
@@ -53,40 +53,12 @@
 
         // dat gui
         guiControls = {
-            ambColor: 0x555555,
-            Def: function () {
-                fadeAction('Def');
-            },
-            Idle1: function () {
-                fadeAction('Idle');
-            },
-            Idel2: function () {
-                fadeAction('Idle2');
-            },
-            Run: function () {
-                fadeAction('Run');
-            },
-            Walk: function () {
-                fadeAction('Walk');
-            },
-            Back: function () {
-                fadeAction('Back');
-            },
-            Turn: function () {
-                fadeAction('Turn');
-            }
+            ambColor: 0x555555
         };
         datGUI = new dat.GUI();
         datGUI.addColor(guiControls, 'ambColor').onChange(function (value) {
             light.color.setHex(value);
         });
-        datGUI.add(guiControls, 'Def').name('Def');
-        datGUI.add(guiControls, 'Idle1').name('Idle 1');
-        datGUI.add(guiControls, 'Idel2').name('Idel 2');
-        datGUI.add(guiControls, 'Run').name('Run');
-        datGUI.add(guiControls, 'Walk').name('Walk');
-        datGUI.add(guiControls, 'Back').name('Back');
-        datGUI.add(guiControls, 'Turn').name('Turn');
 
         $("#webGL-container").append(renderer.domElement);
         // status track
@@ -95,6 +67,15 @@
         stats.domElement.style.left = '0px';
         stats.domElement.style.top = '0px';
         $("#webGL-container").append(stats.domElement);
+
+
+        character_sys = new Rendxx.Game.Ghost.System.Character(1, 'test', { role: Rendxx.Game.Ghost.System.Data.character.role.survivor });
+        character_render = new Rendxx.Game.Ghost.Renderer.Character(
+            character_sys.id,
+            character_sys.name,
+            character_sys.para.role
+        );
+        character_render.setup(scene);
     }
 
     function SetupControl() {
@@ -107,9 +88,9 @@
          * 
          * 0: not move
          * 
-         * 5 4 3
-         * 6 0 2
-         * 7 8 1
+         * 6 5 4
+         * 7 0 3
+         * 8 1 2
          */
 
         var keyCode = {
@@ -141,7 +122,11 @@
             if (e.keyCode in codeMap) {
                 codeMap[e.keyCode] = true;
                 getDirection(codeMap);
-                controlPlayer(direction);
+                //controlPlayer(direction);
+                if (character_sys != null) {
+                    character_sys.move((direction[0] - 1) * 45, rush, direction[0] == 0);
+                    character_sys.headMove((direction[1] - 1) * 45);
+                }
                 e.preventDefault();
             }
         }).keyup(function (e) {
@@ -165,17 +150,17 @@
                 left = codeMap[keyCode['left']],
                 right = codeMap[keyCode['right']];
             if (down) {          // down
-                if (left) direction[1] = 7;          // left
-                else if (right) direction[1] = 1;     // right
-                else direction[1] = 8;
+                if (left) direction[1] = 8;          // left
+                else if (right) direction[1] = 2;     // right
+                else direction[1] = 1;
             } else if (up) {   // up
-                if (left) direction[1] = 5;          // left
-                else if (right) direction[1] = 3;     // right
-                else direction[1] = 4;
+                if (left) direction[1] = 6;          // left
+                else if (right) direction[1] = 4;     // right
+                else direction[1] = 5;
             } else if (left) {   // left
-                direction[1] = 6;
+                direction[1] = 7;
             } else if (right) {   // right
-                direction[1] = 2;
+                direction[1] = 3;
             } else {   // no move
                 direction[1] = 0;
             }
@@ -186,17 +171,17 @@
             left = codeMap[keyCode['a']];
             right = codeMap[keyCode['d']];
             if (down) {          // down
-                if (left) direction[0] = 7;          // left
-                else if (right) direction[0] = 1;     // right
-                else direction[0] = 8;
+                if (left) direction[0] = 8;          // left
+                else if (right) direction[0] = 2;     // right
+                else direction[0] = 1;
             } else if (up) {   // up
-                if (left) direction[0] = 5;          // left
-                else if (right) direction[0] = 3;     // right
-                else direction[0] = 4;
+                if (left) direction[0] = 6;          // left
+                else if (right) direction[0] = 4;     // right
+                else direction[0] = 5;
             } else if (left) {   // left
-                direction[0] = 6;
+                direction[0] = 7;
             } else if (right) {   // right
-                direction[0] = 2;
+                direction[0] = 3;
             } else {   // no move
                 direction[0] = 0;
             }
@@ -270,9 +255,10 @@
         stats.update();
 
         var delta = clock.getDelta();
+        if (character_sys != null) character_sys.animation();
+        if (character_render != null && character_render.setuped)
+            character_render.render(character_sys.action, character_sys.x, character_sys.y, character_sys.currentRotation.body, character_sys.currentRotation.head, delta);
         renderer.render(scene, camera);
-        if (mixer) mixer.update(delta);
-        if (sk_helper) sk_helper.update();
     }
 
     $(window).resize(function () {

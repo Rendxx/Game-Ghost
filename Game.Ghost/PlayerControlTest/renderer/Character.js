@@ -8,12 +8,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
  */
 (function (RENDERER) {
     var Data = RENDERER.Data.character;
-    var Character = function (id, name, para, role) {
+    var Character = function (id, name, role) {
         // data ----------------------------------------------
         var that = this,
             id = id,
             name = name,
-            para = para,
             role = role,
             scene = null;
 
@@ -40,33 +39,44 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
         };
 
-        this.render = function (action, x, y, r_body, r_head) {
+        this.render = function (action, x, y, r_body, r_head, delta) {
             if (!this.setuped) return;
+
+            // move
+            this.mesh.position.x = x;
+            this.mesh.position.z = y;
+
+            if (currentAction != action) {
+                this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
+                currentAction = action;
+            }
+            if (this.mixer) this.mixer.update(delta);
 
             // rotate
             var r = r_head / 180 * Math.PI / 3;
             r_head_1.rotation.z = r * 2;
             r_head_2.rotation.z = r;
-            player.rotation.y = r_body / 180 * Math.PI;
-
-            // move
-            this.mesh.position.x += x;
-            this.mesh.position.z += y;
-
-            if (currentAction != action) {
-                this.mixer.crossFade(this.action[currentAction], this.action[action], .3);
-                currentAction = action;
-            }
+            this.mesh.rotation.y = r_body / 180 * Math.PI;
         };
 
 
+        /*
+         * direction[0]: move direction
+         * direction[1]: head direction
+         * 
+         * 0: not move
+         * 
+         * 6 5 4
+         * 7 0 3
+         * 8 1 2
+         */
         // private method -------------------------------------------------
         var load = function () {
             var para = Data[role];
             var loader = new THREE.JSONLoader();
             loader.load(para.file, function (geometry, materials) {
                 var mesh = null,
-                    actions = null,
+                    actions = {},
                     mixer = null;
                 for (var i = 0; i < materials.length; i++) {
                     materials[i].skinning = true;
@@ -80,15 +90,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     var action = new THREE.AnimationAction(geometry.animations[i]);
                     action.weight = 0;
                     mixer.addAction(action);
-                    action[para.action[i]] = action;
+                    actions[para.action[i]] = action;
                 }
 
                 currentAction = para.initAction;
-                action[currentAction].weight = 1;
+                actions[currentAction].weight = 1;
 
                 that.mesh = mesh;
-                that.action = action;
+                that.actions = actions;
                 that.mixer = mixer;
+                that.materials = materials;
 
                 // setup cache 
                 r_head_1 = mesh.skeleton.bones[3];

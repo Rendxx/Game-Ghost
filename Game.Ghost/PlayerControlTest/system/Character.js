@@ -16,10 +16,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.name = name;
         this.para = para;
         this.rush = false;
+        this.stay = true;      
         this.action = Data.action.idle;
         this.currentRotation = {
             head: 0,
-            body: 0
+            body: 0,
+            headBody: 0
         };
         this.requiredRotation = {
             head: 0,
@@ -28,10 +30,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // cache ---------------------------------------------------------
         var r_speed_head = Data.rotateSpeed.head;
+        var r_speed_body = Data.rotateSpeed.body;        
 
         // public method -------------------------------------------------
-        this.move = function (directon, rush) {
+        this.move = function (directon, rush, stay) {
             this.rush = rush;
+            this.stay = stay;
             this.requiredRotation.body = directon;
         };
 
@@ -67,11 +71,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
 
             // move
-            if (this.requiredRotation == 0) this.action = Data.action.idle;
-            else {
-                var d_move = this.currentRotation.head - this.currentRotation.body;
-                if (d_move < -180) d_body += 360;
-                else if (d_move > 180) d_body -= 360;
+            var d_move = this.currentRotation.head - this.currentRotation.body;
+            if (d_move < -180) d_move += 360;
+            else if (d_move > 180) d_move -= 360;
+            this.currentRotation.headBody = d_move;
+
+            if (this.stay) this.action = Data.action.idle;
+            else {                
                 if (Math.abs(d_move) < 90) {
                     if (this.rush) this.action = Data.action.run;
                     else this.action = Data.action.walk;

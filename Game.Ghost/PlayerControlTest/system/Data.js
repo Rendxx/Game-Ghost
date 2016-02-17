@@ -10,8 +10,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Data = {
         character: {
             role:{
-                survivor: 1,
-                ghost: 2
+                survivor: 'survivor',
+                ghost: 'ghost'
             },
             rotateSpeed: {
                 head: 45,
