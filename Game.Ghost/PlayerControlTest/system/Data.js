@@ -17,8 +17,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 head: 45,
                 body: 30
             },
+            moveSpeed: {
+                walk: 4,
+                run: 8,
+                back: -2
+            },
             action: {
                 walk: 'walk',
+                idle: 'idle',
                 run: 'run',
                 back: 'back',
                 rotate: 'rotate'

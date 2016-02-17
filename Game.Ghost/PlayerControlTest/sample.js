@@ -53,7 +53,6 @@
 
         // dat gui
         guiControls = {
-            rotation: 0,
             ambColor: 0x555555,
             Def: function () {
                 fadeAction('Def');
@@ -78,7 +77,6 @@
             }
         };
         datGUI = new dat.GUI();
-        datGUI.add(guiControls, 'rotation', -90, 90).name('Rotation');
         datGUI.addColor(guiControls, 'ambColor').onChange(function (value) {
             light.color.setHex(value);
         });
@@ -98,60 +96,6 @@
         stats.domElement.style.top = '0px';
         $("#webGL-container").append(stats.domElement);
     }
-
-    function AddBlenderMesh(file) {
-        var loader = new THREE.JSONLoader();
-        var mesh = null;
-        loader.load(file, function (geometry, materials) {
-            for (var i = 0; i < materials.length; i++) {
-                materials[i].skinning = true;
-            }
-            mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
-
-            action.Back = new THREE.AnimationAction(geometry.animations[0]);
-            action.Def = new THREE.AnimationAction(geometry.animations[1]);
-            action.Idle = new THREE.AnimationAction(geometry.animations[2]);
-            action.Idle2 = new THREE.AnimationAction(geometry.animations[3]);
-            action.Run = new THREE.AnimationAction(geometry.animations[4]);
-            action.Turn = new THREE.AnimationAction(geometry.animations[5]);
-            action.Walk = new THREE.AnimationAction(geometry.animations[6]);
-            action.Idle.Def = 1;
-            action.Idle.weight = 0;
-            action.Idle2.weight = 0;
-            action.Run.weight = 0;
-            action.Walk.weight = 0;
-            action.Back.weight = 0;
-            action.Turn.weight = 0;
-
-            mixer = new THREE.AnimationMixer(mesh);
-            mixer.addAction(action.Def);
-            mixer.addAction(action.Idle);
-            mixer.addAction(action.Idle2);
-            mixer.addAction(action.Run);
-            mixer.addAction(action.Walk);
-            mixer.addAction(action.Back);
-            mixer.addAction(action.Turn);
-
-            scene.add(mesh);
-
-            player = mesh;
-
-            sk_helper = new THREE.SkeletonHelper(mesh);
-            scene.add(sk_helper);
-            //mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-            //mesh.castShadow = true;
-            //mesh.receiveShadow = true;
-            //scene.add(mesh);
-        });
-    }
-
-    function LoadPlayerData(file) {
-        $.getJSON(file, function (json) {
-            playerData = json;
-        });
-    };
 
     function SetupControl() {
         var moveDirction = 0;
@@ -320,28 +264,9 @@
         }
     }
 
-
-    fadeAction = function () {
-        var activeActionName = 'Def';
-        return function (name) {
-            if (name == activeActionName) return;
-            mixer.crossFade(action[activeActionName], action[name], .3);
-            activeActionName = name;
-        };
-    }();
-
-    function move() {
-        if (moving == null) return;
-        var deltaX = playerData.speed[moving] / 100 * Math.sin(moveDirection);
-        var deltaZ = playerData.speed[moving] / 100 * Math.cos(moveDirection);
-        player.position.x += deltaX;
-        player.position.z += deltaZ;
-    };
-
     function animate() {
         requestAnimationFrame(animate);
         render();
-        move();
         stats.update();
 
         var delta = clock.getDelta();
@@ -363,7 +288,5 @@
     init();
     animate();
 
-    AddBlenderMesh('/Model/player-2.json');
-    LoadPlayerData('/Model/player-2.data.json');
     SetupControl();
 });
