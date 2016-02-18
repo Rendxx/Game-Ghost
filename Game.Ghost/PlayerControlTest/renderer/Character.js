@@ -40,6 +40,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.render = function (action, x, y, r_body, r_head, delta) {
+            //console.log(x+"  "+y+"  "+r_body+"  "+r_head);
             if (!this.setuped) return;
 
             // move
@@ -53,7 +54,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (this.mixer) this.mixer.update(delta);
 
             // rotate
-            var r = r_head / 180 * Math.PI / 3;
+            var r = -r_head / 180 * Math.PI / 3;
             r_head_1.rotation.z = r * 2;
             r_head_2.rotation.z = r;
             this.mesh.rotation.y = r_body / 180 * Math.PI;

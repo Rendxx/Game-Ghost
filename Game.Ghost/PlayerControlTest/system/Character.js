@@ -4,7 +4,7 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
 /**
- * Player
+ * Character
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data.character;
@@ -55,7 +55,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (Math.abs(d_head)<r_speed_head){
                 this.currentRotation.head = this.requiredRotation.head;
             }else{
-                this.currentRotation.head += d_head/d_head*r_speed_head;
+                this.currentRotation.head += ((d_head < 0) ? -1 : 1) * r_speed_head;
                 if(this.currentRotation.head<0) this.currentRotation.head += 360;
             }
 
@@ -66,7 +66,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (Math.abs(d_body) < r_speed_body) {
                 this.currentRotation.body = this.requiredRotation.body;
             } else {
-                this.currentRotation.body += d_body / d_body * r_speed_body;
+                this.currentRotation.body += ((d_body < 0) ? -1 : 1) * r_speed_body;
                 if (this.currentRotation.body < 0) this.currentRotation.body += 360;
             }
 
@@ -86,12 +86,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
                 
                 var speed = Data.moveSpeed[this.action] / 100;
-                this.x += speed * Math.sin(this.currentRotation.body);
-                this.y += speed * Math.cos(this.currentRotation.body);
+                this.x += speed * Math.sin(this.currentRotation.body/180*Math.PI);
+                this.y += speed * Math.cos(this.currentRotation.body / 180 * Math.PI);
             }
 
             console.log("[" + this.requiredRotation.body + ", " + this.requiredRotation.head  + "]"
-                + "[" + this.currentRotation.body + ", " + this.currentRotation.head + ", " + this.currentRotation.headBody + "]")
+                + "  [" + this.currentRotation.body + ", " + this.currentRotation.head + ", " + this.currentRotation.headBody + "]  "
+                + d_head + ", " + d_body + ", " + d_move)
         };
 
         // private method ------------------------------------------------

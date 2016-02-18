@@ -124,7 +124,7 @@
                 getDirection(codeMap);
                 //controlPlayer(direction);
                 character_sys.move(direction[0] == 0 ? 0 : (direction[0] - 1) * 45, rush, direction[0] == 0);
-                character_sys.headMove(direction[1] == 0 ? 0 : (direction[1] - 1) * 45);
+                if (direction[1] != 0) character_sys.headMove((direction[1] - 1) * 45);
                 e.preventDefault();
             }
         }).keyup(function (e) {
@@ -133,7 +133,7 @@
                 codeMap[e.keyCode] = false;
                 getDirection(codeMap, true);
                 character_sys.move(direction[0] == 0 ? 0 : (direction[0] - 1) * 45, rush, direction[0] == 0);
-                character_sys.headMove(direction[1] == 0 ? 0 : (direction[1] - 1) * 45);
+                if (direction[1] != 0) character_sys.headMove((direction[1] - 1) * 45);
                 //controlPlayer(direction);
                 e.preventDefault();
             }
@@ -186,67 +186,12 @@
                 direction[0] = 0;
             }
         };
-
-        var controlPlayer = function (direction) {
-            if (direction[1] != 0) moveDirction = direction[1] * 45;
-
-            var r = direction[0];
-            if (r == 5) r = 0;
-            var r_head = 0, r_body = 0;
-
-            var back = false;
-
-            if (Math.abs(r) <= 2) {
-                r_head = r * 45;
-                r_body = r_head + moveDirction;
-            } else {
-                if (r < 0) r += 4;
-                else r -= 4;
-                r_head = r * 45;
-                r_body = r_head + moveDirction;
-                back = true;
-            }
-            //console.log('direction[0] (move): ' + direction[0]);
-            //console.log('direction[1] (head): ' + direction[1]);
-            //console.log('moveDirction: ' + moveDirction);
-            //console.log('r_head: ' + r_head);
-            //console.log('r_body: ' + r_body);
-            //console.log(' ');
-
-            guiControls.rotation = r_head;
-            moveDirection = r_body / 180 * Math.PI;
-            player.rotation.y = moveDirection;
-            moving = null;
-            if (direction[0] == 5) {
-                fadeAction('Idle');
-                return;
-            }
-            if (!back) {
-                if (rush) {
-                    fadeAction('Run');
-                    moving = "run";
-                } else {
-                    fadeAction('Walk');
-                    moving = "walk";
-                }
-            }
-            else {
-                fadeAction('Back');
-                moving = "back";
-            }
-
-        };
     };
 
     function render() {
         /*necessary to make lights function*/
         //cubeMaterial.needsUpdate = true;
         //torMaterial.needsUpdate = true;
-        if (player != null) {
-            var r = guiControls.rotation / 180 * Math.PI / 3;
-            player.skeleton.bones[3].rotation.z = r * 2;
-            player.skeleton.bones[4].rotation.z = r;
-        }
     }
 
     function animate() {
@@ -257,7 +202,7 @@
         var delta = clock.getDelta();
         if (character_sys != null) character_sys.animation();
         if (character_render != null && character_render.setuped)
-            character_render.render(character_sys.action, character_sys.x, character_sys.y, character_sys.currentRotation.body, character_sys.currentRotation.head, delta);
+            character_render.render(character_sys.action, character_sys.x, character_sys.y, character_sys.currentRotation.body, character_sys.currentRotation.headBody, delta);
         renderer.render(scene, camera);
     }
 
