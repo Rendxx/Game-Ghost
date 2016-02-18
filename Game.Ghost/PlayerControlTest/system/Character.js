@@ -36,7 +36,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.move = function (directon, rush, stay) {
             this.rush = rush;
             this.stay = stay;
-            this.requiredRotation.body = directon;
+            if (!stay) this.requiredRotation.body = directon;
+            else this.requiredRotation.body = this.requiredRotation.head;
         };
 
         this.headMove = function (directon) {
@@ -53,18 +54,27 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (d_head<-180) d_head += 360;
             else if (d_head>180) d_head -= 360;
             if (Math.abs(d_head)<r_speed_head){
-                this.currentRotation.head = this.requiredRotation.head;
+                this.currentRotation.head += d_head;
             }else{
                 this.currentRotation.head += ((d_head < 0) ? -1 : 1) * r_speed_head;
                 if(this.currentRotation.head<0) this.currentRotation.head += 360;
             }
 
+            var isBack = false;
             // body rotation
             var d_body = this.requiredRotation.body - this.currentRotation.body;
             if (d_body < -180) d_body += 360;
             else if (d_body > 180) d_body -= 360;
+
+            var d_back = Math.abs(this.requiredRotation.body - this.requiredRotation.head);
+
+            if (d_back > 90 && d_back< 270) {
+                if (d_body < -90) d_body += 180;
+                else if (d_body > 90) d_body -= 180;
+                isBack = true;
+            }
             if (Math.abs(d_body) < r_speed_body) {
-                this.currentRotation.body = this.requiredRotation.body;
+                this.currentRotation.body += d_body;
             } else {
                 this.currentRotation.body += ((d_body < 0) ? -1 : 1) * r_speed_body;
                 if (this.currentRotation.body < 0) this.currentRotation.body += 360;
@@ -78,7 +88,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
             if (this.stay) this.action = Data.action.idle;
             else {                
-                if (Math.abs(d_move) < 90) {
+                if (!isBack) {
                     if (this.rush) this.action = Data.action.run;
                     else this.action = Data.action.walk;
                 } else {
