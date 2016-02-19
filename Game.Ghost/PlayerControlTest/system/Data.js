@@ -18,7 +18,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 body: 30
             },
             moveSpeed: {
-                walk: 4,
+                walk: 5,
                 run: 8,
                 back: -2
             },

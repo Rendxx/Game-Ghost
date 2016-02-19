@@ -60,19 +60,22 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 if(this.currentRotation.head<0) this.currentRotation.head += 360;
             }
 
+            // is back?
             var isBack = false;
-            // body rotation
-            var d_body = this.requiredRotation.body - this.currentRotation.body;
-            if (d_body < -180) d_body += 360;
-            else if (d_body > 180) d_body -= 360;
-
             var d_back = Math.abs(this.requiredRotation.body - this.requiredRotation.head);
 
-            if (d_back > 90 && d_back< 270) {
+            if (d_back > 90 && d_back < 270) {
                 if (d_body < -90) d_body += 180;
                 else if (d_body > 90) d_body -= 180;
                 isBack = true;
             }
+
+            // body rotation
+            var realDirection = isBack ? (this.requiredRotation.body + 180) % 360 : this.requiredRotation.body;
+            var d_body = realDirection - this.currentRotation.body;
+            if (d_body < -180) d_body += 360;
+            else if (d_body > 180) d_body -= 360;
+
             if (Math.abs(d_body) < r_speed_body) {
                 this.currentRotation.body += d_body;
             } else {
@@ -80,12 +83,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 if (this.currentRotation.body < 0) this.currentRotation.body += 360;
             }
 
-            // move
-            var d_move = this.currentRotation.head - this.currentRotation.body;
-            if (d_move < -180) d_move += 360;
-            else if (d_move > 180) d_move -= 360;
-            this.currentRotation.headBody = d_move;
+            // head-body rotation
+            var d_headBody = this.currentRotation.head - this.currentRotation.body;
+            if (d_headBody < -180) d_headBody += 360;
+            else if (d_headBody > 180) d_headBody -= 360;
+            this.currentRotation.headBody = d_headBody;
 
+            // move
             if (this.stay) this.action = Data.action.idle;
             else {                
                 if (!isBack) {
@@ -95,14 +99,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     this.action = Data.action.back;
                 }
                 
-                var speed = Data.moveSpeed[this.action] / 100;
-                this.x += speed * Math.sin(this.currentRotation.body/180*Math.PI);
-                this.y += speed * Math.cos(this.currentRotation.body / 180 * Math.PI);
+                if (Math.abs(d_body) <= 90) {
+                    var speed = Data.moveSpeed[this.action] / 100;
+                    this.x += speed * Math.sin(this.currentRotation.body / 180 * Math.PI);
+                    this.y += speed * Math.cos(this.currentRotation.body / 180 * Math.PI);
+                }
             }
 
             console.log("[" + this.requiredRotation.body + ", " + this.requiredRotation.head  + "]"
                 + "  [" + this.currentRotation.body + ", " + this.currentRotation.head + ", " + this.currentRotation.headBody + "]  "
-                + d_head + ", " + d_body + ", " + d_move)
+                + d_head + ", " + d_body + ", " + d_headBody)
         };
 
         // private method ------------------------------------------------
