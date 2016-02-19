@@ -20,7 +20,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     5: 'turn',
                     6: 'walk'
                 },
-                initAction: 'idle'
+                initAction: 'idle',
+                light: {
+                    pos: [0, 5, 3],
+                    color: 0xcccccc
+                },
+                torch: {
+                    pos: [-1, 0.2, 1],
+                    color: 0xcccccc
+                }
             }
         }
     };

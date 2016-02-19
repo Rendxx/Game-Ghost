@@ -20,6 +20,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             r_head_2 = null,
             currentAction = null;
 
+        this.light = null;
+        this.torch = null;
+        this.torchDirectionObj = null;
         this.mesh = null;
         this.materials = null;
         this.actions = null;
@@ -33,9 +36,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.setup = function (scene_in) {
             scene = scene_in;
             if (this.mesh != null) {
-                scene.add(this.mesh);
-                this.setuped = true;
-                if (this.onSetuped != null) this.onSetuped();
+                setupScene();
             }
         };
 
@@ -60,6 +61,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.mesh.rotation.y = r_body / 180 * Math.PI;
         };
 
+        var setupScene = function () {
+            scene.add(that.mesh);
+            scene.add(that.torchDirectionObj);
+            scene.add(that.torch);
+            scene.add(that.light);
+            that.setuped = true;
+            if (that.onSetuped != null) that.onSetuped();
+        };
 
         /*
          * direction[0]: move direction
@@ -85,9 +94,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = true;
                 mesh.receiveShadow = true;
-                
+
                 mixer = new THREE.AnimationMixer(mesh);
-                for (var i in para.action){
+                for (var i in para.action) {
                     var action = new THREE.AnimationAction(geometry.animations[i]);
                     action.weight = 0;
                     mixer.addAction(action);
@@ -106,11 +115,27 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 r_head_1 = mesh.skeleton.bones[3];
                 r_head_2 = mesh.skeleton.bones[4];
 
+                // setup light
+                that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
+                that.torchDirectionObj.position.x = para.torch.pos[0];
+                that.torchDirectionObj.position.y = para.torch.pos[1];
+                that.torchDirectionObj.position.z = para.torch.pos[2] + 0.1;
+
+                that.torch = new THREE.SpotLight()
+                that.torch.position.x = para.torch.pos[0];
+                that.torch.position.y = para.torch.pos[1];
+                that.torch.position.z = para.torch.pos[2];
+                that.torch.color.setHex(para.torch.color);
+                that.torch.target = that.torchDirectionObj;
+
+                that.light = new THREE.SpotLight()
+                that.light.position.x = para.light.pos[0];
+                that.light.position.y = para.light.pos[1];
+                that.light.position.z = para.light.pos[2];
+                that.light.color.setHex(para.light.color);
                 // setup if scene is set
                 if (scene != null) {
-                    scene.add(that.mesh);
-                    that.setuped = true;
-                    if (that.onSetuped != null) that.onSetuped();
+                    setupScene();
                 }
             });
         };
