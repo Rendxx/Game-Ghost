@@ -124,7 +124,7 @@
                 getDirection(codeMap);
                 //controlPlayer(direction);
                 character_sys.move(direction[0] == 0 ? 0 : (direction[0] - 1) * 45, rush, direction[0] == 0);
-                if (direction[1] != 0) character_sys.headMove((direction[1] - 1) * 45);
+                character_sys.headMove(direction[1] == 0 ? 0 : (direction[1] - 1) * 45, direction[1] == 0);
                 e.preventDefault();
             }
         }).keyup(function (e) {
@@ -133,7 +133,7 @@
                 codeMap[e.keyCode] = false;
                 getDirection(codeMap, true);
                 character_sys.move(direction[0] == 0 ? 0 : (direction[0] - 1) * 45, rush, direction[0] == 0);
-                if (direction[1] != 0) character_sys.headMove((direction[1] - 1) * 45);
+                character_sys.headMove(direction[1] == 0 ? 0 : (direction[1] - 1) * 45, direction[1] == 0);
                 //controlPlayer(direction);
                 e.preventDefault();
             }

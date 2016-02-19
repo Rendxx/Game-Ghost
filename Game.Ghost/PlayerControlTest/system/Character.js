@@ -16,7 +16,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.name = name;
         this.para = para;
         this.rush = false;
-        this.stay = true;      
+        this.stay = true;
+        this.headFollow = true;
         this.action = Data.action.idle;
         this.currentRotation = {
             head: 0,
@@ -40,8 +41,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             else this.requiredRotation.body = this.requiredRotation.head;
         };
 
-        this.headMove = function (directon) {
-            this.requiredRotation.head = directon;
+        this.headMove = function (directon, headFollow) {
+            if (!headFollow) this.requiredRotation.head = directon;
+            this.headFollow = headFollow;
         };
 
         /**
@@ -49,17 +51,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
          * Rotate body / head, move body, if necessary
          */
         this.animation = function () {
-            // head rotation
-            var d_head = this.requiredRotation.head - this.currentRotation.head;
-            if (d_head<-180) d_head += 360;
-            else if (d_head>180) d_head -= 360;
-            if (Math.abs(d_head)<r_speed_head){
-                this.currentRotation.head += d_head;
-            }else{
-                this.currentRotation.head += ((d_head < 0) ? -1 : 1) * r_speed_head;
-                if(this.currentRotation.head<0) this.currentRotation.head += 360;
-            }
-
             // is back?
             var isBack = false;
             var d_back = Math.abs(this.requiredRotation.body - this.requiredRotation.head);
@@ -71,16 +62,29 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
 
             // body rotation
-            var realDirection = isBack ? (this.requiredRotation.body + 180) % 360 : this.requiredRotation.body;
-            var d_body = realDirection - this.currentRotation.body;
-            if (d_body < -180) d_body += 360;
-            else if (d_body > 180) d_body -= 360;
+                var realDirection_body = isBack ? (this.requiredRotation.body + 180) % 360 : this.requiredRotation.body;
+                var d_body = realDirection_body - this.currentRotation.body;
+                if (d_body < -180) d_body += 360;
+                else if (d_body > 180) d_body -= 360;
 
-            if (Math.abs(d_body) < r_speed_body) {
-                this.currentRotation.body += d_body;
-            } else {
-                this.currentRotation.body += ((d_body < 0) ? -1 : 1) * r_speed_body;
-                if (this.currentRotation.body < 0) this.currentRotation.body += 360;
+                if (Math.abs(d_body) < r_speed_body) {
+                    this.currentRotation.body += d_body;
+                } else {
+                    this.currentRotation.body += ((d_body < 0) ? -1 : 1) * r_speed_body;
+                    if (this.currentRotation.body < 0) this.currentRotation.body += 360;
+                }
+            
+            // head rotation
+            var realDirection_head = (this.headFollow && !this.stay) ? this.currentRotation.body : ((this.rush && !isBack) ? this.currentRotation.body : this.requiredRotation.head);
+            (this.rush && !isBack)
+            var d_head = realDirection_head - this.currentRotation.head;
+            if (d_head<-180) d_head += 360;
+            else if (d_head>180) d_head -= 360;
+            if (Math.abs(d_head)<r_speed_head){
+                this.currentRotation.head += d_head;
+            }else{
+                this.currentRotation.head += ((d_head < 0) ? -1 : 1) * r_speed_head;
+                if(this.currentRotation.head<0) this.currentRotation.head += 360;
             }
 
             // head-body rotation
