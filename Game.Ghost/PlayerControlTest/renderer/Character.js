@@ -128,7 +128,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 that.torch.color.setHex(para.torch.color);
                 that.torch.target = that.torchDirectionObj;
 
-                that.light = new THREE.SpotLight()
+                that.light = new THREE.PointLight()
                 that.light.position.x = para.light.pos[0];
                 that.light.position.y = para.light.pos[1];
                 that.light.position.z = para.light.pos[2];
