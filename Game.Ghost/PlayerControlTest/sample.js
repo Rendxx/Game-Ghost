@@ -176,6 +176,10 @@
             character_sys.name,
             character_sys.para.role
         );
+        character_render.onSetuped = function () {
+            pointLightHelper = new THREE.PointLightHelper(character_render.light, 1);
+            scene.add(pointLightHelper);
+        };
         character_render.setup(scene);
     }
 
@@ -293,7 +297,11 @@
         /*necessary to make lights function*/
         //cubeMaterial.needsUpdate = true;
         //torMaterial.needsUpdate = true;
+        planeMaterial.needsUpdate = true;
+
         if (character_render != null && character_render.torch != null) {
+            for (var i = 0, l = character_render.materials.length; i < l; i++)
+                character_render.materials[i].needsUpdate = true;
             character_render.torch.position.x = guiControls.torch.lightX;
             character_render.torch.position.y = guiControls.torch.lightY;
             character_render.torch.position.z = guiControls.torch.lightZ;

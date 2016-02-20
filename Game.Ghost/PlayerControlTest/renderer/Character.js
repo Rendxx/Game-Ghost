@@ -66,6 +66,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             scene.add(that.torchDirectionObj);
             scene.add(that.torch);
             scene.add(that.light);
+            that.torch.target = that.torchDirectionObj;
             that.setuped = true;
             if (that.onSetuped != null) that.onSetuped();
         };
@@ -116,7 +117,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 r_head_2 = mesh.skeleton.bones[4];
 
                 // setup light
-                that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
+                that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.MeshPhongMaterial({ color: 0x333333 }));
                 that.torchDirectionObj.position.x = para.torch.pos[0];
                 that.torchDirectionObj.position.y = para.torch.pos[1];
                 that.torchDirectionObj.position.z = para.torch.pos[2] + 0.1;
@@ -125,8 +126,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 that.torch.position.x = para.torch.pos[0];
                 that.torch.position.y = para.torch.pos[1];
                 that.torch.position.z = para.torch.pos[2];
-                that.torch.color.setHex(para.torch.color);
-                that.torch.target = that.torchDirectionObj;
+                that.torch.castShadow = true;
+                //that.torch.color.setHex(para.torch.color);
 
                 that.light = new THREE.PointLight()
                 that.light.position.x = para.light.pos[0];
