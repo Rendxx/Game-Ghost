@@ -60,8 +60,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             r_head_2.rotation.z = r;
             this.mesh.rotation.y = r_body / 180 * Math.PI;
 
-            this.light.position.z = 
+            this.light.position.z = this.mesh.position.z + para.light.z * Math.cos(this.mesh.rotation.y);
+            this.light.position.x = this.mesh.position.x + para.light.x * Math.sin(this.mesh.rotation.y);
 
+
+            this.torch.position.z = this.mesh.position.z + (para.torch.z+0.1) * Math.cos(r * 3);
+            this.torch.position.x = this.mesh.position.x + para.torch.x * Math.sin(r * 3);
         };
 
         var setupScene = function () {
