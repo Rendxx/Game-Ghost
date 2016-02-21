@@ -59,6 +59,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             r_head_1.rotation.z = r * 2;
             r_head_2.rotation.z = r;
             this.mesh.rotation.y = r_body / 180 * Math.PI;
+
+            this.light.position.z = 
+
         };
 
         var setupScene = function () {
@@ -66,7 +69,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             scene.add(that.torchDirectionObj);
             scene.add(that.torch);
             scene.add(that.light);
-            that.torch.target = that.torchDirectionObj;
             that.setuped = true;
             if (that.onSetuped != null) that.onSetuped();
         };
@@ -117,22 +119,38 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 r_head_2 = mesh.skeleton.bones[4];
 
                 // setup light
-                that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.MeshPhongMaterial({ color: 0x333333 }));
-                that.torchDirectionObj.position.x = para.torch.pos[0];
-                that.torchDirectionObj.position.y = para.torch.pos[1];
-                that.torchDirectionObj.position.z = para.torch.pos[2] + 0.1;
+                that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
+                that.torchDirectionObj.rotation.x = Math.PI;
+                that.torchDirectionObj.position.x = that.mesh.position.x + para.torch.pos[0];
+                that.torchDirectionObj.position.y = that.mesh.position.y + para.torch.pos[1];
+                that.torchDirectionObj.position.z = that.mesh.position.z + para.torch.pos[2] + 0.1;
 
                 that.torch = new THREE.SpotLight()
-                that.torch.position.x = para.torch.pos[0];
-                that.torch.position.y = para.torch.pos[1];
-                that.torch.position.z = para.torch.pos[2];
+                that.torch.position.x = that.mesh.position.x + para.torch.x;
+                that.torch.position.y = that.mesh.position.y + para.torch.y;
+                that.torch.position.z = that.mesh.position.z + para.torch.z;
+                that.torch.intensity = para.torch.intensity;
+                that.torch.distance = para.torch.distance;
+                that.torch.angle = para.torch.angle;
+                that.torch.exponent = para.torch.exponent;
+                that.torch.shadow.camera.near = para.torch.shadowCameraNear;
+                that.torch.shadow.camera.far = para.torch.shadowCameraFar;
+                that.torch.shadow.camera.fov = para.torch.shadowCameraFov;
+                that.torch.shadowBias = para.torch.shadowBias;
+                that.torch.shadowDarkness = para.torch.shadowDarkness;
                 that.torch.castShadow = true;
-                //that.torch.color.setHex(para.torch.color);
+                that.torch.target = that.torchDirectionObj;
+                that.torch.color.setHex(para.torch.color);
 
-                that.light = new THREE.PointLight()
-                that.light.position.x = para.light.pos[0];
-                that.light.position.y = para.light.pos[1];
-                that.light.position.z = para.light.pos[2];
+                that.light = new THREE.SpotLight()
+                that.light.position.x = that.mesh.position.x + para.light.x;
+                that.light.position.y = that.mesh.position.y + para.light.y;
+                that.light.position.z = that.mesh.position.z + para.light.z;
+                that.light.intensity = para.light.intensity;
+                that.light.distance = para.light.distance;
+                that.light.angle = para.light.angle;
+                that.light.exponent = para.light.exponent;
+                that.light.target = that.mesh;
                 that.light.color.setHex(para.light.color);
                 // setup if scene is set
                 if (scene != null) {

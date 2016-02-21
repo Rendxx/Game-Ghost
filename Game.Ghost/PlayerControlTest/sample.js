@@ -6,7 +6,7 @@
     var SCREEN_WIDTH, SCREEN_HEIGHT;
     var sk_helper;
     var player, playerData, moving, moveDirection;
-    var shadowHelper_spot, pointLightHelper;
+    var shadowHelper_spot;
     var planeGeometry, planeMaterial;
 
     var character_sys, character_render;
@@ -14,6 +14,9 @@
     var clock = new THREE.Clock();
     /*variables for lights*/
 
+    window.output = function () {
+        return guiControls;
+    };
 
     function init() {
         /*creates empty scene object and renderer*/
@@ -49,64 +52,98 @@
 
         // Ambient
         light = new THREE.AmbientLight();
-        light.color.setHex(0xffffff);
+        light.color.setHex(0x333333);
         scene.add(light);
 
         // dat gui
         guiControls = {
-            ambColor: 0x555555,
+            ambColor: 0x333333,
 
-            light:{
-                color : 0x00ff39,
-                intensity : 1,
-                distance : 0,
-                lightX : 20,
-                lightY : 35,
-                lightZ : 40,
+            light: {
+                lightX: 0,
+                lightY: 7,
+                lightZ: 0,
+                intensity: 1,
+                distance: 20,
+                angle: 1,
+                exponent: 10
             },
             torch:{
-                lightX : 20,
-                lightY : 35,
-                lightZ : 40,
+                lightX : -1.4,
+                lightY : 2.4,
+                lightZ : 0.8,
                 intensity : 1,
-                distance : 0,
-                angle : 1.570,
-                exponent : 0,
-                shadowCameraNear : 10,
-                shadowCameraFar : 100,
+                distance : 50,
+                angle : 1,
+                exponent : 8,
+                shadowCameraNear : 1,
+                shadowCameraFar : 50,
                 shadowCameraFov : 50,
                 shadowCameraVisible : false,
                 shadowMapWidth : 2056,
                 shadowMapHeight : 2056,
                 shadowBias : 0.00,
-                shadowDarkness : 0.5
+                shadowDarkness : 1.0
             }
         };
+
+        // init character
+        character_sys = new Rendxx.Game.Ghost.System.Character(1, 'test', { role: Rendxx.Game.Ghost.System.Data.character.role.survivor });
+        character_render = new Rendxx.Game.Ghost.Renderer.Character(
+            character_sys.id,
+            character_sys.name,
+            character_sys.para.role
+        );
+        character_render.onSetuped = function () {
+            //pointLightHelper = new THREE.PointLightHelper(character_render.light, 1);
+            //scene.add(pointLightHelper);
+
+            character_render.light.intensity = guiControls.light.intensity;
+            character_render.light.distance = guiControls.light.distance;
+            character_render.light.angle = guiControls.light.angle;
+            character_render.light.exponent = guiControls.light.exponent;
+
+            character_render.torch.intensity = guiControls.torch.intensity;
+            character_render.torch.distance = guiControls.torch.distance;
+            character_render.torch.angle = guiControls.torch.angle;
+            character_render.torch.exponent = guiControls.torch.exponent;
+            character_render.torch.shadow.camera.near = guiControls.torch.shadowCameraNear;
+            character_render.torch.shadow.camera.far = guiControls.torch.shadowCameraFar;
+            character_render.torch.shadow.camera.fov = guiControls.torch.shadowCameraFov;
+            character_render.torch.shadowBias = guiControls.torch.shadowBias;
+            character_render.torch.shadowDarkness = guiControls.torch.shadowDarkness;
+        };
+        character_render.setup(scene);
+
+        // setup dat GUI
         datGUI = new dat.GUI();
         datGUI.addColor(guiControls, 'ambColor').onChange(function (value) {
             light.color.setHex(value);
         });
 
         /*point gui controls*/
-        var lightFolder = datGUI.addFolder('Light');
-        lightFolder.addColor(guiControls.light, 'color').onChange(function (value) {
-            character_render.light.color.setHex(value);
-        });
-        lightFolder.add(guiControls.light, 'intensity', 0, 5).onChange(function (value) {
+        var lightFolder = datGUI.addFolder('light');
+        lightFolder.add(guiControls.light, 'lightX', -10, 10);
+        lightFolder.add(guiControls.light, 'lightY', 0, 10);
+        lightFolder.add(guiControls.light, 'lightZ', -10, 10);
+        lightFolder.add(guiControls.light, 'intensity', 0.01, 5).onChange(function (value) {
             character_render.light.intensity = value;
         });
-        lightFolder.add(guiControls.light, 'distance', 0, 50).onChange(function (value) {
+        lightFolder.add(guiControls.light, 'distance', 0, 1000).onChange(function (value) {
             character_render.light.distance = value;
         });
-        lightFolder.add(guiControls.light, 'lightX', -60, 180);
-        lightFolder.add(guiControls.light, 'lightY', 0, 180);
-        lightFolder.add(guiControls.light, 'lightZ', -60, 180);
+        lightFolder.add(guiControls.light, 'angle', 0.001, 1.570).onChange(function (value) {
+            character_render.light.angle = value;
+        });
+        lightFolder.add(guiControls.light, 'exponent', 0, 50).onChange(function (value) {
+            character_render.light.exponent = value;
+        });
 
         /*spot gui controls*/
         var torchFolder = datGUI.addFolder('Torch');
-        torchFolder.add(guiControls.torch, 'lightX', -60, 180);
-        torchFolder.add(guiControls.torch, 'lightY', 0, 180);
-        torchFolder.add(guiControls.torch, 'lightZ', -60, 180);
+        torchFolder.add(guiControls.torch, 'lightX', -10, 10);
+        torchFolder.add(guiControls.torch, 'lightY', 0, 10);
+        torchFolder.add(guiControls.torch, 'lightZ', -10, 10);
         torchFolder.add(guiControls.torch, 'intensity', 0.01, 5).onChange(function (value) {
             character_render.torch.intensity = value;
         });
@@ -168,19 +205,6 @@
         stats.domElement.style.left = '0px';
         stats.domElement.style.top = '0px';
         $("#webGL-container").append(stats.domElement);
-
-
-        character_sys = new Rendxx.Game.Ghost.System.Character(1, 'test', { role: Rendxx.Game.Ghost.System.Data.character.role.survivor });
-        character_render = new Rendxx.Game.Ghost.Renderer.Character(
-            character_sys.id,
-            character_sys.name,
-            character_sys.para.role
-        );
-        character_render.onSetuped = function () {
-            pointLightHelper = new THREE.PointLightHelper(character_render.light, 1);
-            scene.add(pointLightHelper);
-        };
-        character_render.setup(scene);
     }
 
     function SetupControl() {
@@ -302,17 +326,17 @@
         if (character_render != null && character_render.torch != null) {
             for (var i = 0, l = character_render.materials.length; i < l; i++)
                 character_render.materials[i].needsUpdate = true;
-            character_render.torch.position.x = guiControls.torch.lightX;
-            character_render.torch.position.y = guiControls.torch.lightY;
-            character_render.torch.position.z = guiControls.torch.lightZ;
+            character_render.torch.position.x = character_render.mesh.position.x + guiControls.torch.lightX;
+            character_render.torch.position.y = character_render.mesh.position.y + guiControls.torch.lightY;
+            character_render.torch.position.z = character_render.mesh.position.z + guiControls.torch.lightZ;
 
-            character_render.torchDirectionObj.position.x = guiControls.torch.lightX;
-            character_render.torchDirectionObj.position.y = guiControls.torch.lightY;
-            character_render.torchDirectionObj.position.z = guiControls.torch.lightZ+0.1;
+            character_render.torchDirectionObj.position.x = character_render.mesh.position.x + guiControls.torch.lightX;
+            character_render.torchDirectionObj.position.y = character_render.mesh.position.y + guiControls.torch.lightY;
+            character_render.torchDirectionObj.position.z = character_render.mesh.position.z + guiControls.torch.lightZ + 0.1;
 
-            character_render.light.position.x = guiControls.light.lightX;
-            character_render.light.position.y = guiControls.light.lightY;
-            character_render.light.position.z = guiControls.light.lightZ;
+            character_render.light.position.x = character_render.mesh.position.x + guiControls.light.lightX;
+            character_render.light.position.y = character_render.mesh.position.y + guiControls.light.lightY;
+            character_render.light.position.z = character_render.mesh.position.z + guiControls.light.lightZ;
         }
     }
 
