@@ -95,23 +95,25 @@
             character_sys.para.role
         );
         character_render.onSetuped = function () {
+            shadowHelper_spot = new THREE.CameraHelper(character_render.torch.shadow.camera);
+            scene.add(shadowHelper_spot);
             //pointLightHelper = new THREE.PointLightHelper(character_render.light, 1);
             //scene.add(pointLightHelper);
 
-            character_render.light.intensity = guiControls.light.intensity;
-            character_render.light.distance = guiControls.light.distance;
-            character_render.light.angle = guiControls.light.angle;
-            character_render.light.exponent = guiControls.light.exponent;
+            //character_render.light.intensity = guiControls.light.intensity;
+            //character_render.light.distance = guiControls.light.distance;
+            //character_render.light.angle = guiControls.light.angle;
+            //character_render.light.exponent = guiControls.light.exponent;
 
-            character_render.torch.intensity = guiControls.torch.intensity;
-            character_render.torch.distance = guiControls.torch.distance;
-            character_render.torch.angle = guiControls.torch.angle;
-            character_render.torch.exponent = guiControls.torch.exponent;
-            character_render.torch.shadow.camera.near = guiControls.torch.shadowCameraNear;
-            character_render.torch.shadow.camera.far = guiControls.torch.shadowCameraFar;
-            character_render.torch.shadow.camera.fov = guiControls.torch.shadowCameraFov;
-            character_render.torch.shadowBias = guiControls.torch.shadowBias;
-            character_render.torch.shadowDarkness = guiControls.torch.shadowDarkness;
+            //character_render.torch.intensity = guiControls.torch.intensity;
+            //character_render.torch.distance = guiControls.torch.distance;
+            //character_render.torch.angle = guiControls.torch.angle;
+            //character_render.torch.exponent = guiControls.torch.exponent;
+            //character_render.torch.shadow.camera.near = guiControls.torch.shadowCameraNear;
+            //character_render.torch.shadow.camera.far = guiControls.torch.shadowCameraFar;
+            //character_render.torch.shadow.camera.fov = guiControls.torch.shadowCameraFov;
+            //character_render.torch.shadowBias = guiControls.torch.shadowBias;
+            //character_render.torch.shadowDarkness = guiControls.torch.shadowDarkness;
         };
         character_render.setup(scene);
 
@@ -121,82 +123,82 @@
             light.color.setHex(value);
         });
 
-        /*point gui controls*/
-        var lightFolder = datGUI.addFolder('light');
-        lightFolder.add(guiControls.light, 'lightX', -10, 10);
-        lightFolder.add(guiControls.light, 'lightY', 0, 10);
-        lightFolder.add(guiControls.light, 'lightZ', -10, 10);
-        lightFolder.add(guiControls.light, 'intensity', 0.01, 5).onChange(function (value) {
-            character_render.light.intensity = value;
-        });
-        lightFolder.add(guiControls.light, 'distance', 0, 1000).onChange(function (value) {
-            character_render.light.distance = value;
-        });
-        lightFolder.add(guiControls.light, 'angle', 0.001, 1.570).onChange(function (value) {
-            character_render.light.angle = value;
-        });
-        lightFolder.add(guiControls.light, 'exponent', 0, 50).onChange(function (value) {
-            character_render.light.exponent = value;
-        });
+        ///*point gui controls*/
+        //var lightFolder = datGUI.addFolder('light');
+        //lightFolder.add(guiControls.light, 'lightX', -10, 10);
+        //lightFolder.add(guiControls.light, 'lightY', 0, 10);
+        //lightFolder.add(guiControls.light, 'lightZ', -10, 10);
+        //lightFolder.add(guiControls.light, 'intensity', 0.01, 5).onChange(function (value) {
+        //    character_render.light.intensity = value;
+        //});
+        //lightFolder.add(guiControls.light, 'distance', 0, 1000).onChange(function (value) {
+        //    character_render.light.distance = value;
+        //});
+        //lightFolder.add(guiControls.light, 'angle', 0.001, 1.570).onChange(function (value) {
+        //    character_render.light.angle = value;
+        //});
+        //lightFolder.add(guiControls.light, 'exponent', 0, 50).onChange(function (value) {
+        //    character_render.light.exponent = value;
+        //});
 
-        /*spot gui controls*/
-        var torchFolder = datGUI.addFolder('Torch');
-        torchFolder.add(guiControls.torch, 'lightX', -10, 10);
-        torchFolder.add(guiControls.torch, 'lightY', 0, 10);
-        torchFolder.add(guiControls.torch, 'lightZ', -10, 10);
-        torchFolder.add(guiControls.torch, 'intensity', 0.01, 5).onChange(function (value) {
-            character_render.torch.intensity = value;
-        });
-        torchFolder.add(guiControls.torch, 'distance', 0, 1000).onChange(function (value) {
-            character_render.torch.distance = value;
-        });
-        torchFolder.add(guiControls.torch, 'angle', 0.001, 1.570).onChange(function (value) {
-            character_render.torch.angle = value;
-        });
-        torchFolder.add(guiControls.torch, 'exponent', 0, 50).onChange(function (value) {
-            character_render.torch.exponent = value;
-        });
-        torchFolder.add(guiControls.torch, 'shadowCameraNear', 0, 100).name("Near").onChange(function (value) {
-            character_render.torch.shadow.camera.near = value;
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            character_render.torch.shadow.camera.updateProjectionMatrix();
-        });
-        torchFolder.add(guiControls.torch, 'shadowCameraFar', 0, 5000).name("Far").onChange(function (value) {
-            character_render.torch.shadow.camera.far = value;
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            character_render.torch.shadow.camera.updateProjectionMatrix();
-        });
-        torchFolder.add(guiControls.torch, 'shadowCameraFov', 1, 180).name("Fov").onChange(function (value) {
-            character_render.torch.shadow.camera.fov = value;
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            character_render.torch.shadow.camera.updateProjectionMatrix();
-        });
-        torchFolder.add(guiControls.torch, 'shadowCameraVisible').onChange(function (value) {
-            if (value) {
-                if (shadowHelper_spot == null) {
-                    shadowHelper_spot = new THREE.CameraHelper(character_render.torch.shadow.camera);
-                    scene.add(shadowHelper_spot);
-                }
-            } else {
-                if (shadowHelper_spot != null) {
-                    scene.remove(shadowHelper_spot);
-                    shadowHelper_spot = null;
-                }
-            }
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            character_render.torch.shadow.camera.updateProjectionMatrix();
-        });
-        torchFolder.add(guiControls.torch, 'shadowBias', 0, 1).onChange(function (value) {
-            character_render.torch.shadowBias = value;
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            character_render.torch.shadow.camera.updateProjectionMatrix();
-        });
-        torchFolder.add(guiControls.torch, 'shadowDarkness', 0, 1).onChange(function (value) {
-            character_render.torch.shadowDarkness = value;
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            character_render.torch.shadow.camera.updateProjectionMatrix();
-        });
-        torchFolder.close();
+        ///*spot gui controls*/
+        //var torchFolder = datGUI.addFolder('Torch');
+        //torchFolder.add(guiControls.torch, 'lightX', -10, 10);
+        //torchFolder.add(guiControls.torch, 'lightY', 0, 10);
+        //torchFolder.add(guiControls.torch, 'lightZ', -10, 10);
+        //torchFolder.add(guiControls.torch, 'intensity', 0.01, 5).onChange(function (value) {
+        //    character_render.torch.intensity = value;
+        //});
+        //torchFolder.add(guiControls.torch, 'distance', 0, 1000).onChange(function (value) {
+        //    character_render.torch.distance = value;
+        //});
+        //torchFolder.add(guiControls.torch, 'angle', 0.001, 1.570).onChange(function (value) {
+        //    character_render.torch.angle = value;
+        //});
+        //torchFolder.add(guiControls.torch, 'exponent', 0, 50).onChange(function (value) {
+        //    character_render.torch.exponent = value;
+        //});
+        //torchFolder.add(guiControls.torch, 'shadowCameraNear', 0, 100).name("Near").onChange(function (value) {
+        //    character_render.torch.shadow.camera.near = value;
+        //    if (shadowHelper_spot != null) shadowHelper_spot.update();
+        //    character_render.torch.shadow.camera.updateProjectionMatrix();
+        //});
+        //torchFolder.add(guiControls.torch, 'shadowCameraFar', 0, 5000).name("Far").onChange(function (value) {
+        //    character_render.torch.shadow.camera.far = value;
+        //    if (shadowHelper_spot != null) shadowHelper_spot.update();
+        //    character_render.torch.shadow.camera.updateProjectionMatrix();
+        //});
+        //torchFolder.add(guiControls.torch, 'shadowCameraFov', 1, 180).name("Fov").onChange(function (value) {
+        //    character_render.torch.shadow.camera.fov = value;
+        //    if (shadowHelper_spot != null) shadowHelper_spot.update();
+        //    character_render.torch.shadow.camera.updateProjectionMatrix();
+        //});
+        //torchFolder.add(guiControls.torch, 'shadowCameraVisible').onChange(function (value) {
+        //    if (value) {
+        //        if (shadowHelper_spot == null) {
+        //            shadowHelper_spot = new THREE.CameraHelper(character_render.torch.shadow.camera);
+        //            scene.add(shadowHelper_spot);
+        //        }
+        //    } else {
+        //        if (shadowHelper_spot != null) {
+        //            scene.remove(shadowHelper_spot);
+        //            shadowHelper_spot = null;
+        //        }
+        //    }
+        //    if (shadowHelper_spot != null) shadowHelper_spot.update();
+        //    character_render.torch.shadow.camera.updateProjectionMatrix();
+        //});
+        //torchFolder.add(guiControls.torch, 'shadowBias', 0, 1).onChange(function (value) {
+        //    character_render.torch.shadowBias = value;
+        //    if (shadowHelper_spot != null) shadowHelper_spot.update();
+        //    character_render.torch.shadow.camera.updateProjectionMatrix();
+        //});
+        //torchFolder.add(guiControls.torch, 'shadowDarkness', 0, 1).onChange(function (value) {
+        //    character_render.torch.shadowDarkness = value;
+        //    if (shadowHelper_spot != null) shadowHelper_spot.update();
+        //    character_render.torch.shadow.camera.updateProjectionMatrix();
+        //});
+        //torchFolder.close();
 
         $("#webGL-container").append(renderer.domElement);
         // status track
@@ -326,17 +328,17 @@
         if (character_render != null && character_render.torch != null) {
             for (var i = 0, l = character_render.materials.length; i < l; i++)
                 character_render.materials[i].needsUpdate = true;
-            character_render.torch.position.x = character_render.mesh.position.x + guiControls.torch.lightX;
-            character_render.torch.position.y = character_render.mesh.position.y + guiControls.torch.lightY;
-            character_render.torch.position.z = character_render.mesh.position.z + guiControls.torch.lightZ;
+            //character_render.torch.position.x = character_render.mesh.position.x + guiControls.torch.lightX;
+            //character_render.torch.position.y = character_render.mesh.position.y + guiControls.torch.lightY;
+            //character_render.torch.position.z = character_render.mesh.position.z + guiControls.torch.lightZ;
 
-            character_render.torchDirectionObj.position.x = character_render.mesh.position.x + guiControls.torch.lightX;
-            character_render.torchDirectionObj.position.y = character_render.mesh.position.y + guiControls.torch.lightY;
-            character_render.torchDirectionObj.position.z = character_render.mesh.position.z + guiControls.torch.lightZ + 0.1;
+            //character_render.torchDirectionObj.position.x = character_render.mesh.position.x + guiControls.torch.lightX;
+            //character_render.torchDirectionObj.position.y = character_render.mesh.position.y + guiControls.torch.lightY;
+            //character_render.torchDirectionObj.position.z = character_render.mesh.position.z + guiControls.torch.lightZ + 0.1;
 
-            character_render.light.position.x = character_render.mesh.position.x + guiControls.light.lightX;
-            character_render.light.position.y = character_render.mesh.position.y + guiControls.light.lightY;
-            character_render.light.position.z = character_render.mesh.position.z + guiControls.light.lightZ;
+            //character_render.light.position.x = character_render.mesh.position.x + guiControls.light.lightX;
+            //character_render.light.position.y = character_render.mesh.position.y + guiControls.light.lightY;
+            //character_render.light.position.z = character_render.mesh.position.z + guiControls.light.lightZ;
         }
     }
 

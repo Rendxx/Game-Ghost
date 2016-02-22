@@ -109,9 +109,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
             }
 
-            console.log("[" + this.requiredRotation.body + ", " + this.requiredRotation.head  + "]"
-                + "  [" + this.currentRotation.body + ", " + this.currentRotation.head + ", " + this.currentRotation.headBody + "]  "
-                + d_head + ", " + d_body + ", " + d_headBody)
+            //console.log("[" + this.requiredRotation.body + ", " + this.requiredRotation.head  + "]"
+            //    + "  [" + this.currentRotation.body + ", " + this.currentRotation.head + ", " + this.currentRotation.headBody + "]  "
+            //    + d_head + ", " + d_body + ", " + d_headBody)
         };
 
         // private method ------------------------------------------------

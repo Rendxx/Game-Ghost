@@ -29,6 +29,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.mixer = null;
         this.setuped = false;
 
+        // cache ----------------------------------------------------------
+        var torchDirectionObj_radius = 0,
+            torchDirectionObj_angle = 0,
+            torch_radius = 0,
+            torch_angle = 0,
+            light_radiusadius = 0,
+            light_angle = 0;
+
         // callback -------------------------------------------------------
         this.onSetuped = null;
 
@@ -55,17 +63,25 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (this.mixer) this.mixer.update(delta);
 
             // rotate
-            var r = -r_head / 180 * Math.PI / 3;
-            r_head_1.rotation.z = r * 2;
-            r_head_2.rotation.z = r;
-            this.mesh.rotation.y = r_body / 180 * Math.PI;
 
-            this.light.position.z = this.mesh.position.z + para.light.z * Math.cos(this.mesh.rotation.y);
-            this.light.position.x = this.mesh.position.x + para.light.x * Math.sin(this.mesh.rotation.y);
+            var r1 = r_body / 180 * Math.PI;
+            var r2 = -r_head / 180 * Math.PI;
+            var r3 = r1+r2;
+            r_head_1.rotation.z = r2/3 * 2;
+            r_head_2.rotation.z = r2/3;
+            this.mesh.rotation.y = r1;
 
+            var r_light = r1 + light_angle;
+            var r_torchD = r3 + torchDirectionObj_angle;
+            var r_torch = r3 + torch_angle;
 
-            this.torch.position.z = this.mesh.position.z + (para.torch.z+0.1) * Math.cos(r * 3);
-            this.torch.position.x = this.mesh.position.x + para.torch.x * Math.sin(r * 3);
+            //console.log(r_body, r_head, r_light, r_torchD, r_torch, torch_angle);
+            this.light.position.z = this.mesh.position.z + light_radius * Math.cos(r_light);
+            this.light.position.x = this.mesh.position.x + light_radius * Math.sin(r_light);
+            this.torchDirectionObj.position.z = this.mesh.position.z + torchDirectionObj_radius * Math.cos(r_torchD);
+            this.torchDirectionObj.position.x = this.mesh.position.x + torchDirectionObj_radius * Math.sin(r_torchD);
+            this.torch.position.z = this.mesh.position.z + torch_radius * Math.cos(r_torch);
+            this.torch.position.x = this.mesh.position.x + torch_radius * Math.sin(r_torch);
         };
 
         var setupScene = function () {
@@ -74,7 +90,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             scene.add(that.torch);
             scene.add(that.light);
             that.setuped = true;
-            if (that.onSetuped != null) that.onSetuped();
+            if (that.onSetuped != null) that.onSetuped();1  
         };
 
         /*
@@ -125,9 +141,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 // setup light
                 that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
                 that.torchDirectionObj.rotation.x = Math.PI;
-                that.torchDirectionObj.position.x = that.mesh.position.x + para.torch.pos[0];
-                that.torchDirectionObj.position.y = that.mesh.position.y + para.torch.pos[1];
-                that.torchDirectionObj.position.z = that.mesh.position.z + para.torch.pos[2] + 0.1;
+                that.torchDirectionObj.position.x = that.mesh.position.x + para.torch.x;
+                that.torchDirectionObj.position.y = that.mesh.position.y + para.torch.y;
+                that.torchDirectionObj.position.z = that.mesh.position.z + para.torch.z + 1;
 
                 that.torch = new THREE.SpotLight()
                 that.torch.position.x = that.mesh.position.x + para.torch.x;
@@ -156,11 +172,23 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 that.light.exponent = para.light.exponent;
                 that.light.target = that.mesh;
                 that.light.color.setHex(para.light.color);
+
+                setupCache(para);
                 // setup if scene is set
                 if (scene != null) {
                     setupScene();
                 }
             });
+        };
+
+        // setup cache with env data
+        var setupCache = function (data) {
+            torchDirectionObj_radius = Math.sqrt((data.torch.z + 1) * (data.torch.z + 1) + data.torch.x * data.torch.x);
+            torchDirectionObj_angle = Math.atan2(data.torch.x, (data.torch.z + 1));
+            torch_radius = Math.sqrt(data.torch.z * data.torch.z + data.torch.x * data.torch.x);
+            torch_angle = Math.atan2(data.torch.x, data.torch.z);
+            light_radius = Math.sqrt(data.light.z * data.light.z + data.light.x * data.light.x);
+            light_angle = Math.atan2(data.light.x, data.light.z);
         };
 
         var _init = function () {
