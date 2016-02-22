@@ -4,7 +4,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 (function (MapDesigner) {
     var Data = MapDesigner.Data;
 
-    var StuffSelector = function (container) {
+    var FurnitureSelector = function (container) {
         // data -----------------------------------------------------
         var _html = {
             container: container,
@@ -21,23 +21,23 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         // method
         this.reset = function () {
             _html.selector = {};
-            for (var i = Data.stuffType.length - 1; i >= 0; i--) {
-                var stuffData = Data.stuffType[i];
-                _html.selector[stuffData.id] = $(Data.html.stuffSelector).prependTo(_html.container).html(stuffData.name)
-                    .click({ id: stuffData.id, idx:i }, function (e) {
+            for (var i = Data.furnitureType.length - 1; i >= 0; i--) {
+                var furnitureData = Data.furnitureType[i];
+                _html.selector[furnitureData.id] = $(Data.html.furnitureSelector).prependTo(_html.container).html(furnitureData.name)
+                    .click({ id: furnitureData.id, idx:i }, function (e) {
                         current = e.data.id;
                         _html.selector[current].addClass('hover');
                         _html.selector[current].siblings().removeClass('hover');
-                        if (that.onChange) that.onChange(Data.stuffType[e.data.idx]);
+                        if (that.onChange) that.onChange(Data.furnitureType[e.data.idx]);
                     });
             }
 
             $(Data.html.hotKey).appendTo(_html.container).html('<b>[Q]</b> to rotate');
             $(Data.html.hotKey).appendTo(_html.container).html('<b>[D]</b> to delete');
             // init
-            _html.selector[Data.stuffType[0].id].click();
+            _html.selector[Data.furnitureType[0].id].click();
         };
     };
 
-    MapDesigner.StuffSelector = StuffSelector;
+    MapDesigner.FurnitureSelector = FurnitureSelector;
 })(window.Rendxx.MapDesigner);

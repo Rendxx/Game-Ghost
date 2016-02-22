@@ -4,7 +4,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 (function (MapDesigner) {
     var Data = MapDesigner.Data;
 
-    var StuffInstance = function (instance) {
+    var FurnitureInstance = function (instance) {
         var that = this,
             _h = -1,
             _w = -1,
@@ -121,15 +121,15 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             _h = this.h;
             _w = this.w;
 
-            this.ele.removeClass('stuff-' + that.id);
+            this.ele.removeClass('furniture-' + that.id);
             this.id = data.id;
-            this.ele.addClass('stuff-' + that.id);
+            this.ele.addClass('furniture-' + that.id);
             this.ele.width(this.w * Data.grid.size).height(this.h * Data.grid.size);
             this.rotate(0);
         };
 
         var _init = function (instance) {
-            that.ele = $(Data.html.stuff);
+            that.ele = $(Data.html.furniture);
             if (instance != null) {
                 that.id = instance.id;
                 that.rotation = instance.rotation;
@@ -138,7 +138,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 that.h = instance.h;
                 that.w = instance.w;
                 that.ele.width(that.w * Data.grid.size).height(that.h * Data.grid.size)
-                        .addClass('stuff-' + that.id);
+                        .addClass('furniture-' + that.id);
                 that.rotate(instance.rotation);
             }
         };
@@ -188,7 +188,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
     };
 
-    var Stuff = function (container, wallPanel, sensorPanel) {
+    var Furniture = function (container, wallPanel, sensorPanel) {
         // data -----------------------------------------------------
         var _html = {
             container: container,
@@ -197,10 +197,10 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             selector: null
         };
         var that = this,
-            stuffMap = null,
-            stuffList = null,
+            furnitureMap = null,
+            furnitureList = null,
             wallList = null,
-            tmpStuff = null,
+            tmpFurniture = null,
             isWallLock = false,
             mouseX = 0,
             mouseY = 0,
@@ -208,17 +208,17 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
         // method
         this.getList = function () {
-            return stuffList;
+            return furnitureList;
         };
 
         this.getWall = function () {
             return wallList;
         };
 
-        this.reset = function (hgt, wid, stuff_in) {
-            if (stuffList != null) {
-                for (var i = 0, l = stuffList.length; i < l; i++) {
-                    removeStuff(i);
+        this.reset = function (hgt, wid, furniture_in) {
+            if (furnitureList != null) {
+                for (var i = 0, l = furnitureList.length; i < l; i++) {
+                    removeFurniture(i);
                 }
             }
 
@@ -231,19 +231,19 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 height: Data.grid.size * hgt
             });
 
-            stuffMap = [];
-            stuffList = [];
+            furnitureMap = [];
+            furnitureList = [];
             count = 0;
             for (var i = 0; i < hgt; i++) {
-                stuffMap[i] = [];
+                furnitureMap[i] = [];
                 for (var j = 0; j < wid; j++) {
-                    stuffMap[i][j] = 0;
+                    furnitureMap[i][j] = 0;
                 }
             }
 
-            for (var i = 0; i < stuff_in.length; i++) {
-                if (stuff_in[i] == null) continue;
-                addStuff(stuff_in[i]);
+            for (var i = 0; i < furniture_in.length; i++) {
+                if (furniture_in[i] == null) continue;
+                addFurniture(furniture_in[i]);
             }
             createWall();
             return;
@@ -259,27 +259,27 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 height: Data.grid.size * hgt
             });
 
-            if (stuffMap == null) {
-                stuffMap = [];
-                stuffList = [];
+            if (furnitureMap == null) {
+                furnitureMap = [];
+                furnitureList = [];
                 for (var i = 0; i < hgt; i++) {
-                    stuffMap[i] = [];
+                    furnitureMap[i] = [];
                     for (var j = 0; j < wid; j++) {
-                        stuffMap[i][j] = 0;
+                        furnitureMap[i][j] = 0;
                     }
                 }
             } else {
-                for (var i = 0, l = stuffList.length; i < l; i++) {
-                    if (stuffList[i] != null && (stuffList[i].bottom >= hgt || stuffList[i].right >= wid)) removeStuff(i);
+                for (var i = 0, l = furnitureList.length; i < l; i++) {
+                    if (furnitureList[i] != null && (furnitureList[i].bottom >= hgt || furnitureList[i].right >= wid)) removeFurniture(i);
                 }
-                var stuffMap_old = stuffMap;
-                var w_old = stuffMap_old.length;
-                var h_old = stuffMap_old[0].length;
-                stuffMap = [];
+                var furnitureMap_old = furnitureMap;
+                var w_old = furnitureMap_old.length;
+                var h_old = furnitureMap_old[0].length;
+                furnitureMap = [];
                 for (var i = 0; i < hgt; i++) {
-                    stuffMap[i] = [];
+                    furnitureMap[i] = [];
                     for (var j = 0; j < wid; j++) {
-                        stuffMap[i][j] = (i < w_old && j < h_old) ? stuffMap_old[i][j] : 0;
+                        furnitureMap[i][j] = (i < w_old && j < h_old) ? furnitureMap_old[i][j] : 0;
                     }
                 }
             }
@@ -289,85 +289,85 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         this.showFigure = function (x, y) {
             mouseX = x;
             mouseY = y;
-            if (tmpStuff.id <= 0) return;
+            if (tmpFurniture.id <= 0) return;
             if (!isWallLock) {
-                tmpStuff.move(x, y);
+                tmpFurniture.move(x, y);
             } else {
-                tmpStuff.extend(x, y);
+                tmpFurniture.extend(x, y);
             }
             check();
         };
 
-        this.setStuff = function (x, y) {
-            if (tmpStuff.id <= 0) return;
-            if (tmpStuff.ele.hasClass('warning')) return;
-            if (tmpStuff.id == 1 && !isWallLock) {
+        this.setFurniture = function (x, y) {
+            if (tmpFurniture.id <= 0) return;
+            if (tmpFurniture.ele.hasClass('warning')) return;
+            if (tmpFurniture.id == 1 && !isWallLock) {
                 isWallLock = true;
             } else {
-                addStuff(tmpStuff);
-                tmpStuff.recover();
-                tmpStuff.move(x, y);
+                addFurniture(tmpFurniture);
+                tmpFurniture.recover();
+                tmpFurniture.move(x, y);
                 isWallLock = false;
-                if (tmpStuff.id == 1) createWall();
+                if (tmpFurniture.id == 1) createWall();
             }
         };
 
-        this.changeType = function (stuffData) {
+        this.changeType = function (furnitureData) {
             isWallLock = false;
-            if (stuffData.id == 0)
-                tmpStuff.ele.hide();
+            if (furnitureData.id == 0)
+                tmpFurniture.ele.hide();
             else {
-                tmpStuff.reset(stuffData);
-                tmpStuff.ele.show();
+                tmpFurniture.reset(furnitureData);
+                tmpFurniture.ele.show();
             }
         };
 
         // private method
         var check = function () {
             var illegal = false;
-            for (var i = tmpStuff.top; i <= tmpStuff.bottom; i++) {
-                for (var j = tmpStuff.left; j <= tmpStuff.right; j++) {
-                    if (i < 0 || j < 0 || i >= stuffMap.length || j >= stuffMap[0].length || stuffMap[i][j] != 0) {
+            for (var i = tmpFurniture.top; i <= tmpFurniture.bottom; i++) {
+                for (var j = tmpFurniture.left; j <= tmpFurniture.right; j++) {
+                    if (i < 0 || j < 0 || i >= furnitureMap.length || j >= furnitureMap[0].length || furnitureMap[i][j] != 0) {
                         illegal = true;
                         break;
                     }
                 }
             }
-            if (illegal) tmpStuff.ele.addClass('warning');
-            else tmpStuff.ele.removeClass('warning');
+            if (illegal) tmpFurniture.ele.addClass('warning');
+            else tmpFurniture.ele.removeClass('warning');
         };
 
-        var addStuff = function (stuff_in) {
+        var addFurniture = function (furniture_in) {
             count++;
-            var s = new StuffInstance(stuff_in);
+            var s = new FurnitureInstance(furniture_in);
             s.ele.appendTo(container).css({
                 top: s.y * Data.grid.size,
                 left: s.x * Data.grid.size
             });
-            stuffList[count] = s;
+            furnitureList[count] = s;
 
             for (var i = s.top; i <= s.bottom; i++) {
                 for (var j = s.left; j <= s.right; j++) {
-                    stuffMap[i][j] = count;
+                    furnitureMap[i][j] = count;
                 }
             }
         };
 
-        var removeStuff = function (id) {
-            if (id == 0 || stuffList[id] == null) return;
-            stuffList[id].ele.remove();
-            for (var t = stuffList[id].top, b = stuffList[id].bottom; t <= b; t++) {
-                for (var l = stuffList[id].left, r = stuffList[id].right; l <= r; l++) {
-                    stuffMap[t][l] = 0;
+        var removeFurniture = function (id) {
+            if (id == 0 || furnitureList[id] == null) return;
+            furnitureList[id].ele.remove();
+            for (var t = furnitureList[id].top, b = furnitureList[id].bottom; t <= b; t++) {
+                for (var l = furnitureList[id].left, r = furnitureList[id].right; l <= r; l++) {
+                    furnitureMap[t][l] = 0;
                 }
             }
-            stuffList[id] = null;
+            furnitureList[id] = null;
         };
 
         var createWall = function () {
-            if (stuffMap == null) return;
-            var hgt = stuffMap.length;
-            var wid = stuffMap[0].length;
+            if (furnitureMap == null) return;
+            var hgt = furnitureMap.length;
+            var wid = furnitureMap[0].length;
             var wall = null;
 
             var findWall = function (x, y, r, l) {
@@ -404,7 +404,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             // top
             for (var i = 1; i < hgt; i++) {
                 for (var j = 0; j < wid; j++) {
-                    if ((stuffMap[i][j] != 0 && stuffList[stuffMap[i][j]].id == 1) && (stuffMap[i - 1][j] == 0 || stuffList[stuffMap[i - 1][j]].id != 1)) {
+                    if ((furnitureMap[i][j] != 0 && furnitureList[furnitureMap[i][j]].id == 1) && (furnitureMap[i - 1][j] == 0 || furnitureList[furnitureMap[i - 1][j]].id != 1)) {
                         findWall(j, i, 0);
                     } else {
                         noWall();
@@ -413,7 +413,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 noWall();
             }
             for (var j = 0; j < wid; j++) {
-                if ((stuffMap[i - 1][j] == 0 || stuffList[stuffMap[i - 1][j]].id != 1)) {
+                if ((furnitureMap[i - 1][j] == 0 || furnitureList[furnitureMap[i - 1][j]].id != 1)) {
                     findWall(j, i, 0);
                 } else {
                     noWall();
@@ -424,7 +424,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             // bottom
             for (var i = hgt - 2; i >=0; i--) {
                 for (var j = wid - 1; j >= 0; j--) {
-                    if ((stuffMap[i][j] != 0 && stuffList[stuffMap[i][j]].id == 1) && (stuffMap[i + 1][j] == 0 || stuffList[stuffMap[i + 1][j]].id != 1)) {
+                    if ((furnitureMap[i][j] != 0 && furnitureList[furnitureMap[i][j]].id == 1) && (furnitureMap[i + 1][j] == 0 || furnitureList[furnitureMap[i + 1][j]].id != 1)) {
                         findWall(j + 1, i + 1, 2);
                     } else {
                         noWall();
@@ -433,7 +433,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 noWall();
             }
             for (var j = wid - 1; j >= 0; j--) {
-                if ((stuffMap[i + 1][j] == 0 || stuffList[stuffMap[i + 1][j]].id != 1)) {
+                if ((furnitureMap[i + 1][j] == 0 || furnitureList[furnitureMap[i + 1][j]].id != 1)) {
                     findWall(j + 1, i + 1, 2);
                 } else {
                     noWall();
@@ -444,7 +444,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             // left
             for (var j = wid-2; j >=0; j--) {
                 for (var i = 0; i < hgt; i++) {
-                    if ((stuffMap[i][j] != 0 && stuffList[stuffMap[i][j]].id == 1) && (stuffMap[i][j + 1] == 0 || stuffList[stuffMap[i][j + 1]].id != 1)) {
+                    if ((furnitureMap[i][j] != 0 && furnitureList[furnitureMap[i][j]].id == 1) && (furnitureMap[i][j + 1] == 0 || furnitureList[furnitureMap[i][j + 1]].id != 1)) {
                         findWall(j + 1, i, 1);
                     } else {
                         noWall();
@@ -453,7 +453,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 noWall();
             }
             for (var i = 0; i < hgt; i++) {
-                if ((stuffMap[i][j + 1] == 0 || stuffList[stuffMap[i][j + 1]].id != 1)) {
+                if ((furnitureMap[i][j + 1] == 0 || furnitureList[furnitureMap[i][j + 1]].id != 1)) {
                     findWall(j + 1, i, 1);
                 } else {
                     noWall();
@@ -464,7 +464,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             // right
             for (var j = 1; j < wid; j++) {
                 for (var i = hgt - 1; i >= 0; i--) {
-                    if ((stuffMap[i][j] != 0 && stuffList[stuffMap[i][j]].id == 1) && (stuffMap[i][j - 1] == 0 || stuffList[stuffMap[i][j - 1]].id != 1)) {
+                    if ((furnitureMap[i][j] != 0 && furnitureList[furnitureMap[i][j]].id == 1) && (furnitureMap[i][j - 1] == 0 || furnitureList[furnitureMap[i][j - 1]].id != 1)) {
                         findWall(j, i + 1, 3);
                     } else {
                         noWall();
@@ -474,7 +474,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
 
             for (var i = hgt - 1; i >= 0; i--) {
-                if ((stuffMap[i][j - 1] == 0 || stuffList[stuffMap[i][j - 1]].id != 1)) {
+                if ((furnitureMap[i][j - 1] == 0 || furnitureList[furnitureMap[i][j - 1]].id != 1)) {
                     findWall(j, i + 1, 3);
                 } else {
                     noWall();
@@ -484,23 +484,23 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         var _init = function () {
-            tmpStuff = new StuffInstance();
-            tmpStuff.ele.addClass('_tmp').appendTo(container);
+            tmpFurniture = new FurnitureInstance();
+            tmpFurniture.ele.addClass('_tmp').appendTo(container);
 
-            sensorPanel.hover(function () { tmpStuff.ele.show(); }, function () { tmpStuff.ele.hide(); })
+            sensorPanel.hover(function () { tmpFurniture.ele.show(); }, function () { tmpFurniture.ele.hide(); })
 
             $(document).on('keypress', function (e) {
                 switch (String.fromCharCode(e.which).toLowerCase()) {
                     case Data.hotKey.rotate:
-                        if (tmpStuff.id <= 1) return;
-                        tmpStuff.rotate((tmpStuff.rotation + 1) % 4);
+                        if (tmpFurniture.id <= 1) return;
+                        tmpFurniture.rotate((tmpFurniture.rotation + 1) % 4);
                         check();
                         return false;
                     case Data.hotKey.del:
-                        var id = stuffMap[mouseY][mouseX];
+                        var id = furnitureMap[mouseY][mouseX];
                         if (id == 0) return;
-                        var typeId = stuffList[id].id;
-                        removeStuff(id);
+                        var typeId = furnitureList[id].id;
+                        removeFurniture(id);
                         if (typeId == 1) createWall();
                         check();
                         return false;
@@ -510,5 +510,5 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         _init();
     };
 
-    MapDesigner.Stuff = Stuff;
+    MapDesigner.Furniture = Furniture;
 })(window.Rendxx.MapDesigner);

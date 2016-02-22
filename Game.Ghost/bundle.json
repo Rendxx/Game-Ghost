@@ -49,8 +49,8 @@
       "#mapDesigner#/_index": [
         "#mapDesigner#/Scripts/Data.js",
         "#mapDesigner#/Scripts/GridPanel.js",
-        "#mapDesigner#/Scripts/Stuff.js",
-        "#mapDesigner#/Scripts/StuffSelector.js",
+        "#mapDesigner#/Scripts/Furniture.js",
+        "#mapDesigner#/Scripts/FurnitureSelector.js",
         "#mapDesigner#/Scripts/DatGui.js",
         "#mapDesigner#/Scripts/FileManager.js",
         "#mapDesigner#/Scripts/Main.js"

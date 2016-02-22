@@ -14,13 +14,13 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         },
         html: {
             grid: '<div class="grid"></div>',
-            stuffSelector: '<div class="stuffSelector"></div>',
-            stuff: '<div class="stuff"></div>',
+            furnitureSelector: '<div class="furnitureSelector"></div>',
+            furniture: '<div class="furniture"></div>',
             wall: '<div class="wall"></div>',
             hotKey: '<div class="hotKey"></div>',
             fileBtn: '<div class="fileBtn"></div>'
         },
-        stuffType: [
+        furnitureType: [
             { name: '<b>None</b>', id: 0 },
 
             { name: '[?*?] <b>Wall</b>', id: 1, w: 1, h: 1 },
@@ -37,7 +37,19 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
             { name: '[1*1] <b>Chair</b>', id: 10, w: 1, h: 1 },
             { name: '[2*1] <b>Shelf</b>', id: 11, w: 2, h: 1 }
-        ]
+        ],
+        files: {
+            wall: {
+                'White': 'wall_white.data.json'
+            },
+            ground: {
+                'Wood': 'ground_wood.data.json',
+                'Ceramic': 'ground_ceramic.data.json'
+            }
+        },
+        path: {
+            env: '/Model/Environment/'
+        }
     };
 
     MapDesigner.Data = Data;

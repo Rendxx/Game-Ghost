@@ -4,7 +4,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 (function (MapDesigner) {
     var Data = MapDesigner.Data;
 
-    var FileManager = function (container, grid, stuff) {
+    var FileManager = function (container, grid, furniture) {
         // data -----------------------------------------------------
         var _html = {
             container: container,
@@ -15,7 +15,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
         var component = {
             grid: grid,
-            stuff: stuff
+            furniture: furniture
         };
 
         var that = this,
@@ -24,21 +24,21 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         // method
         this.reset = function () {
             _html.selector = {};
-            for (var i = Data.stuffType.length - 1; i >= 0; i--) {
-                var stuffData = Data.stuffType[i];
-                _html.selector[stuffData.id] = $(Data.html.stuffSelector).prependTo(_html.container).html(stuffData.name)
-                    .click({ id: stuffData.id, idx:i }, function (e) {
+            for (var i = Data.furnitureType.length - 1; i >= 0; i--) {
+                var furnitureData = Data.furnitureType[i];
+                _html.selector[furnitureData.id] = $(Data.html.furnitureSelector).prependTo(_html.container).html(furnitureData.name)
+                    .click({ id: furnitureData.id, idx:i }, function (e) {
                         current = e.data.id;
                         _html.selector[current].addClass('hover');
                         _html.selector[current].siblings().removeClass('hover');
-                        if (that.onChange) that.onChange(Data.stuffType[e.data.idx]);
+                        if (that.onChange) that.onChange(Data.furnitureType[e.data.idx]);
                     });
             }
 
             $(Data.html.hotKey).appendTo(_html.container).html('<b>[Q]</b> to rotate');
             $(Data.html.hotKey).appendTo(_html.container).html('<b>[D]</b> to delete');
             // init
-            _html.selector[Data.stuffType[0].id].click();
+            _html.selector[Data.furnitureType[0].id].click();
         };
 
         var createJson = function () {
@@ -49,8 +49,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                         width: component.grid.width,
                         height: component.grid.height,
                     },
-                    stuff: component.stuff.getList(),
-                    wall: component.stuff.getWall()
+                    furniture: component.furniture.getList(),
+                    wall: component.furniture.getWall()
                 };
                 var content = JSON.stringify(data);
                 blob[0] = new Blob([content], { type: 'application/json' });
@@ -64,7 +64,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             var data = null;
             try{
                 data = $.parseJSON(content);
-                if (!data.hasOwnProperty('grid') || !data.hasOwnProperty('stuff')) throw new Error('Data missing.');
+                if (!data.hasOwnProperty('grid') || !data.hasOwnProperty('furniture')) throw new Error('Data missing.');
             } catch (e) {
                 return null;
             }
@@ -106,7 +106,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     return;
                 }
                 component.grid.reset(data.grid.height, data.grid.width);
-                component.stuff.reset(data.grid.height, data.grid.width, data.stuff);
+                component.furniture.reset(data.grid.height, data.grid.width, data.furniture);
                 _html.upload[0].value = null;
             }
         };

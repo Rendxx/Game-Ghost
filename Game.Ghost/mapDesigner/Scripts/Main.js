@@ -6,30 +6,30 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
     var Create = function () {
         var gird = new MapDesigner.GridPanel($('.sensorPanel'), $('.gridPanel'));
-        var stuffSelector = new MapDesigner.StuffSelector($('.stuffSelectorList'));
+        var furnitureSelector = new MapDesigner.FurnitureSelector($('.furnitureSelectorList'));
         var datGui = new MapDesigner.DatGui();
-        var stuff = new MapDesigner.Stuff($('.stuffPanel'), $('.wallPanel'), $('.sensorPanel'));
-        var fileManager = new MapDesigner.FileManager($('.stuffSelectorList'), gird, stuff);
+        var furniture = new MapDesigner.Furniture($('.furniturePanel'), $('.wallPanel'), $('.sensorPanel'));
+        var fileManager = new MapDesigner.FileManager($('.furnitureSelectorList'), gird, furniture);
 
         datGui.onChange = function (dat) {
             dat = dat || {};
             gird.reset(dat.height, dat.width);
-            stuff.resize(dat.height, dat.width);
+            furniture.resize(dat.height, dat.width);
         };
 
-        gird.onMouseEnter = stuff.showFigure;
-        gird.onClick = stuff.setStuff;
-        stuffSelector.onChange = stuff.changeType;
+        gird.onMouseEnter = furniture.showFigure;
+        gird.onClick = furniture.setFurniture;
+        furnitureSelector.onChange = furniture.changeType;
 
         gird.reset(Data.grid.height, Data.grid.width);
-        stuff.resize(Data.grid.height, Data.grid.width);
-        stuffSelector.reset();
+        furniture.resize(Data.grid.height, Data.grid.width);
+        furnitureSelector.reset();
         
         var entity = {
             gird:gird,
-            stuffSelector:stuffSelector,
+            furnitureSelector:furnitureSelector,
             datGui: datGui,
-            stuff: stuff,
+            furniture: furniture,
             fileManager: fileManager,
         };
         return entity;
