@@ -66,7 +66,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var r1 = r_body / 180 * Math.PI;
             var r2 = -r_head / 180 * Math.PI;
-            var r3 = r1+r2;
+            var r3 = r1-r2;
             r_head_1.rotation.z = r2/3 * 2;
             r_head_2.rotation.z = r2/3;
             this.mesh.rotation.y = r1;
