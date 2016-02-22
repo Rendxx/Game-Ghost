@@ -22,25 +22,6 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             _fileReader = null;
 
         // method
-        this.reset = function () {
-            _html.selector = {};
-            for (var i = Data.furnitureType.length - 1; i >= 0; i--) {
-                var furnitureData = Data.furnitureType[i];
-                _html.selector[furnitureData.id] = $(Data.html.furnitureSelector).prependTo(_html.container).html(furnitureData.name)
-                    .click({ id: furnitureData.id, idx:i }, function (e) {
-                        current = e.data.id;
-                        _html.selector[current].addClass('hover');
-                        _html.selector[current].siblings().removeClass('hover');
-                        if (that.onChange) that.onChange(Data.furnitureType[e.data.idx]);
-                    });
-            }
-
-            $(Data.html.hotKey).appendTo(_html.container).html('<b>[Q]</b> to rotate');
-            $(Data.html.hotKey).appendTo(_html.container).html('<b>[D]</b> to delete');
-            // init
-            _html.selector[Data.furnitureType[0].id].click();
-        };
-
         var createJson = function () {
             var blob = [];
             try{
@@ -74,8 +55,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var _init = function () {
             _fileReader = new FileReader();
 
-            _html.save = $(Data.html.fileBtn).addClass('btn-save').appendTo(_html.container).html('SAVE');
-            _html.load = $(Data.html.fileBtn).addClass('btn-load').appendTo(_html.container).html('LOAD');
+            _html.save = $(Data.html.fileBtn).addClass('btn-save').html('S').appendTo(_html.container);
+            _html.load = $(Data.html.fileBtn).addClass('btn-load').html('L').appendTo(_html.container);
             _html.download = $('<a style="display:none"></a>').appendTo($('body'));
             _html.upload = $('<input type="file" accept=".json" style="display:none" />').appendTo($('body'));
 

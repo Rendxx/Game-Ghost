@@ -50,7 +50,7 @@
         "#mapDesigner#/Scripts/Data.js",
         "#mapDesigner#/Scripts/GridPanel.js",
         "#mapDesigner#/Scripts/Furniture.js",
-        "#mapDesigner#/Scripts/FurnitureSelector.js",
+        "#mapDesigner#/Scripts/ItemSelector.js",
         "#mapDesigner#/Scripts/DatGui.js",
         "#mapDesigner#/Scripts/FileManager.js",
         "#mapDesigner#/Scripts/Main.js"

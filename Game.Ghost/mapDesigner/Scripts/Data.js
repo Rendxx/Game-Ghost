@@ -14,11 +14,12 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         },
         html: {
             grid: '<div class="grid"></div>',
-            furnitureSelector: '<div class="furnitureSelector"></div>',
+            itemSelector: '<div class="itemSelector"></div>',
             furniture: '<div class="furniture"></div>',
             wall: '<div class="wall"></div>',
             hotKey: '<div class="hotKey"></div>',
-            fileBtn: '<div class="fileBtn"></div>'
+            fileBtn: '<div class="_btn"></div>',
+            categoryBtn: '<div class="_btn"></div>'
         },
         furnitureType: [
             { name: '<b>None</b>', id: 0 },
@@ -38,6 +39,12 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             { name: '[1*1] <b>Chair</b>', id: 10, w: 1, h: 1 },
             { name: '[2*1] <b>Shelf</b>', id: 11, w: 2, h: 1 }
         ],
+        categoryCss: {
+            wall: '_wall',
+            ground: '_ground',
+            furniture: '_furniture',
+            stuff: '_stuff'
+        },
         files: {
             wall: {
                 'White': 'wall_white.data.json'

@@ -6,10 +6,10 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
     var Create = function () {
         var gird = new MapDesigner.GridPanel($('.sensorPanel'), $('.gridPanel'));
-        var furnitureSelector = new MapDesigner.FurnitureSelector($('.furnitureSelectorList'));
+        var itemSelector = new MapDesigner.ItemSelector($('.category'), $('.itemSelectorList'));
         var datGui = new MapDesigner.DatGui();
         var furniture = new MapDesigner.Furniture($('.furniturePanel'), $('.wallPanel'), $('.sensorPanel'));
-        var fileManager = new MapDesigner.FileManager($('.furnitureSelectorList'), gird, furniture);
+        var fileManager = new MapDesigner.FileManager($('.file'), gird, furniture);
 
         datGui.onChange = function (dat) {
             dat = dat || {};
@@ -19,15 +19,15 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
         gird.onMouseEnter = furniture.showFigure;
         gird.onClick = furniture.setFurniture;
-        furnitureSelector.onChange = furniture.changeType;
+        itemSelector.onChange = furniture.changeType;
 
         gird.reset(Data.grid.height, Data.grid.width);
         furniture.resize(Data.grid.height, Data.grid.width);
-        furnitureSelector.reset();
+        itemSelector.reset();
         
         var entity = {
             gird:gird,
-            furnitureSelector:furnitureSelector,
+            itemSelector:itemSelector,
             datGui: datGui,
             furniture: furniture,
             fileManager: fileManager,

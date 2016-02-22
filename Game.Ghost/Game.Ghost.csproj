@@ -16,6 +16,11 @@
   <ItemGroup>
     <Content Include="Document\Notice.txt" />
     <Content Include="gulpfile.js" />
+    <Content Include="mapDesigner\Document\category-icon0001.png" />
+    <Content Include="mapDesigner\Document\category-icon0002.png" />
+    <Content Include="mapDesigner\Document\category-icon0003.png" />
+    <Content Include="mapDesigner\Document\category-icon0004.png" />
+    <Content Include="mapDesigner\Document\shoeprint3-300px.png" />
     <Content Include="mapDesigner\Images\shelf.png" />
     <Content Include="mapDesigner\Scripts\Data.js" />
     <Content Include="mapDesigner\Scripts\DatGui.js" />
@@ -31,7 +36,7 @@
     <Content Include="mapDesigner\Images\wall.png" />
     <Content Include="mapDesigner\Scripts\Furniture.js" />
     <Content Include="mapDesigner\Scripts\FileManager.js" />
-    <Content Include="mapDesigner\Scripts\FurnitureSelector.js" />
+    <Content Include="mapDesigner\Scripts\ItemSelector.js" />
     <Content Include="mapDesigner\Scripts\Main.js" />
     <Content Include="mapDesigner\Scripts\GridPanel.js" />
     <Content Include="ModelBuilder\Environment\14436628374289.jpg" />
@@ -132,6 +137,7 @@
     <Content Include="ModelBuilder\Environment\ground_ceramic.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood.fla" />
     <Content Include="Model\Environment\ground_wood.data.json" />
+    <None Include="mapDesigner\Document\category-btn.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
