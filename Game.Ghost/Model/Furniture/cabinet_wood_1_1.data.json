@@ -1,0 +1,17 @@
+﻿{
+  "id": "cabinet_wood_1_1",
+  "dimension": [ 1, 1, 1 ],
+  "slots": [
+    {
+      "pos": [ 0, 0, 1 ],
+      "hide": false
+    },
+    {
+      "pos": [ 0, 0, 0.3 ],
+      "hide": true
+    }
+  ],
+  "model": "",
+  "texture": [ "cabinet_wood_1_1.png" ],
+  "icon": "cabinet_wood_1_1.icon.png"
+}

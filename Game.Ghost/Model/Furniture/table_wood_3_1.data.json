@@ -1,0 +1,21 @@
+﻿{
+  "id": "table_wood_3_1",
+  "dimension": [ 3, 1, 1 ],
+  "slots": [
+    {
+      "pos": [ 1, 0, 1 ],
+      "hide": false
+    },
+    {
+      "pos": [ 0, 0, 1 ],
+      "hide": false
+    },
+    {
+      "pos": [ -1, 0, 1 ],
+      "hide": false
+    }
+  ],
+  "model": "",
+  "texture": [ "table_wood_3_1.png" ],
+  "icon": "table_wood_3_1.icon.png"
+}

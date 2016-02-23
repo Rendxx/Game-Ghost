@@ -52,11 +52,11 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         var _loadItemData = function (category, name, file) {
-            $.getJSON(Data.path.env + file, function (data) {
+            $.getJSON(Data.path[category] + file, function (data) {
                 if (data == null) throw new Error(category + '.' + name + ': Not find.');
                 if (itemData[category][name] != null) console.log(category+'.'+name+': load multiple data.');
                 itemData[category][name] = data;
-                var ele = $(Data.html.itemSelector).html('<b>' + name + '</b>').appendTo(_html.selectorCategory[category])
+                var ele = $(Data.html.itemSelector).html((data.dimension != null ? '[' + data.dimension[0] + '*' + data.dimension[1] + ']&nbsp;&nbsp;' : '') + '<b>' + name + '</b>').appendTo(_html.selectorCategory[category])
                     .click(function (e) {
                         ele.addClass('hover');
                         ele.siblings().removeClass('hover');

@@ -57,6 +57,16 @@
     <Content Include="ModelBuilder\Player\wool2.png" />
     <Content Include="Model\Environment\ground_ceramic.png" />
     <Content Include="Model\Environment\ground_wood.png" />
+    <Content Include="Model\Furniture\cabinet_wood_1_1.icon.png" />
+    <Content Include="Model\Furniture\cabinet_wood_2_1.icon.png" />
+    <Content Include="Model\Furniture\cabinet_wood_2_1_b.icon.png" />
+    <Content Include="Model\Furniture\chair_normal_1_1.icon.png" />
+    <Content Include="Model\Furniture\door.png" />
+    <Content Include="Model\Furniture\shelf_wood_2_1.icon.png" />
+    <Content Include="Model\Furniture\table_wood_2_1.icon.png" />
+    <Content Include="Model\Furniture\table_wood_3_1.icon.png" />
+    <Content Include="Model\Furniture\table_wood_3_2.icon.png" />
+    <Content Include="Model\Furniture\table_wood_1_1.icon.png" />
     <Content Include="Model\Environment\wall_white.icon.png" />
     <Content Include="Model\Player-Texture-2.png" />
     <Content Include="Model\Player-Texture.png" />
@@ -83,7 +93,6 @@
     <Folder Include="css\" />
     <Folder Include="js\" />
     <Folder Include="lib\" />
-    <Folder Include="Model\Furniture\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />
@@ -142,6 +151,15 @@
     <Content Include="ModelBuilder\Environment\ground_wood.fla" />
     <Content Include="Model\Environment\ground_wood.data.json" />
     <None Include="mapDesigner\Document\category-btn.fla" />
+    <Content Include="Model\Furniture\table_wood_1_1.data.json" />
+    <Content Include="Model\Furniture\table_wood_2_1.data.json" />
+    <Content Include="Model\Furniture\table_wood_3_1.data.json" />
+    <Content Include="Model\Furniture\table_wood_3_2.data.json" />
+    <Content Include="Model\Furniture\shelf_wood_2_1.data.json" />
+    <Content Include="Model\Furniture\cabinet_wood_1_1.data.json" />
+    <Content Include="Model\Furniture\cabinet_wood_2_1.data.json" />
+    <Content Include="Model\Furniture\cabinet_wood_2_1_b.data.json" />
+    <Content Include="Model\Furniture\chair_normal_1_1.data.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

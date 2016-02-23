@@ -55,12 +55,23 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 'Ceramic': 'ground_ceramic.data.json'
             },
             furniture: {
+                'Table (Wood) 1': 'table_wood_1_1.data.json',
+                'Table (Wood) 2': 'table_wood_2_1.data.json',
+                'Table (Wood) 3': 'table_wood_3_1.data.json',
+                'Table (Wood) 4': 'table_wood_3_2.data.json',
+                'Shelf (Wood)': 'shelf_wood_2_1.data.json',
+                'Cabinet (Wood) 1': 'scabinet_wood_1_1.data.json',
+                'Cabinet (Wood) 2': 'cabinet_wood_2_1.data.json',
+                'Cabinet (Wood) 3': 'cabinet_wood_2_1_b.data.json',
+                'Chair (Normal) 1': 'chair_normal_1_1.data.json',
             },
             stuff: {
             }
         },
         path: {
-            env: '/Model/Environment/'
+            wall: '/Model/Environment/',
+            ground: '/Model/Environment/',
+            furniture: '/Model/Furniture/'
         }
     };
 
