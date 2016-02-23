@@ -14,10 +14,13 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             selectorCategory: null
         };
         var that = this,
-            itemData = null;        // all item data package
+            itemData = null,        // all item data package
+            loadCount = 0,
+            loadedCount = 0;
 
         // callback
-        this.onChange;
+        this.onChange = null;
+        this.onLoaded = null;
 
         // public data
         this.current = 1;
@@ -39,6 +42,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
             itemData = {};
             _html.selectorList.empty();
+            loadCount = 1;
             for (var category in Data.files) {
                 itemData[category] = {};
                 _html.selectorCategory[category] = $(Data.html.itemSelectorCategory).appendTo(_html.selectorList).hide();
@@ -46,12 +50,13 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     _loadItemData(category, name, Data.files[category][name]);
                 }
             }
-
+            loadCount--;
             // init
             //_html.selector[Data.furnitureType[0].id].click();
         };
 
         var _loadItemData = function (category, name, file) {
+            loadCount++;
             $.getJSON(Data.path[category] + file, function (data) {
                 if (data == null) throw new Error(category + '.' + name + ': Not find.');
                 if (itemData[category][name] != null) console.log(category+'.'+name+': load multiple data.');
@@ -64,9 +69,16 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     });
                 itemData[category][name].ele = ele;
                 itemData[category][name].category = category;
+                loadedCount++;
+                if (loadedCount>=loadCount){
+                    _onLoaded();
+                }
             });
         };
 
+        var _onLoaded = function () {
+            if (that.onLoaded != null) that.onLoaded();
+        };
 
         var _setupCategory = function () {
             var d = Data.categoryCss;

@@ -55,7 +55,9 @@
     <Content Include="ModelBuilder\Player\wood-table.png" />
     <Content Include="ModelBuilder\Player\wool.jpg" />
     <Content Include="ModelBuilder\Player\wool2.png" />
+    <Content Include="Model\Environment\ground_ceramic.icon.png" />
     <Content Include="Model\Environment\ground_ceramic.png" />
+    <Content Include="Model\Environment\ground_wood.icon.png" />
     <Content Include="Model\Environment\ground_wood.png" />
     <Content Include="Model\Furniture\cabinet_wood_1_1.icon.png" />
     <Content Include="Model\Furniture\cabinet_wood_2_1.icon.png" />
@@ -160,6 +162,8 @@
     <Content Include="Model\Furniture\cabinet_wood_2_1.data.json" />
     <Content Include="Model\Furniture\cabinet_wood_2_1_b.data.json" />
     <Content Include="Model\Furniture\chair_normal_1_1.data.json" />
+    <Content Include="ModelBuilder\Environment\ground_wood.icon.fla" />
+    <Content Include="ModelBuilder\Environment\ground_ceramic.icon.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

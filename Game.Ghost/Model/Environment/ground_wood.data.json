@@ -1,5 +1,5 @@
 ﻿{
   "id": "ground_wood",
   "texture": [ "ground_wood.png" ],
-  "icon": "ground_wood.png"
+  "icon": "ground_wood.icon.png"
 }
