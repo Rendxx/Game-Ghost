@@ -231,7 +231,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             return wallList;
         };
 
-        this.reset = function (hgt, wid, furniture_in) {
+        this.reset = function (hgt, wid, item_in) {
             if (itemList != null) {
                 for (var k in Data.categoryName) {
                     for (var i = 0, l = itemList[Data.categoryName[k]].length; i < l; i++) {
@@ -267,10 +267,13 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     }
                 }
             }
-
-            for (var i = 0; i < furniture_in.length; i++) {
-                if (furniture_in[i] == null) continue;
-                addFurniture(furniture_in[i]);
+            
+            for (var k in Data.categoryName) {
+                var list = item_in[Data.categoryName[k]];
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i] == null) continue;
+                    addItem(list[i]);
+                }
             }
             createWall();
             return;
@@ -355,7 +358,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             } else if (tmpFurniture.category == Data.categoryName.ground && !isGroundLock) {
                 isGroundLock = true;
             } else {
-                addFurniture(tmpFurniture);
+                addItem(tmpFurniture);
                 tmpFurniture.recover();
                 tmpFurniture.move(x, y);
                 isWallLock = false;
@@ -428,8 +431,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             else tmpFurniture.ele.removeClass('warning');
         };
 
-        var addFurniture = function (furniture_in) {
-            var s = new FurnitureInstance(furniture_in);
+        var addItem = function (item_in) {
+            var s = new FurnitureInstance(item_in);
             var category = s.category;
             count[category]++;
             if (category == Data.categoryName.ground) {

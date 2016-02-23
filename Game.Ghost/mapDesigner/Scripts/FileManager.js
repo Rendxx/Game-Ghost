@@ -4,7 +4,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 (function (MapDesigner) {
     var Data = MapDesigner.Data;
 
-    var FileManager = function (container, grid, furniture) {
+    var FileManager = function (container, grid, item) {
         // data -----------------------------------------------------
         var _html = {
             container: container,
@@ -15,7 +15,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
         var component = {
             grid: grid,
-            furniture: furniture
+            item: item
         };
 
         var that = this,
@@ -30,8 +30,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                         width: component.grid.width,
                         height: component.grid.height,
                     },
-                    furniture: component.furniture.getList(),
-                    wall: component.furniture.getWall()
+                    item: component.item.getList(),
+                    wall: component.item.getWall()
                 };
                 var content = JSON.stringify(data);
                 blob[0] = new Blob([content], { type: 'application/json' });
@@ -45,7 +45,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             var data = null;
             try{
                 data = $.parseJSON(content);
-                if (!data.hasOwnProperty('grid') || !data.hasOwnProperty('furniture')) throw new Error('Data missing.');
+                if (!data.hasOwnProperty('grid') || !data.hasOwnProperty('item')) throw new Error('Data missing.');
             } catch (e) {
                 return null;
             }
@@ -87,7 +87,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     return;
                 }
                 component.grid.reset(data.grid.height, data.grid.width);
-                component.furniture.reset(data.grid.height, data.grid.width, data.furniture);
+                component.item.reset(data.grid.height, data.grid.width, data.item);
                 _html.upload[0].value = null;
             }
         };
