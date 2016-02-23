@@ -1,0 +1,8 @@
+﻿{
+  "id": "chair_wood_1_1",
+  "dimension": [ 1, 1, 1 ],
+  "slots": [ ],
+  "model": "",
+  "texture": [ "chair_wood_1_1.png" ],
+  "icon": "chair_wood_1_1.icon.png"
+}

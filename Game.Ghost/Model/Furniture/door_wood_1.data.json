@@ -1,0 +1,8 @@
+﻿{
+  "id": "door_wood_1",
+  "dimension": [ 1, 1, 2 ],
+  "slots": [ ],
+  "model": "",
+  "texture": [ "door_wood_1.png" ],
+  "icon": "door_wood_1.icon.png"
+}

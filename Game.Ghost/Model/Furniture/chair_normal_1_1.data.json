@@ -1,8 +1,0 @@
-﻿{
-  "id": "chair_normal_1_1",
-  "dimension": [ 1, 1, 1 ],
-  "slots": [ ],
-  "model": "",
-  "texture": [ "chair_normal_1_1.png" ],
-  "icon": "chair_normal_1_1.icon.png"
-}

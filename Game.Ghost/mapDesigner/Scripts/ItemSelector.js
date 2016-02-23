@@ -29,16 +29,6 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         this.reset = function () {
             _html.selector = {};
             _html.selectorCategory = {};
-            //for (var i = Data.furnitureType.length - 1; i >= 0; i--) {
-            //    var furnitureData = Data.furnitureType[i];
-            //    _html.selector[furnitureData.id] = $(Data.html.itemSelector).prependTo(_html.selectorList).html(furnitureData.name)
-            //        .click({ id: furnitureData.id, idx:i }, function (e) {
-            //            current = e.data.id;
-            //            _html.selector[current].addClass('hover');
-            //            _html.selector[current].siblings().removeClass('hover');
-            //            if (that.onChange) that.onChange(Data.furnitureType[e.data.idx]);
-            //        });
-            //}
 
             itemData = {};
             _html.selectorList.empty();
@@ -51,8 +41,6 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 }
             }
             loadCount--;
-            // init
-            //_html.selector[Data.furnitureType[0].id].click();
         };
 
         var _loadItemData = function (category, name, file) {

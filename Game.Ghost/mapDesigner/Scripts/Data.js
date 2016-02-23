@@ -22,24 +22,6 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             fileBtn: '<div class="_btn"></div>',
             categoryBtn: '<div class="_btn"></div>'
         },
-        furnitureType: [
-            { name: '<b>None</b>', id: 0 },
-
-            { name: '[?*?] <b>Wall</b>', id: 1, w: 1, h: 1 },
-            { name: '[1*1] <b>Door</b>', id: 2, w: 1, h: 1 },
-
-            { name: '[1*1] <b>Table</b>', id: 3, w: 1, h: 1 },
-            { name: '[2*1] <b>Table</b>', id: 4, w: 2, h: 1 },
-            { name: '[3*1] <b>Table</b>', id: 5, w: 3, h: 1 },
-            { name: '[3*2] <b>Table</b>', id: 6, w: 3, h: 2 },
-
-            { name: '[1*1] <b>Cabinet Low</b>', id: 7, w: 1, h: 1 },
-            { name: '[2*1] <b>Cabinet Low</b>', id: 8, w: 2, h: 1 },
-            { name: '[2*1] <b>Cabinet High</b>', id: 9, w: 2, h: 1 },
-
-            { name: '[1*1] <b>Chair</b>', id: 10, w: 1, h: 1 },
-            { name: '[2*1] <b>Shelf</b>', id: 11, w: 2, h: 1 }
-        ],
         categoryCss: {
             wall: '_wall',
             ground: '_ground',
@@ -69,7 +51,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 'Cabinet (Wood) 1': 'cabinet_wood_1_1.data.json',
                 'Cabinet (Wood) 2': 'cabinet_wood_2_1.data.json',
                 'Cabinet (Wood) 3': 'cabinet_wood_2_1_b.data.json',
-                'Chair (Normal) 1': 'chair_normal_1_1.data.json',
+                'Chair (Wood) 1': 'chair_wood_1_1.data.json',
+                'Door (Wood) 1': 'door_wood_1.data.json',
             },
             stuff: {
             }
