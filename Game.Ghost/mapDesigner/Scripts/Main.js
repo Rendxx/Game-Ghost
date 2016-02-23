@@ -28,7 +28,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
         gird.onMouseEnter = furniture.showFigure;
         gird.onClick = furniture.setFurniture;
-        itemSelector.onChange = furniture.changeType;
+        itemSelector.onChange = function (data) {
+            furniture.changeType(data);
+        }
 
         gird.reset(Data.grid.height, Data.grid.width);
         furniture.resize(Data.grid.height, Data.grid.width);

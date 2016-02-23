@@ -63,6 +63,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                         if (that.onChange) that.onChange(data);
                     });
                 itemData[category][name].ele = ele;
+                itemData[category][name].category = category;
             });
         };
 
