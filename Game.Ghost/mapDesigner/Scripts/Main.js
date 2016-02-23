@@ -10,6 +10,15 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var datGui = new MapDesigner.DatGui();
         var furniture = new MapDesigner.Furniture($('.furniturePanel'), $('.wallPanel'), $('.sensorPanel'));
         var fileManager = new MapDesigner.FileManager($('.file'), gird, furniture);
+        var hotKeyManager = new MapDesigner.HotKey($('.hotKey'));
+
+        // callback ----------------------------------------
+        hotKeyManager.callback.rotate = function () {
+
+        };
+        hotKeyManager.callback.del = function () {
+
+        };
 
         datGui.onChange = function (dat) {
             dat = dat || {};

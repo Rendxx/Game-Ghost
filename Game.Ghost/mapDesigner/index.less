@@ -120,6 +120,74 @@
             }
         }
 
+
+        .hotKey {
+            position: absolute;
+            bottom: 106px;
+            left: 0;
+            overflow: hidden;
+            height: auto;
+            width: 50px;
+            z-index: 40;
+            background-color: #444;
+            overflow: visible;
+
+            ._item {
+                color: rgba(255, 255, 255, 0.5);
+                text-align: center;
+                line-height: 52px;
+                height: 52px;
+                font-size: 14px;
+                width: 100%;
+                border-top: 1px solid #393939;
+                background-color: #444;
+                position: relative;
+                top: 0;
+                left: 0;
+                overflow: visible;
+                cursor: default;
+
+                b {
+                    font-weight: 400;
+                    color: #fff;
+                }
+
+                &::after {
+                    content: attr(data-commend);
+                    position: absolute;
+                    top: -1px;
+                    left: 50px;
+                    background-color: #444;
+                    border: 1px solid #303030;
+                    border-left: 0;
+                    line-height: 52px;
+                    height: 52px;
+                    text-align: left;
+                    color: #eee;
+                    overflow: hidden;
+                    width: 0;
+                    padding: 0;
+                    white-space: nowrap;
+                    -moz-transition: 0.1s;
+                    -o-transition: 0.1s;
+                    -webkit-transition: 0.1s;
+                    transition: 0.1s;
+                }
+
+                &:hover {
+                    &::after {
+                        width: 100px;
+                        padding: 0 10px;
+                        -moz-transition: 0.2s 0.3s;
+                        -o-transition: 0.2s 0.3s;
+                        -webkit-transition: 0.2s 0.3s;
+                        transition: 0.2s 0.3s;
+                    }
+                }
+            }
+        }
+
+
         .itemSelectorList {
             position: absolute;
             top: 0;
@@ -128,7 +196,7 @@
             background-color: #333;
             height: 100%;
             width: 192px;
-            border-left:1px solid #303030;
+            border-left: 1px solid #303030;
 
             .itemSelector {
                 color: rgba(255, 255, 255, 0.5);
@@ -155,22 +223,6 @@
 
                 &.hover {
                     background-color: #82BB48;
-                }
-            }
-
-            .hotKey {
-                color: rgba(255, 255, 255, 0.5);
-                text-align: right;
-                padding: 16px 16px;
-                line-height: 20px;
-                font-size: 14px;
-                width: 160px;
-                border-bottom: 1px solid #313131;
-                background-color: #444;
-
-                b {
-                    font-weight: 400;
-                    color: #fff;
                 }
             }
         }

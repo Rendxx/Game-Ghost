@@ -53,6 +53,7 @@
         "#mapDesigner#/Scripts/ItemSelector.js",
         "#mapDesigner#/Scripts/DatGui.js",
         "#mapDesigner#/Scripts/FileManager.js",
+        "#mapDesigner#/Scripts/HotKey.js",
         "#mapDesigner#/Scripts/Main.js"
       ]
     }

@@ -34,6 +34,7 @@
     <Content Include="mapDesigner\Images\table_3.png" />
     <Content Include="mapDesigner\Images\table_4.png" />
     <Content Include="mapDesigner\Images\wall.png" />
+    <Content Include="mapDesigner\Scripts\HotKey.js" />
     <Content Include="mapDesigner\Scripts\Furniture.js" />
     <Content Include="mapDesigner\Scripts\FileManager.js" />
     <Content Include="mapDesigner\Scripts\ItemSelector.js" />

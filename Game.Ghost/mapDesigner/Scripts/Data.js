@@ -4,8 +4,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 (function (MapDesigner) {
     var Data = {
         hotKey: {
-            rotate: 'q',
-            del: 'd'
+            rotate: { key: 'q', commend: 'Hotkey to rotate' },
+            del: { key: 'd', commend: 'Hotkey to delete' }
         },
         grid: {
             width: 50,      // width og grid matrix
@@ -17,7 +17,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             itemSelector: '<div class="itemSelector"></div>',
             furniture: '<div class="furniture"></div>',
             wall: '<div class="wall"></div>',
-            hotKey: '<div class="hotKey"></div>',
+            hotKey: '<div class="_item"></div>',
             fileBtn: '<div class="_btn"></div>',
             categoryBtn: '<div class="_btn"></div>'
         },
