@@ -23,6 +23,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 var c = String.fromCharCode(e.which).toLowerCase();
                 if (c in hotKeyMap && that.callback[hotKeyMap[c]] != null) {
                     that.callback[hotKeyMap[c]]();
+                    return false;
                 }
             });
         };

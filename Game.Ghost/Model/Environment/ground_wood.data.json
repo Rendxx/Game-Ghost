@@ -1,5 +1,6 @@
 ﻿{
   "id": "ground_wood",
   "blockView": true,
-  "texture": ["ground_wood.png"]
+  "texture": [ "ground_wood.png" ],
+  "icon": "ground_wood.png"
 }

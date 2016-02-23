@@ -1,5 +1,6 @@
 ﻿{
   "id": "wall_0",
   "blockView": true,
-  "texture": ["wall.png", "wall-top.png"]
+  "texture": [ "wall.png", "wall-top.png" ],
+  "icon": "wall_white.icon.png"
 }

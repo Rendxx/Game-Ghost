@@ -15,6 +15,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         html: {
             grid: '<div class="grid"></div>',
             itemSelector: '<div class="itemSelector"></div>',
+            itemSelectorCategory: '<div class="itemSelectorCategory"></div>',
             furniture: '<div class="furniture"></div>',
             wall: '<div class="wall"></div>',
             hotKey: '<div class="_item"></div>',
@@ -52,6 +53,10 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             ground: {
                 'Wood': 'ground_wood.data.json',
                 'Ceramic': 'ground_ceramic.data.json'
+            },
+            furniture: {
+            },
+            stuff: {
             }
         },
         path: {

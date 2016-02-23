@@ -55,6 +55,9 @@
     <Content Include="ModelBuilder\Player\wood-table.png" />
     <Content Include="ModelBuilder\Player\wool.jpg" />
     <Content Include="ModelBuilder\Player\wool2.png" />
+    <Content Include="Model\Environment\ground_ceramic.png" />
+    <Content Include="Model\Environment\ground_wood.png" />
+    <Content Include="Model\Environment\wall_white.icon.png" />
     <Content Include="Model\Player-Texture-2.png" />
     <Content Include="Model\Player-Texture.png" />
     <Content Include="Model\steel.jpg" />

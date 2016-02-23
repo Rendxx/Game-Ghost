@@ -1,5 +1,6 @@
 ﻿{
   "id": "ground_ceramic",
   "blockView": true,
-  "texture": ["ground_ceramic.png"]
+  "texture": [ "ground_ceramic.png" ],
+  "icon": "ground_ceramic.png"
 }

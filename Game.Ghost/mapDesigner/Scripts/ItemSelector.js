@@ -9,10 +9,12 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var _html = {
             category: category,
             selectorList: selectorList,
-            categoryBtn : null,
-            selector: null
+            categoryBtn: null,
+            selector: null,
+            selectorCategory: null
         };
-        var that = this;
+        var that = this,
+            itemData = null;        // all item data package
 
         // callback
         this.onChange;
@@ -23,20 +25,47 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         // method
         this.reset = function () {
             _html.selector = {};
-            for (var i = Data.furnitureType.length - 1; i >= 0; i--) {
-                var furnitureData = Data.furnitureType[i];
-                _html.selector[furnitureData.id] = $(Data.html.itemSelector).prependTo(_html.selectorList).html(furnitureData.name)
-                    .click({ id: furnitureData.id, idx:i }, function (e) {
-                        current = e.data.id;
-                        _html.selector[current].addClass('hover');
-                        _html.selector[current].siblings().removeClass('hover');
-                        if (that.onChange) that.onChange(Data.furnitureType[e.data.idx]);
-                    });
+            _html.selectorCategory = {};
+            //for (var i = Data.furnitureType.length - 1; i >= 0; i--) {
+            //    var furnitureData = Data.furnitureType[i];
+            //    _html.selector[furnitureData.id] = $(Data.html.itemSelector).prependTo(_html.selectorList).html(furnitureData.name)
+            //        .click({ id: furnitureData.id, idx:i }, function (e) {
+            //            current = e.data.id;
+            //            _html.selector[current].addClass('hover');
+            //            _html.selector[current].siblings().removeClass('hover');
+            //            if (that.onChange) that.onChange(Data.furnitureType[e.data.idx]);
+            //        });
+            //}
+
+            itemData = {};
+            _html.selectorList.empty();
+            for (var category in Data.files) {
+                itemData[category] = {};
+                _html.selectorCategory[category] = $(Data.html.itemSelectorCategory).appendTo(_html.selectorList).hide();
+                for (var name in Data.files[category]) {
+                    _loadItemData(category, name, Data.files[category][name]);
+                }
             }
 
             // init
-            _html.selector[Data.furnitureType[0].id].click();
+            //_html.selector[Data.furnitureType[0].id].click();
         };
+
+        var _loadItemData = function (category, name, file) {
+            $.getJSON(Data.path.env + file, function (data) {
+                if (data == null) throw new Error(category + '.' + name + ': Not find.');
+                if (itemData[category][name] != null) console.log(category+'.'+name+': load multiple data.');
+                itemData[category][name] = data;
+                var ele = $(Data.html.itemSelector).html('<b>' + name + '</b>').appendTo(_html.selectorCategory[category])
+                    .click(function (e) {
+                        ele.addClass('hover');
+                        ele.siblings().removeClass('hover');
+                        if (that.onChange) that.onChange(data);
+                    });
+                itemData[category][name].ele = ele;
+            });
+        };
+
 
         var _setupCategory = function () {
             var d = Data.categoryCss;
@@ -44,9 +73,13 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             var _lastClick = null;
 
             var onBtnClick = function (idx){
-                if (_lastClick != null) _html.categoryBtn[_lastClick].removeClass('_actived');
+                if (_lastClick != null) {
+                    _html.categoryBtn[_lastClick].removeClass('_actived');
+                    _html.selectorCategory[_lastClick].hide();
+                }
                 _lastClick = idx;
                 _html.categoryBtn[idx].addClass('_actived');
+                _html.selectorCategory[idx].show();
             };
 
             for (var i in d) {
