@@ -322,6 +322,23 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
         };
 
+        // rotate current setting furniture clockwise by 90 degree
+        this.rotate = function () {
+            if (tmpFurniture.id <= 1) return;
+            tmpFurniture.rotate((tmpFurniture.rotation + 1) % 4);
+            check();
+        };
+
+        // delete the furniture the mouse points to
+        this.deleteTarget = function () {
+            var id = furnitureMap[mouseY][mouseX];
+            if (id == 0) return;
+            var typeId = furnitureList[id].id;
+            removeFurniture(id);
+            if (typeId == 1) createWall();
+            check();
+        };
+
         // private method
         var check = function () {
             var illegal = false;
@@ -488,24 +505,6 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             tmpFurniture.ele.addClass('_tmp').appendTo(container);
 
             sensorPanel.hover(function () { tmpFurniture.ele.show(); }, function () { tmpFurniture.ele.hide(); })
-
-            $(document).on('keypress', function (e) {
-                switch (String.fromCharCode(e.which).toLowerCase()) {
-                    case Data.hotKey.rotate:
-                        if (tmpFurniture.id <= 1) return;
-                        tmpFurniture.rotate((tmpFurniture.rotation + 1) % 4);
-                        check();
-                        return false;
-                    case Data.hotKey.del:
-                        var id = furnitureMap[mouseY][mouseX];
-                        if (id == 0) return;
-                        var typeId = furnitureList[id].id;
-                        removeFurniture(id);
-                        if (typeId == 1) createWall();
-                        check();
-                        return false;
-                }
-            });
         };
         _init();
     };

@@ -14,10 +14,10 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
         // callback ----------------------------------------
         hotKeyManager.callback.rotate = function () {
-
+            furniture.rotate();
         };
         hotKeyManager.callback.del = function () {
-
+            furniture.deleteTarget();
         };
 
         datGui.onChange = function (dat) {
