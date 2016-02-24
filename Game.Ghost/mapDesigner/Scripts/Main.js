@@ -5,42 +5,66 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
     var Data = MapDesigner.Data;
 
     var Create = function () {
-        var gird = new MapDesigner.GridPanel($('.sensorPanel'), $('.gridPanel'));
+        var grid = new MapDesigner.GridPanel($('.sensorPanel'), $('.gridPanel'));
         var itemSelector = new MapDesigner.ItemSelector($('.category'), $('.itemSelectorList'));
         var datGui = new MapDesigner.DatGui();
-        var furniture = new MapDesigner.DrawManager($('.furniturePanel'), $('.wallPanel'), $('.groundPanel'), $('.sensorPanel'));
-        var fileManager = new MapDesigner.FileManager($('.file'), gird, furniture);
+        var drawManager = new MapDesigner.DrawManager($('.furniturePanel'), $('.wallPanel'), $('.groundPanel'), $('.sensorPanel'));
+        var fileManager = new MapDesigner.FileManager($('.file'), grid, drawManager);
         var hotKeyManager = new MapDesigner.HotKey($('.hotKey'));
+        var doorSetting = new MapDesigner.DoorSetting($('.doorSetting'));
 
         // callback ----------------------------------------
         hotKeyManager.callback.rotate = function () {
-            furniture.rotate();
+            drawManager.rotate();
         };
         hotKeyManager.callback.del = function () {
-            furniture.deleteTarget();
+            drawManager.deleteTarget();
+        };
+
+        doorSetting.onSelect = function (idx) {
+
+        };
+
+        doorSetting.onEditName = function (idx) {
+            $$.info.input({
+                instruction: 'Please input door name',
+                maxlength: 15
+            }, null, false, "rgba(0,0,0,0.6)", function (data) {
+                drawManager.setDoorName(idx, data);
+                doorSetting.setDoorName(idx, data);
+            });
         };
 
         datGui.onChange = function (dat) {
             dat = dat || {};
-            gird.reset(dat.height, dat.width);
-            furniture.resize(dat.height, dat.width);
+            grid.reset(dat.height, dat.width);
+            drawManager.resize(dat.height, dat.width);
         };
 
-        gird.onMouseEnter = furniture.showFigure;
-        gird.onClick = furniture.setFurniture;
-        itemSelector.onChange = function (data) {
-            furniture.changeType(data);
-        }
+        datGui.onDoorSetting = function () {
+            itemSelector.unselect();
+            doorSetting.show(drawManager.getDoorSetting());
+        };
 
-        gird.reset(Data.grid.height, Data.grid.width);
-        furniture.resize(Data.grid.height, Data.grid.width);
+        grid.onMouseEnter = drawManager.showFigure;
+        grid.onClick = drawManager.setFurniture;
+        itemSelector.onChange = function (data) {
+            drawManager.changeType(data);
+        };
+
+        itemSelector.onSelectCategory = function () {
+            doorSetting.hide();
+        };
+        
+        grid.reset(Data.grid.height, Data.grid.width);
+        drawManager.resize(Data.grid.height, Data.grid.width);
         itemSelector.reset();
         
         var entity = {
-            gird:gird,
+            grid:grid,
             itemSelector:itemSelector,
             datGui: datGui,
-            furniture: furniture,
+            drawManager: drawManager,
             fileManager: fileManager,
         };
         return entity;

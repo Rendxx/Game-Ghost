@@ -31,7 +31,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                         height: component.grid.height,
                     },
                     item: component.item.getList(),
-                    wall: component.item.getWall()
+                    wall: component.item.getWall(),
+                    doorSetting: component.item.getDoorSetting()
                 };
                 var content = JSON.stringify(data);
                 blob[0] = new Blob([content], { type: 'application/json' });
@@ -87,7 +88,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     return;
                 }
                 component.grid.reset(data.grid.height, data.grid.width);
-                component.item.reset(data.grid.height, data.grid.width, data.item);
+                component.item.reset(data.grid.height, data.grid.width, data.item, data.doorSetting);
                 _html.upload[0].value = null;
             }
         };

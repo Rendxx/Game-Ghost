@@ -4,7 +4,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 (function (MapDesigner) {
     var Data = MapDesigner.Data;
 
-    var FurnitureInstance = function (instance) {
+    var ItemInstance = function (instance) {
         var that = this,
             _h = -1,
             _w = -1,
@@ -226,6 +226,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             itemMap = null,
             itemList = null,
             wallList = null,
+            doorSetting = null;
             tmpFurniture = null,
             isWallLock = false,         // true if drawing wall
             isGroundLock = false,       // true if drawing ground
@@ -242,7 +243,15 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             return wallList;
         };
 
-        this.reset = function (hgt, wid, item_in) {
+        this.getDoorSetting = function () {
+            return doorSetting;
+        };
+
+        this.setDoorName = function (idx, name) {
+            doorSetting[idx].name = name;
+        };
+
+        this.reset = function (hgt, wid, item_in, doorSetting_in) {
             if (itemList != null) {
                 for (var k in Data.categoryName) {
                     for (var i = 0, l = itemList[Data.categoryName[k]].length; i < l; i++) {
@@ -286,7 +295,10 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     addItem(list[i]);
                 }
             }
+
+            doorSetting = doorSetting_in;
             createWall();
+            setupDoor();
             return;
         };
 
@@ -347,6 +359,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 }
             }
             createWall();
+            setupDoor();
         };
 
         this.showFigure = function (x, y) {
@@ -374,7 +387,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 tmpFurniture.move(x, y);
                 isWallLock = false;
                 isGroundLock = false;
-                if (tmpFurniture.category == Data.categoryName.wall == 1) createWall();
+                if (tmpFurniture.category == Data.categoryName.wall) createWall();
+                if (tmpFurniture.category == Data.categoryName.door) setupDoor();
             }
         };
 
@@ -409,6 +423,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             if (id == 0) return;
             removeItem(category, id);
             if (category == Data.categoryName.wall) createWall();
+            if (category == Data.categoryName.door || category == Data.categoryName.furniture) setupDoor();
             check();
         };
 
@@ -472,7 +487,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         var addItem = function (item_in) {
-            var s = new FurnitureInstance(item_in);
+            var s = new ItemInstance(item_in);
             var category = s.category;
             count[category]++;
             if (category == Data.categoryName.ground) {
@@ -631,9 +646,35 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
             noWall();
         };
+        
+        var setupDoor = function () {
+            if (doorSetting == null) doorSetting = {};
+            for (var i = 0; i < itemList[Data.categoryName.door].length; i++) {
+                var d = itemList[Data.categoryName.door][i];
+                if (d == null) continue;
+                if (doorSetting[i] == null) {
+                    doorSetting[i] = {
+                        name: 'Door ' + i,
+                        keys: {}
+                    };
+                }
+                else {
+                    for (var idx in doorSetting[i].keys) {
+                        var t = doorSetting[i].keys[idx];
+                        if (itemList[Data.categoryName.furniture][t] == null) {
+                            delete doorSetting[i].keys[idx];
+                            continue;
+                        }
+                    }
+                }
+                for (var i in doorSetting) {
+                    if (itemList[Data.categoryName.door][i] == null) delete doorSetting[i];
+                }
+            }
+        };
 
         var _init = function () {
-            tmpFurniture = new FurnitureInstance();
+            tmpFurniture = new ItemInstance();
             tmpFurniture.ele.addClass('_tmp').appendTo(container);
 
             sensorPanel.hover(function () { tmpFurniture.ele.show(); }, function () { tmpFurniture.ele.hide(); })
