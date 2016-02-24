@@ -165,6 +165,16 @@
     <Content Include="ModelBuilder\Environment\ground_wood.icon.fla" />
     <Content Include="ModelBuilder\Environment\ground_ceramic.icon.fla" />
     <Content Include="Model\Furniture\door_wood_1.data.json" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\chair_wood_1_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\door_wood_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\shelf_wood_2_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_1_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_2.icon.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
