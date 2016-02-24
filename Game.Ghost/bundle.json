@@ -42,6 +42,7 @@
         "#mapDesigner#/Styles/gridPanel.less",
         "#mapDesigner#/Styles/hotKey.less",
         "#mapDesigner#/Styles/instruction.less",
+        "#mapDesigner#/Styles/doorSetting.less",
         "#mapDesigner#/Styles/itemSelectorList.less"
       ]
     },
@@ -57,7 +58,7 @@
       "#mapDesigner#/_index": [
         "#mapDesigner#/Scripts/Data.js",
         "#mapDesigner#/Scripts/GridPanel.js",
-        "#mapDesigner#/Scripts/Furniture.js",
+        "#mapDesigner#/Scripts/DrawManager.js",
         "#mapDesigner#/Scripts/ItemSelector.js",
         "#mapDesigner#/Scripts/DatGui.js",
         "#mapDesigner#/Scripts/FileManager.js",

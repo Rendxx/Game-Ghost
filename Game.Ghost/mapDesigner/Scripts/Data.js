@@ -20,7 +20,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             wall: '<div class="wall"></div>',
             hotKey: '<div class="_item"></div>',
             fileBtn: '<div class="_btn"></div>',
-            categoryBtn: '<div class="_btn"></div>'
+            categoryBtn: '<div class="_btn"></div>',
+            doorSelector: '<div class="doorSelector"><div class="_edit"></div><div class="_name"></div></div>'
         },
         categoryCss: {
             wall: '_wall',
@@ -39,9 +40,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         categoryOrder: [
             'stuff',
             'furniture',
+            'door',
             'wall',
-            'ground',
-            'door'
+            'ground'
         ],
         files: {
             wall: {

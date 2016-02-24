@@ -36,8 +36,9 @@
     <Content Include="mapDesigner\Images\table_4.png" />
     <Content Include="mapDesigner\Images\wall.png" />
     <Content Include="mapDesigner\Scripts\HotKey.js" />
-    <Content Include="mapDesigner\Scripts\Furniture.js" />
+    <Content Include="mapDesigner\Scripts\DrawManager.js" />
     <Content Include="mapDesigner\Scripts\FileManager.js" />
+    <Content Include="mapDesigner\Scripts\DoorSetting.js" />
     <Content Include="mapDesigner\Scripts\ItemSelector.js" />
     <Content Include="mapDesigner\Scripts\Main.js" />
     <Content Include="mapDesigner\Scripts\GridPanel.js" />
@@ -198,6 +199,8 @@
     <Content Include="mapDesigner\Styles\hotKey.less" />
     <Content Include="mapDesigner\Styles\itemSelectorList.less" />
     <Content Include="mapDesigner\Styles\gridPanel.less" />
+    <Content Include="mapDesigner\Styles\doorSetting.less" />
+    <Content Include="mapDesigner\Document\edit-btn.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

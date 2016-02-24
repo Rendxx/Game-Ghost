@@ -8,7 +8,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var gird = new MapDesigner.GridPanel($('.sensorPanel'), $('.gridPanel'));
         var itemSelector = new MapDesigner.ItemSelector($('.category'), $('.itemSelectorList'));
         var datGui = new MapDesigner.DatGui();
-        var furniture = new MapDesigner.Furniture($('.furniturePanel'), $('.wallPanel'), $('.groundPanel'), $('.sensorPanel'));
+        var furniture = new MapDesigner.DrawManager($('.furniturePanel'), $('.wallPanel'), $('.groundPanel'), $('.sensorPanel'));
         var fileManager = new MapDesigner.FileManager($('.file'), gird, furniture);
         var hotKeyManager = new MapDesigner.HotKey($('.hotKey'));
 
