@@ -108,7 +108,7 @@
   <ItemGroup>
     <None Include="bower.json" />
     <None Include="bundle.json" />
-    <Content Include="mapDesigner\index.less" />
+    <Content Include="mapDesigner\Styles\index.less" />
     <Content Include="mapDesigner\Document\stuff-output-1.fla" />
     <Content Include="mapDesigner\Document\stuff-output-2.fla" />
     <Content Include="mapDesigner\Document\stuff-output-3.fla" />
@@ -192,6 +192,12 @@
     <Content Include="ModelBuilder\Stuff\box_1.icon.fla" />
     <Content Include="ModelBuilder\Stuff\key_1.icon.fla" />
     <Content Include="ModelBuilder\Stuff\vase_1.icon.fla" />
+    <Content Include="mapDesigner\Styles\instruction.less" />
+    <Content Include="mapDesigner\Styles\category.less" />
+    <Content Include="mapDesigner\Styles\file.less" />
+    <Content Include="mapDesigner\Styles\hotKey.less" />
+    <Content Include="mapDesigner\Styles\itemSelectorList.less" />
+    <Content Include="mapDesigner\Styles\gridPanel.less" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

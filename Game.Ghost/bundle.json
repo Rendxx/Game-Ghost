@@ -35,7 +35,15 @@
     },
     "less": {
       "#test#/sample": [ "#test#/sample.less" ],
-      "#mapDesigner#/index": [ "#mapDesigner#/index.less" ]
+      "#mapDesigner#/index": [
+        "#mapDesigner#/Styles/index.less",
+        "#mapDesigner#/Styles/category.less",
+        "#mapDesigner#/Styles/file.less",
+        "#mapDesigner#/Styles/gridPanel.less",
+        "#mapDesigner#/Styles/hotKey.less",
+        "#mapDesigner#/Styles/instruction.less",
+        "#mapDesigner#/Styles/itemSelectorList.less"
+      ]
     },
     "js": {
       "#dest#/Game.Ghost.Renderer": [
