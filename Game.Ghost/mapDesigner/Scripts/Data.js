@@ -34,6 +34,12 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             furniture: 'furniture',
             stuff: 'stuff'
         },
+        categoryOrder: [
+            'stuff',
+            'furniture',
+            'wall',
+            'ground'
+        ],
         files: {
             wall: {
                 'White Wall': 'wall_white.data.json'
@@ -55,12 +61,17 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 'Door (Wood) 1': 'door_wood_1.data.json',
             },
             stuff: {
+                'Vase 1': 'vase_1.data.json',
+                'Box 1': 'box_1.data.json',
+                'Books 1': 'books_1.data.json',
+                'Key 1': 'key_1.data.json',
             }
         },
         path: {
             wall: '/Model/Environment/',
             ground: '/Model/Environment/',
-            furniture: '/Model/Furniture/'
+            furniture: '/Model/Furniture/',
+            stuff: '/Model/Stuff/'
         }
     };
 

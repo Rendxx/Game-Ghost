@@ -55,6 +55,9 @@
     <Content Include="ModelBuilder\Player\wood-table.png" />
     <Content Include="ModelBuilder\Player\wool.jpg" />
     <Content Include="ModelBuilder\Player\wool2.png" />
+    <Content Include="ModelBuilder\Stuff\133187038515008300_L.jpg" />
+    <Content Include="ModelBuilder\Stuff\2011112513494513118.jpg" />
+    <Content Include="ModelBuilder\Stuff\2011121420161398.jpg" />
     <Content Include="Model\Environment\ground_ceramic.icon.png" />
     <Content Include="Model\Environment\ground_ceramic.png" />
     <Content Include="Model\Environment\ground_wood.icon.png" />
@@ -73,6 +76,10 @@
     <Content Include="Model\Player-Texture-2.png" />
     <Content Include="Model\Player-Texture.png" />
     <Content Include="Model\steel.jpg" />
+    <Content Include="Model\Stuff\books_1.icon.png" />
+    <Content Include="Model\Stuff\box_1.icon.png" />
+    <Content Include="Model\Stuff\key_1.icon.png" />
+    <Content Include="Model\Stuff\vase_1.icon.png" />
     <Content Include="Model\wall-top.png" />
     <Content Include="Model\wall.png" />
     <Content Include="PlayerControlTest\renderer\Data.js" />
@@ -175,6 +182,14 @@
     <Content Include="ModelBuilder\Furniture\table_wood_2_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\table_wood_3_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\table_wood_3_2.icon.fla" />
+    <Content Include="Model\Stuff\books_1.data.json" />
+    <Content Include="Model\Stuff\box_1.data.json" />
+    <Content Include="Model\Stuff\key_1.data.json" />
+    <Content Include="Model\Stuff\vase_1.data.json" />
+    <Content Include="ModelBuilder\Stuff\books_1.icon.fla" />
+    <Content Include="ModelBuilder\Stuff\box_1.icon.fla" />
+    <Content Include="ModelBuilder\Stuff\key_1.icon.fla" />
+    <Content Include="ModelBuilder\Stuff\vase_1.icon.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

@@ -388,8 +388,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         this.deleteTarget = function () {
             var id = 0;
             var category = null;
-            for (var k in itemMap) {
-                category = k;
+            for (var i = 0; i < Data.categoryOrder.length;i++) {
+                category = Data.categoryName[Data.categoryOrder[i]];
                 if (itemMap[category][mouseY][mouseX] != 0) {
                     id = itemMap[category][mouseY][mouseX];
                     break;
