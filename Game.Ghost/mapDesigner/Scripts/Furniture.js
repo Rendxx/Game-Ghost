@@ -118,24 +118,35 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             this.rotation = 0;
             this.x = 0;
             this.y = 0;
-
-            if (data.dimension == null) {
+            if (data == null) {
                 this.h = 1;
                 this.w = 1;
+                _h = this.h;
+                _w = this.w;
+                this.ele.removeClass('furniture-' + this.category);
+                this.icon = null;
+                this.ele.css('background-image', 'none');
+                this.id = null;
+                this.category = null;
             } else {
-                this.h = data.dimension[1];
-                this.w = data.dimension[0];
-            }
-            _h = this.h;
-            _w = this.w;
+                if (data.dimension == null) {
+                    this.h = 1;
+                    this.w = 1;
+                } else {
+                    this.h = data.dimension[1];
+                    this.w = data.dimension[0];
+                }
+                _h = this.h;
+                _w = this.w;
 
-            if (this.category != null) this.ele.removeClass('furniture-' + this.category);
-            this.icon = 'url("' + Data.path[data.category] + data.icon + '")';
-            this.ele.css('background-image', this.icon);
-            this.id = data.id;
-            this.category = data.category;
-            if (this.category != null) this.ele.addClass('furniture-' + this.category);
-            this.ele.width(this.w * Data.grid.size).height(this.h * Data.grid.size);
+                if (this.category != null) this.ele.removeClass('furniture-' + this.category);
+                this.icon = 'url("' + Data.path[data.category] + data.icon + '")';
+                this.ele.css('background-image', this.icon);
+                this.id = data.id;
+                this.category = data.category;
+                if (this.category != null) this.ele.addClass('furniture-' + this.category);
+                this.ele.width(this.w * Data.grid.size).height(this.h * Data.grid.size);
+            }
             this.rotate(0);
         };
 

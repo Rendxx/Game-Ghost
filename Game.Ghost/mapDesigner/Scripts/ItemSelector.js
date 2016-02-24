@@ -16,7 +16,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var that = this,
             itemData = null,        // all item data package
             loadCount = 0,
-            loadedCount = 0;
+            loadedCount = 0,
+            lastSelect = null;
 
         // callback
         this.onChange = null;
@@ -42,6 +43,13 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
             loadCount--;
         };
+        
+        // unselect item
+        this.unselect = function () {
+            if (lastSelect != null) lastSelect.removeClass('hover');
+            lastSelect = null;
+            if (that.onChange) that.onChange(null);
+        };
 
         var _loadItemData = function (category, name, file) {
             loadCount++;
@@ -52,7 +60,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 var ele = $(Data.html.itemSelector).html((data.dimension != null ? '[' + data.dimension[0] + '*' + data.dimension[1] + ']&nbsp;&nbsp;' : '') + '<b>' + name + '</b>').appendTo(_html.selectorCategory[category])
                     .click(function (e) {
                         ele.addClass('hover');
-                        ele.siblings().removeClass('hover');
+                        if (lastSelect != null) lastSelect.removeClass('hover');
+                        lastSelect = ele;
                         if (that.onChange) that.onChange(data);
                     });
                 itemData[category][name].ele = ele;
