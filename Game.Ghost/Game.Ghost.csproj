@@ -20,6 +20,7 @@
     <Content Include="mapDesigner\Document\category-icon0002.png" />
     <Content Include="mapDesigner\Document\category-icon0003.png" />
     <Content Include="mapDesigner\Document\category-icon0004.png" />
+    <Content Include="mapDesigner\Document\category-icon0005.png" />
     <Content Include="mapDesigner\Document\shoeprint3-300px.png" />
     <Content Include="mapDesigner\Images\shelf.png" />
     <Content Include="mapDesigner\Scripts\Data.js" />
@@ -66,7 +67,7 @@
     <Content Include="Model\Furniture\cabinet_wood_2_1.icon.png" />
     <Content Include="Model\Furniture\cabinet_wood_2_1_b.icon.png" />
     <Content Include="Model\Furniture\chair_wood_1_1.icon.png" />
-    <Content Include="Model\Furniture\door_wood_1.icon.png" />
+    <Content Include="Model\Door\door_wood_1.icon.png" />
     <Content Include="Model\Furniture\shelf_wood_2_1.icon.png" />
     <Content Include="Model\Furniture\table_wood_2_1.icon.png" />
     <Content Include="Model\Furniture\table_wood_3_1.icon.png" />
@@ -102,6 +103,7 @@
     <Folder Include="css\" />
     <Folder Include="js\" />
     <Folder Include="lib\" />
+    <Folder Include="ModelBuilder\Door\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />
@@ -171,7 +173,7 @@
     <Content Include="Model\Furniture\chair_wood_1_1.data.json" />
     <Content Include="ModelBuilder\Environment\ground_wood.icon.fla" />
     <Content Include="ModelBuilder\Environment\ground_ceramic.icon.fla" />
-    <Content Include="Model\Furniture\door_wood_1.data.json" />
+    <Content Include="Model\Door\door_wood_1.data.json" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b.icon.fla" />

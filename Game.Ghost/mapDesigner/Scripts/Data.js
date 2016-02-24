@@ -26,19 +26,22 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             wall: '_wall',
             ground: '_ground',
             furniture: '_furniture',
-            stuff: '_stuff'
+            stuff: '_stuff',
+            door: '_door'
         },
         categoryName: {
             wall: 'wall',
             ground: 'ground',
             furniture: 'furniture',
-            stuff: 'stuff'
+            stuff: 'stuff',
+            door: 'door'
         },
         categoryOrder: [
             'stuff',
             'furniture',
             'wall',
-            'ground'
+            'ground',
+            'door'
         ],
         files: {
             wall: {
@@ -58,20 +61,23 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 'Cabinet (Wood) 2': 'cabinet_wood_2_1.data.json',
                 'Cabinet (Wood) 3': 'cabinet_wood_2_1_b.data.json',
                 'Chair (Wood) 1': 'chair_wood_1_1.data.json',
-                'Door (Wood) 1': 'door_wood_1.data.json',
             },
             stuff: {
                 'Vase 1': 'vase_1.data.json',
                 'Box 1': 'box_1.data.json',
                 'Books 1': 'books_1.data.json',
                 'Key 1': 'key_1.data.json',
+            },
+            door: {
+                'Door (Wood) 1': 'door_wood_1.data.json',
             }
         },
         path: {
             wall: '/Model/Environment/',
             ground: '/Model/Environment/',
             furniture: '/Model/Furniture/',
-            stuff: '/Model/Stuff/'
+            stuff: '/Model/Stuff/',
+            door: '/Model/Door/'
         }
     };
 
