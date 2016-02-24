@@ -1,20 +1,9 @@
 ﻿{
   "id": "table_wood_3_2",
   "dimension": [ 3, 2, 1 ],
-  "slots": [
-    {
-      "pos": [ 1, 0, 1 ],
-      "hide": false
-    },
-    {
-      "pos": [ 0, 0, 1 ],
-      "hide": false
-    },
-    {
-      "pos": [ -1, 0, 1 ],
-      "hide": false
-    }
-  ],
+  "blockSight": false,
+  "support": 1,
+  "slot": [ 0.5, 0, 1 ],
   "model": "",
   "texture": [ "table_wood_3_2.png" ],
   "icon": "table_wood_3_2.icon.png"

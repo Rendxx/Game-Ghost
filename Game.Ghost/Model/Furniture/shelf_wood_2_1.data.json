@@ -1,16 +1,9 @@
 ﻿{
   "id": "shelf_wood_2_1",
   "dimension": [ 2, 1, 2 ],
-  "slots": [
-    {
-      "pos": [ 0, 0, 0.6 ],
-      "hide": false
-    },
-    {
-      "pos": [ 0, 0, 1.2 ],
-      "hide": false
-    }
-  ],
+  "blockSight": false,
+  "support": 0.6,
+  "slot": [ 0, 0, 0.6 ],
   "model": "",
   "texture": [ "shelf_wood_2_1.png" ],
   "icon": "shelf_wood_2_1.icon.png"

@@ -1,16 +1,9 @@
 ﻿{
   "id": "cabinet_wood_2_1_b",
   "dimension": [ 2, 1, 2 ],
-  "slots": [
-    {
-      "pos": [ 0.5, 0, 0.3 ],
-      "hide": true
-    },
-    {
-      "pos": [ -0.5, 0, 0.3 ],
-      "hide": true
-    }
-  ],
+  "blockSight": true,
+  "support": 2,
+  "slot": [ 0, 0, 0.3 ],
   "model": "",
   "texture": [ "cabinet_wood_2_1_b.png" ],
   "icon": "cabinet_wood_2_1_b.icon.png"
