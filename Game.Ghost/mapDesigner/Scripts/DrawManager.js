@@ -421,11 +421,11 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             isKeySetting = false;
             tmpFurniture.reset(furnitureData);
             closeKeyPanel();
-            //if (tmpFurniture.category == null)
-            //    tmpFurniture.ele.hide();
-            //else {
-            //    tmpFurniture.ele.show();
-            //}
+            if (tmpFurniture.category == null)
+                tmpFurniture.ele.hide();
+            else {
+                tmpFurniture.ele.show();
+            }
         };
 
         // start setting key of a specified door
@@ -433,8 +433,11 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             if (idx === null || idx === undefined) {
                 closeKeyPanel();
                 isKeySetting = false;
+                tmpFurniture.reset(null);
+                tmpFurniture.ele.hide();
                 return;
             }
+            tmpFurniture.ele.show();
             var furnitureData = {
                 "id": idx,
                 "category": null,
@@ -701,7 +704,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
         var setupDoor = function () {
             if (doorSetting == null) doorSetting = {};
-            for (var i = 0; i < itemList[Data.categoryName.door].length; i++) {
+            for (var i in itemList[Data.categoryName.door]) {
                 var d = itemList[Data.categoryName.door][i];
                 if (d == null) continue;
                 if (doorSetting[i] == null) {
@@ -709,8 +712,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                         name: 'Door ' + i,
                         keys: {}
                     };
-                }
-                else {
+                } else {
                     for (var idx in doorSetting[i].keys) {
                         var t = doorSetting[i].keys[idx];
                         if (itemList[Data.categoryName.furniture][t] == null) {
