@@ -1,6 +1,4 @@
-﻿
-
-.gridPanel-wrap {
+﻿.gridPanel-wrap {
     @grid-size: 16px;
     @border-weight: 8px;
 
@@ -59,6 +57,27 @@
             box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.3);
             background-color: #444;
             z-index: 10;
+        }
+    }
+
+    .keyPanel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-top: 20px;
+        margin-left: 20px;
+        border: @border-weight solid transparent;
+        z-index: 40;
+        overflow: hidden;
+
+        .furniture {
+            position: absolute;
+            z-index: 10;
+            opacity: 1;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: @grid-size @grid-size;
+            background-color: rgba(0, 0, 0, 0.6);
         }
     }
 

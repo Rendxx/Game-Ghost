@@ -140,7 +140,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 _w = this.w;
 
                 if (this.category != null) this.ele.removeClass('furniture-' + this.category);
-                this.icon = 'url("' + Data.path[data.category] + data.icon + '")';
+                this.icon = 'url("' + ((data.category != null && Data.path[data.category] != null) ? Data.path[data.category] : 'Images/') + data.icon + '")';
                 this.ele.css('background-image', this.icon);
                 this.id = data.id;
                 this.category = data.category;
@@ -213,12 +213,13 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
     };
 
-    var DrawManager = function (container, wallPanel, groundPanel, sensorPanel) {
+    var DrawManager = function (container, wallPanel, groundPanel, keyPanel, sensorPanel) {
         // data -----------------------------------------------------
         var _html = {
             container: container,
             wallPanel: wallPanel,
             groundPanel: groundPanel,
+            keyPanel: keyPanel,
             sensorPanel: sensorPanel,
             selector: null
         };
@@ -230,6 +231,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             tmpFurniture = null,
             isWallLock = false,         // true if drawing wall
             isGroundLock = false,       // true if drawing ground
+            isKeySetting = false,       // true if setting key
+            tmp_keyEles = null,
             mouseX = 0,
             mouseY = 0,
             count = null;
@@ -272,6 +275,10 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 width: Data.grid.size * wid,
                 height: Data.grid.size * hgt
             });
+            _html.keyPanel.css({
+                width: Data.grid.size * wid,
+                height: Data.grid.size * hgt
+            });            
 
             itemMap = {};
             itemList = {};
@@ -287,7 +294,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     }
                 }
             }
-            
+
             for (var k in Data.categoryName) {
                 var list = item_in[Data.categoryName[k]];
                 for (var i = 0; i < list.length; i++) {
@@ -315,6 +322,10 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 width: Data.grid.size * wid,
                 height: Data.grid.size * hgt
             });
+            _html.keyPanel.css({
+                width: Data.grid.size * wid,
+                height: Data.grid.size * hgt
+            }); 
 
             if (itemMap == null) {
                 itemMap = {};
@@ -347,7 +358,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     break;
                 }
 
-                itemMap = { };
+                itemMap = {};
                 for (var k in Data.categoryName) {
                     itemMap[Data.categoryName[k]] = [];
                     for (var i = 0; i < hgt; i++) {
@@ -365,6 +376,10 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         this.showFigure = function (x, y) {
             mouseX = x;
             mouseY = y;
+            if (isKeySetting) {
+                tmpFurniture.move(x, y);
+                return;
+            }
             if (tmpFurniture.category == null) return;
             if (!isWallLock && !isGroundLock) {
                 tmpFurniture.move(x, y);
@@ -374,7 +389,15 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             check();
         };
 
-        this.setFurniture = function (x, y) {
+        // set an item
+        this.setItem = function (x, y) {
+            // add key
+            if (isKeySetting) {
+                addKey(mouseY, mouseX);
+                return;
+            }
+
+            //add item
             if (tmpFurniture.category == null) return;
             if (tmpFurniture.ele.hasClass('warning')) return;
             if (tmpFurniture.category == Data.categoryName.wall && !isWallLock) {
@@ -394,12 +417,34 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
         this.changeType = function (furnitureData) {
             isWallLock = false;
+            isGroundLock = false;
+            isKeySetting = false;
             tmpFurniture.reset(furnitureData);
+            closeKeyPanel();
             //if (tmpFurniture.category == null)
             //    tmpFurniture.ele.hide();
             //else {
             //    tmpFurniture.ele.show();
             //}
+        };
+
+        // start setting key of a specified door
+        this.setKeyMode = function (idx) {
+            if (idx === null || idx === undefined) {
+                closeKeyPanel();
+                isKeySetting = false;
+                return;
+            }
+            var furnitureData = {
+                "id": idx,
+                "category": null,
+                "icon": "key.icon.png"
+            };
+            isWallLock = false;
+            isGroundLock = false;
+            isKeySetting = true;
+            tmpFurniture.reset(furnitureData);
+            setupKeyPanel(idx);
         };
 
         // rotate current setting furniture clockwise by 90 degree
@@ -411,9 +456,16 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
         // delete the furniture the mouse points to
         this.deleteTarget = function () {
+            // delete key
+            if (isKeySetting) {
+                removeKey(mouseY, mouseX);
+                return;
+            }
+
+            // delete item
             var id = 0;
             var category = null;
-            for (var i = 0; i < Data.categoryOrder.length;i++) {
+            for (var i = 0; i < Data.categoryOrder.length; i++) {
                 category = Data.categoryName[Data.categoryOrder[i]];
                 if (itemMap[category][mouseY][mouseX] != 0) {
                     id = itemMap[category][mouseY][mouseX];
@@ -429,7 +481,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
         // private method
         var check = function () {
-            if (tmpFurniture.category==null) return false;
+            if (tmpFurniture.category == null) return false;
             var illegal = false;
 
             if (tmpFurniture.category == Data.categoryName.wall
@@ -547,13 +599,13 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
             var noWall = function () {
                 if (wall != null) {
-                    wall.createEle().appendTo(wallPanel);
+                    wall.createEle().appendTo(_html.wallPanel);
                     wallList.push(wall);
                     wall = null;
                 }
             };
 
-            wallPanel.empty();
+            _html.wallPanel.empty();
             wallList = [];
 
             //findWall(wid, 0, 1, hgt);
@@ -588,7 +640,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             // bottom
             for (var i = hgt - 2; i >= 0; i--) {
                 for (var j = wid - 1; j >= 0; j--) {
-                    if (wallMap[i][j] != 0 && wallMap[i + 1][j] == 0 ) {
+                    if (wallMap[i][j] != 0 && wallMap[i + 1][j] == 0) {
                         findWall(j + 1, i + 1, 2);
                     } else {
                         noWall();
@@ -597,7 +649,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 noWall();
             }
             for (var j = wid - 1; j >= 0; j--) {
-                if (wallMap[i + 1][j] == 0 ) {
+                if (wallMap[i + 1][j] == 0) {
                     findWall(j + 1, i + 1, 2);
                 } else {
                     noWall();
@@ -608,7 +660,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             // left
             for (var j = wid - 2; j >= 0; j--) {
                 for (var i = 0; i < hgt; i++) {
-                    if (wallMap[i][j] != 0 && wallMap[i][j + 1] == 0 ) {
+                    if (wallMap[i][j] != 0 && wallMap[i][j + 1] == 0) {
                         findWall(j + 1, i, 1);
                     } else {
                         noWall();
@@ -617,7 +669,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 noWall();
             }
             for (var i = 0; i < hgt; i++) {
-                if (wallMap[i][j + 1] == 0 ) {
+                if (wallMap[i][j + 1] == 0) {
                     findWall(j + 1, i, 1);
                 } else {
                     noWall();
@@ -628,7 +680,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             // right
             for (var j = 1; j < wid; j++) {
                 for (var i = hgt - 1; i >= 0; i--) {
-                    if (wallMap[i][j] != 0 && wallMap[i][j - 1] == 0 ) {
+                    if (wallMap[i][j] != 0 && wallMap[i][j - 1] == 0) {
                         findWall(j, i + 1, 3);
                     } else {
                         noWall();
@@ -638,7 +690,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
 
             for (var i = hgt - 1; i >= 0; i--) {
-                if (wallMap[i][j - 1] == 0 ) {
+                if (wallMap[i][j - 1] == 0) {
                     findWall(j, i + 1, 3);
                 } else {
                     noWall();
@@ -646,7 +698,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
             noWall();
         };
-        
+
         var setupDoor = function () {
             if (doorSetting == null) doorSetting = {};
             for (var i = 0; i < itemList[Data.categoryName.door].length; i++) {
@@ -673,11 +725,50 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
         };
 
+        // key panel ------------------------------------------------------------------------------
+        // draw key for special door on map
+        var setupKeyPanel = function (idx) {
+            _html.keyPanel.empty();
+            tmp_keyEles = {};
+            var keyList = doorSetting[idx].keys;
+            for (var i in keyList) {
+                tmp_keyEles[i] = itemList[Data.categoryName.furniture][i].ele.clone().css('background-image', tmpFurniture.icon).appendTo(_html.keyPanel);
+            }
+            _html.keyPanel.fadeIn(200);
+        };
+
+        var closeKeyPanel = function () {
+            _html.keyPanel.empty().fadeOut(200);
+        };
+
+        var addKey = function (y, x) {
+            var itemIdx = itemMap[Data.categoryName.furniture][y][x];
+            if (itemIdx <= 0) return;
+            var idx = tmpFurniture.id;
+            var keyList = doorSetting[idx].keys;
+            if (itemIdx in keyList) return;
+            keyList[itemIdx] = itemIdx;
+            tmp_keyEles[itemIdx] = itemList[Data.categoryName.furniture][itemIdx].ele.clone().css('background-image', tmpFurniture.icon).appendTo(_html.keyPanel);
+        };
+
+        var removeKey = function (y, x) {
+            var itemIdx = itemMap[Data.categoryName.furniture][y][x];
+            if (itemIdx <= 0) return;
+            var idx = tmpFurniture.id;
+            var keyList = doorSetting[idx].keys;
+            if (!(itemIdx in keyList)) return;
+            delete keyList[itemIdx];
+            tmp_keyEles[itemIdx].remove();
+            delete tmp_keyEles[itemIdx];
+        };
+
+        // init ----------------------------------------------------------------------------------
         var _init = function () {
             tmpFurniture = new ItemInstance();
             tmpFurniture.ele.addClass('_tmp').appendTo(container);
 
-            sensorPanel.hover(function () { tmpFurniture.ele.show(); }, function () { tmpFurniture.ele.hide(); })
+            sensorPanel.hover(function () { tmpFurniture.ele.show(); }, function () { tmpFurniture.ele.hide(); });
+            closeKeyPanel();
         };
         _init();
     };

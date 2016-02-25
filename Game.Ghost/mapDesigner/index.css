@@ -160,6 +160,25 @@ html body {
   background-color: #444;
   z-index: 10;
 }
+.gridPanel-wrap .keyPanel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 20px;
+  margin-left: 20px;
+  border: 8px solid transparent;
+  z-index: 40;
+  overflow: hidden;
+}
+.gridPanel-wrap .keyPanel .furniture {
+  position: absolute;
+  z-index: 10;
+  opacity: 1;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
 .gridPanel-wrap .furniturePanel {
   position: absolute;
   top: 0;

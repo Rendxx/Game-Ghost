@@ -21,20 +21,11 @@
     <Content Include="mapDesigner\Document\category-icon0003.png" />
     <Content Include="mapDesigner\Document\category-icon0004.png" />
     <Content Include="mapDesigner\Document\category-icon0005.png" />
+    <Content Include="mapDesigner\Document\key.icon.png" />
     <Content Include="mapDesigner\Document\shoeprint3-300px.png" />
-    <Content Include="mapDesigner\Images\shelf.png" />
+    <Content Include="mapDesigner\Images\key.icon.png" />
     <Content Include="mapDesigner\Scripts\Data.js" />
     <Content Include="mapDesigner\Scripts\DatGui.js" />
-    <Content Include="mapDesigner\Images\Cabinet_1.png" />
-    <Content Include="mapDesigner\Images\Cabinet_2.png" />
-    <Content Include="mapDesigner\Images\Cabinet_3.png" />
-    <Content Include="mapDesigner\Images\chair.png" />
-    <Content Include="mapDesigner\Images\door.png" />
-    <Content Include="mapDesigner\Images\table_1.png" />
-    <Content Include="mapDesigner\Images\table_2.png" />
-    <Content Include="mapDesigner\Images\table_3.png" />
-    <Content Include="mapDesigner\Images\table_4.png" />
-    <Content Include="mapDesigner\Images\wall.png" />
     <Content Include="mapDesigner\Scripts\HotKey.js" />
     <Content Include="mapDesigner\Scripts\DrawManager.js" />
     <Content Include="mapDesigner\Scripts\FileManager.js" />
@@ -201,6 +192,7 @@
     <Content Include="mapDesigner\Styles\gridPanel.less" />
     <Content Include="mapDesigner\Styles\doorSetting.less" />
     <Content Include="mapDesigner\Document\edit-btn.fla" />
+    <Content Include="mapDesigner\Document\key.icon.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
