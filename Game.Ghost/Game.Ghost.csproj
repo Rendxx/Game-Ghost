@@ -33,13 +33,15 @@
     <Content Include="mapDesigner\Scripts\ItemSelector.js" />
     <Content Include="mapDesigner\Scripts\Main.js" />
     <Content Include="mapDesigner\Scripts\GridPanel.js" />
+    <Content Include="ModelBuilder\Door\29-smooth-seamless-metal-texture.jpg" />
+    <Content Include="ModelBuilder\Door\door_wood_1.png" />
+    <Content Include="ModelBuilder\Door\steel.jpg" />
     <Content Include="ModelBuilder\Environment\14436628374289.jpg" />
     <Content Include="ModelBuilder\Environment\ground_ceramic.png" />
     <Content Include="ModelBuilder\Environment\ground_wood.png" />
     <Content Include="ModelBuilder\Player\Player-Texture-2.png" />
     <Content Include="ModelBuilder\Player\Player-Texture.png" />
     <Content Include="ModelBuilder\Player\player-uv.png" />
-    <Content Include="ModelBuilder\Furniture\steel.jpg" />
     <Content Include="ModelBuilder\Environment\wall-top.png" />
     <Content Include="ModelBuilder\Environment\wall.jpg" />
     <Content Include="ModelBuilder\Environment\wall.png" />
@@ -95,7 +97,6 @@
     <Folder Include="css\" />
     <Folder Include="js\" />
     <Folder Include="lib\" />
-    <Folder Include="ModelBuilder\Door\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />
@@ -130,11 +131,7 @@
     <Content Include="ModelBuilder\Furniture\cabinet.3.blend" />
     <Content Include="Model\cabinet.3.json" />
     <Content Include="ModelBuilder\Furniture\cabinet.3.blend1" />
-    <Content Include="ModelBuilder\Furniture\door.blend" />
-    <Content Include="ModelBuilder\Furniture\door.blend1" />
     <Content Include="Model\door.json" />
-    <Content Include="ModelBuilder\Furniture\door.mtl" />
-    <Content Include="ModelBuilder\Furniture\door.obj" />
     <Content Include="ModelBuilder\Furniture\chair.blend" />
     <Content Include="ModelBuilder\Furniture\chair.blend1" />
     <Content Include="Model\chair.json" />
@@ -170,7 +167,6 @@
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b.icon.fla" />
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.icon.fla" />
-    <Content Include="ModelBuilder\Furniture\door_wood_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\shelf_wood_2_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\table_wood_1_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\table_wood_2_1.icon.fla" />
@@ -193,6 +189,12 @@
     <Content Include="mapDesigner\Styles\doorSetting.less" />
     <Content Include="mapDesigner\Document\edit-btn.fla" />
     <Content Include="mapDesigner\Document\key.icon.fla" />
+    <Content Include="ModelBuilder\Door\door.blend" />
+    <Content Include="ModelBuilder\Door\door.blend1" />
+    <Content Include="ModelBuilder\Door\door.mtl" />
+    <Content Include="ModelBuilder\Door\door.obj" />
+    <Content Include="ModelBuilder\Door\door_wood_1.icon.fla" />
+    <Content Include="ModelBuilder\Door\door_wood_1.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
