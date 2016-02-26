@@ -464,7 +464,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 removeKey(mouseY, mouseX);
                 return;
             }
-
+             
             // delete item
             var id = 0;
             var category = null;

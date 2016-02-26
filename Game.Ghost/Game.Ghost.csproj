@@ -53,6 +53,10 @@
     <Content Include="ModelBuilder\Stuff\133187038515008300_L.jpg" />
     <Content Include="ModelBuilder\Stuff\2011112513494513118.jpg" />
     <Content Include="ModelBuilder\Stuff\2011121420161398.jpg" />
+    <Content Include="ModelBuilder\Stuff\box_1.png" />
+    <Content Include="ModelBuilder\Stuff\box_1.uv.png" />
+    <Content Include="ModelBuilder\Stuff\terra_cotta_vase_7_20120518_1849663848.jpg" />
+    <Content Include="ModelBuilder\Stuff\vase_1.png" />
     <Content Include="Model\Environment\ground_ceramic.icon.png" />
     <Content Include="Model\Environment\ground_ceramic.png" />
     <Content Include="Model\Environment\ground_wood.icon.png" />
@@ -73,6 +77,7 @@
     <Content Include="Model\steel.jpg" />
     <Content Include="Model\Stuff\books_1.icon.png" />
     <Content Include="Model\Stuff\box_1.icon.png" />
+    <Content Include="Model\Stuff\box_1.png" />
     <Content Include="Model\Stuff\key_1.icon.png" />
     <Content Include="Model\Stuff\vase_1.icon.png" />
     <Content Include="Model\wall-top.png" />
@@ -195,6 +200,14 @@
     <Content Include="ModelBuilder\Door\door.obj" />
     <Content Include="ModelBuilder\Door\door_wood_1.icon.fla" />
     <Content Include="ModelBuilder\Door\door_wood_1.fla" />
+    <Content Include="ModelBuilder\Stuff\box_1.blend" />
+    <Content Include="ModelBuilder\Stuff\box_1.blend1" />
+    <Content Include="ModelBuilder\Stuff\box_1.texture.fla" />
+    <Content Include="ModelBuilder\Stuff\vase_1.blend" />
+    <Content Include="ModelBuilder\Stuff\vase_1.blend1" />
+    <Content Include="ModelBuilder\Stuff\vase_1.json" />
+    <Content Include="ModelBuilder\Stuff\vase_1.texture.fla" />
+    <Content Include="Model\Stuff\box_1.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
