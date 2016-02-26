@@ -4,6 +4,7 @@
   "blockSight": false,
   "support": 1,
   "slot": [ 0.4, 0.4, 1 ],
+  "slotInside": false,
   "model": "",
   "texture": [ "table_wood_1_1.png" ],
   "icon": "table_wood_1_1.icon.png"
