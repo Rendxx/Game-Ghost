@@ -103,13 +103,14 @@
     <Content Include="src\js\renderer\Main.js" />
     <Content Include="src\js\renderer\Environment.js" />
     <Content Include="mapDesigner\index.html" />
-    <Content Include="src\js\system\FileLoad.js" />
+    <Content Include="src\js\system\FileLoader.js" />
     <Content Include="src\js\system\Data.js" />
     <Content Include="test\sample.html" />
     <Content Include="test\sample.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />
+    <Folder Include="GameData\Map\" />
     <Folder Include="js\" />
     <Folder Include="lib\" />
   </ItemGroup>
