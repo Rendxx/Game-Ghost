@@ -50,11 +50,18 @@
     <Content Include="ModelBuilder\Player\wood-table.png" />
     <Content Include="ModelBuilder\Player\wool.jpg" />
     <Content Include="ModelBuilder\Player\wool2.png" />
+    <Content Include="ModelBuilder\Stuff\12-06-13_bookcover08.jpg" />
     <Content Include="ModelBuilder\Stuff\133187038515008300_L.jpg" />
     <Content Include="ModelBuilder\Stuff\2011112513494513118.jpg" />
     <Content Include="ModelBuilder\Stuff\2011121420161398.jpg" />
+    <Content Include="ModelBuilder\Stuff\30-scratch-metal-texture.jpg" />
+    <Content Include="ModelBuilder\Stuff\5278809146_8d35106992_b.jpg" />
+    <Content Include="ModelBuilder\Stuff\books_1.png" />
     <Content Include="ModelBuilder\Stuff\box_1.png" />
     <Content Include="ModelBuilder\Stuff\box_1.uv.png" />
+    <Content Include="ModelBuilder\Stuff\key_1.png" />
+    <Content Include="ModelBuilder\Stuff\key_1.uv.png" />
+    <Content Include="ModelBuilder\Stuff\props10.jpg" />
     <Content Include="ModelBuilder\Stuff\terra_cotta_vase_7_20120518_1849663848.jpg" />
     <Content Include="ModelBuilder\Stuff\vase_1.png" />
     <Content Include="Model\Environment\ground_ceramic.icon.png" />
@@ -76,6 +83,7 @@
     <Content Include="Model\Player-Texture.png" />
     <Content Include="Model\steel.jpg" />
     <Content Include="Model\Stuff\books_1.icon.png" />
+    <Content Include="Model\Stuff\books_1.png" />
     <Content Include="Model\Stuff\box_1.icon.png" />
     <Content Include="Model\Stuff\box_1.png" />
     <Content Include="Model\Stuff\key_1.icon.png" />
@@ -208,6 +216,15 @@
     <Content Include="ModelBuilder\Stuff\vase_1.json" />
     <Content Include="ModelBuilder\Stuff\vase_1.texture.fla" />
     <Content Include="Model\Stuff\box_1.json" />
+    <Content Include="Model\Stuff\books_1.json" />
+    <Content Include="Model\Stuff\key_1.json" />
+    <Content Include="ModelBuilder\Stuff\book.blend" />
+    <Content Include="ModelBuilder\Stuff\books_1.blend" />
+    <Content Include="ModelBuilder\Stuff\books_1.blend1" />
+    <Content Include="ModelBuilder\Stuff\books_1.texture.fla" />
+    <Content Include="ModelBuilder\Stuff\key_1.blend" />
+    <Content Include="ModelBuilder\Stuff\key_1.blend1" />
+    <Content Include="ModelBuilder\Stuff\key_1.texture.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
