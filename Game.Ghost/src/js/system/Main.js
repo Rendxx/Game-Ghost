@@ -23,6 +23,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var loader = null;
         this.renderer = null;
         this.map = null;
+        this.interAction = null;
         this.characters = [];
         
         // callback -----------------------------------------------
@@ -66,7 +67,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var _init = function () {
             that.renderer = new RENDERER.Create(container);
-            that.map = new SYSTEM.Map();
+            that.map = new SYSTEM.Map(that);
+            that.interAction = new SYSTEM.InterAction(that);
 
             loader = new SYSTEM.FileLoader();
             loader.loadBasic(function (data) {
@@ -86,7 +88,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
      */
     SYSTEM.Create = function (container) {
         var main = new Main(container);
-        entity.test = new SYSTEM.Test(entity);
         return main;
     };
 })(window.Rendxx.Game.Ghost);

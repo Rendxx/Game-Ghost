@@ -4,11 +4,11 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
 /**
- * Map manager
+ * InterAction manager, use to send/receive command between players
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
-    var Map = function (entity) {
+    var InterAction = function (entity) {
         // data ----------------------------------------------------------
         var that = this;
 
@@ -23,5 +23,5 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         _init();
     };
 
-    SYSTEM.Map = Map
+    SYSTEM.InterAction = InterAction
 })(window.Rendxx.Game.Ghost.System);

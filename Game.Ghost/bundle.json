@@ -55,6 +55,14 @@
         "#src#/renderer/Test.js",
         "#src#/renderer/Main.js"
       ],
+      "#dest#/Game.Ghost.System": [
+        "#src#/system/Data.js",
+        "#src#/system/FileLoader.js",
+        "#src#/system/Character.js",
+        "#src#/system/Map.js",
+        "#src#/system/InterAction.js",
+        "#src#/system/Main.js"
+      ],
       "#mapDesigner#/_index": [
         "#mapDesigner#/Scripts/Data.js",
         "#mapDesigner#/Scripts/GridPanel.js",

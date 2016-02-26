@@ -104,6 +104,7 @@
     <Content Include="src\js\renderer\Environment.js" />
     <Content Include="mapDesigner\index.html" />
     <Content Include="src\js\system\Character.js" />
+    <Content Include="src\js\system\InterAction.js" />
     <Content Include="src\js\system\Map.js" />
     <Content Include="src\js\system\FileLoader.js" />
     <Content Include="src\js\system\Data.js" />
