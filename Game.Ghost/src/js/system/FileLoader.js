@@ -19,11 +19,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _data_basic = null;
 
         // callback ------------------------------------------------------
-        this.onLoaded = null;
 
         // public method -------------------------------------------------
         // load basic files
-        this.loadBasic = function () {
+        this.loadBasic = function (onSuccess) {
             if (_data_basic == null) _data_basic = {};
             loadCount = 1;
 
@@ -64,7 +63,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             // on loaded
             var _onloaded = function () {
                 if (loadedCount >= loadCount) {
-                    that.onLoaded(_data_basic);
+                    onSuccess(_data_basic);
                 }
             };
             loadCount--;
@@ -112,10 +111,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     /**
-     * Game map
-     * @param {number} id - player id
-     * @param {string} name - player name
-     * @param {object} para - character parameters
+     * Game File Loader
      */
     SYSTEM.FileLoader = FileLoader
 })(window.Rendxx.Game.Ghost.System);

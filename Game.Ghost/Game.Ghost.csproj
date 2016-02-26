@@ -103,8 +103,11 @@
     <Content Include="src\js\renderer\Main.js" />
     <Content Include="src\js\renderer\Environment.js" />
     <Content Include="mapDesigner\index.html" />
+    <Content Include="src\js\system\Character.js" />
+    <Content Include="src\js\system\Map.js" />
     <Content Include="src\js\system\FileLoader.js" />
     <Content Include="src\js\system\Data.js" />
+    <Content Include="src\js\system\Main.js" />
     <Content Include="test\sample.html" />
     <Content Include="test\sample.js" />
   </ItemGroup>
