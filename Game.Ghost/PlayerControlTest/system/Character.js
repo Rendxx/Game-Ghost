@@ -15,6 +15,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.y = 0;
         this.name = name;
         this.para = para;
+        this.live = true;       // false if this character die, and no action will be taken
         this.rush = false;
         this.stay = true;
         this.headFollow = true;
@@ -35,14 +36,31 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // public method -------------------------------------------------
         this.move = function (directon, rush, stay) {
+            if (!this.live) return;
             this.rush = rush;
             this.stay = stay;
             if (!stay) this.requiredRotation.body = directon;
         };
 
         this.headMove = function (directon, headFollow) {
+            if (!this.live) return;
             if (!headFollow) this.requiredRotation.head = directon;
             this.headFollow = headFollow;
+        };
+
+        this.die = function () {
+            if (!this.live) return;
+            this.currentRotation = {
+                head: 0,
+                body: 0,
+                headBody: 0
+            };
+            this.requiredRotation = {
+                head: 0,
+                body: 0
+            };
+            this.live = false;
+            this.action = Data.action.die;
         };
 
         /**
@@ -50,6 +68,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
          * Rotate body / head, move body, if necessary
          */
         this.animation = function () {
+            if (!this.live) return;
             // is back?
             var isBack = false;
             if (!this.stay && !this.headFollow && !this.rush) {

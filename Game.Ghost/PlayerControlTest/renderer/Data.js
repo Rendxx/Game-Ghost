@@ -10,15 +10,19 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Data = {
         character: {
             survivor: {
-                file: '/Model/player-2.json',
+                file: '/Model/Player/player-2.json',
                 action: {
                     0: 'back',
                     1: 'init',
-                    2: 'idle',
-                    3: 'idle2',
-                    4: 'run',
-                    5: 'turn',
-                    6: 'walk'
+                    2: 'die',
+                    3: 'idle',
+                    4: 'idle2',
+                    5: 'run',
+                    6: 'turn',
+                    7: 'walk'
+                },
+                notloop:{
+                    2: true
                 },
                 initAction: 'idle',
                 light: {

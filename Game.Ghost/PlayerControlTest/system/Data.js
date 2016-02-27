@@ -27,7 +27,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 idle: 'idle',
                 run: 'run',
                 back: 'back',
-                rotate: 'rotate'
+                rotate: 'rotate',
+                die: 'die'
             }
         }
     };

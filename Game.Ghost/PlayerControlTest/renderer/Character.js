@@ -48,10 +48,20 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
         };
 
-        this.render = function (action, x, y, r_body, r_head, delta) {
+        this.render = function (action, x, y, r_body, r_head, isDie, delta) {
             //console.log(x+"  "+y+"  "+r_body+"  "+r_head);
             if (!this.setuped) return;
 
+            // dead
+            if (isDie) {
+                console.log(that.actions[action]);
+                if (currentAction != action) {
+                    this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
+                    currentAction = action;
+                }
+                if (this.mixer) this.mixer.update(delta);
+                return;
+            }
             // move
             this.mesh.position.x = x;
             this.mesh.position.z = y;
@@ -122,6 +132,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 for (var i in para.action) {
                     var action = new THREE.AnimationAction(geometry.animations[i]);
                     action.weight = 0;
+                    //if (para.notloop[i] == true)
+                    //    action.loop = 1;
                     mixer.addAction(action);
                     actions[para.action[i]] = action;
                 }

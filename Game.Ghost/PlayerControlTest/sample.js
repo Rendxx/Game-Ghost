@@ -84,6 +84,10 @@
                 shadowMapHeight : 2056,
                 shadowBias : 0.00,
                 shadowDarkness : 1.0
+            },
+
+            die: function() {
+                if (character_sys != null) character_sys.die();
             }
         };
 
@@ -122,6 +126,10 @@
         datGUI.addColor(guiControls, 'ambColor').onChange(function (value) {
             light.color.setHex(value);
         });
+        datGUI.addColor(guiControls, 'ambColor').onChange(function (value) {
+            light.color.setHex(value);
+        });
+        datGUI.add(guiControls, 'die');
 
         ///*point gui controls*/
         //var lightFolder = datGUI.addFolder('light');
@@ -350,7 +358,7 @@
         var delta = clock.getDelta();
         if (character_sys != null) character_sys.animation();
         if (character_render != null && character_render.setuped)
-            character_render.render(character_sys.action, character_sys.x, character_sys.y, character_sys.currentRotation.body, character_sys.currentRotation.headBody, delta);
+            character_render.render(character_sys.action, character_sys.x, character_sys.y, character_sys.currentRotation.body, character_sys.currentRotation.headBody, !character_sys.live, delta);
         renderer.render(scene, camera);
     }
 
