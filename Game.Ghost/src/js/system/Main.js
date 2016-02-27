@@ -27,11 +27,25 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.characters = [];
         
         // callback -----------------------------------------------
+        this.onChange = null;       // callback for render
         this.onLoaded = null;
         this.onStarted = null;
         this.onEnded = null;
 
+
+        // message -----------------------------------------------
+        this.send = null;
+
+        this.receive = function (msg) {
+
+        };
+
         // public method ------------------------------------------
+        // reset game with given data
+        this.reset = function (gameData) {
+
+        };
+
         // start game
         this.start = function () {
             if (this.onStarted) this.onStarted();

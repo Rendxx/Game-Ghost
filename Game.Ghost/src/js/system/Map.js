@@ -15,6 +15,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
+        // load map data and reset map
+        this.load = function (data) {
+
+        };
 
         // private method ------------------------------------------------
 
