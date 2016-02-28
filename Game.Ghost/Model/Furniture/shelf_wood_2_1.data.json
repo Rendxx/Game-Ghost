@@ -5,7 +5,7 @@
   "support": 0.6,
   "slot": [ 0, 0, 0.6 ],
   "slotInside": false,
-  "model": "",
+  "model": "shelf.json",
   "texture": [ "shelf_wood_2_1.png" ],
   "icon": "shelf_wood_2_1.icon.png"
 }

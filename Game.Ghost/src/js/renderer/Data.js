@@ -32,6 +32,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 shadowBias : 0.00,
                 shadowDarkness : 1
             }
+        },
+        categoryName: {
+            wall: 'wall',
+            ground: 'ground',
+            furniture: 'furniture',
+            stuff: 'stuff',
+            door: 'door'
         }
     };
 

@@ -5,7 +5,7 @@
   "support": 1,
   "slot": [ 0, 0, 1 ],
   "slotInside": false,
-  "model": "",
+  "model": "table.2.json",
   "texture": [ "table_wood_2_1.png" ],
   "icon": "table_wood_2_1.icon.png"
 }

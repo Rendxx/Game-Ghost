@@ -118,10 +118,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         },
         map: {
             files:{
-
+                test: 'MapDataTest.json'
             },
             path: '/GameData/Map/'
-        }
+        },
+        keyNumber: 3
     };
 
     SYSTEM.Data = Data;

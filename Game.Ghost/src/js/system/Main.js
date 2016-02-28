@@ -7,17 +7,18 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
  * Main entry of Game.Ghost system
  */
 (function (GAME) {
-    var SYSTEM = GAME.SYSTEM;
-    var RENDERER = GAME.RENDERER;
+    var SYSTEM = GAME.System;
+    var RENDERER = GAME.Renderer;
     var Data = SYSTEM.Data;
     /**
      * Game Entity
      */
-    var Main = function (container) {
+    var Main = function () {
         // data ---------------------------------------------------
         var that = this,
             isLoaded = 0,       // 0: not loaded,  2: fully loaded
-            modelData = {};
+            modelData = {},
+            mapData = {};
 
         // component ----------------------------------------------
         var loader = null;
@@ -59,13 +60,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // setup game
         this.setup = function (players, mapName) {
             if (Data.map.files[mapName] == null) throw new Error('Map can not be found.');
-            loader.loadMap(mapName, function (data) {
+            loader.loadMap(Data.map.files[mapName], function (data) {
+                mapData = data;
                 that.map.load(data);
-                that.renderer.loadMap(data);
                 for (var i = 0; i < players.length; i++) {
                     that.characters[i] = new SYSTEM.Character(i, players[i]);
                 }
-                that.renderer.loadCharacter(players);
+                //that.renderer.loadCharacter(players);
                 onLoaded();
             },
             function (e) {
@@ -76,18 +77,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method -----------------------------------------
         var onLoaded = function () {
             isLoaded++;
-            if (isLoaded == 2) that.onLoaded();
+            if (isLoaded == 2) that.onLoaded(modelData, mapData);
         };
 
         var _init = function () {
-            that.renderer = new RENDERER.Create(container);
             that.map = new SYSTEM.Map(that);
             that.interAction = new SYSTEM.InterAction(that);
 
             loader = new SYSTEM.FileLoader();
             loader.loadBasic(function (data) {
                 modelData = data;
-                that.renderer.loadModelData(modelData);
                 onLoaded();
             });
         };
@@ -96,12 +95,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     /**
      * Create a game in domElement
-     * @param {dom element} container - Dom element to contain the scene
-     * @param {number} playerNumber - player number
-     * @param {object} map - data used to create a map
      */
-    SYSTEM.Create = function (container) {
-        var main = new Main(container);
+    SYSTEM.Create = function () {
+        var main = new Main();
         return main;
     };
 })(window.Rendxx.Game.Ghost);

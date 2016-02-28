@@ -5,7 +5,7 @@
   "support": 1,
   "slot": [ 0, 0, 0.3 ],
   "slotInside": true,
-  "model": "",
+  "model": "cabinet.2.json",
   "texture": [ "cabinet_wood_2_1.png" ],
   "icon": "cabinet_wood_2_1.icon.png"
 }

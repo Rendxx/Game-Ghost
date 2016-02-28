@@ -24,49 +24,55 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // load basic files
         this.loadBasic = function (onSuccess) {
             if (_data_basic == null) _data_basic = {};
-            loadCount = 1;
+            loadCount = 0;
 
             // items
+            var loadItem = function (category, name) {
+                $.getJSON(Data.item.path[category] + items[category][name], function (data) {
+                    if (data == null) throw new Error(category + '.' + name + ': Not found.');
+                    if (_data_basic.items[category][name] != null) console.log(category + '.' + name + ': load multiple data.');
+                    _data_basic.items[category][name] = data;
+                    loadedCount++;
+                    _onloaded();
+                });
+            };
             var items = Data.item.files;
             _data_basic.items = {};
             for (var category in items) {
                 _data_basic.items[category] = {};
                 for (var name in items[category]) {
                     loadCount++;
-                    $.getJSON(Data.item.path[category] + items[category][name], function (data) {
-                        if (data == null) throw new Error(category + '.' + name + ': Not found.');
-                        if (_data_basic.items[category][name] != null) console.log(category + '.' + name + ': load multiple data.');
-                        _data_basic.items[category][name] = data;
-                        loadedCount++;
-                        _onloaded();
-                    });
+                    loadItem(category, name);
                 }
             }
 
+
             // character
+            var loadCharacter = function (role, name) {
+                $.getJSON(Data.character.path + characters[role][name], function (data) {
+                    if (data == null) throw new Error(role + '.' + name + ': Not found.');
+                    if (_data_basic.characters[role][name] != null) console.log(role + '.' + name + ': load multiple data.');
+                    _data_basic.characters[role][name] = data;
+                    loadedCount++;
+                    _onloaded();
+                });
+            };
             var characters = Data.character.files;
             _data_basic.characters = {};
             for (var role in characters) {
                 _data_basic.characters[role] = {};
                 for (var name in characters[role]) {
                     loadCount++;
-                    $.getJSON(Data.character.path[role] + characters[role][name], function (data) {
-                        if (data == null) throw new Error(role + '.' + name + ': Not found.');
-                        if (_data_basic.characters[role][name] != null) console.log(role + '.' + name + ': load multiple data.');
-                        _data_basic.characters[role][name] = data;
-                        loadedCount++;
-                        _onloaded();
-                    });
+                    loadCharacter(role, name);
                 }
             }
-            
+
             // on loaded
             var _onloaded = function () {
                 if (loadedCount >= loadCount) {
                     onSuccess(_data_basic);
                 }
             };
-            loadCount--;
             _onloaded();
         };
 

@@ -45,7 +45,7 @@
     <Content Include="ModelBuilder\Environment\wall-top.png" />
     <Content Include="ModelBuilder\Environment\wall.jpg" />
     <Content Include="ModelBuilder\Environment\wall.png" />
-    <Content Include="ModelBuilder\Player\wood-2.jpg" />
+    <Content Include="Model\Furniture\wood-2.jpg" />
     <Content Include="ModelBuilder\Player\wood-table.jpg" />
     <Content Include="ModelBuilder\Player\wood-table.png" />
     <Content Include="ModelBuilder\Player\wool.jpg" />
@@ -81,6 +81,8 @@
     <Content Include="Model\Environment\wall_white.icon.png" />
     <Content Include="Model\Player-Texture-2.png" />
     <Content Include="Model\Player-Texture.png" />
+    <Content Include="Model\Player\green\Player-Texture-2.png" />
+    <Content Include="Model\Player\Player-Texture.png" />
     <Content Include="Model\steel.jpg" />
     <Content Include="Model\Stuff\books_1.icon.png" />
     <Content Include="Model\Stuff\books_1.png" />
@@ -88,8 +90,8 @@
     <Content Include="Model\Stuff\box_1.png" />
     <Content Include="Model\Stuff\key_1.icon.png" />
     <Content Include="Model\Stuff\vase_1.icon.png" />
-    <Content Include="Model\wall-top.png" />
-    <Content Include="Model\wall.png" />
+    <Content Include="Model\Furniture\wall-top.png" />
+    <Content Include="Model\Furniture\wall.png" />
     <Content Include="PlayerControlTest\renderer\Data.js" />
     <Content Include="PlayerControlTest\system\Character.js" />
     <Content Include="PlayerControlTest\system\Data.js" />
@@ -114,7 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />
-    <Folder Include="GameData\Map\" />
     <Folder Include="js\" />
     <Folder Include="lib\" />
   </ItemGroup>
@@ -128,36 +129,36 @@
     <Content Include="mapDesigner\Document\Stuff.fla" />
     <Content Include="ModelBuilder\Furniture\table.2.blend" />
     <Content Include="ModelBuilder\Furniture\table.2.blend1" />
-    <Content Include="Model\table.2.json" />
+    <Content Include="Model\Furniture\table.2.json" />
     <Content Include="test\MapDataTest.json" />
     <Content Include="ModelBuilder\Player\wood-table.fla" />
     <Content Include="ModelBuilder\Environment\wall.fla" />
     <Content Include="ModelBuilder\Environment\wall-top.fla" />
     <Content Include="ModelBuilder\Furniture\table.1.blend" />
     <Content Include="ModelBuilder\Furniture\table.1.blend1" />
-    <Content Include="Model\table.1.json" />
+    <Content Include="Model\Furniture\table.1.json" />
     <Content Include="ModelBuilder\Furniture\table.3.blend" />
     <Content Include="ModelBuilder\Furniture\table.3.blend1" />
-    <Content Include="Model\table.3.json" />
+    <Content Include="Model\Furniture\table.3.json" />
     <Content Include="ModelBuilder\Furniture\table.4.blend" />
     <Content Include="ModelBuilder\Furniture\table.4.blend1" />
-    <Content Include="Model\table.4.json" />
+    <Content Include="Model\Furniture\table.4.json" />
     <Content Include="ModelBuilder\Furniture\cabinet.1.blend" />
     <Content Include="ModelBuilder\Furniture\cabinet.1.blend1" />
-    <Content Include="Model\cabinet.1.json" />
+    <Content Include="Model\Furniture\cabinet.1.json" />
     <Content Include="ModelBuilder\Furniture\cabinet.2.blend" />
     <Content Include="ModelBuilder\Furniture\cabinet.2.blend1" />
-    <Content Include="Model\cabinet.2.json" />
+    <Content Include="Model\Furniture\cabinet.2.json" />
     <Content Include="ModelBuilder\Furniture\cabinet.3.blend" />
-    <Content Include="Model\cabinet.3.json" />
+    <Content Include="Model\Furniture\cabinet.3.json" />
     <Content Include="ModelBuilder\Furniture\cabinet.3.blend1" />
     <Content Include="Model\door.json" />
     <Content Include="ModelBuilder\Furniture\chair.blend" />
     <Content Include="ModelBuilder\Furniture\chair.blend1" />
-    <Content Include="Model\chair.json" />
+    <Content Include="Model\Furniture\chair.json" />
     <Content Include="ModelBuilder\Furniture\shelf.blend" />
     <Content Include="ModelBuilder\Furniture\shelf.blend1" />
-    <Content Include="Model\shelf.json" />
+    <Content Include="Model\Furniture\shelf.json" />
     <Content Include="ModelBuilder\Player\player.blend" />
     <Content Include="ModelBuilder\Player\Player-Texture.fla" />
     <Content Include="ModelBuilder\Player\player.blend1" />
@@ -170,6 +171,7 @@
     <Content Include="ModelBuilder\Environment\ground_ceramic.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood.fla" />
     <Content Include="Model\Environment\ground_wood.data.json" />
+    <Content Include="GameData\Map\MapDataTest.json" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="Model\Furniture\table_wood_1_1.data.json" />
     <Content Include="Model\Furniture\table_wood_2_1.data.json" />
@@ -232,6 +234,7 @@
     <Content Include="ModelBuilder\Stuff\key_1.blend" />
     <Content Include="ModelBuilder\Stuff\key_1.blend1" />
     <Content Include="ModelBuilder\Stuff\key_1.texture.fla" />
+    <Content Include="Model\Player\green\player-2.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
