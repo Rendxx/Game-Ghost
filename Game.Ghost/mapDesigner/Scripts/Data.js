@@ -79,6 +79,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             furniture: '/Model/Furniture/',
             stuff: '/Model/Stuff/',
             door: '/Model/Door/'
+        },
+        defaultItem: {
+            wall: 'White Wall'
         }
     };
 

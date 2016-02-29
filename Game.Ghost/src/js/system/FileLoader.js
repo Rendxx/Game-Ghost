@@ -30,8 +30,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var loadItem = function (category, name) {
                 $.getJSON(Data.item.path[category] + items[category][name], function (data) {
                     if (data == null) throw new Error(category + '.' + name + ': Not found.');
-                    if (_data_basic.items[category][name] != null) console.log(category + '.' + name + ': load multiple data.');
-                    _data_basic.items[category][name] = data;
+                    if (_data_basic.items[category][data.id] != null) console.log(category + '.' + name + ': load multiple data.');
+                    _data_basic.items[category][data.id] = data;
                     loadedCount++;
                     _onloaded();
                 });

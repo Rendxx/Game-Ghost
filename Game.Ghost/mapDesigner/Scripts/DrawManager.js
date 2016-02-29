@@ -235,7 +235,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             tmp_keyEles = null,
             mouseX = 0,
             mouseY = 0,
-            count = null;
+            count = null,
+            defaultItem = null;
 
         // method
         this.getList = function () {
@@ -415,6 +416,10 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
         };
 
+        this.setDefaultItem = function (defaultItem_in) {
+            defaultItem = defaultItem_in;
+        };
+
         this.changeType = function (furnitureData) {
             isWallLock = false;
             isGroundLock = false;
@@ -588,13 +593,14 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
             var wall = null;
 
-            var findWall = function (x, y, r, l) {
+            var findWall = function (wallIdx, x, y, r, l) {
                 if (wall == null) {
                     wall = new WallInstance();
                     wall.x = x;
                     wall.y = y;
                     wall.len = l || 1;
                     wall.rotation = r;
+                    wall.id = (wallIdx === null || itemList[Data.categoryName.wall][wallIdx] == null) ? defaultItem[Data.categoryName.wall].id : itemList[Data.categoryName.wall][wallIdx].id
                 } else {
                     wall.len++;
                 }
@@ -624,7 +630,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             for (var i = 1; i < hgt; i++) {
                 for (var j = 0; j < wid; j++) {
                     if (wallMap[i][j] != 0 && wallMap[i - 1][j] == 0) {
-                        findWall(j, i, 0);
+                        findWall(wallMap[i][j], j, i, 0);
                     } else {
                         noWall();
                     }
@@ -633,7 +639,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
             for (var j = 0; j < wid; j++) {
                 if (wallMap[i - 1][j] == 0) {
-                    findWall(j, i, 0);
+                    findWall(null, j, i, 0);
                 } else {
                     noWall();
                 }
@@ -644,7 +650,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             for (var i = hgt - 2; i >= 0; i--) {
                 for (var j = wid - 1; j >= 0; j--) {
                     if (wallMap[i][j] != 0 && wallMap[i + 1][j] == 0) {
-                        findWall(j + 1, i + 1, 2);
+                        findWall(wallMap[i+1][j+1], j + 1, i + 1, 2);
                     } else {
                         noWall();
                     }
@@ -653,7 +659,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
             for (var j = wid - 1; j >= 0; j--) {
                 if (wallMap[i + 1][j] == 0) {
-                    findWall(j + 1, i + 1, 2);
+                    findWall(null, j + 1, i + 1, 2);
                 } else {
                     noWall();
                 }
@@ -664,7 +670,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             for (var j = wid - 2; j >= 0; j--) {
                 for (var i = 0; i < hgt; i++) {
                     if (wallMap[i][j] != 0 && wallMap[i][j + 1] == 0) {
-                        findWall(j + 1, i, 1);
+                        findWall(wallMap[i][j+1], j + 1, i, 1);
                     } else {
                         noWall();
                     }
@@ -673,7 +679,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
             for (var i = 0; i < hgt; i++) {
                 if (wallMap[i][j + 1] == 0) {
-                    findWall(j + 1, i, 1);
+                    findWall(null, j + 1, i, 1);
                 } else {
                     noWall();
                 }
@@ -684,7 +690,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             for (var j = 1; j < wid; j++) {
                 for (var i = hgt - 1; i >= 0; i--) {
                     if (wallMap[i][j] != 0 && wallMap[i][j - 1] == 0) {
-                        findWall(j, i + 1, 3);
+                        findWall(wallMap[i+1][j], j, i + 1, 3);
                     } else {
                         noWall();
                     }
@@ -694,7 +700,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
             for (var i = hgt - 1; i >= 0; i--) {
                 if (wallMap[i][j - 1] == 0) {
-                    findWall(j, i + 1, 3);
+                    findWall(null, j, i + 1, 3);
                 } else {
                     noWall();
                 }

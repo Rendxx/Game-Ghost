@@ -1,5 +1,5 @@
 ﻿{
   "id": "wall_0",
-  "texture": [ "wall.png", "wall-top.png" ],
+  "texture": [ "wall-top.png", "wall.png" ],
   "icon": "wall_white.icon.png"
 }

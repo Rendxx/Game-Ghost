@@ -19,7 +19,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Map = function (entity) {
         // private data ----------------------------
         var that = this,
-            _modelData = null;
+            _modelData = null,
+            _texture = {};
 
         // public data -----------------------------
         this.width = 0;
@@ -27,6 +28,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.wall = null;
         this.light = null;
         this.item = null;
+        this.furniture = null;
         this.ground = null;
         this.ceiling = null;
 
@@ -37,7 +39,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.reset = function (data) {
             if (data == null) throw new Error('Data missing');
             setupGround(entity.env.scene, data.grid, data.item.ground);
-            setupWall(entity.env.scene, data.item.wall);
+            setupWall(entity.env.scene, data.wall);
             setupFurniture(entity.env.scene, data.item.furniture);
         };
 
@@ -98,8 +100,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             /*create ceiling*/
-            var ceiling = createCeiling();
+            var ceiling = createCeiling(grid);
             scene.add(ceiling);
+            that.ceiling = [];
             that.ceiling.push(ceiling);
         };
 
@@ -117,21 +120,18 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
         };
 
-        var setupFurniture = function (scene, stuff) {
-            if (that.wall != null) {
-                for (var i = 0, l = that.wall.length; i < l; i++) scene.remove(that.wall[i]);
-                that.wall = null;
+        var setupFurniture = function (scene, furniture) {
+            if (that.furniture != null) {
+                for (var i = 0, l = that.furniture.length; i < l; i++) scene.remove(that.furniture[i]);
+                that.furniture = null;
             }
-            that.wall = [];
-            for (var i = 0, l = wall.length; i < l; i++) {
-                if (wall[i] == null) continue;
-                var mesh = createWall(wall[i]);
-                scene.add(mesh);
-                that.wall.push(mesh);
-            }
-            for (var i = 0, l = stuff.length; i < l; i++) {
-                if (stuff[i] == null) continue;
-                var mesh = createFurniture(stuff[i], scene);
+            that.furniture = [];
+            for (var i = 0, l = furniture.length; i < l; i++) {
+                if (furniture[i] == null) continue;
+                createFurniture(furniture[i], scene, function (mesh) {
+                    scene.add(mesh);
+                    that.furniture.push(mesh);
+                });
             }
         };
 
@@ -151,7 +151,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         // Add items ----------------------------------------------------------
-        var createCeiling = function () {
+        var createCeiling = function (grid) {
             var planeGeometry = new THREE.PlaneGeometry(grid.width * Data.grid.size, grid.height * Data.grid.size);
             var planeMaterial = new THREE.MeshPhongMaterial({ color: 0xdddddd });
             var ceiling = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -169,7 +169,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var para = _modelData.items[Data.categoryName.ground][id];
 
             
-            var texture = THREE.ImageUtils.loadTexture(para.texture[0]);
+            var texture = getTexture(Data.files.path[Data.categoryName.ground] + para.texture[0]);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.x = w / 4;
@@ -181,7 +181,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             mesh = new THREE.Mesh(geometry, material);
 
             mesh.position.x = x;
-            mesh.position.y = 2 * Data.grid.size;
+            mesh.position.y = 0;
             mesh.position.z = y;
             mesh.rotation.x = -.5 * Math.PI;
             mesh.receiveShadow = true;
@@ -207,7 +207,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             y *= Data.grid.size;
             len *= Data.grid.size;
 
-            var texture = THREE.ImageUtils.loadTexture(para.texture[0]);
+            var texture = getTexture(Data.files.path[Data.categoryName.wall] + para.texture[0]);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.x = len/8;
@@ -220,13 +220,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             mesh.rotation.y = (4-r) / 2 * Math.PI;
             mesh.position.x = x;
             mesh.position.y = Data.grid.size;
-            mesh.position.z = y
+            mesh.position.z = y;
             mesh.castShadow = true;
             mesh.receiveShadow = true;
             return mesh;
         };
 
-        var createFurniture = function (dat, scene) {
+        var createFurniture = function (dat, scene, onSuccess) {
             if (dat == null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size;
@@ -243,7 +243,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             var loader = new THREE.JSONLoader();
-            loader.load(para.model, function (geometry, materials) {
+            loader.load(Data.files.path[Data.categoryName.furniture] + para.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = true;
                 mesh.receiveShadow = true;
@@ -253,225 +253,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 mesh.position.z = y;
                 mesh.rotation.y = (4 - r) / 2 * Math.PI;
 
-                scene.add(mesh);
-                that.wall.push(mesh);
+                onSuccess(mesh);
             });
+        };
 
-
-            //switch (dat.id) {
-            //    case 1: // wall top
-            //        var texture = THREE.ImageUtils.loadTexture('/Model/wall-top.png');
-            //        texture.wrapS = THREE.RepeatWrapping;
-            //        texture.wrapT = THREE.RepeatWrapping;
-            //        texture.repeat.x = w / 4;
-            //        texture.repeat.y = h / 4;
-
-            //        var geometry = new THREE.PlaneGeometry(w,h,w,h);
-            //        var material = new THREE.MeshBasicMaterial({ color: 0xeeeeee, map: texture });
-            //        material.side = THREE.DoubleSide;
-            //        mesh = new THREE.Mesh(geometry, material);
-
-            //        mesh.position.x = x;
-            //        mesh.position.y = 2 * Data.grid.size;
-            //        mesh.position.z = y;
-            //        //mesh.rotation.y = r / 180 * Math.PI;
-            //        mesh.rotation.x = -.5 * Math.PI;
-            //        break;
-            //    case 2: // door
-            //        var manager = new THREE.LoadingManager();
-            //        manager.onProgress = function (item, loaded, total) {
-            //            console.log(item, loaded, total);
-            //        };
-            //        var onProgress = function (xhr) {
-            //            if (xhr.lengthComputable) {
-            //                var percentComplete = xhr.loaded / xhr.total * 100;
-            //                console.log(Math.round(percentComplete, 2) + '% downloaded');
-            //            }
-            //        };
-            //        var onError = function (xhr) {
-            //        };
-
-            //        var texture = {
-            //            'DoorMat': new THREE.Texture(),
-            //            'LockerMat': new THREE.Texture(),
-            //        };
-            //        var loader = new THREE.ImageLoader(manager);
-            //        loader.load('/Model/wood-2.jpg', function (image) {
-            //            texture['DoorMat'].image = image;
-            //            texture['DoorMat'].needsUpdate = true;
-            //            texture['DoorMat'].wrapS = texture['DoorMat'].wrapT = THREE.RepeatWrapping;
-            //        });
-            //        var loader = new THREE.ImageLoader(manager);
-            //        loader.load('/Model/steel.jpg', function (image) {
-            //            texture['LockerMat'].image = image;
-            //            texture['LockerMat'].needsUpdate = true;
-            //            texture['LockerMat'].wrapS = texture['LockerMat'].wrapT = THREE.RepeatWrapping;
-            //        });
-
-            //        var loader = new THREE.OBJLoader();
-            //        loader.load('/Model/door.obj', function (object) {
-            //            object.traverse(function (child) {
-            //                if (child instanceof THREE.Mesh) {
-            //                    child.material.map = texture[child.material.name];
-            //                }
-            //            });
-            //            object.position.x = x;
-            //            object.position.z = y;
-            //            object.rotation.y = (4 - r) / 2 * Math.PI;
-            //            scene.add(object);
-            //            that.wall.push(object);
-            //        }, onProgress, onError);
-            //        return;
-            //    case 3: // table 1
-            //        var loader = new THREE.JSONLoader();
-            //        loader.load('/Model/table.1.json', function (geometry, materials) {
-            //            var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-            //            mesh.castShadow = true;
-            //            mesh.receiveShadow = true;
-
-            //            mesh.position.x = x;
-            //            //mesh.position.y = depth/2;
-            //            mesh.position.z = y;
-            //            mesh.rotation.y = (4 - r) / 2 * Math.PI;
-
-            //            scene.add(mesh);
-            //            that.wall.push(mesh);
-            //        });
-            //        return;
-            //    case 4: // table 2
-            //        var loader = new THREE.JSONLoader();
-            //        loader.load('/Model/table.2.json', function (geometry, materials) {
-            //            var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-            //            mesh.castShadow = true;
-            //            mesh.receiveShadow = true;
-
-            //            mesh.position.x = x;
-            //            //mesh.position.y = depth/2;
-            //            mesh.position.z = y;
-            //            mesh.rotation.y = (4 - r) / 2 * Math.PI;
-
-            //            scene.add(mesh);
-            //            that.wall.push(mesh);
-            //        });
-            //        return;
-            //    case 5: // table 3
-            //        var loader = new THREE.JSONLoader();
-            //        loader.load('/Model/table.3.json', function (geometry, materials) {
-            //            var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-            //            mesh.castShadow = true;
-            //            mesh.receiveShadow = true;
-
-            //            mesh.position.x = x;
-            //            //mesh.position.y = depth/2;
-            //            mesh.position.z = y;
-            //            mesh.rotation.y = (4 - r) / 2 * Math.PI;
-
-            //            scene.add(mesh);
-            //            that.wall.push(mesh);
-            //        });
-            //        return;
-            //    case 6: // table 4
-            //        var loader = new THREE.JSONLoader();
-            //        loader.load('/Model/table.4.json', function (geometry, materials) {
-            //            var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-            //            mesh.castShadow = true;
-            //            mesh.receiveShadow = true;
-
-            //            mesh.position.x = x;
-            //            //mesh.position.y = depth/2;
-            //            mesh.position.z = y;
-            //            mesh.rotation.y = (4 - r) / 2 * Math.PI;
-
-            //            scene.add(mesh);
-            //            that.wall.push(mesh);
-            //        });
-            //        return;
-            //    case 7: // cabinet 1
-            //        var loader = new THREE.JSONLoader();
-            //        loader.load('/Model/cabinet.1.json', function (geometry, materials) {
-            //            var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-            //            mesh.castShadow = true;
-            //            mesh.receiveShadow = true;
-
-            //            mesh.position.x = x;
-            //            //mesh.position.y = depth/2;
-            //            mesh.position.z = y;
-            //            mesh.rotation.y = (4 - r) / 2 * Math.PI;
-
-            //            scene.add(mesh);
-            //            that.wall.push(mesh);
-            //        });
-            //        return;
-            //    case 8: // cabinet 2
-            //        var loader = new THREE.JSONLoader();
-            //        loader.load('/Model/cabinet.2.json', function (geometry, materials) {
-            //            var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-            //            mesh.castShadow = true;
-            //            mesh.receiveShadow = true;
-
-            //            mesh.position.x = x;
-            //            //mesh.position.y = depth/2;
-            //            mesh.position.z = y;
-            //            mesh.rotation.y = (4 - r) / 2 * Math.PI;
-
-            //            scene.add(mesh);
-            //            that.wall.push(mesh);
-            //        });
-            //        return;
-            //    case 9: // cabinet 3
-            //        var loader = new THREE.JSONLoader();
-            //        loader.load('/Model/cabinet.3.json', function (geometry, materials) {
-            //            var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-            //            mesh.castShadow = true;
-            //            mesh.receiveShadow = true;
-
-            //            mesh.position.x = x;
-            //            //mesh.position.y = depth/2;
-            //            mesh.position.z = y;
-            //            mesh.rotation.y = (4 - r) / 2 * Math.PI;
-
-            //            scene.add(mesh);
-            //            that.wall.push(mesh);
-            //        });
-            //        return;
-            //    case 10: // chair
-            //        var loader = new THREE.JSONLoader();
-            //        loader.load('/Model/chair.json', function (geometry, materials) {
-            //            var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-            //            mesh.castShadow = true;
-            //            mesh.receiveShadow = true;
-
-            //            mesh.position.x = x;
-            //            //mesh.position.y = depth/2;
-            //            mesh.position.z = y;
-            //            mesh.rotation.y = (4 - r) / 2 * Math.PI;
-
-            //            scene.add(mesh);
-            //            that.wall.push(mesh);
-            //        });
-            //        return;
-            //    case 11: // shelf
-            //        var loader = new THREE.JSONLoader();
-            //        loader.load('/Model/shelf.json', function (geometry, materials) {
-            //            var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-            //            mesh.castShadow = true;
-            //            mesh.receiveShadow = true;
-
-            //            mesh.position.x = x;
-            //            //mesh.position.y = depth/2;
-            //            mesh.position.z = y;
-            //            mesh.rotation.y = (4 - r) / 2 * Math.PI;
-
-            //            scene.add(mesh);
-            //            that.wall.push(mesh);
-            //        });
-            //        return;
-            //}
-            if (mesh != null) {
-                scene.add(mesh);
-                that.wall.push(mesh);
-            }
-            return mesh;
+        var getTexture = function (path) {
+            return THREE.ImageUtils.loadTexture(path);
+            if (_texture[path] == null) _texture[path] = THREE.ImageUtils.loadTexture(path);
+            return _texture[path];
         };
 
         var _init = function () {

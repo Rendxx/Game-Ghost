@@ -1,5 +1,5 @@
 ﻿{
   "id": "ground_ceramic",
-  "texture": [ "ground_ceramic.png" ],
+  "texture": [ "ground_ceramic.icon.png" ],
   "icon": "ground_ceramic.icon.png"
 }
