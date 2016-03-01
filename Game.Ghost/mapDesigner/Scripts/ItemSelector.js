@@ -17,7 +17,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             itemData = null,        // all item data package
             loadCount = 0,
             loadedCount = 0,
-            lastSelect = null;
+            lastSelect = null,
+            defaultItem = null;
 
         // callback
         this.onChange = null;
@@ -75,7 +76,11 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         var _onLoaded = function () {
-            if (that.onLoaded != null) that.onLoaded();
+            defaultItem = {};
+            for (var i in Data.defaultItem) {
+                defaultItem[i] = itemData[i][Data.defaultItem[i]];
+            }
+            if (that.onLoaded != null) that.onLoaded(defaultItem);
         };
 
         var _setupCategory = function () {

@@ -55,11 +55,14 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         itemSelector.onSelectCategory = function () {
             doorSetting.hide();
         };
-        
-        grid.reset(Data.grid.height, Data.grid.width);
-        drawManager.resize(Data.grid.height, Data.grid.width);
+
+        itemSelector.onLoaded = function (defaultItem) {
+            drawManager.setDefaultItem(defaultItem);
+            grid.reset(Data.grid.height, Data.grid.width);
+            drawManager.resize(Data.grid.height, Data.grid.width);
+        };        
+
         itemSelector.reset();
-        
         var entity = {
             grid:grid,
             itemSelector:itemSelector,

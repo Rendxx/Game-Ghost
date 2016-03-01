@@ -176,6 +176,11 @@ html body {
   opacity: 1;
   background-position: center center;
   background-repeat: no-repeat;
+  -moz-transform-origin: 8px 8px;
+  -ms-transform-origin: 8px 8px;
+  -o-transform-origin: 8px 8px;
+  -webkit-transform-origin: 8px 8px;
+  transform-origin: 8px 8px;
   background-size: 16px 16px;
   background-color: rgba(0, 0, 0, 0.6);
 }
