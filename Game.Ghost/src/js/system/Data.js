@@ -11,7 +11,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         character: {
             files: {
                 survivor: {
-                    green: 'player_survivor_green.data.json'
+                    green: 'player_survivor_green.data.json',
+                    blue: 'player_survivor_blue.data.json',
+                    red: 'player_survivor_red.data.json',
+                    yellow: 'player_survivor_yellow.data.json',
+                    purple: 'player_survivor_purple.data.json'
                 },
                 ghost: {
 

@@ -1,6 +1,6 @@
 ﻿{
   "id": "purple",
-  "dimension": [ 1, 1, 2 ],
+  "radius": 1,
   "model": "purple/player-2.json",
   "speed": {
     "rotate": {
@@ -8,9 +8,9 @@
       "body": 10
     },
     "move": {
-      "walk": 4.6,
-      "run": 8,
-      "back": -2
+      "walk": 1.15,
+      "run": 2,
+      "back": -0.5
     }
   },
   "action": {
@@ -30,33 +30,33 @@
     "init": "1"
   },
   "light": {
-      "top": {
-          "x": 0,
-          "y": 7,
-          "z": 1,
-          "intensity": 1,
-          "distance": 20,
-          "angle": 1,
-          "exponent": 10,
-          "color": 0xffffff
-      },
-      "torch":{
-          "x" : -1.4,
-          "y" : 2.4,
-          "z" : 0.8,
-          "color": 0xffffff,
-          "intensity" : 1,
-          "distance" : 50,
-          "angle" : 1,
-          "exponent" : 8,
-          "shadowCameraNear" : 1,
-          "shadowCameraFar" : 50,
-          "shadowCameraFov" : 50,
-          "shadowCameraVisible" : false,
-          "shadowMapWidth" : 2056,
-          "shadowMapHeight" : 2056,
-          "shadowBias" : 0.00,
-          "shadowDarkness" : 1.0
-      }
+    "top": {
+      "x": 0,
+      "y": 2,
+      "z": 0.25,
+      "intensity": 1,
+      "distance": 5,
+      "angle": 1,
+      "exponent": 10,
+      "color": "0xffffff"
+    },
+    "torch": {
+      "x": -0.325,
+      "y": 0.6,
+      "z": 0.2,
+      "color": "0xffffff",
+      "intensity": 1,
+      "distance": 12.5,
+      "angle": 1,
+      "exponent": 8,
+      "shadowCameraNear": 1,
+      "shadowCameraFar": 12.5,
+      "shadowCameraFov": 12.5,
+      "shadowCameraVisible": false,
+      "shadowMapWidth": 2056,
+      "shadowMapHeight": 2056,
+      "shadowBias": 0.00,
+      "shadowDarkness": 1.0
+    }
   }
 }
