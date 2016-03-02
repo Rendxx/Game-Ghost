@@ -20,7 +20,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // private data ----------------------------
         var that = this,
             _modelData = null,
-            _texture = {};
+            _texture = {},
+            _map = null;     // map
 
         // public data -----------------------------
         this.width = 0;
@@ -29,7 +30,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.wallTop = null;
         this.door = null;
         this.light = null;
-        this.item = null;
+        this.stuff = null;
         this.furniture = null;
         this.ground = null;
         this.ceiling = null;
@@ -44,6 +45,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             setupWall(entity.env.scene, data.wall, data.item.wall);
             setupDoor(entity.env.scene, data.item.door);
             setupFurniture(entity.env.scene, data.item.furniture);
+            setupStuff(entity.env.scene, data.item.stuff);
         };
 
         /**
@@ -53,8 +55,19 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _modelData = data;
         };
 
-        // private method ---------------------------
+        /**
+         * Update items
+         */
+        this.update = function () {
+            for (var i = 0, l = that.ground.length; i < l; i++) that.ground[i].material.needsUpdate = true;
+            for (var i = 0, l = that.ceiling.length; i < l; i++) that.ceiling[i].material.needsUpdate = true;
+            for (var i = 0, l = that.wall.length; i < l; i++) that.wall[i].material.needsUpdate = true;
+            for (var i = 0, l = that.wallTop.length; i < l; i++) that.wallTop[i].material.needsUpdate = true;
+            for (var i = 0, l = that.door.length; i < l; i++) that.door[i].material.needsUpdate = true;
+            for (var i = 0, l = that.furniture.length; i < l; i++) that.furniture[i].material.needsUpdate = true;
+        };
 
+        // private method ---------------------------
         var setupLight = function (scene) {
             if (that.light != null) {
                 for (var i = 0, l = that.light.length; i < l; i++) scene.remove(that.light[i]);
@@ -152,6 +165,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 that.furniture = null;
             }
             that.furniture = [];
+            _map = [];
+            for (var i = 0; i < that.height; i++){
+                _map[i] = [];
+                for (var j = 0; j < that.width; j++)
+                    _map[i][j] = -1;
+            }
             for (var i = 0, l = furniture.length; i < l; i++) {
                 if (furniture[i] == null) continue;
                 createFurniture(furniture[i], scene, function (mesh) {
@@ -161,18 +180,19 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
         };
 
-        var setupItem = function (scene, item) {
-            if (that.item != null) {
-                for (var i = 0, l = that.item.length; i < l; i++) scene.remove(that.item[i]);
-                that.item = null;
+        var setupStuff = function (scene, stuff) {
+            if (that.stuff != null) {
+                for (var i = 0, l = that.stuff.length; i < l; i++) scene.remove(that.stuff[i]);
+                that.stuff = null;
             }
-            if (item == null || item.length == 0) return;
-            that.item = [];
-            for (var i = 0, l = item.length; i < l; i++) {
-                if (item[i] == null) continue;
-                var mesh = createItem(item[i]);
-                scene.add(mesh);
-                that.item.push(mesh);
+            if (stuff == null || stuff.length == 0) return;
+            that.stuff = [];
+            for (var i = 0, l = stuff.length; i < l; i++) {
+                if (stuff[i] == null) continue;
+                createStuff(stuff[i], scene, function (mesh) {
+                    scene.add(mesh);
+                    that.stuff.push(mesh);
+                });
             }
         };
 
@@ -185,6 +205,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             ceiling.position.y = 2 * Data.grid.size;
             return ceiling;
         };
+
         var createGround = function (dat) {
             if (dat == null) return null;
             var id = dat.id;
@@ -314,6 +335,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 //mesh.position.y = depth/2;
                 mesh.position.z = y;
                 mesh.rotation.y = (4 - r) / 2 * Math.PI;
+                
+                for (var i = dat.top; i <= dat.bottom; i++) {
+                    for (var j = dat.left; j <= dat.right; j++)
+                        _map[i][j] = id;
+                }
 
                 onSuccess(mesh);
             });
@@ -349,6 +375,36 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             });
         };
 
+        var createStuff = function (dat, scene, onSuccess) {
+            if (dat == null) return null;
+            var id = dat.id;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size;
+            var r = dat.rotation;
+            var w = (dat.right - dat.left + 1) * Data.grid.size;
+            var h = (dat.bottom - dat.top + 1) * Data.grid.size;
+            var para = _modelData.items[Data.categoryName.stuff][id];
+
+            var mesh = null;
+
+
+            var loader = new THREE.JSONLoader();
+            loader.load(Data.files.path[Data.categoryName.stuff] + para.model, function (geometry, materials) {
+                var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+                mesh.position.x = x
+                var furnitureId = _map[dat.top][dat.left];
+                mesh.position.y = furnitureId == -1 ? 0 : _modelData.items[Data.categoryName.furniture][furnitureId].support * Data.grid.size;
+                mesh.position.z = y;
+                mesh.rotation.y = (4 - r) / 2 * Math.PI;
+
+                console.log(dat);
+                console.log(id, 'x:' + x, 'y:' + mesh.position.y, 'w:' + w, 'h:' + h, 'r:' + r);
+                onSuccess(mesh);
+            });
+        };
         var getTexture = function (path) {
             return THREE.ImageUtils.loadTexture(path);
             if (_texture[path] == null) _texture[path] = THREE.ImageUtils.loadTexture(path);

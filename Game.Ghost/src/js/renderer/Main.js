@@ -18,7 +18,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.map = null;
         this.test = null;
 
-        var _mapData = null,
+        var that=this,
+            _mapData = null,
             _modelData = null;
 
         // public method --------------------------------
@@ -44,9 +45,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.updateGame = function (gameData) {
         };
 
-
         // callback
         this.onRender = null;
+
+        // innwe callback
+        this._onRender = function () {
+            entity.map.update();
+
+            if (that.onRender != null) that.onRender();
+        };
     };
 
     /**
