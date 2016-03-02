@@ -10,8 +10,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Data = SYSTEM.Data;
     var Character = function (id, characterData) {
         // data ----------------------------------------------------------
-        var that = this;
+        var that = this,
+            _data = characterData;
 
+        this.id = id;
         this.name = null;
         this.role = null;
         this.x = -1;
