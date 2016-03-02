@@ -45,6 +45,7 @@
     <Content Include="ModelBuilder\Environment\wall-top.png" />
     <Content Include="ModelBuilder\Environment\wall.jpg" />
     <Content Include="ModelBuilder\Environment\wall.png" />
+    <Content Include="Model\Door\door_wood_1.png" />
     <Content Include="Model\Environment\wall-top.png" />
     <Content Include="Model\Environment\wall.png" />
     <Content Include="Model\Furniture\wood-2.jpg" />
@@ -237,6 +238,7 @@
     <Content Include="ModelBuilder\Stuff\key_1.blend1" />
     <Content Include="ModelBuilder\Stuff\key_1.texture.fla" />
     <Content Include="Model\Player\green\player-2.json" />
+    <Content Include="Model\Door\door.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
