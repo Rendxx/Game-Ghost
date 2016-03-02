@@ -254,7 +254,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             y *= Data.grid.size;
             len *= Data.grid.size;
 
-            var texture = getTexture(Data.files.path[Data.categoryName.wall] + para.texture[0]);
+            var texture = getTexture(Data.files.path[Data.categoryName.wall] + para.texture[1]);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.x = len/8;

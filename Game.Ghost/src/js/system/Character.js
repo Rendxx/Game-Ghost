@@ -8,7 +8,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
-    var Character = function () {
+    var Character = function (id, characterData) {
         // data ----------------------------------------------------------
         var that = this;
 
