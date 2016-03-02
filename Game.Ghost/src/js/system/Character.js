@@ -12,6 +12,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ----------------------------------------------------------
         var that = this;
 
+        this.name = null;
+        this.role = null;
+        this.x = -1;
+        this.y = -1;
+        this.package = {};
+        this.endurance = 0;
+        this.light = 0;
+        this.battery = 0;
+        this.hp = 0;
+
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
