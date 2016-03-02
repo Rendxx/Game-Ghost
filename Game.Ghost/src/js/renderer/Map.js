@@ -26,6 +26,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.width = 0;
         this.height = 0;
         this.wall = null;
+        this.wallTop = null;
+        this.door = null;
         this.light = null;
         this.item = null;
         this.furniture = null;
@@ -39,7 +41,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.reset = function (data) {
             if (data == null) throw new Error('Data missing');
             setupGround(entity.env.scene, data.grid, data.item.ground);
-            setupWall(entity.env.scene, data.wall);
+            setupWall(entity.env.scene, data.wall, data.item.wall);
+            setupDoor(entity.env.scene, data.item.door);
             setupFurniture(entity.env.scene, data.item.furniture);
         };
 
@@ -106,7 +109,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.ceiling.push(ceiling);
         };
 
-        var setupWall = function (scene, wall) {
+        var setupWall = function (scene, wall, wallTop) {
             if (that.wall != null) {
                 for (var i = 0, l = that.wall.length; i < l; i++) scene.remove(that.wall[i]);
                 that.wall = null;
@@ -117,6 +120,29 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 var mesh = createWall(wall[i]);
                 scene.add(mesh);
                 that.wall.push(mesh);
+            }
+
+            that.wallTop = [];
+            for (var i = 0, l = wallTop.length; i < l; i++) {
+                if (wallTop[i] == null) continue;
+                var mesh = createWallTop(wallTop[i]);
+                scene.add(mesh);
+                that.wallTop.push(mesh);
+            }
+        };
+
+        var setupDoor = function (scene, doors) {
+            if (that.door != null) {
+                for (var i = 0, l = that.door.length; i < l; i++) scene.remove(that.door[i]);
+                that.door = null;
+            }
+            that.door = [];
+            for (var i = 0, l = doors.length; i < l; i++) {
+                if (doors[i] == null) continue;
+                createDoor(doors[i], scene, function (mesh) {
+                    scene.add(mesh);
+                    that.door.push(mesh);
+                });
             }
         };
 
@@ -176,7 +202,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             texture.repeat.y = h / 4;
 
             var geometry = new THREE.PlaneGeometry(w, h, w, h);
-            var material = new THREE.MeshBasicMaterial({ color: 0xeeeeee, map: texture });
+            var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
             material.side = THREE.DoubleSide;
             mesh = new THREE.Mesh(geometry, material);
 
@@ -226,6 +252,43 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             return mesh;
         };
 
+        var createWallTop = function (dat) {
+            if (dat == null) return null;
+            var id = dat.id;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size;
+            var r = dat.rotation;
+            var w = (dat.right - dat.left + 1) * Data.grid.size;
+            var h = (dat.bottom - dat.top + 1) * Data.grid.size;
+            var para = _modelData.items[Data.categoryName.wall][id];
+
+            var mesh = null;
+
+            console.log(dat);
+            console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
+
+            // top wall
+            var texture = getTexture(Data.files.path[Data.categoryName.wall] + para.texture[0]);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.x = w / 4;
+            texture.repeat.y = h / 4;
+
+            var geometry = new THREE.PlaneGeometry(w, h, w, h);
+            var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
+            material.side = THREE.DoubleSide;
+            var mesh = new THREE.Mesh(geometry, material);
+
+            mesh.position.x = x;
+            mesh.position.y = 2 * Data.grid.size;
+            mesh.position.z = y;
+            //mesh.rotation.y = r / 180 * Math.PI;
+            mesh.rotation.x = -.5 * Math.PI;
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            return mesh;
+        };
+
         var createFurniture = function (dat, scene, onSuccess) {
             if (dat == null) return null;
             var id = dat.id;
@@ -238,12 +301,41 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var mesh = null;
 
-
             console.log(dat);
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             var loader = new THREE.JSONLoader();
             loader.load(Data.files.path[Data.categoryName.furniture] + para.model, function (geometry, materials) {
+                var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+                mesh.position.x = x;
+                //mesh.position.y = depth/2;
+                mesh.position.z = y;
+                mesh.rotation.y = (4 - r) / 2 * Math.PI;
+
+                onSuccess(mesh);
+            });
+        };
+
+        var createDoor = function (dat, scene, onSuccess) {
+            if (dat == null) return null;
+            var id = dat.id;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size;
+            var r = dat.rotation;
+            var w = (dat.right - dat.left + 1) * Data.grid.size;
+            var h = (dat.bottom - dat.top + 1) * Data.grid.size;
+            var para = _modelData.items[Data.categoryName.door][id];
+
+            var mesh = null;
+
+            console.log(dat);
+            console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
+
+            var loader = new THREE.JSONLoader();
+            loader.load(Data.files.path[Data.categoryName.door] + para.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = true;
                 mesh.receiveShadow = true;

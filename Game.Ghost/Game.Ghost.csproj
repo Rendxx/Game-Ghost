@@ -45,6 +45,7 @@
     <Content Include="ModelBuilder\Environment\wall-top.png" />
     <Content Include="ModelBuilder\Environment\wall.jpg" />
     <Content Include="ModelBuilder\Environment\wall.png" />
+    <Content Include="Model\Environment\wall-top.png" />
     <Content Include="Model\Environment\wall.png" />
     <Content Include="Model\Furniture\wood-2.jpg" />
     <Content Include="ModelBuilder\Player\wood-table.jpg" />
