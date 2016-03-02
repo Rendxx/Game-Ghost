@@ -8,25 +8,45 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
-    var Character = function (id, characterData) {
+    var Character = function (id, characterPara, characterData) {
         // data ----------------------------------------------------------
         var that = this,
-            _data = characterData;
+            _para = characterPara,
+            _data = characterData[_para.role].para;
 
         this.id = id;
-        this.name = null;
-        this.role = null;
+        this.name = _para.name;
+        this.role = _para.role;
         this.x = -1;
         this.y = -1;
         this.package = {};
-        this.endurance = 0;
-        this.light = 0;
-        this.battery = 0;
-        this.hp = 0;
+        this.endurance = _data.endurance;
+        this.light = 1;
+        this.battery = 10;
+        this.hp = _data.hp;
 
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
+        // move to an offset to a rotation with a rotation of head 
+        this.move = function (offset, rotation, rotationHead, rush) {
+
+        };
+
+        // examine the place in front of the character
+        this.examine = function () {
+
+        };
+
+        // turn on / off torch light
+        this.switchTorch = function () {
+
+        };
+
+        // character die
+        this.die = function () {
+
+        };
 
         // private method ------------------------------------------------
 

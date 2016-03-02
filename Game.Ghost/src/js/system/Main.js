@@ -18,7 +18,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var that = this,
             isLoaded = 0,       // 0: not loaded,  2: fully loaded
             modelData = {},
-            mapData = {};
+            mapData = {},
+            playerData = null;
 
         // component ----------------------------------------------
         var loader = null;
@@ -59,13 +60,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // setup game
         this.setup = function (players, mapName) {
+            playerData = players;
             if (Data.map.files[mapName] == null) throw new Error('Map can not be found.');
             loader.loadMap(Data.map.files[mapName], function (data) {
                 mapData = data;
                 that.map.load(data);
-                for (var i = 0; i < players.length; i++) {
-                    that.characters[i] = new SYSTEM.Character(i, players[i]);
-                }
                 //that.renderer.loadCharacter(players);
                 onLoaded();
             },
@@ -77,7 +76,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method -----------------------------------------
         var onLoaded = function () {
             isLoaded++;
-            if (isLoaded == 2) that.onLoaded(modelData, mapData);
+            if (isLoaded == 2) {
+                for (var i = 0; i < playerData.length; i++) {
+                    that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters);
+                }
+                that.onLoaded(modelData, mapData);
+            }
         };
 
         var _init = function () {

@@ -2,15 +2,19 @@
   "id": "purple",
   "radius": 1,
   "model": "purple/player-2.json",
-  "speed": {
-    "rotate": {
-      "head": 20,
-      "body": 10
-    },
-    "move": {
-      "walk": 1.15,
-      "run": 2,
-      "back": -0.5
+  "para": {
+    "endurance": 10,
+    "hp": 1,
+    "speed": {
+      "rotate": {
+        "head": 20,
+        "body": 10
+      },
+      "move": {
+        "walk": 1.15,
+        "run": 2,
+        "back": -0.5
+      }
     }
   },
   "action": {
