@@ -28,16 +28,19 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             ground: '_ground',
             furniture: '_furniture',
             stuff: '_stuff',
-            door: '_door'
+            door: '_door',
+            position: '_position'
         },
         categoryName: {
             wall: 'wall',
             ground: 'ground',
             furniture: 'furniture',
             stuff: 'stuff',
-            door: 'door'
+            door: 'door',
+            position: 'position'
         },
         categoryOrder: [
+            'position',
             'stuff',
             'furniture',
             'door',
@@ -64,13 +67,18 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 'Chair (Wood) 1': 'chair_wood_1_1.data.json',
             },
             stuff: {
-                'Vase 1': 'vase_1.data.json',
+                'Vase ': 'vase_1.data.json',
                 'Box 1': 'box_1.data.json',
                 'Books 1': 'books_1.data.json',
                 'Key 1': 'key_1.data.json',
             },
             door: {
                 'Door (Wood) 1': 'door_wood_1.data.json',
+            },
+            position: {
+                'Start (Survivor)': 'start_1.data.json',
+                'Start (Ghost)': 'start_2.data.json',
+                'End': 'end_1.data.json',
             }
         },
         path: {
@@ -78,7 +86,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             ground: '/Model/Environment/',
             furniture: '/Model/Furniture/',
             stuff: '/Model/Stuff/',
-            door: '/Model/Door/'
+            door: '/Model/Door/',
+            position: '/Model/Position/'
         },
         defaultItem: {
             wall: 'White Wall'

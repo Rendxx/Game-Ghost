@@ -21,6 +21,7 @@
     <Content Include="mapDesigner\Document\category-icon0003.png" />
     <Content Include="mapDesigner\Document\category-icon0004.png" />
     <Content Include="mapDesigner\Document\category-icon0005.png" />
+    <Content Include="mapDesigner\Document\category-icon0006.png" />
     <Content Include="mapDesigner\Document\key.icon.png" />
     <Content Include="mapDesigner\Document\shoeprint3-300px.png" />
     <Content Include="mapDesigner\Images\key.icon.png" />
@@ -75,6 +76,9 @@
     <Content Include="Model\Player\red\Player-Texture.png" />
     <Content Include="Model\Player\yellow\Player-Texture-2.png" />
     <Content Include="Model\Player\yellow\Player-Texture.png" />
+    <Content Include="Model\Position\end_1.icon.png" />
+    <Content Include="Model\Position\start_1.icon.png" />
+    <Content Include="Model\Position\start_2.icon.png" />
     <Content Include="Model\Stuff\vase_1.png" />
     <Content Include="Model\Environment\ground_ceramic.icon.png" />
     <Content Include="Model\Environment\ground_ceramic.png" />
@@ -257,6 +261,12 @@
     <Content Include="Model\Player\player_survivor_yellow.data.json" />
     <Content Include="Model\Player\player_survivor_red.data.json" />
     <Content Include="Model\Player\player_survivor_purple.data.json" />
+    <Content Include="ModelBuilder\Position\start_1.icon.fla" />
+    <Content Include="ModelBuilder\Position\start_2.icon.fla" />
+    <Content Include="Model\Position\start_1.data.json" />
+    <Content Include="Model\Position\start_2.data.json" />
+    <Content Include="ModelBuilder\Position\end_1.icon.fla" />
+    <Content Include="Model\Position\end_1.data.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
