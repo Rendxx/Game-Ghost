@@ -13,14 +13,30 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Empty: 0,
             Wall: 1,
             Furniture:2
+        },
+        FurnitureStatus:{
+            None: 0,
+            Closed: 1,
+            Opened: 2
+        },
+        DoorStatus:{
+            Locked: 0,
+            Opened: 1,
+            Closed: 2,
+            Blocked: 3
         }
     };
     var Map = function (entity) {
         // data ----------------------------------------------------------
         var that = this,
             _data = null,
+            _modelData = null,
             grid = [],
             keyList = {},           // furniture id: door id
+            statusList = {
+                door: {},           // door id: door status
+                furniture: {}       // furniture id: furniture status
+            },
             position = {            // list of position coordinate
                 survivor: [],
                 ghost: [],
@@ -31,8 +47,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // public method -------------------------------------------------
         // load map data
-        this.load = function (data) {
+        this.load = function (modelData, data) {
             _data = data;
+            _modelData = modelData;
             setupGrid();
         };
 
@@ -42,14 +59,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (recoverData == null) {
                 setupPosition();
                 setupKey();
+                setupStatus();
             } else {
                 recoverPosition(recoverData.position);
                 recoverKey(recoverData.key);
+                recoverStatus(recoverData.status);
             }
         };
 
         // private method ------------------------------------------------
-
         var setupGrid = function () {
             // create grid
             grid = [];
@@ -123,7 +141,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 ghost: [],
                 end: []
             };
-            for (var k in positionList) {
+            for (var k = 0, l = positionList.length; i < l;i++) {
                 if (positionListp[k] == null) continue;
                 var p = positionList[k];
                 for (var i in _data.item.positionType) {
@@ -162,6 +180,34 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var recoverPosition = function (recoverData) {
             position = recoverData;
+        };
+
+        // status of furniture and door ------------------------
+        var setupStatus = function () {
+            statusList = {
+                door: {},
+                furniture: {}
+            };
+
+            // furniture
+            var furnitureList = _data.item.furniture;
+            for (var k = 0, l = furnitureList.length; i < l;i++) {
+                if (furnitureList[k] == null) continue;
+                var f = _modelData.items[Data.categoryName.furniture][furnitureList[k].id];
+                statusList['furniture'][k] = (f.slotInside == true) ? _Data.FurnitureStatus.Closed : _Data.FurnitureStatus.None;
+            }
+
+            // door
+            var doorList = _data.item.door;
+            var doorKey = _data.doorSetting;
+            for (var k = 0, l = doorList.length; i < l; i++) {
+                if (doorList[k] == null) continue;
+                statusList['furniture'][k] = (k in doorKey && doorKey[k].keys.length > 0) ? _Data.DoorStatus.Locked : _Data.DoorStatus.Closed;
+            }
+        };
+
+        var recoverStatus = function (recoverData) {
+            statusList = recoverData;
         };
 
         var _init = function () {

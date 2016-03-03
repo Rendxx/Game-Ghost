@@ -67,7 +67,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (Data.map.files[mapName] == null) throw new Error('Map can not be found.');
             loader.loadMap(Data.map.files[mapName], function (data) {
                 mapData = data;
-                that.map.load(data);
                 onLoaded();
             },
             function (e) {
@@ -75,10 +74,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             });
         };
 
+        // store game data
+        this._storeGameData = function (module, data) {
+            gameData[module] = data;
+        };
+
         // private method -----------------------------------------
         var onLoaded = function () {
             isLoaded++;
             if (isLoaded == 2) {
+                that.map.load(modelData, mapData);
                 for (var i = 0; i < playerData.length; i++) {
                     that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters);
                 }
