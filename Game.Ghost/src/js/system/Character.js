@@ -11,30 +11,43 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Character = function (id, characterPara, characterData) {
         // data ----------------------------------------------------------
         var that = this,
-            _para = characterPara,
-            _data = characterData[_para.role].para;
+            _info = characterPara,
+            _modelData = characterData[_info.role].para,
+            _para = Data.character.para[_info.role];
 
         this.id = id;
-        this.name = _para.name;
-        this.role = _para.role;
+        this.name = _info.name;
+        this.role = _info.role;
         this.x = -1;
         this.y = -1;
         this.package = {};
-        this.endurance = _data.endurance;
-        this.light = 1;
-        this.battery = 10;
-        this.hp = _data.hp;
+        this.endurance = _modelData.endurance;
+        this.light = _para.init.light;
+        this.battery = _para.init.battery;
+        this.hp = _para.init.hp;
 
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
+        // recover / init character
+        this.reset = function (_recoverData) {
+            if ('x' in _recoverData) this.x = _recoverData.x;
+            if ('y' in _recoverData) this.y = _recoverData.y;
+            if ('role' in _recoverData) this.role = _recoverData.role;
+            if ('package' in _recoverData) this.package = _recoverData.xpackage;
+            if ('endurance' in _recoverData) this.endurance = _recoverData.endurance;
+            if ('light' in _recoverData) this.light = _recoverData.light;
+            if ('battery' in _recoverData) this.battery = _recoverData.battery;
+            if ('hp' in _recoverData) this.hp = _recoverData.hp;
+        };
+
         // move to an offset to a rotation with a rotation of head 
         this.move = function (offset, rotation, rotationHead, rush) {
 
         };
 
-        // examine the place in front of the character
-        this.examine = function () {
+        // use the item in front of the character
+        this.use = function () {
 
         };
 

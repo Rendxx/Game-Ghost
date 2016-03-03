@@ -29,7 +29,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // Renderer scene on screen
         var animate = function () {
             requestAnimationFrame(animate);
-            if (entity.onRender != null) entity.onRender();
+            if (entity._onRender != null) entity._onRender();
             that.renderer.render(that.scene, that.camera);
         }
 

@@ -8,4 +8,5 @@
         render.load(modelData, mapData);
     };
     system.setup([], 'test');
+    system.onChange = render.updateGame;
 });

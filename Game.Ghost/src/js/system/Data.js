@@ -9,6 +9,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 (function (SYSTEM) {
     var Data = {
         character: {
+            type: {
+                survivor: 'survivor',
+                ghost: 'ghost'
+            },
             files: {
                 survivor: {
                     green: 'player_survivor_green.data.json',
@@ -21,7 +25,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
                 }
             },
-            path: '/Model/Player/'
+            path: '/Model/Player/',
+            para: {
+                survivor: {
+                    init: {
+                        hp: 1,
+                        light: 1,
+                        battery: 100
+                    },
+                    enduranceCost: 1,
+                    enduranceRecover: 2,
+                    batteryCost: 0
+                }
+            }
         },
         item: {
             categoryName: {
@@ -73,6 +89,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 furniture: '/Model/Furniture/',
                 stuff: '/Model/Stuff/',
                 door: '/Model/Door/'
+            },
+            positionType: {
+                survivor: 'start_1',
+                ghost: 'start_2',
+                end: 'end_1'
             }
         },
         map: {

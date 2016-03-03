@@ -19,7 +19,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             isLoaded = 0,       // 0: not loaded,  2: fully loaded
             modelData = {},
             mapData = {},
-            playerData = null;
+            playerData = null,
+            gameData = {};      // store all data in the game, use to render
 
         // component ----------------------------------------------
         var loader = null;
@@ -51,6 +52,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // start game
         this.start = function () {
             if (isLoaded < 2) return false;
+
             if (this.onStarted) this.onStarted();
         };
 

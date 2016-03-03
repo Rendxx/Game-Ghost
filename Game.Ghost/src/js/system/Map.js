@@ -20,16 +20,32 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var that = this,
             _data = null,
             grid = [],
-            keyList = {};           // furniture id: door id
+            keyList = {},           // furniture id: door id
+            position = {            // list of position coordinate
+                survivor: [],
+                ghost: [],
+                end:[]
+            };
 
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
-        // load map data and reset map
+        // load map data
         this.load = function (data) {
             _data = data;
             setupGrid();
-            setupKey();
+        };
+
+        // reset key / player / position with given data
+        // or create them 
+        this.reset = function (recoverData) {
+            if (recoverData == null) {
+                setupPosition();
+                setupKey();
+            } else {
+                recoverPosition(recoverData.position);
+                recoverKey(recoverData.key);
+            }
         };
 
         // private method ------------------------------------------------
@@ -68,7 +84,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
             }
         };
-        
+
+        // key --------------------------------------------
         var setupKey = function () {
             keyList = {};
             var doors = _data.doorSetting;
@@ -88,6 +105,65 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
             }
         };
+
+        var recoverKey = function (recoverData) {
+            keyList = recoverData;
+        };
+
+        // position --------------------------------------------
+        var setupPosition = function () {
+            position = {
+                survivor: [],
+                ghost: [],
+                end: []
+            };
+            var positionList = _data.item.position;
+            var tmp = {
+                survivor: [],
+                ghost: [],
+                end: []
+            };
+            for (var k in positionList) {
+                if (positionListp[k] == null) continue;
+                var p = positionList[k];
+                for (var i in _data.item.positionType) {
+                    if (p.id == _data.item.positionType[i]) {
+                        tmp[i].push([_data.item.positionType[i].x, _data.item.positionType[i].y]);
+                    }
+                }
+            }
+
+            var t;
+            for (var i = 0; i < entity.chacracters.length; i++) {
+                if (entity.chacracters[i].role == Data.character.type.survivor) {
+                    // survivor
+                    var idx = Math.floor(tmp['survivor'].length * Math.random());
+                    t = tmp['survivor'][idx];
+                    position['survivor'].push(t);
+                    tmp['survivor'].splice(idx, 1);
+                } else if (entity.chacracters[i].role == Data.character.type.ghost) {
+                    // ghost
+                    var idx = Math.floor(tmp['ghost'].length * Math.random());
+                    t = tmp['ghost'][idx];
+                    position['ghost'].push(t);
+                    tmp['ghost'].splice(idx, 1);
+                }
+                entity.chacracters[i].reset({
+                    x: t[0],
+                    y: t[1]
+                });
+            }
+
+            // end
+            var idx = Math.floor(tmp['end'].length * Math.random());
+            position['end'].push(tmp['end'][idx]);
+            tmp['end'].splice(idx, 1);
+        };
+
+        var recoverPosition = function (recoverData) {
+            position = recoverData;
+        };
+
         var _init = function () {
         };
         _init();
