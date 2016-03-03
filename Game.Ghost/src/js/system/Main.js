@@ -45,11 +45,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // public method ------------------------------------------
         // reset game with given data
         this.reset = function (gameData) {
-
+            if (isLoaded < 2) return false;
         };
 
         // start game
         this.start = function () {
+            if (isLoaded < 2) return false;
             if (this.onStarted) this.onStarted();
         };
 
@@ -65,7 +66,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             loader.loadMap(Data.map.files[mapName], function (data) {
                 mapData = data;
                 that.map.load(data);
-                //that.renderer.loadCharacter(players);
                 onLoaded();
             },
             function (e) {
@@ -80,7 +80,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 for (var i = 0; i < playerData.length; i++) {
                     that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters);
                 }
-                that.onLoaded(modelData, mapData);
+                that.onLoaded(modelData, mapData, playerData);
             }
         };
 

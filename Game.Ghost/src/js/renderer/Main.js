@@ -16,18 +16,26 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.playerNumber = playerNumber;
         this.env = null;
         this.map = null;
+        this.characters = null;
         this.test = null;
 
         var that=this,
             _mapData = null,
-            _modelData = null;
+            _modelData = null,
+            _playerData = null;
 
         // public method --------------------------------
-        this.load = function (modelData, mapData) {
+        this.load = function (modelData, mapData, playerData) {
             _mapData = mapData;
             _modelData = modelData;
+            _playerData = playerData;
             this.map.loadModelData(_modelData);
             this.map.reset(_mapData);
+
+            this.characters = [];
+            for (var i = 0, l = _playerData.length; i < l; i++) {
+                this.characters[i] = new RENDERER.Character(entity, i, _modelData.characters, _playerData[i]);
+            }
         };
 
         // api -------------------------------------------

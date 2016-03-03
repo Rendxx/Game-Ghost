@@ -45,7 +45,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // character die
         this.die = function () {
-
+            this.hp = 0;
         };
 
         // private method ------------------------------------------------

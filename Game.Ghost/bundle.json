@@ -52,6 +52,7 @@
         "#src#/renderer/Data.js",
         "#src#/renderer/Environment.js",
         "#src#/renderer/Map.js",
+        "#src#/renderer/Character.js",
         "#src#/renderer/Test.js",
         "#src#/renderer/Main.js"
       ],

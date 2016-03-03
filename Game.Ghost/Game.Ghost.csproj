@@ -115,6 +115,7 @@
     <Content Include="PlayerControlTest\sample.html" />
     <Content Include="PlayerControlTest\sample.js" />
     <Content Include="src\js\lib\OBJLoader.js" />
+    <Content Include="src\js\renderer\Character.js" />
     <Content Include="src\js\renderer\Data.js" />
     <Content Include="src\js\renderer\Map.js" />
     <Content Include="src\js\renderer\Test.js" />

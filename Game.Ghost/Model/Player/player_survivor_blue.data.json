@@ -28,9 +28,6 @@
       "6": "turn",
       "7": "walk"
     },
-    "notLoop": {
-      "2": true
-    },
     "init": "1"
   },
   "light": {
