@@ -8,12 +8,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
  */
 (function (RENDERER) {
     var Data = RENDERER.Data.character;
-    var Character = function (entity, id, characterPara, characterData) {
+    var Character = function (entity, id, modelData, characterPara) {
         // data ----------------------------------------------
         var that = this,
             scene = entity.env.scene,
             _para = characterPara,
-            _data = characterData[_para.role].para;
+            _data = modelData[_para.role][_para.modelId];
 
         var r_head_1 = null,
             r_head_2 = null,
@@ -22,6 +22,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.id = id;
         this.name = _para.name;
         this.role = _para.role;
+        this.modelId = _para.modelId;
 
         this.topLight = null;
         this.torch = null;
@@ -105,7 +106,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // private method -------------------------------------------------
         var load = function () {
             var loader = new THREE.JSONLoader();
-            loader.load(Data.character.path+_data.model, function (geometry, materials) {
+            loader.load(Data.path+_data.model, function (geometry, materials) {
                 var mesh = null,
                     actions = {},
                     mixer = null;
@@ -124,7 +125,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     actions[_data.action.list[i]] = action;
                 }
 
-                currentAction = _data.action.init;
+                currentAction = _data.action.list[_data.action.init];
                 actions[currentAction].weight = 1;
 
                 that.mesh = mesh;

@@ -18,6 +18,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.map = null;
         this.characters = null;
         this.test = null;
+        this.started = false;
 
         var that=this,
             _mapData = null,
@@ -25,6 +26,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _playerData = null;
 
         // public method --------------------------------
+        // load basic data
         this.load = function (modelData, mapData, playerData) {
             _mapData = mapData;
             _modelData = modelData;
@@ -34,8 +36,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             this.characters = [];
             for (var i = 0, l = _playerData.length; i < l; i++) {
-                this.characters[i] = new RENDERER.Character(entity, i, _modelData.characters, _playerData[i]);
+                this.characters[i] = new RENDERER.Character(this, i, _modelData.characters, _playerData[i]);
             }
+        };
+
+        this.start = function () {
+            this.started = true;
         };
 
         // api -------------------------------------------
@@ -51,7 +57,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.updateGame = function (gameData) {
-            entity.map.updateData(gameData.map);
+            this.map.updateData(gameData.map);
             for (var i = 0, l = this.characters.length; i < l; i++) {
                 this.characters[i].updateData(gameData.character[i]);
             }
@@ -60,9 +66,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // callback
         this.onRender = null;
 
-        // innwe callback
+        // inner callback
         this._onRender = function () {
-            entity.map.update();
+            if (!this.started) return;
+            this.map.update();
             for (var i = 0, l = this.characters.length; i < l; i++) {
                 this.characters[i].update();
             }

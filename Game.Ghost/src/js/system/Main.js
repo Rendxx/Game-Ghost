@@ -52,7 +52,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // start game
         this.start = function () {
             if (isLoaded < 2) return false;
-
+            this.map.reset();
+            for (var i = 0; i < that.characters.length; i++) {
+                that.characters[i].reset();
+            }
             if (this.onStarted) this.onStarted();
         };
 
@@ -83,7 +86,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var onLoaded = function () {
             isLoaded++;
             if (isLoaded == 2) {
-                that.map.load(modelData, mapData);
+                that.map.loadBasicData(modelData, mapData);
                 for (var i = 0; i < playerData.length; i++) {
                     that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters);
                 }

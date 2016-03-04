@@ -12,14 +12,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         Grid: {
             Empty: 0,
             Wall: 1,
-            Furniture:2
+            Furniture: 2
         },
-        FurnitureStatus:{
+        FurnitureStatus: {
             None: 0,
             Closed: 1,
             Opened: 2
         },
-        DoorStatus:{
+        DoorStatus: {
             Locked: 0,
             Opened: 1,
             Closed: 2,
@@ -40,14 +40,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             position = {            // list of position coordinate
                 survivor: [],
                 ghost: [],
-                end:[]
+                end: []
             };
 
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
-        // load map data
-        this.load = function (modelData, data) {
+        // load modelData and map data
+        this.loadBasicData = function (modelData, data) {
             _data = data;
             _modelData = modelData;
             setupGrid();
@@ -115,7 +115,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 for (var i in door.keys) {
                     tmpList.push(i);
                 }
-                while (keyNum > 0 && tmpList.length>0) {
+                while (keyNum > 0 && tmpList.length > 0) {
                     var idx = Math.floor(tmpList.length * Math.random());
                     keyList[tmpList[idx]] = k;
                     tmpList.splice(idx, 1);
@@ -141,32 +141,33 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 ghost: [],
                 end: []
             };
-            for (var k = 0, l = positionList.length; i < l;i++) {
-                if (positionListp[k] == null) continue;
+            for (var k = 0, l = positionList.length; k < l; k++) {
+                if (positionList[k] == null) continue;
                 var p = positionList[k];
-                for (var i in _data.item.positionType) {
-                    if (p.id == _data.item.positionType[i]) {
-                        tmp[i].push([_data.item.positionType[i].x, _data.item.positionType[i].y]);
+                for (var i in Data.item.positionType) {
+                    if (p.id == Data.item.positionType[i]) {
+                        tmp[i].push([p.x, p.y]);
+                        break;
                     }
                 }
             }
 
             var t;
-            for (var i = 0; i < entity.chacracters.length; i++) {
-                if (entity.chacracters[i].role == Data.character.type.survivor) {
+            for (var i = 0; i < entity.characters.length; i++) {
+                if (entity.characters[i].role == Data.character.type.survivor) {
                     // survivor
                     var idx = Math.floor(tmp['survivor'].length * Math.random());
                     t = tmp['survivor'][idx];
                     position['survivor'].push(t);
                     tmp['survivor'].splice(idx, 1);
-                } else if (entity.chacracters[i].role == Data.character.type.ghost) {
+                } else if (entity.characters[i].role == Data.character.type.ghost) {
                     // ghost
                     var idx = Math.floor(tmp['ghost'].length * Math.random());
                     t = tmp['ghost'][idx];
                     position['ghost'].push(t);
                     tmp['ghost'].splice(idx, 1);
                 }
-                entity.chacracters[i].reset({
+                entity.characters[i].reset({
                     x: t[0],
                     y: t[1]
                 });
@@ -191,16 +192,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
             // furniture
             var furnitureList = _data.item.furniture;
-            for (var k = 0, l = furnitureList.length; i < l;i++) {
+            for (var k = 0, l = furnitureList.length; k < l; k++) {
                 if (furnitureList[k] == null) continue;
-                var f = _modelData.items[Data.categoryName.furniture][furnitureList[k].id];
+                var f = _modelData.items[Data.item.categoryName.furniture][furnitureList[k].id];
                 statusList['furniture'][k] = (f.slotInside == true) ? _Data.FurnitureStatus.Closed : _Data.FurnitureStatus.None;
             }
 
             // door
             var doorList = _data.item.door;
             var doorKey = _data.doorSetting;
-            for (var k = 0, l = doorList.length; i < l; i++) {
+            for (var k = 0, l = doorList.length; k < l; k++) {
                 if (doorList[k] == null) continue;
                 statusList['furniture'][k] = (k in doorKey && doorKey[k].keys.length > 0) ? _Data.DoorStatus.Locked : _Data.DoorStatus.Closed;
             }

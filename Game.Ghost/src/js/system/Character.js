@@ -12,12 +12,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ----------------------------------------------------------
         var that = this,
             _info = characterPara,
-            _modelData = characterData[_info.role].para,
+            _modelData = characterData[_info.role][_info.modelId].para,
             _para = Data.character.para[_info.role];
 
         this.id = id;
         this.name = _info.name;
         this.role = _info.role;
+        this.modelId = _info.modelId;
         this.x = -1;
         this.y = -1;
         this.package = {};
@@ -29,8 +30,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
+
         // recover / init character
         this.reset = function (_recoverData) {
+            if (_recoverData == null) return;
             if ('x' in _recoverData) this.x = _recoverData.x;
             if ('y' in _recoverData) this.y = _recoverData.y;
             if ('role' in _recoverData) this.role = _recoverData.role;
