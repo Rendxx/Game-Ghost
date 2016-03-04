@@ -92,8 +92,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 gameData.characters = [];
                 for (var i = 0; i < playerData.length; i++) {
                     that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters);
-                    that.characters[i].onChange = function (data) {
-                        gameData.characters[i] = data;
+                    that.characters[i].onChange = function (idx, data) {
+                        gameData.characters[idx] = data;
                         if (that.onChange) that.onChange(gameData);
                     };
                 }

@@ -85,7 +85,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method ------------------------------------------------
         var _onChange = function () {
             if (that.onChange == null) return;
-            that.onChange({
+            that.onChange(that.id, {
                 x: that.x,
                 y: that.y,
                 endurance: that.endurance,

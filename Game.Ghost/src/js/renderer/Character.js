@@ -8,6 +8,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
  */
 (function (RENDERER) {
     var Data = RENDERER.Data.character;
+    var GridSize = RENDERER.Data.grid.size;
     var Character = function (entity, id, modelData, characterPara) {
         // data ----------------------------------------------
         var that = this,
@@ -57,8 +58,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.render = function (delta) {
             if (gameData == null) return;
             var action = gameData.action;
-            var x = gameData.x;
-            var y = gameData.y;
+            var x = (gameData.x - entity.map.width / 2 + 1) * GridSize;
+            var y = (gameData.y - entity.map.height / 2 + 1) * GridSize;
             var r_body = gameData.currentRotation.body;
             var r_head = gameData.currentRotation.headBody;
             var isDie = gameData.hp == 0;
@@ -89,9 +90,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var r1 = r_body / 180 * Math.PI;
             var r2 = -r_head / 180 * Math.PI;
-            var r3 = r1-r2;
-            r_head_1.rotation.z = r2/3 * 2;
-            r_head_2.rotation.z = r2/3;
+            var r3 = r1 - r2;
+            r_head_1.rotation.z = r2 / 3 * 2;
+            r_head_2.rotation.z = r2 / 3;
             this.mesh.rotation.y = r1;
 
             var r_light = r1 + light_angle;
@@ -99,12 +100,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var r_torch = r3 + torch_angle;
 
             //console.log(r_body, r_head, r_light, r_torchD, r_torch, torch_angle);
-            this.topLight.position.z = this.mesh.position.z + light_radius * Math.cos(r_light);
-            this.topLight.position.x = this.mesh.position.x + light_radius * Math.sin(r_light);
-            this.torchDirectionObj.position.z = this.mesh.position.z + torchDirectionObj_radius * Math.cos(r_torchD);
-            this.torchDirectionObj.position.x = this.mesh.position.x + torchDirectionObj_radius * Math.sin(r_torchD);
-            this.torch.position.z = this.mesh.position.z + torch_radius * Math.cos(r_torch);
-            this.torch.position.x = this.mesh.position.x + torch_radius * Math.sin(r_torch);
+            if (this.topLight != null) {
+                this.topLight.position.z = this.mesh.position.z + light_radius * Math.cos(r_light);
+                this.topLight.position.x = this.mesh.position.x + light_radius * Math.sin(r_light);
+            }
+            if (this.torch != null) {
+                this.torchDirectionObj.position.z = this.mesh.position.z + torchDirectionObj_radius * Math.cos(r_torchD);
+                this.torchDirectionObj.position.x = this.mesh.position.x + torchDirectionObj_radius * Math.sin(r_torchD);
+                this.torch.position.z = this.mesh.position.z + torch_radius * Math.cos(r_torch);
+                this.torch.position.x = this.mesh.position.x + torch_radius * Math.sin(r_torch);
+            }
         };
 
 
@@ -121,7 +126,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // private method -------------------------------------------------
         var load = function () {
             var loader = new THREE.JSONLoader();
-            loader.load(Data.path+_data.model, function (geometry, materials) {
+            loader.load(Data.path + _data.model, function (geometry, materials) {
                 var mesh = null,
                     actions = {},
                     mixer = null;
@@ -131,6 +136,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = true;
                 mesh.receiveShadow = true;
+                mesh.scale.set(1.5, 1.5, 1.5);
 
                 mixer = new THREE.AnimationMixer(mesh);
                 for (var i in _data.action.list) {
