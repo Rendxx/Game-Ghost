@@ -12,7 +12,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ----------------------------------------------------------
         var that = this,
             _info = characterPara,
-            _modelData = characterData[_info.role][_info.modelId].para,
+            _modelData = characterData[_info.role][_info.modelId],
             _para = Data.character.para[_info.role];
 
         this.id = id;
@@ -22,12 +22,26 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.x = -1;
         this.y = -1;
         this.package = {};
-        this.endurance = _modelData.endurance;
+        this.endurance = _modelData.para.endurance;
         this.light = _para.init.light;
         this.battery = _para.init.battery;
         this.hp = _para.init.hp;
+        this.action = _modelData.action.list[_modelData.action.init];
+        this.currentRotation = {
+            head: 0,
+            body: 0,
+            headBody: 0
+        };
+        this.requiredRotation = {
+            head: 0,
+            body: 0
+        };
+        var rush = false,
+            stay = true,
+            headFollow = true;
 
         // callback ------------------------------------------------------
+        this.onChange = null;
 
         // public method -------------------------------------------------
 
@@ -42,6 +56,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if ('light' in _recoverData) this.light = _recoverData.light;
             if ('battery' in _recoverData) this.battery = _recoverData.battery;
             if ('hp' in _recoverData) this.hp = _recoverData.hp;
+            if ('rotation' in _recoverData) this.hp = _recoverData.rotation;
+            if ('action' in _recoverData) this.hp = _recoverData.action;
+            if ('rush' in _recoverData) this.hp = _recoverData.rush;
+            _onChange();
         };
 
         // move to an offset to a rotation with a rotation of head 
@@ -65,6 +83,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // private method ------------------------------------------------
+        var _onChange = function () {
+            if (this.onChange == null) return;
+            this.onChange({
+                x: x,
+                y: y,
+                endurance: endurance,
+                light: light,
+                battery: battery,
+                hp: hp,
+                currentRotation: currentRotation,
+                action: action
+            });
+        };
 
         var _init = function () {
         };

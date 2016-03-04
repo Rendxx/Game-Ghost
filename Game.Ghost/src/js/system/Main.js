@@ -45,7 +45,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // public method ------------------------------------------
         // reset game with given data
-        this.reset = function (gameData) {
+        this.reset = function (data) {
             if (isLoaded < 2) return false;
         };
 
@@ -76,28 +76,32 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 throw new Error('Map Loading Error: ' + e);
             });
         };
-
-        // store game data
-        this._storeGameData = function (module, data) {
-            gameData[module] = data;
-        };
-
+        
         // private method -----------------------------------------
         var onLoaded = function () {
             isLoaded++;
             if (isLoaded == 2) {
+                that.map = new SYSTEM.Map(that, modelData, mapData);
+                that.map.onChange = function (data) {
+                    gameData.map = data;
+                    if (that.onChange) that.onChange(gameData);
+                };
+                that.interAction = new SYSTEM.InterAction(that);
+
                 that.map.loadBasicData(modelData, mapData);
+                gameData.characters = [];
                 for (var i = 0; i < playerData.length; i++) {
                     that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters);
+                    that.characters[i].onChange = function (data) {
+                        gameData.characters[i] = data;
+                        if (that.onChange) that.onChange(gameData);
+                    };
                 }
                 that.onLoaded(modelData, mapData, playerData);
             }
         };
 
         var _init = function () {
-            that.map = new SYSTEM.Map(that);
-            that.interAction = new SYSTEM.InterAction(that);
-
             loader = new SYSTEM.FileLoader();
             loader.loadBasic(function (data) {
                 modelData = data;

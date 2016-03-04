@@ -57,9 +57,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.updateGame = function (gameData) {
-            this.map.updateData(gameData.map);
+            this.map.update(gameData.map);
             for (var i = 0, l = this.characters.length; i < l; i++) {
-                this.characters[i].updateData(gameData.character[i]);
+                this.characters[i].update(gameData.characters[i]);
             }
         };
 
@@ -69,9 +69,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // inner callback
         this._onRender = function () {
             if (!this.started) return;
-            this.map.update();
+            this.map.render();
             for (var i = 0, l = this.characters.length; i < l; i++) {
-                this.characters[i].update();
+                this.characters[i].render();
             }
 
             if (that.onRender != null) that.onRender();

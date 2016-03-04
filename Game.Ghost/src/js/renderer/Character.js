@@ -39,14 +39,27 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             torch_radius = 0,
             torch_angle = 0,
             light_radiusadius = 0,
-            light_angle = 0;
+            light_angle = 0,
+            gameData = null;
 
         // callback -------------------------------------------------------
         this.onSetuped = null;
 
         // public method --------------------------------------------------
+        // update data from system
+        this.update = function (data_in) {
+            gameData = data_in;
+        };
 
-        this.render = function (action, x, y, r_body, r_head, isDie, delta) {
+        // render model
+        this.render = function (delta) {
+            if (gameData == null) return;
+            var action = gameData.action;
+            var x = gameData.x;
+            var y = gameData.y;
+            var r_body = gameData.currentRotation.body;
+            var r_head = gameData.currentRotation.headBody;
+            var isDie = gameData.hp == 0;
             //console.log(x+"  "+y+"  "+r_body+"  "+r_head);
             if (!this.setuped) return;
 

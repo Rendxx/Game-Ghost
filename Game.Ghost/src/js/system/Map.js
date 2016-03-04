@@ -44,6 +44,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             };
 
         // callback ------------------------------------------------------
+        this.onChange = null;
 
         // public method -------------------------------------------------
         // load modelData and map data
@@ -65,9 +66,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 recoverKey(recoverData.key);
                 recoverStatus(recoverData.status);
             }
+            _onChange();
         };
 
         // private method ------------------------------------------------
+        var _onChange = function () {
+            if (this.onChange == null) return;
+            this.onChange({
+                key: keyList,
+                status: statusList
+            });
+        };
+
+        // grid -------------------------------------------
         var setupGrid = function () {
             // create grid
             grid = [];

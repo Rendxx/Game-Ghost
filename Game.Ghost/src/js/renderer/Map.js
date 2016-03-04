@@ -55,10 +55,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _modelData = data;
         };
 
-        /**
-         * Update items
-         */
+        // update data from system
         this.update = function () {
+
+        };
+
+        // render model
+        this.render = function () {
             for (var i = 0, l = that.ground.length; i < l; i++) that.ground[i].material.needsUpdate = true;
             for (var i = 0, l = that.ceiling.length; i < l; i++) that.ceiling[i].material.needsUpdate = true;
             for (var i = 0, l = that.wall.length; i < l; i++) that.wall[i].material.needsUpdate = true;

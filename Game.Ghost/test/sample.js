@@ -4,7 +4,7 @@
     // game -----------------------------------------------------
     var render = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), 5);
     var system = window.Rendxx.Game.Ghost.System.Create();
-    system.onLoaded = function (modelData, mapData) {
+    system.onStarted = function (modelData, mapData) {
         render.start();
     };
     system.onLoaded = function (modelData, mapData, playerData) {
