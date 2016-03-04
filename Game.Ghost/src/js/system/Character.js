@@ -84,16 +84,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // private method ------------------------------------------------
         var _onChange = function () {
-            if (this.onChange == null) return;
-            this.onChange({
-                x: x,
-                y: y,
-                endurance: endurance,
-                light: light,
-                battery: battery,
-                hp: hp,
-                currentRotation: currentRotation,
-                action: action
+            if (that.onChange == null) return;
+            that.onChange({
+                x: that.x,
+                y: that.y,
+                endurance: that.endurance,
+                light: that.light,
+                battery: that.battery,
+                hp: that.hp,
+                currentRotation: that.currentRotation,
+                action: that.action
             });
         };
 

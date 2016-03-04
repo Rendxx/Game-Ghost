@@ -49,6 +49,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // update data from system
         this.update = function (data_in) {
             gameData = data_in;
+            console.log(this.id + "---------------------");
+            console.log(gameData);
         };
 
         // render model

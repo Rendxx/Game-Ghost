@@ -71,8 +71,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // private method ------------------------------------------------
         var _onChange = function () {
-            if (this.onChange == null) return;
-            this.onChange({
+            if (that.onChange == null) return;
+            that.onChange({
                 key: keyList,
                 status: statusList
             });
