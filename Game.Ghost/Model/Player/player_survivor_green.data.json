@@ -28,7 +28,7 @@
       "6": "turn",
       "7": "walk"
     },
-    "init": "1"
+    "init": "3"
   },
   "light": {
     "top": {
@@ -38,7 +38,7 @@
       "intensity": 1,
       "distance": 5,
       "angle": 1,
-      "exponent": 10,
+      "exponent": 15,
       "color": "0xffffff"
     },
     "torch": {

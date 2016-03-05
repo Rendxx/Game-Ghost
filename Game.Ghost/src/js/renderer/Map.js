@@ -68,6 +68,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = that.wallTop.length; i < l; i++) that.wallTop[i].material.needsUpdate = true;
             for (var i = 0, l = that.door.length; i < l; i++) that.door[i].material.needsUpdate = true;
             for (var i = 0, l = that.furniture.length; i < l; i++) that.furniture[i].material.needsUpdate = true;
+            for (var i = 0, l = that.stuff.length; i < l; i++) that.stuff[i].material.needsUpdate = true;
         };
 
         // private method ---------------------------
@@ -78,8 +79,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             that.light = [
-                new THREE.AmbientLight(),
-                new THREE.SpotLight()
+                new THREE.AmbientLight()
             ];
 
             var lightTarget = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial({ color: 0xff3300 }));
@@ -88,17 +88,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // Ambient
             that.light[0].color.setHex(Data.light.ambient.ambColor);
             scene.add(that.light[0]);
-
-            // Spot
-            that.light[1].castShadow = true;
-            that.light[1].position.set(Data.light.spot.lightX, Data.light.spot.lightY, Data.light.spot.lightZ);
-            that.light[1].intensity = Data.light.spot.intensity;
-            that.light[1].shadowCameraNear = Data.light.spot.shadowCameraNear;
-            that.light[1].shadowCameraFar = Data.light.spot.shadowCameraFar;
-            that.light[1].shadowCameraVisible = Data.light.spot.shadowCameraVisible;
-            that.light[1].shadowBias = Data.light.spot.shadowBias;
-            that.light[1].shadowDarkness = Data.light.spot.shadowDarkness;
-            scene.add(that.light[1]);
         };
 
         var setupGround = function (scene, grid, ground_in) {
@@ -206,6 +195,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var ceiling = new THREE.Mesh(planeGeometry, planeMaterial);
             ceiling.rotation.x = .5 * Math.PI;
             ceiling.position.y = 2 * Data.grid.size;
+            ceiling.castShadow = true;
+            ceiling.receiveShadow = true;
             return ceiling;
         };
 
@@ -266,13 +257,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
             material.side = THREE.DoubleSide;
             var mesh = new THREE.Mesh(geometry, material);
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
 
             mesh.rotation.y = (4-r) / 2 * Math.PI;
             mesh.position.x = x;
             mesh.position.y = Data.grid.size;
             mesh.position.z = y;
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
             return mesh;
         };
 

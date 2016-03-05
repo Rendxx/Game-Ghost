@@ -10,7 +10,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Data = {
         character: {
             survivor: {
-                file: '/Model/Player/player-2.json',
+                file: '/Model/Player/blue/player-2.json',
                 action: {
                     0: 'back',
                     1: 'init',
