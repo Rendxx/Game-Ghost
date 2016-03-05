@@ -66,9 +66,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = that.ceiling.length; i < l; i++) that.ceiling[i].material.needsUpdate = true;
             for (var i = 0, l = that.wall.length; i < l; i++) that.wall[i].material.needsUpdate = true;
             for (var i = 0, l = that.wallTop.length; i < l; i++) that.wallTop[i].material.needsUpdate = true;
-            for (var i = 0, l = that.door.length; i < l; i++) that.door[i].material.needsUpdate = true;
-            for (var i = 0, l = that.furniture.length; i < l; i++) that.furniture[i].material.needsUpdate = true;
-            for (var i = 0, l = that.stuff.length; i < l; i++) that.stuff[i].material.needsUpdate = true;
+            for (var i = 0, l = that.door.length; i < l; i++)
+                for (var j = 0, l2 = that.door[i].material.materials.length; j < l2; j++)
+                    that.door[i].material.materials[j].needsUpdate = true;
+            for (var i = 0, l = that.furniture.length; i < l; i++)
+                for (var j = 0, l2 = that.furniture[i].material.materials.length; j < l2; j++)
+                    that.furniture[i].material.materials[j].needsUpdate = true;
+            for (var i = 0, l = that.stuff.length; i < l; i++)
+                for (var j = 0, l2 = that.stuff[i].material.materials.length; j < l2; j++)
+                    that.stuff[i].material.materials[j].needsUpdate = true;
         };
 
         // private method ---------------------------
@@ -81,9 +87,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.light = [
                 new THREE.AmbientLight()
             ];
-
-            var lightTarget = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial({ color: 0xff3300 }));
-            scene.add(lightTarget);
 
             // Ambient
             that.light[0].color.setHex(Data.light.ambient.ambColor);

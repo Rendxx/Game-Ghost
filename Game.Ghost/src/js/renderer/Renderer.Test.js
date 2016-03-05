@@ -41,8 +41,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 }
             };
             /*ambient light controls*/
-            var ambFolder = datGUI.addFolder('Ambient Light');
-            ambFolder.addColor(guiControls.ambient, 'ambColor').onChange(function (value) {
+            datGUI.addColor(guiControls.ambient, 'ambColor').onChange(function (value) {
                 entity.map.light[0].color.setHex(value);
             });
         };

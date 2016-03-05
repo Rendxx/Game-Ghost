@@ -40,6 +40,9 @@
     <Content Include="ModelBuilder\Environment\14436628374289.jpg" />
     <Content Include="ModelBuilder\Environment\ground_ceramic.png" />
     <Content Include="ModelBuilder\Environment\ground_wood.png" />
+    <Content Include="ModelBuilder\Furniture\table.1.uv.png" />
+    <Content Include="ModelBuilder\Furniture\table_wood_1_1.tex.png" />
+    <Content Include="ModelBuilder\Furniture\wood-table.jpg" />
     <Content Include="ModelBuilder\Player\Player-Texture-2.png" />
     <Content Include="ModelBuilder\Player\Player-Texture.png" />
     <Content Include="ModelBuilder\Player\player-uv.png" />
@@ -268,6 +271,7 @@
     <Content Include="Model\Position\start_2.data.json" />
     <Content Include="ModelBuilder\Position\end_1.icon.fla" />
     <Content Include="Model\Position\end_1.data.json" />
+    <Content Include="ModelBuilder\Furniture\table_wood_1_1.tex.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
