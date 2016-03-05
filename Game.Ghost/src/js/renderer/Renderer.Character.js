@@ -56,8 +56,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.render = function (delta) {
             if (gameData == null) return;
             var action = gameData.action;
-            var x = (gameData.x - entity.map.width / 2 + 0.5) * GridSize;
-            var y = (gameData.y - entity.map.height / 2 + 0.5) * GridSize;
+            var x = (gameData.x - entity.map.width / 2) * GridSize;
+            var y = (gameData.y - entity.map.height / 2) * GridSize;
             var r_body = gameData.currentRotation.body;
             var r_head = gameData.currentRotation.headBody;
             var isDie = gameData.hp == 0;

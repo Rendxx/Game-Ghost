@@ -8,7 +8,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
-    var Character = function (id, characterPara, characterData) {
+    var Character = function (id, characterPara, characterData, entity) {
         // data ----------------------------------------------------------
         var that = this,
             _info = characterPara,
@@ -42,7 +42,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             // cache    
             _actionList = _modelData.action.list,
             _speed_move = _modelData.para.speed.move,
-            _speed_rotate = _modelData.para.speed.rotate;
+            _speed_rotate = _modelData.para.speed.rotate,
+                _radius = _modelData.radius;
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -147,14 +148,35 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
                 if (Math.abs(d_body) <= 90) {
                      speed = _speed_move[this.action] / 100;
-                    this.x += speed * Math.sin(this.currentRotation.body / 180 * Math.PI);
-                    this.y += speed * Math.cos(this.currentRotation.body / 180 * Math.PI);
+                     _move(
+                         speed * Math.sin(this.currentRotation.body / 180 * Math.PI),
+                         speed * Math.cos(this.currentRotation.body / 180 * Math.PI)
+                     );
                 }
             }
             _onChange();
         };
 
         // private method ------------------------------------------------
+
+        // move chareacter by offset
+        var _move = function (deltaX, deltaY) {
+            var x = that.x + deltaX;
+            var y = that.y + deltaY;
+            var _radius_x = 0;
+            var _radius_y = 0;
+            if (deltaX > 0) _radius_x = _radius;
+            else if (deltaX < 0) _radius_x = -_radius;
+            if (deltaY > 0) _radius_y = _radius;
+            else if (deltaY < 0) _radius_y = -_radius;
+            deltaX += _radius_x;
+            deltaY += _radius_y;
+            var canMove = entity.map.moveCheck(that.x, that.y, deltaX, deltaY);
+            if (deltaX != 0) that.x = canMove[0] - _radius_x;
+            if (deltaY != 0) that.y = canMove[1] - _radius_y;
+        };
+
+
         var _onChange = function () {
             if (that.onChange == null) return;
             that.onChange(that.id, {

@@ -1,6 +1,6 @@
 ﻿{
   "id": "yellow",
-  "radius": 1,
+  "radius": 0.4,
   "model": "yellow/player-2.json",
   "para": {
     "endurance": 10,

@@ -98,7 +98,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.map.loadBasicData(modelData, mapData);
                 gameData.characters = [];
                 for (var i = 0; i < playerData.length; i++) {
-                    that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters);
+                    that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters, that);
                     that.characters[i].onChange = function (idx, data) {
                         gameData.characters[idx] = data;
                     };

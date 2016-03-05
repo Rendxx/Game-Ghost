@@ -12,7 +12,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         Grid: {
             Empty: 0,
             Wall: 1,
-            Furniture: 2
+            Furniture: 2,
+            Door: 3
         },
         FurnitureStatus: {
             None: 0,
@@ -31,7 +32,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var that = this,
             _data = null,
             _modelData = null,
+            width = 0,
+            height = 0,
             grid = [],
+            doorGrid = [],
             keyList = {},           // furniture id: door id
             statusList = {
                 door: {},           // door id: door status
@@ -69,6 +73,27 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _onChange();
         };
 
+        // check whether this position can be moved to, return result
+        this.moveCheck = function (x, y, deltaX, deltaY) {
+            var newX = Math.floor(x + deltaX),
+                newY = Math.floor(y + deltaY),
+                oldX = Math.floor(x),
+                oldY = Math.floor(y);
+
+            console.log("\t [" + x + ", " + y + "] \t delta: \t[" + deltaX + ", " + deltaY + "] ");
+            console.log("\tnew: [" + newX + " " + newY + "] \t old: \t[" + oldX + " " + oldY + "] ");
+
+            console.log(newX + " " + newY );
+
+            var rst = [x + deltaX, y + deltaY];
+            if (deltaX != 0 && (newX < 0 || newX >= width || (grid[oldY][newX] != _Data.Grid.Empty && !(grid[oldY][newX] == _Data.Grid.Door && statusList['door'][doorGrid[oldY][newX]] == _Data.DoorStatus.Opened))))
+                rst[0] = (deltaX > 0) ? newX : newX+1;
+            if (deltaY != 0 && (newY < 0 || newY >= height || (grid[newY][oldX] != _Data.Grid.Empty && !(grid[newY][oldX] == _Data.Grid.Door && statusList['door'][doorGrid[newY][oldX]] == _Data.DoorStatus.Opened))))
+                rst[1] = (deltaY > 0) ? newY : newY + 1;
+
+            return rst;
+        };
+
         // private method ------------------------------------------------
         var _onChange = function () {
             if (that.onChange == null) return;
@@ -82,10 +107,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var setupGrid = function () {
             // create grid
             grid = [];
+            doorGrid = [];
+            width = _data.grid.width;
+            height = _data.grid.height;
             for (var i = 0; i < _data.grid.height; i++) {
                 grid[i] = [];
+                doorGrid[i] = [];
                 for (var j = 0; j < _data.grid.width; j++) {
                     grid[i][j] = _Data.Grid.Empty;
+                    doorGrid[i][j] = -1;
                 }
             }
 
@@ -95,7 +125,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 if (walls[k] == null) continue;
                 var wall = walls[k];
                 for (var i = wall.top; i <= wall.bottom; i++) {
-                    for (var j = wall.left; j < wall.right; j++) {
+                    for (var j = wall.left; j <= wall.right; j++) {
                         grid[i][j] = _Data.Grid.Wall;
                     }
                 }
@@ -106,9 +136,24 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var k = 0; k < furnitures.length; k++) {
                 if (furnitures[k] == null) continue;
                 var furniture = furnitures[k];
+                console.log("Furniture ["+ k +"] --------------------")
                 for (var i = furniture.top; i <= furniture.bottom; i++) {
-                    for (var j = furniture.left; j < furniture.right; j++) {
+                    for (var j = furniture.left; j <= furniture.right; j++) {
                         grid[i][j] = _Data.Grid.Furniture;
+                        console.log(i+"  "+j)
+                    }
+                }
+            }
+
+            // add door
+            var doors = _data.item.door;
+            for (var k = 0; k < doors.length; k++) {
+                if (doors[k] == null) continue;
+                var door = doors[k];
+                for (var i = door.top; i <= door.bottom; i++) {
+                    for (var j = door.left; j <= door.right; j++) {
+                        grid[i][j] = _Data.Grid.Door;
+                        doorGrid[i][j] = k;
                     }
                 }
             }
@@ -179,8 +224,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     tmp['ghost'].splice(idx, 1);
                 }
                 entity.characters[i].reset({
-                    x: t[0],
-                    y: t[1]
+                    x: t[0] + 0.5,
+                    y: t[1] + 0.5
                 });
             }
 
@@ -212,9 +257,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             // door
             var doorList = _data.item.door;
             var doorKey = _data.doorSetting;
-            for (var k = 0, l = doorList.length; k < l; k++) {
+            for (var k in doorList) {
                 if (doorList[k] == null) continue;
-                statusList['furniture'][k] = (k in doorKey && doorKey[k].keys.length > 0) ? _Data.DoorStatus.Locked : _Data.DoorStatus.Closed;
+                statusList['door'][k] = (k in doorKey && doorKey[k].keys.length > 0) ? _Data.DoorStatus.Locked : _Data.DoorStatus.Closed;
             }
         };
 
