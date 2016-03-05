@@ -18,16 +18,16 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'green'
         },
-        //{
-        //    name: 'player 2',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'red'
-        //},
-        //{
-        //    name: 'player 3',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'blue'
-        //}
+        {
+            name: 'player 2',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'red'
+        },
+        {
+            name: 'player 3',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'blue'
+        }
     ], 'test');
     system.onChange = renderer.updateGame;
     renderer.onTimeInterval = system.nextInterval;
