@@ -80,11 +80,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 oldX = Math.floor(x),
                 oldY = Math.floor(y);
 
-            console.log("\t [" + x + ", " + y + "] \t delta: \t[" + deltaX + ", " + deltaY + "] ");
-            console.log("\tnew: [" + newX + " " + newY + "] \t old: \t[" + oldX + " " + oldY + "] ");
-
-            console.log(newX + " " + newY );
-
             var rst = [x + deltaX, y + deltaY];
             if (deltaX != 0 && (newX < 0 || newX >= width || (grid[oldY][newX] != _Data.Grid.Empty && !(grid[oldY][newX] == _Data.Grid.Door && statusList['door'][doorGrid[oldY][newX]] == _Data.DoorStatus.Opened))))
                 rst[0] = (deltaX > 0) ? newX : newX+1;

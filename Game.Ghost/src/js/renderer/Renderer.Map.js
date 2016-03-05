@@ -15,13 +15,19 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
  */
 (function (RENDERER) {
     var Data = RENDERER.Data;
+    var _Data = {
+        keyData: "key_1"
+    };
 
     var Map = function (entity) {
         // private data ----------------------------
         var that = this,
             _modelData = null,
+            _mapData = null,
             _texture = {},
-            _map = null;     // map
+            _map = null,     // map
+            gameData = null,
+            _scene = entity.env.scene;
 
         // public data -----------------------------
         this.width = 0;
@@ -34,6 +40,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.furniture = null;
         this.ground = null;
         this.ceiling = null;
+        this.key = null;        // key objects: funiture id: key object
 
         // public method ---------------------------
         /**
@@ -41,11 +48,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
          */
         this.reset = function (data) {
             if (data == null) throw new Error('Data missing');
-            setupGround(entity.env.scene, data.grid, data.item.ground);
-            setupWall(entity.env.scene, data.wall, data.item.wall);
-            setupDoor(entity.env.scene, data.item.door);
-            setupFurniture(entity.env.scene, data.item.furniture);
-            setupStuff(entity.env.scene, data.item.stuff);
+            _mapData = data;
+            setupGround(_scene, data.grid, data.item.ground);
+            setupWall(_scene, data.wall, data.item.wall);
+            setupDoor(_scene, data.item.door);
+            setupFurniture(_scene, data.item.furniture);
+            setupStuff(_scene, data.item.stuff);
+            setupKey(_scene);
         };
 
         /**
@@ -56,8 +65,25 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         // update data from system
-        this.update = function () {
+        this.update = function (data_in) {
+            gameData = data_in;
+            if (_mapData == null) return;
+            for (var i in that.key) {
+                if (gameData.key.hasOwnProperty(i) && gameData.key[i]!=null) continue;
+                if (that.key[i] == null) continue;
+                removeKey(i, _scene, function (idx) {
+                    delete that.key[idx];
+                });
+            }
 
+            for (var i in gameData.key) {
+                if (that.key.hasOwnProperty(i)) continue;
+                that.key[i] = null;
+                createKey(_mapData.item.furniture[i], i, _scene, function (idx, mesh) {
+                    _scene.add(mesh);
+                    that.key[idx] = mesh;
+                });
+            }
         };
 
         // render model
@@ -75,6 +101,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = that.stuff.length; i < l; i++)
                 for (var j = 0, l2 = that.stuff[i].material.materials.length; j < l2; j++)
                     that.stuff[i].material.materials[j].needsUpdate = true;
+            for (var i in that.key){
+                if (that.key[i] == null) continue;
+                for (var j = 0, l2 = that.key[i].material.materials.length; j < l2; j++)
+                    that.key[i].material.materials[j].needsUpdate = true;
+            }
         };
 
         // private method ---------------------------
@@ -189,6 +220,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     that.stuff.push(mesh);
                 });
             }
+        };
+        
+        var setupKey = function (scene) {
+            if (that.key != null) {
+                for (var i in that.key) scene.remove(that.key[i]);
+                that.key = null;
+            }
+            that.key = {};
         };
 
         // Add items ----------------------------------------------------------
@@ -402,6 +441,42 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 onSuccess(mesh);
             });
         };
+
+        var createKey = function (dat, idx, scene, onSuccess) {
+            var id = dat.id;
+
+            var id = dat.id;
+            var slot = _modelData.items[Data.categoryName.furniture][id].slot;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size + slot[0] * Data.grid.size;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size + slot[1] * Data.grid.size;
+            var z = slot[2] * Data.grid.size;
+            var r = dat.rotation;
+            var w = (dat.right - dat.left + 1) * Data.grid.size;
+            var h = (dat.bottom - dat.top + 1) * Data.grid.size;
+
+            var para_Key = _modelData.items[Data.categoryName.stuff][_Data.keyData];
+
+            var loader = new THREE.JSONLoader();
+            loader.load(Data.files.path[Data.categoryName.stuff] + para_Key.model, function (geometry, materials) {
+                var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+                mesh.position.x = x;
+                mesh.position.y = z;
+                mesh.position.z = y;
+
+                console.log(dat);
+                console.log(id, 'x:' + x, 'y:' + mesh.position.y, 'w:' + w, 'h:' + h, 'r:' + r);
+                onSuccess(idx, mesh);
+            });
+        };
+        
+        var removeKey = function (idx, scene, onSuccess) {
+            scene.remove(that.key[idx]);
+            onSuccess(idx);
+        };
+
         var getTexture = function (path) {
             return THREE.ImageUtils.loadTexture(path);
             if (_texture[path] == null) _texture[path] = THREE.ImageUtils.loadTexture(path);
@@ -409,7 +484,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var _init = function () {
-            setupLight(entity.env.scene);
+            setupLight(_scene);
         };
 
         _init();
