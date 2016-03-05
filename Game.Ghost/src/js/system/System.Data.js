@@ -66,7 +66,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     'Table (Wood) 1': 'table_wood_1_1.data.json',
                     'Table (Wood) 2': 'table_wood_2_1.data.json',
                     'Table (Wood) 3': 'table_wood_3_1.data.json',
-                    'Table (Wood) 4': 'table_wood_3_2.data.json',
+                    'Table (Plastic) 4': 'table_plastic_3_2.data.json',
                     'Shelf (Wood)': 'shelf_wood_2_1.data.json',
                     'Cabinet (Wood) 1': 'cabinet_wood_1_1.data.json',
                     'Cabinet (Wood) 2': 'cabinet_wood_2_1.data.json',

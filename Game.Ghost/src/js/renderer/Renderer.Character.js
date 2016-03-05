@@ -50,8 +50,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // update data from system
         this.update = function (data_in) {
             gameData = data_in;
-            console.log(this.id + "---------------------");
-            console.log(gameData);
         };
 
         // render model
@@ -68,7 +66,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // dead
             if (isDie) {
-                console.log(that.actions[action]);
                 if (currentAction != action) {
                     this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
                     currentAction = action;

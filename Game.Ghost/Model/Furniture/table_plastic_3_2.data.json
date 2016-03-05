@@ -1,0 +1,11 @@
+﻿{
+  "id": "table_plastic_3_2",
+  "dimension": [ 3, 2, 1 ],
+  "blockSight": false,
+  "support": 1,
+  "slot": [ 0.5, 0, 1 ],
+  "slotInside": false,
+  "model": "table.4.json",
+  "texture": [ "table_plastic_3_2.png" ],
+  "icon": "table_plastic_3_2.icon.png"
+}
