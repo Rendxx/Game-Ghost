@@ -67,11 +67,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.onRender = null;
 
         // inner callback
-        this._onRender = function () {
+        this._onRender = function (delta) {
             if (!this.started) return;
             this.map.render();
             for (var i = 0, l = this.characters.length; i < l; i++) {
-                this.characters[i].render();
+                this.characters[i].render(delta);
             }
 
             if (that.onRender != null) that.onRender();

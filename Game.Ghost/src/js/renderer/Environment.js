@@ -17,6 +17,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // data ----------------------------------------------
         var that = this,
+            clock = null,
             SCREEN_WIDTH = 0,
             SCREEN_HEIGHT = 0;
 
@@ -29,7 +30,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // Renderer scene on screen
         var animate = function () {
             requestAnimationFrame(animate);
-            if (entity._onRender != null) entity._onRender();
+            var delta = clock.getDelta();
+            if (entity._onRender != null) entity._onRender(delta);
             that.renderer.render(that.scene, that.camera);
         }
 
@@ -45,6 +47,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var _init = function () {
+            clock = new THREE.Clock();
 
             /*creates empty scene object and renderer*/
             SCREEN_WIDTH = window.innerWidth;

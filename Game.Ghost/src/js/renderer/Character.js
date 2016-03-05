@@ -160,7 +160,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 r_head_2 = mesh.skeleton.bones[4];
 
                 // setup light
-                if (_data.light.top.torch != null) {
+                if (_data.light.top != null) {
                     that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
                     that.torchDirectionObj.rotation.x = Math.PI;
                     that.torchDirectionObj.position.x = that.mesh.position.x + _data.light.torch.x;
@@ -187,7 +187,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     scene.add(that.torch);
                 }
 
-                if (_data.light.top.top != null) {
+                if (_data.light.torch != null) {
                     that.topLight = new THREE.SpotLight()
                     that.topLight.position.x = that.mesh.position.x + _data.light.top.x;
                     that.topLight.position.y = that.mesh.position.y + _data.light.top.y;
