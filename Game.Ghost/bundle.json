@@ -49,20 +49,20 @@
     "js": {
       "#dest#/Game.Ghost.Renderer": [
         "#src#/lib/OBJLoader.js",
-        "#src#/renderer/Data.js",
-        "#src#/renderer/Environment.js",
-        "#src#/renderer/Map.js",
-        "#src#/renderer/Character.js",
-        "#src#/renderer/Test.js",
-        "#src#/renderer/Main.js"
+        "#src#/renderer/Renderer.Data.js",
+        "#src#/renderer/Renderer.Environment.js",
+        "#src#/renderer/Renderer.Map.js",
+        "#src#/renderer/Renderer.Character.js",
+        "#src#/renderer/Renderer.Test.js",
+        "#src#/renderer/Renderer.Main.js"
       ],
       "#dest#/Game.Ghost.System": [
-        "#src#/system/Data.js",
-        "#src#/system/FileLoader.js",
-        "#src#/system/Character.js",
-        "#src#/system/Map.js",
-        "#src#/system/InterAction.js",
-        "#src#/system/Main.js"
+        "#src#/system/System.Data.js",
+        "#src#/system/System.FileLoader.js",
+        "#src#/system/System.Character.js",
+        "#src#/system/System.Map.js",
+        "#src#/system/System.InterAction.js",
+        "#src#/system/System.Main.js"
       ],
       "#mapDesigner#/_index": [
         "#mapDesigner#/Scripts/Data.js",

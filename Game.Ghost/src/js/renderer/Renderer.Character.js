@@ -164,7 +164,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
                     that.torchDirectionObj.rotation.x = Math.PI;
                     that.torchDirectionObj.position.x = that.mesh.position.x + _data.light.torch.x * GridSize;
-                    that.torchDirectionObj.position.y = that.mesh.position.y + _data.light.torch.y * GridSize;
+                    that.torchDirectionObj.position.y = that.mesh.position.y + _data.light.torch.y * GridSize - 0.5;
                     that.torchDirectionObj.position.z = that.mesh.position.z + _data.light.torch.z * GridSize + 1;
 
                     that.torch = new THREE.SpotLight()
@@ -183,10 +183,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     that.torch.castShadow = true;
                     that.torch.target = that.torchDirectionObj;
                     that.torch.color.setHex(_data.light.torch.color);
-                    that.torch.shadowCameraRight = 5;
-                    that.torch.shadowCameraLeft = -5;
-                    that.torch.shadowCameraTop = 5;
-                    that.torch.shadowCameraBottom = -5;
                     scene.add(that.torchDirectionObj);
                     scene.add(that.torch);
                 }

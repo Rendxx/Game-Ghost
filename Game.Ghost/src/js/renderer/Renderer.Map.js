@@ -194,7 +194,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var planeMaterial = new THREE.MeshPhongMaterial({ color: 0xdddddd });
             var ceiling = new THREE.Mesh(planeGeometry, planeMaterial);
             ceiling.rotation.x = .5 * Math.PI;
-            ceiling.position.y = 2 * Data.grid.size;
+            ceiling.position.y = 3* Data.grid.size;
             ceiling.castShadow = true;
             ceiling.receiveShadow = true;
             return ceiling;
@@ -253,7 +253,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.x = len/8;
 
-            var geometry = new THREE.PlaneGeometry(len, 2 * Data.grid.size, len, 2);
+            var geometry = new THREE.PlaneGeometry(len, 3 * Data.grid.size, len, 3);
             var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
             material.side = THREE.DoubleSide;
             var mesh = new THREE.Mesh(geometry, material);
@@ -262,7 +262,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             mesh.rotation.y = (4-r) / 2 * Math.PI;
             mesh.position.x = x;
-            mesh.position.y = Data.grid.size;
+            mesh.position.y = 1.5*Data.grid.size;
             mesh.position.z = y;
             return mesh;
         };
@@ -295,7 +295,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var mesh = new THREE.Mesh(geometry, material);
 
             mesh.position.x = x;
-            mesh.position.y = 2 * Data.grid.size;
+            mesh.position.y = 3 * Data.grid.size;
             mesh.position.z = y;
             //mesh.rotation.y = r / 180 * Math.PI;
             mesh.rotation.x = -.5 * Math.PI;

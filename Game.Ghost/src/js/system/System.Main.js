@@ -40,10 +40,18 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.send = null;
 
         this.receive = function (msg) {
-
+            this.interAction.receive(msg);
         };
 
         // public method ------------------------------------------
+        // called every time frame
+        this.nextInterval = function () {
+            for (var i = 0; i < that.characters.length; i++) {
+                that.characters[i].nextInterval();
+            }
+            if (that.onChange) that.onChange(gameData);
+        };
+
         // reset game with given data
         this.reset = function (data) {
             if (isLoaded < 2) return false;
@@ -84,7 +92,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.map = new SYSTEM.Map(that, modelData, mapData);
                 that.map.onChange = function (data) {
                     gameData.map = data;
-                    if (that.onChange) that.onChange(gameData);
                 };
                 that.interAction = new SYSTEM.InterAction(that);
 
@@ -94,7 +101,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters);
                     that.characters[i].onChange = function (idx, data) {
                         gameData.characters[idx] = data;
-                        if (that.onChange) that.onChange(gameData);
                     };
                 }
                 that.onLoaded(modelData, mapData, playerData);
