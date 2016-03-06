@@ -1,7 +1,7 @@
 ﻿{
-  "id": "yellow",
+  "id": "white",
   "radius": 0.4,
-  "model": "yellow/player-2.json",
+  "model": "white/player-2.json",
   "para": {
     "endurance": 10,
     "hp": 1,

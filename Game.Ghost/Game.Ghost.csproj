@@ -95,6 +95,8 @@
     <Content Include="Model\Player\purple\Player-Texture.png" />
     <Content Include="Model\Player\red\Player-Texture-2.png" />
     <Content Include="Model\Player\red\Player-Texture.png" />
+    <Content Include="Model\Player\white\Player-Texture-2.png" />
+    <Content Include="Model\Player\white\Player-Texture.png" />
     <Content Include="Model\Player\yellow\Player-Texture-2.png" />
     <Content Include="Model\Player\yellow\Player-Texture.png" />
     <Content Include="Model\Position\end_1.icon.png" />
@@ -295,6 +297,8 @@
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1.tex.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b.tex.fla" />
     <Content Include="ModelBuilder\Furniture\table_plastic_3_2.tex.fla" />
+    <Content Include="Model\Player\white\player-2.json" />
+    <Content Include="Model\Player\player_ghost_white.data.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

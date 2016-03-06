@@ -157,6 +157,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _onChange();
         };
 
+        this.checkCollison = function (x, y, r) {
+            return Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2) < Math.pow(r + _radius, 2);
+        };
+
         // private method ------------------------------------------------
 
         // move chareacter by offset

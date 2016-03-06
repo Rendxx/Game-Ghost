@@ -22,7 +22,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     purple: 'player_survivor_purple.data.json'
                 },
                 ghost: {
-
+                    white: 'player_ghost_white.data.json'
                 }
             },
             path: '/Model/Player/',
