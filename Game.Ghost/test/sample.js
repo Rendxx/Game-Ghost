@@ -78,30 +78,32 @@ function SetupControl(system) {
         if (e.keyCode in codeMap) {
             codeMap[e.keyCode] = true;
             getDirection(codeMap);
-            var msg = '01' + '|'
-                    + '0' + '|'
-                    + (direction[0] == 0 ? 0 : (direction[0] - 1) * 45) + '|'
-                    + (direction[1] == 0 ? 0 : (direction[1] - 1) * 45) + '|'
-                    + (rush ? 1 : 0) + '|'
-                    + (direction[0] == 0 ? 1 : 0) + '|'
-                    + (direction[1] == 0 ? 1 : 0);
 
-            system.interAction.receive(msg);
+            system.interAction.receive({
+                actionType: '01',
+                characterId: 0,
+                direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
+                directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
+                rush: rush,
+                stay: direction[0] == 0,
+                headFollow: direction[1] == 0
+            });
             e.preventDefault();
         }
     }).keyup(function (e) {
         if (e.keyCode in codeMap) {
             codeMap[e.keyCode] = false;
             getDirection(codeMap, true);
-            var msg = '01' + '|'
-                    + '0' + '|'
-                    + (direction[0] == 0 ? 0 : (direction[0] - 1) * 45) + '|'
-                    + (direction[1] == 0 ? 0 : (direction[1] - 1) * 45) + '|'
-                    + (rush ? 1 : 0) + '|'
-                    + (direction[0] == 0 ? 1 : 0) + '|'
-                    + (direction[1] == 0 ? 1 : 0);
 
-            system.interAction.receive(msg);
+            system.interAction.receive({
+                actionType: '01',
+                characterId: 0,
+                direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
+                directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
+                rush: rush,
+                stay: direction[0] == 0,
+                headFollow: direction[1] == 0
+            });
             e.preventDefault();
         }
     });

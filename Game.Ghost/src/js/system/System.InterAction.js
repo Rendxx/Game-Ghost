@@ -13,16 +13,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             'move': '01',
             'lightSwitch': '02',
             'use': '03'
-        },
-        actionPara:{
-            'move': {
-                'characterId': 1,
-                'direction':2,
-                'directionHead':3,
-                'rush':4,
-                'stay':5,
-                'headFollow':6
-            }
         }
     };
     var InterAction = function (entity) {
@@ -32,17 +22,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
-        this.receive = function (msg) {
-            var para = msg.split('|');
-            switch (para[0]) {
+        this.receive = function (para) {
+            switch (para['actionType']) {
                 case _Data.actionType.move:
-                    var characterId = Number(para[_Data.actionPara.move.characterId]),
-                        direction = Number(para[_Data.actionPara.move.direction]),
-                        directionHead = Number(para[_Data.actionPara.move.directionHead]),
-                        rush = Number(para[_Data.actionPara.move.rush]) == 1,
-                        stay = Number(para[_Data.actionPara.move.stay]) == 1,
-                        headFollow = Number(para[_Data.actionPara.move.headFollow]) == 1;
-                    entity.characters[characterId].move(direction, directionHead, rush, stay, headFollow);
+                    entity.characters[para['characterId']].move(para['direction'], para['directionHead'], para['rush'], para['stay'], para['headFollow']);
                     break;
                 case _Data.actionType.lightSwitch:
 
