@@ -10,12 +10,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     /**
      * Game Entity
      */
-    var Entity = function (container, playerNumber) {
+    var Entity = function (container, root) {
         // data
         this.domElement = container;
-        this.playerNumber = playerNumber;
         this.env = null;
         this.map = null;
+        this.root = root || '';
         this.characters = null;
         this.test = null;
         this.started = false;
@@ -83,11 +83,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     /**
      * Create a game in domElement
      * @param {dom element} container - Dom element to contain the scene
-     * @param {number} playerNumber - player number
-     * @param {object} map - data used to create a map
+     * @param {string} root - root path
      */
-    RENDERER.Create = function (container, playerNumber) {
-        var entity = new Entity(container, playerNumber);
+    RENDERER.Create = function (container, root) {
+        var entity = new Entity(container, root);
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
         entity.test = new RENDERER.Test(entity);

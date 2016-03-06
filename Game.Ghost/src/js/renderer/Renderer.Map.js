@@ -27,6 +27,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _texture = {},
             _map = null,     // map
             gameData = null,
+            root = entity.root,
             _scene = entity.env.scene;
 
         // public data -----------------------------
@@ -362,7 +363,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             var loader = new THREE.JSONLoader();
-            loader.load(Data.files.path[Data.categoryName.furniture] + para.model, function (geometry, materials) {
+            loader.load(root + Data.files.path[Data.categoryName.furniture] + para.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = true;
                 mesh.receiveShadow = true;
@@ -397,7 +398,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             var loader = new THREE.JSONLoader();
-            loader.load(Data.files.path[Data.categoryName.door] + para.model, function (geometry, materials) {
+            loader.load(root + Data.files.path[Data.categoryName.door] + para.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = true;
                 mesh.receiveShadow = true;
@@ -425,7 +426,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
 
             var loader = new THREE.JSONLoader();
-            loader.load(Data.files.path[Data.categoryName.stuff] + para.model, function (geometry, materials) {
+            loader.load(root + Data.files.path[Data.categoryName.stuff] + para.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = true;
                 mesh.receiveShadow = true;
@@ -457,7 +458,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var para_Key = _modelData.items[Data.categoryName.stuff][_Data.keyData];
 
             var loader = new THREE.JSONLoader();
-            loader.load(Data.files.path[Data.categoryName.stuff] + para_Key.model, function (geometry, materials) {
+            loader.load(root + Data.files.path[Data.categoryName.stuff] + para_Key.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = true;
                 mesh.receiveShadow = true;

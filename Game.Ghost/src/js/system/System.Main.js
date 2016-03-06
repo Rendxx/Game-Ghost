@@ -13,14 +13,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     /**
      * Game Entity
      */
-    var Main = function () {
+    var Main = function (root) {
         // data ---------------------------------------------------
         var that = this,
             isLoaded = 0,       // 0: not loaded,  2: fully loaded
             modelData = {},
             mapData = {},
             playerData = null,
-            gameData = {};      // store all data in the game, use to render
+            gameData = {},      // store all data in the game, use to render
+            root = root || '';
 
         // component ----------------------------------------------
         var loader = null;
@@ -108,7 +109,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         var _init = function () {
-            loader = new SYSTEM.FileLoader();
+            loader = new SYSTEM.FileLoader(root);
             loader.loadBasic(function (data) {
                 modelData = data;
                 onLoaded();
@@ -120,8 +121,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     /**
      * Create a game in domElement
      */
-    SYSTEM.Create = function () {
-        var main = new Main();
+    SYSTEM.Create = function (root) {
+        var main = new Main(root);
         return main;
     };
 })(window.Rendxx.Game.Ghost);

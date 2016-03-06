@@ -13,6 +13,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // data ----------------------------------------------
         var that = this,
             scene = entity.env.scene,
+            root = entity.root,
             _para = characterPara,
             _data = modelData[_para.role][_para.modelId];
 
@@ -123,7 +124,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // private method -------------------------------------------------
         var load = function () {
             var loader = new THREE.JSONLoader();
-            loader.load(Data.path + _data.model, function (geometry, materials) {
+            loader.load(root + Data.path + _data.model, function (geometry, materials) {
                 var mesh = null,
                     actions = {},
                     mixer = null;

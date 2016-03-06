@@ -11,12 +11,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
-    var FileLoader = function () {
+    var FileLoader = function (root) {
         // data ----------------------------------------------------------
         var that = this,
             loadCount = 0,
             loadedCount = 0,
-            _data_basic = null;
+            _data_basic = null,
+                root = root;
 
         // callback ------------------------------------------------------
 
@@ -28,7 +29,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
             // items
             var loadItem = function (category, name) {
-                $.getJSON(Data.item.path[category] + items[category][name], function (data) {
+                $.getJSON(root+Data.item.path[category] + items[category][name], function (data) {
                     if (data == null) throw new Error(category + '.' + name + ': Not found.');
                     if (_data_basic.items[category][data.id] != null) console.log(category + '.' + name + ': load multiple data.');
                     _data_basic.items[category][data.id] = data;
@@ -49,7 +50,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
             // character
             var loadCharacter = function (role, name) {
-                $.getJSON(Data.character.path + characters[role][name], function (data) {
+                $.getJSON(root + Data.character.path + characters[role][name], function (data) {
                     if (data == null) throw new Error(role + '.' + name + ': Not found.');
                     if (_data_basic.characters[role][name] != null) console.log(role + '.' + name + ': load multiple data.');
                     _data_basic.characters[role][name] = data;
@@ -78,7 +79,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // load map data
         this.loadMap = function (file, onSuccess, onError) {
-            $.getJSON(Data.map.path + file, function (data) {
+            $.getJSON(root + Data.map.path + file, function (data) {
                 try{
                     if (data == null) throw new Error(category + '.' + name + ': Not found.');
                     if (onSuccess != null) onSuccess(data);
@@ -91,7 +92,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method ------------------------------------------------
         var _loadItemData = function (category, name, file) {
             loadCount++;
-            $.getJSON(Data.path[category] + file, function (data) {
+            $.getJSON(root + Data.path[category] + file, function (data) {
                 if (data == null) throw new Error(category + '.' + name + ': Not find.');
                 if (itemData[category][name] != null) console.log(category + '.' + name + ': load multiple data.');
                 itemData[category][name] = data;
