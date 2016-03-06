@@ -57,6 +57,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.updateGame = function (gameData) {
+            if (gameData == null) return;
             that.map.update(gameData.map);
             for (var i = 0, l = this.characters.length; i < l; i++) {
                 that.characters[i].update(gameData.characters[i]);

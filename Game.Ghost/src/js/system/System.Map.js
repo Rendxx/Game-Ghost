@@ -131,11 +131,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var k = 0; k < furnitures.length; k++) {
                 if (furnitures[k] == null) continue;
                 var furniture = furnitures[k];
-                console.log("Furniture ["+ k +"] --------------------")
                 for (var i = furniture.top; i <= furniture.bottom; i++) {
                     for (var j = furniture.left; j <= furniture.right; j++) {
                         grid[i][j] = _Data.Grid.Furniture;
-                        console.log(i+"  "+j)
                     }
                 }
             }

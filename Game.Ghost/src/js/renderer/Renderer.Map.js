@@ -253,7 +253,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var para = _modelData.items[Data.categoryName.ground][id];
 
             
-            var texture = getTexture(Data.files.path[Data.categoryName.ground] + para.texture[0]);
+            var texture = getTexture(root + Data.files.path[Data.categoryName.ground] + para.texture[0]);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.x = w / 4;
@@ -291,7 +291,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             y *= Data.grid.size;
             len *= Data.grid.size;
 
-            var texture = getTexture(Data.files.path[Data.categoryName.wall] + para.texture[1]);
+            var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.texture[1]);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.x = len/8;
@@ -326,7 +326,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             // top wall
-            var texture = getTexture(Data.files.path[Data.categoryName.wall] + para.texture[0]);
+            var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.texture[0]);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.x = w / 4;
