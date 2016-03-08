@@ -4,6 +4,18 @@
   "blockSight": false,
   "support": 1,
   "slot": [ 0.4, 0.4, 1 ],
+  "accessPos": [
+    [ -1, -1 ],
+    [ -1, 0 ],
+    [ -1, 1 ],
+    
+    [ 0, -1 ],
+    [ 0, 1 ],
+    
+    [ 1, -1 ],
+    [ 1, 0 ],
+    [ 1, 1 ]
+  ],
   "slotInside": false,
   "model": "table.1.json",
   "texture": [ "table_wood_1_1.png" ],

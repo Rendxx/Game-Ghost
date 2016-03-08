@@ -178,6 +178,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var canMove = entity.map.moveCheck(that.x, that.y, deltaX, deltaY);
             if (deltaX != 0) that.x = canMove[0] - _radius_x;
             if (deltaY != 0) that.y = canMove[1] - _radius_y;
+            entity.map.accessCheck(that.x, that.y);
         };
 
 

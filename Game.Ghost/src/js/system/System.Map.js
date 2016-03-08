@@ -45,7 +45,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 survivor: [],
                 ghost: [],
                 end: []
-            };
+            },
+            accessGrid = [];        // 2d matrix same as grid. reocrd accessable furniture id iof that grid in a list
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -73,6 +74,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _onChange();
         };
 
+
         // check whether this position can be moved to, return result
         this.moveCheck = function (x, y, deltaX, deltaY) {
             var newX = Math.floor(x + deltaX),
@@ -85,8 +87,21 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 rst[0] = (deltaX > 0) ? newX : newX+1;
             if (deltaY != 0 && (newY < 0 || newY >= height || (grid[newY][oldX] != _Data.Grid.Empty && !(grid[newY][oldX] == _Data.Grid.Door && statusList['door'][doorGrid[newY][oldX]] == _Data.DoorStatus.Opened))))
                 rst[1] = (deltaY > 0) ? newY : newY + 1;
-
             return rst;
+        };
+
+        // check the access of funiture
+        var _test = [-1, -1];
+        this.accessCheck = function (x, y) {
+            if (x < 0 || y < 0) return;
+            var x2 = Math.floor(x);
+            var y2 = Math.floor(y);
+            if (x2 != _test[0] || y2 != _test[1]) {
+                _test = [x2, y2];
+                var s = "";
+                if (accessGrid[y2][x2] != null) for (var t in accessGrid[y2][x2]) s += t + " ";
+                console.log("[" + x2 + ", " + y2 + "] " + s + "   (" + x + ", " + y + ")");
+            }
         };
 
         // private method ------------------------------------------------
@@ -103,14 +118,17 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             // create grid
             grid = [];
             doorGrid = [];
+            accessGrid = [];
             width = _data.grid.width;
             height = _data.grid.height;
             for (var i = 0; i < _data.grid.height; i++) {
                 grid[i] = [];
                 doorGrid[i] = [];
+                accessGrid[i] = [];
                 for (var j = 0; j < _data.grid.width; j++) {
                     grid[i][j] = _Data.Grid.Empty;
                     doorGrid[i][j] = -1;
+                    accessGrid[i][j] = null;
                 }
             }
 
@@ -148,6 +166,28 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         grid[i][j] = _Data.Grid.Door;
                         doorGrid[i][j] = k;
                     }
+                }
+            }
+
+            // add accesslist for furniture
+            var furnitures = _data.item.furniture;
+            for (var k = 0; k < furnitures.length; k++) {
+                if (furnitures[k] == null) continue;
+                var furniture = furnitures[k];
+                var x = furniture.x;
+                var y = furniture.y;
+                var r = furniture.rotation;
+                var accessPos = _modelData.items[Data.item.categoryName.furniture][furniture.id].accessPos;
+                if (accessPos == null) continue;
+
+                for (var i = 0; i < accessPos.length; i++) {
+                    var p = accessPos[i];
+                    var r1 = (((p[1] >= 0) ? (p[0] >= 0 ? 0 : 1) : (p[0] >= 0 ? 3 : 2)) + r) % 4;
+                    var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1 )== 0) ? p[0] : p[1]) + x;
+                    var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
+                    if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
+                    if (accessGrid[new_y][new_x] == null) accessGrid[new_y][new_x] = {};
+                    accessGrid[new_y][new_x][k] = true;
                 }
             }
         };

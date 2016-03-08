@@ -4,6 +4,7 @@
   "blockSight": false,
   "support": 1,
   "slot": [ 0, 0, 0.3 ],
+  "accessPos": [[ 0, 1 ]],
   "slotInside": true,
   "model": "cabinet.1.json",
   "texture": [ "cabinet_wood_1_1.png" ],

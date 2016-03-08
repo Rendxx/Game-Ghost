@@ -4,6 +4,7 @@
   "blockSight": false,
   "support": 0.8,
   "slot": [ 0, 0, 0.8 ],
+  "accessPos": [[ 0, 1 ],[ 1, 1 ],[ 0, -1 ],[ 1, -1 ]],
   "slotInside": false,
   "model": "shelf.json",
   "texture": [ "shelf_wood_2_1.png" ],
