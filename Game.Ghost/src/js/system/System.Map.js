@@ -186,7 +186,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var wall = walls[k];
                 for (var i = wall.top; i <= wall.bottom; i++) {
                     for (var j = wall.left; j <= wall.right; j++) {
-                        grid[i][j] = _Data.Grid.Wall;
+                        grid.empty[i][j] = _Data.Grid.Wall;
                         grid.wall[i][j] = k;
                     }
                 }
@@ -199,7 +199,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var furniture = furnitures[k];
                 for (var i = furniture.top; i <= furniture.bottom; i++) {
                     for (var j = furniture.left; j <= furniture.right; j++) {
-                        grid[i][j] = _Data.Grid.Furniture;
+                        grid.empty[i][j] = _Data.Grid.Furniture;
                         grid.furniture[i][j] = k;
                     }
                 }
@@ -212,7 +212,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var door = doors[k];
                 for (var i = door.top; i <= door.bottom; i++) {
                     for (var j = door.left; j <= door.right; j++) {
-                        grid[i][j] = _Data.Grid.Door;
+                        grid.empty[i][j] = _Data.Grid.Door;
                         grid.door[i][j] = k;
                     }
                 }

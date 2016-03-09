@@ -70,17 +70,18 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             gameData = data_in;
             if (_mapData == null) return;
             for (var i in that.key) {
-                if (gameData.key.hasOwnProperty(i) && gameData.key[i]!=null) continue;
+                if (gameData.dynamicData.key.hasOwnProperty(i) && gameData.dynamicData.key[i] != null) continue;
                 if (that.key[i] == null) continue;
                 removeKey(i, _scene, function (idx) {
                     delete that.key[idx];
                 });
             }
 
-            for (var i in gameData.key) {
+            for (var i in gameData.dynamicData.key) {
                 if (that.key.hasOwnProperty(i)) continue;
                 that.key[i] = null;
-                createKey(_mapData.item.furniture[i], i, _scene, function (idx, mesh) {
+                var key = gameData.dynamicData.key[i];
+                createKey(_mapData.item.furniture[key.furnitureId], i, _scene, function (idx, mesh) {
                     _scene.add(mesh);
                     that.key[idx] = mesh;
                 });
