@@ -302,6 +302,12 @@
     <Content Include="ModelBuilder\Furniture\table_plastic_3_2.tex.fla" />
     <Content Include="Model\Player\white\player-2.json" />
     <Content Include="Model\Player\player_ghost_white.data.json" />
+    <Content Include="ModelBuilder\Furniture\cabinet_b.1.blend" />
+    <Content Include="ModelBuilder\Furniture\cabinet_b.1.blend1" />
+    <Content Include="Model\Furniture\cabinet_b.1.json" />
+    <Content Include="ModelBuilder\Furniture\cabinet_b.2.blend" />
+    <Content Include="ModelBuilder\Furniture\cabinet_b.2.blend1" />
+    <Content Include="Model\Furniture\cabinet_b.2.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
