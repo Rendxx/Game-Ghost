@@ -59,6 +59,9 @@
       "#dest#/Game.Ghost.System": [
         "#src#/system/System.Data.js",
         "#src#/system/System.FileLoader.js",
+        "#src#/system/System.Furniture.js",
+        "#src#/system/System.Door.js",
+        "#src#/system/System.Key.js",
         "#src#/system/System.Character.js",
         "#src#/system/System.Map.js",
         "#src#/system/System.InterAction.js",

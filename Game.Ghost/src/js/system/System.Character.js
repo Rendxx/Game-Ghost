@@ -21,7 +21,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.modelId = _info.modelId;
         this.x = -1;
         this.y = -1;
-        this.package = {};
+        this.stuff = {};
+        this.key = {};
         this.endurance = _modelData.para.endurance;
         this.light = _para.init.light;
         this.battery = _para.init.battery;
@@ -43,7 +44,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _actionList = _modelData.action.list,
             _speed_move = _modelData.para.speed.move,
             _speed_rotate = _modelData.para.speed.rotate,
-                _radius = _modelData.radius;
+            _radius = _modelData.radius,
+            _interactionDistance = _modelData.para.interactionDistance;
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -55,16 +57,29 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (_recoverData == null) return;
             if ('x' in _recoverData) this.x = _recoverData.x;
             if ('y' in _recoverData) this.y = _recoverData.y;
-            if ('role' in _recoverData) this.role = _recoverData.role;
-            if ('package' in _recoverData) this.package = _recoverData.xpackage;
+            if ('stuff' in _recoverData) this.stuff = _recoverData.stuff;
+            if ('key' in _recoverData) this.key = _recoverData.key;
             if ('endurance' in _recoverData) this.endurance = _recoverData.endurance;
             if ('light' in _recoverData) this.light = _recoverData.light;
             if ('battery' in _recoverData) this.battery = _recoverData.battery;
             if ('hp' in _recoverData) this.hp = _recoverData.hp;
-            if ('rotation' in _recoverData) this.hp = _recoverData.rotation;
-            if ('action' in _recoverData) this.hp = _recoverData.action;
-            if ('rush' in _recoverData) this.hp = _recoverData.rush;
+            if ('currentRotation' in _recoverData) this.currentRotation = _recoverData.currentRotation;
+            if ('action' in _recoverData) this.action = _recoverData.action;
             _onChange();
+        };
+
+        this.toJSON = function () {
+            return {
+                x: that.x,
+                y: that.y,
+                stuff: that.stuff,
+                endurance: that.endurance,
+                light: that.light,
+                battery: that.battery,
+                hp: that.hp,
+                currentRotation: that.currentRotation,
+                action: that.action
+            };
         };
 
         // move to a directionn with a rotation of head 
@@ -78,8 +93,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // use the item in front of the character
-        this.use = function () {
-
+        this.interaction = function () {
+            entity.map.tryAccess(
+                that.x,
+                that.y,
+                that.x + _interactionDistance * Math.sin(this.currentRotation.head / 180 * Math.PI),
+                that.y + _interactionDistance * Math.cos(this.currentRotation.head / 180 * Math.PI)
+            );
         };
 
         // turn on / off torch light
@@ -178,22 +198,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var canMove = entity.map.moveCheck(that.x, that.y, deltaX, deltaY);
             if (deltaX != 0) that.x = canMove[0] - _radius_x;
             if (deltaY != 0) that.y = canMove[1] - _radius_y;
-            entity.map.accessCheck(that.x, that.y);
         };
 
 
         var _onChange = function () {
             if (that.onChange == null) return;
-            that.onChange(that.id, {
-                x: that.x,
-                y: that.y,
-                endurance: that.endurance,
-                light: that.light,
-                battery: that.battery,
-                hp: that.hp,
-                currentRotation: that.currentRotation,
-                action: that.action
-            });
+            that.onChange(that.id, that.toJSON());
         };
 
         var _init = function () {

@@ -145,6 +145,9 @@
     <Content Include="src\js\renderer\Renderer.Main.js" />
     <Content Include="src\js\renderer\Renderer.Environment.js" />
     <Content Include="mapDesigner\index.html" />
+    <Content Include="src\js\system\System.Door.js" />
+    <Content Include="src\js\system\System.Key.js" />
+    <Content Include="src\js\system\System.Furniture.js" />
     <Content Include="src\js\system\System.Character.js" />
     <Content Include="src\js\system\System.InterAction.js" />
     <Content Include="src\js\system\System.Map.js" />

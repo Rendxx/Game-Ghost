@@ -6,7 +6,9 @@
   "slot": [ 0, 0, 0.3 ],
   "accessPos": [[ 0, 1 ]],
   "slotInside": true,
+  "statusChange":  true,
   "model": "cabinet.1.json",
   "texture": [ "cabinet_wood_1_1.png" ],
-  "icon": "cabinet_wood_1_1.icon.png"
+  "icon": "cabinet_wood_1_1.icon.png",
+  "duration": 300
 }
