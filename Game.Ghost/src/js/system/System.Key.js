@@ -25,23 +25,20 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // recover / init character
         this.reset = function (_recoverData) {
             if (_recoverData == null) return;
+            if ('furnitureId' in _recoverData) this.available = _recoverData.furnitureId;
+            if ('doorId' in _recoverData) this.available = _recoverData.doorId;
+            if ('name' in _recoverData) this.available = _recoverData.name;
             if ('available' in _recoverData) this.available = _recoverData.available;
         };
 
         this.toJSON = function () {
             return {
+                furnitureId: this.furnitureId,
+                doorId: this.doorId,
+                name: this.name,
                 available: this.available
             }
         };
-
-        this.staticData = function () {
-            return {
-                furnitureId: this.furnitureId,
-                doorId: this.doorId,
-                name: this.name
-            }
-        };
-
 
         // private method ------------------------------------------------
 

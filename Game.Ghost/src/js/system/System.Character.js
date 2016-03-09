@@ -95,6 +95,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // use the item in front of the character
         this.interaction = function () {
             entity.map.tryAccess(
+                that,
                 that.x,
                 that.y,
                 that.x + _interactionDistance * Math.sin(this.currentRotation.head / 180 * Math.PI),
