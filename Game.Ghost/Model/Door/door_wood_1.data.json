@@ -2,7 +2,11 @@
   "id": "door_wood_1",
   "dimension": [ 1, 1, 2 ],
   "accessPos": [[ 0, 1 ],[ 0, -1 ]],
-  "model": "door_wood_1.json",
+  "model": "door_wood_1_b.json",
   "texture": [ "door_wood_1.png" ],
-  "icon": "door_wood_1.icon.png"
+  "icon": "door_wood_1.icon.png",
+  "duration": 200,
+  "action": {
+    "Bone.Door":{"z": 90} 
+  }
 }

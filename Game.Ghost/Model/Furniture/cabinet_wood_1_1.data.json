@@ -7,8 +7,11 @@
   "accessPos": [[ 0, 1 ]],
   "slotInside": true,
   "statusChange":  true,
-  "model": "cabinet.1.json",
+  "model": "cabinet_b.1.json",
   "texture": [ "cabinet_wood_1_1.png" ],
   "icon": "cabinet_wood_1_1.icon.png",
-  "duration": 300
+  "duration": 300,
+  "action": {
+    "Bone.Door":{"z": 90} 
+  }
 }

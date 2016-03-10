@@ -31,7 +31,8 @@
       "#dest#/threeJs-control": "#src#/three.js-controls/src/*.{js,map}",
       "#dest#/stats.js": "#src#/stats.js/build/*.{js,map}",
       "#dest#/dat-gui": "#src#/dat-gui/build/*.{js,map}",
-      "#dest#/InfoBox": "#src#/InfoBox/js/*.{js,map}"
+      "#dest#/InfoBox": "#src#/InfoBox/js/*.{js,map}",
+      "#dest#/tween": "#src#/tweenjs/src/*.{js,map}"
     },
     "less": {
       "#test#/sample": [ "#test#/sample.less" ],

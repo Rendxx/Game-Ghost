@@ -308,6 +308,10 @@
     <Content Include="ModelBuilder\Furniture\cabinet_b.2.blend" />
     <Content Include="ModelBuilder\Furniture\cabinet_b.2.blend1" />
     <Content Include="Model\Furniture\cabinet_b.2.json" />
+    <Content Include="ModelBuilder\Furniture\cabinet_b.3.blend" />
+    <Content Include="ModelBuilder\Furniture\cabinet_b.3.blend1" />
+    <Content Include="Model\Furniture\cabinet_b.3.json" />
+    <Content Include="Model\Door\door_wood_1_b.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
