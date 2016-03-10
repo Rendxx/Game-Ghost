@@ -17,7 +17,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Data = RENDERER.Data;
     var _Data = {
         keyData: "key_1",
-        prefix_furniture: "f_"
+        prefix_furniture: "f_",
+        funitureStatus: {
+            Closed: 0,
+            Opened: 1
+        },
+        funitureAnimationId: {
+            0: 1,
+            1: 0
+        }
     };
 
     var Map = function (entity) {
@@ -28,7 +36,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _texture = {},
             _map = null,     // map
             gameData = null,
-            tween = null,
+            furnitureTween = null,
+            furnitureState = null,
             root = entity.root,
             _scene = entity.env.scene;
 
@@ -52,7 +61,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.reset = function (data) {
             if (data == null) throw new Error('Data missing');
             _mapData = data;
-            that.tween = {};
+            furnitureTween = {};
             setupGround(_scene, data.grid, data.item.ground);
             setupWall(_scene, data.wall, data.item.wall);
             setupDoor(_scene, data.item.door);
@@ -71,6 +80,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // update data from system
         this.update = function (data_in) {
             gameData = data_in;
+
+            // update key
             if (_mapData == null) return;
             for (var i in that.key) {
                 if (gameData.dynamicData.key.hasOwnProperty(i) && gameData.dynamicData.key[i] != null) continue;
@@ -88,6 +99,23 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     _scene.add(mesh);
                     that.key[idx] = mesh;
                 });
+            }
+
+            // update furniture
+            for (var i in gameData.dynamicData.furniture) {
+                if (gameData.dynamicData.furniture[i].status != furnitureState[i] && furnitureState[i]!=null) {
+                    furnitureState[i] = gameData.dynamicData.furniture[i].status;
+                    if (furnitureTween != null && furnitureTween[i] != null) {
+                        var t = furnitureTween[i][1 - _Data.funitureAnimationId[furnitureState[i]]];
+                        for (var j = 0; j < t.length; j++) {
+                            t[j].stop();
+                        }
+                        t = furnitureTween[i][_Data.funitureAnimationId[furnitureState[i]]];
+                        for (var j = 0; j < t.length; j++) {
+                            t[j].start();
+                        }
+                    }
+                }
             }
         };
 
@@ -196,6 +224,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 that.furniture = null;
             }
             that.furniture = {};
+            furnitureState = {};
             _map = [];
             for (var i = 0; i < that.height; i++){
                 _map[i] = [];
@@ -206,8 +235,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 if (furniture[i] == null) continue;
                 createFurniture(i, furniture[i], scene, function (idx, mesh, tween) {
                     scene.add(mesh);
+                    furnitureState[idx] = _Data.funitureStatus.Closed;
                     that.furniture[idx] = mesh;
-                    that.tween[idx] = tween;
+                    furnitureTween[idx] = tween;
                 });
             }
         };
@@ -384,13 +414,23 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     var actionPara = {};
                     var recoverPara = {};
                     for (var i in para.action) {
-                        for (var j = 0; j < mesh.skeleton.bone.length; j++) {
-                            if (mesh.skeleton.bone[j].name == i) {
-                                actionPara[j] = para.action[i];
+                        for (var j = 0; j < mesh.skeleton.bones.length; j++) {
+                            if (mesh.skeleton.bones[j].name == i) {
+                                actionPara[j] = {};
                                 recoverPara[j] = {};
-                                for (var k in actionPara[j]) {
-                                    recoverPara[j][k] = 0;
+                                if ('z' in para.action[i]) {
+                                    actionPara[j]['y'] = para.action[i]['z'] / 180 * Math.PI;
+                                    recoverPara[j]['y'] = 0;
                                 }
+                                if ('y' in para.action[i]) {
+                                    actionPara[j]['z'] = para.action[i]['y'] / 180 * Math.PI;
+                                    recoverPara[j]['z'] = 0;
+                                }
+                                if ('x' in para.action[i]) {
+                                    actionPara[j]['x'] = para.action[i]['x'] / 180 * Math.PI;
+                                    recoverPara[j]['x'] = 0;
+                                }
+
                                 break;
                             }
                         }

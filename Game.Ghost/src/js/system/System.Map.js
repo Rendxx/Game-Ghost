@@ -77,12 +77,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.reset = function (recoverData) {
             if (recoverData == null) {
                 setupPosition();
+                setupFurniture();
                 setupKey();
-                setupStatus();
+                setupDoor();
             } else {
-                recoverPosition(recoverData.position);
-                recoverKey(recoverData.key);
-                recoverStatus(recoverData.status);
+                recoverPosition(recoverData.staticData.position);
+                recoverKey(recoverData.dynamicData.key);
+                recoverFurniture(recoverData.dynamicData.furniture);
+                recoverDoor(recoverData.dynamicData.door);
             }
             _onChange();
         };
@@ -279,8 +281,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 while (keyNum > 0 && tmpList.length > 0) {
                     var idx = Math.floor(tmpList.length * Math.random());
                     var keyItem = new SYSTEM.Key(tmpList[idx], k, 'Key of ' + door.name);
+                    itemList.furniture[tmpList[idx]].keyId = index;
                     itemList.key[index] = keyItem;
-                    gameData.dynamicData.key[index] =keyItem.toJSON();
+                    gameData.dynamicData.key[index] = keyItem.toJSON();
                     tmpList.splice(idx, 1);
                     keyNum--;
                     index++;
@@ -426,34 +429,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var recoverPosition = function (recoverData) {
             position = recoverData;
-        };
-
-        // status of furniture and door ------------------------
-        var setupStatus = function () {
-            statusList = {
-                door: {},
-                furniture: {}
-            };
-
-            // furniture
-            var furnitureList = _data.item.furniture;
-            for (var k = 0, l = furnitureList.length; k < l; k++) {
-                if (furnitureList[k] == null) continue;
-                var f = _modelData.items[Data.item.categoryName.furniture][furnitureList[k].id];
-                statusList['furniture'][k] = (f.slotInside == true) ? _Data.FurnitureStatus.Closed : _Data.FurnitureStatus.None;
-            }
-
-            // door
-            var doorList = _data.item.door;
-            var doorKey = _data.doorSetting;
-            for (var k in doorList) {
-                if (doorList[k] == null) continue;
-                statusList['door'][k] = (k in doorKey && doorKey[k].keys.length > 0) ? _Data.DoorStatus.Locked : _Data.DoorStatus.Closed;
-            }
-        };
-
-        var recoverStatus = function (recoverData) {
-            statusList = recoverData;
         };
 
         var _init = function () {

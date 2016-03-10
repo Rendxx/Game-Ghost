@@ -3,14 +3,14 @@
   "dimension": [ 2, 1, 2 ],
   "blockSight": true,
   "support": 2,
-  "slot": [ 0, 0, 0.3 ],
+  "slot": [ 0.5, 0, 0.15 ],
   "accessPos": [[ 0, 1 ],[ 1, 1 ]],
   "slotInside": true,
   "statusChange":  true,
   "model": "cabinet_b.3.json",
   "texture": [ "cabinet_wood_2_1_b.png" ],
   "icon": "cabinet_wood_2_1_b.icon.png",
-  "duration": 3000,
+  "duration": 300,
   "action": {
     "l_Bone.Door": {"z": 90},
     "r_Bone.Door": {"z": -90} 

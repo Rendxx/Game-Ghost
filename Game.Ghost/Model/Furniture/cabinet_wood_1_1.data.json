@@ -3,7 +3,7 @@
   "dimension": [ 1, 1, 1 ],
   "blockSight": false,
   "support": 1,
-  "slot": [ 0, 0, 0.3 ],
+  "slot": [ 0, 0, 0.15 ],
   "accessPos": [[ 0, 1 ]],
   "slotInside": true,
   "statusChange":  true,

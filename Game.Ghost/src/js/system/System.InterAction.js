@@ -28,10 +28,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     entity.characters[para['characterId']].move(para['direction'], para['directionHead'], para['rush'], para['stay'], para['headFollow']);
                     break;
                 case _Data.actionType.lightSwitch:
-
+                    entity.characters[para['characterId']].switchTorch();
                     break;
                 case _Data.actionType.use:
-
+                    entity.characters[para['characterId']].interaction();
                     break;
                 default:
                     break;

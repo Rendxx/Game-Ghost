@@ -32,6 +32,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             requestAnimationFrame(animate);
             var delta = clock.getDelta();
             if (entity._onRender != null) entity._onRender(delta);
+            TWEEN.update();
             that.renderer.render(that.scene, that.camera);
         }
 

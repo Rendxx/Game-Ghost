@@ -20,7 +20,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ----------------------------------------------------------
         var that = this,
             _info = info,
-            _modelData = modelData[Data.item.categoryName.door][_info.modelId];
+            _modelData = modelData;
 
         this.id = id;
         this.modelId = _info.modelId;

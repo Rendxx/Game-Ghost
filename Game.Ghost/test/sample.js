@@ -59,7 +59,9 @@ function SetupControl(system) {
         's': 83,
         'a': 65,
         'd': 68,
-        'space': 32
+        'space': 32,
+        'e': 69,
+        'f': 70
     };
 
     var codeMap = {};
@@ -89,6 +91,16 @@ function SetupControl(system) {
                 headFollow: direction[1] == 0
             });
             e.preventDefault();
+        } else if (e.keyCode == keyCode['f']) {
+            system.interAction.receive({
+                actionType: '02',
+                characterId: 0
+            });
+        } else if (e.keyCode == keyCode['e']) {
+            system.interAction.receive({
+                actionType: '03',
+                characterId: 0
+            });
         }
     }).keyup(function (e) {
         if (e.keyCode in codeMap) {
