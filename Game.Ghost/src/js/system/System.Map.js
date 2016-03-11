@@ -89,7 +89,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _onChange();
         };
 
-
         // check whether this position can be moved to, return result
         this.moveCheck = function (x, y, deltaX, deltaY) {
             var newX = Math.floor(x + deltaX),
@@ -128,13 +127,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (access_x < 0 || access_y >= width || access_y < 0 || access_y >= height) return null;
             if (accessGrid[y][x] == null) return null;
 
-            if (grid.door[y][x] != -1) {
-                // door
-                if (accessGrid[y][x][_Data.DoorPrefix + grid.door[y][x]] !== true) return null;
-
-                itemList.door[grid.door[y][x]].interaction(character);
-                return null;
-            } else if (grid.furniture[access_y][access_x] != -1) {
+            if (grid.furniture[access_y][access_x] != -1) {
                 // furniture
                 if (accessGrid[y][x][grid.furniture[access_y][access_x]] !== true) return null;
 

@@ -13,7 +13,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             grids: null,
             hover: null
         };
-        var that = this;
+        var that = this,
+            highlightList = [];
 
         // public data
         this.width = -1;
@@ -82,6 +83,18 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             ctx.strokeStyle = "#cccccc";
             //ctx.setLineDash([5, 2]);
             ctx.stroke();
+        };
+
+        this.highlight = function (y, x) {
+            var ele = _html.grids[y][x];
+            highlightList.push(ele);
+            ele.addClass('_highlight');
+        };
+
+        this.noHighlight = function () {
+            for (var i = 0; i < highlightList.length; i++)
+                highlightList[i].removeClass('_highlight');
+            highlightList = [];
         };
     };
 

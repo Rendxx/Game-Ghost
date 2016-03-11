@@ -133,6 +133,12 @@ html body {
                         border: 1px solid #82BB48;
                     }*/
 }
+.gridPanel-wrap .sensorPanel .grid._highlight {
+  border: 1px solid #7bae48;
+  background-color: rgba(130, 187, 72, 0.2);
+  margin-top: -1px;
+  margin-left: -1px;
+}
 .gridPanel-wrap .sensorPanel .box-hover {
   position: absolute;
   z-index: 1;

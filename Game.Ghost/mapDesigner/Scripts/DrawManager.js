@@ -213,7 +213,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
     };
 
-    var DrawManager = function (container, wallPanel, groundPanel, keyPanel, sensorPanel) {
+    var DrawManager = function (gridManager, container, wallPanel, groundPanel, keyPanel, sensorPanel) {
         // data -----------------------------------------------------
         var _html = {
             container: container,
@@ -442,6 +442,11 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 tmpFurniture.ele.hide();
                 return;
             }
+
+            var door = itemList[Data.categoryName.door][idx];
+            gridManager.noHighlight();
+            gridManager.highlight(door.y, door.x);
+
             tmpFurniture.ele.show();
             var furnitureData = {
                 "id": idx,

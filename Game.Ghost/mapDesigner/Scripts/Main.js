@@ -8,7 +8,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var grid = new MapDesigner.GridPanel($('.sensorPanel'), $('.gridPanel'));
         var itemSelector = new MapDesigner.ItemSelector($('.category'), $('.itemSelectorList'));
         var datGui = new MapDesigner.DatGui();
-        var drawManager = new MapDesigner.DrawManager($('.furniturePanel'), $('.wallPanel'), $('.groundPanel'), $('.keyPanel'), $('.sensorPanel'));
+        var drawManager = new MapDesigner.DrawManager(grid, $('.furniturePanel'), $('.wallPanel'), $('.groundPanel'), $('.keyPanel'), $('.sensorPanel'));
         var fileManager = new MapDesigner.FileManager($('.file'), grid, drawManager);
         var hotKeyManager = new MapDesigner.HotKey($('.hotKey'));
         var doorSetting = new MapDesigner.DoorSetting($('.doorSetting'));
@@ -49,10 +49,12 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         grid.onMouseEnter = drawManager.showFigure;
         grid.onClick = drawManager.setItem;
         itemSelector.onChange = function (data) {
+            grid.noHighlight();
             drawManager.changeType(data);
         };
 
         itemSelector.onSelectCategory = function () {
+            grid.noHighlight();
             doorSetting.hide();
         };
 
