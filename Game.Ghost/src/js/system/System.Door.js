@@ -49,10 +49,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 this.status = _Data.Status.Closed;
                 _onChange();
             } else if (this.status == _Data.Status.Closed) {
-                this.status == _Data.Status.Opened;
+                this.status = _Data.Status.Opened;
                 _onChange();
             } else if (this.id in character.key) {
-                this.status == _Data.Status.Opened;
+                this.status = _Data.Status.Opened;
                 _onChange();
             }
         };

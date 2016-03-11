@@ -10,8 +10,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Data = SYSTEM.Data;
     var _Data = {
         Status: {
-            Closed: 0,
-            Opened: 1
+            None: 0,
+            Closed: 1,
+            Opened: 2
         }
     };
     var Furniture = function (id, info, modelData) {
@@ -23,7 +24,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         this.id = id;
         this.modelId = _info.modelId;
-        this.status = _Data.Status.Closed;
+        this.status = _modelData.statusChange == true ? _Data.Status.Closed : _Data.Status.None;
         this.keyId = -1;            // key id, -1 means no key
 
         // callback ------------------------------------------------------

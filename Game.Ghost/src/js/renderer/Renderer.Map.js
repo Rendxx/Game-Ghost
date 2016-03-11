@@ -21,22 +21,28 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         prefix_door: "d_",
         status: {
             furniture: {
-                Closed: 0,
-                Opened: 1
+                None: 0,
+                Closed: 1,
+                Opened: 2
             },
             door: {
-                Closed: 0,
-                Opened: 1
+                Locked: 0,
+                Opened: 1,
+                Closed: 2,
+                Blocked: 3
             }
         },
         animationId: {
             furniture: {
                 0: 1,
-                1: 0
+                1: 1,
+                2: 0
             },
             door: {
                 0: 1,
-                1: 0
+                1: 0,
+                2: 1,
+                3: 1
             }
         }
     };
@@ -474,10 +480,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                     tweenNew = [[], []];
                     for (var i in actionPara) {
-                        tweenNew[0].push(new tweenNew.tweenNew(mesh.skeleton.bones[i].rotation).to(actionPara[i], para.duration).easing(tweenNew.Easing.Quadratic.Out));
+                        tweenNew[0].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(actionPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));
                     }
                     for (var i in recoverPara) {
-                        tweenNew[1].push(new tweenNew.tweenNew(mesh.skeleton.bones[i].rotation).to(recoverPara[i], para.duration).easing(tweenNew.Easing.Quadratic.Out));
+                        tweenNew[1].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(recoverPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));
                     }
                 }
 
@@ -553,10 +559,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                     tweenNew = [[], []];
                     for (var i in actionPara) {
-                        tweenNew[0].push(new tweenNew.tweenNew(mesh.skeleton.bones[i].rotation).to(actionPara[i], para.duration).easing(tweenNew.Easing.Quadratic.Out));
+                        tweenNew[0].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(actionPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));
                     }
                     for (var i in recoverPara) {
-                        tweenNew[1].push(new tweenNew.tweenNew(mesh.skeleton.bones[i].rotation).to(recoverPara[i], para.duration).easing(tweenNew.Easing.Quadratic.Out));
+                        tweenNew[1].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(recoverPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));
                     }
                 }
 
