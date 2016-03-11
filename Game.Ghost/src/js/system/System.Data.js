@@ -97,8 +97,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
         },
         map: {
-            files:{
-                test: 'MapDataTest.json'
+            files: {
+                test: 'MapDataTest.json',
+                test2: 'MapDataTest2.json'
             },
             path: '/GameData/Map/'
         },

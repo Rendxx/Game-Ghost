@@ -18,6 +18,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             loadCount = 0,
             loadedCount = 0,
             lastSelect = null,
+            lastSelectCategory = null,
             defaultItem = null;
 
         // callback
@@ -45,9 +46,14 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
             loadCount--;
         };
-        
+
         // unselect item
         this.unselect = function () {
+            if (lastSelectCategory != null) {
+                _html.categoryBtn[lastSelectCategory].removeClass('_actived');
+                _html.selectorCategory[lastSelectCategory].hide();
+            }
+            lastSelectCategory = null;
             if (lastSelect != null) lastSelect.removeClass('hover');
             lastSelect = null;
             if (that.onChange) that.onChange(null);
@@ -86,14 +92,14 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var _setupCategory = function () {
             var d = Data.categoryCss;
             _html.categoryBtn = {};
-            var _lastClick = null;
+            lastSelectCategory = null;
 
             var onBtnClick = function (idx){
-                if (_lastClick != null) {
-                    _html.categoryBtn[_lastClick].removeClass('_actived');
-                    _html.selectorCategory[_lastClick].hide();
+                if (lastSelectCategory != null) {
+                    _html.categoryBtn[lastSelectCategory].removeClass('_actived');
+                    _html.selectorCategory[lastSelectCategory].hide();
                 }
-                _lastClick = idx;
+                lastSelectCategory = idx;
                 _html.categoryBtn[idx].addClass('_actived');
                 _html.selectorCategory[idx].show();
                 if (that.onSelectCategory) that.onSelectCategory(idx);

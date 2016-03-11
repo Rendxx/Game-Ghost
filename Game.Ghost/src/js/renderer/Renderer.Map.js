@@ -289,8 +289,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 for (var i = 0, l = that.stuff.length; i < l; i++) scene.remove(that.stuff[i]);
                 that.stuff = null;
             }
-            if (stuff == null || stuff.length == 0) return;
             that.stuff = [];
+            if (stuff == null || stuff.length == 0) return;
             for (var i = 0, l = stuff.length; i < l; i++) {
                 if (stuff[i] == null) continue;
                 createStuff(stuff[i], scene, function (mesh) {
@@ -613,11 +613,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var id = dat.id;
 
             var id = dat.id;
-            var slot = _modelData.items[Data.categoryName.furniture][id].slot;
-            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size + slot[0] * Data.grid.size;
-            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size + slot[1] * Data.grid.size;
-            var z = slot[2] * Data.grid.size;
             var r = dat.rotation;
+
+            var slot = _modelData.items[Data.categoryName.furniture][id].slot;
+            var r1 = (((slot[1] >= 0) ? (slot[0] >= 0 ? 0 : 1) : (slot[0] >= 0 ? 3 : 2)) + r) % 4;
+            var offset_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? slot[0] : slot[1]);
+            var offset_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? slot[1] : slot[0]);
+
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size + offset_x * Data.grid.size;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size + offset_y * Data.grid.size;
+            var z = slot[2] * Data.grid.size;
             var w = (dat.right - dat.left + 1) * Data.grid.size;
             var h = (dat.bottom - dat.top + 1) * Data.grid.size;
 

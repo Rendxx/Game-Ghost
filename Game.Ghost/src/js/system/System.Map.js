@@ -59,7 +59,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 ghost: [],
                 end: []
             },
-            accessGrid = [];        // 2d matrix same as grid. reocrd accessable furniture id iof that grid in a list
+            accessGrid = [];        // 2d matrix same as grid. reocrd accessable furniture id of that grid in a list
 
         // callback ------------------------------------------------------
         this.onChange = null;
