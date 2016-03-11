@@ -265,12 +265,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             gameData.dynamicData.key = {};
             var doors = _data.doorSetting;
             var index = 0;
+
+            var hasKeyList = {};
             for (var k in doors) {
                 if (doors[k] == null) continue;
                 var door = doors[k];
                 var keyNum = Math.floor(Data.keyNumber * Math.random() + 1);
                 var tmpList = [];
                 for (var i in door.keys) {
+                    if (hasKeyList.hasOwnProperty(i)) continue;
                     tmpList.push(i);
                 }
                 while (keyNum > 0 && tmpList.length > 0) {
@@ -283,6 +286,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     itemList.furniture[tmpList[idx]].keyId = index;
                     itemList.key[index] = keyItem;
                     gameData.dynamicData.key[index] = keyItem.toJSON();
+                    hasKeyList[tmpList[idx]] = true;
                     tmpList.splice(idx, 1);
                     keyNum--;
                     index++;
