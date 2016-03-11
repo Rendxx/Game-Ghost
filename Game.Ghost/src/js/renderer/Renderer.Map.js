@@ -104,7 +104,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // update key
             if (_mapData == null) return;
             for (var i in that.key) {
-                if (gameData.dynamicData.key.hasOwnProperty(i) && gameData.dynamicData.key[i] != null) continue;
+                if (gameData.dynamicData.key.hasOwnProperty(i) && gameData.dynamicData.key[i] != null && gameData.dynamicData.key[i].available == true) continue;
                 if (that.key[i] == null) continue;
                 removeKey(i, _scene, function (idx) {
                     delete that.key[idx];
@@ -112,7 +112,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             for (var i in gameData.dynamicData.key) {
-                if (that.key.hasOwnProperty(i)) continue;
+                if (that.key.hasOwnProperty(i) || gameData.dynamicData.key[i].available == false) continue;
                 that.key[i] = null;
                 var key = gameData.dynamicData.key[i];
                 createKey(_mapData.item.furniture[key.furnitureId], i, _scene, function (idx, mesh) {

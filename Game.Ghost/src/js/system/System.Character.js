@@ -94,13 +94,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // use the item in front of the character
         this.interaction = function () {
-            entity.map.tryAccess(
+            var key = entity.map.tryAccess(
                 that,
                 that.x,
                 that.y,
                 that.x + _interactionDistance * Math.sin(this.currentRotation.head / 180 * Math.PI),
                 that.y + _interactionDistance * Math.cos(this.currentRotation.head / 180 * Math.PI)
             );
+            if (key == null) return;
+            if (!this.key.hasOwnProperty(key.doorId)) {
+                this.key[key.doorId] = true;
+                key.token();
+            }
+            _onChange();
         };
 
         // turn on / off torch light

@@ -8,10 +8,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
-    var Key = function (furnitureId, doorId, name) {
+    var Key = function (id, furnitureId, doorId, name) {
         // data ----------------------------------------------------------
         var that = this;
 
+        this.id = id;
         this.furnitureId = furnitureId;
         this.doorId = doorId;
         this.name = name;
@@ -38,6 +39,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 name: this.name,
                 available: this.available
             }
+        };
+
+        this.token = function () {
+            that.available = false;
+            that.onChange(that.id, that.toJSON());
         };
 
         // private method ------------------------------------------------

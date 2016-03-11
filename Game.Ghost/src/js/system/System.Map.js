@@ -133,11 +133,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
                 var keyId = itemList.furniture[grid.furniture[access_y][access_x]].interaction();
                 if (keyId == -1) return null;
-                var key = itemList.key[keyId];
-                delete itemList.key[keyId];
-                delete gameData.dynamicData.key[keyId];
-                _onChange();
-                return key;
+                return itemList.key[keyId];
             } else if (grid.door[access_y][access_x] != -1) {
                 // door
                 if (accessGrid[y][x][_Data.DoorPrefix + grid.door[access_y][access_x]] !== true) return null;
@@ -279,7 +275,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
                 while (keyNum > 0 && tmpList.length > 0) {
                     var idx = Math.floor(tmpList.length * Math.random());
-                    var keyItem = new SYSTEM.Key(tmpList[idx], k, 'Key of ' + door.name);
+                    var keyItem = new SYSTEM.Key(index, tmpList[idx], k, 'Key of ' + door.name);
+                    keyItem.onChange = function (idx, data) {
+                        gameData.dynamicData.key[idx] = data;
+                    };
+
                     itemList.furniture[tmpList[idx]].keyId = index;
                     itemList.key[index] = keyItem;
                     gameData.dynamicData.key[index] = keyItem.toJSON();
@@ -310,8 +310,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var door = doors[k];
 
                 var hasKey = false;
-                if (doors[k] != null && doors[k].keys != null){
-                    for (var x in doors[k].keys){
+                if (doors[k] != null && doorSetting[k].keys != null) {
+                    for (var x in doorSetting[k].keys) {
                         hasKey = true;
                         break;
                     }
