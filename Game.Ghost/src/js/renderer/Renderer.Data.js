@@ -21,7 +21,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             ground: 'ground',
             furniture: 'furniture',
             stuff: 'stuff',
-            door: 'door'
+            door: 'door',
+            sprite: 'sprite'
         },
         files: {
             path: {
@@ -29,7 +30,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 ground: '/Model/Environment/',
                 furniture: '/Model/Furniture/',
                 stuff: '/Model/Stuff/',
-                door: '/Model/Door/'
+                door: '/Model/Door/',
+                sprite: '/Model/Sprite/'
             }
         },
         character: {

@@ -72,6 +72,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return {
                 x: that.x,
                 y: that.y,
+                key: that.key,
                 stuff: that.stuff,
                 endurance: that.endurance,
                 light: that.light,
@@ -103,7 +104,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             );
             if (key == null) return;
             if (!this.key.hasOwnProperty(key.doorId)) {
-                this.key[key.doorId] = true;
+                this.key[key.doorId] = key.name;
                 key.token();
             }
             _onChange();

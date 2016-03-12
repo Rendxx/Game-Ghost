@@ -50,6 +50,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Map = function (entity) {
         // private data ----------------------------
         var that = this,
+            GridSize = Data.grid.size,
             _modelData = null,
             _mapData = null,
             _texture = {},
@@ -57,7 +58,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             gameData = null,
             itemTween = null,
             itemStatus = null,
+            itemData = null,
             root = entity.root,
+            _tex = {},
+            _sprite = {},
             _scene = entity.env.scene;
 
         // public data -----------------------------
@@ -82,6 +86,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _mapData = data;
             itemTween = {};
             itemStatus = {};
+            itemData = {};
             setupGround(_scene, data.grid, data.item.ground);
             setupWall(_scene, data.wall, data.item.wall);
             setupDoor(_scene, data.item.door);
@@ -101,59 +106,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.update = function (data_in) {
             gameData = data_in;
 
-            // update key
-            if (_mapData == null) return;
-            for (var i in that.key) {
-                if (gameData.dynamicData.key.hasOwnProperty(i) && gameData.dynamicData.key[i] != null && gameData.dynamicData.key[i].available == true) continue;
-                if (that.key[i] == null) continue;
-                removeKey(i, _scene, function (idx) {
-                    delete that.key[idx];
-                });
-            }
-
-            for (var i in gameData.dynamicData.key) {
-                if (that.key.hasOwnProperty(i) || gameData.dynamicData.key[i].available == false) continue;
-                that.key[i] = null;
-                var key = gameData.dynamicData.key[i];
-                createKey(_mapData.item.furniture[key.furnitureId], i, _scene, function (idx, mesh) {
-                    _scene.add(mesh);
-                    that.key[idx] = mesh;
-                });
-            }
-
-            // update furniture
-            for (var i in gameData.dynamicData.furniture) {
-                if (gameData.dynamicData.furniture[i].status != itemStatus['furniture'][i] && itemStatus['furniture'][i]!=null) {
-                    itemStatus['furniture'][i] = gameData.dynamicData.furniture[i].status;
-                    if (itemTween['furniture'] != null && itemTween['furniture'][i] != null) {
-                        var t = itemTween['furniture'][i][1 - _Data.animationId.furniture[itemStatus['furniture'][i]]];
-                        for (var j = 0; j < t.length; j++) {
-                            t[j].stop();
-                        }
-                        t = itemTween['furniture'][i][_Data.animationId.furniture[itemStatus['furniture'][i]]];
-                        for (var j = 0; j < t.length; j++) {
-                            t[j].start();
-                        }
-                    }
-                }
-            }
-
-            // update door
-            for (var i in gameData.dynamicData.door) {
-                if (gameData.dynamicData.door[i].status != itemStatus['door'][i] && itemStatus['door'][i] != null) {
-                    itemStatus['door'][i] = gameData.dynamicData.door[i].status;
-                    if (itemTween['door'] != null && itemTween['door'][i] != null) {
-                        var t = itemTween['door'][i][1 - _Data.animationId.door[itemStatus['door'][i]]];
-                        for (var j = 0; j < t.length; j++) {
-                            t[j].stop();
-                        }
-                        t = itemTween['door'][i][_Data.animationId.door[itemStatus['door'][i]]];
-                        for (var j = 0; j < t.length; j++) {
-                            t[j].start();
-                        }
-                    }
-                }
-            }
+            updateKey();
+            updateFuniture();
+            updateDoor();
         };
 
         // render model
@@ -171,7 +126,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = that.stuff.length; i < l; i++)
                 for (var j = 0, l2 = that.stuff[i].material.materials.length; j < l2; j++)
                     that.stuff[i].material.materials[j].needsUpdate = true;
-            for (var i in that.key){
+            for (var i in that.key) {
                 if (that.key[i] == null) continue;
                 for (var j = 0, l2 = that.key[i].material.materials.length; j < l2; j++)
                     that.key[i].material.materials[j].needsUpdate = true;
@@ -242,12 +197,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var setupDoor = function (scene, doors) {
             if (that.door != null) {
-                    for (var i in that.door) scene.remove(that.door[i]);
+                for (var i in that.door) scene.remove(that.door[i]);
                 that.door = null;
             }
             that.door = {};
             itemTween['door'] = {};
             itemStatus['door'] = {};
+            itemData['door'] = {};
             for (var i = 0, l = doors.length; i < l; i++) {
                 if (doors[i] == null) continue;
                 createDoor(i, doors[i], scene, function (idx, mesh, tween) {
@@ -268,7 +224,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             itemTween['furniture'] = {};
             itemStatus['furniture'] = {};
             _map = [];
-            for (var i = 0; i < that.height; i++){
+            for (var i = 0; i < that.height; i++) {
                 _map[i] = [];
                 for (var j = 0; j < that.width; j++)
                     _map[i][j] = -1;
@@ -299,7 +255,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 });
             }
         };
-        
+
         var setupKey = function (scene) {
             if (that.key != null) {
                 for (var i in that.key) scene.remove(that.key[i]);
@@ -310,11 +266,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // Add items ----------------------------------------------------------
         var createCeiling = function (grid) {
-            var planeGeometry = new THREE.PlaneGeometry(grid.width * Data.grid.size, grid.height * Data.grid.size);
+            var planeGeometry = new THREE.PlaneGeometry(grid.width * GridSize, grid.height * GridSize);
             var planeMaterial = new THREE.MeshPhongMaterial({ color: 0xdddddd });
             var ceiling = new THREE.Mesh(planeGeometry, planeMaterial);
             ceiling.rotation.x = .5 * Math.PI;
-            ceiling.position.y = 3* Data.grid.size;
+            ceiling.position.y = 3 * GridSize;
             ceiling.castShadow = true;
             ceiling.receiveShadow = true;
             return ceiling;
@@ -323,13 +279,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var createGround = function (dat) {
             if (dat == null) return null;
             var id = dat.id;
-            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size;
-            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size;
-            var w = (dat.right - dat.left + 1) * Data.grid.size;
-            var h = (dat.bottom - dat.top + 1) * Data.grid.size;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize;
+            var w = (dat.right - dat.left + 1) * GridSize;
+            var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.ground][id];
 
-            
+
             var texture = getTexture(root + Data.files.path[Data.categoryName.ground] + para.texture[0]);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
@@ -354,7 +310,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var id = dat.id;
             var r = dat.rotation - 2;
             var len = dat.len;
-            var x = dat.left - that.width/2;
+            var x = dat.left - that.width / 2;
             var y = dat.top - that.height / 2;
             var para = _modelData.items[Data.categoryName.wall][id];
 
@@ -364,25 +320,25 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 y += len / 2;
             }
             //console.log(x, y, len, r);
-            x *= Data.grid.size;
-            y *= Data.grid.size;
-            len *= Data.grid.size;
+            x *= GridSize;
+            y *= GridSize;
+            len *= GridSize;
 
             var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.texture[1]);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.x = len/8;
+            texture.repeat.x = len / 8;
 
-            var geometry = new THREE.PlaneGeometry(len, 3 * Data.grid.size, len, 3);
+            var geometry = new THREE.PlaneGeometry(len, 3 * GridSize, len, 3);
             var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
             material.side = THREE.DoubleSide;
             var mesh = new THREE.Mesh(geometry, material);
             mesh.castShadow = true;
             mesh.receiveShadow = true;
 
-            mesh.rotation.y = (4-r) / 2 * Math.PI;
+            mesh.rotation.y = (4 - r) / 2 * Math.PI;
             mesh.position.x = x;
-            mesh.position.y = 1.5*Data.grid.size;
+            mesh.position.y = 1.5 * GridSize;
             mesh.position.z = y;
             return mesh;
         };
@@ -390,11 +346,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var createWallTop = function (dat) {
             if (dat == null) return null;
             var id = dat.id;
-            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size;
-            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize;
             var r = dat.rotation;
-            var w = (dat.right - dat.left + 1) * Data.grid.size;
-            var h = (dat.bottom - dat.top + 1) * Data.grid.size;
+            var w = (dat.right - dat.left + 1) * GridSize;
+            var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.wall][id];
 
             var mesh = null;
@@ -415,7 +371,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var mesh = new THREE.Mesh(geometry, material);
 
             mesh.position.x = x;
-            mesh.position.y = 3 * Data.grid.size;
+            mesh.position.y = 3 * GridSize;
             mesh.position.z = y;
             //mesh.rotation.y = r / 180 * Math.PI;
             mesh.rotation.x = -.5 * Math.PI;
@@ -427,11 +383,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var createFurniture = function (idx, dat, scene, onSuccess) {
             if (dat == null) return null;
             var id = dat.id;
-            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size;
-            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize;
             var r = dat.rotation;
-            var w = (dat.right - dat.left + 1) * Data.grid.size;
-            var h = (dat.bottom - dat.top + 1) * Data.grid.size;
+            var w = (dat.right - dat.left + 1) * GridSize;
+            var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.furniture][id];
 
             var mesh = null;
@@ -443,7 +399,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             loader.load(root + Data.files.path[Data.categoryName.furniture] + para.model, function (geometry, materials) {
                 var mesh = null,
                     tweenNew = null;
-                if (para.action==null) {
+                if (para.action == null) {
                     // static furniture
                     mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 } else {
@@ -493,7 +449,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 mesh.position.x = x;
                 mesh.position.z = y;
                 mesh.rotation.y = (4 - r) / 2 * Math.PI;
-                
+
                 for (var i = dat.top; i <= dat.bottom; i++) {
                     for (var j = dat.left; j <= dat.right; j++)
                         _map[i][j] = id;
@@ -506,13 +462,20 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var createDoor = function (idx, dat, scene, onSuccess) {
             if (dat == null) return null;
             var id = dat.id;
-            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size;
-            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize;
             var r = dat.rotation;
-            var w = (dat.right - dat.left + 1) * Data.grid.size;
-            var h = (dat.bottom - dat.top + 1) * Data.grid.size;
+            var w = (dat.right - dat.left + 1) * GridSize;
+            var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.door][id];
 
+            itemData['door'][idx] = {
+                x: x,
+                y: y,
+                r: r,
+                w: w,
+                h: h
+            }
             var mesh = null;
 
             console.log(dat);
@@ -581,11 +544,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var createStuff = function (dat, scene, onSuccess) {
             if (dat == null) return null;
             var id = dat.id;
-            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size;
-            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize;
             var r = dat.rotation;
-            var w = (dat.right - dat.left + 1) * Data.grid.size;
-            var h = (dat.bottom - dat.top + 1) * Data.grid.size;
+            var w = (dat.right - dat.left + 1) * GridSize;
+            var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.stuff][id];
 
             var mesh = null;
@@ -599,7 +562,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                 mesh.position.x = x
                 var furnitureId = _map[dat.top][dat.left];
-                mesh.position.y = furnitureId == -1 ? 0 : _modelData.items[Data.categoryName.furniture][furnitureId].support * Data.grid.size;
+                mesh.position.y = furnitureId == -1 ? 0 : _modelData.items[Data.categoryName.furniture][furnitureId].support * GridSize;
                 mesh.position.z = y;
                 mesh.rotation.y = (4 - r) / 2 * Math.PI;
 
@@ -620,11 +583,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var offset_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? slot[0] : slot[1]);
             var offset_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? slot[1] : slot[0]);
 
-            var x = (dat.left + dat.right + 1 - that.width) / 2 * Data.grid.size + offset_x * Data.grid.size;
-            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * Data.grid.size + offset_y * Data.grid.size;
-            var z = slot[2] * Data.grid.size;
-            var w = (dat.right - dat.left + 1) * Data.grid.size;
-            var h = (dat.bottom - dat.top + 1) * Data.grid.size;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize + offset_x * GridSize;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize + offset_y * GridSize;
+            var z = slot[2] * GridSize;
+            var w = (dat.right - dat.left + 1) * GridSize;
+            var h = (dat.bottom - dat.top + 1) * GridSize;
 
             var para_Key = _modelData.items[Data.categoryName.stuff][_Data.keyData];
 
@@ -643,7 +606,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 onSuccess(idx, mesh);
             });
         };
-        
+
         var removeKey = function (idx, scene, onSuccess) {
             scene.remove(that.key[idx]);
             onSuccess(idx);
@@ -655,8 +618,114 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             return _texture[path];
         };
 
+        // Update items ----------------------------------------------------------
+        var updateFuniture = function () {
+            // update furniture
+            for (var i in gameData.dynamicData.furniture) {
+                if (gameData.dynamicData.furniture[i].status != itemStatus['furniture'][i] && itemStatus['furniture'][i] != null) {
+                    itemStatus['furniture'][i] = gameData.dynamicData.furniture[i].status;
+                    if (itemTween['furniture'] != null && itemTween['furniture'][i] != null) {
+                        var t = itemTween['furniture'][i][1 - _Data.animationId.furniture[itemStatus['furniture'][i]]];
+                        for (var j = 0; j < t.length; j++) {
+                            t[j].stop();
+                        }
+                        t = itemTween['furniture'][i][_Data.animationId.furniture[itemStatus['furniture'][i]]];
+                        for (var j = 0; j < t.length; j++) {
+                            t[j].start();
+                        }
+                    }
+                }
+            }
+        };
+
+        var updateDoor = function () {
+            // update door
+            for (var i in gameData.dynamicData.door) {
+                if (itemStatus['door'][i] != null) {
+                    if (gameData.dynamicData.door[i].status != itemStatus['door'][i]) {
+                        itemStatus['door'][i] = gameData.dynamicData.door[i].status;
+                        if (itemTween['door'] != null && itemTween['door'][i] != null) {
+                            var t = itemTween['door'][i][1 - _Data.animationId.door[itemStatus['door'][i]]];
+                            for (var j = 0; j < t.length; j++) {
+                                t[j].stop();
+                            }
+                            t = itemTween['door'][i][_Data.animationId.door[itemStatus['door'][i]]];
+                            for (var j = 0; j < t.length; j++) {
+                                t[j].start();
+                            }
+                        }
+                    }
+                    else if (gameData.dynamicData.door[i].failedOpen) {
+                        createSprite(_Data.prefix_door + i, itemData['door'][i].x, itemData['door'][i].y, 'lock');
+                        gameData.dynamicData.door[i].failedOpen = false;
+                    }
+                }
+            }
+        };
+
+        var updateKey = function () {
+            // update key
+            if (_mapData == null) return;
+            for (var i in that.key) {
+                if (gameData.dynamicData.key.hasOwnProperty(i) && gameData.dynamicData.key[i] != null && gameData.dynamicData.key[i].available == true) continue;
+                if (that.key[i] == null) continue;
+                removeKey(i, _scene, function (idx) {
+                    delete that.key[idx];
+                });
+            }
+
+            for (var i in gameData.dynamicData.key) {
+                if (that.key.hasOwnProperty(i) || gameData.dynamicData.key[i].available == false) continue;
+                that.key[i] = null;
+                var key = gameData.dynamicData.key[i];
+                createKey(_mapData.item.furniture[key.furnitureId], i, _scene, function (idx, mesh) {
+                    _scene.add(mesh);
+                    that.key[idx] = mesh;
+                });
+            }
+        };
+
+        var createSprite = function (id, x, y, texId) {
+            if (_sprite.hasOwnProperty(id)) return;
+            var mat = new THREE.SpriteMaterial({ map: _tex[texId] });
+            var spr = new THREE.Sprite(mat);
+            spr.position.set(x, 1 * GridSize, y);
+            spr.scale.set(3, 3, 1.0); // imageWidth, imageHeight
+            _scene.add(spr);
+            _sprite[id] = spr;
+            mat.opacity = 0;
+            var last = 0;
+            var tween1 = new TWEEN.Tween({ t: 0 }).to({ t: 10 }, 100)
+                        .onStart(function () {
+                            last = 0;
+                        }).onUpdate(function () {
+                            mat.opacity = this.t * 10;
+                            last = this.t;
+                        });
+            var tween2 = new TWEEN.Tween({ t: 100 }).to({ t: 0 }, 2000).easing(TWEEN.Easing.Quadratic.In)
+                        .onStart(function () {
+                            last = 100;
+                        }).onUpdate(function () {
+                            mat.opacity = this.t;
+                            last = this.t;
+                        }).onStop(function () {
+                            delete _sprite[id];
+                            scene.remove(spr);
+                        });
+            tween1.chain(tween2);
+            tween1.start();
+        };
+
+        // Setup ----------------------------------------------------------
+        var _setupTex = function () {
+            _tex = {};
+            var textureLoader = new THREE.TextureLoader();
+            _tex['lock'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_locked.png');
+        };
+
         var _init = function () {
             setupLight(_scene);
+            _setupTex();
         };
 
         _init();

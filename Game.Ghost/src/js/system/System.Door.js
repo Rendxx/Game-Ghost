@@ -25,6 +25,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.id = id;
         this.modelId = _info.modelId;
         this.status = hasKey ? _Data.Status.Locked : _Data.Status.Closed;
+        this.failedOpen = false;
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -39,12 +40,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         this.toJSON = function () {
             return {
-                status: this.status
+                status: this.status,
+                failedOpen: this.failedOpen
             }
         };
 
         // open or close by character
         this.interaction = function (character) {
+            this.failedOpen = false;
             if (this.status == _Data.Status.Opened) {
                 this.status = _Data.Status.Closed;
                 _onChange();
@@ -53,6 +56,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 _onChange();
             } else if (this.id in character.key) {
                 this.status = _Data.Status.Opened;
+                _onChange();
+            } else {
+                this.failedOpen = true;
                 _onChange();
             }
         };

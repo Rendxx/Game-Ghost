@@ -7,7 +7,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
  * Character Renderer
  */
 (function (RENDERER) {
-    var Data = RENDERER.Data.character;
+    var Data = RENDERER.Data;
     var GridSize = RENDERER.Data.grid.size;
     var Character = function (entity, id, modelData, characterPara) {
         // data ----------------------------------------------
@@ -43,6 +43,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             light_radiusadius = 0,
             light_angle = 0,
             gameData = null,
+            newKeyId = null,
+            keys = {},
+            sprite = {},
+            spriteTex = {},
             tween = {
                 show: {},
                 hide: {}
@@ -54,6 +58,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // public method --------------------------------------------------
         // update data from system
         this.update = function (data_in) {
+            for (var i in data_in.key) {
+                if (keys.hasOwnProperty(i)) continue;
+                newKeyId = i;
+                keys[i] = data_in.key[i];
+            }
             gameData = data_in;
         };
 
@@ -68,6 +77,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var isDie = gameData.hp == 0;
             //console.log(x+"  "+y+"  "+r_body+"  "+r_head);
             if (!this.setuped) return;
+
+            // sprite
+            createSprite(x, y);
 
             // dead
             if (isDie) {
@@ -143,7 +155,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // private method -------------------------------------------------
         var load = function () {
             var loader = new THREE.JSONLoader();
-            loader.load(root + Data.path + _data.model, function (geometry, materials) {
+            loader.load(root + Data.character.path + _data.model, function (geometry, materials) {
                 var mesh = null,
                     actions = {},
                     mixer = null;
@@ -246,8 +258,53 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
         };
 
+        // sprite ---------------------------------------------------------
+        var createSprite = function (x, y) {
+            if (newKeyId === null) return;
+            var id = newKeyId;
+            var key_mat = new THREE.SpriteMaterial({ map: spriteTex['key'] });
+            var key_spr = new THREE.Sprite(key_mat);
+            key_spr.position.set(x, 4 * GridSize, y);
+            key_spr.scale.set(3, 3, 1.0); // imageWidth, imageHeight
+            scene.add(key_spr);
+            sprite[id] = key_spr;
+
+            key_mat.opacity = 0;
+            var last = 0;
+            var tween1 = new TWEEN.Tween({ t: 0 }).to({ t: 10 }, 100)
+                        .onStart(function () {
+                            last = 0;
+                        }).onUpdate(function () {
+                            key_mat.opacity = this.t * 10;
+                            key_spr.position.z -= (this.t - last) / 20 * GridSize;
+                            last = this.t;
+                        });
+            var tween2 = new TWEEN.Tween({ t: 100 }).to({ t: 0 }, 600).easing(TWEEN.Easing.Quadratic.In)
+                        .onStart(function () {
+                            last = 100;
+                        }).onUpdate(function () {
+                            key_mat.opacity = this.t;
+                            key_spr.position.z += (this.t - last) / 600 * GridSize;
+                            last = this.t;
+                        }).onStop(function () {
+                            scene.remove(key_spr);
+                            delete sprite[id];
+                        });
+            tween1.chain(tween2);
+            tween1.start();
+            newKeyId = null;
+        };
+
+        var setupSprite = function () {
+            spriteTex = {};
+            var textureLoader = new THREE.TextureLoader();
+            spriteTex['key'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_key.png');
+        };
+
+        // setup ----------------------------------------------------------
         var _init = function () {
             load();
+            setupSprite();
         };
 
         _init();
