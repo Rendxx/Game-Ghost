@@ -289,6 +289,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         }).onStop(function () {
                             scene.remove(key_spr);
                             delete sprite[id];
+                        }).onComplete(function () {
+                            scene.remove(key_spr);
+                            delete sprite[id];
                         });
             tween1.chain(tween2);
             tween1.start();

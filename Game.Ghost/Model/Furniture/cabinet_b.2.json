@@ -43,25 +43,27 @@
         "parent": 3,
         "rotq": [0,0,0,1]
     }],
-    "materials": [{
-        "opacity": 1,
-        "blending": "NormalBlending",
-        "colorDiffuse": [0.64,0.64,0.64],
-        "DbgColor": 15658734,
-        "visible": true,
-        "DbgName": "BoxMat",
-        "transparent": false,
-        "wireframe": false,
-        "mapDiffuseRepeat": [1,1],
-        "shading": "lambert",
-        "depthWrite": true,
-        "mapDiffuseWrap": ["RepeatWrapping","RepeatWrapping"],
-        "mapDiffuse": "cabinet_wood_2_1.tex.png",
-        "depthTest": true,
-        "colorAmbient": [0.64,0.64,0.64],
-        "colorEmissive": [0,0,0],
-        "DbgIndex": 0,
-        "mapDiffuseAnisotropy": 1
-    }],
+  "materials": [
+    {
+      "opacity": 1,
+      "blending": "NormalBlending",
+      "colorDiffuse": [ 0.64, 0.64, 0.64 ],
+      "DbgColor": 15658734,
+      "visible": true,
+      "DbgName": "BoxMat",
+      "transparent": false,
+      "wireframe": false,
+      "mapDiffuseRepeat": [ 1, 1 ],
+      "shading": "phong",
+      "depthWrite": true,
+      "mapDiffuseWrap": [ "RepeatWrapping", "RepeatWrapping" ],
+      "mapDiffuse": "cabinet_wood_2_1.tex.png",
+      "depthTest": true,
+      "colorAmbient": [ 0.64, 0.64, 0.64 ],
+      "colorEmissive": [ 0, 0, 0 ],
+      "DbgIndex": 0,
+      "mapDiffuseAnisotropy": 1
+    }
+  ],
     "vertices": [4,-0,-2,4,0,1.5,-4,0,1.5,-4,-0,-2,4,4,-2,4,4,1.5,-4,4,1.5,-4,4,-2,3.8,0.2,1.5,-3.8,0.2,1.5,3.8,3.8,1.5,-3.8,3.8,1.5,3.8,0.2,-1.8,-3.8,0.2,-1.8,3.8,3.8,-1.8,-3.8,3.8,-1.8,-3.9,0.1,1.6,-3.9,3.9,1.6,-3.9,0.1,1.5,-3.9,3.9,1.5,-0.1,0.1,1.6,-0.1,3.9,1.6,-0.1,0.1,1.5,-0.1,3.9,1.5,0.1,0.1,1.6,0.1,3.9,1.6,0.1,0.1,1.5,0.1,3.9,1.5,3.9,0.1,1.6,3.9,3.9,1.6,3.9,0.1,1.5,3.9,3.9,1.5,-0.2,-0,-2,-0.2,0,1.5,-0.199999,4,-2,-0.200001,4,1.5,-0.2,0.2,1.5,-0.200001,3.8,1.5,-0.199999,0.2,-1.8,-0.2,3.8,-1.8,0.2,-0,-2,0.2,0,1.5,0.200001,4,-2,0.199999,4,1.5,0.2,0.2,1.5,0.199999,3.8,1.5,0.200001,0.2,-1.8,0.2,3.8,-1.8]
 }

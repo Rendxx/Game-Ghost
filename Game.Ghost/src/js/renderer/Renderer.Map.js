@@ -689,7 +689,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (_sprite.hasOwnProperty(id)) return;
             var mat = new THREE.SpriteMaterial({ map: _tex[texId] });
             var spr = new THREE.Sprite(mat);
-            spr.position.set(x, 1 * GridSize, y);
+            spr.position.set(x, 3.1 * GridSize, y);
             spr.scale.set(3, 3, 1.0); // imageWidth, imageHeight
             _scene.add(spr);
             _sprite[id] = spr;
@@ -702,7 +702,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                             mat.opacity = this.t * 10;
                             last = this.t;
                         });
-            var tween2 = new TWEEN.Tween({ t: 100 }).to({ t: 0 }, 2000).easing(TWEEN.Easing.Quadratic.In)
+            var tween2 = new TWEEN.Tween({ t: 100 }).to({ t: 0 }, 1200).easing(TWEEN.Easing.Quadratic.In)
                         .onStart(function () {
                             last = 100;
                         }).onUpdate(function () {
@@ -710,7 +710,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                             last = this.t;
                         }).onStop(function () {
                             delete _sprite[id];
-                            scene.remove(spr);
+                            _scene.remove(spr);
+                        }).onComplete(function () {
+                            delete _sprite[id];
+                            _scene.remove(spr);
                         });
             tween1.chain(tween2);
             tween1.start();
