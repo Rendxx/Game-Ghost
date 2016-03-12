@@ -46,13 +46,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
         };
 
+        this.token = function () {
+            this.keyId = -1;
+            _onChange();
+        };
+
         // being used by user, return key id if available, otherwise return -1
         this.interaction = function () {
             if (actioning) return -1;                      // no interaction during action
             if ((this.status == _Data.Status.Opened || !_modelData.statusChange) && this.keyId != -1) {
                 var k = this.keyId;
-                this.keyId = -1;
-                _onChange();
                 return k;
             }
 

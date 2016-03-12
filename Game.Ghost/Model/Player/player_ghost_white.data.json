@@ -3,7 +3,7 @@
   "radius": 0.4,
   "model": "white/player-2.json",
   "para": {
-    "endurance": 100,
+    "endurance": 1000,
     "hp": 1,
     "speed": {
       "rotate": {

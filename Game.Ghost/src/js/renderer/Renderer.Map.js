@@ -689,7 +689,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (_sprite.hasOwnProperty(id)) return;
             var mat = new THREE.SpriteMaterial({ map: _tex[texId] });
             var spr = new THREE.Sprite(mat);
-            spr.position.set(x, 3.1 * GridSize, y);
+            spr.position.set(x, 2.1 * GridSize, y);
             spr.scale.set(3, 3, 1.0); // imageWidth, imageHeight
             _scene.add(spr);
             _sprite[id] = spr;

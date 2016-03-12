@@ -281,6 +281,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var keyItem = new SYSTEM.Key(index, tmpList[idx], k, 'Key of ' + door.name);
                     keyItem.onChange = function (idx, data) {
                         gameData.dynamicData.key[idx] = data;
+                        itemList.furniture[itemList.key[idx].furnitureId].token();
                     };
 
                     itemList.furniture[tmpList[idx]].keyId = index;

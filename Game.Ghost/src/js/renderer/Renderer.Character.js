@@ -252,9 +252,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         scene.add(that.topLight);
                     }
                     setupLightCache(_data.light);
-                    createEnduranceBar();
                 }
 
+                createEnduranceBar();
                 // setup if scene is set
                 that.setuped = true;
                 if (that.onSetuped != null) that.onSetuped();
