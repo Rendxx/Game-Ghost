@@ -42,7 +42,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             torch_angle = 0,
             light_radiusadius = 0,
             light_angle = 0,
-            gameData = null;
+            gameData = null,
+            tween = {
+                show: {},
+                hide: {}
+            };
 
         // callback -------------------------------------------------------
         this.onSetuped = null;
@@ -68,8 +72,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // dead
             if (isDie) {
                 if (currentAction != action) {
-                    this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
+                    //this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
+                    //this.actions[currentAction].setEffectiveWeight(0);
+                    tween.show[action].start();
+                    tween.hide[currentAction].start();
                     currentAction = action;
+                    //this.actions[currentAction].setEffectiveWeight(1);
+                    //this.actions[currentAction].play();
                 }
                 if (this.mixer) this.mixer.update(delta);
                 return;
@@ -79,7 +88,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.mesh.position.z = y;
 
             if (currentAction != action) {
-                this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
+                //this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
+                //this.actions[currentAction].setEffectiveWeight(0);
+                //this.actions[action].crossFadeFrom(this.actions[currentAction], 0.3).play();
+                //this.actions[currentAction].setEffectiveWeight(1);
+                //this.actions[currentAction].play();
+                //this.actions[action].play();
+                //(new TWEEN.Tween(this.actions[action]).to({ weight: 1 }, 200)).start();
+                //(new TWEEN.Tween(this.actions[currentAction]).to({ weight: 0 }, 200)).start();
+
+                tween.show[action].start();
+                tween.hide[currentAction].start();
                 currentAction = action;
             }
             if (this.mixer) this.mixer.update(delta);
@@ -138,14 +157,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                 mixer = new THREE.AnimationMixer(mesh);
                 for (var i in _data.action.list) {
-                    var action = new THREE.AnimationAction(geometry.animations[i]);
-                    action.weight = 0;
-                    mixer.addAction(action);
+
+                    var action = mixer.clipAction(geometry.animations[i]);
+                    //action.weight = 0;
+                    //mixer.addAction(action);
+
+                    tween.show[_data.action.list[i]] = new TWEEN.Tween(action).to({ weight: 1 }, 200);
+                    tween.hide[_data.action.list[i]] = new TWEEN.Tween(action).to({ weight: 0 }, 200);
+                    action.setEffectiveWeight(0);
+                    action.play();
                     actions[_data.action.list[i]] = action;
                 }
 
                 currentAction = _data.action.list[_data.action.init];
-                actions[currentAction].weight = 1;
+                //actions[currentAction].weight = 1;
+                actions[currentAction].setEffectiveWeight(1);
 
                 that.mesh = mesh;
                 that.actions = actions;
