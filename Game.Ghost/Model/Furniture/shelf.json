@@ -31,7 +31,6 @@
       "wireframe": false,
       "colorAmbient": [ 0.64, 0.64, 0.64 ],
       "mapDiffuseAnisotropy": 1,
-      "colorSpecular": [ 0.5, 0.5, 0.5 ],
       "blending": "NormalBlending",
       "mapDiffuseRepeat": [ 1, 1 ],
       "specularCoef": 50,

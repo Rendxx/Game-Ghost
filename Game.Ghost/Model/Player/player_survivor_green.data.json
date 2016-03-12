@@ -12,8 +12,8 @@
       },
       "move": {
         "walk": 2.6,
-        "run": 4,
-        "back": -1
+        "run": 6,
+        "back": -1.5
       }
     },
     "interactionDistance": 0.42

@@ -13,7 +13,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var that = this,
             _info = characterPara,
             _modelData = characterData[_info.role][_info.modelId],
-            _para = Data.character.para[_info.role];
+            _para = Data.character.para[_info.role],
+            recover = 0;        // recover time after rush
 
         this.id = id;
         this.name = _info.name;
@@ -45,7 +46,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _speed_move = _modelData.para.speed.move,
             _speed_rotate = _modelData.para.speed.rotate,
             _radius = _modelData.radius,
-            _interactionDistance = _modelData.para.interactionDistance;
+            _interactionDistance = _modelData.para.interactionDistance,
+            _enduranceRecover = _para.enduranceRecover,
+            _enduranceCost = _para.enduranceCost;
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -112,7 +115,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // turn on / off torch light
         this.switchTorch = function () {
+            if (that.role == Data.character.type.survivor) {
+                this.light = 1 - this.light;
+            } else {
 
+            }
+            _onChange();
         };
 
         // character die
@@ -128,6 +136,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var d_back = Math.abs(this.requiredRotation.body - this.requiredRotation.head);
                 if (d_back > 90 && d_back < 270) isBack = true;
             }
+
+            _paraUpdate();
 
             // body rotation
             var realDirection_body = stay ? this.currentRotation.head : (isBack ? (this.requiredRotation.body + 180) % 360 : this.requiredRotation.body);
@@ -182,6 +192,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                      );
                 }
             }
+
+            // para
             _onChange();
         };
 
@@ -190,6 +202,31 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // private method ------------------------------------------------
+
+        var _paraUpdate = function () {
+            if (that.role == Data.character.type.survivor) {
+                if (that.endurance <= 0) rush = false;
+                if (!rush) {
+                    if (recover > 0) {
+                        recover -= _enduranceRecover / 20;
+                    } else {
+                        recover = 0;
+                        if (that.endurance < _modelData.para.endurance) {
+                            that.endurance += _enduranceRecover / 20;
+                        } else {
+                            that.endurance = _modelData.para.endurance;
+                        }
+                    }
+                } else {
+                    recover = 10;
+                    that.endurance -= _enduranceCost / 20;
+                }
+            } else {
+
+            }
+            //console.log(that.endurance + "  " + recover);
+        };
+
 
         // move chareacter by offset
         var _move = function (deltaX, deltaY) {

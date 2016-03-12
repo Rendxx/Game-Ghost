@@ -28,6 +28,11 @@
             name: 'player 3',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'blue'
+        },
+        {
+            name: 'player 4',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
+            modelId: 'white'
         }
     ], 'test');
     //system.setup([

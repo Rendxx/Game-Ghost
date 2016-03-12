@@ -35,6 +35,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
         },
         character: {
+            type: {
+                survivor: 'survivor',
+                ghost: 'ghost'
+            },
             parameter: {
                 survivor: {
                     action: {
@@ -74,6 +78,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         shadowMapHeight: 2056,
                         shadowBias: 0.00,
                         shadowDarkness: 1.0
+                    },
+                    noTorch: {
+                        color: 0xE9F0F3,
+                        intensity: 0.5,
+                        distance: 5
                     }
                 },
                 ghost: {
@@ -119,10 +128,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             },
             files: {
                 survivor: {
+                    'blue': '/blue/player-2.json',
                     'green': '/green/player-2.json',
+                    'purple': '/purple/player-2.json',
+                    'red': '/red/player-2.json',
+                    'yellow': '/yellow/player-2.json'
                 },
                 ghost: {
-
+                    'white': '/white/player-2.json',
                 }
             },
             path: '/Model/Player/'

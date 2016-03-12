@@ -142,7 +142,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             //that.camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, .1, 5000);
             //that.camera.position.set(200, 0, 200);
             that.renderer = new THREE.WebGLRenderer({ antialias: true });
-            that.renderer.setClearColor(0x000000);
+            that.renderer.setClearColor(0x111111);
             that.renderer.autoClear = false; // To allow render overlay on top of sprited sphere
             that.renderer.shadowMapEnabled = true;
             that.renderer.shadowMapSoft = true;

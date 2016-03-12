@@ -47,12 +47,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             gameData = null,
             newKeyId = null,
             keys = {},
+            lightType = 1,
             sprite = {},
             spriteTex = {},
             tween = {
                 show: {},
                 hide: {}
-            };
+            },
+            noTorchData = Data.character.parameter[_para.role].noTorch;
 
         // callback -------------------------------------------------------
         this.onSetuped = null;
@@ -64,6 +66,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 if (keys.hasOwnProperty(i)) continue;
                 newKeyId = i;
                 keys[i] = data_in.key[i];
+            }
+            if (lightType != data_in.light) {
+                changeTorch(data_in.light);
+                lightType = data_in.light;
             }
             gameData = data_in;
         };
@@ -200,52 +206,67 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 r_head_2 = mesh.skeleton.bones[4];
 
                 // setup light
-                if (_data.light.torch != null) {
-                    that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
-                    that.torchDirectionObj.rotation.x = Math.PI;
-                    that.torchDirectionObj.position.x = that.mesh.position.x + _data.light.torch.x * GridSize;
-                    that.torchDirectionObj.position.y = that.mesh.position.y + _data.light.torch.y * GridSize - 0.5;
-                    that.torchDirectionObj.position.z = that.mesh.position.z + _data.light.torch.z * GridSize + 1;
+                if (_para.role == Data.character.type.survivor) {
+                    if (_data.light.torch != null) {
+                        that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
+                        that.torchDirectionObj.rotation.x = Math.PI;
+                        that.torchDirectionObj.position.x = that.mesh.position.x + _data.light.torch.x * GridSize;
+                        that.torchDirectionObj.position.y = that.mesh.position.y + _data.light.torch.y * GridSize - 0.5;
+                        that.torchDirectionObj.position.z = that.mesh.position.z + _data.light.torch.z * GridSize + 1;
 
-                    that.torch = new THREE.SpotLight()
-                    that.torch.position.x = that.mesh.position.x + _data.light.torch.x * GridSize;
-                    that.torch.position.y = that.mesh.position.y + _data.light.torch.y * GridSize;
-                    that.torch.position.z = that.mesh.position.z + _data.light.torch.z * GridSize;
-                    that.torch.intensity = _data.light.torch.intensity;
-                    that.torch.distance = _data.light.torch.distance * GridSize;
-                    that.torch.angle = _data.light.torch.angle;
-                    that.torch.exponent = _data.light.torch.exponent;
-                    that.torch.shadow.camera.near = _data.light.torch.shadowCameraNear * GridSize;
-                    that.torch.shadow.camera.far = _data.light.torch.shadowCameraFar * GridSize;
-                    that.torch.shadow.camera.fov = _data.light.torch.shadowCameraFov;
-                    that.torch.shadowBias = _data.light.torch.shadowBias;
-                    that.torch.shadowDarkness = _data.light.torch.shadowDarkness;
-                    that.torch.castShadow = true;
-                    that.torch.target = that.torchDirectionObj;
-                    that.torch.color.setHex(_data.light.torch.color);
-                    scene.add(that.torchDirectionObj);
-                    scene.add(that.torch);
-                }
+                        that.torch = new THREE.SpotLight()
+                        that.torch.position.x = that.mesh.position.x + _data.light.torch.x * GridSize;
+                        that.torch.position.y = that.mesh.position.y + _data.light.torch.y * GridSize;
+                        that.torch.position.z = that.mesh.position.z + _data.light.torch.z * GridSize;
+                        that.torch.intensity = _data.light.torch.intensity;
+                        that.torch.distance = _data.light.torch.distance * GridSize;
+                        that.torch.angle = _data.light.torch.angle;
+                        that.torch.exponent = _data.light.torch.exponent;
+                        that.torch.shadow.camera.near = _data.light.torch.shadowCameraNear * GridSize;
+                        that.torch.shadow.camera.far = _data.light.torch.shadowCameraFar * GridSize;
+                        that.torch.shadow.camera.fov = _data.light.torch.shadowCameraFov;
+                        that.torch.shadowBias = _data.light.torch.shadowBias;
+                        that.torch.shadowDarkness = _data.light.torch.shadowDarkness;
+                        that.torch.castShadow = true;
+                        that.torch.target = that.torchDirectionObj;
+                        that.torch.color.setHex(_data.light.torch.color);
+                        scene.add(that.torchDirectionObj);
+                        scene.add(that.torch);
+                    }
 
-                if (_data.light.top != null) {
-                    that.topLight = new THREE.SpotLight()
-                    that.topLight.position.x = that.mesh.position.x + _data.light.top.x * GridSize;
-                    that.topLight.position.y = that.mesh.position.y + _data.light.top.y * GridSize;
-                    that.topLight.position.z = that.mesh.position.z + _data.light.top.z * GridSize;
-                    that.topLight.intensity = _data.light.top.intensity;
-                    that.topLight.distance = _data.light.top.distance * GridSize;
-                    that.topLight.angle = _data.light.top.angle;
-                    that.topLight.exponent = _data.light.top.exponent;
-                    that.topLight.target = that.mesh;
-                    that.topLight.color.setHex(_data.light.top.color);
-                    scene.add(that.topLight);
+                    if (_data.light.top != null) {
+                        that.topLight = new THREE.SpotLight()
+                        that.topLight.position.x = that.mesh.position.x + _data.light.top.x * GridSize;
+                        that.topLight.position.y = that.mesh.position.y + _data.light.top.y * GridSize;
+                        that.topLight.position.z = that.mesh.position.z + _data.light.top.z * GridSize;
+                        that.topLight.intensity = _data.light.top.intensity;
+                        that.topLight.distance = _data.light.top.distance * GridSize;
+                        that.topLight.angle = _data.light.top.angle;
+                        that.topLight.exponent = _data.light.top.exponent;
+                        that.topLight.target = that.mesh;
+                        that.topLight.color.setHex(_data.light.top.color);
+                        scene.add(that.topLight);
+                    }
+                    setupLightCache(_data.light);
                 }
-                setupLightCache(_data.light);
 
                 // setup if scene is set
                 that.setuped = true;
                 if (that.onSetuped != null) that.onSetuped();
             });
+        };
+
+        var changeTorch = function (type) {
+            if (that.torch == null) return;
+            if (type == 1) {
+                that.torch.intensity = _data.light.torch.intensity;
+                that.torch.distance = _data.light.torch.distance * GridSize;
+                that.torch.color.setHex(_data.light.torch.color);
+            } else {                
+                that.torch.intensity = noTorchData.intensity;
+                that.torch.distance = noTorchData.distance * GridSize;
+                that.torch.color.setHex(noTorchData.color);
+            }
         };
 
         // setup light cache with
