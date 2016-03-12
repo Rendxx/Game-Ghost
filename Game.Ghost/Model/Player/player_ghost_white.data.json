@@ -15,7 +15,8 @@
         "run": 10,
         "back": -1
       }
-    }
+    },
+    "interactionDistance": 0.42
   },
   "action": {
     "list": {

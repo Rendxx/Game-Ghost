@@ -291,7 +291,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // endurance bar --------------------------------------------------
         var createEnduranceBar = function () {
             var mat = new THREE.SpriteMaterial({
-                color: 0xFFCC00,
+                color: 0x996600,
                 transparent: true
             });
             mat.opacity = 0.5;
@@ -314,6 +314,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var w = val / _maxEndurance * GridSize;
             that.enduranceBar.position.set(x - (GridSize - w) / 2, 2 * GridSize, y - GridSize / 4);
             that.enduranceBar.scale.x = w;
+
+            if (val >= _maxEndurance) {
+                that.enduranceBar.material.color = new THREE.Color(0xFFCC00);
+            }
 
             that.enduranceBarBase.position.set(x , 2 * GridSize + 0.1, y- GridSize / 4);
         };

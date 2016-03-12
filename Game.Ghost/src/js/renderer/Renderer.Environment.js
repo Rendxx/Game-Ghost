@@ -32,7 +32,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // public method -------------------------------------------------
         this.viewportSetup = function (player) {
-            cameraNum = player.length - 1;
+            cameraNum = player.length;
             _cameraParaReset();
             _cameraSetup();
         };
@@ -52,7 +52,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // camera --------------------------------------------
         var _cameraParaReset = function () {
             cameraPara = [];
-            if (cameraNum < 4) {
+            if (cameraNum <= 4) {
                 var w = SCREEN_WIDTH / 2 - 2;
                 var h = SCREEN_HEIGHT / 2 - 2;
                 cameraPara[0] = {
@@ -79,7 +79,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     x: SCREEN_WIDTH / 2 + 1,
                     y: SCREEN_HEIGHT / 2 + 1
                 };
-            } else if (num < 6) {
+            } else if (num <= 6) {
 
             }
         };

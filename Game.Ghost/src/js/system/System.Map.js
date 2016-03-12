@@ -59,6 +59,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 ghost: [],
                 end: []
             },
+            emptyPos = [],
             accessGrid = [];        // 2d matrix same as grid. reocrd accessable furniture id of that grid in a list
 
         // callback ------------------------------------------------------
@@ -141,6 +142,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 itemList.door[grid.door[access_y][access_x]].interaction(character);
                 return null;
             }
+        };
+
+        this.findEmptyPos = function () {
+            var idx = Math.floor(emptyPos.length * Math.random());
+            return emptyPos[idx];
         };
 
         // private method ------------------------------------------------
@@ -255,6 +261,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
                     if (accessGrid[new_y][new_x] == null) accessGrid[new_y][new_x] = {};
                     accessGrid[new_y][new_x][_Data.DoorPrefix + k] = true;
+                }
+            }
+
+            // find empty position 
+            emptyPos = [];
+            for (var i = 0; i < _data.grid.height; i++) {
+                for (var j = 0; j < _data.grid.width; j++) {
+                    if (grid.empty[i][j] == _Data.Grid.Empty) {
+                        emptyPos.push([i, j]);
+                    }
                 }
             }
         };

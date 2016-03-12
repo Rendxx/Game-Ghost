@@ -90,7 +90,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // move to a directionn with a rotation of head 
         this.move = function (direction, directionHead, rush_in, stay_in, headFollow_in) {
             if (this.hp == 0) return;
-            rush = rush_in;
+            if (this.role == Data.character.type.survivor) rush = rush_in;
             stay = stay_in;
             headFollow = headFollow_in;
             if (!stay) this.requiredRotation.body = direction;
@@ -106,7 +106,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.x + _interactionDistance * Math.sin(this.currentRotation.head / 180 * Math.PI),
                 that.y + _interactionDistance * Math.cos(this.currentRotation.head / 180 * Math.PI)
             );
-            if (key == null || ) return;
+            if (key == null || this.role == Data.character.type.ghost) return;
             if (!this.key.hasOwnProperty(key.doorId)) {
                 this.key[key.doorId] = key.name;
                 key.token();
@@ -119,7 +119,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (that.role == Data.character.type.survivor) {
                 this.light = 1 - this.light;
             } else {
-
+                if (this.endurance >= _maxEndurance) {
+                    rush = true;
+                } else {
+                    if (this.endurance >= _maxEndurance / 5) {
+                        var yx = entity.map.findEmptyPos();
+                        this.x = yx[1];
+                        this.y = yx[0];
+                        this.endurance -= _maxEndurance / 5;
+                    }
+                }
             }
             _onChange();
         };
@@ -127,6 +136,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // character die
         this.die = function () {
             this.hp = 0;
+            this.action = 'die';
+            _onChange();
         };
 
         this.nextInterval = function () {
@@ -198,8 +209,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _onChange();
         };
 
-        this.checkCollison = function (x, y, r) {
-            return Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2) < Math.pow(r + _radius, 2);
+        this.checkRange = function (x, y) {
+            return Math.sqrt(Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2));
         };
 
         // private method ------------------------------------------------
@@ -223,14 +234,30 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     that.endurance -= _enduranceCost / 20;
                 }
             } else {
+                if (that.endurance <= 0) rush = false;
                 // Ghost
                 if (that.endurance < _maxEndurance) {
                     that.endurance += _enduranceRecover / 20;
                 }
-            }
-            //console.log(that.endurance + "  " + recover);
-        };
+                if (rush) that.endurance -= _enduranceCost / 20;
 
+                for (var i = 0; i < entity.characters.length; i++) {
+                    var c = entity.characters[i];
+                    if (c.role == Data.character.type.survivor) {
+                        var r = that.checkRange(c.x, c.y);
+                        if (r > 10) continue;
+                        if (r < 1) c.die();
+                        else {
+                            if (!rush) {
+                                if (that.endurance < _maxEndurance) {
+                                    that.endurance += (_enduranceRecover * (10 - r) / 20);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
 
         // move chareacter by offset
         var _move = function (deltaX, deltaY) {
