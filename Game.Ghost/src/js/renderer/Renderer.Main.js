@@ -38,6 +38,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = _playerData.length; i < l; i++) {
                 this.characters[i] = new RENDERER.Character(this, i, _modelData.characters, _playerData[i]);
             }
+            this.env.viewportSetup(playerData);
+            this.test = new RENDERER.Test(this);
         };
 
         this.start = function () {
@@ -90,7 +92,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var entity = new Entity(container, root);
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
-        entity.test = new RENDERER.Test(entity);
         return entity;
     };
 })(window.Rendxx.Game.Ghost.Renderer);

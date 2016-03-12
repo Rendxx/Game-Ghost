@@ -14,7 +14,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var setup = function () {
             // camera control
-            cameraControl = new THREE.OrbitControls(entity.env.camera, entity.env.renderer.domElement);
+            //cameraControl = new THREE.OrbitControls(entity.env.camera[0], entity.env.renderer.domElement);
 
             // status track
             stats = new Stats();
@@ -50,7 +50,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             setupLight();
 
             entity.onRender = function () {
-                cameraControl.update();
+                //cameraControl.update();
                 stats.update();
             };
         };

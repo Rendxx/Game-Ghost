@@ -25,6 +25,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.name = _para.name;
         this.role = _para.role;
         this.modelId = _para.modelId;
+        this.x = 0;
+        this.y = 0;
 
         this.topLight = null;
         this.torch = null;
@@ -78,6 +80,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             //console.log(x+"  "+y+"  "+r_body+"  "+r_head);
             if (!this.setuped) return;
 
+            this.x = x;
+            this.y = y;
             // sprite
             createSprite(x, y);
 
