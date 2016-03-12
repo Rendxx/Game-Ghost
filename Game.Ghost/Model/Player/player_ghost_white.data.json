@@ -3,7 +3,7 @@
   "radius": 0.4,
   "model": "white/player-2.json",
   "para": {
-    "endurance": 10,
+    "endurance": 100,
     "hp": 1,
     "speed": {
       "rotate": {
@@ -11,8 +11,8 @@
         "body": 10
       },
       "move": {
-        "walk": 2.6,
-        "run": 4,
+        "walk": 1,
+        "run": 10,
         "back": -1
       }
     }

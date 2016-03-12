@@ -19,6 +19,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var r_head_1 = null,
             r_head_2 = null,
+            _maxEndurance = _data.para.endurance,
             currentAction = null;
 
         this.id = id;
@@ -28,6 +29,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.x = 0;
         this.y = 0;
 
+        this.enduranceBar = null;
+        this.enduranceBarBase = null;
         this.topLight = null;
         this.torch = null;
         this.torchDirectionObj = null;
@@ -90,7 +93,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.y = y;
             // sprite
             createSprite(x, y);
-
+            // endurance
+            updateEnduranceBar(x, y, gameData.endurance);
             // dead
             if (isDie) {
                 if (currentAction != action) {
@@ -248,6 +252,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         scene.add(that.topLight);
                     }
                     setupLightCache(_data.light);
+                    createEnduranceBar();
                 }
 
                 // setup if scene is set
@@ -281,6 +286,36 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 light_radius = Math.sqrt(light.top.z * light.top.z + light.top.x * light.top.x);
                 light_angle = Math.atan2(light.top.x, light.top.z);
             }
+        };
+
+        // endurance bar --------------------------------------------------
+        var createEnduranceBar = function () {
+            var mat = new THREE.SpriteMaterial({
+                color: 0xFFCC00,
+                transparent: true
+            });
+            mat.opacity = 0.5;
+            var spr = new THREE.Sprite(mat);
+            spr.position.set(0, 0, 0);
+            spr.scale.set(GridSize, GridSize / 8, 1.0);
+            scene.add(spr);
+            that.enduranceBar = spr;
+
+            mat = new THREE.SpriteMaterial({ map: spriteTex['enduranceBarBase'] });
+            spr = new THREE.Sprite(mat);
+            spr.position.set(0, 0, 0);
+            spr.scale.set(GridSize, GridSize/4, 1.0);
+            scene.add(spr);
+            that.enduranceBarBase = spr;
+        };
+
+        var updateEnduranceBar = function (x, y, val) {
+            if (that.enduranceBar == null) return;
+            var w = val / _maxEndurance * GridSize;
+            that.enduranceBar.position.set(x - (GridSize - w) / 2, 2 * GridSize, y - GridSize / 4);
+            that.enduranceBar.scale.x = w;
+
+            that.enduranceBarBase.position.set(x , 2 * GridSize + 0.1, y- GridSize / 4);
         };
 
         // sprite ---------------------------------------------------------
@@ -327,6 +362,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             spriteTex = {};
             var textureLoader = new THREE.TextureLoader();
             spriteTex['key'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_key.png');
+            spriteTex['enduranceBarBase'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
         };
 
         // setup ----------------------------------------------------------

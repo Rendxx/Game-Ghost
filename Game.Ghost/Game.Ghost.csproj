@@ -102,6 +102,7 @@
     <Content Include="Model\Position\end_1.icon.png" />
     <Content Include="Model\Position\start_1.icon.png" />
     <Content Include="Model\Position\start_2.icon.png" />
+    <Content Include="Model\Sprite\EnduranceBar.png" />
     <Content Include="Model\Sprite\Sprite_block.png" />
     <Content Include="Model\Sprite\Sprite_key.png" />
     <Content Include="Model\Sprite\Sprite_locked.png" />
@@ -321,6 +322,7 @@
     <Content Include="ModelBuilder\Door\door_b.blend" />
     <Content Include="ModelBuilder\Door\door_b.blend1" />
     <Content Include="ModelBuilder\Sprite\lock.fla" />
+    <Content Include="ModelBuilder\Sprite\Endurance.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

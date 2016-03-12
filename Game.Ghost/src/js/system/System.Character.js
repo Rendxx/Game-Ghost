@@ -24,7 +24,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.y = -1;
         this.stuff = {};
         this.key = {};
-        this.endurance = _modelData.para.endurance;
+        this.endurance = _para.init.endurance;
         this.light = _para.init.light;
         this.battery = _para.init.battery;
         this.hp = _para.init.hp;
@@ -48,7 +48,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _radius = _modelData.radius,
             _interactionDistance = _modelData.para.interactionDistance,
             _enduranceRecover = _para.enduranceRecover,
-            _enduranceCost = _para.enduranceCost;
+            _enduranceCost = _para.enduranceCost,
+            _maxEndurance = _modelData.para.endurance;
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -211,10 +212,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         recover -= _enduranceRecover / 20;
                     } else {
                         recover = 0;
-                        if (that.endurance < _modelData.para.endurance) {
+                        if (that.endurance < _maxEndurance) {
                             that.endurance += _enduranceRecover / 20;
                         } else {
-                            that.endurance = _modelData.para.endurance;
+                            that.endurance = _maxEndurance;
                         }
                     }
                 } else {
@@ -222,7 +223,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     that.endurance -= _enduranceCost / 20;
                 }
             } else {
-
+                // Ghost
+                if (that.endurance < _maxEndurance) {
+                    that.endurance += _enduranceRecover / 20;
+                }
             }
             //console.log(that.endurance + "  " + recover);
         };
