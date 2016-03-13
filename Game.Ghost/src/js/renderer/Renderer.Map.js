@@ -728,7 +728,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var mat = new THREE.SpriteMaterial({ map: _tex['end'] });
             for (var i = 0; i < dat.length; i++) {
                 var spr = new THREE.Sprite(mat);
-                spr.position.set((dat[i][0] - that.width / 2) * GridSize, 1 * GridSize, (dat[i][1] - that.height / 2) * GridSize);
+                spr.position.set((dat[i][0] - that.width / 2 + 0.5) * GridSize, 1 * GridSize, (dat[i][1] - that.height / 2 + 0.5) * GridSize);
                 spr.scale.set(4, 4, 1.0); // imageWidth, imageHeight
                 _scene.add(spr);
                 that.posEnd[i]=spr;

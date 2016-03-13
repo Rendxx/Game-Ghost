@@ -244,7 +244,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         }
                     }
                 } else {
-                    recover = 10;
+                    recover = 8;
                     that.endurance -= _enduranceCost / 20;
                 }
             } else {
