@@ -3,7 +3,7 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, true);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root);
     var system = window.Rendxx.Game.Ghost.System.Create(_root);
     system.onStarted = function (modelData, mapData) {
         renderer.start();
