@@ -13,6 +13,13 @@
         renderer.load(modelData, mapData, playerData);
         system.start();
     };
+    system.onEnded = function (isWin) {
+        renderer.stop();
+        renderer.hide();
+        var s = isWin ? "Survivor Escaped!!!!" : "Survior all killed!!!";
+        var t = isWin ? "GOOD JOB" : "GAME OVER";
+        $$.info.alert(s, t, false, "rgba(0,0,0,0.6)", null);
+    };
     system.setup([
         {
             name: 'player 1',

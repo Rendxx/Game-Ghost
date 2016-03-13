@@ -50,6 +50,21 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var i = 0; i < that.characters.length; i++) {
                 that.characters[i].nextInterval();
             }
+
+            // end check ----------------------------------
+            var win = 0, isEnd = true;
+            for (var i = 0; i < that.characters.length; i++) {
+                if (that.characters[i].role == Data.character.type.survivor) {
+                    if (that.characters[i].hp > 0 && !that.characters[i].win) {
+                        isEnd = false;
+                        break;
+                    }
+                    if (that.characters[i].win) win++;
+                }
+            }
+            if (isEnd) that.end(win > 0);
+            // ----------------------------------------------
+
             if (that.onChange) that.onChange(gameData);
         };
 
@@ -69,8 +84,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // end game
-        this.end = function () {
-            if (this.onEnded) this.onEnded();
+        this.end = function (isWin) {
+            if (this.onEnded) this.onEnded(isWin);
         };
 
         // setup game

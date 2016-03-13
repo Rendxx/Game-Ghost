@@ -16,6 +16,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _para = Data.character.para[_info.role],
             recover = 0;        // recover time after rush
 
+        this.win = false;
         this.id = id;
         this.name = _info.name;
         this.role = _info.role;
@@ -89,7 +90,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // move to a directionn with a rotation of head 
         this.move = function (direction, directionHead, rush_in, stay_in, headFollow_in) {
-            if (this.hp == 0) return;
+            if (this.hp == 0 || this.win) return;
             if (this.role == Data.character.type.survivor) rush = rush_in;
             stay = stay_in;
             headFollow = headFollow_in;
@@ -99,6 +100,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // use the item in front of the character
         this.interaction = function () {
+            if (this.hp == 0 || this.win) return;
             var key = entity.map.tryAccess(
                 that,
                 that.x,
@@ -116,6 +118,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // turn on / off torch light
         this.switchTorch = function () {
+            if (this.hp == 0 || this.win) return;
             if (that.role == Data.character.type.survivor) {
                 this.light = 1 - this.light;
             } else {
@@ -135,6 +138,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // character die
         this.die = function () {
+            if (this.hp == 0 || this.win) return;
             this.hp = 0;
             this.action = 'die';
             _onChange();
@@ -243,7 +247,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
                 for (var i = 0; i < entity.characters.length; i++) {
                     var c = entity.characters[i];
-                    if (c.role == Data.character.type.survivor) {
+                    if (c.role == Data.character.type.survivor && c.hp>0 && !c.win) {
                         var r = that.checkRange(c.x, c.y);
                         if (r > 10) continue;
                         if (r < 1) c.die();

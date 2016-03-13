@@ -46,13 +46,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.started = true;
         };
 
+        this.stop = function () {
+            this.started = false;
+        };
+
         // api -------------------------------------------
         this.show = function () {
-            this.domElement.fadeIn()
+            $(this.domElement).fadeIn()
         };
 
         this.hide = function () {
-            this.domElement.fadeOut()
+            $(this.domElement).fadeOut()
         };
 
         this.updateClient = function (clientData) {
