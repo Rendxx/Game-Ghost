@@ -32,7 +32,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // public method -------------------------------------------------
         this.viewportSetup = function (player) {
-            cameraNum = player.length-1;        // no ghost
+            if (entity.isGhost) cameraNum = 1;          //  ghost
+            else cameraNum = player.length-1;           // no ghost
             _cameraParaReset();
             _cameraSetup();
         };
@@ -52,7 +53,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // camera --------------------------------------------
         var _cameraParaReset = function () {
             cameraPara = [];
-            if (cameraNum <= 4) {
+            if (cameraNum <= 1) {
+                var w = SCREEN_WIDTH - 2;
+                var h = SCREEN_HEIGHT - 2;
+                cameraPara[0] = {
+                    w: w,
+                    h: h,
+                    x: 1,
+                    y: 1
+                };
+            } else if (cameraNum <= 4) {
                 var w = SCREEN_WIDTH / 2 - 2;
                 var h = SCREEN_HEIGHT / 2 - 2;
                 cameraPara[0] = {
@@ -138,15 +148,28 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.renderer.setViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
             that.renderer.clear();
 
-            for (var i = 0; i < cameraNum; i++) {
-                var para = cameraPara[i];
+            if (cameraNum == 0) return;
+            if (entity.isGhost) {
+                var i = entity.characters.length - 1;
+                var para = cameraPara[0];
                 var character = entity.characters[i];
-                that.camera[i].position.x = character.x;
-                that.camera[i].position.z = character.y+20;
-                if (character.mesh!=null) that.camera[i].lookAt(character.mesh.position);
+                that.camera[0].position.x = character.x;
+                that.camera[0].position.z = character.y + 20;
+                if (character.mesh != null) that.camera[0].lookAt(character.mesh.position);
                 that.renderer.setViewport(para.x, para.y, para.w, para.h);
-                that.renderer.render(that.scene, that.camera[i]);
-                //that.camera[i].rotation.z += 0.1;
+                that.renderer.render(that.scene, that.camera[0]);
+
+            } else {
+                for (var i = 0; i < cameraNum; i++) {
+                    var para = cameraPara[i];
+                    var character = entity.characters[i];
+                    that.camera[i].position.x = character.x;
+                    that.camera[i].position.z = character.y + 20;
+                    if (character.mesh != null) that.camera[i].lookAt(character.mesh.position);
+                    that.renderer.setViewport(para.x, para.y, para.w, para.h);
+                    that.renderer.render(that.scene, that.camera[i]);
+                    //that.camera[i].rotation.z += 0.1;
+                }
             }
         };
 

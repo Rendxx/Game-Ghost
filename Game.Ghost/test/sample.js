@@ -3,7 +3,7 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, true);
     var system = window.Rendxx.Game.Ghost.System.Create(_root);
     system.onStarted = function (modelData, mapData) {
         renderer.start();
@@ -117,7 +117,7 @@ function SetupControl(system) {
 
             system.interAction.receive({
                 actionType: '01',
-                characterId: 0,
+                characterId: 4,
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
                 rush: rush,
@@ -128,12 +128,12 @@ function SetupControl(system) {
         } else if (e.keyCode == keyCode['f']) {
             system.interAction.receive({
                 actionType: '02',
-                characterId: 0
+                characterId: 4
             });
         } else if (e.keyCode == keyCode['e']) {
             system.interAction.receive({
                 actionType: '03',
-                characterId: 0
+                characterId: 4
             });
         }
     }).keyup(function (e) {
@@ -143,7 +143,7 @@ function SetupControl(system) {
 
             system.interAction.receive({
                 actionType: '01',
-                characterId: 0,
+                characterId: 4,
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
                 rush: rush,

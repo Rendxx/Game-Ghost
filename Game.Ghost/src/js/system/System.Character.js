@@ -259,12 +259,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var c = entity.characters[i];
                     if (c.role == Data.character.type.survivor && c.hp>0 && !c.win) {
                         var r = that.checkRange(c.x, c.y);
-                        if (r > 10) continue;
+                        if (r > 5) continue;
                         if (r < 1) c.die();     // die
                         else {
                             if (!rush) {
                                 if (that.endurance < _maxEndurance) {
-                                    that.endurance += (_enduranceRecover * (10 - r) / 20);
+                                    that.endurance += (_enduranceRecover * (5 - r) / 10);
                                 }
                             }
                         }
