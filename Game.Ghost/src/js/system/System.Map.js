@@ -106,19 +106,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // check the access of funiture
-        //var _test = [-1, -1];
-        //this.accessCheck = function (x, y) {
-        //    if (x < 0 || y < 0) return;
-        //    var x2 = Math.floor(x);
-        //    var y2 = Math.floor(y);
-        //    if (x2 != _test[0] || y2 != _test[1]) {
-        //        _test = [x2, y2];
-        //        var s = "";
-        //        if (accessGrid[y2][x2] != null) for (var t in accessGrid[y2][x2]) s += t + " ";
-        //        console.log("[" + x2 + ", " + y2 + "] " + s + "   (" + x + ", " + y + ")");
-        //    }
-        //};
-
         this.tryAccess = function (character, x, y, access_x, access_y) {
             x = Math.floor(x);
             y = Math.floor(y);
@@ -147,6 +134,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.findEmptyPos = function () {
             var idx = Math.floor(emptyPos.length * Math.random());
             return emptyPos[idx];
+        };
+
+        this.checkInEnd = function (x, y) {
+            x = Math.floor(x);
+            y = Math.floor(y);
+            for (var i = 0; i < position['end'].length; i++) {
+                if (x == position['end'][i][0] && y == position['end'][i][1]) return true;
+            }
+            return false;
         };
 
         // private method ------------------------------------------------

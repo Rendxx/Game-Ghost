@@ -102,7 +102,7 @@ function SetupControl(system) {
 
             system.interAction.receive({
                 actionType: '01',
-                characterId: 3,
+                characterId: 0,
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
                 rush: rush,
@@ -113,12 +113,12 @@ function SetupControl(system) {
         } else if (e.keyCode == keyCode['f']) {
             system.interAction.receive({
                 actionType: '02',
-                characterId: 3
+                characterId: 0
             });
         } else if (e.keyCode == keyCode['e']) {
             system.interAction.receive({
                 actionType: '03',
-                characterId: 3
+                characterId: 0
             });
         }
     }).keyup(function (e) {
@@ -128,7 +128,7 @@ function SetupControl(system) {
 
             system.interAction.receive({
                 actionType: '01',
-                characterId: 3,
+                characterId: 0,
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
                 rush: rush,

@@ -62,6 +62,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (_recoverData == null) return;
             if ('x' in _recoverData) this.x = _recoverData.x;
             if ('y' in _recoverData) this.y = _recoverData.y;
+            if ('win' in _recoverData) this.win = _recoverData.win;
             if ('stuff' in _recoverData) this.stuff = _recoverData.stuff;
             if ('key' in _recoverData) this.key = _recoverData.key;
             if ('endurance' in _recoverData) this.endurance = _recoverData.endurance;
@@ -77,6 +78,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return {
                 x: that.x,
                 y: that.y,
+                win : that.win,
                 key: that.key,
                 stuff: that.stuff,
                 endurance: that.endurance,
@@ -144,8 +146,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _onChange();
         };
 
+        this.winning = function () {
+            if (this.hp == 0 || this.win) return;
+            this.win = true;
+            this.action = 'idle';
+            _onChange();
+        };
+
         this.nextInterval = function () {
-            if (this.hp == 0) return;
+            if (this.hp == 0 || this.win) return;
             // is back?
             var isBack = false;
             if (!stay && !headFollow && !rush) {
@@ -221,6 +230,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var _paraUpdate = function () {
             if (that.role == Data.character.type.survivor) {
+                // endurance
                 if (that.endurance <= 0) rush = false;
                 if (!rush) {
                     if (recover > 0) {
@@ -238,8 +248,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     that.endurance -= _enduranceCost / 20;
                 }
             } else {
+                // endurance
                 if (that.endurance <= 0) rush = false;
-                // Ghost
                 if (that.endurance < _maxEndurance) {
                     that.endurance += _enduranceRecover / 20;
                 }
@@ -250,7 +260,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     if (c.role == Data.character.type.survivor && c.hp>0 && !c.win) {
                         var r = that.checkRange(c.x, c.y);
                         if (r > 10) continue;
-                        if (r < 1) c.die();
+                        if (r < 1) c.die();     // die
                         else {
                             if (!rush) {
                                 if (that.endurance < _maxEndurance) {
@@ -278,6 +288,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var canMove = entity.map.moveCheck(that.x, that.y, deltaX, deltaY);
             if (deltaX != 0) that.x = canMove[0] - _radius_x;
             if (deltaY != 0) that.y = canMove[1] - _radius_y;
+
+            // win
+            if (entity.map.checkInEnd(that.x, that.y)) that.winning();
         };
 
 

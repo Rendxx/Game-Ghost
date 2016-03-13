@@ -75,6 +75,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.furniture = null;
         this.ground = null;
         this.ceiling = null;
+        this.posEnd = null;
         this.key = null;        // key objects: funiture id: key object
 
         // public method ---------------------------
@@ -109,6 +110,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             updateKey();
             updateFuniture();
             updateDoor();
+            createEndPos(data_in.staticData.position.end);
         };
 
         // render model
@@ -612,6 +614,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             onSuccess(idx);
         };
 
+
         var getTexture = function (path) {
             return THREE.ImageUtils.loadTexture(path);
             if (_texture[path] == null) _texture[path] = THREE.ImageUtils.loadTexture(path);
@@ -719,11 +722,25 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tween1.start();
         };
 
+        var createEndPos = function (dat) {
+            if (that.posEnd != null) return;
+            that.posEnd = [];
+            var mat = new THREE.SpriteMaterial({ map: _tex['end'] });
+            for (var i = 0; i < dat.length; i++) {
+                var spr = new THREE.Sprite(mat);
+                spr.position.set((dat[i][0] - that.width / 2) * GridSize, 1 * GridSize, (dat[i][1] - that.height / 2) * GridSize);
+                spr.scale.set(4, 4, 1.0); // imageWidth, imageHeight
+                _scene.add(spr);
+                that.posEnd[i]=spr;
+            }
+        };
+
         // Setup ----------------------------------------------------------
         var _setupTex = function () {
             _tex = {};
             var textureLoader = new THREE.TextureLoader();
             _tex['lock'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_locked.png');
+            _tex['end'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
         };
 
         var _init = function () {

@@ -61,6 +61,7 @@
     <Content Include="ModelBuilder\Environment\wall-top.png" />
     <Content Include="ModelBuilder\Environment\wall.jpg" />
     <Content Include="ModelBuilder\Environment\wall.png" />
+    <Content Include="ModelBuilder\Sprite\sports.png" />
     <Content Include="ModelBuilder\Stuff\vase_1.png" />
     <Content Include="Model\Door\door_wood_1.png" />
     <Content Include="Model\Environment\wall-top.png" />
@@ -104,6 +105,7 @@
     <Content Include="Model\Position\start_2.icon.png" />
     <Content Include="Model\Sprite\EnduranceBar.png" />
     <Content Include="Model\Sprite\Sprite_block.png" />
+    <Content Include="Model\Sprite\Sprite_EndPos.png" />
     <Content Include="Model\Sprite\Sprite_key.png" />
     <Content Include="Model\Sprite\Sprite_locked.png" />
     <Content Include="Model\Sprite\Sprite_nothing.png" />
@@ -323,6 +325,7 @@
     <Content Include="ModelBuilder\Door\door_b.blend1" />
     <Content Include="ModelBuilder\Sprite\lock.fla" />
     <Content Include="ModelBuilder\Sprite\Endurance.fla" />
+    <Content Include="ModelBuilder\Sprite\Exit.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

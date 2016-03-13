@@ -20,6 +20,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var r_head_1 = null,
             r_head_2 = null,
             _maxEndurance = _data.para.endurance,
+            _win = false,
             currentAction = null;
 
         this.id = id;
@@ -95,6 +96,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             createSprite(x, y);
             // endurance
             updateEnduranceBar(x, y, gameData.endurance);
+            if (gameData.win) hideEnduranceBar();
             // dead
             if (isDie) {
                 if (currentAction != action) {
@@ -252,9 +254,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         scene.add(that.topLight);
                     }
                     setupLightCache(_data.light);
+                    createEnduranceBar();
                 }
 
-                createEnduranceBar();
                 // setup if scene is set
                 that.setuped = true;
                 if (that.onSetuped != null) that.onSetuped();
@@ -320,6 +322,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             that.enduranceBarBase.position.set(x , 2 * GridSize + 0.1, y- GridSize / 4);
+        };
+
+        var hideEnduranceBar = function () {
+            if (_win) return;
+            scene.remove(that.enduranceBar);
+            scene.remove(that.enduranceBarBase);
+            that.enduranceBar = null;
+            that.enduranceBarBase = null;
+            _win = true;
         };
 
         // sprite ---------------------------------------------------------

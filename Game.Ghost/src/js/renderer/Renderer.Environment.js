@@ -32,7 +32,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // public method -------------------------------------------------
         this.viewportSetup = function (player) {
-            cameraNum = player.length;
+            cameraNum = player.length-1;        // no ghost
             _cameraParaReset();
             _cameraSetup();
         };
