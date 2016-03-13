@@ -79,8 +79,45 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     x: SCREEN_WIDTH / 2 + 1,
                     y: SCREEN_HEIGHT / 2 + 1
                 };
-            } else if (num <= 6) {
-
+            } else if (cameraNum <= 6) {
+                var w = SCREEN_WIDTH / 3 - 3;
+                var h = SCREEN_HEIGHT / 2 - 2;
+                cameraPara[0] = {
+                    w: w,
+                    h: h,
+                    x: 1,
+                    y: 1
+                };
+                cameraPara[1] = {
+                    w: w,
+                    h: h,
+                    x: SCREEN_WIDTH / 3 + 1,
+                    y: 1
+                };
+                cameraPara[2] = {
+                    w: w,
+                    h: h,
+                    x: SCREEN_WIDTH / 3 * 2 + 2,
+                    y: 1
+                };
+                cameraPara[3] = {
+                    w: w,
+                    h: h,
+                    x: 1,
+                    y: SCREEN_HEIGHT / 2 + 1
+                };
+                cameraPara[4] = {
+                    w: w,
+                    h: h,
+                    x: SCREEN_WIDTH / 3 + 1,
+                    y: SCREEN_HEIGHT / 2 + 1
+                };
+                cameraPara[5] = {
+                    w: w,
+                    h: h,
+                    x: SCREEN_WIDTH / 3 * 2 + 2,
+                    y: SCREEN_HEIGHT / 2 + 1
+                };
             }
         };
 
@@ -142,7 +179,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             //that.camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, .1, 5000);
             //that.camera.position.set(200, 0, 200);
             that.renderer = new THREE.WebGLRenderer({ antialias: true });
-            that.renderer.setClearColor(0x111111);
+            that.renderer.setClearColor(0x000000);
             that.renderer.autoClear = false; // To allow render overlay on top of sprited sphere
             that.renderer.shadowMapEnabled = true;
             that.renderer.shadowMapSoft = true;

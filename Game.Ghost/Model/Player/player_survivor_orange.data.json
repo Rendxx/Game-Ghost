@@ -1,0 +1,64 @@
+﻿{
+  "id": "orange",
+  "radius": 0.4,
+  "model": "orange/player-2.json",
+  "para": {
+    "endurance": 10,
+    "hp": 1,
+    "speed": {
+      "rotate": {
+        "head": 20,
+        "body": 10
+      },
+      "move": {
+        "walk": 2.6,
+        "run": 6,
+        "back": -1.5
+      }
+    },
+    "interactionDistance": 0.42
+  },
+  "action": {
+    "list": {
+      "0": "back",
+      "1": "init",
+      "2": "die",
+      "3": "idle",
+      "4": "idle2",
+      "5": "run",
+      "6": "turn",
+      "7": "walk"
+    },
+    "init": "3"
+  },
+  "light": {
+    "top": {
+      "x": 0,
+      "y": 2.5,
+      "z": 0.25,
+      "intensity": 1,
+      "distance": 5,
+      "angle": 1,
+      "exponent": 15,
+      "color": "0xffffff"
+    },
+    "torch": {
+      "x": -0.455,
+      "y": 1.8,
+      "z": 0.28,
+      "color": "0xffffff",
+      "intensity": 1,
+      "distance": 20,
+      "angle": 1,
+      "exponent": 8,
+      "shadowCameraNear": 1,
+      "shadowCameraFar": 30,
+      "shadowCameraFov": 100,
+      "shadowCameraVisible": false,
+      "shadowMapWidth": 2056,
+      "shadowMapHeight": 2056,
+      "shadowBias": 0.00,
+      "shadowDarkness": 1.0
+    }
+  }
+}

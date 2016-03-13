@@ -38,6 +38,21 @@
         },
         {
             name: 'player 4',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'yellow'
+        },
+        //{
+        //    name: 'player 5',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'orange'
+        //},
+        //{
+        //    name: 'player 6',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'purple'
+        //},
+        {
+            name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
             modelId: 'white'
         }

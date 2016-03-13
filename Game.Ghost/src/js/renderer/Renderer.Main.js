@@ -39,7 +39,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 this.characters[i] = new RENDERER.Character(this, i, _modelData.characters, _playerData[i]);
             }
             this.env.viewportSetup(playerData);
-            this.test = new RENDERER.Test(this);
+            //this.test = new RENDERER.Test(this);
         };
 
         this.start = function () {

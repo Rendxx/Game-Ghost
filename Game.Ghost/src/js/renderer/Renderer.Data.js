@@ -13,7 +13,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         },
         light: {
             ambient: {
-                ambColor: 0x333333
+                ambColor: 0x000000
             }
         },
         categoryName: {
@@ -132,7 +132,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     'green': '/green/player-2.json',
                     'purple': '/purple/player-2.json',
                     'red': '/red/player-2.json',
-                    'yellow': '/yellow/player-2.json'
+                    'yellow': '/yellow/player-2.json',
+                    'orange': '/orange/player-2.json'
                 },
                 ghost: {
                     'white': '/white/player-2.json',
