@@ -273,7 +273,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var ceiling = new THREE.Mesh(planeGeometry, planeMaterial);
             ceiling.rotation.x = .5 * Math.PI;
             ceiling.position.y = 3 * GridSize;
-            ceiling.castShadow = true;
+            ceiling.castShadow = false;
             ceiling.receiveShadow = true;
             return ceiling;
         };
@@ -377,8 +377,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             mesh.position.z = y;
             //mesh.rotation.y = r / 180 * Math.PI;
             mesh.rotation.x = -.5 * Math.PI;
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
+            mesh.castShadow = false;
+            mesh.receiveShadow = false;
             return mesh;
         };
 
@@ -445,7 +445,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     }
                 }
 
-                mesh.castShadow = true;
+                mesh.castShadow = (para.blockSight==true);
                 mesh.receiveShadow = true;
 
                 mesh.position.x = x;
@@ -559,7 +559,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var loader = new THREE.JSONLoader();
             loader.load(root + Data.files.path[Data.categoryName.stuff] + para.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-                mesh.castShadow = true;
+                mesh.castShadow = false;
                 mesh.receiveShadow = true;
 
                 mesh.position.x = x
@@ -596,7 +596,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var loader = new THREE.JSONLoader();
             loader.load(root + Data.files.path[Data.categoryName.stuff] + para_Key.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-                mesh.castShadow = true;
+                mesh.castShadow = false;
                 mesh.receiveShadow = true;
 
                 mesh.position.x = x;

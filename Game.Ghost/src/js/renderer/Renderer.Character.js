@@ -179,7 +179,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     materials[i].skinning = true;
                 }
                 mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
-                mesh.castShadow = true;
+                mesh.castShadow = false;
                 mesh.receiveShadow = true;
                 //mesh.scale.set(1.5, 1.5, 1.5);
 
@@ -251,6 +251,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         that.topLight.exponent = _data.light.top.exponent;
                         that.topLight.target = that.mesh;
                         that.topLight.color.setHex(_data.light.top.color);
+                        that.topLight.castShadow = false;
                         scene.add(that.topLight);
                     }
                     setupLightCache(_data.light);
