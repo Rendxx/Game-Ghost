@@ -57,9 +57,9 @@
         "#src#/renderer/Renderer.Test.js",
         "#src#/renderer/Renderer.Main.js"
       ],
-      "#dest#/Game.Ghost.System": [
+      "#dest#/Game.Ghost.System.Core": [
+        "#src#/webWorker/WebWorker.Core.js",
         "#src#/system/System.Data.js",
-        "#src#/system/System.FileLoader.js",
         "#src#/system/System.Furniture.js",
         "#src#/system/System.Door.js",
         "#src#/system/System.Key.js",
@@ -67,6 +67,11 @@
         "#src#/system/System.Map.js",
         "#src#/system/System.InterAction.js",
         "#src#/system/System.Main.js"
+      ],
+      "#dest#/Game.Ghost.System.Wrapper": [
+        "#src#/system/System.Data.js",
+        "#src#/system/System.FileLoader.js",
+        "#src#/webWorker/WebWorker.Wrapper.js"
       ],
       "#mapDesigner#/_index": [
         "#mapDesigner#/Scripts/Data.js",

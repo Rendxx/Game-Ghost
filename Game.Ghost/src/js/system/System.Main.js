@@ -13,18 +13,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     /**
      * Game Entity
      */
-    var Main = function (root) {
+    var Main = function () {
         // data ---------------------------------------------------
         var that = this,
-            isLoaded = 0,       // 0: not loaded,  2: fully loaded
             modelData = {},
             mapData = {},
             playerData = null,
             gameData = {},      // store all data in the game, use to render
-            root = root || '';
+            intervalFunc = null;
 
         // component ----------------------------------------------
-        var loader = null;
         this.renderer = null;
         this.map = null;
         this.interAction = null;
@@ -45,8 +43,52 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // public method ------------------------------------------
+        // reset game with given data
+        this.reset = function (data) {
+        };
+
+        // start game
+        this.start = function () {
+            this.map.reset();
+            for (var i = 0; i < that.characters.length; i++) {
+                that.characters[i].reset();
+            }
+            if (intervalFunc != null) clearInterval(intervalFunc);
+            intervalFunc = setInterval(nextInterval, 25);
+            if (this.onStarted) this.onStarted();
+        };
+
+        // end game
+        this.end = function (isWin) {
+            if (intervalFunc != null) clearInterval(intervalFunc);
+            if (this.onEnded) this.onEnded(isWin);
+        };
+
+        // setup game
+        this.setup = function (modelData_in, mapData_in, playerData_in) {
+            playerData = playerData_in;
+            mapData = mapData_in;
+            modelData = modelData_in;
+
+            that.map = new SYSTEM.Map(that, modelData, mapData);
+            that.map.onChange = function (data) {
+                gameData.map = data;
+            };
+            that.interAction = new SYSTEM.InterAction(that);
+
+            that.map.loadBasicData(modelData, mapData);
+            gameData.characters = [];
+            for (var i = 0; i < playerData.length; i++) {
+                that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters, that);
+                that.characters[i].onChange = function (idx, data) {
+                    gameData.characters[idx] = data;
+                };
+            }
+        };
+        
+        // private method -----------------------------------------
         // called every time frame
-        this.nextInterval = function () {
+        var nextInterval = function () {
             for (var i = 0; i < that.characters.length; i++) {
                 that.characters[i].nextInterval();
             }
@@ -68,67 +110,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (that.onChange) that.onChange(gameData);
         };
 
-        // reset game with given data
-        this.reset = function (data) {
-            if (isLoaded < 2) return false;
-        };
-
-        // start game
-        this.start = function () {
-            if (isLoaded < 2) return false;
-            this.map.reset();
-            for (var i = 0; i < that.characters.length; i++) {
-                that.characters[i].reset();
-            }
-            if (this.onStarted) this.onStarted();
-        };
-
-        // end game
-        this.end = function (isWin) {
-            if (this.onEnded) this.onEnded(isWin);
-        };
-
-        // setup game
-        this.setup = function (players, mapName) {
-            playerData = players;
-            if (Data.map.files[mapName] == null) throw new Error('Map can not be found.');
-            loader.loadMap(Data.map.files[mapName], function (data) {
-                mapData = data;
-                onLoaded();
-            },
-            function (e) {
-                throw new Error('Map Loading Error: ' + e);
-            });
-        };
-        
-        // private method -----------------------------------------
-        var onLoaded = function () {
-            isLoaded++;
-            if (isLoaded == 2) {
-                that.map = new SYSTEM.Map(that, modelData, mapData);
-                that.map.onChange = function (data) {
-                    gameData.map = data;
-                };
-                that.interAction = new SYSTEM.InterAction(that);
-
-                that.map.loadBasicData(modelData, mapData);
-                gameData.characters = [];
-                for (var i = 0; i < playerData.length; i++) {
-                    that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters, that);
-                    that.characters[i].onChange = function (idx, data) {
-                        gameData.characters[idx] = data;
-                    };
-                }
-                that.onLoaded(modelData, mapData, playerData);
-            }
-        };
-
         var _init = function () {
-            loader = new SYSTEM.FileLoader(root);
-            loader.loadBasic(function (data) {
-                modelData = data;
-                onLoaded();
-            });
         };
         _init();
     };
@@ -136,8 +118,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     /**
      * Create a game in domElement
      */
-    SYSTEM.Create = function (root) {
-        var main = new Main(root);
+    SYSTEM.Create = function () {
+        var main = new Main();
         return main;
     };
 })(window.Rendxx.Game.Ghost);

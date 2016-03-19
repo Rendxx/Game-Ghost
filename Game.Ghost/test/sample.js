@@ -4,23 +4,23 @@
     // game -----------------------------------------------------
     var _root = null;
     var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root);
-    var system = window.Rendxx.Game.Ghost.System.Create(_root);
-    system.onStarted = function (modelData, mapData) {
+    var systemWrapper = window.Rendxx.Game.Ghost.WebWorker.Create(_root, "../js/Game.Ghost.System.Core.js");
+    systemWrapper.onStarted = function (modelData, mapData) {
         renderer.start();
-        SetupControl(system);
+        SetupControl(systemWrapper);
     };
-    system.onLoaded = function (modelData, mapData, playerData) {
+    systemWrapper.onLoaded = function (modelData, mapData, playerData) {
         renderer.load(modelData, mapData, playerData);
-        system.start();
+        systemWrapper.start();
     };
-    system.onEnded = function (isWin) {
+    systemWrapper.onEnded = function (isWin) {
         renderer.stop();
         renderer.hide();
         var s = isWin ? "Survivor Escaped!!!!" : "Survior all killed!!!";
         var t = isWin ? "GOOD JOB" : "GAME OVER";
         $$.info.alert(s, t, false, "rgba(0,0,0,0.6)", null);
     };
-    system.setup([
+    systemWrapper.setup([
         {
             name: 'player 1',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
@@ -41,16 +41,16 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'yellow'
         },
-        //{
-        //    name: 'player 5',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'orange'
-        //},
-        //{
-        //    name: 'player 6',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'purple'
-        //},
+        {
+            name: 'player 5',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'orange'
+        },
+        {
+            name: 'player 6',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'purple'
+        },
         {
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
@@ -64,8 +64,8 @@
     //        modelId: 'green'
     //    }
     //], 'test2');
-    system.onChange = renderer.updateGame;
-    renderer.onTimeInterval = system.nextInterval;
+    systemWrapper.onChange = renderer.updateGame;
+    //renderer.onTimeInterval = system.nextInterval;
 });
 
 
@@ -115,9 +115,9 @@ function SetupControl(system) {
             codeMap[e.keyCode] = true;
             getDirection(codeMap);
 
-            system.interAction.receive({
+            system.receive({
                 actionType: '01',
-                characterId: 4,
+                characterId: 1,
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
                 rush: rush,
@@ -126,14 +126,14 @@ function SetupControl(system) {
             });
             e.preventDefault();
         } else if (e.keyCode == keyCode['f']) {
-            system.interAction.receive({
+            system.receive({
                 actionType: '02',
-                characterId: 4
+                characterId: 1
             });
         } else if (e.keyCode == keyCode['e']) {
-            system.interAction.receive({
+            system.receive({
                 actionType: '03',
-                characterId: 4
+                characterId: 1
             });
         }
     }).keyup(function (e) {
@@ -141,9 +141,9 @@ function SetupControl(system) {
             codeMap[e.keyCode] = false;
             getDirection(codeMap, true);
 
-            system.interAction.receive({
+            system.receive({
                 actionType: '01',
-                characterId: 4,
+                characterId: 1,
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
                 rush: rush,

@@ -155,6 +155,8 @@
     <Content Include="src\js\renderer\Renderer.Main.js" />
     <Content Include="src\js\renderer\Renderer.Environment.js" />
     <Content Include="mapDesigner\index.html" />
+    <Content Include="src\js\webWorker\WebWorker.Core.js" />
+    <Content Include="src\js\webWorker\WebWorker.Wrapper.js" />
     <Content Include="src\js\system\System.Door.js" />
     <Content Include="src\js\system\System.Key.js" />
     <Content Include="src\js\system\System.Furniture.js" />
