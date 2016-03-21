@@ -2,6 +2,7 @@
   "id": "yellow",
   "radius": 0.4,
   "model": "yellow/player-2.json",
+  "color": "0xFFFF00",
   "para": {
     "endurance": 10,
     "hp": 1,

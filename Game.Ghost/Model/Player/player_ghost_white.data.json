@@ -2,6 +2,7 @@
   "id": "white",
   "radius": 0.4,
   "model": "white/player-2.json",
+  "color":  "0xffffff",
   "para": {
     "endurance": 1000,
     "hp": 1,

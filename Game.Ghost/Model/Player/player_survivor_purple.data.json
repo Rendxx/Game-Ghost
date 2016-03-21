@@ -2,6 +2,7 @@
   "id": "purple",
   "radius": 0.4,
   "model": "purple/player-2.json",
+  "color": "0x660099",
   "para": {
     "endurance": 10,
     "hp": 1,

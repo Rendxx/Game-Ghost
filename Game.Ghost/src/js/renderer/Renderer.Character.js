@@ -27,6 +27,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.name = _para.name;
         this.role = _para.role;
         this.modelId = _para.modelId;
+        this.color = _data.color;
         this.x = 0;
         this.y = 0;
 

@@ -24,11 +24,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             cameraPara = [],
             cameraNum = 0,
             GridSize = Data.grid.size,
-                characterData = [];
+            characterData = [];
 
         this.scene = null;
-        this.camera = null;
         this.renderer = null;
+        this.camera = [];
 
         // public method -------------------------------------------------
         this.viewportSetup = function (player) {
@@ -135,49 +135,26 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.camera = [];
             for (var i = 0; i < cameraNum; i++) {
                 var para = cameraPara[i];
-                that.camera[i] = new THREE.PerspectiveCamera(45, para.w / para.h, .1, 30 * GridSize);
-                that.camera[i].position.y = 20 * GridSize;
-                that.camera[i].position.x = 0;
-                that.camera[i].position.z = 0;
-                that.camera[i].lookAt(new THREE.Vector3(0, 0, 0));
-                that.camera[i].rotation.z = 0;
+                that.camera[i] = new RENDERER.Camera(that.scene, that.renderer);
+                that.camera[i].setup(entity.characters[i], para.x, para.y, para.w, para.h);
             }
         };
 
         var _cameraUpdate = function () {
             that.renderer.setViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
             that.renderer.clear();
+            that.renderer.clearDepth();
 
             if (cameraNum == 0) return;
-            if (entity.isGhost) {
-                var i = entity.characters.length - 1;
-                var para = cameraPara[0];
-                var character = entity.characters[i];
-                that.camera[0].position.x = character.x;
-                that.camera[0].position.z = character.y + 20;
-                if (character.mesh != null) that.camera[0].lookAt(character.mesh.position);
-                that.renderer.setViewport(para.x, para.y, para.w, para.h);
-                that.renderer.render(that.scene, that.camera[0]);
-
-            } else {
-                for (var i = 0; i < cameraNum; i++) {
-                    var para = cameraPara[i];
-                    var character = entity.characters[i];
-                    that.camera[i].position.x = character.x;
-                    that.camera[i].position.z = character.y + 20;
-                    if (character.mesh != null) that.camera[i].lookAt(character.mesh.position);
-                    that.renderer.setViewport(para.x, para.y, para.w, para.h);
-                    that.renderer.render(that.scene, that.camera[i]);
-                    //that.camera[i].rotation.z += 0.1;
-                }
+            for (var i = 0; i < cameraNum; i++) {
+                that.camera[i].render();
             }
         };
 
         var _cameraResize = function () {
             for (var i = 0; i < cameraNum; i++) {
                 var para = cameraPara[i];
-                that.camera[i].aspect = para.w / para.h;
-                that.camera[i].updateProjectionMatrix();
+                that.camera[i].resize(para.x, para.y, para.w, para.h);
             }
         };
 
@@ -190,7 +167,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _cameraParaReset();
             _cameraResize();
         };
-        
+
+        // helper ------------------------
         var _init = function () {
             clock = new THREE.Clock();
 
@@ -199,8 +177,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             SCREEN_HEIGHT = window.innerHeight;
 
             that.scene = new THREE.Scene();
-            //that.camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, .1, 5000);
-            //that.camera.position.set(200, 0, 200);
             that.renderer = new THREE.WebGLRenderer({ antialias: true });
             that.renderer.setClearColor(0x050505);
             that.renderer.autoClear = false; // To allow render overlay on top of sprited sphere

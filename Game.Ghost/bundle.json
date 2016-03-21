@@ -52,6 +52,7 @@
         "#src#/lib/OBJLoader.js",
         "#src#/renderer/Renderer.Data.js",
         "#src#/renderer/Renderer.Environment.js",
+        "#src#/renderer/Renderer.Camera.js",
         "#src#/renderer/Renderer.Map.js",
         "#src#/renderer/Renderer.Character.js",
         "#src#/renderer/Renderer.Test.js",
