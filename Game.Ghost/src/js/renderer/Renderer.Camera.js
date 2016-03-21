@@ -9,6 +9,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 (function (RENDERER) {
     var Data = RENDERER.Data;
     var GridSize = Data.grid.size;
+    var _Data = {
+        cameraMargin: 5
+    };
     /**
      * Setup camera in three.js
      * @param {game entity} entity - Game entity
@@ -18,7 +21,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var that = this,
             tex = {},
             root = entity.root,
-            sprites = {};
+            sprites = {},
+            // cache
+            _xMin = -(entity.map.width / 2 + _Data.cameraMargin) * GridSize,
+            _xMax = (entity.map.width / 2 + _Data.cameraMargin) * GridSize,
+            _yMin = -(entity.map.height / 2 + _Data.cameraMargin) * GridSize,
+            _yMax = (entity.map.height / 2 + _Data.cameraMargin) * GridSize;
 
         this.scene = scene_in;
         this.renderer = renderer_in
@@ -57,9 +65,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             createFrame();
         };
 
-        this.update = function () {
-        };
-
         this.resize = function (x, y, w, h) {
             this.width = w;
             this.height = h;
@@ -93,11 +98,25 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.cameraOrtho.top = 0;
             that.cameraOrtho.bottom = -that.height;
             that.cameraOrtho.updateProjectionMatrix();
+
+            // camera bounding
+            _xMin = -(entity.map.width / 2 + _Data.cameraMargin) * GridSize + w / 25,
+            _xMax = (entity.map.width / 2 + _Data.cameraMargin ) * GridSize - w / 25,
+            _yMin = -(entity.map.height / 2 + _Data.cameraMargin) * GridSize + h / 25,
+            _yMax = (entity.map.height / 2 + _Data.cameraMargin) * GridSize - h / 25;
         };
 
         this.render = function () {
-            that.camera.position.x = that.character.x;
-            that.camera.position.z = that.character.y + 20;
+            var x = that.character.x;
+            var y = that.character.y;
+            if (x < _xMin) x = _xMin;
+            else if (x > _xMax) x = _xMax;
+            if (y < _yMin) y = _yMin;
+            else if (y > _yMax) y = _yMax;
+
+            that.camera.position.x = x;
+            that.camera.position.z = y + 20;
+
             if (that.character.mesh != null) that.camera.lookAt(that.character.mesh.position);
             that.renderer.setViewport(that.x, that.y, that.width, that.height);
             that.renderer.render(that.scene, that.camera);
