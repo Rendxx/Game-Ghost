@@ -135,7 +135,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.camera = [];
             for (var i = 0; i < cameraNum; i++) {
                 var para = cameraPara[i];
-                that.camera[i] = new RENDERER.Camera(that.scene, that.renderer);
+                that.camera[i] = new RENDERER.Camera(entity, that.scene, that.renderer);
                 that.camera[i].setup(entity.characters[i], para.x, para.y, para.w, para.h);
             }
         };

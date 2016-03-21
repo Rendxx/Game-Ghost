@@ -13,9 +13,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
      * Setup camera in three.js
      * @param {game entity} entity - Game entity
      */
-    var Camera = function (scene_in, renderer_in) {
+    var Camera = function (entity, scene_in, renderer_in) {
         // data ----------------------------------------------
         var that = this,
+            tex = {},
+            root = entity.root,
             sprites = {};
 
         this.scene = scene_in;
@@ -64,8 +66,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.x = x;
             this.y = y;
 
-            sprites["name"].position.set(55, -30, 1);
+            // name
+            sprites["name"].position.set(60, -45, 1);
 
+            // name deco
+            sprites["nameDeco"].position.set(60, -30, 1);
+
+            // border
             sprites["top"].position.set(that.width / 2, 0, 1);
             sprites["top"].scale.set(that.width, 2, 1.0);
 
@@ -78,6 +85,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprites["left"].position.set(0, -that.height / 2, 1);
             sprites["left"].scale.set(1, that.height, 1.0);
 
+            // camera
             that.camera.aspect = that.width / that.height;
             that.camera.updateProjectionMatrix();
             that.cameraOrtho.left = 0;
@@ -102,9 +110,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprites = {};
 
             // name
-            sprites["name"] = makeTextSprite(that.character.name, { fontsize: 40, borderColor: { r: that.color.r, g: that.color.g, b: that.color.b, a: 1.0 }, color: { r: that.color.r, g: that.color.g, b: that.color.b, a: 0.8 } });
+            sprites["name"] = makeTextSprite(that.character.name, { fontsize: 40, borderColor: { r: that.color.r, g: that.color.g, b: that.color.b, a: 1.0 }, color: { r: 255, g: 255, b: 255, a: 1.0 } });
             that.sceneOrtho.add(sprites["name"]);
 
+            // name deco
+            sprites["nameDeco"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["nameDeco"] }));
+            sprites["nameDeco"].scale.set(120, 30, 1.0);
+            sprites["nameDeco"].material.transparent = true;
+            sprites["nameDeco"].material.opacity = 0.8;
+            that.sceneOrtho.add(sprites["nameDeco"]);
+
+            // border
             var border_mat = new THREE.SpriteMaterial({ color: 0x222222 });
             sprites["top"] = new THREE.Sprite(border_mat);
             that.sceneOrtho.add(sprites["top"]);
@@ -186,7 +202,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             } : null;
         }
 
+        // setup -----------------------------------------------------
+        var _setupTex = function () {
+            tex = {};
+            var textureLoader = new THREE.TextureLoader();
+            tex['nameDeco'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'name-deco-white.png');
+        };
+
         var _init = function () {
+            _setupTex();
         };
 
         _init();
