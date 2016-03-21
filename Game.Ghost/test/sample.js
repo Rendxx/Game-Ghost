@@ -3,7 +3,7 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, []);
     var systemWrapper = window.Rendxx.Game.Ghost.WebWorker.Create(_root, "../js/Game.Ghost.System.Core.js");
     systemWrapper.onStarted = function (modelData, mapData) {
         renderer.start();
@@ -20,43 +20,43 @@
         var t = isWin ? "GOOD JOB" : "GAME OVER";
         $$.info.alert(s, t, false, "rgba(0,0,0,0.6)", null);
     };
-    systemWrapper.setup([
-        {
+    systemWrapper.setup({
+        'p1': {
             name: 'player 1',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'green'
         },
-        {
+        'p2': {
             name: 'player 2',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'red'
         },
-        {
+        'p3': {
             name: 'player 3',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'blue'
         },
-        {
+        'p4': {
             name: 'player 4',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'yellow'
         },
-        {
+        'p5': {
             name: 'player 5',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'orange'
         },
-        {
+        'p6': {
             name: 'player 6',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'purple'
         },
-        {
+        'p7': {
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
             modelId: 'white'
         }
-    ], 'test');
+    }, 'test');
     //system.setup([
     //    {
     //        name: 'player 1',

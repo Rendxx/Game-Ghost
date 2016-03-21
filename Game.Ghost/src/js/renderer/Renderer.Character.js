@@ -65,6 +65,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.onSetuped = null;
 
         // public method --------------------------------------------------
+        this.reset = function (data_in) {
+        };
+
         // update data from system
         this.update = function (data_in) {
             for (var i in data_in.key) {

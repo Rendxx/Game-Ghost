@@ -33,7 +33,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _modelData = modelData;
             _playerData = playerData;
             this.map.loadModelData(_modelData);
-            this.map.reset(_mapData);
+            this.map.loadMap(_mapData);
 
             this.characters = [];
             for (var i = 0, l = _playerData.length; i < l; i++) {
@@ -58,6 +58,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         this.hide = function () {
             $(this.domElement).fadeOut()
+        };
+
+        this.reset = function (setupData) {
+            that.map.reset(setupData.map);
+            for (var i = 0, l = that.characters.length; i < l; i++) {
+                that.characters[i].reset(setupData.characters[i]);
+            }
         };
 
         this.updateClient = function (clientData) {

@@ -80,9 +80,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // public method ---------------------------
         /**
-         * Reset map with given data
+         * load map with given data
          */
-        this.reset = function (data) {
+        this.loadMap = function (data) {
             if (data == null) throw new Error('Data missing');
             _mapData = data;
             itemTween = {};
@@ -102,6 +102,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.loadModelData = function (data) {
             _modelData = data;
         };
+        
+        /**
+         * Reset map with given data
+         */
+        this.reset = function (data_in) {
+            createEndPos(data_in.position.end);
+        };
 
         // update data from system
         this.update = function (data_in) {
@@ -110,7 +117,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             updateKey();
             updateFuniture();
             updateDoor();
-            createEndPos(data_in.staticData.position.end);
         };
 
         // render model
@@ -624,9 +630,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // Update items ----------------------------------------------------------
         var updateFuniture = function () {
             // update furniture
-            for (var i in gameData.dynamicData.furniture) {
-                if (gameData.dynamicData.furniture[i].status != itemStatus['furniture'][i] && itemStatus['furniture'][i] != null) {
-                    itemStatus['furniture'][i] = gameData.dynamicData.furniture[i].status;
+            for (var i in gameData..furniture) {
+                if (gameData..furniture[i].status != itemStatus['furniture'][i] && itemStatus['furniture'][i] != null) {
+                    itemStatus['furniture'][i] = gameData..furniture[i].status;
                     if (itemTween['furniture'] != null && itemTween['furniture'][i] != null) {
                         var t = itemTween['furniture'][i][1 - _Data.animationId.furniture[itemStatus['furniture'][i]]];
                         for (var j = 0; j < t.length; j++) {
@@ -643,10 +649,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var updateDoor = function () {
             // update door
-            for (var i in gameData.dynamicData.door) {
+            for (var i in gameData..door) {
                 if (itemStatus['door'][i] != null) {
-                    if (gameData.dynamicData.door[i].status != itemStatus['door'][i]) {
-                        itemStatus['door'][i] = gameData.dynamicData.door[i].status;
+                    if (gameData..door[i].status != itemStatus['door'][i]) {
+                        itemStatus['door'][i] = gameData..door[i].status;
                         if (itemTween['door'] != null && itemTween['door'][i] != null) {
                             var t = itemTween['door'][i][1 - _Data.animationId.door[itemStatus['door'][i]]];
                             for (var j = 0; j < t.length; j++) {
@@ -658,9 +664,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                             }
                         }
                     }
-                    else if (gameData.dynamicData.door[i].failedOpen) {
+                    else if (gameData..door[i].failedOpen) {
                         createSprite(_Data.prefix_door + i, itemData['door'][i].x, itemData['door'][i].y, 'lock');
-                        gameData.dynamicData.door[i].failedOpen = false;
+                        gameData..door[i].failedOpen = false;
                     }
                 }
             }
@@ -670,17 +676,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // update key
             if (_mapData == null) return;
             for (var i in that.key) {
-                if (gameData.dynamicData.key.hasOwnProperty(i) && gameData.dynamicData.key[i] != null && gameData.dynamicData.key[i].available == true) continue;
+                if (gameData..key.hasOwnProperty(i) && gameData..key[i] != null && gameData..key[i].available == true) continue;
                 if (that.key[i] == null) continue;
                 removeKey(i, _scene, function (idx) {
                     delete that.key[idx];
                 });
             }
 
-            for (var i in gameData.dynamicData.key) {
-                if (that.key.hasOwnProperty(i) || gameData.dynamicData.key[i].available == false) continue;
+            for (var i in gameData..key) {
+                if (that.key.hasOwnProperty(i) || gameData..key[i].available == false) continue;
                 that.key[i] = null;
-                var key = gameData.dynamicData.key[i];
+                var key = gameData..key[i];
                 createKey(_mapData.item.furniture[key.furnitureId], i, _scene, function (idx, mesh) {
                     _scene.add(mesh);
                     that.key[idx] = mesh;
