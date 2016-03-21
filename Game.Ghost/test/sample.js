@@ -5,13 +5,12 @@
     var _root = null;
     var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, []);
     var systemWrapper = window.Rendxx.Game.Ghost.WebWorker.Create(_root, "../js/Game.Ghost.System.Core.js");
+    systemWrapper.onSetuped = function (setupData) {
+        renderer.reset(setupData);
+    };
     systemWrapper.onStarted = function (modelData, mapData) {
         renderer.start();
         SetupControl(systemWrapper);
-    };
-    systemWrapper.onLoaded = function (modelData, mapData, playerData) {
-        renderer.load(modelData, mapData, playerData);
-        systemWrapper.start();
     };
     systemWrapper.onEnded = function (isWin) {
         renderer.stop();
@@ -41,16 +40,16 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'yellow'
         },
-        'p5': {
-            name: 'player 5',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'orange'
-        },
-        'p6': {
-            name: 'player 6',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'purple'
-        },
+        //'p5': {
+        //    name: 'player 5',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'orange'
+        //},
+        //'p6': {
+        //    name: 'player 6',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'purple'
+        //},
         'p7': {
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
@@ -64,8 +63,14 @@
     //        modelId: 'green'
     //    }
     //], 'test2');
-    systemWrapper.onChange = renderer.updateGame;
+    systemWrapper.onChange = function (gamepData) {
+        renderer.updateGame(gamepData);
+    }; 
     //renderer.onTimeInterval = system.nextInterval;
+
+    renderer.onSetuped = function () {
+        systemWrapper.start();
+    };
 });
 
 

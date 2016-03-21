@@ -62,12 +62,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             noTorchData = Data.character.parameter[_para.role].noTorch;
 
         // callback -------------------------------------------------------
-        this.onSetuped = null;
+        this.onLoaded = null;
 
         // public method --------------------------------------------------
-        this.reset = function (data_in) {
-        };
-
         // update data from system
         this.update = function (data_in) {
             for (var i in data_in.key) {
@@ -264,7 +261,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                 // setup if scene is set
                 that.setuped = true;
-                if (that.onSetuped != null) that.onSetuped();
+                if (that.onLoaded != null) that.onLoaded();
             });
         };
 

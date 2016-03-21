@@ -37,7 +37,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             height = 0,
             gameData = {
             },
-            setupData = {},
             grid = {
                 furniture: [],
                 wall: [],
@@ -48,7 +47,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 furniture: {},
                 door: {},
                 key: {}
-            };
+            },
             statusList = {
                 door: {},           // door id: door status
                 furniture: {}       // furniture id: furniture status
@@ -61,36 +60,32 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             emptyPos = [],
             accessGrid = [];        // 2d matrix same as grid. reocrd accessable furniture id of that grid in a list
 
+        this.setupData = {};
+
         // callback ------------------------------------------------------
         this.onChange = null;
-        this.onSetuped = null;
 
         // public method -------------------------------------------------
-        // load modelData and map data
-        this.loadBasicData = function (modelData, data) {
+        // load basic data and map data
+        this.setup = function (modelData, data) {
             _data = data;
             _modelData = modelData;
+            that.setupData = {};
             setupGrid();
+            setupPosition();
+            setupFurniture();
+            setupKey();
+            setupDoor();
+            _onChange();
         };
 
         // reset key / player / position with given data
-        // or create them 
         this.reset = function (setupData_in, gameData_in) {
-            if (setupData_in == null) {
-                setupData = {
-                    map:null
-                }
-                setupPosition();
-                setupFurniture();
-                setupKey();
-                setupDoor();
-                if (that.onSetuped) that.onSetuped(setupData);
-            } else {
-                recoverPosition(setupData_in.map.position);
-                recoverKey(gameData_in.key);
-                recoverFurniture(gameData_in.furniture);
-                recoverDoor(gameData_in.door);
-            }
+            that.setupData = setupData_in;
+            recoverPosition(setupData_in.map.position);
+            recoverKey(gameData_in.key);
+            recoverFurniture(gameData_in.furniture);
+            recoverDoor(gameData_in.door);
         };
 
         // check whether this position can be moved to, return result
@@ -443,7 +438,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             position['end'].push(tmp['end'][idx]);
             tmp['end'].splice(idx, 1);
 
-            setupData.map.position = position;
+            that.setupData.position = position;
         };
 
         var recoverPosition = function (recoverData) {

@@ -16,10 +16,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Main = function () {
         // data ---------------------------------------------------
         var that = this,
-            modelData = {},
-            mapData = {},
-            playerData = null,
-            setupData = {},     // data used for setup
+            characterIdxMap = null,
             gameData = {},      // store all data in the game, use to render
             intervalFunc = null;
 
@@ -47,7 +44,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // public method ------------------------------------------
         // reset game with given data
         this.reset = function (setupData_in, gameData_in) {
-            setupData = setupData_in;
             gameData = gameData_in;
             this.map.reset(setupData_in, gameData_in);
             for (var i = 0; i < that.characters.length; i++) {
@@ -69,28 +65,35 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // setup game
-        this.setup = function (modelData_in, mapData_in, playerData_in) {
-            playerData = playerData_in;
-            mapData = mapData_in;
-            modelData = modelData_in;
+        this.setup = function (modelData, mapData, playerData) {
+            characterIdxMap = {};
 
             that.map = new SYSTEM.Map(that, modelData, mapData);
-            that.map.onSetuped = function (data) {
-                setupData.map = data;
-            };
             that.map.onChange = function (data) {
                 gameData.map = data;
             };
-            that.interAction = new SYSTEM.InterAction(that);
 
-            that.map.loadBasicData(modelData, mapData);
+            that.interAction = new SYSTEM.InterAction(that);
             gameData.characters = [];
-            for (var i = 0; i < playerData.length; i++) {
-                that.characters[i] = new SYSTEM.Character(i, playerData[i], modelData.characters, that);
-                that.characters[i].onChange = function (idx, data) {
+            var index = 0;
+            var players = [];
+            for (var i in playerData) {
+                that.characters[index] = new SYSTEM.Character(index, playerData[i], modelData.characters, that);
+                that.characters[index].onChange = function (idx, data) {
                     gameData.characters[idx] = data;
                 };
+                players[index] = playerData[i];
+                characterIdxMap[i] = index++;
             }
+            that.map.setup(modelData, mapData);
+            var setupData = {
+                'model': modelData,
+                'map': mapData,
+                'player': players,
+                'mapSetup' : that.map.setupData,
+                'characterIdxMap': characterIdxMap
+            };
+            that.onSetuped(setupData);
         };
         
         // private method -----------------------------------------

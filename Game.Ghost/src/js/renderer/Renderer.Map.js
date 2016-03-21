@@ -53,6 +53,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             GridSize = Data.grid.size,
             _modelData = null,
             _mapData = null,
+            _mapSetupData = null,
             _texture = {},
             _map = null,     // map
             gameData = null,
@@ -62,7 +63,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             root = entity.root,
             _tex = {},
             _sprite = {},
-            _scene = entity.env.scene;
+            _scene = entity.env.scene,
+            _loadCount = 0;
 
         // public data -----------------------------
         this.width = 0;
@@ -78,36 +80,31 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.posEnd = null;
         this.key = null;        // key objects: funiture id: key object
 
+        // callback --------------------------------
+        this.onLoaded = null;
+
         // public method ---------------------------
         /**
          * load map with given data
          */
-        this.loadMap = function (data) {
-            if (data == null) throw new Error('Data missing');
-            _mapData = data;
+        this.loadData = function (mapData, modelData, mapSetupData) {
+            _modelData = modelData;
+            _mapData = mapData;
+            _mapSetupData = mapSetupData;
             itemTween = {};
             itemStatus = {};
             itemData = {};
-            setupGround(_scene, data.grid, data.item.ground);
-            setupWall(_scene, data.wall, data.item.wall);
-            setupDoor(_scene, data.item.door);
-            setupFurniture(_scene, data.item.furniture);
-            setupStuff(_scene, data.item.stuff);
+            _loadCount = 1;
+            setupGround(_scene, mapData.grid, mapData.item.ground);
+            setupWall(_scene, mapData.wall, mapData.item.wall);
+            setupDoor(_scene, mapData.item.door);
+            setupFurniture(_scene, mapData.item.furniture);
+            setupStuff(_scene, mapData.item.stuff);
             setupKey(_scene);
-        };
 
-        /**
-         * Load model data
-         */
-        this.loadModelData = function (data) {
-            _modelData = data;
-        };
-        
-        /**
-         * Reset map with given data
-         */
-        this.reset = function (data_in) {
-            createEndPos(data_in.position.end);
+            createEndPos(_mapSetupData.position.end);
+            _loadCount--;
+            onLoaded();
         };
 
         // update data from system
@@ -214,11 +211,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             itemData['door'] = {};
             for (var i = 0, l = doors.length; i < l; i++) {
                 if (doors[i] == null) continue;
+                _loadCount++;
                 createDoor(i, doors[i], scene, function (idx, mesh, tween) {
                     scene.add(mesh);
                     that.door[idx] = mesh;
                     itemStatus['door'][idx] = _Data.status.door.Closed;
                     itemTween['door'][idx] = tween;
+                    _loadCount--;
+                    onLoaded();
                 });
             }
         };
@@ -239,11 +239,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
             for (var i = 0, l = furniture.length; i < l; i++) {
                 if (furniture[i] == null) continue;
+                _loadCount++;
                 createFurniture(i, furniture[i], scene, function (idx, mesh, tween) {
                     scene.add(mesh);
                     that.furniture[idx] = mesh;
                     itemStatus['furniture'][idx] = _Data.status.furniture.Closed;
                     itemTween['furniture'][idx] = tween;
+                    _loadCount--;
+                    onLoaded();
                 });
             }
         };
@@ -257,9 +260,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (stuff == null || stuff.length == 0) return;
             for (var i = 0, l = stuff.length; i < l; i++) {
                 if (stuff[i] == null) continue;
+                _loadCount++;
                 createStuff(stuff[i], scene, function (mesh) {
                     scene.add(mesh);
                     that.stuff.push(mesh);
+                    _loadCount--;
+                    onLoaded();
                 });
             }
         };
@@ -270,6 +276,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 that.key = null;
             }
             that.key = {};
+        };
+
+        var onLoaded = function () {
+            if (_loadCount > 0) return;
+            if (that.onLoaded) that.onLoaded();
         };
 
         // Add items ----------------------------------------------------------
@@ -630,9 +641,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // Update items ----------------------------------------------------------
         var updateFuniture = function () {
             // update furniture
-            for (var i in gameData..furniture) {
-                if (gameData..furniture[i].status != itemStatus['furniture'][i] && itemStatus['furniture'][i] != null) {
-                    itemStatus['furniture'][i] = gameData..furniture[i].status;
+            for (var i in gameData.furniture) {
+                if (gameData.furniture[i].status != itemStatus['furniture'][i] && itemStatus['furniture'][i] != null) {
+                    itemStatus['furniture'][i] = gameData.furniture[i].status;
                     if (itemTween['furniture'] != null && itemTween['furniture'][i] != null) {
                         var t = itemTween['furniture'][i][1 - _Data.animationId.furniture[itemStatus['furniture'][i]]];
                         for (var j = 0; j < t.length; j++) {
@@ -649,10 +660,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var updateDoor = function () {
             // update door
-            for (var i in gameData..door) {
+            for (var i in gameData.door) {
                 if (itemStatus['door'][i] != null) {
-                    if (gameData..door[i].status != itemStatus['door'][i]) {
-                        itemStatus['door'][i] = gameData..door[i].status;
+                    if (gameData.door[i].status != itemStatus['door'][i]) {
+                        itemStatus['door'][i] = gameData.door[i].status;
                         if (itemTween['door'] != null && itemTween['door'][i] != null) {
                             var t = itemTween['door'][i][1 - _Data.animationId.door[itemStatus['door'][i]]];
                             for (var j = 0; j < t.length; j++) {
@@ -664,9 +675,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                             }
                         }
                     }
-                    else if (gameData..door[i].failedOpen) {
+                    else if (gameData.door[i].failedOpen) {
                         createSprite(_Data.prefix_door + i, itemData['door'][i].x, itemData['door'][i].y, 'lock');
-                        gameData..door[i].failedOpen = false;
+                        gameData.door[i].failedOpen = false;
                     }
                 }
             }
@@ -676,17 +687,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // update key
             if (_mapData == null) return;
             for (var i in that.key) {
-                if (gameData..key.hasOwnProperty(i) && gameData..key[i] != null && gameData..key[i].available == true) continue;
+                if (gameData.key.hasOwnProperty(i) && gameData.key[i] != null && gameData.key[i].available == true) continue;
                 if (that.key[i] == null) continue;
                 removeKey(i, _scene, function (idx) {
                     delete that.key[idx];
                 });
             }
 
-            for (var i in gameData..key) {
-                if (that.key.hasOwnProperty(i) || gameData..key[i].available == false) continue;
+            for (var i in gameData.key) {
+                if (that.key.hasOwnProperty(i) || gameData.key[i].available == false) continue;
                 that.key[i] = null;
-                var key = gameData..key[i];
+                var key = gameData.key[i];
                 createKey(_mapData.item.furniture[key.furnitureId], i, _scene, function (idx, mesh) {
                     _scene.add(mesh);
                     that.key[idx] = mesh;

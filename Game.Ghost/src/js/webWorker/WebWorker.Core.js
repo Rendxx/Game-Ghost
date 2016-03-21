@@ -12,6 +12,14 @@ var funcMap = {
                 }
             });
         }
+        _system.onSetuped = function (dat) {
+            postMessage({
+                func: 'onSetuped',
+                para: {
+                    dat: dat
+                }
+            });
+        };
         _system.onChange = function (dat) {
             postMessage({
                 func: 'onChange',

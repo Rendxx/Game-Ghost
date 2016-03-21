@@ -22,27 +22,24 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.isGhost = isGhost_in === true;
 
         var that=this,
-            _mapData = null,
-            _modelData = null,
-            _playerData = null;
+            _playerIdxMap = null;
 
-        // public method --------------------------------
-        // load basic data
-        this.load = function (modelData, mapData, playerData) {
-            _mapData = mapData;
-            _modelData = modelData;
-            _playerData = playerData;
-            this.map.loadModelData(_modelData);
-            this.map.loadMap(_mapData);
+        // callback -------------------------------------------
+        this.onSetuped = null;
+        this.onRender = null;
 
-            this.characters = [];
-            for (var i = 0, l = _playerData.length; i < l; i++) {
-                this.characters[i] = new RENDERER.Character(this, i, _modelData.characters, _playerData[i]);
+        // inner callback
+        this._onRender = function (delta) {
+            if (!this.started) return;
+            this.map.render();
+            for (var i = 0, l = this.characters.length; i < l; i++) {
+                this.characters[i].render(delta);
             }
-            this.env.viewportSetup(playerData);
-            //this.test = new RENDERER.Test(this);
+
+            if (that.onRender != null) that.onRender();
         };
 
+        // public method --------------------------------
         this.start = function () {
             this.started = true;
         };
@@ -61,10 +58,40 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.reset = function (setupData) {
-            that.map.reset(setupData.map);
-            for (var i = 0, l = that.characters.length; i < l; i++) {
-                that.characters[i].reset(setupData.characters[i]);
+            // onload callback
+            var loadCount = 1;
+            var onLoaded = function () {
+                if (loadCount > 0) return;
+                if (that.onSetuped) that.onSetuped();
+            };
+
+
+            // load models
+            var _mapSetup = setupData.mapSetup;
+            var _mapData = setupData.map;
+            var _modelData = setupData.model;
+            var _playerData = setupData.player;
+            _playerIdxMap = setupData.characterIdxMap;
+
+            loadCount++;
+            this.map.loadData(_mapData, _modelData, _mapSetup);
+            this.map.onLoaded = function () {
+                loadCount--;
+                onLoaded();
+            };
+
+            this.characters = [];
+            for (var i = 0, l = _playerData.length; i < l; i++) {
+                loadCount++;
+                this.characters[i] = new RENDERER.Character(this, i, _modelData.characters, _playerData[i]);
+                this.characters[i].onLoaded = function () {
+                    loadCount--;
+                    onLoaded();
+                };
             }
+            this.env.viewportSetup(_playerData);
+            loadCount--;
+            onLoaded();
         };
 
         this.updateClient = function (clientData) {
@@ -76,22 +103,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = that.characters.length; i < l; i++) {
                 that.characters[i].update(gameData.characters[i]);
             }
-        };
-
-        // callback
-        this.onTimeInterval = null;
-        this.onRender = null;
-
-        // inner callback
-        this._onRender = function (delta) {
-            if (!this.started) return;
-            if (that.onTimeInterval != null) that.onTimeInterval();
-            this.map.render();
-            for (var i = 0, l = this.characters.length; i < l; i++) {
-                this.characters[i].render(delta);
-            }
-
-            if (that.onRender != null) that.onRender();
         };
     };
 

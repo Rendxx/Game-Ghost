@@ -28,6 +28,11 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
                     if (para) dat = para.dat;
                     if (that.send) that.send(dat);
                 },
+                "onSetuped": function (para) {
+                    var dat = undefined;
+                    if (para) dat = para.dat;
+                    if (that.onSetuped) that.onSetuped(dat);
+                },
                 "onChange": function (para) {
                     var dat = undefined;
                     if (para) dat = para.dat;
@@ -65,8 +70,8 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
             };
 
         // callback ------------------------------------------------------
+        this.onSetuped = null;
         this.onChange = null;
-        this.onLoaded = null;
         this.onStarted = null;
         this.onEnded = null;
         this.send = null;
@@ -125,7 +130,6 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
                     playerData: _playerData
                 }
             });
-            that.onLoaded(_modelData, _mapData, _playerData);
         };
 
         var _setupLoader = function () {
