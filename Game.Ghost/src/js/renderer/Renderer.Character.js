@@ -30,6 +30,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.color = _data.color;
         this.x = 0;
         this.y = 0;
+        this.rotation = {
+            body: 0,
+            head: 0
+        };
 
         this.enduranceBar = null;
         this.enduranceBarBase = null;
@@ -93,6 +97,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             this.x = x;
             this.y = y;
+
             // sprite
             createSprite(x, y);
             // endurance
@@ -140,6 +145,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             r_head_1.rotation.z = r2 / 3 * 2;
             r_head_2.rotation.z = r2 / 3;
             this.mesh.rotation.y = r1;
+
+            this.rotation = {
+                body: r2,
+                head: r3
+            };
 
             var r_light = r1 + light_angle;
             var r_torchD = r3 + torchDirectionObj_angle;

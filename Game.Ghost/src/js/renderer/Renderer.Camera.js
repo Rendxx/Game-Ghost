@@ -57,6 +57,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.camera.position.z = 0;
             that.camera.lookAt(new THREE.Vector3(0, 0, 0));
             that.camera.rotation.z = 0;
+            that.camera.rotationAutoUpdate = false;
 
             that.sceneOrtho = new THREE.Scene();
             that.cameraOrtho = new THREE.OrthographicCamera(0, that.width, 0, -that.height, 1, 10);
@@ -100,13 +101,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.cameraOrtho.updateProjectionMatrix();
 
             // camera bounding
-            _xMin = -(entity.map.width / 2 + _Data.cameraMargin) * GridSize + w / 25,
-            _xMax = (entity.map.width / 2 + _Data.cameraMargin ) * GridSize - w / 25,
-            _yMin = -(entity.map.height / 2 + _Data.cameraMargin) * GridSize + h / 25,
-            _yMax = (entity.map.height / 2 + _Data.cameraMargin) * GridSize - h / 25;
+            _xMin = -(entity.map.width / 2 + _Data.cameraMargin) * GridSize + w / 20;
+            _xMax = (entity.map.width / 2 + _Data.cameraMargin) * GridSize - w / 20;
+            _yMin = -(entity.map.height / 2 + _Data.cameraMargin) * GridSize + h / 20;
+            _yMax = (entity.map.height / 2 + _Data.cameraMargin) * GridSize - h / 20;
         };
 
-        this.render = function () {
+        this.render = function () { 
             var x = that.character.x;
             var y = that.character.y;
             if (x < _xMin) x = _xMin;
@@ -114,10 +115,20 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (y < _yMin) y = _yMin;
             else if (y > _yMax) y = _yMax;
 
-            that.camera.position.x = x;
-            that.camera.position.z = y + 20;
+            //var offset_x = 20 * Math.sin(that.character.rotation.head + Math.PI);
+            //var offset_y = 20 * Math.cos(that.character.rotation.head + Math.PI);
 
-            if (that.character.mesh != null) that.camera.lookAt(that.character.mesh.position);
+            //that.camera.position.x = x + offset_x;
+            that.camera.position.x = x;
+            that.camera.position.z = y +1 ;
+
+            if (that.character.mesh != null) {
+                var pos = new THREE.Vector3(0, 0, 0);
+                pos.x = that.character.mesh.position.x;
+                pos.z = that.character.mesh.position.z;
+                pos.y = 2*GridSize;
+                //that.camera.lookAt(that.character.mesh.position);
+            }
             that.renderer.setViewport(that.x, that.y, that.width, that.height);
             that.renderer.render(that.scene, that.camera);
             that.renderer.render(that.sceneOrtho, that.cameraOrtho);

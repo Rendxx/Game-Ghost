@@ -8,13 +8,13 @@
     "hp": 1,
     "speed": {
       "rotate": {
-        "head": 20,
-        "body": 10
+        "head": 10,
+        "body": 5
       },
       "move": {
-        "walk": 2.6,
-        "run": 6,
-        "back": -1.5
+        "walk": 5,
+        "run": 10,
+        "back": -3.0
       }
     },
     "interactionDistance": 0.42
@@ -35,11 +35,11 @@
   "light": {
     "top": {
       "x": 0,
-      "y": 2.5,
+      "y": 3,
       "z": 0.25,
       "intensity": 1,
-      "distance": 5,
-      "angle": 1,
+      "distance": 4,
+      "angle": 1.2,
       "exponent": 15,
       "color": "0xffffff"
     },
