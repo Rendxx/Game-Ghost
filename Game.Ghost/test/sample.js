@@ -9,8 +9,6 @@
         renderer.reset(setupData);
     };
     systemWrapper.onStarted = function (modelData, mapData) {
-        renderer.start();
-        SetupControl(systemWrapper);
     };
     systemWrapper.onEnded = function (isWin) {
         renderer.stop();
@@ -25,16 +23,16 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'green'
         },
-        //'p2': {
-        //    name: 'player 2',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'red'
-        //},
-        //'p3': {
-        //    name: 'player 3',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'blue'
-        //},
+        'p2': {
+            name: 'player 2',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'red'
+        },
+        'p3': {
+            name: 'player 3',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'blue'
+        },
         //'p4': {
         //    name: 'player 4',
         //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
@@ -71,7 +69,9 @@
     //renderer.onTimeInterval = system.nextInterval;
 
     renderer.onSetuped = function () {
+        SetupControl(systemWrapper);
         systemWrapper.start();
+        renderer.start();
     };
 });
 
@@ -122,9 +122,8 @@ function SetupControl(system) {
             codeMap[e.keyCode] = true;
             getDirection(codeMap);
 
-            system.receive({
+            system.action('p1', {
                 actionType: '01',
-                characterId: 1,
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
                 rush: rush,
@@ -133,14 +132,12 @@ function SetupControl(system) {
             });
             e.preventDefault();
         } else if (e.keyCode == keyCode['f']) {
-            system.receive({
-                actionType: '02',
-                characterId: 1
+            system.action('p1', {
+                actionType: '02'
             });
         } else if (e.keyCode == keyCode['e']) {
-            system.receive({
-                actionType: '03',
-                characterId: 1
+            system.action('p1', {
+                actionType: '03'
             });
         }
     }).keyup(function (e) {
@@ -148,9 +145,8 @@ function SetupControl(system) {
             codeMap[e.keyCode] = false;
             getDirection(codeMap, true);
 
-            system.receive({
+            system.action('p1', {
                 actionType: '01',
-                characterId: 1,
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
                 rush: rush,

@@ -39,7 +39,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         //};
 
         this.action = function (clientId, dat) {
-            switch (para['actionType']) {
+            switch (dat['actionType']) {
                 case _Data.actionType.move:
                     entity.characters[clientId].move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']);
                     break;

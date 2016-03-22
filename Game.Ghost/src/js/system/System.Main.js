@@ -34,7 +34,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         this.action = function (clientId, dat) {
-            this.interAction.action(clientId, dat);
+            if (!characterIdxMap.hasOwnProperty(clientId)) return;
+            this.interAction.action(characterIdxMap[clientId], dat);
         };
 
         // callback -----------------------------------------------
