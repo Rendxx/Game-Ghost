@@ -10,7 +10,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Data = RENDERER.Data;
     var GridSize = Data.grid.size;
     var _Data = {
-        cameraMargin: 5
+        enduranceBarWidth: 100,
+        enduranceBarHeight: 2
     };
     /**
      * Setup camera in three.js
@@ -21,12 +22,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var that = this,
             tex = {},
             root = entity.root,
-            sprites = {},
+            sprites = {};
             // cache
-            _xMin = -(entity.map.width / 2 + _Data.cameraMargin) * GridSize,
-            _xMax = (entity.map.width / 2 + _Data.cameraMargin) * GridSize,
-            _yMin = -(entity.map.height / 2 + _Data.cameraMargin) * GridSize,
-            _yMax = (entity.map.height / 2 + _Data.cameraMargin) * GridSize;
 
         this.scene = scene_in;
         this.renderer = renderer_in
@@ -64,6 +61,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.cameraOrtho.position.z = 10;
 
             createFrame();
+            createEnduranceBar();
         };
 
         this.resize = function (x, y, w, h) {
@@ -99,43 +97,32 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.cameraOrtho.top = 0;
             that.cameraOrtho.bottom = -that.height;
             that.cameraOrtho.updateProjectionMatrix();
-
-            // camera bounding
-            _xMin = -(entity.map.width / 2 + _Data.cameraMargin) * GridSize + w / 20;
-            _xMax = (entity.map.width / 2 + _Data.cameraMargin) * GridSize - w / 20;
-            _yMin = -(entity.map.height / 2 + _Data.cameraMargin) * GridSize + h / 20;
-            _yMax = (entity.map.height / 2 + _Data.cameraMargin) * GridSize - h / 20;
         };
 
         this.render = function () { 
             var x = that.character.x;
             var y = that.character.y;
-            if (x < _xMin) x = _xMin;
-            else if (x > _xMax) x = _xMax;
-            if (y < _yMin) y = _yMin;
-            else if (y > _yMax) y = _yMax;
 
-            //var offset_x = 20 * Math.sin(that.character.rotation.head + Math.PI);
-            //var offset_y = 20 * Math.cos(that.character.rotation.head + Math.PI);
-
-            //that.camera.position.x = x + offset_x;
+            // update camera
             that.camera.position.x = x;
             that.camera.position.z = y +1 ;
 
             if (that.character.mesh != null) {
-                var pos = new THREE.Vector3(0, 0, 0);
-                pos.x = that.character.mesh.position.x;
-                pos.z = that.character.mesh.position.z;
-                pos.y = 2*GridSize;
                 //that.camera.lookAt(that.character.mesh.position);
             }
+
+            // update sprite
+            updateEnduranceBar();
+
+            // render
             that.renderer.setViewport(that.x, that.y, that.width, that.height);
             that.renderer.render(that.scene, that.camera);
             that.renderer.render(that.sceneOrtho, that.cameraOrtho);
         };
 
-
         // private method -------------------------------------------------
+
+        // Frame ----------------------------------------------------
         var createFrame = function () {
             sprites = {};
 
@@ -165,6 +152,50 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.sceneOrtho.add(sprites["left"]);
 
             that.resize(that.x, that.y, that.width, that.height);
+        };
+
+        // Endurance ------------------------------------------------
+        var createEnduranceBar = function () {
+            // endurance
+            var mat = new THREE.SpriteMaterial({
+                color: 0xcccccc,
+                transparent: true
+            });
+            mat.opacity = 0.8;
+            var spr = new THREE.Sprite(mat);
+            spr.position.set(0, -50, 2);
+            spr.scale.set(_Data.enduranceBarWidth*2, _Data.enduranceBarHeight, 1.0);
+            that.sceneOrtho.add(spr);
+
+            sprites["enduranceBar"] = spr;
+
+            // base
+            var mat = new THREE.SpriteMaterial({
+                color: 0x000000,
+                transparent: true
+            });
+            mat.opacity = 0.6;
+            var spr = new THREE.Sprite(mat);
+            spr.position.set(0, -50, 1);
+            spr.scale.set(2+_Data.enduranceBarWidth * 2, 2+_Data.enduranceBarHeight, 1.0);
+            that.sceneOrtho.add(spr);
+
+            sprites["enduranceBarBase"] = spr;
+        };
+
+        var updateEnduranceBar = function () {
+            if (sprites["enduranceBar"] == null) return;
+            var val = that.character.endurance;
+            var w = (val / that.character.maxEndurance) ;
+            sprites["enduranceBar"].scale.x = w* _Data.enduranceBarWidth * 2;
+
+            if (val >= that.character.maxEndurance) {
+                sprites["enduranceBar"].material.color.b = 0.8;
+                sprites["enduranceBar"].material.color.g = 0.8;
+            } else {
+                sprites["enduranceBar"].material.color.b = 0.8 * w;
+                sprites["enduranceBar"].material.color.g = 0.8 * w;
+            }
         };
 
         // helper ------------------------
@@ -237,6 +268,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex = {};
             var textureLoader = new THREE.TextureLoader();
             tex['nameDeco'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'name-deco-white.png');
+            //tex['enduranceBarBase'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
         };
 
         var _init = function () {
