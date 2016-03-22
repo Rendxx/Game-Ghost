@@ -17,6 +17,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ---------------------------------------------------
         var that = this,
             characterIdxMap = null,
+            isStarted = false,
             gameData = {},      // store all data in the game, use to render
             intervalFunc = null;
 
@@ -25,21 +26,22 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.map = null;
         this.interAction = null;
         this.characters = [];
-        
-        // callback -----------------------------------------------
-        this.onChange = null;       // callback for render
-        this.onSetuped = null;
-        this.onLoaded = null;
-        this.onStarted = null;
-        this.onEnded = null;
-
 
         // message -----------------------------------------------
         this.send = null;
 
         this.receive = function (msg) {
-            this.interAction.receive(msg);
         };
+
+        this.action = function (clientId, dat) {
+            this.interAction.action(clientId, dat);
+        };
+
+        // callback -----------------------------------------------
+        this.onUpdated = null;       // callback for render
+        this.onSetuped = null;
+        this.clientSetup = null;    // (target, clientData)
+        this.clientUpdate = null;   // (target, clientData)
 
         // public method ------------------------------------------
         // reset game with given data
@@ -49,19 +51,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var i = 0; i < that.characters.length; i++) {
                 that.characters[i].reset(gameData_in !=null? gameData_in.characters[i]:null);
             }
-        };
-
-        // start game
-        this.start = function () {
-            if (intervalFunc != null) clearInterval(intervalFunc);
-            intervalFunc = setInterval(nextInterval, 25);
-            if (this.onStarted) this.onStarted();
-        };
-
-        // end game
-        this.end = function (isWin) {
-            if (intervalFunc != null) clearInterval(intervalFunc);
-            if (this.onEnded) this.onEnded(isWin);
         };
 
         // setup game
@@ -96,6 +85,33 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.onSetuped(setupData);
         };
         
+        // game ------------------------------------------------
+        // start game
+        this.start = function () {
+            isStarted = true;
+            if (intervalFunc != null) clearInterval(intervalFunc);
+            intervalFunc = setInterval(nextInterval, 25);
+        };
+
+        // end game
+        this.end = function () {
+            isStarted = false;
+            if (intervalFunc != null) clearInterval(intervalFunc);
+        };
+
+        // renew game
+        this.renew = function () {
+            // to do
+            isStarted = false;
+            if (intervalFunc != null) clearInterval(intervalFunc);
+        };
+
+        // pause game
+        this.pause = function () { };
+
+        // continue game
+        this.continue = function () { };
+
         // private method -----------------------------------------
         // called every time frame
         var nextInterval = function () {
@@ -117,7 +133,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (isEnd) that.end(win > 0);
             // ----------------------------------------------
 
-            if (that.onChange) that.onChange(gameData);
+            if (that.onUpdated) that.onUpdated(gameData);
         };
 
         var _init = function () {

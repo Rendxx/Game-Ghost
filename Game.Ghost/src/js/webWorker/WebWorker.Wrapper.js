@@ -29,54 +29,38 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
                     if (that.send) that.send(dat);
                 },
                 "onSetuped": function (para) {
-                    var dat = undefined;
-                    if (para) dat = para.dat;
-                    if (that.onSetuped) that.onSetuped(dat);
+                    var setupData = undefined;
+                    if (para) setupData = para.setupData;
+                    if (that.onSetuped) that.onSetuped(setupData);
                 },
-                "onChange": function (para) {
-                    var dat = undefined;
-                    if (para) dat = para.dat;
-                    if (that.onChange) that.onChange(dat);
+                "onUpdated": function (para) {
+                    var gameData = undefined;
+                    if (para) gameData = para.gameData;
+                    if (that.onUpdated) that.onUpdated(gameData);
                 },
-                "onLoaded": function (para) {
-                    var modelData = undefined;
-                    var mapData = undefined;
-                    var playerData = undefined;
+                "clientSetup": function (para) {
+                    var target = undefined;
+                    var clientData = undefined;
                     if (para) {
-                        modelData = para.modelData;
-                        mapData = para.mapData;
-                        playerData = para.playerData;
+                        target = para.modelData;
+                        clientData = para.clientData;
                     }
-                    if (that.onLoaded) that.onLoaded(modelData, mapData, playerData);
+                    if (that.clientSetup) that.clientSetup(target, clientData);
                 },
-                "onStarted": function (para) {
-                    var modelData = undefined;
-                    var mapData = undefined;
-                    var playerData = undefined;
+                "clientUpdate": function (para) {
+                    var target = undefined;
+                    var clientData = undefined;
                     if (para) {
-                        modelData = para.modelData;
-                        mapData = para.mapData;
-                        playerData = para.playerData;
+                        target = para.modelData;
+                        clientData = para.clientData;
                     }
-                    if (that.onStarted) that.onStarted(modelData, mapData, playerData);
-                },
-                "onEnded": function (para) {
-                    var dat = undefined;
-                    if (para) dat = para.dat;
-                    if (that.onEnded) that.onEnded(dat);
+                    if (that.clientUpdate) that.clientUpdate(target, clientData);
                 }
-
-
             };
 
-        // callback ------------------------------------------------------
-        this.onSetuped = null;
-        this.onChange = null;
-        this.onStarted = null;
-        this.onEnded = null;
-        this.send = null;
+        // message -----------------------------------------------
+        this.send = null;   // (code, content)
 
-        // public method -------------------------------------------------
         this.receive = function (msg) {
             worker.postMessage({
                 func: 'receive',
@@ -85,32 +69,40 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
                 }
             });
         };
-        this.reset = function (data) {
+
+        this.action = function (clientId, dat) {
+            worker.postMessage({
+                func: 'action',
+                para: {
+                    clientId: clientId,
+                    dat: dat
+                }
+            });
+        };
+
+        // callback ------------------------------------------
+        this.onUpdated = null;      // (gameData)
+        this.onSetuped = null;      // (setupData)
+        this.clientSetup = null;    // (target, clientData)
+        this.clientUpdate = null;   // (target, clientData)
+
+        // update ---------------------------------------------
+        this.reset = function (setupData, gameData) {
             worker.postMessage({
                 func: 'reset',
                 para: {
-                    data: data
+                    setupData: setupData,
+                    gameData: gameData
                 }
             });
         }
-        this.start = function () {
-            worker.postMessage({
-                func: 'start',
-                para: {}
-            });
-        }
-        this.end = function (isWin) {
-            worker.postMessage({
-                func: 'end',
-                para: {
-                    isWin: isWin
-                }
-            });
-        }
-        this.setup = function (playerData, mapName) {
+
+        this.setup = function (playerData, para) {
             _playerData = playerData;
+            var mapName = para.map;
             if (Data.map.files[mapName] == null) throw new Error('Map can not be found.');
-            fileLoader.loadMap(Data.map.files[mapName], function (data) {
+            fileLoader.loadMap(Data.map.files[mapName],
+                function (data) {
                     _mapData = data;
                     onLoaded();
                 },
@@ -118,6 +110,44 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
                     throw new Error('Map Loading Error: ' + e);
                 });
         };
+
+        // game ------------------------------------------------
+        this.start = function () {
+            worker.postMessage({
+                func: 'start',
+                para: {}
+            });
+        };
+
+        this.end = function () {
+            worker.postMessage({
+                func: 'end',
+                para: {}
+            });
+        };
+
+        this.renew = function () {
+            worker.postMessage({
+                func: 'renew',
+                para: {}
+            });
+        };
+
+        this.pause = function () {
+            worker.postMessage({
+                func: 'pause',
+                para: {}
+            });
+        };
+
+        this.continue = function () {
+            worker.postMessage({
+                func: 'continue',
+                para: {
+                }
+            });
+        };
+
 
         // private method ------------------------------------------------
         var onLoaded = function () {
@@ -139,6 +169,7 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
                 onLoaded();
             });
         };
+
         var _setupWebWorker = function () {
             worker = new Worker((root || "") + core);
             worker.onmessage = function (e) {
@@ -150,6 +181,7 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
                 para: {}
             });
         };
+
         var _init = function () {
             _setupLoader();
             _setupWebWorker();

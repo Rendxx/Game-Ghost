@@ -22,20 +22,36 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
-        this.receive = function (para) {
+        //this.receive = function (para) {
+        //    switch (para['actionType']) {
+        //        case _Data.actionType.move:
+        //            entity.characters[para['characterId']].move(para['direction'], para['directionHead'], para['rush'], para['stay'], para['headFollow']);
+        //            break;
+        //        case _Data.actionType.lightSwitch:
+        //            entity.characters[para['characterId']].switchTorch();
+        //            break;
+        //        case _Data.actionType.use:
+        //            entity.characters[para['characterId']].interaction();
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //};
+
+        this.action = function (clientId, dat) {
             switch (para['actionType']) {
                 case _Data.actionType.move:
-                    entity.characters[para['characterId']].move(para['direction'], para['directionHead'], para['rush'], para['stay'], para['headFollow']);
+                    entity.characters[clientId].move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']);
                     break;
                 case _Data.actionType.lightSwitch:
-                    entity.characters[para['characterId']].switchTorch();
+                    entity.characters[clientId].switchTorch();
                     break;
                 case _Data.actionType.use:
-                    entity.characters[para['characterId']].interaction();
+                    entity.characters[clientId].interaction();
                     break;
                 default:
                     break;
-            }
+            };
         };
 
         // private method ------------------------------------------------

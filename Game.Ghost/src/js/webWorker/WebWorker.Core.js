@@ -12,40 +12,50 @@ var funcMap = {
                 }
             });
         }
-        _system.onSetuped = function (dat) {
+        _system.onSetuped = function (setupData) {
             postMessage({
                 func: 'onSetuped',
                 para: {
-                    dat: dat
+                    setupData: setupData
                 }
             });
         };
-        _system.onChange = function (dat) {
+        _system.onUpdated = function (gameData) {
             postMessage({
-                func: 'onChange',
+                func: 'onUpdated',
                 para: {
-                    dat: dat
+                    gameData: gameData
                 }
             });
         };
-        _system.onStarted = function (modelData, mapData, playerData) {
+        _system.clientSetup = function (targetArr, clientData) {
             postMessage({
-                func: 'onStarted',
+                func: 'clientSetup',
                 para: {
-                    modelData: modelData,
-                    mapData: mapData,
-                    playerData: playerData
+                    targetArr: targetArr,
+                    clientData: clientData
                 }
             });
         };
-        _system.onEnded = function (dat) {
+        _system.clientUpdate = function (targetArr, clientData) {
             postMessage({
-                func: 'onEnded',
+                func: 'clientUpdate',
                 para: {
-                    dat: dat
+                    targetArr: targetArr,
+                    clientData: clientData
                 }
             });
         };
+    },
+    "action": function (para) {
+        if (_system == null) return;
+        var clientId = undefined,
+            dat = undefined;
+        if (para) {
+            clientId = para.clientId;
+            dat = para.dat;
+        }
+        _system.action(clientId, dat);
     },
     "receive": function (para) {
         if (_system == null) return;
@@ -55,19 +65,13 @@ var funcMap = {
     },
     "reset": function (para) {
         if (_system == null) return;
-        var data = undefined;
-        if (para) data = para.data;
-        _system.reset(data);
-    },
-    "start": function () {
-        if (_system == null) return;
-        _system.start();
-    },
-    "end": function (para) {
-        if (_system == null) return;
-        var isWin = undefined;
-        if (para) isWin = para.isWin;
-        _system.end(isWin);
+        var setupData = undefined,
+            gameData = undefined;
+        if (para) {
+            setupData = para.setupData;
+            gameData = para.gameData;
+        }
+        _system.reset(setupData, gameData);
     },
     "setup": function (para) {
         if (_system == null) return;
@@ -80,6 +84,26 @@ var funcMap = {
             playerData = para.playerData;
         }
         _system.setup(modelData, mapData, playerData);
+    },
+    "start": function () {
+        if (_system == null) return;
+        _system.start();
+    },
+    "end": function () {
+        if (_system == null) return;
+        _system.end();
+    },
+    "renew": function () {
+        if (_system == null) return;
+        _system.renew();
+    },
+    "pause": function () {
+        if (_system == null) return;
+        _system.pause();
+    },
+    "continue": function () {
+        if (_system == null) return;
+        _system.continue();
     }
 };
 

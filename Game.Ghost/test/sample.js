@@ -63,7 +63,7 @@
     //        modelId: 'green'
     //    }
     //], 'test2');
-    systemWrapper.onChange = function (gamepData) {
+    systemWrapper.onUpdated = function (gamepData) {
         renderer.updateGame(gamepData);
     }; 
     //renderer.onTimeInterval = system.nextInterval;
