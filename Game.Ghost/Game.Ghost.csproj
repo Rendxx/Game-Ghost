@@ -115,6 +115,7 @@
     <Content Include="Model\Sprite\Sprite_locked.png" />
     <Content Include="Model\Sprite\Sprite_nothing.png" />
     <Content Include="Model\Sprite\Sprite_unlock.png" />
+    <Content Include="Model\Stuff\key_1.png" />
     <Content Include="Model\Stuff\vase_1.png" />
     <Content Include="Model\Environment\ground_ceramic.icon.png" />
     <Content Include="Model\Environment\ground_ceramic.png" />

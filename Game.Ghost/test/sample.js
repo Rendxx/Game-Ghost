@@ -25,21 +25,21 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'green'
         },
-        'p2': {
-            name: 'player 2',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'red'
-        },
-        'p3': {
-            name: 'player 3',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'blue'
-        },
-        'p4': {
-            name: 'player 4',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'yellow'
-        },
+        //'p2': {
+        //    name: 'player 2',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'red'
+        //},
+        //'p3': {
+        //    name: 'player 3',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'blue'
+        //},
+        //'p4': {
+        //    name: 'player 4',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'yellow'
+        //},
         //'p5': {
         //    name: 'player 5',
         //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
@@ -55,7 +55,9 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
             modelId: 'white'
         }
-    }, 'test');
+    },{ 
+        map: 'test'
+    });
     //system.setup([
     //    {
     //        name: 'player 1',

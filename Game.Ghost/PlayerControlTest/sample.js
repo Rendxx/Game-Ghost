@@ -26,7 +26,7 @@
 
         renderer.setClearColor(0x000000);
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.shadowMapEnabled = true;
+        renderer.shadowMap.enabled = true;
         renderer.shadowMapSoft = true;
 
         /*add controls*/

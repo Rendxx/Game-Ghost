@@ -64,7 +64,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _tex = {},
             _sprite = {},
             _scene = entity.env.scene,
-            _loadCount = 0;
+            _loadCount = 0,
+            _textureLoader = null;
 
         // public data -----------------------------
         this.width = 0;
@@ -633,9 +634,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
 
         var getTexture = function (path) {
-            return THREE.ImageUtils.loadTexture(path);
-            if (_texture[path] == null) _texture[path] = THREE.ImageUtils.loadTexture(path);
-            return _texture[path];
+            return _textureLoader.load(path);
         };
 
         // Update items ----------------------------------------------------------
@@ -755,9 +754,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // Setup ----------------------------------------------------------
         var _setupTex = function () {
             _tex = {};
-            var textureLoader = new THREE.TextureLoader();
-            _tex['lock'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_locked.png');
-            _tex['end'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
+            _textureLoader = new THREE.TextureLoader();
+            _tex['lock'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_locked.png');
+            _tex['end'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
         };
 
         var _init = function () {
