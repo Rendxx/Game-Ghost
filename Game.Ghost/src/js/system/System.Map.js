@@ -26,6 +26,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Closed: 2,
             Blocked: 3
         },
+        FurnitureOperation: {
+            Open: 0,
+            Key: 1,
+            Close: 2
+        },
         DoorPrefix : 'd'
     };
     var Map = function (entity) {
@@ -452,7 +457,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // cache -----------------------------------------------
         // setup cache based on the map data
-        var setupCache = function () {
+        var setupFurnitureCache = function () {
             _mapGridCache = [];
             var range = Data.map.para.scanRange;
             var range2 = range*range;
@@ -480,9 +485,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     }
                     for (var t in _mapGridCache[i][j]) {
                         if (_mapGridCache[i][j][t] > range2) delete _mapGridCache[i][j][t];
+                        else {
+                            if (itemList.furniture[f_id].status == _Data.Status.Closed) {
+                                _mapGridCache[i][j][t] = _Data.FurnitureOperation.Open;
+                            } else {
+                                if (itemList.furniture[f_id].keyId != -1) {
+                                    _mapGridCache[i][j][t] = _Data.FurnitureOperation.Key;
+                                } else if (itemList.furniture[f_id].status == _Data.Status.Opened) {
+                                    _mapGridCache[i][j][t] = _Data.FurnitureOperation.Close;
+                                }
+                            }
+                        }
                     }
                 }
             }
+        };
+
+        var updateFurnitureCache = function (f_id) {
         };
 
         var _init = function () {
