@@ -114,7 +114,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 test: 'MapDataTest.json',
                 test2: 'MapDataTest2.json'
             },
-            path: '/GameData/Map/'
+            path: '/GameData/Map/',
+            para: {
+                scanRange: 3
+            }
         },
         keyNumber: 3
     };

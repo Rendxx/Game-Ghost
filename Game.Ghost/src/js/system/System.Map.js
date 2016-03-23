@@ -58,7 +58,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 end: []
             },
             emptyPos = [],
-            accessGrid = [];        // 2d matrix same as grid. reocrd accessable furniture id of that grid in a list
+            accessGrid = [],        // 2d matrix same as grid. reocrd accessable furniture id of that grid in a list
+
+            // cache
+            _mapGridCache = [];
 
         this.setupData = {};
 
@@ -76,6 +79,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setupFurniture();
             setupKey();
             setupDoor();
+            setupCache();
             _onChange();
         };
 
@@ -86,6 +90,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             recoverKey(gameData_in.key);
             recoverFurniture(gameData_in.furniture);
             recoverDoor(gameData_in.door);
+            setupCache();
         };
 
         // check whether this position can be moved to, return result
@@ -443,6 +448,41 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var recoverPosition = function (recoverData) {
             position = recoverData;
+        };
+
+        // cache -----------------------------------------------
+        // setup cache based on the map data
+        var setupCache = function () {
+            _mapGridCache = [];
+            var range = Data.map.para.scanRange;
+            var range2 = range*range;
+            for (var i = 0; i < height; i++) {
+                _mapGridCache[i] = [];
+                for (var j = 0; j < width; j++) {
+                    _mapGridCache[i][j] = [];
+                    var x_min = j - range;
+                    var x_max = j + range;
+                    var y_min = i - range;
+                    var y_max = i + range;
+                    if (x_min < 0) x_min = 0;
+                    if (x_max >= width) x_max = width - 1;
+                    if (y_min < 0) y_min = 0;
+                    if (y_max >= height) y_max = height - 1;
+                    
+                    for (var m = y_min; m <= y_max; m++) {
+                        for (var n = x_min; n <= x_max; n++) {
+                            var f_id = grid.furniture[m][n];
+                            if (f_id == -1) continue;
+                            var r =  Math.pow(m - i, 2) + Math.pow(n - j, 2);
+                            if (!(f_id in _mapGridCache[i][j]) || _mapGridCache[i][j][f_id] > r)
+                                _mapGridCache[i][j][f_id] = r;
+                        }
+                    }
+                    for (var t in _mapGridCache[i][j]) {
+                        if (_mapGridCache[i][j][t] > range2) delete _mapGridCache[i][j][t];
+                    }
+                }
+            }
         };
 
         var _init = function () {
