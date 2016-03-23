@@ -28,6 +28,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.modelId = _para.modelId;
         this.color = _data.color;
         this.maxEndurance = _data.para.endurance;
+        this.interactionObj = null;
         this.endurance = 0;
         this.x = 0;
         this.y = 0;
@@ -97,6 +98,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.x = x;
             this.y = y;
             this.endurance = gameData.endurance;
+            this.interactionObj = gameData.interactionObj;
 
             // sprite
             createSprite(x, y);

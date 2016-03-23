@@ -39,6 +39,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             head: 0,
             body: 0
         };
+
         var rush = false,
             stay = true,
             headFollow = true,
@@ -50,7 +51,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _interactionDistance = _modelData.para.interactionDistance,
             _enduranceRecover = _para.enduranceRecover,
             _enduranceCost = _para.enduranceCost,
-            _maxEndurance = _modelData.para.endurance;
+            _maxEndurance = _modelData.para.endurance,
+            _interactionObj = [];
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -78,7 +80,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return {
                 x: that.x,
                 y: that.y,
-                win : that.win,
+                win: that.win,
                 key: that.key,
                 stuff: that.stuff,
                 endurance: that.endurance,
@@ -86,7 +88,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 battery: that.battery,
                 hp: that.hp,
                 currentRotation: that.currentRotation,
-                action: that.action
+                action: that.action,
+                interactionObj: _interactionObj
             };
         };
 
@@ -110,11 +113,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.x + _interactionDistance * Math.sin(this.currentRotation.head / 180 * Math.PI),
                 that.y + _interactionDistance * Math.cos(this.currentRotation.head / 180 * Math.PI)
             );
-            if (key == null || this.role == Data.character.type.ghost) return;
+            if (key == null || this.role == Data.character.type.ghost) {
+                _interactionObj = entity.map.checkInteractionObj(that.x, that.y);
+                return;
+            }
             if (!this.key.hasOwnProperty(key.doorId)) {
                 this.key[key.doorId] = key.name;
                 key.token();
             }
+            _interactionObj = entity.map.checkInteractionObj(that.x, that.y);
             _onChange();
         };
 
@@ -135,6 +142,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     }
                 }
             }
+            _interactionObj = entity.map.checkInteractionObj(that.x, that.y);
             _onChange();
         };
 
@@ -210,11 +218,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
 
                 if (Math.abs(d_body) <= 90) {
-                     speed = _speed_move[this.action] / 100;
-                     _move(
-                         speed * Math.sin(this.currentRotation.body / 180 * Math.PI),
-                         speed * Math.cos(this.currentRotation.body / 180 * Math.PI)
-                     );
+                    speed = _speed_move[this.action] / 100;
+                    _move(
+                        speed * Math.sin(this.currentRotation.body / 180 * Math.PI),
+                        speed * Math.cos(this.currentRotation.body / 180 * Math.PI)
+                    );
                 }
             }
 
@@ -257,7 +265,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
                 for (var i = 0; i < entity.characters.length; i++) {
                     var c = entity.characters[i];
-                    if (c.role == Data.character.type.survivor && c.hp>0 && !c.win) {
+                    if (c.role == Data.character.type.survivor && c.hp > 0 && !c.win) {
                         var r = that.checkRange(c.x, c.y);
                         if (r > 5) continue;
                         if (r < 1) c.die();     // die
@@ -288,6 +296,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var canMove = entity.map.moveCheck(that.x, that.y, deltaX, deltaY);
             if (deltaX != 0) that.x = canMove[0] - _radius_x;
             if (deltaY != 0) that.y = canMove[1] - _radius_y;
+
+            // interaction Obj
+            _interactionObj = entity.map.checkInteractionObj(that.x, that.y);
 
             // win
             if (entity.map.checkInEnd(that.x, that.y)) that.winning();

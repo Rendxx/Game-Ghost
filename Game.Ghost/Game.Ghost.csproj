@@ -108,6 +108,9 @@
     <Content Include="Model\Position\start_1.icon.png" />
     <Content Include="Model\Position\start_2.icon.png" />
     <Content Include="Model\Sprite\EnduranceBar.png" />
+    <Content Include="Model\Sprite\interaction.close.png" />
+    <Content Include="Model\Sprite\interaction.key.png" />
+    <Content Include="Model\Sprite\interaction.open.png" />
     <Content Include="Model\Sprite\name-deco-white.png" />
     <Content Include="Model\Sprite\Sprite_block.png" />
     <Content Include="Model\Sprite\Sprite_EndPos.png" />
@@ -338,6 +341,9 @@
     <Content Include="Model\Player\orange\player-2.json" />
     <Content Include="Model\Player\player_survivor_orange.data.json" />
     <Content Include="ModelBuilder\Sprite\name-deco.fla" />
+    <Content Include="ModelBuilder\Sprite\interaction.key.fla" />
+    <Content Include="ModelBuilder\Sprite\interaction.close.fla" />
+    <Content Include="ModelBuilder\Sprite\interaction.open.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

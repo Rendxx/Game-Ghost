@@ -76,10 +76,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.light = null;
         this.stuff = null;
         this.furniture = null;
+        this.furniturePos = {};         // furniture id: [x, y]
         this.ground = null;
         this.ceiling = null;
         this.posEnd = null;
-        this.key = null;        // key objects: funiture id: key object
+        this.key = null;                // key objects: funiture id: key object
 
         // callback --------------------------------
         this.onLoaded = null;
@@ -415,6 +416,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             console.log(dat);
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
+            that.furniturePos[idx] = [x, y];
+
+
             var loader = new THREE.JSONLoader();
             loader.load(root + Data.files.path[Data.categoryName.furniture] + para.model, function (geometry, materials) {
                 var mesh = null,
@@ -610,7 +614,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var h = (dat.bottom - dat.top + 1) * GridSize;
 
             var para_Key = _modelData.items[Data.categoryName.stuff][_Data.keyData];
-
             var loader = new THREE.JSONLoader();
             loader.load(root + Data.files.path[Data.categoryName.stuff] + para_Key.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
@@ -631,7 +634,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             scene.remove(that.key[idx]);
             onSuccess(idx);
         };
-
 
         var getTexture = function (path) {
             return _textureLoader.load(path);

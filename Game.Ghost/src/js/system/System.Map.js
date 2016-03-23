@@ -84,7 +84,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setupFurniture();
             setupKey();
             setupDoor();
-            setupCache();
+            setupInteractionObj();
             _onChange();
         };
 
@@ -95,7 +95,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             recoverKey(gameData_in.key);
             recoverFurniture(gameData_in.furniture);
             recoverDoor(gameData_in.door);
-            setupCache();
+            setupInteractionObj();
         };
 
         // check whether this position can be moved to, return result
@@ -107,9 +107,32 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
             var rst = [x + deltaX, y + deltaY];
             if (deltaX != 0 && (newX < 0 || newX >= width || (grid.empty[oldY][newX] != _Data.Grid.Empty && !(grid.empty[oldY][newX] == _Data.Grid.Door && itemList['door'][grid.door[oldY][newX]].status == _Data.DoorStatus.Opened))))
-                rst[0] = (deltaX > 0) ? newX : newX+1;
+                rst[0] = (deltaX > 0) ? newX : newX + 1;
             if (deltaY != 0 && (newY < 0 || newY >= height || (grid.empty[newY][oldX] != _Data.Grid.Empty && !(grid.empty[newY][oldX] == _Data.Grid.Door && itemList['door'][grid.door[newY][oldX]].status == _Data.DoorStatus.Opened))))
                 rst[1] = (deltaY > 0) ? newY : newY + 1;
+            return rst;
+        };
+        
+        // get surround interaction obj list
+        this.checkInteractionObj = function (x, y) {
+            var x = Math.floor(x),
+                y = Math.floor(y);
+
+            var objList = _mapGridCache[y][x];
+            var rst = {};
+
+            for (var t in objList) {
+                if (itemList.furniture[t].status == _Data.FurnitureStatus.Closed) {
+                    rst[t] = _Data.FurnitureOperation.Open;
+                } else {
+                    if (itemList.furniture[t].keyId != -1) {
+                        rst[t] = _Data.FurnitureOperation.Key;
+                    } else if (itemList.furniture[t].status == _Data.FurnitureStatus.Opened) {
+                        rst[t] = _Data.FurnitureOperation.Close;
+                    }
+                }
+            }
+
             return rst;
         };
 
@@ -457,7 +480,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // cache -----------------------------------------------
         // setup cache based on the map data
-        var setupFurnitureCache = function () {
+        var setupInteractionObj = function () {
             _mapGridCache = [];
             var range = Data.map.para.scanRange;
             var range2 = range*range;
@@ -485,23 +508,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     }
                     for (var t in _mapGridCache[i][j]) {
                         if (_mapGridCache[i][j][t] > range2) delete _mapGridCache[i][j][t];
-                        else {
-                            if (itemList.furniture[f_id].status == _Data.Status.Closed) {
-                                _mapGridCache[i][j][t] = _Data.FurnitureOperation.Open;
-                            } else {
-                                if (itemList.furniture[f_id].keyId != -1) {
-                                    _mapGridCache[i][j][t] = _Data.FurnitureOperation.Key;
-                                } else if (itemList.furniture[f_id].status == _Data.Status.Opened) {
-                                    _mapGridCache[i][j][t] = _Data.FurnitureOperation.Close;
-                                }
-                            }
-                        }
                     }
                 }
             }
         };
 
-        var updateFurnitureCache = function (f_id) {
+        var updateInteractionObj = function (f_id) {
         };
 
         var _init = function () {
