@@ -108,8 +108,11 @@
     <Content Include="Model\Position\start_1.icon.png" />
     <Content Include="Model\Position\start_2.icon.png" />
     <Content Include="Model\Sprite\EnduranceBar.png" />
+    <Content Include="Model\Sprite\interaction.close-2.png" />
     <Content Include="Model\Sprite\interaction.close.png" />
+    <Content Include="Model\Sprite\interaction.key-2.png" />
     <Content Include="Model\Sprite\interaction.key.png" />
+    <Content Include="Model\Sprite\interaction.open-2.png" />
     <Content Include="Model\Sprite\interaction.open.png" />
     <Content Include="Model\Sprite\name-deco-white.png" />
     <Content Include="Model\Sprite\Sprite_block.png" />

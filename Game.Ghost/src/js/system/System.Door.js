@@ -22,6 +22,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _info = info,
             _modelData = modelData;
 
+        this.x = (info.left + info.right + 1) / 2;
+        this.y = (info.top + info.bottom + 1) / 2;
         this.id = id;
         this.modelId = _info.modelId;
         this.status = hasKey ? _Data.Status.Locked : _Data.Status.Closed;

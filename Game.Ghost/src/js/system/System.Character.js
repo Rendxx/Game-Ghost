@@ -44,6 +44,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             stay = true,
             headFollow = true,
             // cache    
+            _last_x = 0,        // last pos, index of grid
+            _last_y = 0,
             _actionList = _modelData.action.list,
             _speed_move = _modelData.para.speed.move,
             _speed_rotate = _modelData.para.speed.rotate,
@@ -52,7 +54,20 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _enduranceRecover = _para.enduranceRecover,
             _enduranceCost = _para.enduranceCost,
             _maxEndurance = _modelData.para.endurance,
-            _interactionObj = [];
+            _interactionObj = {
+                surround: {             // surround icon
+                    furniture: [],
+                    door:[]
+                },
+                canUse: {               // highlight for object can be use
+                    furniture: [],
+                    door: []
+                },
+                marker: {               // permanent marker
+                    furniture: [],
+                    door: []
+                }
+            };
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -114,14 +129,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.y + _interactionDistance * Math.cos(this.currentRotation.head / 180 * Math.PI)
             );
             if (key == null || this.role == Data.character.type.ghost) {
-                _interactionObj = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
                 return;
             }
             if (!this.key.hasOwnProperty(key.doorId)) {
                 this.key[key.doorId] = key.name;
                 key.token();
             }
-            _interactionObj = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
             _onChange();
         };
 
@@ -142,7 +155,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     }
                 }
             }
-            _interactionObj = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
             _onChange();
         };
 
@@ -227,6 +239,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
 
             // para
+            _interactionObjCheck();
             _onChange();
         };
 
@@ -297,13 +310,24 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (deltaX != 0) that.x = canMove[0] - _radius_x;
             if (deltaY != 0) that.y = canMove[1] - _radius_y;
 
-            // interaction Obj
-            _interactionObj = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
-
             // win
             if (entity.map.checkInEnd(that.x, that.y)) that.winning();
         };
 
+        // check interaction obj
+        var _interactionObjCheck = function () {
+            // interaction Obj
+            
+            var objList = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
+            _interactionObj.surround = objList;
+
+            var accessObj = entity.map.tryAccess(
+                that.x,
+                that.y,
+                that.x + _interactionDistance * Math.sin(this.currentRotation.head / 180 * Math.PI),
+                that.y + _interactionDistance * Math.cos(this.currentRotation.head / 180 * Math.PI)
+            );
+        };
 
         var _onChange = function () {
             if (that.onChange == null) return;

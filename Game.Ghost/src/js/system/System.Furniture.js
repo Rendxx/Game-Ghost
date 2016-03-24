@@ -22,6 +22,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _modelData = modelData,
             actioning = false;          // this furnition is actioning
 
+        this.x = (info.left + info.right + 1)/2;
+        this.y = (info.top + info.bottom + 1)/2;
         this.id = id;
         this.modelId = _info.modelId;
         this.status = _modelData.statusChange == true ? _Data.Status.Closed : _Data.Status.None;

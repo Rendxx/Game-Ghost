@@ -31,6 +31,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Key: 1,
             Close: 2
         },
+        DoorOperation: {
+            Blocked: 0
+        },
         DoorPrefix : 'd'
     };
     var Map = function (entity) {
@@ -66,7 +69,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             accessGrid = [],        // 2d matrix same as grid. reocrd accessable furniture id of that grid in a list
 
             // cache
-            _mapGridCache = [];
+            _surroundObj = [];
 
         this.setupData = {};
 
@@ -118,25 +121,57 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var x = Math.floor(x),
                 y = Math.floor(y);
 
-            var objList = _mapGridCache[y][x];
-            var rst = {};
+            // furniture
+            var list_f = _surroundObj.furniture[y][x];
+            var rst_f = {};
 
-            for (var t in objList) {
-                var d = Math.abs(objList[t]-r);
+            for (var t in list_f) {
+                var d = Math.abs(list_f[t][1] - r);
                 if (d>180) d = 360-d;
                 if (d > 90) continue;
                 if (itemList.furniture[t].status == _Data.FurnitureStatus.Closed) {
-                    rst[t] = _Data.FurnitureOperation.Open;
+                    rst_f[t] = _Data.FurnitureOperation.Open;
                 } else {
                     if (itemList.furniture[t].keyId != -1) {
-                        rst[t] = _Data.FurnitureOperation.Key;
+                        rst_f[t] = _Data.FurnitureOperation.Key;
                     } else if (itemList.furniture[t].status == _Data.FurnitureStatus.Opened) {
-                        rst[t] = _Data.FurnitureOperation.Close;
+                        rst_f[t] = _Data.FurnitureOperation.Close;
                     }
                 }
             }
 
-            return rst;
+            // door
+            var list_d = _surroundObj.furniture[y][x];
+            var rst_d = {};
+
+            for (var t in list_d) {
+                if (itemList.door[t].status == _Data.DoorStatus.Blocked) {
+                    rst_d[t] = _Data.DoorOperation.Blocked;
+                } 
+            }
+
+            return {
+                furniture: rst_f,
+                door: rst_d
+            };
+        };
+
+        this.checkAccess = function (x, y, access_x, access_y) {
+            x = Math.floor(x);
+            y = Math.floor(y);
+            access_x = Math.floor(access_x);
+            access_y = Math.floor(access_y);
+
+            if (access_x < 0 || access_y >= width || access_y < 0 || access_y >= height) return null;
+            if (accessGrid[y][x] == null) return null;
+
+            if (grid.furniture[access_y][access_x] != -1) {
+                // furniture
+                if (accessGrid[y][x][grid.furniture[access_y][access_x]] !== true) return null;
+                return grid.furniture[access_y][access_x];
+            }
+
+            return null;
         };
 
         // check the access of funiture
@@ -484,13 +519,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // cache -----------------------------------------------
         // setup cache based on the map data
         var setupInteractionObj = function () {
-            _mapGridCache = [];
+            _surroundObj = {
+                furniture:[],
+                door: []
+            };
             var range = Data.map.para.scanRange;
             var range2 = range*range;
             for (var i = 0; i < height; i++) {
-                _mapGridCache[i] = [];
+                _surroundObj.furniture[i] = [];
+                _surroundObj.door[i] = [];
+
                 for (var j = 0; j < width; j++) {
-                    _mapGridCache[i][j] = [];
+                    _surroundObj.furniture[i][j] = [];
+                    _surroundObj.door[i][j] = [];
                     var x_min = j - range;
                     var x_max = j + range;
                     var y_min = i - range;
@@ -502,16 +543,28 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     
                     for (var m = y_min; m <= y_max; m++) {
                         for (var n = x_min; n <= x_max; n++) {
+                            // furniture
                             var f_id = grid.furniture[m][n];
                             if (f_id == -1) continue;
                             var r =  Math.pow(m - i, 2) + Math.pow(n - j, 2);
-                            if (!(f_id in _mapGridCache[i][j]) || _mapGridCache[i][j][f_id] > r)
-                                _mapGridCache[i][j][f_id] = [r, m ,n];
+                            if (!(f_id in _surroundObj.furniture[i][j]) || _surroundObj.furniture[i][j][f_id] > r)
+                                _surroundObj.furniture[i][j][f_id] = r;
+
+                            // door
+                            var d_id = grid.door[m][n];
+                            if (d_id == -1) continue;
+                            var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
+                            if (!(d_id in _surroundObj.door[i][j]) || _surroundObj.door[i][j][d_id] > r)
+                                _surroundObj.door[i][j][f_id] = r;
                         }
                     }
-                    for (var t in _mapGridCache[i][j]) {
-                        if (_mapGridCache[i][j][t][0] > range2) delete _mapGridCache[i][j][t];
-                        else _mapGridCache[i][j][t] = Math.atan2(_mapGridCache[i][j][t][2] - j, _mapGridCache[i][j][t][1] - i)*180/Math.PI;
+                    for (var t in _surroundObj.furniture[i][j]) {
+                        if (_surroundObj.furniture[i][j][t] > range2) delete _surroundObj.furniture[i][j][t];
+                        else _surroundObj.furniture[i][j][t] = [r, Math.atan2(itemList.furniture[t].y - j, itemList.furniture[t].x - i) * 180 / Math.PI];
+                    }
+                    for (var t in _surroundObj.door[i][j]) {
+                        if (_surroundObj.door[i][j][t] > range2) delete _surroundObj.door[i][j][t];
+                        else _surroundObj.door[i][j][t] = [r, Math.atan2(itemList.door[t].y - j, itemList.door[t].x - i) * 180 / Math.PI];
                     }
                 }
             }
