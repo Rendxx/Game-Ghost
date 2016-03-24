@@ -142,7 +142,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
 
             // door
-            var list_d = _surroundObj.furniture[y][x];
+            var list_d = _surroundObj.door[y][x];
             var rst_d = {};
 
             for (var t in list_d) {
@@ -157,7 +157,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             };
         };
 
-        this.checkAccess = function (character, x, y, access_x, access_y) {
+        this.checkAccess = function (x, y, access_x, access_y) {
             x = Math.floor(x);
             y = Math.floor(y);
             access_x = Math.floor(access_x);
@@ -166,13 +166,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (access_x < 0 || access_y >= width || access_y < 0 || access_y >= height) return null;
             if (accessGrid[y][x] == null) return null;
 
-            if (grid.furniture[access_y][access_x] != -1) {
+            var f_id = grid.furniture[access_y][access_x];
+            var d_id = grid.door[access_y][access_x];
+            if (f_id != -1) {
                 // furniture
-                if (accessGrid[y][x][grid.furniture[access_y][access_x]] !== true) return null;
-                if (accessGrid[y][x][grid.furniture[access_y][access_x]] !== true) return null;
-                var f_id = grid.furniture[access_y][access_x];
-                if (itemList.furniture[f_id].keyId == -1 ) return null;
-                return { f_id: itemList.furniture[f_id].keyId };
+                if (accessGrid[y][x][f_id] !== true) return null;
+                return { furniture: f_id };
+            } else if (d_id != -1) {
+                // door
+                if (accessGrid[y][x][_Data.DoorPrefix + d_id] !== true) return null;
+                return { door: d_id };
             }
 
             return null;
@@ -534,7 +537,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 _surroundObj.door[i] = [];
 
                 for (var j = 0; j < width; j++) {
-                    _surroundObj.furniture[i][j] = [];
+                    _surroundObj.furniture[i][j] = {};
                     _surroundObj.door[i][j] = [];
                     var x_min = j - range;
                     var x_max = j + range;
@@ -564,11 +567,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     }
                     for (var t in _surroundObj.furniture[i][j]) {
                         if (_surroundObj.furniture[i][j][t] > range2) delete _surroundObj.furniture[i][j][t];
-                        else _surroundObj.furniture[i][j][t] = [r, Math.atan2(itemList.furniture[t].y - j, itemList.furniture[t].x - i) * 180 / Math.PI];
+                        else _surroundObj.furniture[i][j][t] = [r, Math.atan2(itemList.furniture[t].x - j, itemList.furniture[t].y - i) * 180 / Math.PI];
                     }
                     for (var t in _surroundObj.door[i][j]) {
                         if (_surroundObj.door[i][j][t] > range2) delete _surroundObj.door[i][j][t];
-                        else _surroundObj.door[i][j][t] = [r, Math.atan2(itemList.door[t].y - j, itemList.door[t].x - i) * 180 / Math.PI];
+                        else _surroundObj.door[i][j][t] = [r, Math.atan2(itemList.door[t].x - j, itemList.door[t].y - i) * 180 / Math.PI];
                     }
                 }
             }

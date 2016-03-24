@@ -212,18 +212,22 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // Interaction icon ------------------------------------------
         var updateInteractionIcon = function () {
-            var iconList = that.character.interactionObj;
+            if (that.character.interactionObj == null) return;
+            var list_f = that.character.interactionObj.surround.furniture;
+            var highLight_f = null
+            if (that.character.interactionObj.canUse != null) highLight_f = that.character.interactionObj.canUse.furniture;
+
             for (var t in interactionIcon) {
-                if (!iconList.hasOwnProperty(t) || iconList[t] != interactionIcon[t]) {
+                if (!list_f.hasOwnProperty(t) || list_f[t] != interactionIcon[t]) {
                     hideInteractionIcon(t, interactionIcon[t]);
                     delete (interactionIcon[t]);
                 }
             }
 
-            for (var t in iconList) {
+            for (var t in list_f) {
                 if (!interactionIcon.hasOwnProperty(t)) {
-                    interactionIcon[t] = iconList[t];
-                    showInteractionIcon(t, iconList[t]);
+                    interactionIcon[t] = list_f[t];
+                    showInteractionIcon(t, list_f[t], highLight_f==t);
                 }
             }
         };
@@ -248,7 +252,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprites[sprite_id][iconStatus].tween = tween_hide;
         };
 
-        var showInteractionIcon = function (furnitureId, iconStatus) {
+        var showInteractionIcon = function (furnitureId, iconStatus, isHightLight) {
             var sprite_id = "InteractionIcon_" + furnitureId;
             if (sprites[sprite_id] == null) sprites[sprite_id] = {};
             if (sprites[sprite_id][iconStatus] == null) createInteractionIcon(furnitureId, iconStatus);
@@ -379,6 +383,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction-key'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.key.png');
             tex['interaction-open'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.open.png');
             tex['interaction-close'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.close.png');
+            tex['interaction-key-2'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.key-2.png');
+            tex['interaction-open-2'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.open-2.png');
+            tex['interaction-close-2'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.close-2.png');
             //tex['enduranceBarBase'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
         };
 

@@ -60,8 +60,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     door:[]
                 },
                 canUse: {               // highlight for object can be use
-                    furniture: [],
-                    door: []
+                    furniture: null,
+                    door: null
                 },
                 marker: {               // permanent marker
                     furniture: [],
@@ -316,19 +316,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // check interaction obj
         var _interactionObjCheck = function () {
-            // interaction Obj
-            
-            var objList = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
-            _interactionObj.surround = objList;
-
-            var accessObj = entity.map.tryAccess(
+            _interactionObj.surround = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
+            _interactionObj.canUse = entity.map.checkAccess(
                 that.x,
                 that.y,
-                that.x + _interactionDistance * Math.sin(this.currentRotation.head / 180 * Math.PI),
-                that.y + _interactionDistance * Math.cos(this.currentRotation.head / 180 * Math.PI)
+                that.x + _interactionDistance * Math.sin(that.currentRotation.head / 180 * Math.PI),
+                that.y + _interactionDistance * Math.cos(that.currentRotation.head / 180 * Math.PI)
             );
-
-
         };
 
         var _onChange = function () {
