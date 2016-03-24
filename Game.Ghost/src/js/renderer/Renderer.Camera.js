@@ -238,11 +238,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 scale_y = GridSize * 2,
                 spr = sprites[sprite_id][iconStatus].icon,
                 mat = spr.material;
-            var tween_hide = new TWEEN.Tween({ t: 10 }).to({ t: 0 }, 300)
+            var tween_hide = new TWEEN.Tween({ t: 10 }).to({ t: 0 }, 400)
                         .onUpdate(function () {
                             mat.opacity = this.t * 0.06;
-                            spr.position.z = start_z - this.t * GridSize / 10;
-                            spr.scale.y = scale_y * this.t / 10;
                         }).onComplete(function () {
                             that.sceneEffort.remove(spr);
                         });
@@ -262,14 +260,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 scale_y = GridSize * 2,
                 spr = sprites[sprite_id][iconStatus].icon,
                 mat = spr.material;
-            var tween_show = new TWEEN.Tween({ t: 0 }).to({ t: 10 }, 200)
+            var tween_show = new TWEEN.Tween({ t: 0 }).to({ t: 10 }, 150)
                         .onStart(function () {
                             mat.opacity = start_opacity;
                             spr.position.z = start_z;
                             that.sceneEffort.add(spr);
                         }).onUpdate(function () {
                             mat.opacity = this.t * 0.06;
-                            spr.scale.y = scale_y * this.t / 10;
+                            spr.scale.y = scale_y / 2 + scale_y * this.t / 20;
                             spr.position.z = start_z - this.t * GridSize / 10;
                         });
             tween_show.start();

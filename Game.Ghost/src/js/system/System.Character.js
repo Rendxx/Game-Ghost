@@ -114,14 +114,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.y + _interactionDistance * Math.cos(this.currentRotation.head / 180 * Math.PI)
             );
             if (key == null || this.role == Data.character.type.ghost) {
-                _interactionObj = entity.map.checkInteractionObj(that.x, that.y);
+                _interactionObj = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
                 return;
             }
             if (!this.key.hasOwnProperty(key.doorId)) {
                 this.key[key.doorId] = key.name;
                 key.token();
             }
-            _interactionObj = entity.map.checkInteractionObj(that.x, that.y);
+            _interactionObj = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
             _onChange();
         };
 
@@ -142,7 +142,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     }
                 }
             }
-            _interactionObj = entity.map.checkInteractionObj(that.x, that.y);
+            _interactionObj = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
             _onChange();
         };
 
@@ -298,7 +298,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (deltaY != 0) that.y = canMove[1] - _radius_y;
 
             // interaction Obj
-            _interactionObj = entity.map.checkInteractionObj(that.x, that.y);
+            _interactionObj = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
 
             // win
             if (entity.map.checkInEnd(that.x, that.y)) that.winning();

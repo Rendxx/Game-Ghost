@@ -116,7 +116,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             },
             path: '/GameData/Map/',
             para: {
-                scanRange: 3
+                scanRange: 2
             }
         },
         keyNumber: 3

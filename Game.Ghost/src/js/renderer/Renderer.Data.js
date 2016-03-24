@@ -13,7 +13,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         },
         light: {
             ambient: {
-                ambColor: 0x222222
+                ambColor: 0x111111
             }
         },
         categoryName: {

@@ -114,7 +114,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
         
         // get surround interaction obj list
-        this.checkInteractionObj = function (x, y) {
+        this.checkInteractionObj = function (x, y, r) {
             var x = Math.floor(x),
                 y = Math.floor(y);
 
@@ -122,6 +122,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var rst = {};
 
             for (var t in objList) {
+                var d = Math.abs(objList[t]-r);
+                if (d>180) d = 360-d;
+                if (d > 90) continue;
                 if (itemList.furniture[t].status == _Data.FurnitureStatus.Closed) {
                     rst[t] = _Data.FurnitureOperation.Open;
                 } else {
@@ -503,11 +506,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             if (f_id == -1) continue;
                             var r =  Math.pow(m - i, 2) + Math.pow(n - j, 2);
                             if (!(f_id in _mapGridCache[i][j]) || _mapGridCache[i][j][f_id] > r)
-                                _mapGridCache[i][j][f_id] = r;
+                                _mapGridCache[i][j][f_id] = [r, m ,n];
                         }
                     }
                     for (var t in _mapGridCache[i][j]) {
-                        if (_mapGridCache[i][j][t] > range2) delete _mapGridCache[i][j][t];
+                        if (_mapGridCache[i][j][t][0] > range2) delete _mapGridCache[i][j][t];
+                        else _mapGridCache[i][j][t] = Math.atan2(_mapGridCache[i][j][t][2] - j, _mapGridCache[i][j][t][1] - i)*180/Math.PI;
                     }
                 }
             }
