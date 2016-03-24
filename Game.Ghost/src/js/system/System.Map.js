@@ -29,7 +29,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         FurnitureOperation: {
             Open: 0,
             Key: 1,
-            Close: 2
+            Close: 2,
+            CannotTake: 3
         },
         DoorOperation: {
             Blocked: 0
@@ -156,7 +157,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             };
         };
 
-        this.checkAccess = function (x, y, access_x, access_y) {
+        this.checkAccess = function (character, x, y, access_x, access_y) {
             x = Math.floor(x);
             y = Math.floor(y);
             access_x = Math.floor(access_x);
@@ -168,7 +169,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (grid.furniture[access_y][access_x] != -1) {
                 // furniture
                 if (accessGrid[y][x][grid.furniture[access_y][access_x]] !== true) return null;
-                return grid.furniture[access_y][access_x];
+                if (accessGrid[y][x][grid.furniture[access_y][access_x]] !== true) return null;
+                var f_id = grid.furniture[access_y][access_x];
+                if (itemList.furniture[f_id].keyId == -1 ) return null;
+                return { f_id: itemList.furniture[f_id].keyId };
             }
 
             return null;

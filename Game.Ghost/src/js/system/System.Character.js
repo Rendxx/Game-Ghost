@@ -327,6 +327,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.x + _interactionDistance * Math.sin(this.currentRotation.head / 180 * Math.PI),
                 that.y + _interactionDistance * Math.cos(this.currentRotation.head / 180 * Math.PI)
             );
+
+
         };
 
         var _onChange = function () {
