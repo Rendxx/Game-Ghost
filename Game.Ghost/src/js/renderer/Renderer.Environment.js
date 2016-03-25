@@ -24,16 +24,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             cameraPara = [],
             cameraNum = 0,
             GridSize = Data.grid.size,
-            characterData = [];
+            characterData = [],
+            viewPlayerIdxList = null;
 
         this.scene = null;
         this.renderer = null;
         this.camera = [];
 
         // public method -------------------------------------------------
-        this.viewportSetup = function (player) {
-            if (entity.isGhost) cameraNum = 1;          //  ghost
-            else cameraNum = player.length-1;           // no ghost
+        this.viewportSetup = function (viewPlayer_in) {
+            viewPlayerIdxList = viewPlayer_in;
+            cameraNum = viewPlayer_in.length;           // no ghost
             _cameraParaReset();
             _cameraSetup();
         };
@@ -136,7 +137,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0; i < cameraNum; i++) {
                 var para = cameraPara[i];
                 that.camera[i] = new RENDERER.Camera(entity, that.scene, that.renderer);
-                that.camera[i].setup(entity.characters[i], para.x, para.y, para.w, para.h);
+                that.camera[i].setup(entity.characters[entity.playerIdxMap[viewPlayerIdxList[i]]], para.x, para.y, para.w, para.h);
             }
         };
 

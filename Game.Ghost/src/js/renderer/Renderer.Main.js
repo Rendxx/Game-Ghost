@@ -10,7 +10,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     /**
      * Game Entity
      */
-    var Entity = function (container, root, isGhost_in) {
+    var Entity = function (container, root, viewPlayer_in) {
         // data
         this.domElement = container;
         this.env = null;
@@ -19,10 +19,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.characters = null;
         this.test = null;
         this.started = false;
-        this.isGhost = isGhost_in === true;
+        this.viewPlayer = viewPlayer_in;
+        this.layerIdxMap = null;
 
-        var that=this,
-            _playerIdxMap = null;
+        var that = this;
 
         // callback -------------------------------------------
         this.onSetuped = null;
@@ -71,7 +71,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var _mapData = setupData.map;
             var _modelData = setupData.model;
             var _playerData = setupData.player;
-            _playerIdxMap = setupData.characterIdxMap;
+            this.playerIdxMap = setupData.characterIdxMap;
 
             loadCount++;
             this.map.loadData(_mapData, _modelData, _mapSetup);
@@ -89,7 +89,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     onLoaded();
                 };
             }
-            this.env.viewportSetup(_playerData);
+
+            this.env.viewportSetup(this.viewPlayer);
             loadCount--;
             onLoaded();
         };
@@ -112,8 +113,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
      * @param {dom element} container - Dom element to contain the scene
      * @param {string} root - root path
      */
-    RENDERER.Create = function (container, root, isGhost_in) {
-        var entity = new Entity(container, root, isGhost_in);
+    RENDERER.Create = function (container, root, viewPlayer_in) {
+        var entity = new Entity(container, root, viewPlayer_in);
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
         return entity;
