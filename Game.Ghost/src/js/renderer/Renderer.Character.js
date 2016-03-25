@@ -45,6 +45,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.actions = null;
         this.mixer = null;
         this.setuped = false;
+        this.message = null;
 
         // cache ----------------------------------------------------------
         var torchDirectionObj_radius = 0,
@@ -54,8 +55,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             light_radiusadius = 0,
             light_angle = 0,
             gameData = null,
-            newKeyId = null,
-            keys = {},
             lightType = 1,
             sprite = {},
             spriteTex = {},
@@ -71,15 +70,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // public method --------------------------------------------------
         // update data from system
         this.update = function (data_in) {
-            for (var i in data_in.key) {
-                if (keys.hasOwnProperty(i)) continue;
-                newKeyId = i;
-                keys[i] = data_in.key[i];
-            }
             if (lightType != data_in.light) {
                 changeTorch(data_in.light);
                 lightType = data_in.light;
             }
+            if (data_in.message != null) that.message = data_in.message;
             gameData = data_in;
         };
 
@@ -100,8 +95,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.endurance = gameData.endurance;
             this.interactionObj = gameData.interactionObj;
 
-            // sprite
-            createSprite(x, y);
             // dead
             if (isDie) {
                 if (currentAction != action) {

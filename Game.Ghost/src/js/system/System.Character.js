@@ -8,6 +8,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
+    var _Data = {
+        message: {
+            getKey: "Get Key: ",
+            hasKey: "You already have this key",
+            doorLock: "The door [#name#] is locked",
+            useKey: "Key [#key#] is used"
+        }
+    };
     var Character = function (id, characterPara, characterData, entity) {
         // data ----------------------------------------------------------
         var that = this,
@@ -54,6 +62,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _enduranceRecover = _para.enduranceRecover,
             _enduranceCost = _para.enduranceCost,
             _maxEndurance = _modelData.para.endurance,
+            _message = null,            // message show on the screen
             _interactionObj = {
                 surround: {             // surround icon
                     furniture: [],
@@ -104,7 +113,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 hp: that.hp,
                 currentRotation: that.currentRotation,
                 action: that.action,
-                interactionObj: _interactionObj
+                interactionObj: _interactionObj,
+                message: _message
             };
         };
 
@@ -134,6 +144,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (!this.key.hasOwnProperty(key.doorId)) {
                 this.key[key.doorId] = key.name;
                 key.token();
+                _message = _Data.message.getKey + key.name;
+            } else {
+                _message = _Data.message.hasKey;
             }
             _onChange();
         };
@@ -328,6 +341,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var _onChange = function () {
             if (that.onChange == null) return;
             that.onChange(that.id, that.toJSON());
+            _message = null;
         };
 
         var _init = function () {

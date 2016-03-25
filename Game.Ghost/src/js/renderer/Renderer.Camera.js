@@ -32,6 +32,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 normal: {},
                 highlight: {}
             },
+            msg = null,
 
             // cache
             interactionIcon = {},
@@ -129,6 +130,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             updateEnduranceBar();
             // update effort
             updateInteractionIcon();
+            updateMessage();
 
             // render
             that.renderer.setViewport(that.x, that.y, that.width, that.height);
@@ -378,6 +380,34 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 icon: spr,
                 tween: null
             };
+        };
+
+        // Message ---------------------------------------------------
+        var updateMessage = function () {
+            if (that.character.message == null) return;
+            showMessage(that.character.message);
+            that.character.message = null;
+        };
+
+        var showMessage = function (content) {
+            var spr = makeTextSprite(content, { fontsize: 40, color: { r: 255, g: 255, b: 255, a: 1.0 } });
+            that.sceneOrtho.add(spr);
+            spr.position.set(0, -that.height/4, 1);
+
+            if (msg != null) {
+                msg.tween.stop();
+                that.sceneOrtho.remove(msg.spr);
+            }
+            var tween = new TWEEN.Tween(spr.material).to({ opacity: 0 }, 500)
+                        .onComplete(function () {
+                            that.sceneOrtho.remove(spr);
+                        });
+            tween.delay(3000);
+            tween.start();
+            msg = {
+                tween: tween,
+                spr: spr
+            }
         };
 
         // Helper ----------------------------------------------------
