@@ -28,9 +28,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex = {},
             root = entity.root,
             sprites = {},
+            spritesInteraction = {
+                normal: {},
+                highlight: {}
+            },
 
             // cache
-            interactionIcon = {};
+            interactionIcon = {},
+            highLightIcon = {};
 
         this.scene = scene_in;
         this.renderer = renderer_in
@@ -63,7 +68,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.camera.lookAt(new THREE.Vector3(0, 0, 0));
             that.camera.rotation.z = 0;
             that.camera.rotationAutoUpdate = false;
-            
+
             that.sceneOrtho = new THREE.Scene();
             that.sceneEffort = new THREE.Scene();
             that.cameraOrtho = new THREE.OrthographicCamera(0, that.width, 0, -that.height, 1, 10);
@@ -108,7 +113,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.cameraOrtho.updateProjectionMatrix();
         };
 
-        this.render = function () { 
+        this.render = function () {
             var x = that.character.x;
             var y = that.character.y;
 
@@ -176,7 +181,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             mat.opacity = 0.8;
             var spr = new THREE.Sprite(mat);
             spr.position.set(0, -50, 2);
-            spr.scale.set(_Data.enduranceBarWidth*2, _Data.enduranceBarHeight, 1.0);
+            spr.scale.set(_Data.enduranceBarWidth * 2, _Data.enduranceBarHeight, 1.0);
             that.sceneOrtho.add(spr);
 
             sprites["enduranceBar"] = spr;
@@ -189,7 +194,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             mat.opacity = 0.6;
             var spr = new THREE.Sprite(mat);
             spr.position.set(0, -50, 1);
-            spr.scale.set(2+_Data.enduranceBarWidth * 2, 2+_Data.enduranceBarHeight, 1.0);
+            spr.scale.set(2 + _Data.enduranceBarWidth * 2, 2 + _Data.enduranceBarHeight, 1.0);
             that.sceneOrtho.add(spr);
 
             sprites["enduranceBarBase"] = spr;
@@ -198,8 +203,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var updateEnduranceBar = function () {
             if (sprites["enduranceBar"] == null) return;
             var val = that.character.endurance;
-            var w = (val / that.character.maxEndurance) ;
-            sprites["enduranceBar"].scale.x = w* _Data.enduranceBarWidth * 2;
+            var w = (val / that.character.maxEndurance);
+            sprites["enduranceBar"].scale.x = w * _Data.enduranceBarWidth * 2;
 
             if (val >= that.character.maxEndurance) {
                 sprites["enduranceBar"].material.color.b = 0.8;
@@ -214,12 +219,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var updateInteractionIcon = function () {
             if (that.character.interactionObj == null) return;
             var list_f = that.character.interactionObj.surround.furniture;
-            var highLight_f = null
-            if (that.character.interactionObj.canUse != null) highLight_f = that.character.interactionObj.canUse.furniture;
+            var highLight_f = null;
+            var highLight_f_status = null;
+            if (that.character.interactionObj.canUse != null) {
+                highLight_f = that.character.interactionObj.canUse.furniture;
+                highLight_f_status = list_f[highLight_f];
+            }
 
+            // normal
             for (var t in interactionIcon) {
                 if (!list_f.hasOwnProperty(t) || list_f[t] != interactionIcon[t]) {
-                    hideInteractionIcon(t, interactionIcon[t]);
+                    hideInteraction_normal(t, interactionIcon[t]);
                     delete (interactionIcon[t]);
                 }
             }
@@ -227,72 +237,132 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var t in list_f) {
                 if (!interactionIcon.hasOwnProperty(t)) {
                     interactionIcon[t] = list_f[t];
-                    showInteractionIcon(t, list_f[t], highLight_f==t);
+                    showInteraction_normal(t, list_f[t]);
+                }
+            }
+
+            // highlight
+            for (var t in highLightIcon) {
+                if (highLight_f != t || highLight_f_status != highLightIcon[t]) {
+                    hideInteraction_highlight(t, highLightIcon[t]);
+                    delete (highLightIcon[t]);
+                }
+            }
+
+            if (highLight_f_status!=null) {
+                if (!highLightIcon.hasOwnProperty(highLight_f)) {
+                    highLightIcon[highLight_f] = highLight_f_status;
+                    showInteraction_highlight(highLight_f, highLight_f_status);
                 }
             }
         };
-        var hideInteractionIcon = function (furnitureId, iconStatus) {
-            var sprite_id = "InteractionIcon_" + furnitureId;
-            if (sprites[sprite_id] == null) sprites[sprite_id] = {};
-            if (sprites[sprite_id][iconStatus] == null) return;
 
-            if (sprites[sprite_id][iconStatus].tween != null) sprites[sprite_id][iconStatus].tween.stop();
+        // interation highlight
+        var hideInteraction_highlight = function (furnitureId, iconStatus) {
+            if (spritesInteraction.highlight[furnitureId] == null || spritesInteraction.highlight[furnitureId][iconStatus] == null) return;
+            var sprPkg = spritesInteraction.highlight[furnitureId][iconStatus];
+
+            if (sprPkg.tween != null) sprPkg.tween.stop();
+            var start_opacity = 0,
+                spr = sprPkg.icon,
+                mat = spr.material;
+            var tween_hide = new TWEEN.Tween({ t: 10 }).to({ t: 0 }, 100)
+                        .onUpdate(function () {
+                            mat.opacity = this.t * 0.08;
+                        }).onComplete(function () {
+                            that.sceneEffort.remove(spr);
+                        });
+            sprPkg.tween = tween_hide;
+            tween_hide.start();
+        };
+
+        var showInteraction_highlight = function (furnitureId, iconStatus) {
+            if (spritesInteraction.highlight[furnitureId] == null) spritesInteraction.highlight[furnitureId] = {};
+            if (spritesInteraction.highlight[furnitureId][iconStatus] == null)
+                spritesInteraction.highlight[furnitureId][iconStatus] = createInteractionIcon(furnitureId, iconStatus, true);
+            var sprPkg = spritesInteraction.highlight[furnitureId][iconStatus];
+            if (sprPkg == null) return;
+
+            if (sprPkg.tween != null) sprPkg.tween.stop();
+            var start_opacity = 0,
+                start_z = entity.map.furniturePos[furnitureId][1] - GridSize / 4,
+                scale_y = GridSize * 2,
+                spr = sprPkg.icon,
+                mat = spr.material;
+
+            var tween_show = new TWEEN.Tween({ t: 0 }).to({ t: 10 }, 100)
+                        .onStart(function () {
+                            that.sceneEffort.add(spr);
+                        }).onUpdate(function () {
+                            mat.opacity = this.t * 0.08;
+                        });
+            sprPkg.tween = tween_show;
+            tween_show.start();
+        };
+
+        // interation normal
+        var hideInteraction_normal = function (furnitureId, iconStatus) {
+            if (spritesInteraction.normal[furnitureId] == null || spritesInteraction.normal[furnitureId][iconStatus] == null) return;
+            var sprPkg = spritesInteraction.normal[furnitureId][iconStatus];
+
+            if (sprPkg.tween != null) sprPkg.tween.stop();
             var start_opacity = 0,
                 start_z = entity.map.furniturePos[furnitureId][1] + GridSize / 4,
                 scale_y = GridSize * 2,
-                spr = sprites[sprite_id][iconStatus].icon,
+                spr = sprPkg.icon,
                 mat = spr.material;
             var tween_hide = new TWEEN.Tween({ t: 10 }).to({ t: 0 }, 400)
                         .onUpdate(function () {
-                            mat.opacity = this.t * 0.06;
+                            mat.opacity = this.t * 0.04;
                         }).onComplete(function () {
                             that.sceneEffort.remove(spr);
                         });
             tween_hide.start();
-            sprites[sprite_id][iconStatus].tween = tween_hide;
+            sprPkg.tween = tween_hide;
         };
 
-        var showInteractionIcon = function (furnitureId, iconStatus, isHightLight) {
-            var sprite_id = "InteractionIcon_" + furnitureId;
-            if (sprites[sprite_id] == null) sprites[sprite_id] = {};
-            if (sprites[sprite_id][iconStatus] == null) createInteractionIcon(furnitureId, iconStatus);
-            if (sprites[sprite_id][iconStatus] == null) return;
+        var showInteraction_normal = function (furnitureId, iconStatus) {
+            if (spritesInteraction.normal[furnitureId] == null) spritesInteraction.normal[furnitureId] = {};
+            if (spritesInteraction.normal[furnitureId][iconStatus] == null)
+                spritesInteraction.normal[furnitureId][iconStatus] = createInteractionIcon(furnitureId, iconStatus, false);
+            var sprPkg = spritesInteraction.normal[furnitureId][iconStatus];
 
-            if (sprites[sprite_id][iconStatus].tween != null) sprites[sprite_id][iconStatus].tween.stop();
+            if (sprPkg == null) return;
+
+            if (sprPkg.tween != null) sprPkg.tween.stop();
             var start_opacity = 0,
-                start_z = entity.map.furniturePos[furnitureId][1] + GridSize / 4,
+                start_z = entity.map.furniturePos[furnitureId][1] - GridSize / 4,
                 scale_y = GridSize * 2,
-                spr = sprites[sprite_id][iconStatus].icon,
+                spr = sprPkg.icon,
                 mat = spr.material;
+
             var tween_show = new TWEEN.Tween({ t: 0 }).to({ t: 10 }, 150)
                         .onStart(function () {
-                            mat.opacity = start_opacity;
-                            spr.position.z = start_z;
                             that.sceneEffort.add(spr);
                         }).onUpdate(function () {
-                            mat.opacity = this.t * 0.06;
+                            mat.opacity = this.t * 0.04;
                             spr.scale.y = scale_y / 2 + scale_y * this.t / 20;
-                            spr.position.z = start_z - this.t * GridSize / 10;
+                            spr.position.z = start_z - this.t * GridSize / 20;
                         });
             tween_show.start();
-            sprites[sprite_id][iconStatus].tween = tween_show;
+            sprPkg.tween = tween_show;
         };
 
-        var createInteractionIcon = function (furnitureId, iconStatus) {
+        var createInteractionIcon = function (furnitureId, iconStatus, isHighlight) {
             var tex1 = null;
             if (iconStatus == _Data.furnitureOperation.Key) {
-                tex1 = tex['interaction-key'];
+                tex1 = !isHighlight ? tex['interaction-key'] : tex['interaction-key-2'];
             } else if (iconStatus == _Data.furnitureOperation.Open) {
-                tex1 = tex['interaction-open'];
+                tex1 = !isHighlight ? tex['interaction-open'] : tex['interaction-open-2'];
             } else if (iconStatus == _Data.furnitureOperation.Close) {
-                tex1 = tex['interaction-close'];
+                tex1 = !isHighlight ? tex['interaction-close'] : tex['interaction-close-2'];
             } else {
                 return false;
             }
 
             var mat = new THREE.SpriteMaterial({
                 map: tex1,
-                transparent:true,
+                transparent: true,
                 depthTest: false
             });
             mat.opacity = 0;
@@ -300,14 +370,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var spr = new THREE.Sprite(mat);
             var pos = entity.map.furniturePos[furnitureId];
 
-            spr.position.set(pos[0], GridSize, pos[1] - GridSize / 2);
+            spr.position.set(pos[0], GridSize, pos[1] - 3 * GridSize / 4);
             spr.scale.set(GridSize * 2, GridSize * 2, 1.0);
+            if (isHighlight) spr.position.y += 0.1;
 
-            sprites["InteractionIcon_" + furnitureId][iconStatus] = {
+            return {
                 icon: spr,
                 tween: null
             };
-            return true;
         };
 
         // Helper ----------------------------------------------------
