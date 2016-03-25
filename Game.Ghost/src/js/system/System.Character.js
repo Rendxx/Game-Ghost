@@ -62,7 +62,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _enduranceRecover = _para.enduranceRecover,
             _enduranceCost = _para.enduranceCost,
             _maxEndurance = _modelData.para.endurance,
-            _message = null,            // message show on the screen
             _interactionObj = {
                 surround: {             // surround icon
                     furniture: [],
@@ -113,8 +112,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 hp: that.hp,
                 currentRotation: that.currentRotation,
                 action: that.action,
-                interactionObj: _interactionObj,
-                message: _message
+                interactionObj: _interactionObj
             };
         };
 
@@ -144,9 +142,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (!this.key.hasOwnProperty(key.doorId)) {
                 this.key[key.doorId] = key.name;
                 key.token();
-                _message = _Data.message.getKey + key.name;
+                entity.message.send(that.id, _Data.message.getKey + key.name);
             } else {
-                _message = _Data.message.hasKey;
+                entity.message.send(that.id, _Data.message.hasKey);
             }
             _onChange();
         };
@@ -341,7 +339,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var _onChange = function () {
             if (that.onChange == null) return;
             that.onChange(that.id, that.toJSON());
-            _message = null;
         };
 
         var _init = function () {

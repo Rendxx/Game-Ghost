@@ -101,6 +101,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (gameData == null) return;
             that.map.update(gameData.map);
             for (var i = 0, l = that.characters.length; i < l; i++) {
+                if (gameData.message && gameData.message[i]) that.characters[i].showMessage(gameData.message[i]);
                 that.characters[i].update(gameData.characters[i]);
             }
         };

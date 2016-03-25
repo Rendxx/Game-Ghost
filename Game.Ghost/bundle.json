@@ -61,6 +61,7 @@
       "#dest#/Game.Ghost.System.Core": [
         "#src#/webWorker/WebWorker.Core.js",
         "#src#/system/System.Data.js",
+        "#src#/system/System.Message.js",
         "#src#/system/System.Furniture.js",
         "#src#/system/System.Door.js",
         "#src#/system/System.Key.js",

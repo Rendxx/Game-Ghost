@@ -24,6 +24,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // component ----------------------------------------------
         this.renderer = null;
         this.map = null;
+        this.message = null;
         this.interAction = null;
         this.characters = [];
 
@@ -62,6 +63,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.map.onChange = function (data) {
                 gameData.map = data;
             };
+
+            that.message = new SYSTEM.Message();
 
             that.interAction = new SYSTEM.InterAction(that);
             gameData.characters = [];
@@ -119,6 +122,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var i = 0; i < that.characters.length; i++) {
                 that.characters[i].nextInterval();
             }
+            gameData.message = that.message.getNewMsg();
 
             // end check ----------------------------------
             var win = 0, isEnd = true;

@@ -72,7 +72,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             that.sceneOrtho = new THREE.Scene();
             that.sceneEffort = new THREE.Scene();
-            that.cameraOrtho = new THREE.OrthographicCamera(0, that.width, 0, -that.height, 1, 10);
+            that.cameraOrtho = new THREE.OrthographicCamera(-that.width / 2, that.width / 2, that.height/2, -that.height/2, 1, 10);
             that.cameraOrtho.position.z = 10;
 
             createFrame();
@@ -86,31 +86,31 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.y = y;
 
             // name
-            sprites["name"].position.set(60, -45, 1);
+            sprites["name"].position.set(84 - that.width / 2, -30 + that.height / 2, 1);
 
             // name deco
-            sprites["nameDeco"].position.set(60, -30, 1);
+            sprites["nameDeco"].position.set(60 - that.width / 2, -30 + that.height / 2, 1);
 
             // border
-            sprites["top"].position.set(that.width / 2, 0, 1);
+            sprites["top"].position.set(0, that.height / 2, 1);
             sprites["top"].scale.set(that.width, 2, 1.0);
 
-            sprites["right"].position.set(that.width, -that.height / 2, 1);
+            sprites["right"].position.set(that.width/2, 0, 1);
             sprites["right"].scale.set(2, that.height, 1.0);
 
-            sprites["bottom"].position.set(that.width / 2, -that.height, 1);
+            sprites["bottom"].position.set(0, -that.height/2, 1);
             sprites["bottom"].scale.set(that.width, 2, 1.0);
 
-            sprites["left"].position.set(0, -that.height / 2, 1);
+            sprites["left"].position.set(-that.width / 2, 0, 1);
             sprites["left"].scale.set(1, that.height, 1.0);
 
             // camera
             that.camera.aspect = that.width / that.height;
             that.camera.updateProjectionMatrix();
-            that.cameraOrtho.left = 0;
-            that.cameraOrtho.right = that.width;
-            that.cameraOrtho.top = 0;
-            that.cameraOrtho.bottom = -that.height;
+            that.cameraOrtho.left = -that.width / 2;
+            that.cameraOrtho.right = that.width / 2;
+            that.cameraOrtho.top = that.height / 2 ;
+            that.cameraOrtho.bottom = -that.height / 2;
             that.cameraOrtho.updateProjectionMatrix();
         };
 
@@ -146,7 +146,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprites = {};
 
             // name
-            sprites["name"] = makeTextSprite(that.character.name, { fontsize: 40, borderColor: { r: that.color.r, g: that.color.g, b: that.color.b, a: 1.0 }, color: { r: 255, g: 255, b: 255, a: 1.0 } });
+            sprites["name"] = makeTextSprite(that.character.name, { fontsize: 32, color: { r: 255, g: 255, b: 255, a: 1.0 }, align: "left", width: 160, height: 20, fontface: "Poor Richard, Calibri, Arial" });
             that.sceneOrtho.add(sprites["name"]);
 
             // name deco
@@ -182,7 +182,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             });
             mat.opacity = 0.8;
             var spr = new THREE.Sprite(mat);
-            spr.position.set(0, -50, 2);
+            spr.position.set(-that.width / 2, -50 + that.height / 2, 2);
             spr.scale.set(_Data.enduranceBarWidth * 2, _Data.enduranceBarHeight, 1.0);
             that.sceneOrtho.add(spr);
 
@@ -195,7 +195,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             });
             mat.opacity = 0.6;
             var spr = new THREE.Sprite(mat);
-            spr.position.set(0, -50, 1);
+            spr.position.set(-that.width / 2, -50 + that.height / 2, 1);
             spr.scale.set(2 + _Data.enduranceBarWidth * 2, 2 + _Data.enduranceBarHeight, 1.0);
             that.sceneOrtho.add(spr);
 
@@ -390,9 +390,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var showMessage = function (content) {
-            var spr = makeTextSprite(content, { fontsize: 40, color: { r: 255, g: 255, b: 255, a: 1.0 } });
+            var spr = makeTextSprite(content, { fontsize: 16, color: { r: 255, g: 255, b: 255, a: 1.0 }, align:"center", fontface: "Poor Richard, Calibri, Arial" });
             that.sceneOrtho.add(spr);
-            spr.position.set(0, -that.height/4, 1);
+            spr.position.set(0, that.height/4, 1);
 
             if (msg != null) {
                 msg.tween.stop();
@@ -411,7 +411,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         // Helper ----------------------------------------------------
+        var _helper_canvas = document.createElement('canvas');
+        var _helper_canvas_ctx = _helper_canvas.getContext('2d');
         var makeTextSprite = function (message, parameters) {
+            _helper_canvas_ctx.clearRect(0, 0, _helper_canvas.width, _helper_canvas.height);
             if (parameters === undefined) parameters = {};
 
             var fontface = parameters.hasOwnProperty("fontface") ?
@@ -420,49 +423,40 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var fontsize = parameters.hasOwnProperty("fontsize") ?
                 parameters["fontsize"] : 18;
 
-            var borderThickness = parameters.hasOwnProperty("borderThickness") ?
-                parameters["borderThickness"] : 4;
-
-            var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
-                parameters["backgroundColor"] : { r: 255, g: 255, b: 255, a: 1.0 };
-
-            var borderColor = parameters.hasOwnProperty("borderColor") ?
-                parameters["borderColor"] : { r: 0, g: 0, b: 0, a: 1.0 };
-
             var color = parameters.hasOwnProperty("color") ?
                 parameters["color"] : { r: 255, g: 255, b: 255, a: 1.0 };
 
-            var canvas = document.createElement('canvas');
-            var context = canvas.getContext('2d');
-            context.font = "Bold " + fontsize + "px " + fontface;
+            var align = parameters.hasOwnProperty("align") ?
+                parameters["align"] : "center";
 
-            // get size data (height depends only on font size)
-            var metrics = context.measureText(message);
-            var textWidth = metrics.width;
+            // set font parameter
+            _helper_canvas_ctx.font = fontsize + "px " + fontface;
+            _helper_canvas_ctx.shadowColor = "black";
+            _helper_canvas_ctx.shadowBlur = 5;
+            //_helper_canvas_ctx.textBaseline = 'top';
 
-            // background color
-            context.fillStyle = "rgba(" + backgroundColor.r + "," + backgroundColor.g + ","
-                                          + backgroundColor.b + "," + backgroundColor.a + ")";
-            // border color
-            context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + ","
-                                          + borderColor.b + "," + borderColor.a + ")";
+            // measure text
+            var metrics = _helper_canvas_ctx.measureText(message);
+            var width = parameters.hasOwnProperty("width") ?
+                parameters["width"]: Math.ceil(metrics.width);
+            var height = parameters.hasOwnProperty("height") ?
+                parameters["height"] : fontsize;
 
-            context.lineWidth = borderThickness;
-            // 1.4 is extra height factor for text below baseline: g,j,p,q.
+            _helper_canvas.width = width*2;
+            _helper_canvas.height = height*2;
 
-            // text color
-            context.fillStyle = "rgba(" + color.r + "," + color.g + ","
+            // text 
+            _helper_canvas_ctx.fillStyle = "rgba(" + color.r + "," + color.g + ","
                                           + color.b + "," + color.a + ")";
-
-            context.fillText(message, borderThickness, fontsize + borderThickness);
+            _helper_canvas_ctx.fillText(message, 0, (_helper_canvas.height + fontsize) / 2);
 
             // canvas contents will be used for a texture
-            var texture = new THREE.Texture(canvas)
+            var texture = new THREE.Texture(_helper_canvas);
             texture.needsUpdate = true;
 
             var spriteMaterial = new THREE.SpriteMaterial({ map: texture });
             var sprite = new THREE.Sprite(spriteMaterial);
-            sprite.scale.set(100, 50, 1.0);
+            sprite.scale.set(width, height, 1.0);
             return sprite;
         }
 
