@@ -146,7 +146,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprites = {};
 
             // name
-            sprites["name"] = makeTextSprite(that.character.name, { fontsize: 32, color: { r: 255, g: 255, b: 255, a: 1.0 }, align: "left", width: 160, height: 20, fontface: "Poor Richard, Calibri, Arial" });
+            sprites["name"] = makeTextSprite(that.character.name, { fontsize: 32, color: { r: 255, g: 255, b: 255, a: 1.0 }, align: "left", width: 160, height: 40, fontface: "Poor Richard, Calibri, Arial" });
             that.sceneOrtho.add(sprites["name"]);
 
             // name deco
@@ -390,7 +390,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var showMessage = function (content) {
-            var spr = makeTextSprite(content, { fontsize: 16, color: { r: 255, g: 255, b: 255, a: 1.0 }, align:"center", fontface: "Poor Richard, Calibri, Arial" });
+            var spr = makeTextSprite(content, { fontsize: 42, color: { r: 255, g: 255, b: 255, a: 1.0 }, align:"center", fontface: "Poor Richard, Calibri, Arial" });
             that.sceneOrtho.add(spr);
             spr.position.set(0, that.height/4, 1);
 
@@ -431,14 +431,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // set font parameter
             _helper_canvas_ctx.font = fontsize + "px " + fontface;
-            _helper_canvas_ctx.shadowColor = "black";
-            _helper_canvas_ctx.shadowBlur = 5;
-            //_helper_canvas_ctx.textBaseline = 'top';
 
             // measure text
             var metrics = _helper_canvas_ctx.measureText(message);
             var width = parameters.hasOwnProperty("width") ?
-                parameters["width"] * 2 : Math.ceil(metrics.width);
+                parameters["width"]*2 : Math.ceil(metrics.width);
             var height = parameters.hasOwnProperty("height") ?
                 parameters["height"] * 2 : fontsize;
 
@@ -446,6 +443,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _helper_canvas.height = height;
 
             // text 
+            _helper_canvas_ctx.font = fontsize + "px " + fontface;
+            _helper_canvas_ctx.shadowColor = "black";
+            _helper_canvas_ctx.shadowBlur = 5;
             _helper_canvas_ctx.fillStyle = "rgba(" + color.r + "," + color.g + ","
                                           + color.b + "," + color.a + ")";
             _helper_canvas_ctx.fillText(message, 0, (_helper_canvas.height + fontsize) / 2);
