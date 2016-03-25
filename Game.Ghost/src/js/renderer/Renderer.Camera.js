@@ -438,12 +438,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // measure text
             var metrics = _helper_canvas_ctx.measureText(message);
             var width = parameters.hasOwnProperty("width") ?
-                parameters["width"]: Math.ceil(metrics.width);
+                parameters["width"] * 2 : Math.ceil(metrics.width);
             var height = parameters.hasOwnProperty("height") ?
-                parameters["height"] : fontsize;
+                parameters["height"] * 2 : fontsize;
 
-            _helper_canvas.width = width*2;
-            _helper_canvas.height = height*2;
+            _helper_canvas.width = width;
+            _helper_canvas.height = height;
 
             // text 
             _helper_canvas_ctx.fillStyle = "rgba(" + color.r + "," + color.g + ","
@@ -456,7 +456,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var spriteMaterial = new THREE.SpriteMaterial({ map: texture });
             var sprite = new THREE.Sprite(spriteMaterial);
-            sprite.scale.set(width, height, 1.0);
+            sprite.scale.set(width/2, height/2, 1.0);
             return sprite;
         }
 

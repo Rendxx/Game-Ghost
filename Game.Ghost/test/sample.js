@@ -3,7 +3,7 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p1', 'p2']);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p1']);
     var systemWrapper = window.Rendxx.Game.Ghost.WebWorker.Create(_root, "../js/Game.Ghost.System.Core.js");
     systemWrapper.onSetuped = function (setupData) {
         renderer.reset(setupData);
