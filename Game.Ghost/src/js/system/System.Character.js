@@ -10,8 +10,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Data = SYSTEM.Data;
     var _Data = {
         message: {
-            getKey: "Get Key: ",
-            hasKey: "You already have this key",
+            getKey: "Get: ",
+            hasKey: "You already have: ",
             doorLock: "The door [#name#] is locked",
             useKey: "Key [#key#] is used"
         }
@@ -144,7 +144,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 key.token();
                 entity.message.send(that.id, _Data.message.getKey + key.name);
             } else {
-                entity.message.send(that.id, _Data.message.hasKey);
+                entity.message.send(that.id, _Data.message.hasKey + key.name);
             }
             _onChange();
         };

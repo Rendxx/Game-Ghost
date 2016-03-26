@@ -86,7 +86,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.y = y;
 
             // name
-            sprites["name"].position.set(84 - that.width / 2, -30 + that.height / 2, 1);
+            sprites["name"].position.set(84 - that.width / 2, -32 + that.height / 2, 1);
 
             // name deco
             sprites["nameDeco"].position.set(60 - that.width / 2, -30 + that.height / 2, 1);
@@ -443,6 +443,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _helper_canvas.height = height;
 
             // text 
+            _helper_canvas_ctx.textBaseline = "bottom";
             _helper_canvas_ctx.font = fontsize + "px " + fontface;
             _helper_canvas_ctx.shadowColor = "black";
             _helper_canvas_ctx.shadowBlur = 5;
