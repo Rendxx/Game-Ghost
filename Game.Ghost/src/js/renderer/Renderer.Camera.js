@@ -92,24 +92,30 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.x = x;
             this.y = y;
 
+            // edge 
+            resizeEdge();
+
             // name
-            sprites["name"].position.set(84 - that.width / 2, -32 + that.height / 2, 1);
+            sprites["name"].position.set(84 - that.width / 2, -32 + that.height / 2, 6);
 
             // name deco
-            sprites["nameDeco"].position.set(60 - that.width / 2, -30 + that.height / 2, 1);
+            sprites["nameDeco"].position.set(60 - that.width / 2, -30 + that.height / 2, 5);
 
             // border
-            sprites["top"].position.set(0, that.height / 2, 1);
+            sprites["top"].position.set(0, that.height / 2, 8);
             sprites["top"].scale.set(that.width, 2, 1.0);
 
-            sprites["right"].position.set(that.width/2, 0, 1);
+            sprites["right"].position.set(that.width/2, 0, 8);
             sprites["right"].scale.set(2, that.height, 1.0);
 
-            sprites["bottom"].position.set(0, -that.height/2, 1);
+            sprites["bottom"].position.set(0, -that.height/2, 8);
             sprites["bottom"].scale.set(that.width, 2, 1.0);
 
-            sprites["left"].position.set(-that.width / 2, 0, 1);
+            sprites["left"].position.set(-that.width / 2, 0, 8);
             sprites["left"].scale.set(1, that.height, 1.0);
+            
+            // endurance
+            if (sprites["enduranceBar"]) sprites["enduranceBar"].position.set(-that.width / 2, -50 + that.height / 2, 6);
 
             // camera
             that.camera.aspect = that.width / that.height;
@@ -129,10 +135,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.camera.position.x = x;
             that.camera.position.z = y + 1;
 
-            if (that.character.mesh != null) {
-                //that.camera.lookAt(that.character.mesh.position);
-            }
+            //if (that.character.mesh != null) {
+            //    //that.camera.lookAt(that.character.mesh.position);
+            //}
 
+            // update edge
+            updateEdge();
             // update sprite
             updateEnduranceBar();
             // update effort
@@ -190,7 +198,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             });
             mat.opacity = 0.8;
             var spr = new THREE.Sprite(mat);
-            spr.position.set(-that.width / 2, -50 + that.height / 2, 2);
+            spr.position.set(-that.width / 2, -50 + that.height / 2, 6);
             spr.scale.set(_Data.enduranceBarWidth * 2, _Data.enduranceBarHeight, 1.0);
             that.sceneOrtho.add(spr);
 
@@ -492,6 +500,20 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 that.sceneEffort.remove(doorIcon[idx][1]);
         };
         
+        // Edges -----------------------------------------------------
+        var resizeEdge = function () {
+            if (sprites['edges'] != null) that.sceneOrtho.remove(sprites["edges"]);
+            sprites['edges'] = createEdges();
+            sprites["edges"].position.set(0, 0, 3);
+            that.sceneOrtho.add(sprites["edges"]);
+        };
+
+        var updateEdge = function () {
+            var d = that.character.danger;
+            if (d >= 0.2 && d <= 0.6) d = 0.3;
+            sprites["edges"].material.opacity = d;
+        };
+
         // Helper ----------------------------------------------------
         var _helper_canvas = document.createElement('canvas');
         var _helper_canvas_ctx = _helper_canvas.getContext('2d');
@@ -542,6 +564,38 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprite.scale.set(width/2, height/2, 1.0);
             return sprite;
         }
+
+        var createEdges = function () {
+            var w = that.width;
+            var h = that.height;
+            var _helper_canvas2 = document.createElement('canvas');
+            var _helper_canvas_ctx2 = _helper_canvas2.getContext('2d');
+            _helper_canvas2.width = w;
+            _helper_canvas2.height = h;
+            //
+            _helper_canvas_ctx2.fillStyle = "rgba(255,0,0,0.02)";
+            _helper_canvas_ctx2.fillRect(0, 0, w, h);
+            //
+            _helper_canvas_ctx2.strokeStyle = 'red';
+            _helper_canvas_ctx2.lineWidth = 4;
+            //
+            _helper_canvas_ctx2.shadowColor = 'red';
+            _helper_canvas_ctx2.shadowBlur = 120;
+            //
+            _helper_canvas_ctx2.beginPath();
+            _helper_canvas_ctx2.rect(0, 0, w, h);
+            _helper_canvas_ctx2.clip();
+            _helper_canvas_ctx2.stroke();
+
+            var texture = new THREE.Texture(_helper_canvas2);
+            texture.needsUpdate = true;
+
+            var spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+            spriteMaterial.transparent = true;
+            var sprite = new THREE.Sprite(spriteMaterial);
+            sprite.scale.set(w, h, 1.0);
+            return sprite;
+        };
 
         var hexToRgb = function (hex) {
             var result = /^0x?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

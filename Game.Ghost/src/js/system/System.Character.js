@@ -14,6 +14,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             hasKey: "You already have: ",
             doorLock: "The door [#name#] is locked",
             useKey: "Key [#key#] is used",
+        },
+        range:{
+            danger:6
         }
     };
     var Character = function (id, characterPara, characterData, entity) {
@@ -64,6 +67,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _enduranceCost = _para.enduranceCost,
             _maxEndurance = _modelData.para.endurance,
             _visibleCheckList = null,
+            _danger = 0,
             _visibleList = {},
             _interactionObj = {
                 surround: {             // surround icon
@@ -118,7 +122,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 currentRotation: that.currentRotation,
                 action: that.action,
                 interactionObj: _interactionObj,
-                visibleList: _visibleList
+                visibleList: _visibleList,
+                danger: _danger
             };
         };
 
@@ -268,6 +273,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             // checking
             _interactionObjCheck();
             _checkVisible();
+            _checkDanger();
             // para
             _onChange();
         };
@@ -333,6 +339,21 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
             for (var i = 0; i < _visibleCheckList.length; i++) {
                 _visibleList[_visibleCheckList[i]] = entity.map.checkVisible(that, entity.characters[_visibleCheckList[i]]);
+            }
+        };
+
+        var _checkDanger = function () {
+            var min = 100000;
+            if (that.role == Data.character.type.survivor) {
+                for (var i = 0; i < _visibleCheckList.length; i++) {
+                    c = entity.characters[_visibleCheckList[i]];
+                    var r = that.checkRange(c.x, c.y);
+                    if (r < min) min = r;
+                }
+                if (min <= _Data.range.danger) _danger = (1 - min / _Data.range.danger);
+                else _danger = 0;
+            } else {
+                _danger = that.endurance / _maxEndurance;
             }
         };
 
