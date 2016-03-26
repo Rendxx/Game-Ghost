@@ -11,7 +11,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
      * Game Entity
      */
     var Data = RENDERER.Data;
-    var Entity = function (container, root, viewPlayer_in) {
+    var Entity = function (container, root, viewPlayer_in, isGhost_in) {
         // data
         this.domElement = container;
         this.env = null;
@@ -20,7 +20,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.characters = null;
         this.test = null;
         this.started = false;
-        this.viewPlayer = viewPlayer_in;
+        this.viewPlayer = null;
         this.layerIdxMap = null;
         this.isGhost = false;
 
@@ -91,11 +91,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     onLoaded();
                 };
             }
-            this.isGhost = false;
-            for (var i = 0; i < this.viewPlayer.length; i++) {
-                if (this.characters[this.playerIdxMap[this.viewPlayer[i]]].role == Data.character.type.ghost) {
-                    this.isGhost = true;
-                    break;
+            if (isGhost_in != undefined) {
+                this.isGhost = isGhost_in;
+                this.viewPlayer = [];
+                for (var i = 0, l = _playerData.length; i < l; i++) {
+                    if ((_playerData[i].role == Data.character.type.ghost) == this.isGhost)
+                        this.viewPlayer.push(_playerData[i].id);
+                }
+            } else {
+                this.viewPlayer = viewPlayer_in;
+                this.isGhost = false;
+                for (var i = 0; i < this.viewPlayer.length; i++) {
+                    if (this.characters[this.playerIdxMap[this.viewPlayer[i]]].role == Data.character.type.ghost) {
+                        this.isGhost = true;
+                        break;
+                    }
                 }
             }
 
@@ -145,8 +155,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
      * @param {dom element} container - Dom element to contain the scene
      * @param {string} root - root path
      */
-    RENDERER.Create = function (container, root, viewPlayer_in) {
-        var entity = new Entity(container, root, viewPlayer_in);
+    RENDERER.Create = function (container, root, viewPlayer_in, isGhost_in) {
+        var entity = new Entity(container, root, viewPlayer_in, isGhost_in);
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
         return entity;

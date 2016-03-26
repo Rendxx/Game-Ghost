@@ -3,7 +3,7 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7']);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], false);
     var systemWrapper = window.Rendxx.Game.Ghost.WebWorker.Create(_root, "../js/Game.Ghost.System.Core.js");
     systemWrapper.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -19,16 +19,19 @@
     };
     systemWrapper.setup({
         'p1': {
+            id: 'p1',
             name: 'player 1',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'green'
         },
         'p2': {
+            id: 'p2',
             name: 'player 2',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'red'
         },
         'p3': {
+            id: 'p3',
             name: 'player 3',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'blue'
@@ -49,6 +52,7 @@
         //    modelId: 'purple'
         //},
         'p7': {
+            id: 'p7',
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
             modelId: 'white'
@@ -69,7 +73,7 @@
     //renderer.onTimeInterval = system.nextInterval;
 
     renderer.onSetuped = function () {
-        SetupControl(systemWrapper, 'p7');
+        SetupControl(systemWrapper, 'p1');
         systemWrapper.start();
         renderer.start();
     };
