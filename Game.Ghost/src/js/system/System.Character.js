@@ -174,7 +174,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.switchTorch = function () {
             if (this.hp == 0 || this.win) return;
             if (that.role == Data.character.type.survivor) {
-                this.light = 1 - this.light;
+                //this.light = 1 - this.light;
             } else {
                 if (this.endurance >= _maxEndurance) {
                     rush = true;
