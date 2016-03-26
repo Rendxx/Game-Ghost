@@ -207,6 +207,38 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return null;
         };
 
+        this.checkVisible = function (characterA, characterB) {
+            var x1 = characterA.x,
+                y1 = characterA.y,
+                x2 = characterB.x,
+                y2 = characterB.y;
+
+            if (x1 == x2) {
+                var y_min = Math.min(y1, y2),
+                    y_max = Math.max(y1, y2),
+                    x = Math.floor(x1);
+                for (var y = Math.ceil(y_min) ; y <= y_max; y++) {
+                    if (grid.empty[y][x] == _Data.Grid.Empty) continue;
+                    if (grid.empty[y][x] == _Data.Grid.Furniture && !itemList.furniture[grid.furniture[y][x]].blockSight) continue;
+                    if (grid.empty[y][x] == _Data.Grid.Door && !itemList.door[grid.door[y][x]].status == SYSTEM.Door.Data.Status.Opened) continue;
+                    return false;
+                }
+            } else {
+                var k = (y1 - y2) / (x1 - x2),
+                    c = y1 - k * x1,
+                    x_min = Math.min(x1, x2),
+                    x_max = Math.max(x1, x2);
+                for (var x = Math.ceil(x_min) ; x <= x_max; x++) {
+                    var y = Math.floor(k * x + c);
+                    if (grid.empty[y][x] == _Data.Grid.Empty) continue;
+                    if (grid.empty[y][x] == _Data.Grid.Furniture && !itemList.furniture[grid.furniture[y][x]].blockSight) continue;
+                    if (grid.empty[y][x] == _Data.Grid.Door && !itemList.door[grid.door[y][x]].status==SYSTEM.Door.Data.Status.Opened) continue;
+                    return false;
+                }
+            }
+            return true;
+        };
+
         this.findEmptyPos = function () {
             var idx = Math.floor(emptyPos.length * Math.random());
             return emptyPos[idx];

@@ -25,6 +25,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.x = (info.left + info.right + 1)/2;
         this.y = (info.top + info.bottom + 1)/2;
         this.id = id;
+        this.blockSight = modelData.blockSight;
         this.modelId = _info.modelId;
         this.status = _modelData.statusChange == true ? _Data.Status.Closed : _Data.Status.None;
         this.keyId = -1;            // key id, -1 means no key
