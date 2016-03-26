@@ -3,7 +3,7 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p1', 'p2', 'p3']);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7']);
     var systemWrapper = window.Rendxx.Game.Ghost.WebWorker.Create(_root, "../js/Game.Ghost.System.Core.js");
     systemWrapper.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -69,14 +69,14 @@
     //renderer.onTimeInterval = system.nextInterval;
 
     renderer.onSetuped = function () {
-        SetupControl(systemWrapper);
+        SetupControl(systemWrapper, 'p7');
         systemWrapper.start();
         renderer.start();
     };
 });
 
 
-function SetupControl(system) {
+function SetupControl(system, pId) {
     var moveDirction = 0;
     var direction = [0, 0];
     var rush = false;
@@ -122,7 +122,7 @@ function SetupControl(system) {
             codeMap[e.keyCode] = true;
             getDirection(codeMap);
 
-            system.action('p1', {
+            system.action(pId, {
                 actionType: '01',
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
@@ -132,11 +132,11 @@ function SetupControl(system) {
             });
             e.preventDefault();
         } else if (e.keyCode == keyCode['f']) {
-            system.action('p1', {
+            system.action(pId, {
                 actionType: '02'
             });
         } else if (e.keyCode == keyCode['e']) {
-            system.action('p1', {
+            system.action(pId, {
                 actionType: '03'
             });
         }
@@ -145,7 +145,7 @@ function SetupControl(system) {
             codeMap[e.keyCode] = false;
             getDirection(codeMap, true);
 
-            system.action('p1', {
+            system.action(pId, {
                 actionType: '01',
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),

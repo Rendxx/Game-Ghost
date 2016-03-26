@@ -147,8 +147,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.x + _interactionDistance * Math.sin(this.currentRotation.head / 180 * Math.PI),
                 that.y + _interactionDistance * Math.cos(this.currentRotation.head / 180 * Math.PI)
             );
-            if (rst == null || this.role == Data.character.type.ghost) return;
-            if (rst.hasOwnProperty('key')) {
+            if (rst == null) return;
+            if (rst.hasOwnProperty('key') && this.role == Data.character.type.survivor) {
                 var key = rst.key;
                 if (!this.key.hasOwnProperty(key.doorId)) {
                     this.key[key.doorId] = key.name;
@@ -339,7 +339,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
             }
             for (var i = 0; i < _visibleCheckList.length; i++) {
-                _visibleList[_visibleCheckList[i]] = entity.map.checkVisible(that, entity.characters[_visibleCheckList[i]]);
+                var c = _visibleCheckList[i];
+                if (entity.characters[c].hp <= 0)
+                    _visibleList[c] = true;
+                else
+                    _visibleList[c] = entity.map.checkVisible(that, entity.characters[c]);
             }
         };
 
@@ -380,6 +384,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // check interaction obj
         var _interactionObjCheck = function () {
+            if (that.role == Data.character.type.ghost) return;
             _interactionObj.surround = entity.map.checkInteractionObj(that.x, that.y, that.currentRotation.head);
             _interactionObj.canUse = entity.map.checkAccess(
                 that.x,
