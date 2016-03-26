@@ -75,8 +75,9 @@
     renderer.onSetuped = function () {
         SetupControl(systemWrapper, 'p1');
         systemWrapper.start();
-        renderer.start();
+        renderer.show();
     };
+    renderer.hide();
 });
 
 

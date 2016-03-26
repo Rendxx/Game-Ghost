@@ -19,7 +19,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             characterIdxMap = null,
             isStarted = false,
             gameData = {},      // store all data in the game, use to render
-            intervalFunc = null;
+            intervalFunc = null,
+            flag_started = false,
+            flag_setuped = false;
 
         this.characterRoleMap =
             {
@@ -54,6 +56,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // public method ------------------------------------------
         // reset game with given data
         this.reset = function (setupData_in, gameData_in) {
+            if (setupData_in == null) return;
             gameData = gameData_in;
             characterIdxMap = setupData_in.characterIdxMap;
             this.characterRoleMap = setupData_in.characterRoleMap;
@@ -70,7 +73,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 {
                     survivor: [],
                     ghost: []
-
                 };
 
             that.map = new SYSTEM.Map(that, modelData, mapData);
@@ -106,11 +108,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 'characterRoleMap': that.characterRoleMap
             };
             that.onSetuped(setupData);
+            flag_setuped = true;
+            if (flag_started && !isStarted) that.start();
         };
 
         // game ------------------------------------------------
         // start game
         this.start = function () {
+            flag_started = true;
+            if (flag_setuped == false) return;
             isStarted = true;
             if (intervalFunc != null) clearInterval(intervalFunc);
             intervalFunc = setInterval(nextInterval, 25);
@@ -138,6 +144,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method -----------------------------------------
         // called every time frame
         var nextInterval = function () {
+            if (gameData == null) return;
             for (var i = 0; i < that.characters.length; i++) {
                 that.characters[i].nextInterval();
             }

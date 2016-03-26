@@ -24,7 +24,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.layerIdxMap = null;
         this.isGhost = false;
 
-        var that = this;
+        var that = this,
+            flag_loaded = false;
 
         // callback -------------------------------------------
         this.onSetuped = null;
@@ -32,7 +33,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // inner callback
         this._onRender = function (delta) {
-            if (!this.started) return;
+            if (!this.started || !flag_loaded) return;
             this.map.render();
             for (var i = 0, l = this.characters.length; i < l; i++) {
                 this.characters[i].render(delta);
@@ -41,21 +42,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (that.onRender != null) that.onRender();
         };
 
-        // public method --------------------------------
-        this.start = function () {
-            this.started = true;
-        };
-
-        this.stop = function () {
-            this.started = false;
-        };
-
         // api -------------------------------------------
         this.show = function () {
+            this.started = true;
             $(this.domElement).fadeIn()
         };
 
         this.hide = function () {
+            this.started = false;
             $(this.domElement).fadeOut()
         };
 
@@ -64,6 +58,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var loadCount = 1;
             var onLoaded = function () {
                 if (loadCount > 0) return;
+                flag_loaded = true;
                 if (that.onSetuped) that.onSetuped();
             };
 
@@ -114,7 +109,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             onLoaded();
         };
 
-        this.updateClient = function (clientData) {
+        this.updateClientList = function (clientData) {
+        };
+
+        this.updateObList = function (clientData) {
         };
 
         this.updateGame = function (gameData) {
