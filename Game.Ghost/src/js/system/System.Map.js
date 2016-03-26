@@ -197,14 +197,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
                 var keyId = itemList.furniture[grid.furniture[access_y][access_x]].interaction();
                 if (keyId == -1) return null;
-                return itemList.key[keyId];
+                return {key:itemList.key[keyId]};
             } else if (grid.door[access_y][access_x] != -1) {
                 // door
                 if (accessGrid[y][x][_Data.DoorPrefix + grid.door[access_y][access_x]] !== true) return null;
-
                 itemList.door[grid.door[access_y][access_x]].interaction(character);
-                return null;
+                return { door: itemList.door[grid.door[access_y][access_x]] };
             }
+            return null;
         };
 
         this.findEmptyPos = function () {
@@ -403,13 +403,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var door = doors[k];
 
                 var hasKey = false;
-                if (doors[k] != null && doorSetting[k].keys != null) {
+                if (doorSetting[k].keys != null) {
                     for (var x in doorSetting[k].keys) {
                         hasKey = true;
                         break;
                     }
                 }
-                itemList.door[k] = new SYSTEM.Door(k, door, _modelData.items[Data.item.categoryName.door][door.id], hasKey);
+                itemList.door[k] = new SYSTEM.Door(k, doorSetting[k].name, door, _modelData.items[Data.item.categoryName.door][door.id], hasKey);
                 gameData.door[k] = itemList.door[k].toJSON();
                 itemList.door[k].onChange = function (idx, data) {
                     gameData.door[idx] = data;
@@ -420,10 +420,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var recoverDoor = function () {
             itemList.door = {};
             var doors = _data.item.door;
+            var doorSetting = _data.doorSetting;
             for (var k = 0; k < doors.length; k++) {
                 if (doors[k] == null) continue;
                 var door = doors[k];
-                itemList.door[k] = new SYSTEM.Door(k, door, _modelData.items[Data.item.categoryName.door][door.id], true);
+                itemList.door[k] = new SYSTEM.Door(k, doorSetting[k].name, door, _modelData.items[Data.item.categoryName.door][door.id], true);
                 itemList.door[k].onChange = function (idx, data) {
                     gameData.door[idx] = data;
                 };

@@ -46,6 +46,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.mixer = null;
         this.setuped = false;
         this.message = null;
+        this.lockDoor = {};
 
         // cache ----------------------------------------------------------
         var torchDirectionObj_radius = 0,
@@ -75,6 +76,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 lightType = data_in.light;
             }
             if (data_in.message != null) that.message = data_in.message;
+            that.lockDoor = data_in.lockDoor;
+            
             gameData = data_in;
         };
 

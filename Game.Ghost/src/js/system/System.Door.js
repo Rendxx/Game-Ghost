@@ -16,7 +16,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Blocked: 3
         }
     };
-    var Door = function (id, info, modelData, hasKey) {
+    var Door = function (id, name, info, modelData, hasKey) {
         // data ----------------------------------------------------------
         var that = this,
             _info = info,
@@ -25,9 +25,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.x = (info.left + info.right + 1) / 2;
         this.y = (info.top + info.bottom + 1) / 2;
         this.id = id;
+        this.name = name;
         this.modelId = _info.modelId;
         this.status = hasKey ? _Data.Status.Locked : _Data.Status.Closed;
-        this.failedOpen = false;
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -42,14 +42,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         this.toJSON = function () {
             return {
-                status: this.status,
-                failedOpen: this.failedOpen
+                status: this.status
             }
         };
 
         // open or close by character
         this.interaction = function (character) {
-            this.failedOpen = false;
             if (this.status == _Data.Status.Opened) {
                 this.status = _Data.Status.Closed;
                 _onChange();
@@ -60,9 +58,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 this.status = _Data.Status.Opened;
                 _onChange();
             } else {
-                this.failedOpen = true;
                 _onChange();
+                return false;
             }
+            return true;
         };
 
         // private method ------------------------------------------------
@@ -78,4 +77,5 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     SYSTEM.Door = Door
+    SYSTEM.Door.Data = _Data;
 })(window.Rendxx.Game.Ghost.System);

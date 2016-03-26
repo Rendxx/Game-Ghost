@@ -13,7 +13,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             getKey: "Get: ",
             hasKey: "You already have: ",
             doorLock: "The door [#name#] is locked",
-            useKey: "Key [#key#] is used"
+            useKey: "Key [#key#] is used",
         }
     };
     var Character = function (id, characterPara, characterData, entity) {
@@ -33,6 +33,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.y = -1;
         this.stuff = {};
         this.key = {};
+        this.lockDoor = {};
         this.endurance = _para.init.endurance;
         this.light = _para.init.light;
         this.battery = _para.init.battery;
@@ -90,6 +91,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if ('win' in _recoverData) this.win = _recoverData.win;
             if ('stuff' in _recoverData) this.stuff = _recoverData.stuff;
             if ('key' in _recoverData) this.key = _recoverData.key;
+            if ('lockDoor' in _recoverData) this.lockDoor = _recoverData.lockDoor;
             if ('endurance' in _recoverData) this.endurance = _recoverData.endurance;
             if ('light' in _recoverData) this.light = _recoverData.light;
             if ('battery' in _recoverData) this.battery = _recoverData.battery;
@@ -105,6 +107,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 y: that.y,
                 win: that.win,
                 key: that.key,
+                lockDoor: that.lockDoor,
                 stuff: that.stuff,
                 endurance: that.endurance,
                 light: that.light,
@@ -129,22 +132,32 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // use the item in front of the character
         this.interaction = function () {
             if (this.hp == 0 || this.win) return;
-            var key = entity.map.tryAccess(
+            var rst = entity.map.tryAccess(
                 that,
                 that.x,
                 that.y,
                 that.x + _interactionDistance * Math.sin(this.currentRotation.head / 180 * Math.PI),
                 that.y + _interactionDistance * Math.cos(this.currentRotation.head / 180 * Math.PI)
             );
-            if (key == null || this.role == Data.character.type.ghost) {
-                return;
-            }
-            if (!this.key.hasOwnProperty(key.doorId)) {
-                this.key[key.doorId] = key.name;
-                key.token();
-                entity.message.send(that.id, _Data.message.getKey + key.name);
-            } else {
-                entity.message.send(that.id, _Data.message.hasKey + key.name);
+            if (rst == null || this.role == Data.character.type.ghost) return;
+            if (rst.hasOwnProperty('key')) {
+                var key = rst.key;
+                if (!this.key.hasOwnProperty(key.doorId)) {
+                    this.key[key.doorId] = key.name;
+                    key.token();
+                    if (this.lockDoor.hasOwnProperty(key.doorId)) this.lockDoor[key.doorId] = false;
+                    entity.message.send(that.id, _Data.message.getKey + key.name);
+                } else {
+                    entity.message.send(that.id, _Data.message.hasKey + key.name);
+                }
+            } else if (rst.hasOwnProperty('door')) {
+                var door = rst.door;
+                if (door.status == SYSTEM.Door.Data.Status.Locked){
+                    this.lockDoor[door.id] = true;
+                    entity.message.send(that.id, _Data.message.doorLock.replace('#name#', door.name));
+                }else{
+                    delete (this.lockDoor[door.id])
+                }
             }
             _onChange();
         };

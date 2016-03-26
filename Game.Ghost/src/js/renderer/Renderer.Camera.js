@@ -16,6 +16,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             Open: 0,
             Key: 1,
             Close: 2
+        },
+        doorStatus: {
+            Locked: 0,
+            Opened: 1,
+            Closed: 2,
+            Blocked: 3
         }
     };
     /**
@@ -36,7 +42,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // cache
             interactionIcon = {},
-            highLightIcon = {};
+            highLightIcon = {},
+            doorIcon = {};
 
         this.scene = scene_in;
         this.renderer = renderer_in
@@ -131,6 +138,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // update effort
             updateInteractionIcon();
             updateMessage();
+            updateDoor();
 
             // render
             that.renderer.setViewport(that.x, that.y, that.width, that.height);
@@ -410,6 +418,80 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
         };
 
+        // Door ------------------------------------------------------
+        var updateDoor = function () {
+            var d = that.character.lockDoor;
+            var i
+            for (var i in doorIcon) {
+                if (!d.hasOwnProperty(i) || !entity.map.isDoorLock(i)) {
+                    removeDoorIcon(i);
+                    delete doorIcon[i];
+                    continue;
+                }
+                var idx = d[i] ? 0 : 1;
+                if (!doorIcon[i].hasOwnProperty(idx)) {
+                    removeDoorIcon(i, 1 - idx);
+                    delete doorIcon[i][1 - idx];
+                }
+            }
+
+            for (var i in d) {
+                if (!entity.map.isDoorLock(i)) continue;
+                if (!doorIcon.hasOwnProperty(i)) doorIcon[i] = {};
+                var idx = d[i] ? 0 : 1;
+                if (!doorIcon[i].hasOwnProperty(idx)) {
+                    doorIcon[i][idx] = (d[i] ? createDoorLock(i) : createDoorUnlock(i));
+                }
+            }
+        };
+
+        var createDoorLock = function (idx) {
+            var tex1 = tex['interaction-lock'];
+
+            var mat = new THREE.SpriteMaterial({
+                map: tex1,
+                transparent: true,
+                depthTest: false
+            });
+            mat.opacity = 0.5;
+
+            var spr = new THREE.Sprite(mat);
+            var pos = entity.map.doorPos[idx];
+
+            spr.position.set(pos[0], GridSize, pos[1]);
+            spr.scale.set(GridSize * 2, GridSize * 2, 1.0);
+            that.sceneEffort.add(spr);
+
+            return spr;
+        };
+
+        var createDoorUnlock = function (idx) {
+            var tex1 = tex['interaction-unlock'];
+
+            var mat = new THREE.SpriteMaterial({
+                map: tex1,
+                transparent: true,
+                depthTest: false
+            });
+            mat.opacity = 0.5;
+
+            var spr = new THREE.Sprite(mat);
+            var pos = entity.map.doorPos[idx];
+
+            spr.position.set(pos[0], GridSize, pos[1]);
+            spr.scale.set(GridSize * 2, GridSize * 2, 1.0);
+            that.sceneEffort.add(spr);
+
+            return spr;
+        };
+
+        var removeDoorIcon = function (idx) {
+            if (doorIcon[idx][0] != null)
+                that.sceneEffort.remove(doorIcon[idx][0]);
+            if (doorIcon[idx][1] != null)
+                that.sceneEffort.remove(doorIcon[idx][1]);
+        };
+        
         // Helper ----------------------------------------------------
         var _helper_canvas = document.createElement('canvas');
         var _helper_canvas_ctx = _helper_canvas.getContext('2d');
@@ -481,6 +563,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction-key-2'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.key-2.png');
             tex['interaction-open-2'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.open-2.png');
             tex['interaction-close-2'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.close-2.png');
+            tex['interaction-lock'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.lock.png');
+            tex['interaction-unlock'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.unlock.png');
             //tex['enduranceBarBase'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
         };
 

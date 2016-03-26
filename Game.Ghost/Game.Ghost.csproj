@@ -112,8 +112,10 @@
     <Content Include="Model\Sprite\interaction.close.png" />
     <Content Include="Model\Sprite\interaction.key-2.png" />
     <Content Include="Model\Sprite\interaction.key.png" />
+    <Content Include="Model\Sprite\interaction.lock.png" />
     <Content Include="Model\Sprite\interaction.open-2.png" />
     <Content Include="Model\Sprite\interaction.open.png" />
+    <Content Include="Model\Sprite\interaction.unlock.png" />
     <Content Include="Model\Sprite\name-deco-white.png" />
     <Content Include="Model\Sprite\Sprite_block.png" />
     <Content Include="Model\Sprite\Sprite_EndPos.png" />
@@ -348,6 +350,7 @@
     <Content Include="ModelBuilder\Sprite\interaction.key.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.close.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.open.fla" />
+    <Content Include="ModelBuilder\Sprite\interaction.lock.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

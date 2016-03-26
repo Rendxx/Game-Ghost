@@ -77,6 +77,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.stuff = null;
         this.furniture = null;
         this.furniturePos = {};         // furniture id: [x, y]
+        this.doorPos = {};              // door id: [x, y]
         this.ground = null;
         this.ceiling = null;
         this.posEnd = null;
@@ -138,6 +139,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 for (var j = 0, l2 = that.key[i].material.materials.length; j < l2; j++)
                     that.key[i].material.materials[j].needsUpdate = true;
             }
+        };
+
+        // get data ---------------------------------
+        this.isDoorLock = function (idx) {
+            return gameData.door[idx].status == _Data.status.door.Locked;
         };
 
         // private method ---------------------------
@@ -505,6 +511,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             console.log(dat);
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
+            that.doorPos[idx] = [x, y];
+
             var loader = new THREE.JSONLoader();
             loader.load(root + Data.files.path[Data.categoryName.door] + para.model, function (geometry, materials) {
                 var mesh = null,
@@ -675,10 +683,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                                 t[j].start();
                             }
                         }
-                    }
-                    else if (gameData.door[i].failedOpen) {
-                        createSprite(_Data.prefix_door + i, itemData['door'][i].x, itemData['door'][i].y, 'lock');
-                        gameData.door[i].failedOpen = false;
                     }
                 }
             }
