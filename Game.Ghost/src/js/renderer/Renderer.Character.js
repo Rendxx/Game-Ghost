@@ -47,6 +47,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.setuped = false;
         this.message = null;
         this.lockDoor = {};
+        this.isVisible = false;
 
         // cache ----------------------------------------------------------
         var torchDirectionObj_radius = 0,
@@ -70,7 +71,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // public method --------------------------------------------------
         // update data from system
-        this.update = function (data_in) {
+        this.update = function (data_in, isVisible_in) {
             if (lightType != data_in.light) {
                 changeTorch(data_in.light);
                 lightType = data_in.light;
@@ -79,6 +80,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.lockDoor = data_in.lockDoor;
             
             gameData = data_in;
+            that.isVisible = isVisible_in;
         };
 
         this.showMessage = function (msg) {
@@ -88,6 +90,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // render model
         this.render = function (delta) {
             if (gameData == null) return;
+            if (this.isVisible == false) {
+                this.mesh.visible = false;
+                return;
+            } else {
+                this.mesh.visible = true;
+            }
             var action = gameData.action;
             var x = (gameData.x -entity.map.width / 2) * GridSize;
             var y = (gameData.y -entity.map.height / 2) * GridSize;
@@ -227,7 +235,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
                         that.torchDirectionObj.rotation.x = Math.PI;
                         that.torchDirectionObj.position.x = that.mesh.position.x +_data.light.torch.x * GridSize;
-                        that.torchDirectionObj.position.y = that.mesh.position.y +_data.light.torch.y * GridSize -0.5;
+                        that.torchDirectionObj.position.y = that.mesh.position.y +_data.light.torch.y * GridSize -0.4;
                         that.torchDirectionObj.position.z = that.mesh.position.z +_data.light.torch.z * GridSize +1;
 
                         that.torch = new THREE.SpotLight()

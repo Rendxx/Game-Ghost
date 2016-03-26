@@ -35,7 +35,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         DoorOperation: {
             Blocked: 0
         },
-        DoorPrefix : 'd'
+        DoorPrefix: 'd'
     };
     var Map = function (entity) {
         // data ----------------------------------------------------------
@@ -95,7 +95,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // reset key / player / position with given data
         this.reset = function (setupData_in, gameData_in) {
             that.setupData = setupData_in;
-            recoverPosition(setupData_in.map.position);
+            recoverPosition(setupData_in.mapSetup.position);
             recoverKey(gameData_in.key);
             recoverFurniture(gameData_in.furniture);
             recoverDoor(gameData_in.door);
@@ -116,7 +116,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 rst[1] = (deltaY > 0) ? newY : newY + 1;
             return rst;
         };
-        
+
         // get surround interaction obj list
         this.checkInteractionObj = function (x, y, r) {
             var x = Math.floor(x),
@@ -128,7 +128,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
             for (var t in list_f) {
                 var d = Math.abs(list_f[t][1] - r);
-                if (d>180) d = 360-d;
+                if (d > 180) d = 360 - d;
                 if (d > 90) continue;
                 if (itemList.furniture[t].status == _Data.FurnitureStatus.Closed) {
                     rst_f[t] = _Data.FurnitureOperation.Open;
@@ -148,7 +148,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var t in list_d) {
                 if (itemList.door[t].status == _Data.DoorStatus.Blocked) {
                     rst_d[t] = _Data.DoorOperation.Blocked;
-                } 
+                }
             }
 
             return {
@@ -197,7 +197,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
                 var keyId = itemList.furniture[grid.furniture[access_y][access_x]].interaction();
                 if (keyId == -1) return null;
-                return {key:itemList.key[keyId]};
+                return { key: itemList.key[keyId] };
             } else if (grid.door[access_y][access_x] != -1) {
                 // door
                 if (accessGrid[y][x][_Data.DoorPrefix + grid.door[access_y][access_x]] !== true) return null;
@@ -212,16 +212,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 y1 = characterA.y,
                 x2 = characterB.x,
                 y2 = characterB.y;
-
+            var r = Math.atan2(x2 - x1, y2 - y1) * 180 / Math.PI;
+            var d = Math.abs(r - characterA.currentRotation.head);
+            if (d > 180) d = 360 - d;
+            if (d > 80) return false;
             if (x1 == x2) {
                 var y_min = Math.min(y1, y2),
                     y_max = Math.max(y1, y2),
                     x = Math.floor(x1);
                 for (var y = Math.ceil(y_min) ; y <= y_max; y++) {
-                    if (grid.empty[y][x] == _Data.Grid.Empty) continue;
-                    if (grid.empty[y][x] == _Data.Grid.Furniture && !itemList.furniture[grid.furniture[y][x]].blockSight) continue;
-                    if (grid.empty[y][x] == _Data.Grid.Door && !itemList.door[grid.door[y][x]].status == SYSTEM.Door.Data.Status.Opened) continue;
-                    return false;
+                    if (!_checkPosVisible(x, y)) return false;
+                }
+            } else if (y1 == y2) {
+                var x_min = Math.min(x1, x2),
+                    x_max = Math.max(x1, x2),
+                    y = Math.floor(y1);
+                for (var x = Math.ceil(x_min) ; x <= x_max; x++) {
+                    if (!_checkPosVisible(x, y)) return false;
                 }
             } else {
                 var k = (y1 - y2) / (x1 - x2),
@@ -230,13 +237,25 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     x_max = Math.max(x1, x2);
                 for (var x = Math.ceil(x_min) ; x <= x_max; x++) {
                     var y = Math.floor(k * x + c);
-                    if (grid.empty[y][x] == _Data.Grid.Empty) continue;
-                    if (grid.empty[y][x] == _Data.Grid.Furniture && !itemList.furniture[grid.furniture[y][x]].blockSight) continue;
-                    if (grid.empty[y][x] == _Data.Grid.Door && !itemList.door[grid.door[y][x]].status==SYSTEM.Door.Data.Status.Opened) continue;
-                    return false;
+                    if (!_checkPosVisible(x, y)) return false;
+                }
+                var k = (x1 - x2) / (y1 - y2),
+                    c = x1 - k * y1,
+                    y_min = Math.min(y1, y2),
+                    y_max = Math.max(y1, y2);
+                for (var y = Math.ceil(y_min) ; y <= y_max; y++) {
+                    var x = Math.floor(k * y + c);
+                    if (!_checkPosVisible(x, y)) return false;
                 }
             }
             return true;
+        };
+
+        var _checkPosVisible = function (x, y) {
+            if (grid.empty[y][x] == _Data.Grid.Empty) return true;
+            if (grid.empty[y][x] == _Data.Grid.Furniture && !itemList.furniture[grid.furniture[y][x]].blockSight) return true;
+            if (grid.empty[y][x] == _Data.Grid.Door && !itemList.door[grid.door[y][x]].status == SYSTEM.Door.Data.Status.Opened) return true;
+            return false;
         };
 
         this.findEmptyPos = function () {
@@ -339,7 +358,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 for (var i = 0; i < accessPos.length; i++) {
                     var p = accessPos[i];
                     var r1 = (((p[1] >= 0) ? (p[0] >= 0 ? 0 : 1) : (p[0] >= 0 ? 3 : 2)) + r) % 4;
-                    var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1 )== 0) ? p[0] : p[1]) + x;
+                    var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
                     var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
                     if (accessGrid[new_y][new_x] == null) accessGrid[new_y][new_x] = {};
@@ -560,11 +579,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // setup cache based on the map data
         var setupInteractionObj = function () {
             _surroundObj = {
-                furniture:[],
+                furniture: [],
                 door: []
             };
             var range = Data.map.para.scanRange;
-            var range2 = range*range;
+            var range2 = range * range;
             for (var i = 0; i < height; i++) {
                 _surroundObj.furniture[i] = [];
                 _surroundObj.door[i] = [];
@@ -580,13 +599,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     if (x_max >= width) x_max = width - 1;
                     if (y_min < 0) y_min = 0;
                     if (y_max >= height) y_max = height - 1;
-                    
+
                     for (var m = y_min; m <= y_max; m++) {
                         for (var n = x_min; n <= x_max; n++) {
                             // furniture
                             var f_id = grid.furniture[m][n];
                             if (f_id == -1) continue;
-                            var r =  Math.pow(m - i, 2) + Math.pow(n - j, 2);
+                            var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
                             if (!(f_id in _surroundObj.furniture[i][j]) || _surroundObj.furniture[i][j][f_id] > r)
                                 _surroundObj.furniture[i][j][f_id] = r;
 

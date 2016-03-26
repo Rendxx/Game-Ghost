@@ -473,7 +473,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     }
                 }
 
-                mesh.castShadow = (para.blockSight==true);
+                mesh.castShadow = true;
                 mesh.receiveShadow = true;
 
                 mesh.position.x = x;

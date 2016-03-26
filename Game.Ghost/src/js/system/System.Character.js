@@ -63,6 +63,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _enduranceRecover = _para.enduranceRecover,
             _enduranceCost = _para.enduranceCost,
             _maxEndurance = _modelData.para.endurance,
+            _visibleCheckList = null,
+            _visibleList = {},
             _interactionObj = {
                 surround: {             // surround icon
                     furniture: [],
@@ -115,7 +117,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 hp: that.hp,
                 currentRotation: that.currentRotation,
                 action: that.action,
-                interactionObj: _interactionObj
+                interactionObj: _interactionObj,
+                visibleList: _visibleList
             };
         };
 
@@ -262,8 +265,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
             }
 
-            // para
+            // checking
             _interactionObjCheck();
+            _checkVisible();
+            // para
             _onChange();
         };
 
@@ -315,6 +320,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         }
                     }
                 }
+            }
+        };
+
+        var _checkVisible = function () {
+            if (_visibleCheckList==null){
+                if (that.role == Data.character.type.survivor) {
+                    _visibleCheckList= entity.characterRoleMap.ghost;
+                } else {
+                    _visibleCheckList= entity.characterRoleMap.survivor;
+                }
+            }
+            for (var i = 0; i < _visibleCheckList.length; i++) {
+                _visibleList[_visibleCheckList[i]] = entity.map.checkVisible(that, entity.characters[_visibleCheckList[i]]);
             }
         };
 
