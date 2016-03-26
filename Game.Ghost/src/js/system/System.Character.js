@@ -16,7 +16,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             useKey: "Key [#key#] is used",
         },
         range:{
-            danger:6
+            danger:8
         }
     };
     var Character = function (id, characterPara, characterData, entity) {
@@ -315,12 +315,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var c = entity.characters[i];
                     if (c.role == Data.character.type.survivor && c.hp > 0 && !c.win) {
                         var r = that.checkRange(c.x, c.y);
-                        if (r > 5) continue;
+                        if (r > _Data.range.danger) continue;
                         if (r < 1) c.die();     // die
                         else {
                             if (!rush) {
                                 if (that.endurance < _maxEndurance) {
-                                    that.endurance += (_enduranceRecover * (5 - r) / 10);
+                                    if (_visibleList[i]) that.endurance += (_enduranceRecover * (_Data.range.danger - r) / 10);
+                                    else that.endurance += (_enduranceRecover * (_Data.range.danger - r) / 20);
                                 }
                             }
                         }
