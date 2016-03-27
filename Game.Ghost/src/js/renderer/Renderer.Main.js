@@ -54,6 +54,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.reset = function (setupData) {
+            if (setupData == null) return;
             // onload callback
             var loadCount = 1;
             var onLoaded = function () {

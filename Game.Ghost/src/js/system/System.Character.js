@@ -17,7 +17,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         },
         range:{
             danger:8
-        }
+        },
+        flyCountMax:1600
     };
     var Character = function (id, characterPara, characterData, entity) {
         // data ----------------------------------------------------------
@@ -69,6 +70,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             _visibleCheckList = null,
             _danger = 0,
             _visibleList = {},
+            _flyCount = 0,
             _interactionObj = {
                 surround: {             // surround icon
                     furniture: [],
@@ -326,6 +328,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             }
                         }
                     }
+                }
+
+                // random fly
+                _flyCount++;
+                if (_flyCount >= _Data.flyCountMax) {
+                    var yx = entity.map.findEmptyPos();
+                    that.x = yx[1];
+                    that.y = yx[0];
+                    _flyCount = 0;
                 }
             }
         };
