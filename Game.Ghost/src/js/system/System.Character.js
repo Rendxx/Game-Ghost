@@ -14,6 +14,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             hasKey: "You already have: ",
             doorLock: "The door [#name#] is locked",
             useKey: "Key [#key#] is used",
+            noKey: "Nothing found",
         },
         range:{
             danger:8
@@ -168,6 +169,21 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }else{
                     delete (this.lockDoor[door.id])
                 }
+            } else if (rst.hasOwnProperty('body')) {
+                var body = rst.body;
+                var count = 0;
+                var keyNames = "";
+                for (var i in body) {
+                    count++;
+                    this.key[i] = body[i];
+                    if (this.lockDoor.hasOwnProperty(i)) this.lockDoor[i] = false;
+                    keyNames += body[i] + ", ";
+                }
+                if (count == 0) {
+                    entity.message.send(that.id, _Data.message.noKey);
+                } else {
+                    entity.message.send(that.id, keyNames.substring(0, keyNames.length-2));
+                }
             }
             _onChange();
         };
@@ -197,6 +213,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (this.hp == 0 || this.win) return;
             this.hp = 0;
             this.action = 'die';
+            _visibleList = {};
+            entity.map.createBody(that);
             _onChange();
         };
 

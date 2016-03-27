@@ -13,7 +13,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Empty: 0,
             Wall: 1,
             Furniture: 2,
-            Door: 3
+            Door: 3,
+            Body: 4
         },
         FurnitureStatus: {
             None: 0,
@@ -50,11 +51,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 furniture: [],
                 wall: [],
                 door: [],
+                body: [],
                 empty: []
             },
             itemList = {
                 furniture: {},
                 door: {},
+                body: {},
                 key: {}
             },
             statusList = {
@@ -89,6 +92,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setupKey();
             setupDoor();
             setupInteractionObj();
+            setupBody();
             _onChange();
         };
 
@@ -99,6 +103,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             recoverKey(gameData_in.key);
             recoverFurniture(gameData_in.furniture);
             recoverDoor(gameData_in.door);
+            recoverBody(gameData_in.body);
             setupInteractionObj();
         };
 
@@ -189,7 +194,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             access_y = Math.floor(access_y);
 
             if (access_x < 0 || access_y >= width || access_y < 0 || access_y >= height) return null;
-            if (accessGrid[y][x] == null) return null;
+            if (accessGrid[y][x] == null && grid.body[access_y][access_x] == -1) return null;
 
             if (grid.furniture[access_y][access_x] != -1) {
                 // furniture
@@ -203,6 +208,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 if (accessGrid[y][x][_Data.DoorPrefix + grid.door[access_y][access_x]] !== true) return null;
                 itemList.door[grid.door[access_y][access_x]].interaction(character);
                 return { door: itemList.door[grid.door[access_y][access_x]] };
+            } else if (grid.body[access_y][access_x] != -1) {
+                // door
+                var keys = itemList.body[grid.body[access_y][access_x]].interaction();
+                return { body: keys };
             }
             return null;
         };
@@ -285,7 +294,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 furniture: [],
                 wall: [],
                 door: [],
-                empty: []
+                empty: [],
+                body: []
             };
             accessGrid = [];
             width = _data.grid.width;
@@ -295,11 +305,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 grid.wall[i] = [];
                 grid.door[i] = [];
                 grid.empty[i] = [];
+                grid.body[i] = [];
                 accessGrid[i] = [];
                 for (var j = 0; j < _data.grid.width; j++) {
                     grid.furniture[i][j] = -1;
                     grid.wall[i][j] = -1;
                     grid.door[i][j] = -1;
+                    grid.body[i][j] = -1;
                     grid.empty[i][j] = _Data.Grid.Empty;
                     accessGrid[i][j] = null;
                 }
@@ -573,6 +585,29 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var recoverPosition = function (recoverData) {
             position = recoverData;
+        };
+
+        // body ------------------------------------------------
+        var setupBody = function () {
+            itemList.body = {};
+            gameData.body = {};
+        };
+
+        var recoverBody = function () {
+            itemList.body = {};
+            for (var k in gameData.body) {
+                var b = new SYSTEM.Body();
+                b.reset(gameData.body[k]);
+                itemList.body[k] = b;
+                grid.body[b.y][b.x] = b.id;
+            }
+        };
+
+        this.createBody = function (character) {
+            var b = new SYSTEM.Body(character);
+            grid.body[b.y][b.x] = b.id;
+            itemList.body[character.id] = b;
+            gameData.body[character.id] = b.toJSON();
         };
 
         // cache -----------------------------------------------
