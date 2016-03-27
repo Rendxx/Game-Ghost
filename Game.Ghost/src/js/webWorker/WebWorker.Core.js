@@ -46,6 +46,14 @@ var funcMap = {
                 }
             });
         };
+        _system.onEnd = function (isWin) {
+            postMessage({
+                func: 'onEnd',
+                para: {
+                    isWin: isWin
+                }
+            });
+        };
     },
     "action": function (para) {
         if (_system == null) return;

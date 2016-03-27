@@ -11,7 +11,6 @@
     systemWrapper.onStarted = function (modelData, mapData) {
     };
     systemWrapper.onEnded = function (isWin) {
-        renderer.stop();
         renderer.hide();
         var s = isWin ? "Survivor Escaped!!!!" : "Survior all killed!!!";
         var t = isWin ? "GOOD JOB" : "GAME OVER";

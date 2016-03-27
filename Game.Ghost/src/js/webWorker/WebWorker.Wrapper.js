@@ -55,6 +55,11 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
                         clientData = para.clientData;
                     }
                     if (that.clientUpdate) that.clientUpdate(target, clientData);
+                },
+                "onEnd": function (para) {
+                    var isWin = undefined;
+                    if (para) isWin = para.isWin;
+                    if (that.onEnd) that.onEnd(isWin);
                 }
             };
 
@@ -85,6 +90,7 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
         this.onSetuped = null;      // (setupData)
         this.clientSetup = null;    // (target, clientData)
         this.clientUpdate = null;   // (target, clientData)
+        this.onEnd = null;          // (target, clientData)
 
         // update ---------------------------------------------
         this.reset = function (setupData, gameData) {

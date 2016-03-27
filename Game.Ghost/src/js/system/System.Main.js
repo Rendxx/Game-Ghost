@@ -52,6 +52,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.onSetuped = null;
         this.clientSetup = null;    // (target, clientData)
         this.clientUpdate = null;   // (target, clientData)
+        this.onEnd = null;          // (isWin)
 
         // public method ------------------------------------------
         // reset game with given data
@@ -123,9 +124,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // end game
-        this.end = function () {
+        this.end = function (isWin) {
             isStarted = false;
             if (intervalFunc != null) clearInterval(intervalFunc);
+            gameData['end'] = isWin ? "Suvivor Escaped!!!" : "All KILL!!!"
+            if (this.onEnd) this.onEnd(isWin);
         };
 
         // renew game
