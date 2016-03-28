@@ -11,6 +11,7 @@
         "DbgColor": 15658734,
         "mapDiffuseRepeat": [1,1],
         "mapDiffuseAnisotropy": 1,
+        "colorAmbient": [0.64,0.64,0.64],
         "shading": "lambert",
         "visible": true,
         "DbgName": "BoxMat",

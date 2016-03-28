@@ -25,6 +25,7 @@
       "transparent": false,
       "mapDiffuseWrap": [ "RepeatWrapping", "RepeatWrapping" ],
       "shading": "phong",
+      "colorAmbient": [ 0.8, 0.8, 0.8 ],
       "opacity": 1,
       "mapDiffuse": "table_plastic_3_2.tex.png",
       "DbgIndex": 0,

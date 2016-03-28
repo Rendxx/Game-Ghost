@@ -59,6 +59,7 @@
       "mapDiffuseWrap": [ "RepeatWrapping", "RepeatWrapping" ],
       "mapDiffuse": "cabinet_wood_2_1.tex.png",
       "depthTest": true,
+      "colorAmbient": [ 0.64, 0.64, 0.64 ],
       "colorEmissive": [ 0, 0, 0 ],
       "DbgIndex": 0,
       "mapDiffuseAnisotropy": 1

@@ -25,6 +25,7 @@
         "transparent": false,
         "colorDiffuse": [0.64,0.64,0.64],
         "DbgColor": 15658734,
+        "colorAmbient": [0.64,0.64,0.64],
         "DbgName": "BoxMat",
         "depthTest": true,
         "blending": "NormalBlending",

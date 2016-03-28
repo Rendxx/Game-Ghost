@@ -29,6 +29,7 @@
       "DbgColor": 15658734,
       "transparent": false,
       "wireframe": false,
+      "colorAmbient": [ 0.64, 0.64, 0.64 ],
       "mapDiffuseAnisotropy": 1,
       "blending": "NormalBlending",
       "mapDiffuseRepeat": [ 1, 1 ],

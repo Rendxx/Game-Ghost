@@ -31,6 +31,7 @@
         "DbgName": "Book.Mat",
         "DbgIndex": 0,
         "transparent": false,
+        "colorAmbient": [0.64,0.64,0.64],
         "depthTest": true
     }]
 }

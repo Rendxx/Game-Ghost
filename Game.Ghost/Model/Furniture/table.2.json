@@ -5,6 +5,7 @@
       "depthWrite": true,
       "mapDiffuseAnisotropy": 1,
       "visible": true,
+      "colorAmbient": [ 0.8, 0.8, 0.8 ],
       "DbgIndex": 0,
       "depthTest": true,
       "DbgName": "TableWoodMat",

@@ -20,6 +20,7 @@
         "visible": true,
         "DbgIndex": 0,
         "transparent": false,
+        "colorAmbient": [0.64,0.64,0.64],
         "blending": "NormalBlending",
         "DbgName": "BoxMat",
         "mapDiffuse": "cabinet_wood_1_1.tex.png",

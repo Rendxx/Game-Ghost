@@ -16,6 +16,7 @@
       "colorDiffuse": [ 0.64, 0.64, 0.64 ],
       "visible": true,
       "mapDiffuse": "table_wood_1_1.tex.png",
+      "colorAmbient": [ 0.64, 0.64, 0.64 ],
       "depthTest": true,
       "opacity": 1,
       "DbgIndex": 0,
