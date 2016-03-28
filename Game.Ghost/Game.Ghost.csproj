@@ -243,7 +243,6 @@
     <Content Include="Model\Environment\ground_wood.data.json" />
     <Content Include="GameData\Map\MapDataTest.json" />
     <Content Include="GameData\Map\MapDataTest2.json" />
-    <Content Include="GameData\Map\DogCan1.json" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="Model\Furniture\table_wood_1_1.data.json" />
     <Content Include="Model\Furniture\table_wood_2_1.data.json" />
