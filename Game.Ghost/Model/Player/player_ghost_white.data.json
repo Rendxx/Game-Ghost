@@ -12,7 +12,7 @@
         "body": 10
       },
       "move": {
-        "walk": 3,
+        "walk": 1.5,
         "run": 20,
         "back": -2
       }

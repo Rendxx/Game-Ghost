@@ -193,7 +193,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             access_x = Math.floor(access_x);
             access_y = Math.floor(access_y);
 
-            if (access_x < 0 || access_y >= width || access_y < 0 || access_y >= height) return null;
+            if (access_x < 0 || access_x >= width || access_y < 0 || access_y >= height) return null;
             if (accessGrid[y][x] == null && grid.body[access_y][access_x] == -1) return null;
 
             if (grid.furniture[access_y][access_x] != -1) {

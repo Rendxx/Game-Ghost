@@ -112,14 +112,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         map: {
             files: {
                 test: 'MapDataTest.json',
-                test2: 'MapDataTest2.json'
+                test2: 'MapDataTest2.json',
+                dogcan: 'DogCan1.json'
             },
             path: '/GameData/Map/',
             para: {
                 scanRange: 2
             }
         },
-        keyNumber: 3
+        keyNumber: 2
     };
 
     SYSTEM.Data = Data;
