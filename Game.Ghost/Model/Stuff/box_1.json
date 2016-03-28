@@ -26,7 +26,6 @@
         "DbgName": "Box.Mat",
         "wireframe": false,
         "opacity": 1,
-        "colorAmbient": [0.8,0.8,0.8],
         "DbgIndex": 0,
         "depthWrite": true,
         "visible": true,

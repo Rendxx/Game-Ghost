@@ -14,7 +14,6 @@
       "blending": "NormalBlending",
       "mapDiffuse": "wood-2.jpg",
       "specularCoef": 50,
-      "colorAmbient": [ 0.8, 0.8, 0.8 ],
       "depthWrite": true,
       "DbgIndex": 0,
       "wireframe": false,

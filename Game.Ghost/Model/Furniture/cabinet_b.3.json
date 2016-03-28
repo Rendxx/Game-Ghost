@@ -17,7 +17,6 @@
       "mapDiffuse": "cabinet_wood_2_1_b.tex.png",
       "mapDiffuseAnisotropy": 1,
       "shading": "phong",
-      "colorAmbient": [ 0.64, 0.64, 0.64 ],
       "visible": true,
       "depthTest": true,
       "mapDiffuseWrap": [ "RepeatWrapping", "RepeatWrapping" ],

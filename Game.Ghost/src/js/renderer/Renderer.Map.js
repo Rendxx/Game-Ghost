@@ -312,6 +312,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.ground][id];
 
+            console.log("%c[Ground] " + id, "background: #222; color: #bada55; padding:0 5px");
+            console.log(dat);
 
             var texture = getTexture(root + Data.files.path[Data.categoryName.ground] + para.texture[0]);
             texture.wrapS = THREE.RepeatWrapping;
@@ -346,10 +348,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             } else {
                 y += len / 2;
             }
-            //console.log(x, y, len, r);
             x *= GridSize;
             y *= GridSize;
             len *= GridSize;
+
+            console.log("%c[Wall] " + id, "background: #222; color: #bada55; padding:0 5px");
+            console.log(dat);
 
             var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.texture[1]);
             texture.wrapS = THREE.RepeatWrapping;
@@ -382,8 +386,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var mesh = null;
 
+            console.log("%c[Wall Top] " + id, "background: #222; color: #bada55; padding:0 5px");
             console.log(dat);
-            console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             // top wall
             var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.texture[0]);
@@ -419,11 +423,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var mesh = null;
 
+            console.log("%c[Furniture] " + id, "background: #222; color: #bada55; padding:0 5px");
             console.log(dat);
-            console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             that.furniturePos[idx] = [x, y];
-
 
             var loader = new THREE.JSONLoader();
             loader.load(root + Data.files.path[Data.categoryName.furniture] + para.model, function (geometry, materials) {
@@ -508,8 +511,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
             var mesh = null;
 
+            console.log("%c[Door] " + id, "background: #222; color: #bada55; padding:0 5px");
             console.log(dat);
-            console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             that.doorPos[idx] = [x, y];
 
@@ -585,6 +588,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var mesh = null;
 
+            console.log("%c[Stuff] " + id, "background: #222; color: #bada55; padding:0 5px");
+            console.log(dat);
 
             var loader = new THREE.JSONLoader();
             loader.load(root + Data.files.path[Data.categoryName.stuff] + para.model, function (geometry, materials) {

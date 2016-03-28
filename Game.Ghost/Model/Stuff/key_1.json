@@ -26,7 +26,6 @@
         "mapDiffuseWrap": ["RepeatWrapping","RepeatWrapping"],
         "DbgName": "Key.Mat",
         "mapDiffuse": "key_1.png",
-        "colorAmbient": [0.64,0.64,0.64],
         "depthTest": true,
         "colorEmissive": [0,0,0],
         "DbgColor": 15658734,

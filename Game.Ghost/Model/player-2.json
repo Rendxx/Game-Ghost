@@ -56954,7 +56954,6 @@
     "materials": [{
         "DbgName": "Player-Face-Mat",
         "DbgColor": 15658734,
-        "colorAmbient": [0.8,0.8,0.8],
         "visible": true,
         "colorEmissive": [0,0,0],
         "shading": "lambert",
@@ -56973,7 +56972,6 @@
     },{
         "DbgName": "Player-Body-Mat",
         "DbgColor": 15597568,
-        "colorAmbient": [0.8,0.8,0.8],
         "visible": true,
         "colorEmissive": [0,0,0],
         "shading": "lambert",
