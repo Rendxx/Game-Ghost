@@ -263,7 +263,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var _checkPosVisible = function (x, y) {
             if (grid.empty[y][x] == _Data.Grid.Empty) return true;
             if (grid.empty[y][x] == _Data.Grid.Furniture && !itemList.furniture[grid.furniture[y][x]].blockSight) return true;
-            if (grid.empty[y][x] == _Data.Grid.Door && !itemList.door[grid.door[y][x]].status == SYSTEM.Door.Data.Status.Opened) return true;
+            if (grid.empty[y][x] == _Data.Grid.Door && !itemList.door[grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened) return true;
             return false;
         };
 
