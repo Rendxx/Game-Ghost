@@ -169,12 +169,13 @@
     <Content Include="src\js\renderer\Renderer.Environment.js" />
     <Content Include="mapDesigner\index.html" />
     <Content Include="src\js\system\System.Body.js" />
+    <Content Include="src\js\system\System.Item.Basic.js" />
     <Content Include="src\js\system\System.Message.js" />
     <Content Include="src\js\webWorker\WebWorker.Core.js" />
     <Content Include="src\js\webWorker\WebWorker.Wrapper.js" />
-    <Content Include="src\js\system\System.Door.js" />
+    <Content Include="src\js\system\System.Item.Door.js" />
     <Content Include="src\js\system\System.Key.js" />
-    <Content Include="src\js\system\System.Furniture.js" />
+    <Content Include="src\js\system\System.Item.Furniture.js" />
     <Content Include="src\js\system\System.Character.js" />
     <Content Include="src\js\system\System.InterAction.js" />
     <Content Include="src\js\system\System.Map.js" />
@@ -200,7 +201,6 @@
     <Content Include="ModelBuilder\Furniture\table.2.blend" />
     <Content Include="ModelBuilder\Furniture\table.2.blend1" />
     <Content Include="Model\Furniture\table.2.json" />
-    <Content Include="test\MapDataTest.json" />
     <Content Include="ModelBuilder\Player\wood-table.fla" />
     <Content Include="ModelBuilder\Environment\wall.fla" />
     <Content Include="ModelBuilder\Environment\wall-top.fla" />
