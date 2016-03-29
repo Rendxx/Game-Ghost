@@ -4,9 +4,10 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
 /**
- * Item: Furniture
+ * MapObject: Furniture
  */
 (function (SYSTEM) {
+    // Data ----------------------------------------------------------
     var Data = SYSTEM.Data;
     var _Data = {
         Status: {
@@ -15,21 +16,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Opened: 2
         }
     };
+
+    // Construct -----------------------------------------------------
     var Furniture = function (id, info, modelData) {
-        Furniture.Item.Basic.call(this, id, info, modelData);
+        SYSTEM.MapObject.Basic.call(this, id, info, modelData);
         // data 
         this.actioning = false;          // this furnition is actioning
         this.blockSight = modelData.blockSight;
-        this.status = _modelData.statusChange == true ? _Data.Status.Closed : _Data.Status.None;
+        this.status = modelData.statusChange == true ? _Data.Status.Closed : _Data.Status.None;
         this.keyId = -1;            // key id, -1 means no key
 
         // callback 
         this.onChange = null;
     };
-    Furniture.prototype = Object.create(SYSTEM.Item.Basic);
+    Furniture.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
     Furniture.prototype.constructor = Furniture;
 
-    // public method -------------------------------------------------
+    // Method --------------------------------------------------------
     Furniture.prototype.reset = function (_recoverData) {
         if (_recoverData == null) return;
         if ('status' in _recoverData) this.status = _recoverData.status;
@@ -66,7 +69,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.updateData();
     };
 
-    // --------------------------------------------------------
-    SYSTEM.Item = Item || {};
-    SYSTEM.Item.Furniture = Furniture;
+    // ----------------------------------------------------------------
+    SYSTEM.MapObject = SYSTEM.MapObject || {};
+    SYSTEM.MapObject.Furniture = Furniture;
 })(window.Rendxx.Game.Ghost.System);

@@ -4,22 +4,27 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
 /**
- * Item: Basic
- * Items on MapObject
+ * MapObject.Basic 
+ * Basic class of object on map
  */
 (function (SYSTEM) {
     // Data ----------------------------------------------------------
     var Data = SYSTEM.Data;
 
     // Construct -----------------------------------------------------
-    var Basic = function (id, mapObjectId, name) {
-        this.id = id;
-        this.mapObjectId = mapObjectId;
-        this.characterId = -1;
-        this.name = name;
+    var Basic = function (id, para, modelData) {
+        this.para;
+        this.modelData;
+
+        this.id;
+        this.x;
+        this.y;
+        this.modelId;
+
+        this.setup(id, para, modelData);
 
         // callback
-        this.onChange = null;        
+        this.onChange = null;
     };
     Basic.prototype = Object.create(null);
     Basic.prototype.constructor = Basic;
@@ -27,35 +32,33 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Method --------------------------------------------------------
     Basic.prototype.reset = function (_recoverData) {
         if (_recoverData == null) return;
-        if ('mapObjectId' in _recoverData) this.mapObjectId = _recoverData.mapObjectId;
-        if ('characterId' in _recoverData) this.characterId = _recoverData.characterId;
     };
 
     Basic.prototype.toJSON = function () {
-        return {
-            mapObjectId: this.mapObjectId,
-            characterId: this.characterId
+        return {};
+    };
+
+    Basic.prototype.interaction = function () {
+    };
+
+    Basic.prototype.setup = function (id, para, modelData) {
+        this.para = para;
+        this.modelData = modelData;
+
+        if (id != undefined) this.id = id;
+        if (para != undefined) {
+            this.x = (para.left + para.right + 1) / 2;
+            this.y = (para.top + para.bottom + 1) / 2;
+            this.modelId = para.modelId;
         }
     };
 
-    Basic.prototype.take = function (characterId) {
-        this.mapObjectId = -1;4
-        this.characterId = characterId;
-        this.updateData();
-    };
-
-    Basic.prototype.place = function (mapObjectId) {
-        this.mapObjectId = mapObjectId;
-        this.characterId = -1;
-        this.updateData();
-    };
-    
     Basic.prototype.updateData = function () {
         if (this.onChange == null) return;
         this.onChange(this.id, this.toJSON());
-    };
+    };    
 
     // ----------------------------------------------------------------
-    SYSTEM.Item = SYSTEM.Item || {};
-    SYSTEM.Item.Basic = Basic;
+    SYSTEM.MapObject = SYSTEM.MapObject || {};
+    SYSTEM.MapObject.Basic = Basic;
 })(window.Rendxx.Game.Ghost.System);

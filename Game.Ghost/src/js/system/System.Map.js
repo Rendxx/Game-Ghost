@@ -100,7 +100,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.reset = function (setupData_in, gameData_in) {
             that.setupData = setupData_in;
             recoverPosition(setupData_in.mapSetup.position);
-            recoverKey(gameData_in.key);
+            recoverKey(setupData_in.key);
             recoverFurniture(gameData_in.furniture);
             recoverDoor(gameData_in.door);
             recoverBody(gameData_in.body);
@@ -414,6 +414,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var setupKey = function () {
             itemList.key = {};
             gameData.key = {};
+            var setupData = {};
             var doors = _data.doorSetting;
             var index = 0;
 
@@ -429,7 +430,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
                 while (keyNum > 0 && tmpList.length > 0) {
                     var idx = Math.floor(tmpList.length * Math.random());
-                    var keyItem = new SYSTEM.Key(index, tmpList[idx], k, 'Key of ' + door.name);
+                    var _setupDat = {
+                        id: index,
+                        mapObjectId: tmpList[idx],
+                        name: 'Key of ' + door.name,
+                        doorId: k
+                    };
+                    setupData[index] = _setupDat;
+                    var keyItem = new SYSTEM.Item.Key(_setupDat.id, _setupDat.mapObjectId, _setupDat.name, _setupDat.doorId);
                     keyItem.onChange = function (idx, data) {
                         gameData.key[idx] = data;
                         itemList.furniture[itemList.key[idx].furnitureId].token();
@@ -444,14 +452,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     index++;
                 }
             }
+            that.setupData.key = setupData;
         };
 
         var recoverKey = function (recoverData) {
             itemList.key = {};
             for (var i in recoverData) {
-                var keyItem = new SYSTEM.Key();
-                keyItem.reset(recoverData[i]);
+                var setupData= recoverData[i];
+                var keyItem = new SYSTEM.Item.Key(setupData.id, setupData.mapObjectId, setupData.name, setupData.doorId);
+                keyItem.reset();
                 itemList.key[i] = keyItem;
+            }
+            for (var k in gameData.key) {
+                itemList.key[k].reset(gameData.key[k]);
             }
         };
 
@@ -472,7 +485,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         break;
                     }
                 }
-                itemList.door[k] = new SYSTEM.Door(k, doorSetting[k].name, door, _modelData.items[Data.item.categoryName.door][door.id], hasKey);
+                itemList.door[k] = new SYSTEM.MapObject.Door(k, door, _modelData.items[Data.item.categoryName.door][door.id], doorSetting[k].name, hasKey);
                 gameData.door[k] = itemList.door[k].toJSON();
                 itemList.door[k].onChange = function (idx, data) {
                     gameData.door[idx] = data;
@@ -487,7 +500,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var k = 0; k < doors.length; k++) {
                 if (doors[k] == null) continue;
                 var door = doors[k];
-                itemList.door[k] = new SYSTEM.Door(k, doorSetting[k].name, door, _modelData.items[Data.item.categoryName.door][door.id], true);
+                itemList.door[k] = new SYSTEM.MapObject.Door(k, door, _modelData.items[Data.item.categoryName.door][door.id], doorSetting[k].name, true);
                 itemList.door[k].onChange = function (idx, data) {
                     gameData.door[idx] = data;
                 };
@@ -505,7 +518,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var k = 0; k < furnitures.length; k++) {
                 if (furnitures[k] == null) continue;
                 var f = furnitures[k];
-                itemList.furniture[k] = new SYSTEM.Furniture(k, f, _modelData.items[Data.item.categoryName.furniture][f.id]);
+                itemList.furniture[k] = new SYSTEM.MapObject.Furniture(k, f, _modelData.items[Data.item.categoryName.furniture][f.id]);
                 gameData.furniture[k] = itemList.furniture[k].toJSON();
                 itemList.furniture[k].onChange = function (idx, data) {
                     gameData.furniture[idx] = data;
@@ -520,7 +533,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var k = 0; k < furnitures.length; k++) {
                 if (furnitures[k] == null) continue;
                 var f = furnitures[k];
-                itemList.furniture[k] = new SYSTEM.Furniture(k, f, _modelData.items[Data.item.categoryName.furniture][f.id]);
+                itemList.furniture[k] = new SYSTEM.MapObject.Furniture(k, f, _modelData.items[Data.item.categoryName.furniture][f.id]);
                 itemList.furniture[k].onChange = function (idx, data) {
                     gameData.furniture[idx] = data;
                 };
@@ -596,7 +609,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var recoverBody = function () {
             itemList.body = {};
             for (var k in gameData.body) {
-                var b = new SYSTEM.Body();
+                var b = new SYSTEM.MapObject.Body();
+                var character = entity.characters[gameData.body[k].id];
+                b.setup(character);
                 b.reset(gameData.body[k]);
                 itemList.body[k] = b;
                 grid.body[b.y][b.x] = b.id;
@@ -604,7 +619,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         this.createBody = function (character) {
-            var b = new SYSTEM.Body(character);
+            var b = new SYSTEM.MapObject.Body();
+            b.setup(character);
             grid.body[b.y][b.x] = b.id;
             itemList.body[character.id] = b;
             gameData.body[character.id] = b.toJSON();

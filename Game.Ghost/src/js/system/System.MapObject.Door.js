@@ -4,9 +4,10 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
 /**
- * Item: Furniture
+ * MapObject: Door
  */
 (function (SYSTEM) {
+    // Data ----------------------------------------------------------
     var Data = SYSTEM.Data;
     var _Data = {
         Status: {
@@ -16,8 +17,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Blocked: 3
         }
     };
-    var Door = function (id, name, info, modelData, hasKey) {
-        Furniture.Item.Basic.call(this, id, info, modelData);
+
+    // Construct -----------------------------------------------------
+    var Door = function (id, info, modelData, name, hasKey) {
+        SYSTEM.MapObject.Basic.call(this, id, info, modelData);
         // data 
         this.name = name;
         this.status = hasKey ? _Data.Status.Locked : _Data.Status.Closed;
@@ -25,11 +28,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // callback
         this.onChange = null;
     };
-    Door.prototype = Object.create(SYSTEM.Item.Basic);
+    Door.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
     Door.prototype.constructor = Door;
 
-
-    // public method -------------------------------------------------
+    // Method --------------------------------------------------------
     Door.prototype.reset = function (_recoverData) {
         if (_recoverData == null) return;
         if ('status' in _recoverData) this.status = _recoverData.status;
@@ -58,8 +60,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         return true;
     };
 
-    // --------------------------------------------------------
-    SYSTEM.Item = Item || {};
-    SYSTEM.Item.Door = Door;
-    SYSTEM.Item.Door.Data = _Data;
+    // ----------------------------------------------------------------
+    SYSTEM.MapObject = SYSTEM.MapObject || {};
+    SYSTEM.MapObject.Door = Door;
+    SYSTEM.MapObject.Door.Data = _Data;
 })(window.Rendxx.Game.Ghost.System);

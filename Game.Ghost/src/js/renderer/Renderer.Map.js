@@ -593,8 +593,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 mesh.receiveShadow = true;
 
                 mesh.position.x = x
-                var furnitureId = _map[dat.top][dat.left];
-                mesh.position.y = furnitureId == -1 ? 0 : _modelData.items[Data.categoryName.furniture][furnitureId].support * GridSize;
+                var mapObjectId = _map[dat.top][dat.left];
+                mesh.position.y = mapObjectId == -1 ? 0 : _modelData.items[Data.categoryName.furniture][mapObjectId].support * GridSize;
                 mesh.position.z = y;
                 mesh.rotation.y = (4 - r) / 2 * Math.PI;
 
@@ -692,7 +692,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // update key
             if (_mapData == null) return;
             for (var i in that.key) {
-                if (gameData.key.hasOwnProperty(i) && gameData.key[i] != null && gameData.key[i].available == true) continue;
+                if (gameData.key.hasOwnProperty(i) && gameData.key[i] != null && gameData.key[i].mapObjectId != -1) continue;
                 if (that.key[i] == null) continue;
                 removeKey(i, _scene, function (idx) {
                     delete that.key[idx];
@@ -700,10 +700,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             for (var i in gameData.key) {
-                if (that.key.hasOwnProperty(i) || gameData.key[i].available == false) continue;
+                if (that.key.hasOwnProperty(i) || gameData.key[i].mapObjectId == -1) continue;
                 that.key[i] = null;
                 var key = gameData.key[i];
-                createKey(_mapData.item.furniture[key.furnitureId], i, _scene, function (idx, mesh) {
+                createKey(_mapData.item.furniture[key.mapObjectId], i, _scene, function (idx, mesh) {
                     _scene.add(mesh);
                     that.key[idx] = mesh;
                 });
