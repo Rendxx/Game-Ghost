@@ -14,7 +14,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Construct -----------------------------------------------------
     var Body = function () {
-        SYSTEM.MapObject.Basic.call(this, character.id, info, character.modelData);
+        SYSTEM.MapObject.Basic.call(this);
         // data 
         this.name = "";
         this.key = {};

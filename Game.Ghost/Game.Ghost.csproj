@@ -168,6 +168,8 @@
     <Content Include="src\js\renderer\Renderer.Main.js" />
     <Content Include="src\js\renderer\Renderer.Environment.js" />
     <Content Include="mapDesigner\index.html" />
+    <Content Include="src\js\system\Character\System.Character.Basic.js" />
+    <Content Include="src\js\system\Character\System.Character.Survivor.js" />
     <Content Include="src\js\system\Item\System.Item.Basic.js" />
     <Content Include="src\js\system\MapObject\System.MapObject.Body.js" />
     <Content Include="src\js\system\MapObject\System.MapObject.Basic.js" />
@@ -177,7 +179,7 @@
     <Content Include="src\js\system\MapObject\System.MapObject.Door.js" />
     <Content Include="src\js\system\Item\System.Item.Key.js" />
     <Content Include="src\js\system\MapObject\System.MapObject.Furniture.js" />
-    <Content Include="src\js\system\System.Character.js" />
+    <Content Include="src\js\system\Character\System.Character.Ghost.js" />
     <Content Include="src\js\system\System.InterAction.js" />
     <Content Include="src\js\system\System.Map.js" />
     <Content Include="src\js\system\System.FileLoader.js" />
