@@ -21,12 +21,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Construct -----------------------------------------------------
     var Door = function (id, info, modelData, name, hasKey) {
         SYSTEM.MapObject.Basic.call(this, id, info, modelData);
-        // data 
+
         this.name = name;
         this.status = hasKey ? _Data.Status.Locked : _Data.Status.Closed;
-
-        // callback
-        this.onChange = null;
     };
     Door.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
     Door.prototype.constructor = Door;

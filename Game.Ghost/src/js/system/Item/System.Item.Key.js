@@ -14,11 +14,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Key = function (id, mapObjectId, name, doorId) {
         SYSTEM.Item.Basic.call(this, id, mapObjectId, name);
 
-        //data
         this.doorId = doorId;
-
-        // callback
-        this.onChange = null;
     };
     Key.prototype = Object.create(SYSTEM.Item.Basic.prototype);
     Key.prototype.constructor = Key;

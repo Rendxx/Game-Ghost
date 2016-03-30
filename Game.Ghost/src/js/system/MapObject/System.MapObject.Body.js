@@ -15,12 +15,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Construct -----------------------------------------------------
     var Body = function () {
         SYSTEM.MapObject.Basic.call(this);
-        // data 
+
         this.name = "";
         this.key = {};
-
-        // callback 
-        this.onChange = null;
     };
     Body.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
     Body.prototype.constructor = Body;

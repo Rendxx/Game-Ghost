@@ -20,14 +20,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Construct -----------------------------------------------------
     var Furniture = function (id, info, modelData) {
         SYSTEM.MapObject.Basic.call(this, id, info, modelData);
-        // data 
+
         this.actioning = false;          // this furnition is actioning
         this.blockSight = modelData.blockSight;
         this.status = modelData.statusChange == true ? _Data.Status.Closed : _Data.Status.None;
         this.keyId = -1;            // key id, -1 means no key
-
-        // callback 
-        this.onChange = null;
     };
     Furniture.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
     Furniture.prototype.constructor = Furniture;
