@@ -55,6 +55,9 @@
     <Content Include="ModelBuilder\Furniture\table_wood_2_1.tex.png" />
     <Content Include="ModelBuilder\Furniture\wood-2.jpg" />
     <Content Include="ModelBuilder\Furniture\wood-table.jpg" />
+    <Content Include="ModelBuilder\Player\Player-Texture-Body-Ghost-Mary.png" />
+    <Content Include="ModelBuilder\Player\Player-Texture-Face-Ghost-Mary-.png" />
+    <Content Include="ModelBuilder\Player\player-uv-body-ghost-mary.png" />
     <Content Include="ModelBuilder\Sprite\name-deco-white.png" />
     <Content Include="ModelBuilder\Player\Player-Texture-2.png" />
     <Content Include="ModelBuilder\Player\Player-Texture.png" />
@@ -356,6 +359,10 @@
     <Content Include="ModelBuilder\Sprite\interaction.close.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.open.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.lock.fla" />
+    <Content Include="ModelBuilder\Player\player-ghost-mary.blend" />
+    <Content Include="ModelBuilder\Player\player-ghost-mary.blend1" />
+    <Content Include="ModelBuilder\Player\Player-Texture-Body-Ghost-Mary.fla" />
+    <Content Include="ModelBuilder\Player\Player-Texture-Face-Ghost-Mary-.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

@@ -95,9 +95,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             hp: this.hp,
             currentRotation: this.currentRotation,
             action: this.action,
-            interactionObj: this.interactionObj,
-            visibleList: this.visibleList,
-            danger: this.danger
+            accessObject: this.accessObject,
+            visibleObject: this.visibleObject,
+            visibleCharacter: this.visibleCharacter
         };
     };
 
