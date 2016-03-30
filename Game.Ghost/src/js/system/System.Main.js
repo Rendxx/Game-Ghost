@@ -34,6 +34,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.map = null;
         this.message = null;
         this.interAction = null;
+        this.userInput = null;
         this.characters = [];
 
         // message -----------------------------------------------
@@ -44,7 +45,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         this.action = function (clientId, dat) {
             if (!characterIdxMap.hasOwnProperty(clientId)) return;
-            this.interAction.action(characterIdxMap[clientId], dat);
+            this.userInput.action(characterIdxMap[clientId], dat);
         };
 
         // callback -----------------------------------------------
@@ -83,7 +84,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
             that.message = new SYSTEM.Message();
 
-            that.interAction = new SYSTEM.InterAction(that);
+            that.userInput = new SYSTEM.UserInput(that);
             gameData.characters = [];
             var index = 0;
             var players = [];
@@ -100,6 +101,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 characterIdxMap[i] = index++;
             }
             that.map.setup(modelData, mapData);
+            that.interAction = new SYSTEM.InterAction(that);
             var setupData = {
                 'model': modelData,
                 'map': mapData,

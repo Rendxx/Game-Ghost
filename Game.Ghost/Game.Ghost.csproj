@@ -177,6 +177,7 @@
     <Content Include="src\js\system\Item\System.Item.Basic.js" />
     <Content Include="src\js\system\MapObject\System.MapObject.Body.js" />
     <Content Include="src\js\system\MapObject\System.MapObject.Basic.js" />
+    <Content Include="src\js\system\System.UserInput.js" />
     <Content Include="src\js\system\System.Message.js" />
     <Content Include="src\js\webWorker\WebWorker.Core.js" />
     <Content Include="src\js\webWorker\WebWorker.Wrapper.js" />
