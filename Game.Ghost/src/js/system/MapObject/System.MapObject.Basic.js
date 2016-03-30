@@ -38,7 +38,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         return {};
     };
 
-    Basic.prototype.interaction = function () {
+    Basic.prototype.check = function () {
     };
 
     Basic.prototype.setup = function (id, para, modelData) {

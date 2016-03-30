@@ -10,11 +10,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Data ----------------------------------------------------------
     var Data = SYSTEM.Data;
     var _Data = {
+        ObjType: 'door',
         Status: {
             Locked: 0,
             Opened: 1,
-            Closed: 2,
-            Blocked: 3
+            Closed: 2
         }
     };
 
@@ -22,6 +22,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Door = function (id, info, modelData, name, hasKey) {
         SYSTEM.MapObject.Basic.call(this, id, info, modelData);
 
+        this.blockList = {};
         this.name = name;
         this.status = hasKey ? _Data.Status.Locked : _Data.Status.Closed;
     };
@@ -32,29 +33,53 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Door.prototype.reset = function (_recoverData) {
         if (_recoverData == null) return;
         if ('status' in _recoverData) this.status = _recoverData.status;
+        if ('blockList' in _recoverData) this.blockList = _recoverData.blockList;
     };
 
     Door.prototype.toJSON = function () {
         return {
-            status: this.status
+            status: this.status,
+            blockList: this.blockList
         };
     };
 
-    Door.prototype.interaction = function (character) {
-        if (this.status == _Data.Status.Opened) {
-            this.status = _Data.Status.Closed;
-            updateData();
-        } else if (this.status == _Data.Status.Closed) {
-            this.status = _Data.Status.Opened;
-            updateData();
-        } else if (this.id in character.key) {
-            this.status = _Data.Status.Opened;
-            updateData();
-        } else {
-            updateData();
-            return false;
+    Door.prototype.check = function () {
+        var blocked = false;
+        for (var i in this.blockList) {
+            blocked = true;
+            break;
         }
-        return true;
+        return {
+            type: _Data.ObjType,
+            id: this.id,
+            status: this.status,
+            blocked: blocked
+        };
+    };
+
+    Door.prototype.Open = function () {
+        this.status = _Data.Status.Opened;
+        updateData();
+    };
+
+    Door.prototype.close = function () {
+        this.status = _Data.Status.Closed;
+        updateData();
+    };
+
+    Door.prototype.unlock = function () {
+        this.status = _Data.Status.Closed;
+        updateData();
+    };
+
+    Door.prototype.block = function (characterId) {
+        this.blockList[characterId] = true;
+        updateData();
+    };
+
+    Door.prototype.unblock = function (characterId) {
+        delete this.blockList[characterId];
+        updateData();
     };
 
     // ----------------------------------------------------------------

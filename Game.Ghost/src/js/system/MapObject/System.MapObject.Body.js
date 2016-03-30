@@ -10,6 +10,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Data ----------------------------------------------------------
     var Data = SYSTEM.Data;
     var _Data = {
+        ObjType: 'body'
     };
 
     // Construct -----------------------------------------------------
@@ -17,7 +18,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         SYSTEM.MapObject.Basic.call(this);
 
         this.name = "";
-        this.key = {};
+        this.key = null;
     };
     Body.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
     Body.prototype.constructor = Body;
@@ -36,15 +37,41 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
     };
 
-    Body.prototype.interaction = function () {
-        return this.key;
+    Body.prototype.check = function () {
+        return {
+            type: _Data.ObjType,
+            id: this.id,
+            key: this.key
+        };
+    };
+
+    Body.prototype.takeKey = function (keyIds) {
+        if (this.key == null || keyIds == null || keyIds.length == 0) return [];
+        var rst = {};
+        for (var i = 0; i<keyIds.length; i++) {
+            var k = keyIds[i];
+            if (this.key.hasOwnProperty(k)) {
+                rst[k] = this.key[k];
+                delete this.key[k];
+            }
+        }
+        
+        var noKey = true;
+        for (var i in this.key) {
+            noKey = false;
+            break;
+        }
+        if (noKey) this.key = null;
+
+        this.updateData();
+        return rst;
     };
 
     Body.prototype.setup = function (character) {
         this.name = character.name + "'s Body";
-        this.key = {};
         for (var id in character.key) {
-            this.key[id] = character.key[id];
+            if (this.key==null) this.key = {};
+            this.key[character.key[id]] = id;
         }
 
         var info = {

@@ -70,7 +70,11 @@
         // Item
         "#src#/system/Item/System.Item.Basic.js",
         "#src#/system/Item/System.Item.Key.js",
-        "#src#/system/System.Character.js",
+        // Character
+        "#src#/system/Character/System.Character.Basic.js",
+        "#src#/system/Character/System.Character.Survivor.js",
+        "#src#/system/Character/System.Character.Ghost.js",
+
         "#src#/system/System.Map.js",
         "#src#/system/System.InterAction.js",
         "#src#/system/System.Main.js"

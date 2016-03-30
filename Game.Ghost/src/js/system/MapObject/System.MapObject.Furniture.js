@@ -10,6 +10,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Data ----------------------------------------------------------
     var Data = SYSTEM.Data;
     var _Data = {
+        ObjType: 'furniture',
         Status: {
             None: 0,
             Closed: 1,
@@ -24,7 +25,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.actioning = false;          // this furnition is actioning
         this.blockSight = modelData.blockSight;
         this.status = modelData.statusChange == true ? _Data.Status.Closed : _Data.Status.None;
-        this.keyId = -1;            // key id, -1 means no key
+        this.key = null;                // {key id : door id}
     };
     Furniture.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
     Furniture.prototype.constructor = Furniture;
@@ -33,37 +34,76 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Furniture.prototype.reset = function (_recoverData) {
         if (_recoverData == null) return;
         if ('status' in _recoverData) this.status = _recoverData.status;
-        if ('keyId' in _recoverData) this.keyId = _recoverData.keyId;
+        if ('key' in _recoverData) this.key = _recoverData.key;
     };
 
     Furniture.prototype.toJSON = function () {
         return {
             status: this.status,
-            keyId: this.keyId
+            key: this.key
         };
     };
 
-    Furniture.prototype.interaction = function () {
-        if (this.actioning) return -1;                      // no interaction during action
-        if ((this.status == _Data.Status.Opened || !this.modelData.statusChange) && this.keyId != -1) {
-            var k = this.keyId;
-            return k;
-        }
+    Furniture.prototype.check = function () {
+        return {
+            type: _Data.ObjType,
+            disabled: this.actioning,
+            id: this.id,
+            status: this.status,
+            key: this.key
+        };
+    };
 
-        if (!this.modelData.statusChange) return -1;       // no interaction if status can not being changed
+    Furniture.prototype.open = function () {
+        if (!this.modelData.statusChange) return false;       // no interaction if status can not being changed
+        if (this.actioning) return false;                     // no interaction during action
         if (this.modelData.duration != null && this.modelData.duration != 0) {
             this.actioning = true;
             setTimeout(function () { this.actioning = false; }, this.modelData.duration);
         }
-
-        this.status = (this.status == _Data.Status.Opened ? _Data.Status.Closed : _Data.Status.Opened);
+        this.status = _Data.Status.Opened;
         this.updateData();
-        return -1;
+        return true;
+    };
+    
+    Furniture.prototype.close = function () {
+        if (!this.modelData.statusChange) return false;       // no interaction if status can not being changed
+        if (this.actioning) return false;                     // no interaction during action
+        if (this.modelData.duration != null && this.modelData.duration != 0) {
+            this.actioning = true;
+            setTimeout(function () { this.actioning = false; }, this.modelData.duration);
+        }
+        this.status = _Data.Status.Closed;
+        this.updateData();
+        return true;
     };
 
-    Furniture.prototype.token = function () {
-        this.keyId = -1;
+    Furniture.prototype.takeKey = function (keyIds) {
+        if (this.actioning) return [];                     // no interaction during action
+        if (this.key == null || keyIds == null || keyIds.length==0) return [];
+        var rst = {};
+        for (var i = 0; i < keyIds.length; i++) {
+            var k = keyIds[i];
+            if (this.key.hasOwnProperty(k)) {
+                rst[k] = this.key[k];
+                delete this.key[k];
+            }
+        }
+
+        var noKey = true;
+        for (var i in this.key) {
+            noKey = false;
+            break;
+        }
+        if (noKey) this.key = null;
+
         this.updateData();
+        return rst;
+    };
+        
+    Furniture.prototype.placeKey = function (key) {
+        if (this.key == null) this.key = {};
+        this.key[key.id] = key.doorId;
     };
 
     // ----------------------------------------------------------------

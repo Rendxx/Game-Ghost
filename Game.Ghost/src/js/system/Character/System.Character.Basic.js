@@ -56,7 +56,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.stay = true;           // flag: character does not move
         this.headFollow = true;     // flag: character dose not turn his head
         this.accessObject = null;   // access object
-        this.visibleObject = {};    // visible object list
+        this.visibleObject = {};    // visible object list: {Object type: {Object Id: Object operation}}
         this.visibleCharacter = {}; // visible character list
         this.characterCheckingList = {};
         
@@ -81,7 +81,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if ('hp' in _recoverData) this.hp = _recoverData.hp;
         if ('currentRotation' in _recoverData) this.currentRotation = _recoverData.currentRotation;
         if ('action' in _recoverData) this.action = _recoverData.action;
-        updateData();
+        this.updateData();
     };
 
     Basic.prototype.toJSON = function () {
@@ -115,7 +115,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype.interaction = function () {
         if (!this.actived) return;
         if (this.accessObject == null) return;
-        this.accessObject.interaction(this);
+        return this.accessObject.check();
     };
 
     Basic.prototype._updateMove = function () {
@@ -223,7 +223,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this._updateStatus();
         this._updateInteraction();
         this._updateVisible();
-        updateData();
+        this.updateData();
     };
 
     Basic.prototype.updateData = function () {
