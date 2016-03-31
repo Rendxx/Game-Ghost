@@ -60,9 +60,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.reset = function (setupData_in, gameData_in) {
             if (setupData_in == null) return;
             gameData = gameData_in;
+            initComponent(setupData_in.model, setupData_in.map, setupData_in.player);
             characterIdxMap = setupData_in.characterIdxMap;
             this.characterRoleMap = setupData_in.characterRoleMap;
-            this.map.reset(setupData_in.mapSetup, gameData_in);
+            this.map.reset(setupData_in.mapSetup);
             for (var i = 0; i < that.characters.length; i++) {
                 that.characters[i].reset(gameData_in != null ? gameData_in.characters[i] : null);
             }
@@ -70,38 +71,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // setup game
         this.setup = function (modelData, mapData, playerData) {
-            characterIdxMap = {};
-            this.characterRoleMap =
-                {
-                    survivor: [],
-                    ghost: []
-                };
-
-            that.map = new SYSTEM.Map(that, modelData, mapData);
-            that.map.onChange = function (data) {
-                gameData.map = data;
-            };
-
-            that.message = new SYSTEM.Message();
-
-            that.userInput = new SYSTEM.UserInput(that);
+            gameData.map = {};
             gameData.characters = [];
-            var index = 0;
-            var players = [];
-            for (var i in playerData) {
-                that.characters[index] = new SYSTEM.Character(index, playerData[i], modelData.characters, that);
-                that.characters[index].onChange = function (idx, data) {
-                    gameData.characters[idx] = data;
-                };
-                if (that.characters[index].role == Data.character.type.survivor)
-                    that.characterRoleMap.survivor.push(index);
-                else if (that.characters[index].role == Data.character.type.ghost)
-                    that.characterRoleMap.ghost.push(index);
-                players[index] = playerData[i];
-                characterIdxMap[i] = index++;
-            }
-            that.map.setup(modelData, mapData);
-            that.interAction = new SYSTEM.InterAction(that);
+            initComponent(modelData, mapData, playerData);
+            that.map.setup();
             var setupData = {
                 'model': modelData,
                 'map': mapData,
@@ -172,9 +145,35 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (that.onUpdated) that.onUpdated(gameData);
         };
 
-        var _init = function () {
+        // init component
+        var initComponent = function (modelData, mapData, playerData) {
+            characterIdxMap = {};
+            that.characterRoleMap =
+            {
+                survivor: [],
+                ghost: []
+            };
+            
+            that.map = new SYSTEM.Map(that, modelData, mapData, gameData.map);
+            that.interAction = new SYSTEM.InterAction(that);
+            that.message = new SYSTEM.Message();
+            that.userInput = new SYSTEM.UserInput(that);
+
+            var index = 0;
+            var players = [];
+            for (var i in playerData) {
+                that.characters[index] = new SYSTEM.Character(index, playerData[i], modelData.characters, that);
+                that.characters[index].onChange = function (idx, data) {
+                    gameData.characters[idx] = data;
+                };
+                if (that.characters[index].role == Data.character.type.survivor)
+                    that.characterRoleMap.survivor.push(index);
+                else if (that.characters[index].role == Data.character.type.ghost)
+                    that.characterRoleMap.ghost.push(index);
+                players[index] = playerData[i];
+                characterIdxMap[i] = index++;
+            }
         };
-        _init();
     };
 
     /**

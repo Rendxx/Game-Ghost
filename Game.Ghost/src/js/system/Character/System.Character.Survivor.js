@@ -68,7 +68,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Locked) {
                     if (this.key.hasOwnProperty(info.id)) {
                         this.accessObject.unlock();
-                        this.entity.message.send(this.id, _Data.message.useKey.replace('#key#', this.entity.map.itemList.key[this.key[info.id]].name));
+                        this.entity.message.send(this.id, _Data.message.useKey.replace('#key#', this.entity.map.objList.key[this.key[info.id]].name));
                         delete (this.lockDoor[info.id])
                     } else {
                         this.lockDoor[info.id] = true;
@@ -93,7 +93,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var keyNames = "";
                     for (var i in info.key) {
                         if (!this.key.hasOwnProperty(info.key[i])) k.push(i);
-                        else keyNames += this.entity.map.itemList.key[i].name + ", ";
+                        else keyNames += this.entity.map.objList.key[i].name + ", ";
                     }
                     if (k.length == 0) {
                         this.entity.message.send(this.id, _Data.message.hasKey + keyNames.substring(0, keyNames.length - 2));
@@ -105,7 +105,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var keyNames = "";
                     for (var i in newKeys) {
                         this.key[newKeys[i]] = i;
-                        keyNames += this.entity.map.itemList.key[i].name + ", ";
+                        keyNames += this.entity.map.objList.key[i].name + ", ";
                     }
                     if (keyNames.length > 0) {
                         this.entity.message.send(this.id, _Data.message.getKey + keyNames.substring(0, keyNames.length - 2));
@@ -122,7 +122,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var keyNames = "";
                 for (var i in info.key) {
                     if (!this.key.hasOwnProperty(info.key[i])) k.push(i);
-                    else keyNames += this.entity.map.itemList.key[i].name + ", ";
+                    else keyNames += this.entity.map.objList.key[i].name + ", ";
                 }
                 if (k.length == 0) {
                     this.entity.message.send(this.id, _Data.message.hasKey + keyNames.substring(0, keyNames.length - 2));
@@ -134,7 +134,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var keyNames = "";
                 for (var i in newKeys) {
                     this.key[newKeys[i]] = i;
-                    keyNames += this.entity.map.itemList.key[i].name + ", ";
+                    keyNames += this.entity.map.objList.key[i].name + ", ";
                 }
                 if (keyNames.length > 0) {
                     this.entity.message.send(this.id, _Data.message.getKey + keyNames.substring(0, keyNames.length - 2));

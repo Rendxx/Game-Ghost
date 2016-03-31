@@ -19,12 +19,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     // Construct -----------------------------------------------------
-    var Door = function (id, info, modelData, name, hasKey) {
+    var Door = function (id, info, modelData, name) {
         SYSTEM.MapObject.Basic.call(this, id, info, modelData);
 
         this.blockList = {};
         this.name = name;
-        this.status = hasKey ? _Data.Status.Locked : _Data.Status.Closed;
+        this.status = _Data.Status.Closed;
     };
     Door.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
     Door.prototype.constructor = Door;
@@ -69,6 +69,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Door.prototype.unlock = function () {
         this.status = _Data.Status.Closed;
+        updateData();
+    };
+
+    Door.prototype.lock = function () {
+        this.status = _Data.Status.Locked;
         updateData();
     };
 
