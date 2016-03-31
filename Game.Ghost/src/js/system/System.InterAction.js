@@ -41,25 +41,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var InterAction = function (entity) {
         // data ----------------------------------------------------------
         var that = this,
-            _data = null,
-            _modelData = null,
+            map = entity.map,
             width = 0,
-            height = 0,
-            gameData = {
-            },
-            grid = {
-                furniture: [],
-                wall: [],
-                door: [],
-                body: [],
-                empty: []
-            },
-            itemList = {
-                furniture: {},
-                door: {},
-                body: {},
-                key: {}
-            },
+            height= 0,
             statusList = {
                 door: {},           // door id: door status
                 furniture: {}       // furniture id: furniture status
@@ -73,37 +57,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             accessGrid = [],        // 2d matrix same as grid. reocrd accessable furniture id of that grid in a list
 
             // cache
-            _surroundObj = [];
-
-        this.setupData = {};
-
-        // callback ------------------------------------------------------
-        this.onChange = null;
-
+            surroundObj = [];
+        
         // public method -------------------------------------------------
-        // load basic data and map data
-        this.setup = function (modelData, data) {
-            _data = data;
-            _modelData = modelData;
-            that.setupData = {};
-            setupGrid();
-            setupPosition();
-            setupFurniture();
-            setupKey();
-            setupDoor();
-            setupInteractionObj();
-            setupBody();
-            _onChange();
-        };
-
-        // reset key / player / position with given data
-        this.reset = function (setupData_in, gameData_in) {
-            that.setupData = setupData_in;
-            recoverPosition(setupData_in.mapSetup.position);
-            recoverKey(setupData_in.key);
-            recoverFurniture(gameData_in.furniture);
-            recoverDoor(gameData_in.door);
-            recoverBody(gameData_in.body);
+        this.reset = function () {
+            setupAccess();
             setupInteractionObj();
         };
 
@@ -115,9 +73,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 oldY = Math.floor(y);
 
             var rst = [x + deltaX, y + deltaY];
-            if (deltaX != 0 && (newX < 0 || newX >= width || (grid.empty[oldY][newX] != _Data.Grid.Empty && !(grid.empty[oldY][newX] == _Data.Grid.Door && itemList['door'][grid.door[oldY][newX]].status == _Data.DoorStatus.Opened))))
+            if (deltaX != 0 && (newX < 0 || newX >= width || (map.grid.empty[oldY][newX] != _Data.Grid.Empty && !(map.grid.empty[oldY][newX] == _Data.Grid.Door && map.objList['door'][map.grid.door[oldY][newX]].status == _Data.DoorStatus.Opened))))
                 rst[0] = (deltaX > 0) ? newX : newX + 1;
-            if (deltaY != 0 && (newY < 0 || newY >= height || (grid.empty[newY][oldX] != _Data.Grid.Empty && !(grid.empty[newY][oldX] == _Data.Grid.Door && itemList['door'][grid.door[newY][oldX]].status == _Data.DoorStatus.Opened))))
+            if (deltaY != 0 && (newY < 0 || newY >= height || (map.grid.empty[newY][oldX] != _Data.Grid.Empty && !(map.grid.empty[newY][oldX] == _Data.Grid.Door && map.objList['door'][map.grid.door[newY][oldX]].status == _Data.DoorStatus.Opened))))
                 rst[1] = (deltaY > 0) ? newY : newY + 1;
             return rst;
         };
@@ -128,30 +86,30 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 y = Math.floor(y);
 
             // furniture
-            var list_f = _surroundObj.furniture[y][x];
+            var list_f = surroundObj.furniture[y][x];
             var rst_f = {};
 
             for (var t in list_f) {
                 var d = Math.abs(list_f[t][1] - r);
                 if (d > 180) d = 360 - d;
                 if (d > 90) continue;
-                if (itemList.furniture[t].status == _Data.FurnitureStatus.Closed) {
+                if (map.objList.furniture[t].status == _Data.FurnitureStatus.Closed) {
                     rst_f[t] = _Data.FurnitureOperation.Open;
                 } else {
-                    if (itemList.furniture[t].keyId != -1) {
+                    if (map.objList.furniture[t].keyId != -1) {
                         rst_f[t] = _Data.FurnitureOperation.Key;
-                    } else if (itemList.furniture[t].status == _Data.FurnitureStatus.Opened) {
+                    } else if (map.objList.furniture[t].status == _Data.FurnitureStatus.Opened) {
                         rst_f[t] = _Data.FurnitureOperation.Close;
                     }
                 }
             }
 
             // door
-            var list_d = _surroundObj.door[y][x];
+            var list_d = surroundObj.door[y][x];
             var rst_d = {};
 
             for (var t in list_d) {
-                if (itemList.door[t].status == _Data.DoorStatus.Blocked) {
+                if (map.objList.door[t].status == _Data.DoorStatus.Blocked) {
                     rst_d[t] = _Data.DoorOperation.Blocked;
                 }
             }
@@ -200,17 +158,17 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 // furniture
                 if (accessGrid[y][x][grid.furniture[access_y][access_x]] !== true) return null;
 
-                var keyId = itemList.furniture[grid.furniture[access_y][access_x]].interaction();
+                var keyId = map.objList.furniture[grid.furniture[access_y][access_x]].interaction();
                 if (keyId == -1) return null;
-                return { key: itemList.key[keyId] };
+                return { key: map.objList.key[keyId] };
             } else if (grid.door[access_y][access_x] != -1) {
                 // door
                 if (accessGrid[y][x][_Data.DoorPrefix + grid.door[access_y][access_x]] !== true) return null;
-                itemList.door[grid.door[access_y][access_x]].interaction(character);
-                return { door: itemList.door[grid.door[access_y][access_x]] };
+                map.objList.door[grid.door[access_y][access_x]].interaction(character);
+                return { door: map.objList.door[grid.door[access_y][access_x]] };
             } else if (grid.body[access_y][access_x] != -1) {
                 // door
-                var keys = itemList.body[grid.body[access_y][access_x]].interaction();
+                var keys = map.objList.body[grid.body[access_y][access_x]].interaction();
                 return { body: keys };
             }
             return null;
@@ -225,6 +183,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var d = Math.abs(r - characterA.currentRotation.head);
             if (d > 180) d = 360 - d;
             if (d > 80) return false;
+            return _checkVisibleLine(x1, x2, y1, y2);
+        };
+
+        var _checkVisibleLine = function (x1, x2, y1, y2) {
+            var r = Math.atan2(x2 - x1, y2 - y1) * 180 / Math.PI;
             if (x1 == x2) {
                 var y_min = Math.min(y1, y2),
                     y_max = Math.max(y1, y2),
@@ -262,8 +225,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var _checkPosVisible = function (x, y) {
             if (grid.empty[y][x] == _Data.Grid.Empty) return true;
-            if (grid.empty[y][x] == _Data.Grid.Furniture && !itemList.furniture[grid.furniture[y][x]].blockSight) return true;
-            if (grid.empty[y][x] == _Data.Grid.Door && !itemList.door[grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened) return true;
+            if (grid.empty[y][x] == _Data.Grid.Furniture && !map.objList.furniture[grid.furniture[y][x]].blockSight) return true;
+            if (grid.empty[y][x] == _Data.Grid.Door && !map.objList.door[grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened) return true;
             return false;
         };
 
@@ -284,24 +247,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // setup -----------------------------------------------
         var setupAccess = function () {
             accessGrid = [];
-            width = _data.grid.width;
-            height = _data.grid.height;
-            for (var i = 0; i < _data.grid.height; i++) {
+            width = map.width;
+            height = map.height;
+            for (var i = 0; i < height; i++) {
                 accessGrid[i] = [];
-                for (var j = 0; j < _data.grid.width; j++) {
+                for (var j = 0; j < width; j++) {
                     accessGrid[i][j] = null;
                 }
             }
 
             // add accesslist for furniture
-            var furnitures = _data.item.furniture;
-            for (var k = 0; k < furnitures.length; k++) {
-                if (furnitures[k] == null) continue;
+            var furnitures = map.objList.furniture;
+            for (var k in furnitures) {
                 var furniture = furnitures[k];
                 var x = furniture.x;
                 var y = furniture.y;
                 var r = furniture.rotation;
-                var accessPos = _modelData.items[Data.item.categoryName.furniture][furniture.id].accessPos;
+                var accessPos = map.modelData.items[Data.item.categoryName.furniture][furniture.id].accessPos;
                 if (accessPos == null) continue;
 
                 for (var i = 0; i < accessPos.length; i++) {
@@ -315,9 +277,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
             }
 
-            var doors = _data.item.door;
-            for (var k = 0; k < doors.length; k++) {
-                if (doors[k] == null) continue;
+            var doors = map.objList.door;
+            for (var k in doors) {
                 var door = doors[k];
                 var x = door.x;
                 var y = door.y;
@@ -338,32 +299,31 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
             // find empty position 
             emptyPos = [];
-            for (var i = 0; i < _data.grid.height; i++) {
-                for (var j = 0; j < _data.grid.width; j++) {
-                    if (grid.empty[i][j] == _Data.Grid.Empty) {
+            for (var i = 0; i < height; i++) {
+                for (var j = 0; j < width; j++) {
+                    if (map.grid.empty[i][j] == _Data.Grid.Empty) {
                         emptyPos.push([i, j]);
                     }
                 }
             }
         };
-
-
+        
         // cache -----------------------------------------------
         // setup cache based on the map data
         var setupInteractionObj = function () {
-            _surroundObj = {
+            surroundObj = {
                 furniture: [],
                 door: []
             };
             var range = Data.map.para.scanRange;
             var range2 = range * range;
             for (var i = 0; i < height; i++) {
-                _surroundObj.furniture[i] = [];
-                _surroundObj.door[i] = [];
+                surroundObj.furniture[i] = [];
+                surroundObj.door[i] = [];
 
                 for (var j = 0; j < width; j++) {
-                    _surroundObj.furniture[i][j] = {};
-                    _surroundObj.door[i][j] = [];
+                    surroundObj.furniture[i][j] = {};
+                    surroundObj.door[i][j] = [];
                     var x_min = j - range;
                     var x_max = j + range;
                     var y_min = i - range;
@@ -376,27 +336,27 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     for (var m = y_min; m <= y_max; m++) {
                         for (var n = x_min; n <= x_max; n++) {
                             // furniture
-                            var f_id = grid.furniture[m][n];
+                            var f_id = map.grid.furniture[m][n];
                             if (f_id == -1) continue;
                             var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
-                            if (!(f_id in _surroundObj.furniture[i][j]) || _surroundObj.furniture[i][j][f_id] > r)
-                                _surroundObj.furniture[i][j][f_id] = r;
+                            if (!(f_id in surroundObj.furniture[i][j]) || surroundObj.furniture[i][j][f_id] > r)
+                                surroundObj.furniture[i][j][f_id] = r;
 
                             // door
-                            var d_id = grid.door[m][n];
+                            var d_id = map.grid.door[m][n];
                             if (d_id == -1) continue;
                             var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
-                            if (!(d_id in _surroundObj.door[i][j]) || _surroundObj.door[i][j][d_id] > r)
-                                _surroundObj.door[i][j][f_id] = r;
+                            if (!(d_id in surroundObj.door[i][j]) || surroundObj.door[i][j][d_id] > r)
+                                surroundObj.door[i][j][f_id] = r;
                         }
                     }
-                    for (var t in _surroundObj.furniture[i][j]) {
-                        if (_surroundObj.furniture[i][j][t] > range2) delete _surroundObj.furniture[i][j][t];
-                        else _surroundObj.furniture[i][j][t] = [r, Math.atan2(itemList.furniture[t].x - j, itemList.furniture[t].y - i) * 180 / Math.PI];
+                    for (var t in surroundObj.furniture[i][j]) {
+                        if (surroundObj.furniture[i][j][t] > range2 || _checkVisibleLine(j, i, map.objList.furniture[t].x, map.objList.furniture[t].y)) delete surroundObj.furniture[i][j][t];
+                        else surroundObj.furniture[i][j][t] = [r, Math.atan2(map.objList.furniture[t].x - j, map.objList.furniture[t].y - i) * 180 / Math.PI];
                     }
-                    for (var t in _surroundObj.door[i][j]) {
-                        if (_surroundObj.door[i][j][t] > range2) delete _surroundObj.door[i][j][t];
-                        else _surroundObj.door[i][j][t] = [r, Math.atan2(itemList.door[t].x - j, itemList.door[t].y - i) * 180 / Math.PI];
+                    for (var t in surroundObj.door[i][j]) {
+                        if (surroundObj.door[i][j][t] > range2 || _checkVisibleLine(j, i, map.objList.door[t].x, map.objList.door[t].y)) delete surroundObj.door[i][j][t];
+                        else surroundObj.door[i][j][t] = [r, Math.atan2(map.objList.door[t].x - j, map.objList.door[t].y - i) * 180 / Math.PI];
                     }
                 }
             }

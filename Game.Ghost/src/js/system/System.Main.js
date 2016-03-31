@@ -67,6 +67,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var i = 0; i < that.characters.length; i++) {
                 that.characters[i].reset(gameData_in != null ? gameData_in.characters[i] : null);
             }
+            this.interAction.reset();
         };
 
         // setup game
@@ -74,18 +75,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             gameData.map = {};
             gameData.characters = [];
             initComponent(modelData, mapData, playerData);
-            that.map.setup();
+            this.map.setup();
+            this.interAction.reset();
             var setupData = {
                 'model': modelData,
                 'map': mapData,
                 'player': players,
-                'mapSetup': that.map.setupData,
+                'mapSetup': this.map.setupData,
                 'characterIdxMap': characterIdxMap,
-                'characterRoleMap': that.characterRoleMap
+                'characterRoleMap': this.characterRoleMap
             };
-            that.onSetuped(setupData);
+            this.onSetuped(setupData);
             flag_setuped = true;
-            if (flag_started && !isStarted) that.start();
+            if (flag_started && !isStarted) this.start();
         };
 
         // game ------------------------------------------------
