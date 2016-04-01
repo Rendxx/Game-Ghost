@@ -121,14 +121,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 door: rst_d
             };
         };
-
-        this.checkAccess = function (x, y, access_x, access_y) {
+        
+        // get all accessable object of that position
+        this.getAccessObject = function (x, y, r) {
             x = Math.floor(x);
             y = Math.floor(y);
-            access_x = Math.floor(access_x);
-            access_y = Math.floor(access_y);
 
-            if (access_x < 0 || access_y >= width || access_y < 0 || access_y >= height) return null;
             if (accessGrid[y][x] == null) return null;
 
             var f_id = grid.furniture[access_y][access_x];
@@ -274,8 +272,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
                     var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
-                    if (accessGrid[new_y][new_x] == null) accessGrid[new_y][new_x] = {};
-                    accessGrid[new_y][new_x][k] = true;
+                    if (accessGrid[new_y][new_x] == null) accessGrid[new_y][new_x] = { furniture: {}, door: {}};
+                    accessGrid[new_y][new_x]['furniture'][k] = true;
                 }
             }
 
@@ -294,8 +292,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
                     var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
-                    if (accessGrid[new_y][new_x] == null) accessGrid[new_y][new_x] = {};
-                    accessGrid[new_y][new_x][_Data.DoorPrefix + k] = true;
+                    if (accessGrid[new_y][new_x] == null) accessGrid[new_y][new_x] = { furniture: {}, door: {} };
+                    accessGrid[new_y][new_x]['door'][k] = true;
                 }
             }
 
