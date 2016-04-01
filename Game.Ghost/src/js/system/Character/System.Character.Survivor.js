@@ -175,7 +175,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Survivor.prototype._updateInteraction = function () {
-        this.visibleObject = this.entity.map.checkInteractionObj(this.x, this.y, this.currentRotation.head);
+        this.visibleObject = this.entity.interaction.checkInteractionObj(this.x, this.y, this.currentRotation.head);
+        var objType = null,
+            objId = -1;
+        for (var i in this.visibleObject.furniture) {
+            if (this.visibleObject.furniture[i][0]>modelData.para.interactionDistance)
+        }
+
+
         this.accessObject = this.entity.map.getAccessObject(this.x, this.y, this.currentRotation.head);
     };
 
