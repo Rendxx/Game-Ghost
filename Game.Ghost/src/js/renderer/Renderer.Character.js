@@ -28,7 +28,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.modelId = _para.modelId;
         this.color = _data.color;
         this.maxEndurance = _data.para.endurance;
-        this.interactionObj = null;
+        this.accessObject = null;
+        this.visibleObject = null;
         this.endurance = 0;
         this.x = 0;
         this.y = 0;
@@ -46,7 +47,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.mixer = null;
         this.setuped = false;
         this.message = null;
-        this.lockDoor = {};
         this.isVisible = false;
         this.danger = 0;
 
@@ -78,8 +78,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 lightType = data_in.light;
             }
             if (data_in.message != null) that.message = data_in.message;
-            that.lockDoor = data_in.lockDoor;
-            that.danger = data_in.danger;
             
             gameData = data_in;
             that.isVisible = isVisible_in;
@@ -109,8 +107,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             this.x = x;
             this.y = y;
+            this.danger = gameData.danger;
             this.endurance = gameData.endurance;
-            this.interactionObj = gameData.interactionObj;
+            this.accessObject = gameData.accessObject;
+            this.visibleObject = gameData.visibleObject;
 
             // dead
             if (isDie) {

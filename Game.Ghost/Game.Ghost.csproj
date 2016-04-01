@@ -115,9 +115,11 @@
     <Content Include="Model\Sprite\interaction.close.png" />
     <Content Include="Model\Sprite\interaction.key-2.png" />
     <Content Include="Model\Sprite\interaction.key.png" />
+    <Content Include="Model\Sprite\interaction.lock-2.png" />
     <Content Include="Model\Sprite\interaction.lock.png" />
     <Content Include="Model\Sprite\interaction.open-2.png" />
     <Content Include="Model\Sprite\interaction.open.png" />
+    <Content Include="Model\Sprite\interaction.unlock-2.png" />
     <Content Include="Model\Sprite\interaction.unlock.png" />
     <Content Include="Model\Sprite\name-deco-white.png" />
     <Content Include="Model\Sprite\Sprite_block.png" />
@@ -365,6 +367,7 @@
     <Content Include="ModelBuilder\Player\player-ghost-mary.blend1" />
     <Content Include="ModelBuilder\Player\Player-Texture-Body-Ghost-Mary.fla" />
     <Content Include="ModelBuilder\Player\Player-Texture-Face-Ghost-Mary-.fla" />
+    <Content Include="ModelBuilder\Sprite\interaction.unlock.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

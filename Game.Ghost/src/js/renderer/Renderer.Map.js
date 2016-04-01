@@ -76,7 +76,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.light = null;
         this.stuff = null;
         this.furniture = null;
-        this.furniturePos = {};         // furniture id: [x, y]
+        this.objectPos = {              //  id: [x, y]
+            furniture: {},
+            door: {}
+        };               
         this.doorPos = {};              // door id: [x, y]
         this.ground = null;
         this.ceiling = null;
@@ -422,7 +425,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             console.log(dat);
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
-            that.furniturePos[idx] = [x, y];
+            that.objectPos.furniture[idx] = [x, y];
 
 
             var loader = new THREE.JSONLoader();
@@ -511,7 +514,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             console.log(dat);
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
-            that.doorPos[idx] = [x, y];
+            that.objectPos.door[idx] = [x, y];
 
             var loader = new THREE.JSONLoader();
             loader.load(root + Data.files.path[Data.categoryName.door] + para.model, function (geometry, materials) {

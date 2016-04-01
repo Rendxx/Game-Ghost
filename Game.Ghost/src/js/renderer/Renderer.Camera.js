@@ -35,8 +35,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             root = entity.root,
             sprites = {},
             spritesInteraction = {
-                normal: {},
-                highlight: {}
+                normal: {
+                    furniture: {},
+                    door: {}
+                },
+                highlight: {
+                    furniture: {},
+                    door: {}
+                }
             },
             msg = null,
 
@@ -235,50 +241,60 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // Interaction icon ------------------------------------------
         var updateInteractionIcon = function () {
-            if (that.character.interactionObj == null) return;
-            var list_f = that.character.interactionObj.surround.furniture;
-            var highLight_f = null;
-            var highLight_f_status = null;
-            if (that.character.interactionObj.canUse != null) {
-                highLight_f = that.character.interactionObj.canUse.furniture;
-                highLight_f_status = list_f[highLight_f];
+            if (that.character.visibleObject == null) return;
+            var highLightObj = null;
+
+            var visibleObject = {
+                furniture: {},      // {id : op}
+                door: {}
+            };
+            for (var i = 0; i < that.character.visibleObject.length; i++) {
+                visibleObject[that.character.visibleObject[i].type][that.character.visibleObject[i].id] = that.character.visibleObject[i].op;
             }
 
+            if (that.character.accessObject != null) {
+                highLightObj['type'] = that.character.accessObject.type;
+                highLightObj['id'] = that.character.accessObject.id;
+                highLightObj['op'] = that.character.accessObject.op;
+                if (visibleObject[highLightObj['type']].hasOwnProperty(highLightObj['id'])) delete visibleObject[highLightObj['id']];
+            }
+            
             // normal
             for (var t in interactionIcon) {
-                if (!list_f.hasOwnProperty(t) || list_f[t] != interactionIcon[t]) {
-                    hideInteraction_normal(t, interactionIcon[t]);
-                    delete (interactionIcon[t]);
+                for (var id in interactionIcon[t]) {
+                    if (!visibleObject[t].hasOwnProperty(id) || visibleObject[t][id] != interactionIcon[t][id]) {
+                        hideInteraction_normal(t, id, interactionIcon[t][id]);
+                    }
                 }
             }
-
-            for (var t in list_f) {
-                if (!interactionIcon.hasOwnProperty(t)) {
-                    interactionIcon[t] = list_f[t];
-                    showInteraction_normal(t, list_f[t]);
+            
+            for (var t in visibleObject) {
+                for (var id in visibleObject[t]) {
+                    if (!interactionIcon.hasOwnProperty(t) || visibleObject[t][id] != interactionIcon[t][id]) {
+                        showInteraction_normal(t, id, interactionIcon[t][id]);
+                    }
                 }
             }
+            interactionIcon = visibleObject;
 
             // highlight
-            for (var t in highLightIcon) {
-                if (highLight_f != t || highLight_f_status != highLightIcon[t]) {
-                    hideInteraction_highlight(t, highLightIcon[t]);
-                    delete (highLightIcon[t]);
+            if (highLightIcon != null) {
+                if (highLightIcon.type != highLightObj.type || highLightIcon.id != highLightObj.id || highLightIcon.op != highLightObj.op) {
+                    hideInteraction_highlight(highLightIcon.type, highLightIcon.id, highLightIcon.op);
                 }
             }
-
-            if (highLight_f_status!=null) {
-                if (!highLightIcon.hasOwnProperty(highLight_f)) {
-                    highLightIcon[highLight_f] = highLight_f_status;
-                    showInteraction_highlight(highLight_f, highLight_f_status);
+            if (highLightObj != null) {
+                if (highLightIcon.type != highLightObj.type || highLightIcon.id != highLightObj.id || highLightIcon.op != highLightObj.op) {
+                    showInteraction_highlight(highLightObj.type, highLightObj.id, highLightObj.op);
                 }
             }
+            highLightIcon = highLightObj;
         };
 
         // interation highlight
         var hideInteraction_highlight = function (furnitureId, iconStatus) {
-            if (spritesInteraction.highlight[furnitureId] == null || spritesInteraction.highlight[furnitureId][iconStatus] == null) return;
-            var sprPkg = spritesInteraction.highlight[furnitureId][iconStatus];
+            if (spritesInteraction.highlight[objType][objId] == null || spritesInteraction.highlight[objType][objId][objOp] == null) return;
+            var sprPkg = spritesInteraction.highlight[objType][objId][objOp];
 
             if (sprPkg.tween != null) sprPkg.tween.stop();
             var start_opacity = 0,
@@ -294,16 +310,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tween_hide.start();
         };
 
-        var showInteraction_highlight = function (furnitureId, iconStatus) {
-            if (spritesInteraction.highlight[furnitureId] == null) spritesInteraction.highlight[furnitureId] = {};
-            if (spritesInteraction.highlight[furnitureId][iconStatus] == null)
-                spritesInteraction.highlight[furnitureId][iconStatus] = createInteractionIcon(furnitureId, iconStatus, true);
-            var sprPkg = spritesInteraction.highlight[furnitureId][iconStatus];
+        var showInteraction_highlight = function (objType, objId, objOp) {
+            if (spritesInteraction.highlight[objType][objId] == null) spritesInteraction.highlight[objType][objId] = {};
+            if (spritesInteraction.highlight[objType][objId][objOp] == null)
+                spritesInteraction.highlight[objType][objId][objOp] = createInteractionIcon(objType, objId, objOp, true);
+            var sprPkg = spritesInteraction.highlight[objType][objId][objOp];
             if (sprPkg == null) return;
 
             if (sprPkg.tween != null) sprPkg.tween.stop();
             var start_opacity = 0,
-                start_z = entity.map.furniturePos[furnitureId][1] - GridSize / 4,
+                start_z = entity.map.objPos[objType][objId][1] - GridSize / 4,
                 scale_y = GridSize * 2,
                 spr = sprPkg.icon,
                 mat = spr.material;
@@ -319,13 +335,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         // interation normal
-        var hideInteraction_normal = function (furnitureId, iconStatus) {
-            if (spritesInteraction.normal[furnitureId] == null || spritesInteraction.normal[furnitureId][iconStatus] == null) return;
-            var sprPkg = spritesInteraction.normal[furnitureId][iconStatus];
+        var hideInteraction_normal = function (objType, objId, objOp) {
+            if (spritesInteraction.normal[objType][objId] == null || spritesInteraction.normal[objType][objId][objOp] == null) return;
+            var sprPkg = spritesInteraction.normal[objType][objId][objOp];
 
             if (sprPkg.tween != null) sprPkg.tween.stop();
             var start_opacity = 0,
-                start_z = entity.map.furniturePos[furnitureId][1] + GridSize / 4,
                 scale_y = GridSize * 2,
                 spr = sprPkg.icon,
                 mat = spr.material;
@@ -339,17 +354,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprPkg.tween = tween_hide;
         };
 
-        var showInteraction_normal = function (furnitureId, iconStatus) {
-            if (spritesInteraction.normal[furnitureId] == null) spritesInteraction.normal[furnitureId] = {};
-            if (spritesInteraction.normal[furnitureId][iconStatus] == null)
-                spritesInteraction.normal[furnitureId][iconStatus] = createInteractionIcon(furnitureId, iconStatus, false);
-            var sprPkg = spritesInteraction.normal[furnitureId][iconStatus];
+        var showInteraction_normal = function (objType, objId, objOp) {
+            if (spritesInteraction.normal[objType][objId] == null ) spritesInteraction.normal[objType][objId] = {};
+            if (spritesInteraction.normal[objType][objId][objOp] == null)
+                spritesInteraction.normal[objType][objId][objOp] = createInteractionIcon(objType, objId, objOp, false);
+            var sprPkg = spritesInteraction.normal[objType][objId][objOp];
 
             if (sprPkg == null) return;
 
             if (sprPkg.tween != null) sprPkg.tween.stop();
             var start_opacity = 0,
-                start_z = entity.map.furniturePos[furnitureId][1] - GridSize / 4,
+                start_z = entity.map.objPos[objType][objId][1] - GridSize / 4,
                 scale_y = GridSize * 2,
                 spr = sprPkg.icon,
                 mat = spr.material;
@@ -366,7 +381,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprPkg.tween = tween_show;
         };
 
-        var createInteractionIcon = function (furnitureId, iconStatus, isHighlight) {
+        var createInteractionIcon = function (objType, objId, objOp, isHighlight) {
             var tex1 = null;
             if (iconStatus == _Data.furnitureOperation.Key) {
                 tex1 = !isHighlight ? tex['interaction-key'] : tex['interaction-key-2'];
@@ -386,7 +401,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             mat.opacity = 0;
 
             var spr = new THREE.Sprite(mat);
-            var pos = entity.map.furniturePos[furnitureId];
+            var pos = entity.map.objPos[objType][objId];
 
             spr.position.set(pos[0], GridSize, pos[1] - 3 * GridSize / 4);
             spr.scale.set(GridSize * 2, GridSize * 2, 1.0);
