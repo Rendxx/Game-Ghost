@@ -349,5 +349,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         _init();
     };
 
-    SYSTEM.Map = Map
+    SYSTEM.Map = Map;
+    SYSTEM.Map.Data = _Data;
 })(window.Rendxx.Game.Ghost.System);

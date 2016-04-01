@@ -8,30 +8,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
-    var _Data = {
-        Grid: {
-            Empty: 0,
-            Wall: 1,
-            Furniture: 2,
-            Door: 3,
-            Body: 4
-        },
-        FurnitureStatus: {
-            None: 0,
-            Closed: 1,
-            Opened: 2
-        },
-        DoorStatus: {
-            Locked: 0,
-            Opened: 1,
-            Closed: 2,
-            Blocked: 3
-        },
-        Prefix: {
-            furniture: 'f',
-            door: 'd'
-        }
-    };
     var InterAction = function (entity) {
         // data ----------------------------------------------------------
         var that = this,
@@ -78,9 +54,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 oldY = Math.floor(y);
 
             var rst = [x + deltaX, y + deltaY];
-            if (deltaX != 0 && (newX < 0 || newX >= width || (map.grid.empty[oldY][newX] != _Data.Grid.Empty && !(map.grid.empty[oldY][newX] == _Data.Grid.Door && map.objList['door'][map.grid.door[oldY][newX]].status == _Data.DoorStatus.Opened))))
+            if (deltaX != 0 && (newX < 0 || newX >= width || (map.grid.empty[oldY][newX] != SYSTEM.Map.Data.Grid.Empty && !(map.grid.empty[oldY][newX] == SYSTEM.Map.Data.Grid.Door && map.objList['door'][map.grid.door[oldY][newX]].status == SYSTEM.MapObject.Door.Data.Status.Opened))))
                 rst[0] = (deltaX > 0) ? newX : newX + 1;
-            if (deltaY != 0 && (newY < 0 || newY >= height || (map.grid.empty[newY][oldX] != _Data.Grid.Empty && !(map.grid.empty[newY][oldX] == _Data.Grid.Door && map.objList['door'][map.grid.door[newY][oldX]].status == _Data.DoorStatus.Opened))))
+            if (deltaY != 0 && (newY < 0 || newY >= height || (map.grid.empty[newY][oldX] != SYSTEM.Map.Data.Grid.Empty && !(map.grid.empty[newY][oldX] == SYSTEM.Map.Data.Grid.Door && map.objList['door'][map.grid.door[newY][oldX]].status == SYSTEM.MapObject.Door.Data.Status.Opened))))
                 rst[1] = (deltaY > 0) ? newY : newY + 1;
             return rst;
         };
@@ -184,9 +160,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         var _checkPosVisible = function (x, y) {
-            if (grid.empty[y][x] == _Data.Grid.Empty) return true;
-            if (grid.empty[y][x] == _Data.Grid.Furniture && !map.objList.furniture[grid.furniture[y][x]].blockSight) return true;
-            if (grid.empty[y][x] == _Data.Grid.Door && !map.objList.door[grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened) return true;
+            if (grid.empty[y][x] == SYSTEM.Map.Data.Grid.Empty) return true;
+            if (grid.empty[y][x] == SYSTEM.Map.Data.Grid.Furniture && !map.objList.furniture[grid.furniture[y][x]].blockSight) return true;
+            if (grid.empty[y][x] == SYSTEM.Map.Data.Grid.Door && !map.objList.door[grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened) return true;
             return false;
         };
 
@@ -405,7 +381,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             emptyPos = [];
             for (var i = 0; i < height; i++) {
                 for (var j = 0; j < width; j++) {
-                    if (map.grid.empty[i][j] == _Data.Grid.Empty) {
+                    if (map.grid.empty[i][j] == SYSTEM.Map.Data.Grid.Empty) {
                         emptyPos.push([i, j]);
                     }
                 }
@@ -503,8 +479,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
         };
 
-        var updateInteractionObj = function (f_id) {
-        };
+        var setupTriggerPos = function () { };
     };
 
     SYSTEM.InterAction = InterAction;

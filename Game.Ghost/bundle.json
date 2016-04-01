@@ -67,6 +67,7 @@
         "#src#/system/MapObject/System.MapObject.Body.js",
         "#src#/system/MapObject/System.MapObject.Furniture.js",
         "#src#/system/MapObject/System.MapObject.Door.js",
+        "#src#/system/MapObject/System.MapObject.Position.js",
         // Item
         "#src#/system/Item/System.Item.Basic.js",
         "#src#/system/Item/System.Item.Key.js",
