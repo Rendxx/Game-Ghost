@@ -118,6 +118,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         return this.accessObject.check();
     };
 
+    Basic.prototype.checkOperation = function () {
+        return null;
+    };
+
     Basic.prototype._updateMove = function () {
         // is back?
         var isBack = false,

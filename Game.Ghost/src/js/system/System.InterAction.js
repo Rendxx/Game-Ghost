@@ -54,7 +54,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 end: []
             },
             emptyPos = [],
-            accessGrid = [],        // 2d matrix same as grid. reocrd accessable furniture id of that grid in a list
+            accessGrid = [],        // [[{id: angle}]]
 
             // cache
             surroundObj = {
@@ -123,25 +123,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
         
         // get all accessable object of that position
-        this.getAccessObject = function (x, y, r) {
+        this.getAccessObject = function (x, y) {
             x = Math.floor(x);
             y = Math.floor(y);
-
-            if (accessGrid[y][x] == null) return null;
-
-            var f_id = grid.furniture[access_y][access_x];
-            var d_id = grid.door[access_y][access_x];
-            if (f_id != -1) {
-                // furniture
-                if (accessGrid[y][x][f_id] !== true) return null;
-                return { furniture: f_id };
-            } else if (d_id != -1) {
-                // door
-                if (accessGrid[y][x][_Data.DoorPrefix + d_id] !== true) return null;
-                return { door: d_id };
-            }
-
-            return null;
+            return accessGrid[y][x];
         };
 
         // check the access of funiture
@@ -294,6 +279,68 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
                     if (accessGrid[new_y][new_x] == null) accessGrid[new_y][new_x] = { furniture: {}, door: {} };
                     accessGrid[new_y][new_x]['door'][k] = true;
+                }
+            }
+
+            // re-scan matrix for angle
+            //    o------------->
+            //    | 225 180 135
+            //    | 270     90
+            //    | 315  0  45
+            //    v
+
+            var t;
+            for (var i = 0; i < height; i++) {
+                for (var j = 0; j < width; j++) {
+                    if (accessGrid[i][j] == null) continue;
+                    if (i>0){
+                        if (j > 0) {
+                            t = map.grid.furniture[i - 1][j - 1];
+                            if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 225;
+                            t = map.grid.door[i - 1][j - 1];
+                            if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 225;
+                        }
+                        if (j < width - 1) {
+                            t = map.grid.furniture[i - 1][j + 1];
+                            if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 135;
+                            t = map.grid.door[i - 1][j + 1];
+                            if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 135;
+                        }
+                        t = map.grid.furniture[i - 1][j];
+                        if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 180;
+                        t = map.grid.door[i - 1][j];
+                        if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 180;
+                    }
+                    if (i < height-1) {
+                        if (j > 0) {
+                            t = map.grid.furniture[i + 1][j - 1];
+                            if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 315;
+                            t = map.grid.door[i + 1][j - 1];
+                            if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 315;
+                        }
+                        if (j < width - 1) {
+                            t = map.grid.furniture[i + 1][j + 1];
+                            if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 45;
+                            t = map.grid.door[i + 1][j + 1];
+                            if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 45;
+                        }
+                        t = map.grid.furniture[i + 1][j];
+                        if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 0;
+                        t = map.grid.door[i + 1][j];
+                        if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 0;
+                    }
+                    if (j > 0) {
+                        t = map.grid.furniture[i][j - 1];
+                        if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 270;
+                        t = map.grid.door[i][j - 1];
+                        if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 270;
+                    }
+                    if (j < width - 1) {
+                        t = map.grid.furniture[i][j + 1];
+                        if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 90;
+                        t = map.grid.door[i][j + 1];
+                        if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 90;
+                    }
                 }
             }
 

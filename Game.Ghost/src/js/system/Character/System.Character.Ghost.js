@@ -76,6 +76,28 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.updateData();
     };
 
+    Ghost.prototype.checkOperation = function (obj) {
+        var info = obj.check();
+        switch (info.objType) {
+            case SYSTEM.MapObject.Door.Data.ObjType:
+                if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
+                    return SYSTEM.MapObject.Door.Data.Operation.Close;
+                }
+                return SYSTEM.MapObject.Door.Data.Operation.Open;
+                break;
+            case SYSTEM.MapObject.Furniture.Data.ObjType:
+                if (info.status == SYSTEM.MapObject.Furniture.Data.Status.None) return null;
+                if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Closed) {
+                    return SYSTEM.MapObject.Door.Furniture.Operation.Open;
+                }
+                return SYSTEM.MapObject.Door.Furniture.Operation.Close;
+                break;
+            case SYSTEM.MapObject.Body.Data.ObjType:
+                break;
+        }
+        return null;
+    };
+
     Ghost.prototype._updateStatus = function () {
         // endurance
         if (this.endurance <= 0) this.rush = false;

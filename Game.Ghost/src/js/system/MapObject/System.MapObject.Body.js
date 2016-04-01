@@ -10,7 +10,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Data ----------------------------------------------------------
     var Data = SYSTEM.Data;
     var _Data = {
-        ObjType: 'body'
+        ObjType: 'body',
+        Operation: {
+            Search: 1
+        }
     };
 
     // Construct -----------------------------------------------------
