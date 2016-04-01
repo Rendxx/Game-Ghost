@@ -15,7 +15,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Search: 1
         }
     };
-    
+
+    // Construct -----------------------------------------------------
+    var Position = function (id, para, modelData) {
+    };
+    Position.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
+    Position.prototype.constructor = Position;
+
     // ----------------------------------------------------------------
     SYSTEM.MapObject = SYSTEM.MapObject || {};
     SYSTEM.MapObject.Position = Position;

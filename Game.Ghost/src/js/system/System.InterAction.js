@@ -122,7 +122,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return _checkVisibleLine(x1, x2, y1, y2);
         };
 
-        var _checkVisibleLine = function (x1, x2, y1, y2) {
+        var _checkVisibleLine = function (x1, y1, x2, y2) {
             var r = Math.atan2(x2 - x1, y2 - y1) * 180 / Math.PI;
             if (x1 == x2) {
                 var y_min = Math.min(y1, y2),
@@ -160,9 +160,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         var _checkPosVisible = function (x, y) {
-            if (grid.empty[y][x] == SYSTEM.Map.Data.Grid.Empty) return true;
-            if (grid.empty[y][x] == SYSTEM.Map.Data.Grid.Furniture && !map.objList.furniture[grid.furniture[y][x]].blockSight) return true;
-            if (grid.empty[y][x] == SYSTEM.Map.Data.Grid.Door && !map.objList.door[grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened) return true;
+            if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Empty) return true;
+            if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Furniture && !map.objList.furniture[map.grid.furniture[y][x]].blockSight) return true;
+            if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Door && !map.objList.door[map.grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened) return true;
             return false;
         };
 
@@ -248,7 +248,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var x = furniture.x;
                 var y = furniture.y;
                 var r = furniture.rotation;
-                var accessPos = map.modelData.items[Data.item.categoryName.furniture][furniture.id].accessPos;
+                var accessPos = map.modelData.items[Data.item.categoryName.furniture][furniture.modelId].accessPos;
                 if (accessPos == null) continue;
 
                 for (var i = 0; i < accessPos.length; i++) {
@@ -268,7 +268,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var x = door.x;
                 var y = door.y;
                 var r = door.rotation;
-                var accessPos = _modelData.items[Data.item.categoryName.door][door.id].accessPos;
+                var accessPos = map.modelData.items[Data.item.categoryName.door][door.modelId].accessPos;
                 if (accessPos == null) continue;
 
                 for (var i = 0; i < accessPos.length; i++) {
@@ -423,10 +423,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                                 if (sGrid[i][j] == null) sGrid[i][j] = { furniture: {}, door: {} };
                                 var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
                                 if (!(d_id in sGrid[i][j].door) || sGrid[i][j].door[d_id] > r)
-                                    sGrid[i][j].door[f_id] = r;
+                                    sGrid[i][j].door[d_id] = r;
                             }
                         }
                     }
+                    if (sGrid[i][j] == null) continue;
                     for (var t in sGrid[i][j].furniture) {
                         if (sGrid[i][j].furniture[t] > range2 || !_checkVisibleLine(j, i, map.objList.furniture[t].x, map.objList.furniture[t].y)) delete sGrid[i][j].furniture[t];
                         else sGrid[i][j].furniture[t] = [sGrid[i][j].furniture[t], Math.atan2(map.objList.furniture[t].x - j, map.objList.furniture[t].y - i) * 180 / Math.PI];

@@ -22,6 +22,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ----------------------------------------------------------
         var that = this;
 
+        this.modelData = modelData;
         this.width = 0;
         this.height = 0;
         this.grid = {
@@ -247,11 +248,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var keyItem = new SYSTEM.Item.Key(_setupDat.id, _setupDat.mapObjectId, _setupDat.name, _setupDat.doorId);
                     keyItem.onChange = function (idx, data) {
                         gameData.key[idx] = data;
-                        that.objList.furniture[that.objList.key[idx].furnitureId].token();
                     };
 
-                    that.objList.furniture[tmpList[idx]].keyId = index;
                     that.objList.key[index] = keyItem;
+                    that.objList.furniture[tmpList[idx]].placeKey(keyItem);
                     gameData.key[index] = keyItem.toJSON();
                     hasKeyList[tmpList[idx]] = true;
                     tmpList.splice(idx, 1);

@@ -25,6 +25,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.id;
         this.x;
         this.y;
+        this.rotation;
         this.modelId;
 
         this.setup(id, para, modelData);
@@ -55,8 +56,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (para != undefined) {
             this.x = (para.left + para.right + 1) / 2;
             this.y = (para.top + para.bottom + 1) / 2;
-            this.modelId = para.modelId;
+            this.y = para.rotation;
         }
+        this.modelId = modelData.id;
     };
 
     Basic.prototype.updateData = function () {

@@ -37,10 +37,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.y = -1;
         this.para = characterPara;
         this.modelData = characterData[characterPara.role][characterPara.modelId];
-        this.endurance = characterPara.init.endurance;
-        this.light = characterPara.init.light;
-        this.battery = characterPara.init.battery;
-        this.hp = characterPara.init.hp;
+        this.endurance = _para.init.endurance;
+        this.light = _para.init.light;
+        this.battery = _para.init.battery;
+        this.hp = _para.init.hp;
         this.action = this.modelData.action.list[this.modelData.action.init];
         this.currentRotation = {
             head: 0,
@@ -197,7 +197,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 else if (deltaY < 0) _radius_y = -_radius;
                 deltaX += _radius_x;
                 deltaY += _radius_y;
-                var canMove = this.entity.interaction.moveCheck(this.x, this.y, deltaX, deltaY);
+                var canMove =  this.entity.interAction.moveCheck(this.x, this.y, deltaX, deltaY);
                 if (deltaX != 0) this.x = canMove[0] - _radius_x;
                 if (deltaY != 0) this.y = canMove[1] - _radius_y;
             }
@@ -208,8 +208,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Basic.prototype._updateInteraction = function () {
-        this.visibleObject = this.entity.interaction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation.head);
-        this.accessObject = this.entity.interaction.getAccessObject(this.id, this.x, this.y, this.currentRotation.head);
+        this.visibleObject =  this.entity.interAction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation.head);
+        this.accessObject =  this.entity.interAction.getAccessObject(this.id, this.x, this.y, this.currentRotation.head);
     };
 
     Basic.prototype._updateVisible = function () {
@@ -218,7 +218,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (!this.entity.characters[c].actived)
                 this.visibleCharacter[c] = true;
             else
-                this.visibleCharacter[c] = this.entity.interaction.checkVisible(this, this.entity.characters[c]);
+                this.visibleCharacter[c] =  this.entity.interAction.checkVisible(this, this.entity.characters[c]);
         }
     };
 

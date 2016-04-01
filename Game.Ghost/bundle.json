@@ -78,6 +78,7 @@
 
         "#src#/system/System.Map.js",
         "#src#/system/System.InterAction.js",
+        "#src#/system/System.UserInput.js",
         "#src#/system/System.Main.js"
       ],
       "#dest#/Game.Ghost.System.Wrapper": [

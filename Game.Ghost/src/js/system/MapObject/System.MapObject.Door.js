@@ -65,32 +65,32 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Door.prototype.Open = function () {
         this.status = _Data.Status.Opened;
-        updateData();
+        this.updateData();
     };
 
     Door.prototype.close = function () {
         this.status = _Data.Status.Closed;
-        updateData();
+        this.updateData();
     };
 
     Door.prototype.unlock = function () {
         this.status = _Data.Status.Closed;
-        updateData();
+        this.updateData();
     };
 
     Door.prototype.lock = function () {
         this.status = _Data.Status.Locked;
-        updateData();
+        this.updateData();
     };
 
     Door.prototype.block = function (characterId) {
         this.blockList[characterId] = true;
-        updateData();
+        this.updateData();
     };
 
     Door.prototype.unblock = function (characterId) {
         delete this.blockList[characterId];
-        updateData();
+        this.updateData();
     };
 
     // ----------------------------------------------------------------

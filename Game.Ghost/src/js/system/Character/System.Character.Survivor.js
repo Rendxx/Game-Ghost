@@ -25,14 +25,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Construct -----------------------------------------------------
     var Survivor = function (id, characterPara, characterData, entity) {
+        SYSTEM.Character.Basic.call(this, id, characterPara, characterData, entity);
         // data
         this.win = false;       // character is win or not
         this.recover = 0;       // recover enfurance count
         this.key = {};          // key list {door id : key id}
         this.lockDoor = {};     // record of locked door
         this.danger = 0;        // danger level
-
-
     };
     Survivor.prototype = Object.create(SYSTEM.Character.Basic.prototype);
     Survivor.prototype.constructor = Survivor;
@@ -43,11 +42,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if ('win' in _recoverData) this.win = _recoverData.win;
         if ('key' in _recoverData) this.key = _recoverData.key;
         if ('recover' in _recoverData) this.recover = _recoverData.recover;
-        SYSTEM.Character.Basic.reset.call(this, _recoverData);
+        SYSTEM.Character.Basic.prototype.reset.call(this, _recoverData);
     };
 
     Survivor.prototype.toJSON = function () {
-        var dat = SYSTEM.Character.Basic.toJSON.call(this);
+        var dat = SYSTEM.Character.Basic.prototype.toJSON.call(this);
         dat['win'] = this.win;
         dat['key'] = this.key;
         dat['lockDoor'] = this.lockDoor;
@@ -113,7 +112,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     if (keyNames.length > 0) {
                         this.entity.message.send(this.id, _Data.message.getKey + keyNames.substring(0, keyNames.length - 2));
                     }
-                    this.entity.interaction.updateDoorInteraction(info.objType, info.id);
+                     this.entity.interAction.updateDoorInteraction(info.objType, info.id);
                 }
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:
@@ -145,7 +144,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
                 break;
         }
-        this.entity.interaction.updateInteraction(info.objType, info.id);
+         this.entity.interAction.updateInteraction(info.objType, info.id);
         this.updateData();
     };
 
@@ -230,5 +229,5 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // ---------------------------------------------------------------
     SYSTEM.Character = SYSTEM.Character || {};
-    SYSTEM.Character.Basic = Basic;
+    SYSTEM.Character.Survivor = Survivor;
 })(window.Rendxx.Game.Ghost.System);

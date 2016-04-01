@@ -83,7 +83,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             top: Math.floor(character.y),
             bottom: Math.ceil(character.y)
         };
-        SYSTEM.MapObject.Basic.setup.call(this, character.id, info, null);
+        SYSTEM.MapObject.Basic.prototype.setup.call(this, character.id, info, null);
     };
 
     // ----------------------------------------------------------------

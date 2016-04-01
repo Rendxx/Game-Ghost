@@ -26,6 +26,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Construct -----------------------------------------------------
     var Ghost = function (id, characterPara, characterData, entity) {
+        SYSTEM.Character.Basic.call(this, id, characterPara, characterData, entity);
         // data
         this.danger = 0;        // danger level
         this.teleportCount = 0;      // count to auto fly
@@ -36,11 +37,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Method --------------------------------------------------------
     Ghost.prototype.reset = function (_recoverData) {
         if (_recoverData == null) return;
-        SYSTEM.Character.Basic.reset.call(this, _recoverData);
+        SYSTEM.Character.Basic.prototype.reset.call(this, _recoverData);
     };
 
     Ghost.prototype.toJSON = function () {
-        var dat = SYSTEM.Character.Basic.toJSON.call(this);
+        var dat = SYSTEM.Character.Basic.prototype.toJSON.call(this);
         dat['danger'] = this.danger;
         return dat;
     };
@@ -74,7 +75,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             case SYSTEM.MapObject.Body.Data.ObjType:
                 break;
         }
-        this.entity.interaction.updateInteraction(info.objType, info.id);
+         this.entity.interAction.updateInteraction(info.objType, info.id);
         this.updateData();
     };
 
@@ -127,7 +128,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // random fly
         this.teleportCount++;
         if (this.teleportCount >= _Data.teleportCountMax) {
-            var yx = this.entity.interaction.findEmptyPos();
+            var yx =  this.entity.interAction.findEmptyPos();
             this.x = yx[1];
             this.y = yx[0];
             this.teleportCount = 0;
@@ -145,7 +146,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Ghost.prototype.teleport = function () {
         if (this.endurance >= this.modelData.para.endurance / 5) {
-            var yx = this.entity.interaction.findEmptyPos();
+            var yx =  this.entity.interAction.findEmptyPos();
             this.x = yx[1];
             this.y = yx[0];
             this.endurance -= this.modelData.para.endurance / 5;
@@ -155,5 +156,5 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // ---------------------------------------------------------------
     SYSTEM.Character = SYSTEM.Character || {};
-    SYSTEM.Character.Basic = Basic;
+    SYSTEM.Character.Ghost = Ghost;
 })(window.Rendxx.Game.Ghost.System);
