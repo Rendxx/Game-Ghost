@@ -10,6 +10,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 (function (SYSTEM) {
     // Data ----------------------------------------------------------
     var Data = SYSTEM.Data;
+    var _Data = {
+        ObjType: 'basic',
+        Operation: {
+            None: -1
+        }
+    };
 
     // Construct -----------------------------------------------------
     var Basic = function (id, para, modelData) {
@@ -61,4 +67,5 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // ----------------------------------------------------------------
     SYSTEM.MapObject = SYSTEM.MapObject || {};
     SYSTEM.MapObject.Basic = Basic;
+    SYSTEM.MapObject.Basic.Data = _Data;
 })(window.Rendxx.Game.Ghost.System);

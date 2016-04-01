@@ -197,7 +197,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 else if (deltaY < 0) _radius_y = -_radius;
                 deltaX += _radius_x;
                 deltaY += _radius_y;
-                var canMove = this.entity.map.moveCheck(this.x, this.y, deltaX, deltaY);
+                var canMove = this.entity.interaction.moveCheck(this.x, this.y, deltaX, deltaY);
                 if (deltaX != 0) this.x = canMove[0] - _radius_x;
                 if (deltaY != 0) this.y = canMove[1] - _radius_y;
             }
@@ -208,6 +208,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Basic.prototype._updateInteraction = function () {
+        this.visibleObject = this.entity.interaction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation.head);
+        this.accessObject = this.entity.interaction.getAccessObject(this.id, this.x, this.y, this.currentRotation.head);
     };
 
     Basic.prototype._updateVisible = function () {
@@ -216,7 +218,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (!this.entity.characters[c].actived)
                 this.visibleCharacter[c] = true;
             else
-                this.visibleCharacter[c] = this.entity.map.checkVisible(this, this.entity.characters[c]);
+                this.visibleCharacter[c] = this.entity.interaction.checkVisible(this, this.entity.characters[c]);
         }
     };
 

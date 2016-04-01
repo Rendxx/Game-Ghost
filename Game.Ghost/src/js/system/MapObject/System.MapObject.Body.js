@@ -12,7 +12,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var _Data = {
         ObjType: 'body',
         Operation: {
-            None: 0,
             Search: 1
         }
     };
@@ -90,4 +89,5 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // ----------------------------------------------------------------
     SYSTEM.MapObject = SYSTEM.MapObject || {};
     SYSTEM.MapObject.Body = Body;
+    SYSTEM.MapObject.Body.Data = _Data;
 })(window.Rendxx.Game.Ghost.System);

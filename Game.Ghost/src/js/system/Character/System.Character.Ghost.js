@@ -49,30 +49,32 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype.interaction = function () {
         if (!this.actived) return;
         if (this.accessObject == null) return;
-        var info = this.accessObject.check();
+        var obj = this.entity.map.objList[this.accessObject.type][this.accessObject.id];
+        var info = obj.check();
         switch (info.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
-                    this.accessObject.close();
+                    obj.close();
                 } else if (info.status == SYSTEM.MapObject.Door.Data.Status.Locked) {
                     this.entity.message.send(this.id, _Data.message.doorLock.replace('#name#', info.name));
                 } else if (info.blocked) {
                     this.entity.message.send(this.id, _Data.message.doorBlock);
                 } else {
-                    this.accessObject.open();
+                    obj.open();
                 }
                 break;
             case SYSTEM.MapObject.Furniture.Data.ObjType:
                 if (info.disabled) break;
                 if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Closed) {
-                    this.accessObject.open();
+                    obj.open();
                 } else {
-                    this.accessObject.close();
+                    obj.close();
                 }
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:
                 break;
         }
+        this.entity.interaction.updateInteraction(info.objType, info.id);
         this.updateData();
     };
 
@@ -88,14 +90,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             case SYSTEM.MapObject.Furniture.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Furniture.Data.Status.None) return null;
                 if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Closed) {
-                    return SYSTEM.MapObject.Door.Furniture.Operation.Open;
+                    return SYSTEM.MapObject.Furniture.Data.Operation.Open;
                 }
-                return SYSTEM.MapObject.Door.Furniture.Operation.Close;
+                return SYSTEM.MapObject.Furniture.Data.Operation.Close;
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:
                 break;
         }
-        return null;
+        return SYSTEM.MapObject.Basic.Data.Operation.None;
     };
 
     Ghost.prototype._updateStatus = function () {
@@ -125,7 +127,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // random fly
         this.teleportCount++;
         if (this.teleportCount >= _Data.teleportCountMax) {
-            var yx = this.entity.map.findEmptyPos();
+            var yx = this.entity.interaction.findEmptyPos();
             this.x = yx[1];
             this.y = yx[0];
             this.teleportCount = 0;
@@ -133,11 +135,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // danger
         this.danger = this.endurance / this.modelData.para.endurance;
-    };
-
-    Ghost.prototype._updateInteraction = function () {
-        this.visibleObject = this.entity.map.checkInteractionObj(this.x, this.y, this.currentRotation.head);
-        this.accessObject = this.entity.map.getAccessObject(this.x, this.y, this.currentRotation.head);
     };
 
     Ghost.prototype.crazy = function () {
@@ -148,7 +145,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Ghost.prototype.teleport = function () {
         if (this.endurance >= this.modelData.para.endurance / 5) {
-            var yx = this.entity.map.findEmptyPos();
+            var yx = this.entity.interaction.findEmptyPos();
             this.x = yx[1];
             this.y = yx[0];
             this.endurance -= this.modelData.para.endurance / 5;

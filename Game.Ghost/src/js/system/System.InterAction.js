@@ -27,7 +27,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Closed: 2,
             Blocked: 3
         },
-        DoorPrefix: 'd'
+        Prefix: {
+            furniture: 'f',
+            door: 'd'
+        }
     };
     var InterAction = function (entity) {
         // data ----------------------------------------------------------
@@ -46,16 +49,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 end: []
             },
             emptyPos = [],
-            accessGrid = [],        // [[{id: angle}]] for every character
-
-            // cache
-            surroundObj = {
-                furniture: [],      // [[{id: angle}]]
-                door: []
-            };
+            /* this is designed for checking next available in O(1)
+             * Any character interact with object will update these data
+             * 
+             *  * op: operation
+             * objOperation:    { obj-type { obj-id [ character { type | id | op }]}}
+             * accessGrid:      [ grid-y [ grid-x [ character [ obj-packages { angle | info } ]]]]
+             * surroundGrid:    [ grid-y [ grid-x [ character [ obj-packages { angle | dst | info } ]]]]
+             */
+            accessGrid = [], 
+            objOperation = [],
+            surroundGrid = [];
         
         // public method -------------------------------------------------
         this.reset = function () {
+            width = map.width;
+            height = map.height;
+            setupObjOperation();
             setupAccess();
             setupInteractionObj();
         };
@@ -76,49 +86,52 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // get surround interaction obj list
-        this.checkInteractionObj = function (x, y, r) {
+        this.checkInteractionObj = function (c, x, y, r) {
             var x_idx = Math.floor(x),
                 y_idx = Math.floor(y);
 
             // furniture
-            var list_f = surroundObj.furniture[y_idx][x_idx];
-            var rst_f = {};
+            var rst = [];
+            var list = surroundGrid[y_idx][x_idx][c];
+            for (var i = 0; i < list.length; i++) {
+                var f = list[i];
+                var obj = map.objList[f.info.type][f.info.id];
 
-            for (var t in list_f) {
-                var d = Math.abs(list_f[t][2] - r);
+                var d = Math.abs(f.angle - r);
                 if (d > 180) d = 360 - d;
-                if (d > 90 && list_f[t][0] > 1.5) continue;
 
-                var d2 = Math.sqrt(Math.pow(list_f[t][0] - x, 2) + Math.pow(list_f[t][1] - y, 2));
-                if (d2 > 1.5) continue;
+                var d2 = Math.sqrt(Math.pow(obj.x - x, 2) + Math.pow(obj.y - y, 2));
+                if (d > 90 && d2 > 1.5) continue;
 
-                rst_f[t] = [d2,d];
+                rst.push(f.info);
             }
 
-            // door
-            var list_d = surroundObj.door[y_idx][x_idx];
-            var rst_d = {};
-
-            for (var t in list_d) {
-                var d = Math.abs(list_d[t][2] - r);
-                if (d > 180) d = 360 - d;
-                var d2 = Math.sqrt(Math.pow(list_d[t][0] - x, 2) + Math.pow(list_d[t][1] - y, 2));
-                if (d2 > 1.5) continue;
-
-                rst_d[t] = [d2, d];
-            }
-
-            return {
-                furniture: rst_f,
-                door: rst_d
-            };
+            return rst;
         };
         
         // get all accessable object of that position
-        this.getAccessObject = function (x, y) {
+        this.getAccessObject = function (c, x, y, r) {
             x = Math.floor(x);
             y = Math.floor(y);
-            return accessGrid[y][x];
+
+            var list = accessGrid[y][x][c];
+            if (list == null) return null;
+
+            var closestAngle = 360;
+            var type = null;
+            var objId = -1;
+            for (var i in list) {
+                var d = Math.abs(r - list.angle);
+                if (d > 180) d = 360 - d;
+                if (d > 80) continue;
+
+                if (d < closestAngle) {
+                    closestAngle = d;
+                    objId = i;
+                }
+            }
+            if (objId == -1) return null;
+            return list[i];
         };
 
         this.checkVisible = function (characterA, characterB) {
@@ -191,18 +204,64 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return false;
         };
 
-        // setup -----------------------------------------------
-        var setupAccess = function () {
-            accessGrid = [];
-            width = map.width;
-            height = map.height;
+        // update ----------------------------------------------
+        // update interaction of that object for all characters
+        this.updateInteraction = function (type, id) {
             for (var c = 0; c < characters.length; c++) {
-                accessGrid[c] = [];
-                for (var i = 0; i < height; i++) {
-                    accessGrid[c][i] = [];
-                    for (var j = 0; j < width; j++) {
-                        accessGrid[c][i][j] = null;
-                    }
+                objOperation[type][id][c]['op'] = characters[c].checkOperation(map.objList[type][id]);
+            }
+        };
+
+        // update the lock informatin for that character
+        this.updateDoorInteraction = function (doorIds, characterId) {
+            for (var k in doorIds) {
+                objOperation['door'][k][characterId]['op'] = characters[characterId].checkOperation(map.objList['door'][k]);
+            }
+        };
+
+        // setup -----------------------------------------------
+        var setupObjOperation = function () {
+            objOperation = {
+                furniture: {},
+                door: {}
+            };
+
+            var furnitures = map.objList.furniture;
+            for (var k in furnitures) {
+                var furniture = furnitures[k];
+
+                objOperation['furniture'][k] = [];
+                for (var c = 0; c < characters.length; c++) {
+                    objOperation['furniture'][k][c] = {
+                        'type': 'furniture',
+                        'id': k,
+                        'op': characters[c].checkOperation(furniture)
+                    };
+                }
+            }
+
+            var doors = map.objList.door;
+            for (var k in doors) {
+                var door = doors[k];
+
+                objOperation['door'][k] = [];
+                for (var c = 0; c < characters.length; c++) {
+                    objOperation['door'][k][c] = {
+                        'type': 'door',
+                        'id': k,
+                        'op': characters[c].checkOperation(door)
+                    };
+                }
+            }
+        };
+
+        var setupAccess = function () {
+            // prepare data
+            var accessGrid_angle = [];          // use to record angle
+            for (var i = 0; i < height; i++) {
+                accessGrid_angle[i] = [];
+                for (var j = 0; j < width; j++) {
+                    accessGrid_angle[i][j] = null;
                 }
             }
 
@@ -222,12 +281,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
                     var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
-                    for (var c = 0; c < characters.length; c++) {
-                        var operation = characters[c].checkOperation(furniture);
-                        if (operation == null) continue;
-                        if (accessGrid[c][new_y][new_x] == null) accessGrid[c][new_y][new_x] = { furniture: {}, door: {} };
-                        accessGrid[c][new_y][new_x]['furniture'][k] = operation;
-                    }
+                    if (accessGrid_angle[new_y][new_x] == null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {} };
+                    accessGrid_angle[new_y][new_x]['furniture'][k] = true;
                 }
             }
 
@@ -246,17 +301,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
                     var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
-                    for (var c = 0; c < characters.length; c++) {
-                        var operation = characters[c].checkOperation(door);
-                        if (operation == null) continue;
-                        if (accessGrid[c][new_y][new_x] == null) accessGrid[c][new_y][new_x] = { furniture: {}, door: {} };
-                        accessGrid[c][new_y][new_x]['door'][k] = operation;
-                    }
+                    if (accessGrid_angle[new_y][new_x] == null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {} };
+                    accessGrid_angle[new_y][new_x]['door'][k] = true;
                 }
             }
 
             // re-scan matrix for angle
-            //    o------------->
+            //    O------------->
             //    | 225 180 135
             //    | 270     90
             //    | 315  0  45
@@ -265,54 +316,87 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var t;
             for (var i = 0; i < height; i++) {
                 for (var j = 0; j < width; j++) {
-                    if (accessGrid[i][j] == null) continue;
+                    if (accessGrid_angle[i][j] == null) continue;
                     if (i>0){
                         if (j > 0) {
                             t = map.grid.furniture[i - 1][j - 1];
-                            if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 225;
+                            if (t != -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 225;
                             t = map.grid.door[i - 1][j - 1];
-                            if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 225;
+                            if (t != -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 225;
                         }
                         if (j < width - 1) {
                             t = map.grid.furniture[i - 1][j + 1];
-                            if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 135;
+                            if (t != -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 135;
                             t = map.grid.door[i - 1][j + 1];
-                            if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 135;
+                            if (t != -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 135;
                         }
                         t = map.grid.furniture[i - 1][j];
-                        if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 180;
+                        if (t != -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 180;
                         t = map.grid.door[i - 1][j];
-                        if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 180;
+                        if (t != -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 180;
                     }
                     if (i < height-1) {
                         if (j > 0) {
                             t = map.grid.furniture[i + 1][j - 1];
-                            if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 315;
+                            if (t != -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t]= 315;
                             t = map.grid.door[i + 1][j - 1];
-                            if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 315;
+                            if (t != -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 315;
                         }
                         if (j < width - 1) {
                             t = map.grid.furniture[i + 1][j + 1];
-                            if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 45;
+                            if (t != -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 45;
                             t = map.grid.door[i + 1][j + 1];
-                            if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 45;
+                            if (t != -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 45;
                         }
                         t = map.grid.furniture[i + 1][j];
-                        if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 0;
+                        if (t != -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 0;
                         t = map.grid.door[i + 1][j];
-                        if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 0;
+                        if (t != -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 0;
                     }
                     if (j > 0) {
                         t = map.grid.furniture[i][j - 1];
-                        if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 270;
+                        if (t != -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t]= 270;
                         t = map.grid.door[i][j - 1];
-                        if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 270;
+                        if (t != -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 270;
                     }
                     if (j < width - 1) {
                         t = map.grid.furniture[i][j + 1];
-                        if (t != -1 && accessGrid[i][j].furniture.hasOwnProperty(t)) accessGrid[i][j].furniture[t] = 90;
+                        if (t != -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 90;
                         t = map.grid.door[i][j + 1];
-                        if (t != -1 && accessGrid[i][j].door.hasOwnProperty(t)) accessGrid[i][j].door[t] = 90;
+                        if (t != -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 90;
+                    }
+                }
+            }
+
+            // build accessGrid
+            accessGrid = [];
+            for (var i = 0; i < height; i++) {
+                accessGrid[i] = [];
+                for (var j = 0; j < width; j++) {
+                    accessGrid[i][j] = [];
+                    for (var c = 0; c < characters.length; c++) {
+                        accessGrid[i][j][c] = [];
+                    }
+                }
+            }
+            for (var i = 0; i < height; i++) {
+                for (var j = 0; j < width; j++) {
+                    if (accessGrid_angle[i][j] == null) continue;
+                    for (var k = 0; k < accessGrid_angle[i][j].furniture; k++) {
+                        for (var c = 0; c < characters.length; c++) {
+                            accessGrid[i][j][c].push({
+                                angle: accessGrid_angle[i][j].furniture[k],
+                                info: objOperation.furniture[k][c]
+                            });
+                        }
+                    }
+                    for (var k = 0; k < accessGrid_angle[i][j].door; k++) {
+                        for (var c = 0; c < characters.length; c++) {
+                            accessGrid[i][j][c].push({
+                                angle: accessGrid_angle[i][j].door[k],
+                                info: objOperation.door[k][c]
+                            });
+                        }
                     }
                 }
             }
@@ -328,22 +412,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
         };
         
-        // cache -----------------------------------------------
-        // setup cache based on the map data
         var setupInteractionObj = function () {
-            surroundObj = {
-                furniture: [],
-                door: []
-            };
+            // prepare data
+            var sGrid = [];
             var range = Data.map.para.scanRange + 1;
             var range2 = range * range;
             for (var i = 0; i < height; i++) {
-                surroundObj.furniture[i] = [];
-                surroundObj.door[i] = [];
+                sGrid[i] = [];
 
                 for (var j = 0; j < width; j++) {
-                    surroundObj.furniture[i][j] = {};
-                    surroundObj.door[i][j] = [];
+                    sGrid[i][j] = null;
                     var x_min = j - range;
                     var x_max = j + range;
                     var y_min = i - range;
@@ -357,26 +435,69 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         for (var n = x_min; n <= x_max; n++) {
                             // furniture
                             var f_id = map.grid.furniture[m][n];
-                            if (f_id == -1) continue;
-                            var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
-                            if (!(f_id in surroundObj.furniture[i][j]) || surroundObj.furniture[i][j][f_id] > r)
-                                surroundObj.furniture[i][j][f_id] = r;
-
+                            if (f_id != -1) {
+                                if (sGrid[i][j] == null) sGrid[i][j] = { furniture: {}, door: {} };
+                                var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
+                                if (!(f_id in sGrid[i][j].furniture) || sGrid[i][j].furniture[f_id] > r) 
+                                    sGrid[i][j].furniture[f_id] = r;
+                            }
                             // door
                             var d_id = map.grid.door[m][n];
-                            if (d_id == -1) continue;
-                            var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
-                            if (!(d_id in surroundObj.door[i][j]) || surroundObj.door[i][j][d_id] > r)
-                                surroundObj.door[i][j][f_id] = r;
+                            if (d_id != -1) {
+                                if (sGrid[i][j] == null) sGrid[i][j] = { furniture: {}, door: {} };
+                                var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
+                                if (!(d_id in sGrid[i][j].door) || sGrid[i][j].door[d_id] > r)
+                                    sGrid[i][j].door[f_id] = r;
+                            }
                         }
                     }
-                    for (var t in surroundObj.furniture[i][j]) {
-                        if (surroundObj.furniture[i][j][t] > range2 || !_checkVisibleLine(j, i, map.objList.furniture[t].x, map.objList.furniture[t].y)) delete surroundObj.furniture[i][j][t];
-                        else surroundObj.furniture[i][j][t] = [map.objList.furniture[t].x, map.objList.furniture[t].y, Math.atan2(map.objList.furniture[t].x - j, map.objList.furniture[t].y - i) * 180 / Math.PI];
+                    for (var t in sGrid[i][j].furniture) {
+                        if (sGrid[i][j].furniture[t] > range2 || !_checkVisibleLine(j, i, map.objList.furniture[t].x, map.objList.furniture[t].y)) delete sGrid[i][j].furniture[t];
+                        else sGrid[i][j].furniture[t] = [sGrid[i][j].furniture[t], Math.atan2(map.objList.furniture[t].x - j, map.objList.furniture[t].y - i) * 180 / Math.PI];
                     }
-                    for (var t in surroundObj.door[i][j]) {
-                        if (surroundObj.door[i][j][t] > range2 || !_checkVisibleLine(j, i, map.objList.door[t].x, map.objList.door[t].y)) delete surroundObj.door[i][j][t];
-                        else surroundObj.door[i][j][t] = [map.objList.door[t].x, map.objList.door[t].y, Math.atan2(map.objList.door[t].x - j, map.objList.door[t].y - i) * 180 / Math.PI];
+                    for (var t in sGrid[i][j].door) {
+                        if (sGrid[i][j].door[t] > range2 || !_checkVisibleLine(j, i, map.objList.door[t].x, map.objList.door[t].y)) delete sGrid[i][j].door[t];
+                        else sGrid[i][j].door[t] = [sGrid[i][j].door[t], Math.atan2(map.objList.door[t].x - j, map.objList.door[t].y - i) * 180 / Math.PI];
+                    }
+
+                    var nothing = true;
+                    for (var t in sGrid[i][j].furniture) { nothing = false; break; }
+                    for (var t in sGrid[i][j].door) { nothing = false; break; }
+                    if (nothing) sGrid[i][j] = null;
+                }
+            }
+
+            // build surroundGrid
+            surroundGrid = [];
+            for (var i = 0; i < height; i++) {
+                surroundGrid[i] = [];
+                for (var j = 0; j < width; j++) {
+                    surroundGrid[i][j] = [];
+                    for (var c = 0; c < characters.length; c++) {
+                        surroundGrid[i][j][c] = [];
+                    }
+                }
+            }
+            for (var i = 0; i < height; i++) {
+                for (var j = 0; j < width; j++) {
+                    if (sGrid[i][j] == null) continue;
+                    for (var k = 0; k < sGrid[i][j].furniture; k++) {
+                        for (var c = 0; c < characters.length; c++) {
+                            surroundGrid[i][j][c].push({
+                                angle: sGrid[i][j].furniture[k][1],
+                                dst: sGrid[i][j].furniture[k][0],
+                                info: objOperation.furniture[k][c]
+                            });
+                        }
+                    }
+                    for (var k = 0; k < sGrid[i][j].door; k++) {
+                        for (var c = 0; c < characters.length; c++) {
+                            surroundGrid[i][j][c].push({
+                                angle: sGrid[i][j].door[k][1],
+                                dst: sGrid[i][j].door[k][0],
+                                info: objOperation.door[k][c]
+                            });
+                        }
                     }
                 }
             }

@@ -17,7 +17,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Opened: 2
         },
         Operation: {
-            None: 0,
             Open: 1,
             Close: 2,
             Key: 3,
@@ -116,4 +115,5 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // ----------------------------------------------------------------
     SYSTEM.MapObject = SYSTEM.MapObject || {};
     SYSTEM.MapObject.Furniture = Furniture;
+    SYSTEM.MapObject.Furniture.Data = _Data;
 })(window.Rendxx.Game.Ghost.System);
