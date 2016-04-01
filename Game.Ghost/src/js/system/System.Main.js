@@ -19,6 +19,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             characterIdxMap = null,
             isStarted = false,
             gameData = {},      // store all data in the game, use to render
+            players = null,
             intervalFunc = null,
             flag_started = false,
             flag_setuped = false;
@@ -80,7 +81,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var setupData = {
                 'model': modelData,
                 'map': mapData,
-                'player': playerData,
+                'player': players,
                 'mapSetup': this.map.setupData,
                 'characterIdxMap': characterIdxMap,
                 'characterRoleMap': this.characterRoleMap
@@ -162,7 +163,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.userInput = new SYSTEM.UserInput(that);
 
             var index = 0;
-            var players = [];
+            players = [];
             for (var i in playerData) {
                 if (playerData[i].role == Data.character.type.survivor) {
                     that.characters[index] = new SYSTEM.Character.Survivor(index, playerData[i], modelData.characters, that);
