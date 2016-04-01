@@ -27,21 +27,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Closed: 2,
             Blocked: 3
         },
-        FurnitureOperation: {
-            Open: 0,
-            Key: 1,
-            Close: 2,
-            CannotTake: 3
-        },
-        DoorOperation: {
-            Blocked: 0
-        },
         DoorPrefix: 'd'
     };
     var InterAction = function (entity) {
         // data ----------------------------------------------------------
         var that = this,
             map = entity.map,
+            characters = entity.characters,
             width = 0,
             height= 0,
             statusList = {
@@ -54,7 +46,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 end: []
             },
             emptyPos = [],
-            accessGrid = [],        // [[{id: angle}]]
+            accessGrid = [],        // [[{id: angle}]] for every character
 
             // cache
             surroundObj = {
@@ -127,36 +119,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             x = Math.floor(x);
             y = Math.floor(y);
             return accessGrid[y][x];
-        };
-
-        // check the access of funiture
-        this.tryAccess = function (character, x, y, access_x, access_y) {
-            x = Math.floor(x);
-            y = Math.floor(y);
-            access_x = Math.floor(access_x);
-            access_y = Math.floor(access_y);
-
-            if (access_x < 0 || access_y >= width || access_y < 0 || access_y >= height) return null;
-            if (accessGrid[y][x] == null && grid.body[access_y][access_x] == -1) return null;
-
-            if (grid.furniture[access_y][access_x] != -1) {
-                // furniture
-                if (accessGrid[y][x][grid.furniture[access_y][access_x]] !== true) return null;
-
-                var keyId = map.objList.furniture[grid.furniture[access_y][access_x]].interaction();
-                if (keyId == -1) return null;
-                return { key: map.objList.key[keyId] };
-            } else if (grid.door[access_y][access_x] != -1) {
-                // door
-                if (accessGrid[y][x][_Data.DoorPrefix + grid.door[access_y][access_x]] !== true) return null;
-                map.objList.door[grid.door[access_y][access_x]].interaction(character);
-                return { door: map.objList.door[grid.door[access_y][access_x]] };
-            } else if (grid.body[access_y][access_x] != -1) {
-                // door
-                var keys = map.objList.body[grid.body[access_y][access_x]].interaction();
-                return { body: keys };
-            }
-            return null;
         };
 
         this.checkVisible = function (characterA, characterB) {
@@ -234,10 +196,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             accessGrid = [];
             width = map.width;
             height = map.height;
-            for (var i = 0; i < height; i++) {
-                accessGrid[i] = [];
-                for (var j = 0; j < width; j++) {
-                    accessGrid[i][j] = null;
+            for (var c = 0; c < characters.length; c++) {
+                accessGrid[c] = [];
+                for (var i = 0; i < height; i++) {
+                    accessGrid[c][i] = [];
+                    for (var j = 0; j < width; j++) {
+                        accessGrid[c][i][j] = null;
+                    }
                 }
             }
 
@@ -257,8 +222,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
                     var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
-                    if (accessGrid[new_y][new_x] == null) accessGrid[new_y][new_x] = { furniture: {}, door: {}};
-                    accessGrid[new_y][new_x]['furniture'][k] = true;
+                    for (var c = 0; c < characters.length; c++) {
+                        var operation = characters[c].checkOperation(furniture);
+                        if (operation == null) continue;
+                        if (accessGrid[c][new_y][new_x] == null) accessGrid[c][new_y][new_x] = { furniture: {}, door: {} };
+                        accessGrid[c][new_y][new_x]['furniture'][k] = operation;
+                    }
                 }
             }
 
@@ -277,8 +246,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
                     var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
-                    if (accessGrid[new_y][new_x] == null) accessGrid[new_y][new_x] = { furniture: {}, door: {} };
-                    accessGrid[new_y][new_x]['door'][k] = true;
+                    for (var c = 0; c < characters.length; c++) {
+                        var operation = characters[c].checkOperation(door);
+                        if (operation == null) continue;
+                        if (accessGrid[c][new_y][new_x] == null) accessGrid[c][new_y][new_x] = { furniture: {}, door: {} };
+                        accessGrid[c][new_y][new_x]['door'][k] = operation;
+                    }
                 }
             }
 

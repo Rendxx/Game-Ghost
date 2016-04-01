@@ -12,6 +12,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var _Data = {
         ObjType: 'body',
         Operation: {
+            None: 0,
             Search: 1
         }
     };
