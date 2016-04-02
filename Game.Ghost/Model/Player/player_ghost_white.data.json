@@ -40,7 +40,7 @@
       "intensity": 1,
       "distance": 5,
       "angle": 1,
-      "exponent": 15,
+      "exponent": 1,
       "color": "0xffffff"
     },
     "torch": {
@@ -50,8 +50,8 @@
       "color": "0xffffff",
       "intensity": 1,
       "distance": 20,
-      "angle": 1,
-      "exponent": 8,
+      "angle": 0.8,
+      "exponent": 0.5,
       "shadowCameraNear": 1,
       "shadowCameraFar": 30,
       "shadowCameraFov": 100,

@@ -78,7 +78,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 lightType = data_in.light;
             }
             if (data_in.message != null) that.message = data_in.message;
-            
+
             gameData = data_in;
             that.isVisible = isVisible_in;
         };
@@ -87,7 +87,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.message = msg;
         };
 
-            // render model
+        // render model
         this.render = function (delta) {
             if (gameData == null) return;
             if (this.isVisible == false) {
@@ -97,8 +97,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 this.mesh.visible = true;
             }
             var action = gameData.action;
-            var x = (gameData.x -entity.map.width / 2) * GridSize;
-            var y = (gameData.y -entity.map.height / 2) * GridSize;
+            var x = (gameData.x - entity.map.width / 2) * GridSize;
+            var y = (gameData.y - entity.map.height / 2) * GridSize;
             var r_body = gameData.currentRotation.body;
             var r_head = gameData.currentRotation.headBody;
             var isDie = gameData.hp == 0;
@@ -122,10 +122,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     currentAction = action;
                     //this.actions[currentAction].setEffectiveWeight(1);
                     //this.actions[currentAction].play();
-            }
+                }
                 if (this.mixer) this.mixer.update(delta);
                 return;
-        }
+            }
             // move
             this.mesh.position.x = x;
             this.mesh.position.z = y;
@@ -143,61 +143,61 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 tween.show[action].start();
                 tween.hide[currentAction].start();
                 currentAction = action;
-        }
+            }
             if (this.mixer) this.mixer.update(delta);
 
             // rotate
 
             var r1 = r_body / 180 * Math.PI;
-            var r2 = - r_head / 180 * Math.PI;
-            var r3 = r1 -r2;
+            var r2 = -r_head / 180 * Math.PI;
+            var r3 = r1 - r2;
             r_head_1.rotation.z = r2 / 3 * 2;
             r_head_2.rotation.z = r2 / 3;
             this.mesh.rotation.y = r1;
 
             this.rotation = {
-                    body: r2,
-                    head: r3
-        };
+                body: r2,
+                head: r3
+            };
 
-            var r_light = r1 +light_angle;
-            var r_torchD = r3 +torchDirectionObj_angle;
-            var r_torch = r3 +torch_angle;
+            var r_light = r1 + light_angle;
+            var r_torchD = r3 + torchDirectionObj_angle;
+            var r_torch = r3 + torch_angle;
 
             //console.log(r_body, r_head, r_light, r_torchD, r_torch, torch_angle);
             if (this.topLight != null) {
                 this.topLight.position.z = this.mesh.position.z + light_radius * Math.cos(r_light);
                 this.topLight.position.x = this.mesh.position.x + light_radius * Math.sin(r_light);
-        }
+            }
             if (this.torch != null) {
                 this.torchDirectionObj.position.z = this.mesh.position.z + torchDirectionObj_radius * Math.cos(r_torchD);
                 this.torchDirectionObj.position.x = this.mesh.position.x + torchDirectionObj_radius * Math.sin(r_torchD);
                 this.torch.position.z = this.mesh.position.z + torch_radius * Math.cos(r_torch);
                 this.torch.position.x = this.mesh.position.x + torch_radius * Math.sin(r_torch);
-        }
+            }
         };
 
 
-            /*
-             * direction[0]: move direction
-             * direction[1]: head direction
-             * 
-             * 0: not move
-             * 
-             * 6 5 4
-             * 7 0 3
-             * 8 1 2
-             */
-            // private method -------------------------------------------------
+        /*
+         * direction[0]: move direction
+         * direction[1]: head direction
+         * 
+         * 0: not move
+         * 
+         * 6 5 4
+         * 7 0 3
+         * 8 1 2
+         */
+        // private method -------------------------------------------------
         var load = function () {
             var loader = new THREE.JSONLoader();
-            loader.load(root +Data.character.path +_data.model, function (geometry, materials) {
+            loader.load(root + Data.character.path + _data.model, function (geometry, materials) {
                 var mesh = null,
-                    actions = { },
+                    actions = {},
                     mixer = null;
                 for (var i = 0; i < materials.length; i++) {
                     materials[i].skinning = true;
-            }
+                }
                 mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = false;
                 mesh.receiveShadow = true;
@@ -215,7 +215,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     action.setEffectiveWeight(0);
                     action.play();
                     actions[_data.action.list[i]] = action;
-            }
+                }
 
                 currentAction = _data.action.list[_data.action.init];
                 //actions[currentAction].weight = 1;
@@ -236,18 +236,18 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     if (_data.light.torch != null) {
                         that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
                         that.torchDirectionObj.rotation.x = Math.PI;
-                        that.torchDirectionObj.position.x = that.mesh.position.x +_data.light.torch.x * GridSize;
-                        that.torchDirectionObj.position.y = that.mesh.position.y +_data.light.torch.y * GridSize -0.4;
-                        that.torchDirectionObj.position.z = that.mesh.position.z +_data.light.torch.z * GridSize +1;
+                        that.torchDirectionObj.position.x = that.mesh.position.x + _data.light.torch.x * GridSize;
+                        that.torchDirectionObj.position.y = that.mesh.position.y + _data.light.torch.y * GridSize - 0.4;
+                        that.torchDirectionObj.position.z = that.mesh.position.z + _data.light.torch.z * GridSize + 1;
 
                         that.torch = new THREE.SpotLight()
-                        that.torch.position.x = that.mesh.position.x +_data.light.torch.x * GridSize;
-                        that.torch.position.y = that.mesh.position.y +_data.light.torch.y * GridSize;
-                        that.torch.position.z = that.mesh.position.z +_data.light.torch.z * GridSize;
+                        that.torch.position.x = that.mesh.position.x + _data.light.torch.x * GridSize;
+                        that.torch.position.y = that.mesh.position.y + _data.light.torch.y * GridSize;
+                        that.torch.position.z = that.mesh.position.z + _data.light.torch.z * GridSize;
                         that.torch.intensity = _data.light.torch.intensity;
                         that.torch.distance = _data.light.torch.distance * GridSize;
                         that.torch.angle = _data.light.torch.angle;
-                        that.torch.exponent = _data.light.torch.exponent;
+                        that.torch.penumbra = _data.light.torch.exponent;
                         that.torch.shadow.camera.near = _data.light.torch.shadowCameraNear * GridSize;
                         that.torch.shadow.camera.far = _data.light.torch.shadowCameraFar * GridSize;
                         that.torch.shadow.camera.fov = _data.light.torch.shadowCameraFov;
@@ -257,29 +257,29 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         that.torch.color.setHex(_data.light.torch.color);
                         scene.add(that.torchDirectionObj);
                         scene.add(that.torch);
-                }
+                    }
 
                     if (_data.light.top != null) {
                         that.topLight = new THREE.SpotLight()
-                        that.topLight.position.x = that.mesh.position.x +_data.light.top.x * GridSize;
-                        that.topLight.position.y = that.mesh.position.y +_data.light.top.y * GridSize;
-                        that.topLight.position.z = that.mesh.position.z +_data.light.top.z * GridSize;
+                        that.topLight.position.x = that.mesh.position.x + _data.light.top.x * GridSize;
+                        that.topLight.position.y = that.mesh.position.y + _data.light.top.y * GridSize;
+                        that.topLight.position.z = that.mesh.position.z + _data.light.top.z * GridSize;
                         that.topLight.intensity = _data.light.top.intensity;
                         that.topLight.distance = _data.light.top.distance * GridSize;
                         that.topLight.angle = _data.light.top.angle;
-                        that.topLight.exponent = _data.light.top.exponent;
+                        that.topLight.penumbra = _data.light.top.exponent;
                         that.topLight.target = that.mesh;
                         that.topLight.color.setHex(_data.light.top.color);
                         that.topLight.castShadow = false;
                         scene.add(that.topLight);
-                }
+                    }
                     setupLightCache(_data.light);
-            }
+                }
 
                 // setup if scene is set
                 that.setuped = true;
                 if (that.onLoaded != null) that.onLoaded();
-        });
+            });
         };
 
         var changeTorch = function (type) {
@@ -292,29 +292,30 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 that.torch.intensity = noTorchData.intensity;
                 that.torch.distance = noTorchData.distance * GridSize;
                 that.torch.color.setHex(noTorchData.color);
-        }
+            }
         };
 
-            // setup light cache with
+        // setup light cache with
         var setupLightCache = function (light) {
             if (_data.light.torch != null) {
-                torchDirectionObj_radius = Math.sqrt((light.torch.z + 1) * (light.torch.z + 1) +light.torch.x * light.torch.x);
-                torchDirectionObj_angle = Math.atan2(light.torch.x, (light.torch.z +1));
-                torch_radius = Math.sqrt(light.torch.z * light.torch.z +light.torch.x * light.torch.x);
+                torchDirectionObj_radius = Math.sqrt((light.torch.z + 1) * (light.torch.z + 1) + light.torch.x * light.torch.x);
+                torchDirectionObj_angle = Math.atan2(light.torch.x, (light.torch.z + 1));
+                torch_radius = Math.sqrt(light.torch.z * light.torch.z + light.torch.x * light.torch.x);
                 torch_angle = Math.atan2(light.torch.x, light.torch.z);
-        }
+            }
             if (_data.light.top != null) {
-                light_radius = Math.sqrt(light.top.z * light.top.z +light.top.x * light.top.x);
+                light_radius = Math.sqrt(light.top.z * light.top.z + light.top.x * light.top.x);
                 light_angle = Math.atan2(light.top.x, light.top.z);
-        }
+            }
         };
 
-            // sprite ---------------------------------------------------------
+        // sprite ---------------------------------------------------------
         var createSprite = function (x, y) {
             if (newKeyId === null) return;
             var id = newKeyId;
-            var key_mat = new THREE.SpriteMaterial({ map: spriteTex['key']
-        });
+            var key_mat = new THREE.SpriteMaterial({
+                map: spriteTex['key']
+            });
             var key_spr = new THREE.Sprite(key_mat);
             key_spr.position.set(x, 4 * GridSize, y);
             key_spr.scale.set(3, 3, 1.0); // imageWidth, imageHeight
@@ -326,25 +327,25 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var tween1 = new TWEEN.Tween({ t: 0 }).to({ t: 10 }, 100)
                         .onStart(function () {
                             last = 0;
-            }).onUpdate(function () {
+                        }).onUpdate(function () {
                             key_mat.opacity = this.t * 10;
                             key_spr.position.z -= (this.t - last) / 20 * GridSize;
                             last = this.t;
-        });
+                        });
             var tween2 = new TWEEN.Tween({ t: 100 }).to({ t: 0 }, 600).easing(TWEEN.Easing.Quadratic.In)
                         .onStart(function () {
                             last = 100;
-            }).onUpdate(function () {
+                        }).onUpdate(function () {
                             key_mat.opacity = this.t;
                             key_spr.position.z += (this.t - last) / 600 * GridSize;
                             last = this.t;
-            }).onStop(function () {
+                        }).onStop(function () {
                             scene.remove(key_spr);
                             delete sprite[id];
-            }).onComplete(function () {
+                        }).onComplete(function () {
                             scene.remove(key_spr);
                             delete sprite[id];
-        });
+                        });
             tween1.chain(tween2);
             tween1.start();
             newKeyId = null;
@@ -352,12 +353,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var setupSprite = function () {
             spriteTex = {
-        };
+            };
             var textureLoader = new THREE.TextureLoader();
-            spriteTex['key'] = textureLoader.load(root +Data.files.path[Data.categoryName.sprite] + 'Sprite_key.png');
+            spriteTex['key'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_key.png');
         };
 
-            // setup ----------------------------------------------------------
+        // setup ----------------------------------------------------------
         var _init = function () {
             load();
             setupSprite();

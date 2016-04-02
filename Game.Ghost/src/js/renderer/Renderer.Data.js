@@ -58,7 +58,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         intensity: 1,
                         distance: 20,
                         angle: 1,
-                        exponent: 10,
+                        exponent: 0,
                         color: 0xffffff
                     },
                     torch: {
@@ -69,7 +69,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         intensity: 1,
                         distance: 50,
                         angle: 1,
-                        exponent: 8,
+                        exponent: 1,
                         shadowCameraNear: 1,
                         shadowCameraFar: 50,
                         shadowCameraFov: 50,
