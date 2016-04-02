@@ -98,7 +98,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (flag_setuped == false) return;
             isStarted = true;
             if (intervalFunc != null) clearInterval(intervalFunc);
-            intervalFunc = setInterval(nextInterval, 25);
+            intervalFunc = setInterval(function () { nextInterval(); }, 25);
         };
 
         // end game

@@ -15,7 +15,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Furniture: 2,
             Door: 3,
             Body: 4
-        }
+        },
+        bodyId: 'body_1'
     };
 
     var Map = function (entity, modelData, mapData, gameData) {
@@ -319,7 +320,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var recoverBody = function () {
             that.objList.body = {};
             for (var k in gameData.body) {
-                var b = new SYSTEM.MapObject.Body();
+                var b = new SYSTEM.MapObject.Body(modelData.items[Data.item.categoryName.body][_Data.bodyId]);
                 var character = entity.characters[gameData.body[k].id];
                 b.setup(character);
                 b.reset(gameData.body[k]);
@@ -329,11 +330,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         this.createBody = function (character) {
-            var b = new SYSTEM.MapObject.Body();
+            var b = new SYSTEM.MapObject.Body(modelData.items[Data.item.categoryName.body][_Data.bodyId]);
             b.setup(character);
             that.grid.body[Math.floor(b.y)][Math.floor(b.x)] = b.id;
             that.objList.body[character.id] = b;
             gameData.body[character.id] = b.toJSON();
+
+            entity.interAction.updateMap();
         };
 
         // init -----------------------------

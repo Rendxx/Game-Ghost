@@ -78,9 +78,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.furniture = null;
         this.objectPos = {              //  id: [x, y]
             furniture: {},
-            door: {}
+            door: {},
+            body: {}
         };               
-        this.doorPos = {};              // door id: [x, y]
         this.ground = null;
         this.ceiling = null;
         this.posEnd = null;
@@ -104,6 +104,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             setupGround(_scene, mapData.grid, mapData.item.ground);
             setupWall(_scene, mapData.wall, mapData.item.wall);
             setupDoor(_scene, mapData.item.door);
+            setupBody();
             setupFurniture(_scene, mapData.item.furniture);
             setupStuff(_scene, mapData.item.stuff);
             setupKey(_scene);
@@ -120,6 +121,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             updateKey();
             updateFuniture();
             updateDoor();
+            updateBody();
         };
 
         // render model
@@ -260,6 +262,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     onLoaded();
                 });
             }
+        };
+
+        var setupBody = function () {
+            itemData['body'] = {};
         };
 
         var setupStuff = function (scene, stuff) {
@@ -690,6 +696,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 }
             }
         };
+
+        var updateBody = function () {
+            // update body
+            for (var i in gameData.body) {
+                if (itemData['body'][i] == null) {
+                    if (entity.characters != null && entity.characters[i] != null) {
+                        itemData['body'][i] = {
+                            x: entity.characters[i].x,
+                            y: entity.characters[i].y,
+                        }
+                        that.objectPos.body[i] = [entity.characters[i].x, entity.characters[i].y];
+                    }
+                }
+            }
+        };        
 
         var updateKey = function () {
             // update key

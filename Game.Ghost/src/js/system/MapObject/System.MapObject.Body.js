@@ -17,12 +17,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     // Construct -----------------------------------------------------
-    var Body = function () {
+    var Body = function (modelData) {
         SYSTEM.MapObject.Basic.call(this);
 
+        this.modelData = modelData;
         this.objType = _Data.ObjType;
         this.name = "";
         this.key = null;
+        this.realPos = {};      // this is for calculating interaction position
     };
     Body.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
     Body.prototype.constructor = Body;
@@ -74,18 +76,25 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Body.prototype.setup = function (character) {
         if (character == null) return;
         this.name = character.name + "'s Body";
+        this.realPos = {
+            x: character.x,
+            y: character.y
+        };
         for (var id in character.key) {
             if (this.key==null) this.key = {};
             this.key[character.key[id]] = id;
         }
 
         var info = {
+            x: Math.floor(character.x),
+            y: Math.floor(character.y),
             left: Math.floor(character.x),
             right: Math.floor(character.x),
             top: Math.floor(character.y),
-            bottom: Math.floor(character.y)
+            bottom: Math.floor(character.y),
+            rotation: 0
         };
-        SYSTEM.MapObject.Basic.prototype.setup.call(this, character.id, info, null);
+        SYSTEM.MapObject.Basic.prototype.setup.call(this, character.id, info, this.modelData);
     };
 
     // ----------------------------------------------------------------

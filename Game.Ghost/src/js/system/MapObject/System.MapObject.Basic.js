@@ -51,17 +51,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Basic.prototype.setup = function (id, para, modelData) {
-        this.para = para;
-        this.modelData = modelData;
-
-        if (id != undefined) this.id = id;
-        if (para != undefined) {
+        if (id != null) this.id = id;
+        if (para != null) {
+            this.para = para;
             this.anchor = { x: para.x, y: para.y };
             this.x = (para.left + para.right + 1) / 2;
             this.y = (para.top + para.bottom + 1) / 2;
             this.rotation = para.rotation;
         }
-        if (modelData != undefined) {
+        if (modelData != null) {
+            this.modelData = modelData;
             this.modelId = modelData.id;
         }
     };

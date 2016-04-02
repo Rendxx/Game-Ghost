@@ -23,23 +23,24 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'green'
         },
-        //'p2': {
-        //    id: 'p2',
-        //    name: 'player 2',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'red'
-        //},
-        //'p3': {
-        //    id: 'p3',
-        //    name: 'player 3',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'blue'
-        //},
-        //'p4': {
-        //    name: 'player 4',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'yellow'
-        //},
+        'p2': {
+            id: 'p2',
+            name: 'player 2',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'red'
+        },
+        'p3': {
+            id: 'p3',
+            name: 'player 3',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'blue'
+        },
+        'p4': {
+            id: 'p4',
+            name: 'player 4',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'yellow'
+        },
         //'p5': {
         //    name: 'player 5',
         //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
@@ -57,7 +58,7 @@
             modelId: 'white'
         }
     },{ 
-        map: 'debug'
+        map: 'test'
     });
     //system.setup([
     //    {

@@ -372,6 +372,7 @@
     <Content Include="ModelBuilder\Player\Player-Texture-Face-Ghost-Mary-.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.unlock.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.search.fla" />
+    <Content Include="Model\Body\body_1.data.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

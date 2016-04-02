@@ -49,6 +49,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setupInteractionObj();
         };
 
+        this.updateMap = function () {
+            setupObjOperation();
+            setupAccess();
+            setupInteractionObj();
+        };
+
         // check whether this position can be moved to, return result
         this.moveCheck = function (x, y, deltaX, deltaY) {
             var newX = Math.floor(x + deltaX),
@@ -98,10 +104,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (list == null || list.length == 0) return null;
 
             var closestAngle = 360;
-            var type = null;
             var objId = -1;
+            var bodyInfo = null;
+            var bodyDistance = 4;
             for (var i = 0; i < list.length; i++) {
                 if (list[i].info.op == SYSTEM.MapObject.Basic.Data.Operation.None) continue;
+                if (list[i].info.type == SYSTEM.MapObject.Body.Data.ObjType) {
+                    if (bodyInfo == null) bodyInfo = list[i].info;
+                    else {
+                        var realPos = map.ObjList.body[list[i].info.id].realPos;
+                        var d3 = Math.pow(realPos.x - x, 2) + Math.pow(realPos.y - y, 2);
+                        if (d3 < bodyDistance) {
+                            bodyDistance = d3;
+                            bodyInfo = list[i].info;
+                        }
+                    }
+                    continue;
+                }
                 var d = Math.abs(r - list[i].angle);
                 if (d > 180) d = 360 - d;
                 if (d > 80) continue;
@@ -111,6 +130,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     objId = i;
                 }
             }
+            if (objId == -1 || bodyInfo != null && closestAngle > 45) return bodyInfo;
+
             if (objId == -1) return null;
             return list[objId].info;
         };
@@ -128,9 +149,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         var _checkVisibleLine = function (x1, y1, x2, y2, objType, objId) {
-            if (objType == null) {
-                console.log(x1, y1, x2, y2);
-            }
             var r = Math.atan2(x2 - x1, y2 - y1) * 180 / Math.PI;
             if (x1 == x2) {
                 var y_min = Math.min(y1, y2),
@@ -172,9 +190,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Furniture) {
                 if (map.objList.furniture[map.grid.furniture[y][x]].blockSight
                     && !(objType == SYSTEM.Map.Data.Grid.Furniture && objId == map.grid.furniture[y][x])) {
-                    if (objType == null) {
-                        console.log('furniture: '+x+", "+y);
-                    }
                     return false;
                 }
                 return true;
@@ -182,16 +197,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Door) {
                 if (!(map.objList.door[map.grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened)
                 && !(objType == SYSTEM.Map.Data.Grid.Door && objId == map.grid.door[y][x])) {
-                    if (objType == null) {
-                        console.log('furniture: ' + x + ", " + y);
-                    } return false;
+                    return false;
                 }
                 return true;
             }
 
-            if (objType == null) {
-                console.log('wall: ' + x + ", " + y);
-            }
             return false;
         };
 
@@ -224,11 +234,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
         };
 
+        this.addBody = function (x, y, id) {
+        };
+
         // setup -----------------------------------------------
         var setupObjOperation = function () {
             objOperation = {
                 furniture: {},
-                door: {}
+                door: {},
+                body: {}
             };
 
             var furnitures = map.objList.furniture;
@@ -255,6 +269,20 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         'type': 'door',
                         'id': k,
                         'op': characters[c].checkOperation(door)
+                    };
+                }
+            }
+
+            var bodies = map.objList.body;
+            for (var k in bodies) {
+                var body = bodies[k];
+
+                objOperation['body'][k] = [];
+                for (var c = 0; c < characters.length; c++) {
+                    objOperation['body'][k][c] = {
+                        'type': 'body',
+                        'id': k,
+                        'op': characters[c].checkOperation(body)
                     };
                 }
             }
@@ -286,11 +314,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
                     var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
-                    if (accessGrid_angle[new_y][new_x] == null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {} };
-                    accessGrid_angle[new_y][new_x]['furniture'][k] = true;
+                    if (accessGrid_angle[new_y][new_x] == null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {}, body: {} };
+                    accessGrid_angle[new_y][new_x]['furniture'][k] = -1;
                 }
             }
 
+            // add accesslist for door
             var doors = map.objList.door;
             for (var k in doors) {
                 var door = doors[k];
@@ -306,15 +335,36 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
                     var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
-                    if (accessGrid_angle[new_y][new_x] == null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {} };
-                    accessGrid_angle[new_y][new_x]['door'][k] = true;
+                    if (accessGrid_angle[new_y][new_x] == null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {}, body: {} };
+                    accessGrid_angle[new_y][new_x]['door'][k] = -1;
+                }
+            }
+
+            // add accesslist for body
+            var bodies = map.objList.body;
+            for (var k in bodies) {
+                var body = bodies[k];
+                var x = body.anchor.x;
+                var y = body.anchor.y;
+                var r = body.rotation;
+                var accessPos = map.modelData.items[Data.item.categoryName.body][body.modelId].accessPos;
+                if (accessPos == null) continue;
+
+                for (var i = 0; i < accessPos.length; i++) {
+                    var p = accessPos[i];
+                    var r1 = (((p[1] >= 0) ? (p[0] >= 0 ? 0 : 1) : (p[0] >= 0 ? 3 : 2)) + r) % 4;
+                    var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
+                    var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
+                    if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
+                    if (accessGrid_angle[new_y][new_x] == null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {}, body: {} };
+                    accessGrid_angle[new_y][new_x]['body'][k] = -1;
                 }
             }
 
             // re-scan matrix for angle
             //    O------------->
             //    | 225 180 135
-            //    | 270     90
+            //    | 270 -1  90
             //    | 315  0  45
             //    v
 
@@ -403,6 +453,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             });
                         }
                     }
+                    for (var k in accessGrid_angle[i][j].body) {
+                        for (var c = 0; c < characters.length; c++) {
+                            accessGrid[i][j][c].push({
+                                angle: accessGrid_angle[i][j].body[k],
+                                info: objOperation.body[k][c]
+                            });
+                        }
+                    }
                 }
             }
 
@@ -441,7 +499,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             // furniture
                             var f_id = map.grid.furniture[m][n];
                             if (f_id != -1) {
-                                if (sGrid[i][j] == null) sGrid[i][j] = { furniture: {}, door: {} };
+                                if (sGrid[i][j] == null) sGrid[i][j] = { furniture: {}, door: {}, body: {} };
                                 var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
                                 if (!(f_id in sGrid[i][j].furniture) || sGrid[i][j].furniture[f_id] > r)
                                     sGrid[i][j].furniture[f_id] = r;
@@ -449,10 +507,18 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             // door
                             var d_id = map.grid.door[m][n];
                             if (d_id != -1) {
-                                if (sGrid[i][j] == null) sGrid[i][j] = { furniture: {}, door: {} };
+                                if (sGrid[i][j] == null) sGrid[i][j] = { furniture: {}, door: {}, body: {} };
                                 var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
                                 if (!(d_id in sGrid[i][j].door) || sGrid[i][j].door[d_id] > r)
                                     sGrid[i][j].door[d_id] = r;
+                            }
+                            // body
+                            var b_id = map.grid.body[m][n];
+                            if (b_id != -1) {
+                                if (sGrid[i][j] == null) sGrid[i][j] = { furniture: {}, door: {}, body: {} };
+                                var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
+                                if (!(b_id in sGrid[i][j].body) || sGrid[i][j].body[b_id] > r)
+                                    sGrid[i][j].body[b_id] = r;
                             }
                         }
                     }
@@ -462,16 +528,18 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         else sGrid[i][j].furniture[t] = [sGrid[i][j].furniture[t], Math.atan2(map.objList.furniture[t].x - j, map.objList.furniture[t].y - i) * 180 / Math.PI];
                     }
                     for (var t in sGrid[i][j].door) {
-                        if (t != 1 && i==2 && j==9) {    //test
-                            var gg = 1;
-                        }
                         if (sGrid[i][j].door[t] > range2 || !_checkVisibleLine(j, i, map.objList.door[t].x, map.objList.door[t].y, SYSTEM.Map.Data.Grid.Door, t)) delete sGrid[i][j].door[t];
                         else sGrid[i][j].door[t] = [sGrid[i][j].door[t], Math.atan2(map.objList.door[t].x - j, map.objList.door[t].y - i) * 180 / Math.PI];
+                    }
+                    for (var t in sGrid[i][j].body) {
+                        if (sGrid[i][j].body[t] > range2 || !_checkVisibleLine(j, i, map.objList.body[t].x, map.objList.body[t].y, SYSTEM.Map.Data.Grid.Door, t)) delete sGrid[i][j].body[t];
+                        else sGrid[i][j].body[t] = [sGrid[i][j].body[t], Math.atan2(map.objList.body[t].x - j, map.objList.body[t].y - i) * 180 / Math.PI];
                     }
 
                     var nothing = true;
                     for (var t in sGrid[i][j].furniture) { nothing = false; break; }
                     for (var t in sGrid[i][j].door) { nothing = false; break; }
+                    for (var t in sGrid[i][j].body) { nothing = false; break; }
                     if (nothing) sGrid[i][j] = null;
                 }
             }
@@ -509,7 +577,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             });
                         }
                     }
-                    console.log(' ');
+                    for (var k in sGrid[i][j].body) {
+                        for (var c = 0; c < characters.length; c++) {
+                            surroundGrid[i][j][c].push({
+                                angle: sGrid[i][j].body[k][1],
+                                dst: sGrid[i][j].body[k][0],
+                                info: objOperation.body[k][c]
+                            });
+                        }
+                    }
                 }
             }
             console.log('---------------------------------------------------------------');

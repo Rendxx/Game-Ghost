@@ -54,11 +54,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             spritesInteraction = {
                 normal: {
                     furniture: {},
-                    door: {}
+                    door: {},
+                    body: {}
                 },
                 highlight: {
                     furniture: {},
-                    door: {}
+                    door: {},
+                    body: {}
                 }
             },
             msg = null,
@@ -263,7 +265,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var visibleObject = {
                 furniture: {},      // {id : op}
-                door: {}
+                door: {},
+                body: {}
             };
             for (var i = 0; i < that.character.visibleObject.length; i++) {
                 visibleObject[that.character.visibleObject[i].type][that.character.visibleObject[i].id] = that.character.visibleObject[i].op;
@@ -313,6 +316,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var hideInteraction_highlight = function (objType, objId, objOp) {
             if (spritesInteraction.highlight[objType][objId] == null || spritesInteraction.highlight[objType][objId][objOp] == null) return;
             var sprPkg = spritesInteraction.highlight[objType][objId][objOp];
+            if (sprPkg == null) return;
 
             if (sprPkg.tween != null) sprPkg.tween.stop();
             var start_opacity = 0,
@@ -356,6 +360,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var hideInteraction_normal = function (objType, objId, objOp) {
             if (spritesInteraction.normal[objType][objId] == null || spritesInteraction.normal[objType][objId][objOp] == null) return;
             var sprPkg = spritesInteraction.normal[objType][objId][objOp];
+            if (sprPkg == null) return;
 
             if (sprPkg.tween != null) sprPkg.tween.stop();
             var start_opacity = 0,
@@ -401,6 +406,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var createInteractionIcon = function (objType, objId, objOp, isHighlight) {
             var tex1 = isHighlight ? tex['interaction']['highlight'][objType][objOp] : tex['interaction']['normal'][objType][objOp];
+            if (tex1 == null) return null;
+
             var mat = new THREE.SpriteMaterial({
                 map: tex1,
                 transparent: true,
@@ -659,8 +666,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = textureLoader.load(path + 'interaction.key.png');
             tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search.png');
             tex['interaction']['normal']['body'][_Data.operation.body.Search]= textureLoader.load(path + 'interaction.search.png');
-            tex['interaction']['normal']['door'][_Data.operation.door.Open] = textureLoader.load(path + 'interaction.open.png');
-            tex['interaction']['normal']['door'][_Data.operation.door.Close]= textureLoader.load(path + 'interaction.close.png');
+            //tex['interaction']['normal']['door'][_Data.operation.door.Open] = textureLoader.load(path + 'interaction.open.png');
+            //tex['interaction']['normal']['door'][_Data.operation.door.Close]= textureLoader.load(path + 'interaction.close.png');
             tex['interaction']['normal']['door'][_Data.operation.door.Locked]= textureLoader.load(path + 'interaction.lock.png');
             tex['interaction']['normal']['door'][_Data.operation.door.Unlock]= textureLoader.load(path + 'interaction.unlock.png');
 
@@ -669,8 +676,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key] = textureLoader.load(path + 'interaction.key-2.png');
             tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search-2.png');
             tex['interaction']['highlight']['body'][_Data.operation.body.Search] = textureLoader.load(path + 'interaction.search-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Open] = textureLoader.load(path + 'interaction.open-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Close] = textureLoader.load(path + 'interaction.close-2.png');
+            //tex['interaction']['highlight']['door'][_Data.operation.door.Open] = textureLoader.load(path + 'interaction.open-2.png');
+            //tex['interaction']['highlight']['door'][_Data.operation.door.Close] = textureLoader.load(path + 'interaction.close-2.png');
             tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock-2.png');
             tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock-2.png');
 

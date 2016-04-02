@@ -57,11 +57,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 wall: 'wall',
                 ground: 'ground',
                 furniture: 'furniture',
+                body: 'body',
                 stuff: 'stuff',
                 door: 'door'
             },
             categoryOrder: [
                 'stuff',
+                'body',
                 'furniture',
                 'door',
                 'wall',
@@ -94,12 +96,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 },
                 door: {
                     'Door (Wood) 1': 'door_wood_1.data.json',
+                },
+                body: {
+                    'Body 1': 'body_1.data.json',
                 }
             },
             path: {
                 wall: '/Model/Environment/',
                 ground: '/Model/Environment/',
                 furniture: '/Model/Furniture/',
+                body: '/Model/Body/',
                 stuff: '/Model/Stuff/',
                 door: '/Model/Door/'
             },
