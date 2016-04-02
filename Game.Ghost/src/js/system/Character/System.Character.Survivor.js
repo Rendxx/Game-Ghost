@@ -206,8 +206,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var r = Math.sqrt(Math.pow(this.x - c.x, 2) + Math.pow(this.y - c.y, 2));
             if (r < min) min = r;
         }
-        if (min <= _Data.range.danger) _danger = (1 - min / _Data.range.danger);
-        else _danger = 0;
+        if (min <= _Data.range.danger) this.danger = (1 - min / _Data.range.danger);
+        else this.danger = 0;
     };
 
     Survivor.prototype.die = function () {
