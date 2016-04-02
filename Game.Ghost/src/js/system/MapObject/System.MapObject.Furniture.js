@@ -66,7 +66,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (this.actioning) return false;                     // no interaction during action
         if (this.modelData.duration != null && this.modelData.duration != 0) {
             this.actioning = true;
-            setTimeout(function () { this.actioning = false; }, this.modelData.duration);
+            var that = this;
+            setTimeout(function () { that.actioning = false; }, this.modelData.duration);
         }
         this.status = _Data.Status.Opened;
         this.updateData();
@@ -78,7 +79,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (this.actioning) return false;                     // no interaction during action
         if (this.modelData.duration != null && this.modelData.duration != 0) {
             this.actioning = true;
-            setTimeout(function () { this.actioning = false; }, this.modelData.duration);
+            var that = this;
+            setTimeout(function () { that.actioning = false; }, this.modelData.duration);
         }
         this.status = _Data.Status.Closed;
         this.updateData();

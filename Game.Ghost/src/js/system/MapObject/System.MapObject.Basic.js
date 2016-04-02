@@ -26,6 +26,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.id;
         this.x;
         this.y;
+        this.anchor;
         this.rotation;
         this.modelId;
 
@@ -55,9 +56,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         if (id != undefined) this.id = id;
         if (para != undefined) {
+            this.anchor = { x: para.x, y: para.y };
             this.x = (para.left + para.right + 1) / 2;
             this.y = (para.top + para.bottom + 1) / 2;
-            this.y = para.rotation;
+            this.rotation = para.rotation;
         }
         this.modelId = modelData.id;
     };

@@ -64,7 +64,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
     };
 
-    Door.prototype.Open = function () {
+    Door.prototype.open = function () {
         this.status = _Data.Status.Opened;
         this.updateData();
     };

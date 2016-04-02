@@ -74,7 +74,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         delete (this.lockDoor[info.id])
                     } else {
                         this.lockDoor[info.id] = true;
-                        this.entity.message.send(this.id, _Data.message.doorLock.replace('#name#', info.name));
+                        this.entity.message.send(this.id, _Data.message.doorLock.replace('#name#', obj.name));
                         break;
                     }
                 }
@@ -112,7 +112,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     if (keyNames.length > 0) {
                         this.entity.message.send(this.id, _Data.message.getKey + keyNames.substring(0, keyNames.length - 2));
                     }
-                    this.entity.interAction.updateDoorInteraction(obj.objType, info.id);
+                    this.entity.interAction.updateDoorInteraction(this.key, this.id);
                 }
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:
