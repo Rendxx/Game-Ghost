@@ -28,6 +28,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Furniture = function (id, info, modelData) {
         SYSTEM.MapObject.Basic.call(this, id, info, modelData);
 
+        this.objType = _Data.ObjType;
         this.actioning = false;          // this furnition is actioning
         this.blockSight = modelData.blockSight;
         this.status = modelData.statusChange == true ? _Data.Status.Closed : _Data.Status.None;

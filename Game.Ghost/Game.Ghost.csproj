@@ -119,6 +119,8 @@
     <Content Include="Model\Sprite\interaction.lock.png" />
     <Content Include="Model\Sprite\interaction.open-2.png" />
     <Content Include="Model\Sprite\interaction.open.png" />
+    <Content Include="Model\Sprite\interaction.search-2.png" />
+    <Content Include="Model\Sprite\interaction.search.png" />
     <Content Include="Model\Sprite\interaction.unlock-2.png" />
     <Content Include="Model\Sprite\interaction.unlock.png" />
     <Content Include="Model\Sprite\name-deco-white.png" />
@@ -254,6 +256,7 @@
     <Content Include="Model\Environment\ground_wood.data.json" />
     <Content Include="GameData\Map\MapDataTest.json" />
     <Content Include="GameData\Map\MapDataTest2.json" />
+    <Content Include="GameData\Map\MapData4debug_1.json" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="Model\Furniture\table_wood_1_1.data.json" />
     <Content Include="Model\Furniture\table_wood_2_1.data.json" />
@@ -368,6 +371,7 @@
     <Content Include="ModelBuilder\Player\Player-Texture-Body-Ghost-Mary.fla" />
     <Content Include="ModelBuilder\Player\Player-Texture-Face-Ghost-Mary-.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.unlock.fla" />
+    <Content Include="ModelBuilder\Sprite\interaction.search.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

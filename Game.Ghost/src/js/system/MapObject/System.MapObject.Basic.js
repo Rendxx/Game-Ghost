@@ -22,6 +22,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.para;
         this.modelData;
 
+        this.objType = _Data.ObjType;
         this.id;
         this.x;
         this.y;

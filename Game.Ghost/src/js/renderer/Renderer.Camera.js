@@ -22,6 +22,23 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             Opened: 1,
             Closed: 2,
             Blocked: 3
+        },
+        operation: {
+            furniture: {
+                Open: 1,
+                Close: 2,
+                Key: 3,
+                Search: 4
+            },
+            door: {
+                Open: 1,
+                Close: 2,
+                Locked: 3,
+                Unlock: 4
+            },
+            body: {
+                Search: 1
+            }
         }
     };
     /**
@@ -48,7 +65,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // cache
             interactionIcon = {},
-            highLightIcon = {},
+            highLightIcon = null,
             doorIcon = {};
 
         this.scene = scene_in;
@@ -271,7 +288,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var t in visibleObject) {
                 for (var id in visibleObject[t]) {
                     if (!interactionIcon.hasOwnProperty(t) || visibleObject[t][id] != interactionIcon[t][id]) {
-                        showInteraction_normal(t, id, interactionIcon[t][id]);
+                        showInteraction_normal(t, id, visibleObject[t][id]);
                     }
                 }
             }
@@ -319,7 +336,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             if (sprPkg.tween != null) sprPkg.tween.stop();
             var start_opacity = 0,
-                start_z = entity.map.objPos[objType][objId][1] - GridSize / 4,
+                start_z = entity.map.objectPos[objType][objId][1] - GridSize / 4,
                 scale_y = GridSize * 2,
                 spr = sprPkg.icon,
                 mat = spr.material;
@@ -364,7 +381,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             if (sprPkg.tween != null) sprPkg.tween.stop();
             var start_opacity = 0,
-                start_z = entity.map.objPos[objType][objId][1] - GridSize / 4,
+                start_z = entity.map.objectPos[objType][objId][1] - GridSize / 4,
                 scale_y = GridSize * 2,
                 spr = sprPkg.icon,
                 mat = spr.material;
@@ -382,17 +399,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var createInteractionIcon = function (objType, objId, objOp, isHighlight) {
-            var tex1 = null;
-            if (iconStatus == _Data.furnitureOperation.Key) {
-                tex1 = !isHighlight ? tex['interaction-key'] : tex['interaction-key-2'];
-            } else if (iconStatus == _Data.furnitureOperation.Open) {
-                tex1 = !isHighlight ? tex['interaction-open'] : tex['interaction-open-2'];
-            } else if (iconStatus == _Data.furnitureOperation.Close) {
-                tex1 = !isHighlight ? tex['interaction-close'] : tex['interaction-close-2'];
-            } else {
-                return false;
-            }
-
+            var tex1 = isHighlight ? tex['interaction']['highlight'][objType][objOp] : tex['interaction']['normal'][objType][objOp];
             var mat = new THREE.SpriteMaterial({
                 map: tex1,
                 transparent: true,
@@ -401,7 +408,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             mat.opacity = 0;
 
             var spr = new THREE.Sprite(mat);
-            var pos = entity.map.objPos[objType][objId];
+            var pos = entity.map.objectPos[objType][objId];
 
             spr.position.set(pos[0], GridSize, pos[1] - 3 * GridSize / 4);
             spr.scale.set(GridSize * 2, GridSize * 2, 1.0);
@@ -625,15 +632,47 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var _setupTex = function () {
             tex = {};
             var textureLoader = new THREE.TextureLoader();
-            tex['nameDeco'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'name-deco-white.png');
-            tex['interaction-key'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.key.png');
-            tex['interaction-open'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.open.png');
-            tex['interaction-close'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.close.png');
-            tex['interaction-key-2'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.key-2.png');
-            tex['interaction-open-2'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.open-2.png');
-            tex['interaction-close-2'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.close-2.png');
-            tex['interaction-lock'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.lock.png');
-            tex['interaction-unlock'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'interaction.unlock.png');
+            var path = root + Data.files.path[Data.categoryName.sprite];
+            tex['nameDeco'] = textureLoader.load(path + 'name-deco-white.png');
+            tex['interaction'] = {
+                'normal': {
+                    'furniture': {
+                    },
+                    'door': {
+                    },
+                    'body': {
+                    }
+                },
+                'highlight': {
+                    'furniture': {
+                    },
+                    'door': {
+                    },
+                    'body': {
+                    }
+                }
+            };
+
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open.png');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close.png');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = textureLoader.load(path + 'interaction.key.png');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search.png');
+            tex['interaction']['normal']['body'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search.png');
+            tex['interaction']['normal']['door'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open.png');
+            tex['interaction']['normal']['door'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close.png');
+            tex['interaction']['normal']['door'][_Data.operation.furniture.Locked] = textureLoader.load(path + 'interaction.lock.png');
+            tex['interaction']['normal']['door'][_Data.operation.furniture.Unlock] = textureLoader.load(path + 'interaction.unlock.png');
+
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open-2.png');
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close-2.png');
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key] = textureLoader.load(path + 'interaction.key-2.png');
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search-2.png');
+            tex['interaction']['highlight']['body'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search-2.png');
+            tex['interaction']['highlight']['door'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open-2.png');
+            tex['interaction']['highlight']['door'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close-2.png');
+            tex['interaction']['highlight']['door'][_Data.operation.furniture.Locked] = textureLoader.load(path + 'interaction.lock-2.png');
+            tex['interaction']['highlight']['door'][_Data.operation.furniture.Unlock] = textureLoader.load(path + 'interaction.unlock-2.png');
+
             //tex['enduranceBarBase'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
         };
 

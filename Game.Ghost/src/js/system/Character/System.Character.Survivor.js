@@ -61,7 +61,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (this.accessObject == null) return;
         var obj = this.entity.map.objList[this.accessObject.type][this.accessObject.id];
         var info = obj.check();
-        switch (info.objType) {
+        switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
                     obj.close();
@@ -112,7 +112,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     if (keyNames.length > 0) {
                         this.entity.message.send(this.id, _Data.message.getKey + keyNames.substring(0, keyNames.length - 2));
                     }
-                     this.entity.interAction.updateDoorInteraction(info.objType, info.id);
+                    this.entity.interAction.updateDoorInteraction(obj.objType, info.id);
                 }
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:
@@ -144,13 +144,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
                 break;
         }
-         this.entity.interAction.updateInteraction(info.objType, info.id);
+        this.entity.interAction.updateInteraction(obj.objType, info.id);
         this.updateData();
     };
 
     Survivor.prototype.checkOperation = function (obj) {
         var info = obj.check();
-        switch (info.objType) {
+        switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
                     return SYSTEM.MapObject.Door.Data.Operation.Close;
@@ -167,10 +167,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             case SYSTEM.MapObject.Furniture.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Closed) {
                     return SYSTEM.MapObject.Furniture.Data.Operation.Open;
-                } else if (info.key == null) {
-                    return SYSTEM.MapObject.Furniture.Data.Operation.Close;
-                } else {
+                } else if (info.key != null) {
                     return SYSTEM.MapObject.Furniture.Data.Operation.Key;
+                } else if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Opened) {
+                    return SYSTEM.MapObject.Furniture.Data.Operation.Close;
                 }
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:

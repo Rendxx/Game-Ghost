@@ -20,6 +20,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Body = function () {
         SYSTEM.MapObject.Basic.call(this);
 
+        this.objType = _Data.ObjType;
         this.name = "";
         this.key = null;
     };

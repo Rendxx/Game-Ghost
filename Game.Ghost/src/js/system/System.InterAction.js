@@ -71,6 +71,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var list = surroundGrid[y_idx][x_idx][c];
             for (var i = 0; i < list.length; i++) {
                 var f = list[i];
+                if (f.info.op == SYSTEM.MapObject.Basic.Data.Operation.None) continue;
                 var obj = map.objList[f.info.type][f.info.id];
 
                 var d = Math.abs(f.angle - r);
@@ -119,24 +120,24 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var d = Math.abs(r - characterA.currentRotation.head);
             if (d > 180) d = 360 - d;
             if (d > 80) return false;
-            return _checkVisibleLine(x1, x2, y1, y2);
+            return _checkVisibleLine(x1, x2, y1, y2, null, null);
         };
 
-        var _checkVisibleLine = function (x1, y1, x2, y2) {
+        var _checkVisibleLine = function (x1, y1, x2, y2, objType, objId) {
             var r = Math.atan2(x2 - x1, y2 - y1) * 180 / Math.PI;
             if (x1 == x2) {
                 var y_min = Math.min(y1, y2),
                     y_max = Math.max(y1, y2),
                     x = Math.floor(x1);
                 for (var y = Math.ceil(y_min) ; y <= y_max; y++) {
-                    if (!_checkPosVisible(x, y)) return false;
+                    if (!_checkPosVisible(x, y, objType, objId)) return false;
                 }
             } else if (y1 == y2) {
                 var x_min = Math.min(x1, x2),
                     x_max = Math.max(x1, x2),
                     y = Math.floor(y1);
                 for (var x = Math.ceil(x_min) ; x <= x_max; x++) {
-                    if (!_checkPosVisible(x, y)) return false;
+                    if (!_checkPosVisible(x, y, objType, objId)) return false;
                 }
             } else {
                 var k = (y1 - y2) / (x1 - x2),
@@ -145,7 +146,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     x_max = Math.max(x1, x2);
                 for (var x = Math.ceil(x_min) ; x <= x_max; x++) {
                     var y = Math.floor(k * x + c);
-                    if (!_checkPosVisible(x, y)) return false;
+                    if (!_checkPosVisible(x, y, objType, objId)) return false;
                 }
                 var k = (x1 - x2) / (y1 - y2),
                     c = x1 - k * y1,
@@ -153,17 +154,21 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     y_max = Math.max(y1, y2);
                 for (var y = Math.ceil(y_min) ; y <= y_max; y++) {
                     var x = Math.floor(k * y + c);
-                    if (!_checkPosVisible(x, y)) return false;
+                    if (!_checkPosVisible(x, y, objType, objId)) return false;
                 }
             }
             return true;
         };
 
-        var _checkPosVisible = function (x, y) {
+        var _checkPosVisible = function (x, y, objType, objId) {
             if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Empty) return true;
-            if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Furniture && !map.objList.furniture[map.grid.furniture[y][x]].blockSight) return true;
-            if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Door && !map.objList.door[map.grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened) return true;
-            return false;
+            if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Furniture
+                && map.objList.furniture[map.grid.furniture[y][x]].blockSight
+                && !(objType == SYSTEM.Map.Data.Grid.Furniture && objId == map.grid.furniture[y][x])) return false;
+            if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Door
+                && !(map.objList.door[map.grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened)
+                && !(objType == SYSTEM.Map.Data.Grid.Door && objId == map.grid.furniture[y][x])) return false;
+            return true;
         };
 
         this.findEmptyPos = function () {
@@ -412,6 +417,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             // furniture
                             var f_id = map.grid.furniture[m][n];
                             if (f_id != -1) {
+                                if (f_id == 2) {
+                                    var gg = 1;
+                                }
                                 if (sGrid[i][j] == null) sGrid[i][j] = { furniture: {}, door: {} };
                                 var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
                                 if (!(f_id in sGrid[i][j].furniture) || sGrid[i][j].furniture[f_id] > r) 
@@ -429,11 +437,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     }
                     if (sGrid[i][j] == null) continue;
                     for (var t in sGrid[i][j].furniture) {
-                        if (sGrid[i][j].furniture[t] > range2 || !_checkVisibleLine(j, i, map.objList.furniture[t].x, map.objList.furniture[t].y)) delete sGrid[i][j].furniture[t];
+                        if (sGrid[i][j].furniture[t] > range2 || !_checkVisibleLine(j, i, map.objList.furniture[t].x, map.objList.furniture[t].y, SYSTEM.Map.Data.Grid.Furniture, t)) delete sGrid[i][j].furniture[t];
                         else sGrid[i][j].furniture[t] = [sGrid[i][j].furniture[t], Math.atan2(map.objList.furniture[t].x - j, map.objList.furniture[t].y - i) * 180 / Math.PI];
                     }
                     for (var t in sGrid[i][j].door) {
-                        if (sGrid[i][j].door[t] > range2 || !_checkVisibleLine(j, i, map.objList.door[t].x, map.objList.door[t].y)) delete sGrid[i][j].door[t];
+                        if (sGrid[i][j].door[t] > range2 || !_checkVisibleLine(j, i, map.objList.door[t].x, map.objList.door[t].y, SYSTEM.Map.Data.Grid.Door, t)) delete sGrid[i][j].door[t];
                         else sGrid[i][j].door[t] = [sGrid[i][j].door[t], Math.atan2(map.objList.door[t].x - j, map.objList.door[t].y - i) * 180 / Math.PI];
                     }
 
@@ -455,10 +463,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     }
                 }
             }
+            console.log('---------------------------------------------------------------');
             for (var i = 0; i < height; i++) {
                 for (var j = 0; j < width; j++) {
                     if (sGrid[i][j] == null) continue;
-                    for (var k = 0; k < sGrid[i][j].furniture; k++) {
+                    for (var k in sGrid[i][j].furniture) {
+                        console.log(i,j,k);
                         for (var c = 0; c < characters.length; c++) {
                             surroundGrid[i][j][c].push({
                                 angle: sGrid[i][j].furniture[k][1],
@@ -467,7 +477,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             });
                         }
                     }
-                    for (var k = 0; k < sGrid[i][j].door; k++) {
+                    for (var k in sGrid[i][j].door) {
                         for (var c = 0; c < characters.length; c++) {
                             surroundGrid[i][j][c].push({
                                 angle: sGrid[i][j].door[k][1],
@@ -476,8 +486,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             });
                         }
                     }
+                    console.log(' ');
                 }
             }
+            console.log('---------------------------------------------------------------');
         };
 
         var setupTriggerPos = function () { };

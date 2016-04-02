@@ -28,6 +28,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Door = function (id, info, modelData, name) {
         SYSTEM.MapObject.Basic.call(this, id, info, modelData);
 
+        this.objType = _Data.ObjType;
         this.blockList = {};
         this.name = name;
         this.status = _Data.Status.Closed;

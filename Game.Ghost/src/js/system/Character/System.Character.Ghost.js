@@ -52,7 +52,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (this.accessObject == null) return;
         var obj = this.entity.map.objList[this.accessObject.type][this.accessObject.id];
         var info = obj.check();
-        switch (info.objType) {
+        switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
                     obj.close();
@@ -75,13 +75,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             case SYSTEM.MapObject.Body.Data.ObjType:
                 break;
         }
-         this.entity.interAction.updateInteraction(info.objType, info.id);
+        this.entity.interAction.updateInteraction(obj.objType, info.id);
         this.updateData();
     };
 
     Ghost.prototype.checkOperation = function (obj) {
         var info = obj.check();
-        switch (info.objType) {
+        switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
                     return SYSTEM.MapObject.Door.Data.Operation.Close;
