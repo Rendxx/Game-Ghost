@@ -144,7 +144,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var r = Math.atan2(x2 - x1, y2 - y1) * 180 / Math.PI;
             var d = Math.abs(r - characterA.currentRotation.head);
             if (d > 180) d = 360 - d;
-            if (d > 80) return false;
+            var d2 = Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
+            if (d > 80 && d2>1.5) return false;
             return _checkVisibleLine(x1, y1, x2, y2, null, null);
         };
 
