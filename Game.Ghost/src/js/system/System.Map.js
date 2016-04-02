@@ -331,7 +331,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.createBody = function (character) {
             var b = new SYSTEM.MapObject.Body();
             b.setup(character);
-            that.grid.body[b.y][b.x] = b.id;
+            that.grid.body[Math.floor(b.y)][Math.floor(b.x)] = b.id;
             that.objList.body[character.id] = b;
             gameData.body[character.id] = b.toJSON();
         };

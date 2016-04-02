@@ -61,7 +61,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             this.y = (para.top + para.bottom + 1) / 2;
             this.rotation = para.rotation;
         }
-        this.modelId = modelData.id;
+        if (modelData != undefined) {
+            this.modelId = modelData.id;
+        }
     };
 
     Basic.prototype.updateData = function () {

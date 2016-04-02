@@ -118,7 +118,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             else {
                 if (!this.rush) {
                     if (this.endurance < this.modelData.para.endurance) {
-                        if (_visibleList[i]) this.endurance += (this.enduranceRecover * (_Data.range.danger - r) / 10);
+                        if (this.visibleCharacter[i]) this.endurance += (this.enduranceRecover * (_Data.range.danger - r) / 10);
                         else this.endurance += (this.enduranceRecover * (_Data.range.danger - r) / 20);
                     }
                 }

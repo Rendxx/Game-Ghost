@@ -72,6 +72,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Body.prototype.setup = function (character) {
+        if (character == null) return;
         this.name = character.name + "'s Body";
         for (var id in character.key) {
             if (this.key==null) this.key = {};
@@ -80,9 +81,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var info = {
             left: Math.floor(character.x),
-            right: Math.ceil(character.x),
+            right: Math.floor(character.x),
             top: Math.floor(character.y),
-            bottom: Math.ceil(character.y)
+            bottom: Math.floor(character.y)
         };
         SYSTEM.MapObject.Basic.prototype.setup.call(this, character.id, info, null);
     };

@@ -126,8 +126,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 for (var i = 0, l = that.characters.length; i < l; i++) {
                     if (that.characters[i].role == Data.character.type.ghost) {
                         playerVisibleList[i] = true;
-                        for (var idx in gameData.characters[i].visibleList) {
-                            if (gameData.characters[i].visibleList[idx]==true)playerVisibleList[idx] = true;
+                        for (var idx in gameData.characters[i].visibleCharacter) {
+                            if (gameData.characters[i].visibleCharacter[idx] == true) playerVisibleList[idx] = true;
                         }
                     }
                 }
@@ -135,8 +135,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 for (var i = 0, l = that.characters.length; i < l; i++) {
                     if (that.characters[i].role == Data.character.type.survivor) {
                         playerVisibleList[i] = true;
-                        for (var idx in gameData.characters[i].visibleList) {
-                            if (gameData.characters[i].visibleList[idx]==true)playerVisibleList[idx] = true;
+                        for (var idx in gameData.characters[i].visibleCharacter) {
+                            if (gameData.characters[i].visibleCharacter[idx] == true) playerVisibleList[idx] = true;
                         }
                     }
                 }

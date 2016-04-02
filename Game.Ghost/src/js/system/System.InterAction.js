@@ -37,10 +37,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             objOperation = [],
             surroundGrid = [];
 
+        this.characterCheckingList;
+
         // public method -------------------------------------------------
         this.reset = function () {
             width = map.width;
             height = map.height;
+            setupCharacterCheckingList();
             setupObjOperation();
             setupAccess();
             setupInteractionObj();
@@ -121,10 +124,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var d = Math.abs(r - characterA.currentRotation.head);
             if (d > 180) d = 360 - d;
             if (d > 80) return false;
-            return _checkVisibleLine(x1, x2, y1, y2, null, null);
+            return _checkVisibleLine(x1, y1, x2, y2, null, null);
         };
 
         var _checkVisibleLine = function (x1, y1, x2, y2, objType, objId) {
+            if (objType == null) {
+                console.log(x1, y1, x2, y2);
+            }
             var r = Math.atan2(x2 - x1, y2 - y1) * 180 / Math.PI;
             if (x1 == x2) {
                 var y_min = Math.min(y1, y2),
@@ -165,13 +171,26 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Empty) return true;
             if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Furniture) {
                 if (map.objList.furniture[map.grid.furniture[y][x]].blockSight
-                    && !(objType == SYSTEM.Map.Data.Grid.Furniture && objId == map.grid.furniture[y][x])) return false;
+                    && !(objType == SYSTEM.Map.Data.Grid.Furniture && objId == map.grid.furniture[y][x])) {
+                    if (objType == null) {
+                        console.log('furniture: '+x+", "+y);
+                    }
+                    return false;
+                }
                 return true;
             }
             if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Door) {
                 if (!(map.objList.door[map.grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened)
-                && !(objType == SYSTEM.Map.Data.Grid.Door && objId == map.grid.door[y][x])) return false;
+                && !(objType == SYSTEM.Map.Data.Grid.Door && objId == map.grid.door[y][x])) {
+                    if (objType == null) {
+                        console.log('furniture: ' + x + ", " + y);
+                    } return false;
+                }
                 return true;
+            }
+
+            if (objType == null) {
+                console.log('wall: ' + x + ", " + y);
             }
             return false;
         };
@@ -497,6 +516,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         var setupTriggerPos = function () { };
+
+        var setupCharacterCheckingList = function () {
+            for (var c = 0; c < characters.length; c++) {
+                if (characters[c].role == Data.character.type.survivor) {
+                    characters[c].characterCheckingList = entity.characterRoleMap.ghost;
+                } else if (characters[c].role == Data.character.type.ghost) {
+                    characters[c].characterCheckingList = entity.characterRoleMap.survivor;
+                }
+            }
+        };
     };
 
     SYSTEM.InterAction = InterAction;
