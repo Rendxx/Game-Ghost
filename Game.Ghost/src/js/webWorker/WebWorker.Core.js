@@ -28,11 +28,11 @@ var funcMap = {
                 }
             });
         };
-        _system.clientSetup = function (targetArr, clientData) {
+        _system.clientSetup = function (targets, clientData) {
             postMessage({
                 func: 'clientSetup',
                 para: {
-                    targetArr: targetArr,
+                    targets: targets,
                     clientData: clientData
                 }
             });

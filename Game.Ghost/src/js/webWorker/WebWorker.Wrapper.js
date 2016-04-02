@@ -39,22 +39,22 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
                     if (that.onUpdated) that.onUpdated(gameData);
                 },
                 "clientSetup": function (para) {
-                    var target = undefined;
+                    var targets = undefined;
                     var clientData = undefined;
                     if (para) {
-                        target = para.modelData;
+                        targets = para.targets;
                         clientData = para.clientData;
                     }
-                    if (that.clientSetup) that.clientSetup(target, clientData);
+                    if (that.clientSetup) that.clientSetup(targets, clientData);
                 },
                 "clientUpdate": function (para) {
-                    var target = undefined;
+                    var targets = undefined;
                     var clientData = undefined;
                     if (para) {
-                        target = para.modelData;
+                        targets = para.targets;
                         clientData = para.clientData;
                     }
-                    if (that.clientUpdate) that.clientUpdate(target, clientData);
+                    if (that.clientUpdate) that.clientUpdate(targets, clientData);
                 },
                 "onEnd": function (para) {
                     var isWin = undefined;

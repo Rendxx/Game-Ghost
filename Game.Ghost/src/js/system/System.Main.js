@@ -45,7 +45,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         this.action = function (clientId, dat) {
-            if (!characterIdxMap.hasOwnProperty(clientId)) return;
+            if (!isStarted || characterIdxMap == null || !characterIdxMap.hasOwnProperty(clientId)) return;
             this.userInput.action(characterIdxMap[clientId], dat);
         };
 
@@ -87,6 +87,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 'characterRoleMap': this.characterRoleMap
             };
             this.onSetuped(setupData);
+            for (var i in playerData) {
+                this.clientSetup([i], { role: playerData[i].role, color: this.characters[characterIdxMap[i]].color });
+            }
+
             flag_setuped = true;
             if (flag_started && !isStarted) this.start();
         };
