@@ -57,7 +57,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
                     obj.close();
                 } else if (info.status == SYSTEM.MapObject.Door.Data.Status.Locked) {
-                    this.entity.message.send(this.id, _Data.message.doorLock.replace('#name#', info.name));
+                    this.entity.message.send(this.id, _Data.message.doorLock.replace('#name#', obj.name));
                 } else if (info.blocked) {
                     this.entity.message.send(this.id, _Data.message.doorBlock);
                 } else {

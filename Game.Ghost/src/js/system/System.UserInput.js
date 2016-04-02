@@ -44,7 +44,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     entity.characters[clientId].move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']);
                     break;
                 case _Data.actionType.lightSwitch:
-                    entity.characters[clientId].switchTorch();
+                    if (entity.characters[clientId].role == Data.character.type.survivor) entity.characters[clientId].switchTorch();
+                    else if (entity.characters[clientId].role == Data.character.type.ghost) entity.characters[clientId].teleport();
                     break;
                 case _Data.actionType.use:
                     entity.characters[clientId].interaction();

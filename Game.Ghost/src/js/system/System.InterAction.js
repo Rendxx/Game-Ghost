@@ -163,13 +163,17 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var _checkPosVisible = function (x, y, objType, objId) {
             if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Empty) return true;
-            if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Furniture
-                && map.objList.furniture[map.grid.furniture[y][x]].blockSight
-                && !(objType == SYSTEM.Map.Data.Grid.Furniture && objId == map.grid.furniture[y][x])) return false;
-            if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Door
-                && !(map.objList.door[map.grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened)
+            if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Furniture) {
+                if (map.objList.furniture[map.grid.furniture[y][x]].blockSight
+                    && !(objType == SYSTEM.Map.Data.Grid.Furniture && objId == map.grid.furniture[y][x])) return false;
+                return true;
+            }
+            if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Door) {
+                if (!(map.objList.door[map.grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened)
                 && !(objType == SYSTEM.Map.Data.Grid.Door && objId == map.grid.door[y][x])) return false;
-            return true;
+                return true;
+            }
+            return false;
         };
 
         this.findEmptyPos = function () {
@@ -439,7 +443,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         else sGrid[i][j].furniture[t] = [sGrid[i][j].furniture[t], Math.atan2(map.objList.furniture[t].x - j, map.objList.furniture[t].y - i) * 180 / Math.PI];
                     }
                     for (var t in sGrid[i][j].door) {
-                        if (t == 1) {    //test
+                        if (t != 1 && i==2 && j==9) {    //test
                             var gg = 1;
                         }
                         if (sGrid[i][j].door[t] > range2 || !_checkVisibleLine(j, i, map.objList.door[t].x, map.objList.door[t].y, SYSTEM.Map.Data.Grid.Door, t)) delete sGrid[i][j].door[t];
@@ -478,7 +482,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         }
                     }
                     for (var k in sGrid[i][j].door) {
-                        console.log(i, j, k);
                         for (var c = 0; c < characters.length; c++) {
                             surroundGrid[i][j][c].push({
                                 angle: sGrid[i][j].door[k][1],
