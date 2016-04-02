@@ -3,7 +3,7 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], false);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], true);
     var systemWrapper = window.Rendxx.Game.Ghost.WebWorker.Create(_root, "../js/Game.Ghost.System.Core.js");
     systemWrapper.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -73,7 +73,7 @@
     //renderer.onTimeInterval = system.nextInterval;
 
     renderer.onSetuped = function () {
-        SetupControl(systemWrapper, 'p1');
+        SetupControl(systemWrapper, 'p7');
         systemWrapper.start();
         renderer.show();
     };
@@ -107,7 +107,9 @@ function SetupControl(system, pId) {
         'd': 68,
         'space': 32,
         'e': 69,
-        'f': 70
+        'f': 70,
+        'g': 71,
+        'c': 67
     };
 
     var codeMap = {};
@@ -143,6 +145,14 @@ function SetupControl(system, pId) {
         } else if (e.keyCode == keyCode['e']) {
             system.action(pId, {
                 actionType: '03'
+            });
+        } else if (e.keyCode == keyCode['g']) {
+            system.action(pId, {
+                actionType: '04'
+            });
+        } else if (e.keyCode == keyCode['c']) {
+            system.action(pId, {
+                actionType: '05'
             });
         }
     }).keyup(function (e) {

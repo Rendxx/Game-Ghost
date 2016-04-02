@@ -12,7 +12,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         actionType: {
             'move': '01',
             'lightSwitch': '02',
-            'use': '03'
+            'use': '03',
+            'teleport': '04',
+            'crazy': '05'
         }
     };
     var UserInput = function (entity) {
@@ -45,10 +47,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     break;
                 case _Data.actionType.lightSwitch:
                     if (entity.characters[clientId].role == Data.character.type.survivor) entity.characters[clientId].switchTorch();
-                    else if (entity.characters[clientId].role == Data.character.type.ghost) entity.characters[clientId].teleport();
                     break;
                 case _Data.actionType.use:
                     entity.characters[clientId].interaction();
+                    break;
+                case _Data.actionType.teleport:
+                    if (entity.characters[clientId].role == Data.character.type.ghost) entity.characters[clientId].teleport();
+                    break;
+                case _Data.actionType.crazy:
+                    if (entity.characters[clientId].role == Data.character.type.ghost) entity.characters[clientId].crazy();
                     break;
                 default:
                     break;

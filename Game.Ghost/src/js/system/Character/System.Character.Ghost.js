@@ -140,7 +140,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Ghost.prototype.crazy = function () {
         if (this.endurance >= this.modelData.para.endurance) {
-            rush = true;
+            this.rush = true;
         }
     };
 

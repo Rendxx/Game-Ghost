@@ -176,7 +176,6 @@
     <Content Include="src\js\renderer\Renderer.Environment.js" />
     <Content Include="mapDesigner\index.html" />
     <Content Include="src\js\system\Character\System.Character.Basic.js" />
-    <Content Include="src\js\system\Character\System.Character.Survivor - 复制.js" />
     <Content Include="src\js\system\Character\System.Character.Survivor.js" />
     <Content Include="src\js\system\Item\System.Item.Basic.js" />
     <Content Include="src\js\system\MapObject\System.MapObject.Position.js" />

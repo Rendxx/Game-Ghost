@@ -12,8 +12,8 @@
         "body": 10
       },
       "move": {
-        "walk": 3,
-        "run": 20,
+        "walk": 2,
+        "run": 30,
         "back": -2
       }
     },
