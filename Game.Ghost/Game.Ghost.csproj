@@ -104,6 +104,8 @@
     <Content Include="Model\Player\red\Player-Texture-2.png" />
     <Content Include="Model\Player\red\Player-Texture.png" />
     <Content Include="Model\Player\white\Player-Texture-2.png" />
+    <Content Include="Model\Player\white\Player-Texture-Body-Ghost-Mary.png" />
+    <Content Include="Model\Player\white\Player-Texture-Face-Ghost-Mary-.png" />
     <Content Include="Model\Player\white\Player-Texture.png" />
     <Content Include="Model\Player\yellow\Player-Texture-2.png" />
     <Content Include="Model\Player\yellow\Player-Texture.png" />
@@ -372,6 +374,7 @@
     <Content Include="ModelBuilder\Sprite\interaction.unlock.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.search.fla" />
     <Content Include="Model\Body\body_1.data.json" />
+    <Content Include="Model\Player\white\player-ghost-mary.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
