@@ -19,7 +19,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             noKey: "Nothing found",
         },
         range: {
-            danger: 8
+            danger: 12
         },
         teleportCountMax: 2400
     };

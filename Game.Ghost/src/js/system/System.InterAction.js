@@ -214,8 +214,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.checkInEnd = function (x, y) {
             x = Math.floor(x);
             y = Math.floor(y);
-            for (var i = 0; i < position['end'].length; i++) {
-                if (x == position['end'][i][0] && y == position['end'][i][1]) return true;
+            for (var i = 0; i < map.position['end'].length; i++) {
+                if (x == map.position['end'][i][0] && y == map.position['end'][i][1]) return true;
             }
             return false;
         };

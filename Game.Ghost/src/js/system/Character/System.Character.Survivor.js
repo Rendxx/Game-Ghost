@@ -19,7 +19,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             noKey: "Nothing found",
         },
         range: {
-            danger: 8
+            danger: 12
         }
     };
 
@@ -208,6 +208,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         }
         if (min <= _Data.range.danger) this.danger = (1 - min / _Data.range.danger);
         else this.danger = 0;
+        if (this.entity.interAction.checkInEnd(this.x, this.y)) {
+            this.winning();
+        }
     };
 
     Survivor.prototype.die = function () {
