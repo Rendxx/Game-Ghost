@@ -112,6 +112,7 @@
     <Content Include="Model\Position\end_1.icon.png" />
     <Content Include="Model\Position\start_1.icon.png" />
     <Content Include="Model\Position\start_2.icon.png" />
+    <Content Include="Model\Sprite\DeadScreen.png" />
     <Content Include="Model\Sprite\EnduranceBar.png" />
     <Content Include="Model\Sprite\interaction.close-2.png" />
     <Content Include="Model\Sprite\interaction.close.png" />
@@ -375,6 +376,7 @@
     <Content Include="ModelBuilder\Sprite\interaction.search.fla" />
     <Content Include="Model\Body\body_1.data.json" />
     <Content Include="Model\Player\white\player-ghost-mary.json" />
+    <Content Include="ModelBuilder\Sprite\Dead.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

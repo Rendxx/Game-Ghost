@@ -164,14 +164,19 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             //    //that.camera.lookAt(that.character.mesh.position);
             //}
 
-            // update edge
-            updateEdge();
-            // update sprite
-            updateEnduranceBar();
-            // update effort
-            updateInteractionIcon();
-            updateMessage();
-            updateDoor();
+            if (that.character.isDead) {
+                showDeadScreen();
+            } else {
+                // update edge
+                updateEdge();
+                // update sprite
+                updateEnduranceBar();
+                // update effort
+                updateInteractionIcon();
+                updateMessage();
+                updateDoor();
+            }
+
 
             // render
             that.renderer.setViewport(that.x, that.y, that.width, that.height);
@@ -534,7 +539,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var resizeEdge = function () {
             if (sprites['edges'] != null) that.sceneOrtho.remove(sprites["edges"]);
             sprites['edges'] = createEdges();
-            sprites["edges"].position.set(0, 0, 3);
+            sprites["edges"].position.set(0, 0, 7);
             that.sceneOrtho.add(sprites["edges"]);
         };
 
@@ -636,12 +641,30 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             } : null;
         }
 
+        // dead -----------------------------------------------------
+        var showDeadScreen = function () {
+            if (sprites["deadScreen"]!=null) return;
+            sprites["deadScreen"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["deadScreen"] }));
+            sprites["deadScreen"].scale.set(512, 512, 1.0);
+            sprites["deadScreen"].material.transparent = true;
+            sprites["deadScreen"].material.opacity = 0;
+            sprites["deadScreen"].position.set(0,0, 9);
+            that.sceneOrtho.add(sprites["deadScreen"]);
+            var mat = sprites["deadScreen"].material;
+            new TWEEN.Tween({ t: 0 }).to({ t: 20 }, 500)
+                .onUpdate(function () {
+                    mat.opacity = this.t * 0.04;
+                })
+                .start();
+        };
+
         // setup -----------------------------------------------------
         var _setupTex = function () {
             tex = {};
             var textureLoader = new THREE.TextureLoader();
             var path = root + Data.files.path[Data.categoryName.sprite];
             tex['nameDeco'] = textureLoader.load(path + 'name-deco-white.png');
+            tex['deadScreen'] = textureLoader.load(path + 'DeadScreen.png');
             tex['interaction'] = {
                 'normal': {
                     'furniture': {

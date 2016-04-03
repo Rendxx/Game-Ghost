@@ -101,7 +101,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var y = (gameData.y - entity.map.height / 2) * GridSize;
             var r_body = gameData.currentRotation.body;
             var r_head = gameData.currentRotation.headBody;
-            var isDie = gameData.hp == 0;
+            var isDead = gameData.hp == 0;
             //console.log(x+"  "+y+"  "+r_body+"  "+r_head);
             if (!this.setuped) return;
 
@@ -111,9 +111,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.endurance = gameData.endurance;
             this.accessObject = gameData.accessObject;
             this.visibleObject = gameData.visibleObject;
+            this.isDead = isDead;
 
             // dead
-            if (isDie) {
+            if (isDead) {
                 if (currentAction != action) {
                     //this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
                     //this.actions[currentAction].setEffectiveWeight(0);
