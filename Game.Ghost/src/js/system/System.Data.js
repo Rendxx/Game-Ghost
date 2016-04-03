@@ -119,7 +119,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             files: {
                 test: 'MapDataTest.json',
                 test2: 'MapDataTest2.json',
-                debug: 'MapData4debug_1.json'
+                debug: 'MapData4debug_1.json',
+                dogcan2: 'DogCan2.json'
             },
             path: '/GameData/Map/',
             para: {
