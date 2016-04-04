@@ -605,7 +605,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     wall.y = y;
                     wall.len = l || 1;
                     wall.rotation = r;
-                    wall.id = (wallIdx === null || itemList[Data.categoryName.wall][wallIdx] == null) ? defaultItem[Data.categoryName.wall].id : itemList[Data.categoryName.wall][wallIdx].id
+                    wall.id = (wallIdx === null || itemList[Data.categoryName.wall][wallIdx] == null) ? defaultItem[Data.categoryName.wall].id : itemList[Data.categoryName.wall][wallIdx].id;
                 } else {
                     wall.len++;
                 }
@@ -643,8 +643,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 noWall();
             }
             for (var j = 0; j < wid; j++) {
-                if (wallMap[i - 1][j] == 0) {
-                    findWall(null, j, i, 0);
+                if (wallMap[hgt - 1][j] == 0) {
+                    findWall(null, j, hgt, 0);
                 } else {
                     noWall();
                 }
@@ -655,7 +655,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             for (var i = hgt - 2; i >= 0; i--) {
                 for (var j = wid - 1; j >= 0; j--) {
                     if (wallMap[i][j] != 0 && wallMap[i + 1][j] == 0) {
-                        findWall(wallMap[i+1][j+1], j + 1, i + 1, 2);
+                        findWall(wallMap[i][j], j + 1, i + 1, 2);
                     } else {
                         noWall();
                     }
@@ -663,8 +663,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 noWall();
             }
             for (var j = wid - 1; j >= 0; j--) {
-                if (wallMap[i + 1][j] == 0) {
-                    findWall(null, j + 1, i + 1, 2);
+                if (wallMap[0][j] == 0) {
+                    findWall(null, j + 1, 0, 2);
                 } else {
                     noWall();
                 }
@@ -675,7 +675,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             for (var j = wid - 2; j >= 0; j--) {
                 for (var i = 0; i < hgt; i++) {
                     if (wallMap[i][j] != 0 && wallMap[i][j + 1] == 0) {
-                        findWall(wallMap[i][j+1], j + 1, i, 1);
+                        findWall(wallMap[i][j], j + 1, i, 1);
                     } else {
                         noWall();
                     }
@@ -683,8 +683,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 noWall();
             }
             for (var i = 0; i < hgt; i++) {
-                if (wallMap[i][j + 1] == 0) {
-                    findWall(null, j + 1, i, 1);
+                if (wallMap[i][0] == 0) {
+                    findWall(null, 0, i, 1);
                 } else {
                     noWall();
                 }
@@ -695,7 +695,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             for (var j = 1; j < wid; j++) {
                 for (var i = hgt - 1; i >= 0; i--) {
                     if (wallMap[i][j] != 0 && wallMap[i][j - 1] == 0) {
-                        findWall(wallMap[i+1][j], j, i + 1, 3);
+                        findWall(wallMap[i][j], j, i + 1, 3);
                     } else {
                         noWall();
                     }
@@ -704,8 +704,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             }
 
             for (var i = hgt - 1; i >= 0; i--) {
-                if (wallMap[i][j - 1] == 0) {
-                    findWall(null, j, i + 1, 3);
+                if (wallMap[i][wid - 1] == 0) {
+                    findWall(null, wid, i + 1, 3);
                 } else {
                     noWall();
                 }
