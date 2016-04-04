@@ -164,7 +164,7 @@
         "visible": true,
         "mapDiffuseRepeat": [1,1],
         "depthWrite": true,
-        "shading": "lambert",
+        "shading": "phong",
         "depthTest": true,
         "DbgName": "Player-Face-Mat"
     },{
@@ -183,7 +183,7 @@
         "visible": true,
         "mapDiffuseRepeat": [1,1],
         "depthWrite": true,
-        "shading": "lambert",
+        "shading": "phong",
         "depthTest": true,
         "DbgName": "Player-Body-Mat"
     }],
