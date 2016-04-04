@@ -158,6 +158,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var entity = new Entity(container, root, viewPlayer_in, isGhost_in);
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
+        entity.test = new RENDERER.Test(entity);
         return entity;
     };
 })(window.Rendxx.Game.Ghost.Renderer);
