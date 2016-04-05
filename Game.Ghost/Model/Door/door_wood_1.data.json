@@ -6,7 +6,7 @@
     [ 0, 0 ],
     [ 0, -1 ]
   ],
-  "model": "door_wood_1_b.json",
+  "model": "door_wood_1.json",
   "texture": [ "door_wood_1.png" ],
   "icon": "door_wood_1.icon.png",
   "duration": 200,

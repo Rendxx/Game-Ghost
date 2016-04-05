@@ -23,36 +23,36 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'green'
         },
-        'p2': {
-            id: 'p2',
-            name: 'player 2',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'red'
-        },
-        'p3': {
-            id: 'p3',
-            name: 'player 3',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'blue'
-        },
-        'p4': {
-            id: 'p4',
-            name: 'player 4',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'yellow'
-        },
-        'p5': {
-            id: 'p5',
-            name: 'player 5',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'orange'
-        },
-        'p6': {
-            id: 'p6',
-            name: 'player 6',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'purple'
-        },
+        //'p2': {
+        //    id: 'p2',
+        //    name: 'player 2',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'red'
+        //},
+        //'p3': {
+        //    id: 'p3',
+        //    name: 'player 3',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'blue'
+        //},
+        //'p4': {
+        //    id: 'p4',
+        //    name: 'player 4',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'yellow'
+        //},
+        //'p5': {
+        //    id: 'p5',
+        //    name: 'player 5',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'orange'
+        //},
+        //'p6': {
+        //    id: 'p6',
+        //    name: 'player 6',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'purple'
+        //},
         'p7': {
             id: 'p7',
             name: 'player 7',

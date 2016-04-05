@@ -140,7 +140,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 _w = this.w;
 
                 if (this.category != null) this.ele.removeClass('furniture-' + this.category);
-                this.icon = 'url("' + ((data.category != null && Data.path[data.category] != null) ? Data.path[data.category] : 'Images/') + data.icon + '")';
+                this.icon = 'url("' + ((data.category != null && Data.path[data.category] != null) ? Data.path[data.category] : 'Images/') +data.id+'/'+ data.icon + '")';
                 this.ele.css('background-image', this.icon);
                 this.id = data.id;
                 this.category = data.category;

@@ -186,7 +186,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = ground_in.length; i < l; i++) {
                 if (ground_in[i] == null) continue;
                 var mesh = createGround(ground_in[i]);
-                mesh_ground.push(mesh);
+
+                var id = ground_in[i].id;
+                if (!mesh_ground.hasOwnProperty(id)) mesh_ground[id] = [];
+                mesh_ground[id].push(mesh);
             }
 
             /*create ceiling*/
@@ -319,13 +322,20 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var para = _modelData.items[Data.categoryName.ground][id];
 
 
-            var texture = getTexture(root + Data.files.path[Data.categoryName.ground] + para.texture[0]);
+            var texture = getTexture(root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.texture[0]);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.x = w / 4;
-            texture.repeat.y = h / 4;
 
-            var geometry = new THREE.PlaneGeometry(w, h, w, h);
+            var geometry = new THREE.PlaneGeometry(w, h, 1, 1);
+            // set uv
+            var uvs = geometry.faceVertexUvs[0];
+            uvs[0][0].set(0, h / GridSize);
+            uvs[0][1].set(0, 0);
+            uvs[0][2].set(w / GridSize, h / GridSize);
+            uvs[1][0].set(0, 0);
+            uvs[1][1].set(w / GridSize, 0);
+            uvs[1][2].set(w / GridSize, h / GridSize);
+
             var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
             material.side = THREE.DoubleSide;
             mesh = new THREE.Mesh(geometry, material);
@@ -353,21 +363,31 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 y += len / 2;
             }
             //console.log(x, y, len, r);
-            x *= GridSize;
-            y *= GridSize;
-            len *= GridSize;
-
-            var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.texture[1]);
+            var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[1]);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.x = len / 8;
+            //texture.repeat.x = len / 3;
+            //texture.repeat.y = 1;
 
-            var geometry = new THREE.PlaneGeometry(len, 3 * GridSize, len, 3);
+            var geometry = new THREE.PlaneGeometry(len * GridSize, 3 * GridSize, 1, 1);
+            // set uv
+            var uvs = geometry.faceVertexUvs[0];
+            uvs[0][0].set(0, 0.75);
+            uvs[0][1].set(0, 0);
+            uvs[0][2].set(len / 4, 0.75);
+            uvs[1][0].set(0, 0);
+            uvs[1][1].set(len / 4, 0);
+            uvs[1][2].set(len / 4, 0.75);
+
             var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
             material.side = THREE.DoubleSide;
             var mesh = new THREE.Mesh(geometry, material);
             mesh.castShadow = true;
             mesh.receiveShadow = true;
+
+            x *= GridSize;
+            y *= GridSize;
+            len *= GridSize;
 
             mesh.rotation.y = (4 - r) / 2 * Math.PI;
             mesh.position.x = x;
@@ -392,13 +412,20 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             // top wall
-            var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.texture[0]);
+            var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[0]);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.x = w / 4;
-            texture.repeat.y = h / 4;
 
-            var geometry = new THREE.PlaneGeometry(w, h, w, h);
+            var geometry = new THREE.PlaneGeometry(w, h, 1, 1);
+            // set uv
+            var uvs = geometry.faceVertexUvs[0];
+            uvs[0][0].set(0, h / GridSize);
+            uvs[0][1].set(0, 0);
+            uvs[0][2].set(w / GridSize, h / GridSize);
+            uvs[1][0].set(0, 0);
+            uvs[1][1].set(w / GridSize, 0);
+            uvs[1][2].set(w / GridSize, h / GridSize);
+
             var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
             material.side = THREE.DoubleSide;
             var mesh = new THREE.Mesh(geometry, material);
@@ -520,7 +547,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.objectPos.door[idx] = [x, y];
 
             var loader = new THREE.JSONLoader();
-            loader.load(root + Data.files.path[Data.categoryName.door] + para.model, function (geometry, materials) {
+            loader.load(root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model, function (geometry, materials) {
                 var mesh = null,
                     tweenNew = null;
                 if (para.action == null) {
@@ -794,12 +821,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var _addToScene = function () {
             // ground
             if (combined_ground != null) {
-                for (var i in combined_ground) _scene.remove(combined_ground[i]);
+                for (var id in combined_ground) _scene.remove(combined_ground[id]);
             }
             combined_ground = {};
-            for (var i = 0; i < mesh_ground.length; i++) {
-                combined_ground[i] = mesh_ground[i];
-                _scene.add(combined_ground[i]);
+            for (var id in mesh_ground) {
+                combined_ground[id] = _mergeMeshes(mesh_ground[id], mesh_ground[id][0].material);
+                //combined_ground[id].castShadow = true;
+                combined_ground[id].receiveShadow = true;
+                _scene.add(combined_ground[id]);
             }
 
             // ceiling
