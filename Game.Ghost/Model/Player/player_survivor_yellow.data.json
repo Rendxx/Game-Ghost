@@ -31,35 +31,5 @@
       "7": "walk"
     },
     "init": "3"
-  },
-  "light": {
-    "top": {
-      "x": 0,
-      "y": 2.5,
-      "z": 0.25,
-      "intensity": 1,
-      "distance": 5,
-      "angle": 1,
-      "exponent": 1,
-      "color": "0xffffff"
-    },
-    "torch": {
-      "x": -0.455,
-      "y": 1.4,
-      "z": 0.28,
-      "color": "0xffffff",
-      "intensity": 1,
-      "distance": 20,
-      "angle": 0.8,
-      "exponent": 0.5,
-      "shadowCameraNear": 0.5,
-      "shadowCameraFar": 30,
-      "shadowCameraFov": 100,
-      "shadowCameraVisible": false,
-      "shadowMapWidth": 2056,
-      "shadowMapHeight": 2056,
-      "shadowBias": 0.00,
-      "shadowDarkness": 1.0
-    }
   }
 }
