@@ -39,7 +39,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Basic.prototype.take = function (characterId) {
-        this.mapObjectId = -1;4
+        this.mapObjectId = -1;
         this.characterId = characterId;
         this.updateData();
     };
