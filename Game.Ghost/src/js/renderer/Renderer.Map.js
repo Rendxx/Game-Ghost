@@ -788,8 +788,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             var mesh = new THREE.Mesh(combined, mat);
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
             return mesh;
         }
 
@@ -821,6 +819,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             combined_wall = {};
             for (var id in mesh_wall) {
                 combined_wall[id] = _mergeMeshes(mesh_wall[id], mesh_wall[id][0].material);
+                combined_wall[id].castShadow = true;
+                combined_wall[id].receiveShadow = true;
                 _scene.add(combined_wall[id]);
             }
 
@@ -843,6 +843,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 for (var i = 0; i < mesh_door[id].length; i++) {
                     var idx = id + '__' + i;
                     combined_door[idx] = mesh_door[id][i];
+                    combined_door[idx].castShadow = true;
+                    combined_door[idx].receiveShadow = true;
                     _scene.add(combined_door[idx]);
                 }
             }
@@ -857,10 +859,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     for (var i = 0; i < mesh_furniture[id].length; i++) {
                         var idx = id + '__' + i;
                         combined_furniture[idx] = mesh_furniture[id][i];
+                        combined_furniture[idx].castShadow = true;
+                        combined_furniture[idx].receiveShadow = true;
                         _scene.add(combined_furniture[idx]);
                     }
                 } else {
                     combined_furniture[id] = _mergeMeshes(mesh_furniture[id], mesh_furniture[id][0].material);
+                    combined_furniture[id].castShadow = true;
+                    combined_furniture[id].receiveShadow = true;
                     _scene.add(combined_furniture[id]);
                 }
             }
@@ -872,6 +878,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             combined_stuff = {};
             for (var id in mesh_stuff) {
                 combined_stuff[id] = _mergeMeshes(mesh_stuff[id], mesh_stuff[id][0].material);
+                combined_stuff[id].castShadow = true;
+                combined_stuff[id].receiveShadow = true;
                 _scene.add(combined_stuff[id]);
             }
         };
