@@ -35,18 +35,20 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'blue'
         },
-        //'p4': {
-        //    id: 'p4',
-        //    name: 'player 4',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'yellow'
-        //},
+        'p4': {
+            id: 'p4',
+            name: 'player 4',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'yellow'
+        },
         //'p5': {
+        //    id: 'p5',
         //    name: 'player 5',
         //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
         //    modelId: 'orange'
         //},
         //'p6': {
+        //    id: 'p6',
         //    name: 'player 6',
         //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
         //    modelId: 'purple'

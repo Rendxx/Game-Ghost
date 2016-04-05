@@ -65,26 +65,36 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _sprite = {},
             _scene = entity.env.scene,
             _loadCount = 0,
-            _textureLoader = null;
+            _textureLoader = null,
+
+            // mesh
+            mesh_ground = null,         // ground
+            combined_ground = null,
+            mesh_ceiling = null,        // ceiling
+            combined_ceiling = null,
+            mesh_wall = null,           // wall
+            mesh_wallTop = null,
+            combined_wall = null,
+            combined_wallTop = null,
+            mesh_door = null,           // door
+            combined_door = null,
+            mesh_furniture = null,      // furniture
+            combined_furniture = null,
+            mesh_stuff = null,          // stuff
+            combined_stuff = null,
+            mesh_key = null,            // key objects: funiture id: key object
+            combined_key = null;
+
 
         // public data -----------------------------
         this.width = 0;
         this.height = 0;
-        this.wall = null;
-        this.wallTop = null;
-        this.door = null;
-        this.light = null;
-        this.stuff = null;
-        this.furniture = null;
         this.objectPos = {              //  id: [x, y]
             furniture: {},
             door: {},
             body: {}
         };               
-        this.ground = null;
-        this.ceiling = null;
-        this.posEnd = null;
-        this.key = null;                // key objects: funiture id: key object
+        this.posEnd = null;          
 
         // callback --------------------------------
         this.onLoaded = null;
@@ -126,23 +136,23 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // render model
         this.render = function () {
-            for (var i = 0, l = that.ground.length; i < l; i++) that.ground[i].material.needsUpdate = true;
-            for (var i = 0, l = that.ceiling.length; i < l; i++) that.ceiling[i].material.needsUpdate = true;
-            for (var i = 0, l = that.wall.length; i < l; i++) that.wall[i].material.needsUpdate = true;
-            for (var i = 0, l = that.wallTop.length; i < l; i++) that.wallTop[i].material.needsUpdate = true;
-            for (var i = 0, l = that.door.length; i < l; i++)
-                for (var j = 0, l2 = that.door[i].material.materials.length; j < l2; j++)
-                    that.door[i].material.materials[j].needsUpdate = true;
-            for (var i in that.furniture)
-                for (var j = 0, l2 = that.furniture[i].material.materials.length; j < l2; j++)
-                    that.furniture[i].material.materials[j].needsUpdate = true;
-            for (var i = 0, l = that.stuff.length; i < l; i++)
-                for (var j = 0, l2 = that.stuff[i].material.materials.length; j < l2; j++)
-                    that.stuff[i].material.materials[j].needsUpdate = true;
-            for (var i in that.key) {
-                if (that.key[i] == null) continue;
-                for (var j = 0, l2 = that.key[i].material.materials.length; j < l2; j++)
-                    that.key[i].material.materials[j].needsUpdate = true;
+            for (var i in combined_ground) combined_ground[i].material.needsUpdate = true;
+            for (var i in combined_ceiling) combined_ceiling[i].material.needsUpdate = true;
+            for (var i in combined_wall) combined_wall[i].material.needsUpdate = true;
+            for (var i in combined_wallTop) combined_wallTop[i].material.needsUpdate = true;
+            for (var i in combined_door)
+                for (var j = 0, l2 = combined_door[i].material.materials.length; j < l2; j++)
+                    combined_door[i].material.materials[j].needsUpdate = true;
+            for (var i in combined_furniture)
+                for (var j = 0, l2 = combined_furniture[i].material.materials.length; j < l2; j++)
+                    combined_furniture[i].material.materials[j].needsUpdate = true;
+            for (var i = 0, l = combined_stuff.length; i < l; i++)
+                for (var j = 0, l2 = combined_stuff[i].material.materials.length; j < l2; j++)
+                    combined_stuff[i].material.materials[j].needsUpdate = true;
+            for (var i in mesh_key) {
+                if (mesh_key[i] == null) continue;
+                for (var j = 0, l2 = mesh_key[i].material.materials.length; j < l2; j++)
+                    mesh_key[i].material.materials[j].needsUpdate = true;
             }
         };
 
@@ -171,63 +181,53 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             /*create ground*/
             that.width = grid.width;
             that.height = grid.height;
-            if (that.ground != null) {
-                for (var i = 0, l = that.ground.length; i < l; i++) scene.remove(that.ground[i]);
-                that.ground = null;
-            }
 
-            that.ground = [];
+            mesh_ground = [];
             for (var i = 0, l = ground_in.length; i < l; i++) {
                 if (ground_in[i] == null) continue;
                 var mesh = createGround(ground_in[i]);
-                scene.add(mesh);
-                that.ground.push(mesh);
+                mesh_ground.push(mesh);
             }
 
             /*create ceiling*/
+            mesh_ceiling = [];
             var ceiling = createCeiling(grid);
-            scene.add(ceiling);
-            that.ceiling = [];
-            that.ceiling.push(ceiling);
+            mesh_ceiling.push(ceiling);
         };
 
         var setupWall = function (scene, wall, wallTop) {
-            if (that.wall != null) {
-                for (var i = 0, l = that.wall.length; i < l; i++) scene.remove(that.wall[i]);
-                that.wall = null;
-            }
-            that.wall = [];
+            mesh_wall = {};
             for (var i = 0, l = wall.length; i < l; i++) {
                 if (wall[i] == null) continue;
                 var mesh = createWall(wall[i]);
-                scene.add(mesh);
-                that.wall.push(mesh);
+                var id = wall[i].id;
+                if (!mesh_wall.hasOwnProperty(id)) mesh_wall[id] = [];
+                mesh_wall[id].push(mesh);
             }
 
-            that.wallTop = [];
+            mesh_wallTop = {};
             for (var i = 0, l = wallTop.length; i < l; i++) {
                 if (wallTop[i] == null) continue;
                 var mesh = createWallTop(wallTop[i]);
-                scene.add(mesh);
-                that.wallTop.push(mesh);
+                var id = wallTop[i].id;
+                if (!mesh_wallTop.hasOwnProperty(id)) mesh_wallTop[id] = [];
+                mesh_wallTop[id].push(mesh);
             }
         };
 
         var setupDoor = function (scene, doors) {
-            if (that.door != null) {
-                for (var i in that.door) scene.remove(that.door[i]);
-                that.door = null;
-            }
-            that.door = {};
+            mesh_door = {};
             itemTween['door'] = {};
             itemStatus['door'] = {};
             itemData['door'] = {};
             for (var i = 0, l = doors.length; i < l; i++) {
                 if (doors[i] == null) continue;
                 _loadCount++;
-                createDoor(i, doors[i], scene, function (idx, mesh, tween) {
-                    scene.add(mesh);
-                    that.door[idx] = mesh;
+                createDoor(i, doors[i], scene, function (idx, dat, mesh, tween) {
+                    var id = dat.id;
+                    if (!mesh_door.hasOwnProperty(id)) mesh_door[id] = [];
+                    mesh_door[id].push(mesh);
+
                     itemStatus['door'][idx] = _Data.status.door.Closed;
                     itemTween['door'][idx] = tween;
                     _loadCount--;
@@ -237,11 +237,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var setupFurniture = function (scene, furniture) {
-            if (that.furniture != null) {
-                for (var i in that.furniture) scene.remove(that.furniture[i]);
-                that.furniture = null;
-            }
-            that.furniture = {};
+            mesh_furniture = {};
             itemTween['furniture'] = {};
             itemStatus['furniture'] = {};
             _map = [];
@@ -253,9 +249,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = furniture.length; i < l; i++) {
                 if (furniture[i] == null) continue;
                 _loadCount++;
-                createFurniture(i, furniture[i], scene, function (idx, mesh, tween) {
-                    scene.add(mesh);
-                    that.furniture[idx] = mesh;
+                createFurniture(i, furniture[i], scene, function (idx, dat, mesh, tween) {
+                    var id = dat.id;
+                    if (!mesh_furniture.hasOwnProperty(id)) mesh_furniture[id] = [];
+                    mesh_furniture[id].push(mesh);
+
                     itemStatus['furniture'][idx] = _Data.status.furniture.Closed;
                     itemTween['furniture'][idx] = tween;
                     _loadCount--;
@@ -269,18 +267,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var setupStuff = function (scene, stuff) {
-            if (that.stuff != null) {
-                for (var i = 0, l = that.stuff.length; i < l; i++) scene.remove(that.stuff[i]);
-                that.stuff = null;
-            }
-            that.stuff = [];
+            mesh_stuff = {};
             if (stuff == null || stuff.length == 0) return;
             for (var i = 0, l = stuff.length; i < l; i++) {
                 if (stuff[i] == null) continue;
                 _loadCount++;
-                createStuff(stuff[i], scene, function (mesh) {
-                    scene.add(mesh);
-                    that.stuff.push(mesh);
+                createStuff(stuff[i], scene, function (dat, mesh) {
+                    var id = dat.id;
+                    if (!mesh_stuff.hasOwnProperty(id)) mesh_stuff[id] = [];
+                    mesh_stuff[id].push(mesh);
+
                     _loadCount--;
                     onLoaded();
                 });
@@ -288,15 +284,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var setupKey = function (scene) {
-            if (that.key != null) {
-                for (var i in that.key) scene.remove(that.key[i]);
-                that.key = null;
+            if (mesh_key != null) {
+                for (var i in mesh_key) scene.remove(mesh_key[i]);
+                mesh_key = null;
             }
-            that.key = {};
+            mesh_key = {};
         };
 
         var onLoaded = function () {
             if (_loadCount > 0) return;
+            _addToScene();
             if (that.onLoaded) that.onLoaded();
         };
 
@@ -494,7 +491,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         _map[i][j] = id;
                 }
 
-                onSuccess(idx, mesh, tweenNew);
+                onSuccess(idx, dat, mesh, tweenNew);
             });
         };
 
@@ -578,7 +575,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 mesh.position.z = y;
                 mesh.rotation.y = (4 - r) / 2 * Math.PI;
 
-                onSuccess(idx, mesh, tweenNew);
+                onSuccess(idx, dat, mesh, tweenNew);
             });
         };
 
@@ -609,7 +606,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                 console.log(dat);
                 console.log(id, 'x:' + x, 'y:' + mesh.position.y, 'w:' + w, 'h:' + h, 'r:' + r);
-                onSuccess(mesh);
+                onSuccess(dat, mesh);
             });
         };
 
@@ -648,7 +645,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var removeKey = function (idx, scene, onSuccess) {
-            scene.remove(that.key[idx]);
+            scene.remove(mesh_key[idx]);
             onSuccess(idx);
         };
 
@@ -715,21 +712,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var updateKey = function () {
             // update key
             if (_mapData == null) return;
-            for (var i in that.key) {
+            for (var i in mesh_key) {
                 if (gameData.key.hasOwnProperty(i) && gameData.key[i] != null && gameData.key[i].mapObjectId != -1) continue;
-                if (that.key[i] == null) continue;
+                if (mesh_key[i] == null) continue;
                 removeKey(i, _scene, function (idx) {
-                    delete that.key[idx];
+                    delete mesh_key[idx];
                 });
             }
 
             for (var i in gameData.key) {
-                if (that.key.hasOwnProperty(i) || gameData.key[i].mapObjectId == -1) continue;
-                that.key[i] = null;
+                if (mesh_key.hasOwnProperty(i) || gameData.key[i].mapObjectId == -1) continue;
+                mesh_key[i] = null;
                 var key = gameData.key[i];
                 createKey(_mapData.item.furniture[key.mapObjectId], i, _scene, function (idx, mesh) {
                     _scene.add(mesh);
-                    that.key[idx] = mesh;
+                    mesh_key[idx] = mesh;
                 });
             }
         };
@@ -778,6 +775,104 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 spr.scale.set(4, 4, 1.0); // imageWidth, imageHeight
                 _scene.add(spr);
                 that.posEnd[i]=spr;
+            }
+        };
+
+        // create combined and add to scene -------------------------------
+        var _mergeMeshes = function (meshes, mat) {
+            var combined = new THREE.Geometry();
+
+            for (var i = 0; i < meshes.length; i++) {
+                meshes[i].updateMatrix();
+                combined.merge(meshes[i].geometry, meshes[i].matrix);
+            }
+
+            var mesh = new THREE.Mesh(combined, mat);
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            return mesh;
+        }
+
+        var _addToScene = function () {
+            // ground
+            if (combined_ground != null) {
+                for (var i in combined_ground) _scene.remove(combined_ground[i]);
+            }
+            combined_ground = {};
+            for (var i = 0; i < mesh_ground.length; i++) {
+                combined_ground[i] = mesh_ground[i];
+                _scene.add(combined_ground[i]);
+            }
+
+            // ceiling
+            if (combined_ceiling != null) {
+                for (var i in combined_ceiling) _scene.remove(combined_ceiling[i]);
+            }
+            combined_ceiling = {};
+            for (var i = 0; i < mesh_ceiling.length; i++) {
+                combined_ceiling[i] = mesh_ceiling[i];
+                _scene.add(combined_ceiling[i]);
+            }
+
+            // wall
+            if (combined_wall != null) {
+                for (var id in combined_wall) _scene.remove(combined_wall[id]);
+            }
+            combined_wall = {};
+            for (var id in mesh_wall) {
+                combined_wall[id] = _mergeMeshes(mesh_wall[id], mesh_wall[id][0].material);
+                _scene.add(combined_wall[id]);
+            }
+
+            // wall top
+            if (combined_wallTop != null) {
+                for (var id in combined_wallTop) _scene.remove(combined_wallTop[id]);
+            }
+            combined_wallTop = {};
+            for (var id in mesh_wallTop) {
+                combined_wallTop[id] = _mergeMeshes(mesh_wallTop[id], mesh_wallTop[id][0].material);
+                _scene.add(combined_wallTop[id]);
+            }
+
+            // door 
+            if (combined_door != null) {
+                for (var id in combined_door) _scene.remove(combined_door[id]);
+            }
+            combined_door = {};
+            for (var id in mesh_door) {
+                for (var i = 0; i < mesh_door[id].length; i++) {
+                    var idx = id + '__' + i;
+                    combined_door[idx] = mesh_door[id][i];
+                    _scene.add(combined_door[idx]);
+                }
+            }
+
+            // furniture 
+            if (combined_furniture != null) {
+                for (var id in combined_furniture) _scene.remove(combined_furniture[id]);
+            }
+            combined_furniture = {};
+            for (var id in mesh_furniture) {
+                if (mesh_furniture[id][0] instanceof THREE.SkinnedMesh) {
+                    for (var i = 0; i < mesh_furniture[id].length; i++) {
+                        var idx = id + '__' + i;
+                        combined_furniture[idx] = mesh_furniture[id][i];
+                        _scene.add(combined_furniture[idx]);
+                    }
+                } else {
+                    combined_furniture[id] = _mergeMeshes(mesh_furniture[id], mesh_furniture[id][0].material);
+                    _scene.add(combined_furniture[id]);
+                }
+            }
+
+            // stuff 
+            if (combined_stuff != null) {
+                for (var id in combined_stuff) _scene.remove(combined_stuff[id]);
+            }
+            combined_stuff = {};
+            for (var id in mesh_stuff) {
+                combined_stuff[id] = _mergeMeshes(mesh_stuff[id], mesh_stuff[id][0].material);
+                _scene.add(combined_stuff[id]);
             }
         };
 

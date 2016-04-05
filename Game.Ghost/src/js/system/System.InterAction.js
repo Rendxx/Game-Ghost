@@ -172,6 +172,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     x_max = Math.max(x1, x2);
                 for (var x = Math.ceil(x_min) ; x <= x_max; x++) {
                     var y = Math.floor(k * x + c);
+                    if (y < 0) y = 0;
                     if (!_checkPosVisible(x, y, objType, objId)) return false;
                 }
                 var k = (x1 - x2) / (y1 - y2),
@@ -180,6 +181,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     y_max = Math.max(y1, y2);
                 for (var y = Math.ceil(y_min) ; y <= y_max; y++) {
                     var x = Math.floor(k * y + c);
+                    if (x < 0) y = 0;
                     if (!_checkPosVisible(x, y, objType, objId)) return false;
                 }
             }
