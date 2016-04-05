@@ -60,7 +60,7 @@
             modelId: 'white'
         }
     },{ 
-        map: 'dogcan2'
+        map: 'test'
     });
     //system.setup([
     //    {
