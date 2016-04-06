@@ -52,11 +52,19 @@
     <Content Include="ModelBuilder\Furniture\table_wood_1_1.old\table.1.uv.png" />
     <Content Include="ModelBuilder\Furniture\table_wood_1_1.old\table_wood_1_1.tex.png" />
     <Content Include="ModelBuilder\Furniture\table_wood_1_1\table.1.uv.png" />
-    <Content Include="ModelBuilder\Furniture\table.2.uv.png" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1.old\table.2.uv.png" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1.old\table_wood_2_1.tex.png" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1\table.2.uv.png" />
     <Content Include="ModelBuilder\Furniture\table.4.uv.png" />
     <Content Include="ModelBuilder\Furniture\table_plastic_3_2.tex.png" />
     <Content Include="ModelBuilder\Furniture\table_wood_1_1\table_wood_1_1.tex.png" />
-    <Content Include="ModelBuilder\Furniture\table_wood_2_1.tex.png" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1\table_wood_2_1.tex.png" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_2\table_wood_2_2.tex.png" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_2\table_wood_2_2.uv.png" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1.old\wood-2.jpg" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1\table_wood_3_1.tex.png" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1\table_wood_3_1.uv.png" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1\wood-2.jpg" />
     <Content Include="ModelBuilder\Furniture\wood-2.jpg" />
     <Content Include="ModelBuilder\Furniture\wood-table.jpg" />
     <Content Include="ModelBuilder\Player\Player-Texture-Body-Ghost-Mary.png" />
@@ -209,8 +217,6 @@
     <Folder Include="ModelBuilder\Furniture\chair_wood_1_1\" />
     <Folder Include="ModelBuilder\Furniture\shelf_wood_2_1\" />
     <Folder Include="ModelBuilder\Furniture\table_plastic_3_2\" />
-    <Folder Include="ModelBuilder\Furniture\table_wood_2_1\" />
-    <Folder Include="ModelBuilder\Furniture\table_wood_3_1\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />
@@ -220,8 +226,8 @@
     <Content Include="mapDesigner\Document\stuff-output-2.fla" />
     <Content Include="mapDesigner\Document\stuff-output-3.fla" />
     <Content Include="mapDesigner\Document\Stuff.fla" />
-    <Content Include="ModelBuilder\Furniture\table.2.blend" />
-    <Content Include="ModelBuilder\Furniture\table.2.blend1" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1\table.2.blend" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1\table.2.blend1" />
     <Content Include="Model\Furniture\table_wood_2_1\table.2.json" />
     <Content Include="ModelBuilder\Player\wood-table.fla" />
     <Content Include="ModelBuilder\Environment\wall_0\wall.fla" />
@@ -229,8 +235,8 @@
     <Content Include="ModelBuilder\Furniture\table_wood_1_1\table.1.blend" />
     <Content Include="ModelBuilder\Furniture\table_wood_1_1\table.1.blend1" />
     <Content Include="Model\Furniture\table_wood_1_1\table.1.json" />
-    <Content Include="ModelBuilder\Furniture\table.3.blend" />
-    <Content Include="ModelBuilder\Furniture\table.3.blend1" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1\table.3.blend" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1\table.3.blend1" />
     <Content Include="Model\Furniture\table_wood_3_1\table.3.json" />
     <Content Include="ModelBuilder\Furniture\table.4.blend" />
     <Content Include="ModelBuilder\Furniture\table.4.blend1" />
@@ -283,8 +289,8 @@
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\shelf_wood_2_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\table_wood_1_1\table_wood_1_1.icon.fla" />
-    <Content Include="ModelBuilder\Furniture\table_wood_2_1.icon.fla" />
-    <Content Include="ModelBuilder\Furniture\table_wood_3_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1\table_wood_2_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1\table_wood_3_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\table_plastic_3_2.icon.fla" />
     <Content Include="Model\Stuff\books_1.data.json" />
     <Content Include="Model\Stuff\box_1.data.json" />
@@ -344,7 +350,7 @@
     <Content Include="ModelBuilder\Position\end_1.icon.fla" />
     <Content Include="Model\Position\end_1.data.json" />
     <Content Include="ModelBuilder\Furniture\table_wood_1_1\table_wood_1_1.tex.fla" />
-    <Content Include="ModelBuilder\Furniture\table_wood_2_1.tex.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1\table_wood_2_1.tex.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1.tex.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1.tex.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b.tex.fla" />
@@ -388,6 +394,17 @@
     <Content Include="ModelBuilder\Furniture\table_wood_1_1.old\table.1.blend1" />
     <Content Include="ModelBuilder\Furniture\table_wood_1_1.old\table_wood_1_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\table_wood_1_1.old\table_wood_1_1.tex.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1.old\table.2.blend" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1.old\table.2.blend1" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1.old\table_wood_2_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_1.old\table_wood_2_1.tex.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1.old\table.3.blend" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1.old\table.3.blend1" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1.old\table_wood_3_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_3_1\table_wood_3_1.tex.fla" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_2\table_wood_2_2.blend" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_2\table_wood_2_2.blend1" />
+    <Content Include="ModelBuilder\Furniture\table_wood_2_2\table_wood_2_2.tex.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
