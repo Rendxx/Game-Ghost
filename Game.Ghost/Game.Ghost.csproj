@@ -45,10 +45,10 @@
     <Content Include="ModelBuilder\Furniture\37.Plastic_0013.jpg" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet.1.uv.png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet.2.uv.png" />
-    <Content Include="ModelBuilder\Furniture\cabinet.3.uv.png" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet.3.uv.png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet_wood_1_1.tex.png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.tex.png" />
-    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b.tex.png" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.tex.png" />
     <Content Include="ModelBuilder\Furniture\shelf_wood_2_1\shelf_wood_2_1.icon.tex.png" />
     <Content Include="ModelBuilder\Furniture\shelf_wood_2_1\shelf_wood_2_1.icon.uv.png" />
     <Content Include="ModelBuilder\Furniture\table_plastic_3_2.old\table.4.uv.png" />
@@ -215,7 +215,6 @@
     <Folder Include="css\" />
     <Folder Include="js\" />
     <Folder Include="lib\" />
-    <Folder Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\" />
     <Folder Include="ModelBuilder\Furniture\chair_wood_1_1\" />
   </ItemGroup>
   <ItemGroup>
@@ -245,8 +244,8 @@
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet.1.blend1" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet.2.blend" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet.2.blend1" />
-    <Content Include="ModelBuilder\Furniture\cabinet.3.blend" />
-    <Content Include="ModelBuilder\Furniture\cabinet.3.blend1" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet.3.blend" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet.3.blend1" />
     <Content Include="ModelBuilder\Furniture\chair.blend" />
     <Content Include="ModelBuilder\Furniture\chair.blend1" />
     <Content Include="Model\Furniture\chair_wood_1_1\chair.json" />
@@ -280,7 +279,7 @@
     <Content Include="Model\Door\door_wood_1.data.json" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet_wood_1_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.icon.fla" />
-    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.icon.fla" />
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\table_wood_1_1\table_wood_1_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\table_wood_2_1\table_wood_2_1.icon.fla" />
@@ -347,7 +346,7 @@
     <Content Include="ModelBuilder\Furniture\table_wood_2_1\table_wood_2_1.tex.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet_wood_1_1.tex.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.tex.fla" />
-    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b.tex.fla" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.tex.fla" />
     <Content Include="ModelBuilder\Furniture\table_plastic_3_2\table_plastic_3_2.tex.fla" />
     <Content Include="Model\Player\white\player-2.json" />
     <Content Include="Model\Player\player_ghost_white.data.json" />
@@ -357,8 +356,8 @@
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet_b.2.blend" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet_b.2.blend1" />
     <Content Include="Model\Furniture\cabinet_wood_2_1\cabinet_b.2.json" />
-    <Content Include="ModelBuilder\Furniture\cabinet_b.3.blend" />
-    <Content Include="ModelBuilder\Furniture\cabinet_b.3.blend1" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_b.3.blend" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_b.3.blend1" />
     <Content Include="Model\Furniture\cabinet_wood_2_1_b\cabinet_b.3.json" />
     <Content Include="ModelBuilder\Door\Old\door_b.blend" />
     <Content Include="ModelBuilder\Door\Old\door_b.blend1" />
