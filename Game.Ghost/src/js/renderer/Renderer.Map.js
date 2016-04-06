@@ -93,8 +93,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             furniture: {},
             door: {},
             body: {}
-        };               
-        this.posEnd = null;          
+        };
+        this.posEnd = null;
 
         // callback --------------------------------
         this.onLoaded = null;
@@ -620,7 +620,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
 
             var loader = new THREE.JSONLoader();
-            loader.load(root + Data.files.path[Data.categoryName.stuff] + para.model, function (geometry, materials) {
+            loader.load(root + Data.files.path[Data.categoryName.stuff] + para.id + '/' + para.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = false;
                 mesh.receiveShadow = true;
@@ -734,7 +734,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     }
                 }
             }
-        };        
+        };
 
         var updateKey = function () {
             // update key
@@ -801,7 +801,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 spr.position.set((dat[i][0] - that.width / 2 + 0.5) * GridSize, 1 * GridSize, (dat[i][1] - that.height / 2 + 0.5) * GridSize);
                 spr.scale.set(4, 4, 1.0); // imageWidth, imageHeight
                 _scene.add(spr);
-                that.posEnd[i]=spr;
+                that.posEnd[i] = spr;
             }
         };
 
