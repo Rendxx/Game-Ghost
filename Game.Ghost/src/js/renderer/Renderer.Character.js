@@ -255,6 +255,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         that.torch.shadow.camera.far = torchData.shadowCameraFar * GridSize;
                         that.torch.shadow.camera.fov = torchData.shadowCameraFov;
                         that.torch.shadow.bias = torchData.shadowBias;
+                        //that.torch.shadow.mapSize.set(2048, 2048);
                         that.torch.castShadow = true;
                         that.torch.target = that.torchDirectionObj;
                         that.torch.color.setHex(torchData.color);
