@@ -410,6 +410,9 @@
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.old\chair.blend1" />
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.old\chair_wood_1_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1\chair_wood_1_1.tex.fla" />
+    <Content Include="ModelBuilder\Player\survivor\basic\player-basic.blend" />
+    <Content Include="ModelBuilder\Player\survivor\basic\test.blend" />
+    <Content Include="ModelBuilder\Player\survivor\basic\player-basic.blend1" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
