@@ -18,6 +18,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.map = null;
         this.root = root || '';
         this.characters = null;
+        this.sound = null;
         this.test = null;
         this.started = false;
         this.viewPlayer = null;
@@ -63,7 +64,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 if (that.onSetuped) that.onSetuped();
             };
 
-
             // load models
             var _mapSetup = setupData.mapSetup;
             var _mapData = setupData.map;
@@ -106,6 +106,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             this.env.viewportSetup(this.viewPlayer);
+            this.sound.playerSetup(this.viewPlayer);
             loadCount--;
             onLoaded();
         };
@@ -146,6 +147,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 if (gameData.message && gameData.message[i]) that.characters[i].showMessage(gameData.message[i]);
                 that.characters[i].update(gameData.characters[i], playerVisibleList[i]===true);
             }
+            that.sound.update(gameData.sound);
         };
     };
 
@@ -158,6 +160,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var entity = new Entity(container, root, viewPlayer_in, isGhost_in);
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
+        entity.sound = new RENDERER.Sound(entity);
         entity.test = new RENDERER.Test(entity);
         return entity;
     };

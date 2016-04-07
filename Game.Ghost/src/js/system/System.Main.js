@@ -33,9 +33,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // component ----------------------------------------------
         this.renderer = null;
         this.map = null;
+        this.sound = null;
         this.message = null;
-        this.interAction = null;
         this.userInput = null;
+        this.interAction = null;
         this.characters = [];
 
         // message -----------------------------------------------
@@ -134,6 +135,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.characters[i].nextInterval();
             }
             gameData.message = that.message.getNewMsg();
+            gameData.sound = that.sound.getSoundDat();
 
             // end check ----------------------------------
             var win = 0, isEnd = true;
@@ -164,6 +166,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.map = new SYSTEM.Map(that, modelData, mapData, gameData.map);
             that.interAction = new SYSTEM.InterAction(that);
             that.message = new SYSTEM.Message();
+            that.sound = new SYSTEM.Sound();
             that.userInput = new SYSTEM.UserInput(that);
 
             var index = 0;

@@ -55,6 +55,7 @@
         "#src#/renderer/Renderer.Camera.js",
         "#src#/renderer/Renderer.Map.js",
         "#src#/renderer/Renderer.Character.js",
+        "#src#/renderer/Renderer.Sound.js",
         "#src#/renderer/Renderer.Test.js",
         "#src#/renderer/Renderer.Main.js"
       ],
@@ -62,6 +63,7 @@
         "#src#/webWorker/WebWorker.Core.js",
         "#src#/system/System.Data.js",
         "#src#/system/System.Message.js",
+        "#src#/system/System.Sound.js",
         // MapObject
         "#src#/system/MapObject/System.MapObject.Basic.js",
         "#src#/system/MapObject/System.MapObject.Body.js",

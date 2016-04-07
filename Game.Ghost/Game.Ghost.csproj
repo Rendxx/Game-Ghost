@@ -184,6 +184,7 @@
     <Content Include="src\js\renderer\Renderer.Character.js" />
     <Content Include="src\js\renderer\Renderer.Data.js" />
     <Content Include="src\js\renderer\Renderer.Camera.js" />
+    <Content Include="src\js\renderer\Renderer.Sound.js" />
     <Content Include="src\js\renderer\Renderer.Map.js" />
     <Content Include="src\js\renderer\Renderer.Test.js" />
     <Content Include="src\js\renderer\Renderer.Main.js" />
@@ -195,6 +196,7 @@
     <Content Include="src\js\system\MapObject\System.MapObject.Position.js" />
     <Content Include="src\js\system\MapObject\System.MapObject.Body.js" />
     <Content Include="src\js\system\MapObject\System.MapObject.Basic.js" />
+    <Content Include="src\js\system\System.Sound.js" />
     <Content Include="src\js\system\System.UserInput.js" />
     <Content Include="src\js\system\System.Message.js" />
     <Content Include="src\js\webWorker\WebWorker.Core.js" />
