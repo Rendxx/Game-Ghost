@@ -42,7 +42,6 @@
     <Content Include="ModelBuilder\Environment\ground_wood\14436628374289.jpg" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.png" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.png" />
-    <Content Include="ModelBuilder\Furniture\37.Plastic_0013.jpg" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet.1.uv.png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet.2.uv.png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet.3.uv.png" />
@@ -72,7 +71,6 @@
     <Content Include="ModelBuilder\Furniture\table_wood_3_1\table_wood_3_1.uv.png" />
     <Content Include="ModelBuilder\Furniture\table_wood_3_1\wood-2.jpg" />
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.old\wood-2.jpg" />
-    <Content Include="ModelBuilder\Furniture\wood-table.jpg" />
     <Content Include="ModelBuilder\Player\Player-Texture-Body-Ghost-Mary.png" />
     <Content Include="ModelBuilder\Player\Player-Texture-Face-Ghost-Mary-.png" />
     <Content Include="ModelBuilder\Player\player-uv-body-ghost-mary.png" />
