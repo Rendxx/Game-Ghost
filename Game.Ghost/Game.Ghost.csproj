@@ -71,13 +71,13 @@
     <Content Include="ModelBuilder\Furniture\table_wood_3_1\table_wood_3_1.uv.png" />
     <Content Include="ModelBuilder\Furniture\table_wood_3_1\wood-2.jpg" />
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.old\wood-2.jpg" />
-    <Content Include="ModelBuilder\Player\Player-Texture-Body-Ghost-Mary.png" />
-    <Content Include="ModelBuilder\Player\Player-Texture-Face-Ghost-Mary-.png" />
-    <Content Include="ModelBuilder\Player\player-uv-body-ghost-mary.png" />
+    <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Body-Ghost-Mary.png" />
+    <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Face-Ghost-Mary-.png" />
+    <Content Include="ModelBuilder\Player\survivor.old\player-uv-body-ghost-mary.png" />
     <Content Include="ModelBuilder\Sprite\name-deco-white.png" />
-    <Content Include="ModelBuilder\Player\Player-Texture-2.png" />
-    <Content Include="ModelBuilder\Player\Player-Texture.png" />
-    <Content Include="ModelBuilder\Player\player-uv.png" />
+    <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-2.png" />
+    <Content Include="ModelBuilder\Player\survivor.old\Player-Texture.png" />
+    <Content Include="ModelBuilder\Player\survivor.old\player-uv.png" />
     <Content Include="ModelBuilder\Environment\wall_0\wall.jpg" />
     <Content Include="ModelBuilder\Sprite\name-deco.png" />
     <Content Include="ModelBuilder\Sprite\sports.png" />
@@ -93,10 +93,10 @@
     <Content Include="Model\Furniture\table_plastic_3_2\table_plastic_3_2.tex.png" />
     <Content Include="Model\Furniture\table_wood_1_1\table_wood_1_1.tex.png" />
     <Content Include="Model\Furniture\table_wood_2_1\table_wood_2_1.tex.png" />
-    <Content Include="ModelBuilder\Player\wood-table.jpg" />
-    <Content Include="ModelBuilder\Player\wood-table.png" />
-    <Content Include="ModelBuilder\Player\wool.jpg" />
-    <Content Include="ModelBuilder\Player\wool2.png" />
+    <Content Include="ModelBuilder\Player\survivor.old\wood-table.jpg" />
+    <Content Include="ModelBuilder\Player\survivor.old\wood-table.png" />
+    <Content Include="ModelBuilder\Player\survivor.old\wool.jpg" />
+    <Content Include="ModelBuilder\Player\survivor.old\wool2.png" />
     <Content Include="ModelBuilder\Stuff\12-06-13_bookcover08.jpg" />
     <Content Include="ModelBuilder\Stuff\133187038515008300_L.jpg" />
     <Content Include="ModelBuilder\Stuff\2011112513494513118.jpg" />
@@ -215,6 +215,7 @@
     <Folder Include="css\" />
     <Folder Include="js\" />
     <Folder Include="lib\" />
+    <Folder Include="ModelBuilder\Player\survivor\bobo\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />
@@ -227,7 +228,7 @@
     <Content Include="ModelBuilder\Furniture\table_wood_2_1\table.2.blend" />
     <Content Include="ModelBuilder\Furniture\table_wood_2_1\table.2.blend1" />
     <Content Include="Model\Furniture\table_wood_2_1\table.2.json" />
-    <Content Include="ModelBuilder\Player\wood-table.fla" />
+    <Content Include="ModelBuilder\Player\survivor.old\wood-table.fla" />
     <Content Include="ModelBuilder\Environment\wall_0\wall.fla" />
     <Content Include="ModelBuilder\Environment\wall_0\wall-top.fla" />
     <Content Include="ModelBuilder\Furniture\table_wood_1_1\table.1.blend" />
@@ -249,11 +250,11 @@
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1\chair.blend1" />
     <Content Include="Model\Furniture\chair_wood_1_1\chair.json" />
     <Content Include="Model\Furniture\shelf_wood_2_1\shelf.json" />
-    <Content Include="ModelBuilder\Player\player.blend" />
-    <Content Include="ModelBuilder\Player\Player-Texture.fla" />
-    <Content Include="ModelBuilder\Player\player.blend1" />
-    <Content Include="ModelBuilder\Player\player-2.blend" />
-    <Content Include="ModelBuilder\Player\player-2.blend1" />
+    <Content Include="ModelBuilder\Player\survivor.old\player.blend" />
+    <Content Include="ModelBuilder\Player\survivor.old\Player-Texture.fla" />
+    <Content Include="ModelBuilder\Player\survivor.old\player.blend1" />
+    <Content Include="ModelBuilder\Player\survivor.old\player-2.blend" />
+    <Content Include="ModelBuilder\Player\survivor.old\player-2.blend1" />
     <Content Include="Model\Environment\wall_white.data.json" />
     <Content Include="Model\Environment\ground_ceramic.data.json" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.fla" />
@@ -370,10 +371,10 @@
     <Content Include="ModelBuilder\Sprite\interaction.close.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.open.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.lock.fla" />
-    <Content Include="ModelBuilder\Player\player-ghost-mary.blend" />
-    <Content Include="ModelBuilder\Player\player-ghost-mary.blend1" />
-    <Content Include="ModelBuilder\Player\Player-Texture-Body-Ghost-Mary.fla" />
-    <Content Include="ModelBuilder\Player\Player-Texture-Face-Ghost-Mary-.fla" />
+    <Content Include="ModelBuilder\Player\survivor.old\player-ghost-mary.blend" />
+    <Content Include="ModelBuilder\Player\survivor.old\player-ghost-mary.blend1" />
+    <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Body-Ghost-Mary.fla" />
+    <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Face-Ghost-Mary-.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.unlock.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.search.fla" />
     <Content Include="Model\Body\body_1.data.json" />
