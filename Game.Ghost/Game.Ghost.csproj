@@ -71,6 +71,7 @@
     <Content Include="ModelBuilder\Furniture\table_wood_3_1\table_wood_3_1.uv.png" />
     <Content Include="ModelBuilder\Furniture\table_wood_3_1\wood-2.jpg" />
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.old\wood-2.jpg" />
+    <Content Include="ModelBuilder\Player\basic\player-basic.tex.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Body-Ghost-Mary.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Face-Ghost-Mary-.png" />
     <Content Include="ModelBuilder\Player\survivor.old\player-uv-body-ghost-mary.png" />
@@ -112,6 +113,7 @@
     <Content Include="ModelBuilder\Stuff\props10.jpg" />
     <Content Include="ModelBuilder\Stuff\terra_cotta_vase_7_20120518_1849663848.jpg" />
     <Content Include="Model\Furniture\table_wood_3_1\table_wood_3_1.tex.png" />
+    <Content Include="Model\Player\basic\player-basic.tex.png" />
     <Content Include="Model\Player\blue\Player-Texture-2.png" />
     <Content Include="Model\Player\orange\Player-Texture-2.png" />
     <Content Include="Model\Player\orange\Player-Texture.png" />
@@ -417,6 +419,8 @@
     <Content Include="ModelBuilder\Player\basic\test.blend" />
     <Content Include="ModelBuilder\Player\basic\player-basic.blend1" />
     <Content Include="ModelBuilder\Player\basic\player-basic.tex.fla" />
+    <Content Include="Model\Player\basic\player-basic.json" />
+    <Content Include="Model\Player\player_survivor_basic.data.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
