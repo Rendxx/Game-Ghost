@@ -28,10 +28,21 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             'Furniture': 1,
             'Door': 2,
             'Stuff': 3,
-            'Body':4
+            'Body': 4
         }
-    }
+    };
     var Sound = function (entity) {
+        /*
+         * Sound Output Data Structure:
+         * Once: [0] for character, [1] for all other objects
+         *  {id:sound}...
+         *  {id:{ type | id | sound }...}...
+         * 
+         * Conherent: [0] for character, [1] for all other objects
+         *  {id:sound}...
+         *  {id:{ type | id | sound }...}...
+         * 
+         */
         // data ----------------------------------------------------------
         var that = this,
             _sounds_once = {},
@@ -41,20 +52,26 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // public method -------------------------------------------------
         this.once = function (objType, id, soundName) {
-            _sounds_once[objType] = _sounds_once[objType] || {};
-            _sounds_once[objType][id] = _sounds_once[objType][id] || {};
-            _sounds_once[objType][id][soundName]=1;
+            if (objType == _Data.Type.Character) {
+                _sounds_once[0][id] = soundName;
+            } else {
+                _sounds_once[1][objType + '_' + id + '_' + soundName] = {
+                    type: objType,
+                    id: id,
+                    sound: soundName
+                };
+            }
         };
 
         this.coherent = function (objType, id, soundName, isOn) {
-            _sounds_conherent[objType][id] = _sounds_once[objType][id] || {};
+            _sounds_conherent[objType][id] = _sounds_conherent[objType][id] || {};
             if (isOn) _sounds_conherent[objType][id][soundName] = 1;
             else delete _sounds_conherent[objType][id][soundName];
         };
 
         this.getSoundDat = function () {
             var s = [_sounds_once, _sounds_conherent];
-            _sounds_once = {};
+            _sounds_once = [{}, {}];
             return s;
         };
 
@@ -63,6 +80,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var i in _Data.Type) {
                 _sounds_conherent[_Data.Type[i]] = {};
             }
+            _sounds_once = [{}, {}];
         };
         _init();
     };
