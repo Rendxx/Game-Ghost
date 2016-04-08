@@ -32,10 +32,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
              * objOperation:    { obj-type { obj-id [ character { type | id | op }]}}
              * accessGrid:      [ grid-y [ grid-x [ character [ obj-packages { angle | info } ]]]]
              * surroundGrid:    [ grid-y [ grid-x [ character [ obj-packages { angle | dst | info } ]]]]
+             * soundGrid:       [ grid-y [ grid-x { obj-id: distance }]]
              */
             accessGrid = [],
             objOperation = [],
-            surroundGrid = [];
+            surroundGrid = [],
+            soundGrid = [];
 
         this.characterCheckingList;
 
@@ -53,6 +55,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setupObjOperation();
             setupAccess();
             setupInteractionObj();
+            setupSoundObj();
         };
 
         // check whether this position can be moved to, return result
@@ -68,6 +71,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (deltaY != 0 && (newY < 0 || newY >= height || (map.grid.empty[newY][oldX] != SYSTEM.Map.Data.Grid.Empty && !(map.grid.empty[newY][oldX] == SYSTEM.Map.Data.Grid.Door && map.objList['door'][map.grid.door[newY][oldX]].status == SYSTEM.MapObject.Door.Data.Status.Opened))))
                 rst[1] = (deltaY > 0) ? newY : newY + 1;
             return rst;
+        };
+
+        this.checkSoundObj = function (x, y) {
+            return soundGrid[y][x];
         };
 
         // get surround interaction obj list
@@ -235,9 +242,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var k in doorIds) {
                 objOperation['door'][k][characterId]['op'] = characters[characterId].checkOperation(map.objList['door'][k]);
             }
-        };
-
-        this.addBody = function (x, y, id) {
         };
 
         // setup -----------------------------------------------
@@ -478,11 +482,87 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
         };
 
+        var setupSoundObj = function () {
+            var range = Data.map.para.soundange + 1;
+            var range2 = range * range;
+            // build sound grid
+            soundGrid = [];
+
+            for (var i = 0; i < height; i++) {
+                soundGrid[i] = [];
+
+                for (var j = 0; j < width; j++) {
+                    soundGrid[i][j] = { furniture: {}, door: {}, body: {} };
+                    var x_min = j - range;
+                    var x_max = j + range;
+                    var y_min = i - range;
+                    var y_max = i + range;
+                    if (x_min < 0) x_min = 0;
+                    if (x_max >= width) x_max = width - 1;
+                    if (y_min < 0) y_min = 0;
+                    if (y_max >= height) y_max = height - 1;
+
+                    for (var m = y_min; m <= y_max; m++) {
+                        for (var n = x_min; n <= x_max; n++) {
+                            // furniture
+                            var f_id = map.grid.furniture[m][n];
+                            if (f_id != -1) {
+                                var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
+                                if (!(f_id in soundGrid[i][j].furniture) || soundGrid[i][j].furniture[f_id] > r)
+                                    soundGrid[i][j].furniture[f_id] = r;
+                            }
+                            // door
+                            var d_id = map.grid.door[m][n];
+                            if (d_id != -1) {
+                                var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
+                                if (!(d_id in soundGrid[i][j].door) || soundGrid[i][j].door[d_id] > r)
+                                    soundGrid[i][j].door[d_id] = r;
+                            }
+                            // body
+                            var b_id = map.grid.body[m][n];
+                            if (b_id != -1) {
+                                var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
+                                if (!(b_id in soundGrid[i][j].body) || soundGrid[i][j].body[b_id] > r)
+                                    soundGrid[i][j].body[b_id] = r;
+                            }
+                        }
+                    }
+
+                    for (var t in soundGrid[i][j].furniture) {
+                        soundGrid[i][j].furniture[t] = Math.sqrt(soundGrid[i][j].furniture[t]);
+                        if (!_checkVisibleLine(j, i, map.objList.furniture[t].x, map.objList.furniture[t].y, SYSTEM.Map.Data.Grid.Furniture, t))
+                            soundGrid[i][j].furniture[t]+=1;
+                        if (soundGrid[i][j].furniture[t] > range) delete soundGrid[i][j].furniture[t];
+                    }
+                    for (var t in soundGrid[i][j].door) {
+                        soundGrid[i][j].door[t] = Math.sqrt(soundGrid[i][j].door[t]);
+                        if (!_checkVisibleLine(j, i, map.objList.door[t].x, map.objList.door[t].y, SYSTEM.Map.Data.Grid.door, t))
+                            soundGrid[i][j].door[t] += 1;
+                        if (soundGrid[i][j].door[t] > range) delete soundGrid[i][j].door[t];
+                    }
+                    for (var t in soundGrid[i][j].body) {
+                        soundGrid[i][j].body[t] = Math.sqrt(soundGrid[i][j].body[t]);
+                        if (!_checkVisibleLine(j, i, map.objList.body[t].x, map.objList.body[t].y, SYSTEM.Map.Data.Grid.body, t))
+                            soundGrid[i][j].body[t] += 1;
+                        if (soundGrid[i][j].body[t] > range) delete soundGrid[i][j].body[t];
+                    }
+
+                    var nothing = true;
+                    for (var t in soundGrid[i][j].furniture) { nothing = false; break; }
+                    for (var t in soundGrid[i][j].door) { nothing = false; break; }
+                    for (var t in soundGrid[i][j].body) { nothing = false; break; }
+                    if (nothing) soundGrid[i][j] = null;
+                }
+            }
+
+        };
+
         var setupInteractionObj = function () {
             // prepare data
             var sGrid = [];
             var range = Data.map.para.scanRange + 1;
             var range2 = range * range;
+
             for (var i = 0; i < height; i++) {
                 sGrid[i] = [];
 
@@ -558,6 +638,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     }
                 }
             }
+
             console.log('---------------------------------------------------------------');
             for (var i = 0; i < height; i++) {
                 for (var j = 0; j < width; j++) {

@@ -57,6 +57,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.stay = true;           // flag: character does not move
         this.headFollow = true;     // flag: character dose not turn his head
         this.accessObject = null;   // access object
+        this.soundObject = null;    // sound object
         this.visibleObject = {};    // visible object list: {Object type: {Object Id: [distance, angle from front]}}
         this.visibleCharacter = {}; // visible character list
         this.characterCheckingList = {};
@@ -209,6 +210,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Basic.prototype._updateInteraction = function () {
+        this.soundObject = this.entity.interAction.checkSoundObj(this.x, this.y);
         this.visibleObject =  this.entity.interAction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation.head);
         this.accessObject =  this.entity.interAction.getAccessObject(this.id, this.x, this.y, this.currentRotation.head);
     };

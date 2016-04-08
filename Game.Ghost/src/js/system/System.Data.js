@@ -126,6 +126,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             },
             path: '/GameData/Map/',
             para: {
+                soundRange: 6,
                 scanRange: 2
             }
         },
