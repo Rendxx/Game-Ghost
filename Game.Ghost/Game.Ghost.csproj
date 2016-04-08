@@ -76,6 +76,8 @@
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Face-Ghost-Mary-.png" />
     <Content Include="ModelBuilder\Player\survivor.old\player-uv-body-ghost-mary.png" />
     <Content Include="ModelBuilder\Player\basic\player-basic.uv.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.tex.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.uv.png" />
     <Content Include="ModelBuilder\Sprite\name-deco-white.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-2.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture.png" />
@@ -115,6 +117,7 @@
     <Content Include="Model\Furniture\table_wood_3_1\table_wood_3_1.tex.png" />
     <Content Include="Model\Player\basic\player-basic.tex.png" />
     <Content Include="Model\Player\blue\Player-Texture-2.png" />
+    <Content Include="Model\Player\bobo\player-bobo.tex.png" />
     <Content Include="Model\Player\orange\Player-Texture-2.png" />
     <Content Include="Model\Player\orange\Player-Texture.png" />
     <Content Include="Model\Player\green\Player-Texture.png" />
@@ -220,7 +223,6 @@
     <Folder Include="css\" />
     <Folder Include="js\" />
     <Folder Include="lib\" />
-    <Folder Include="ModelBuilder\Player\survivor\bobo\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />
@@ -421,6 +423,10 @@
     <Content Include="ModelBuilder\Player\basic\player-basic.tex.fla" />
     <Content Include="Model\Player\basic\player-basic.json" />
     <Content Include="Model\Player\player_survivor_basic.data.json" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.blend" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.tex.fla" />
+    <Content Include="Model\Player\bobo\player-bobo.json" />
+    <Content Include="Model\Player\player_survivor_bobo.data.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

@@ -21,13 +21,13 @@
             id: 'p1',
             name: 'player 1',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'green'
+            modelId: 'bobo'
         },
         'p2': {
             id: 'p2',
             name: 'player 2',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'red'
+            modelId: 'basic'
         },
         'p3': {
             id: 'p3',

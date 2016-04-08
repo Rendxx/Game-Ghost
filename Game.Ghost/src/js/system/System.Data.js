@@ -20,7 +20,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     red: 'player_survivor_red.data.json',
                     yellow: 'player_survivor_yellow.data.json',
                     purple: 'player_survivor_purple.data.json',
-                    orange: 'player_survivor_orange.data.json'
+                    orange: 'player_survivor_orange.data.json',
+                    basic: 'player_survivor_basic.data.json',
+                    bobo: 'player_survivor_bobo.data.json'
                 },
                 ghost: {
                     white: 'player_ghost_white.data.json'
