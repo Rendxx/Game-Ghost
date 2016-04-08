@@ -74,6 +74,7 @@
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Body-Ghost-Mary.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Face-Ghost-Mary-.png" />
     <Content Include="ModelBuilder\Player\survivor.old\player-uv-body-ghost-mary.png" />
+    <Content Include="ModelBuilder\Player\basic\player-basic.uv.png" />
     <Content Include="ModelBuilder\Sprite\name-deco-white.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-2.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture.png" />
@@ -412,9 +413,10 @@
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.old\chair.blend1" />
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.old\chair_wood_1_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1\chair_wood_1_1.tex.fla" />
-    <Content Include="ModelBuilder\Player\survivor\basic\player-basic.blend" />
-    <Content Include="ModelBuilder\Player\survivor\basic\test.blend" />
-    <Content Include="ModelBuilder\Player\survivor\basic\player-basic.blend1" />
+    <Content Include="ModelBuilder\Player\basic\player-basic.blend" />
+    <Content Include="ModelBuilder\Player\basic\test.blend" />
+    <Content Include="ModelBuilder\Player\basic\player-basic.blend1" />
+    <Content Include="ModelBuilder\Player\basic\player-basic.tex.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
