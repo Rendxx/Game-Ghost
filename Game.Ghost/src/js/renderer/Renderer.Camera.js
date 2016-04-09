@@ -166,6 +166,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             if (that.character.isDead) {
                 showDeadScreen();
+            } else if (that.character.isWin) {
+                showEscapeScreen();
             } else {
                 // update edge
                 updateEdge();
@@ -643,14 +645,30 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // dead -----------------------------------------------------
         var showDeadScreen = function () {
-            if (sprites["deadScreen"]!=null) return;
+            if (sprites["deadScreen"] != null) return;
             sprites["deadScreen"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["deadScreen"] }));
             sprites["deadScreen"].scale.set(512, 512, 1.0);
             sprites["deadScreen"].material.transparent = true;
             sprites["deadScreen"].material.opacity = 0;
-            sprites["deadScreen"].position.set(0,0, 9);
+            sprites["deadScreen"].position.set(0, 0, 9);
             that.sceneOrtho.add(sprites["deadScreen"]);
             var mat = sprites["deadScreen"].material;
+            new TWEEN.Tween({ t: 0 }).to({ t: 20 }, 500)
+                .onUpdate(function () {
+                    mat.opacity = this.t * 0.04;
+                })
+                .start();
+        };
+
+        var showEscapeScreen = function () {
+            if (sprites["escapeScreen"] != null) return;
+            sprites["escapeScreen"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["escapeScreen"] }));
+            sprites["escapeScreen"].scale.set(512, 512, 1.0);
+            sprites["escapeScreen"].material.transparent = true;
+            sprites["escapeScreen"].material.opacity = 0;
+            sprites["escapeScreen"].position.set(0, 0, 9);
+            that.sceneOrtho.add(sprites["escapeScreen"]);
+            var mat = sprites["escapeScreen"].material;
             new TWEEN.Tween({ t: 0 }).to({ t: 20 }, 500)
                 .onUpdate(function () {
                     mat.opacity = this.t * 0.04;
@@ -665,6 +683,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var path = root + Data.files.path[Data.categoryName.sprite];
             tex['nameDeco'] = textureLoader.load(path + 'name-deco-white.png');
             tex['deadScreen'] = textureLoader.load(path + 'DeadScreen.png');
+            tex['escapeScreen'] = textureLoader.load(path + 'EscapeScreen.png');
             tex['interaction'] = {
                 'normal': {
                     'furniture': {

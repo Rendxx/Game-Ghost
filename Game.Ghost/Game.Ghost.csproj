@@ -179,6 +179,7 @@
     <Content Include="Model\Position\start_2\start_2.icon.png" />
     <Content Include="Model\Sprite\DeadScreen.png" />
     <Content Include="Model\Sprite\EnduranceBar.png" />
+    <Content Include="Model\Sprite\EscapeScreen.png" />
     <Content Include="Model\Sprite\interaction.close-2.png" />
     <Content Include="Model\Sprite\interaction.close.png" />
     <Content Include="Model\Sprite\interaction.key-2.png" />

@@ -656,7 +656,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var para_Key = _modelData.items[Data.categoryName.stuff][_Data.keyData];
             var loader = new THREE.JSONLoader();
-            loader.load(root + Data.files.path[Data.categoryName.stuff] + para_Key.model, function (geometry, materials) {
+            loader.load(root + Data.files.path[Data.categoryName.stuff] + para_Key.id +'/' +para_Key.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = false;
                 mesh.receiveShadow = true;
@@ -796,10 +796,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (that.posEnd != null) return;
             that.posEnd = [];
             var mat = new THREE.SpriteMaterial({ map: _tex['end'] });
+            mat.transparent = true;
             for (var i = 0; i < dat.length; i++) {
                 var spr = new THREE.Sprite(mat);
-                spr.position.set((dat[i][0] - that.width / 2 + 0.5) * GridSize, 1 * GridSize, (dat[i][1] - that.height / 2 + 0.5) * GridSize);
-                spr.scale.set(4, 4, 1.0); // imageWidth, imageHeight
+                spr.position.set((dat[i][0] - that.width / 2 + 0.5) * GridSize, 0.1, (dat[i][1] - that.height / 2 + 0.5) * GridSize);
+                spr.scale.set(GridSize * 2, GridSize * 2, 1.0); // imageWidth, imageHeight
                 _scene.add(spr);
                 that.posEnd[i] = spr;
             }

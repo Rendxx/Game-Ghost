@@ -60,7 +60,7 @@
             modelId: 'white'
         }
     },{ 
-        map: 'FurnitureTest'
+        map: 'test'
     });
     //system.setup([
     //    {

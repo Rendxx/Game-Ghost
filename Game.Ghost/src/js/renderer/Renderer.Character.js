@@ -49,6 +49,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.message = null;
         this.isVisible = false;
         this.danger = 0;
+        this.isDead = false;
+        this.isWin = false;
 
         // cache ----------------------------------------------------------
         var torchDirectionObj_radius = 0,
@@ -104,6 +106,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var r_body = gameData.currentRotation.body;
             var r_head = gameData.currentRotation.headBody;
             var isDead = gameData.hp == 0;
+            var isWin = gameData.win;
             //console.log(x+"  "+y+"  "+r_body+"  "+r_head);
             if (!this.setuped) return;
 
@@ -114,6 +117,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.accessObject = gameData.accessObject;
             this.visibleObject = gameData.visibleObject;
             this.isDead = isDead;
+            this.isWin = isWin;
 
             // dead
             if (isDead) {
@@ -125,6 +129,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     currentAction = action;
                     //this.actions[currentAction].setEffectiveWeight(1);
                     //this.actions[currentAction].play();
+                }
+                if (this.mixer) this.mixer.update(delta);
+                return;
+            } else if (isWin) {
+                if (currentAction != action) {
+                    tween.show[action].start();
+                    tween.hide[currentAction].start();
+                    currentAction = action;
                 }
                 if (this.mixer) this.mixer.update(delta);
                 return;
