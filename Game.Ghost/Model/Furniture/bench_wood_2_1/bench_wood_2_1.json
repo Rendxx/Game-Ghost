@@ -27,7 +27,7 @@
         "mapDiffuseWrap":["RepeatWrapping","RepeatWrapping"],
         "mapDiffuseRepeat":[1,1],
         "depthTest":true,
-        "shading":"lambert",
+        "shading":"phong",
         "DbgIndex":0,
         "blending":"NormalBlending",
         "wireframe":false,

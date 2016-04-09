@@ -20,7 +20,7 @@
     [ 2, 1 ]
   ],
   "slotInside": false,
-  "model": "curtain_white_2_1.2.json",
+  "model": "curtain_white_2_1.json",
   "texture": [ "curtain_white_2_1.tex.png" ],
   "icon": "curtain_white_2_1.icon.png"
 }

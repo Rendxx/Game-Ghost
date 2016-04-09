@@ -29,30 +29,30 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'capboy'
         },
-        'p3': {
-            id: 'p3',
-            name: 'player 3',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'highcircle'
-        },
-        'p4': {
-            id: 'p4',
-            name: 'player 4',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'girl1'
-        },
-        'p5': {
-            id: 'p5',
-            name: 'player 5',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'mohicans'
-        },
-        'p6': {
-            id: 'p6',
-            name: 'player 6',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'girl2'
-        },
+        //'p3': {
+        //    id: 'p3',
+        //    name: 'player 3',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'highcircle'
+        //},
+        //'p4': {
+        //    id: 'p4',
+        //    name: 'player 4',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'girl1'
+        //},
+        //'p5': {
+        //    id: 'p5',
+        //    name: 'player 5',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'mohicans'
+        //},
+        //'p6': {
+        //    id: 'p6',
+        //    name: 'player 6',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'girl2'
+        //},
         'p7': {
             id: 'p7',
             name: 'player 7',
@@ -60,7 +60,7 @@
             modelId: 'white'
         }
     },{ 
-        map: 'test'
+        map: 'FurnitureTest'
     });
     //system.setup([
     //    {

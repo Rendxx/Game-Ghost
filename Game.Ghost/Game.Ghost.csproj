@@ -174,9 +174,9 @@
     <Content Include="Model\Player\white\Player-Texture.png" />
     <Content Include="Model\Player\yellow\Player-Texture-2.png" />
     <Content Include="Model\Player\yellow\Player-Texture.png" />
-    <Content Include="Model\Position\end_1.icon.png" />
-    <Content Include="Model\Position\start_1.icon.png" />
-    <Content Include="Model\Position\start_2.icon.png" />
+    <Content Include="Model\Position\end_1\end_1.icon.png" />
+    <Content Include="Model\Position\start_1\start_1.icon.png" />
+    <Content Include="Model\Position\start_2\start_2.icon.png" />
     <Content Include="Model\Sprite\DeadScreen.png" />
     <Content Include="Model\Sprite\EnduranceBar.png" />
     <Content Include="Model\Sprite\interaction.close-2.png" />
@@ -314,6 +314,7 @@
     <Content Include="GameData\Map\MapDataTest2.json" />
     <Content Include="GameData\Map\MapData4debug_1.json" />
     <Content Include="GameData\Map\DogCan2.json" />
+    <Content Include="GameData\Map\FurnitureTest.json" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="Model\Furniture\table_wood_1_1.data.json" />
     <Content Include="Model\Furniture\table_wood_2_1.data.json" />

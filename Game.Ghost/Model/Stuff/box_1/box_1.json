@@ -14,24 +14,26 @@
     "vertices": [0.95911,-0.159826,0.699941,-1.01227,-0.159826,0.699623,-1.01211,-0.159826,-0.699941,0.959269,-0.159826,-0.699623,0.95911,1.25326,0.699941,-1.01227,1.25326,0.699623,-1.01211,1.25326,-0.699942,0.959269,1.25326,-0.699623],
     "name": "CubeGeometry",
     "uvs": [[0.298692,0.201408,0.298692,0.798592,0.0001,0.798592,0.0001,0.201408,0.5,0.201408,0.798592,0.201408,0.798592,0.798592,0.5,0.798592,0.5,0.9999,0.798592,0.9999,0.9999,0.798592,0.9999,0.201408,0.5,0.0001,0.798592,0.0001]],
-    "materials": [{
-        "colorDiffuse": [0.8,0.8,0.8],
-        "mapDiffuse": "box_1.png",
-        "transparent": false,
-        "shading": "lambert",
-        "mapDiffuseRepeat": [1,1],
-        "colorEmissive": [0,0,0],
-        "depthTest": true,
-        "mapDiffuseWrap": ["RepeatWrapping","RepeatWrapping"],
-        "DbgName": "Box.Mat",
-        "wireframe": false,
-        "opacity": 1,
-        "colorAmbient": [0.8,0.8,0.8],
-        "DbgIndex": 0,
-        "depthWrite": true,
-        "visible": true,
-        "DbgColor": 15658734,
-        "mapDiffuseAnisotropy": 1,
-        "blending": "NormalBlending"
-    }]
+  "materials": [
+    {
+      "colorDiffuse": [ 0.8, 0.8, 0.8 ],
+      "mapDiffuse": "box_1.png",
+      "transparent": false,
+      "shading": "phong",
+      "mapDiffuseRepeat": [ 1, 1 ],
+      "colorEmissive": [ 0, 0, 0 ],
+      "depthTest": true,
+      "mapDiffuseWrap": [ "RepeatWrapping", "RepeatWrapping" ],
+      "DbgName": "Box.Mat",
+      "wireframe": false,
+      "opacity": 1,
+      "colorAmbient": [ 0.8, 0.8, 0.8 ],
+      "DbgIndex": 0,
+      "depthWrite": true,
+      "visible": true,
+      "DbgColor": 15658734,
+      "mapDiffuseAnisotropy": 1,
+      "blending": "NormalBlending"
+    }
+  ]
 }
