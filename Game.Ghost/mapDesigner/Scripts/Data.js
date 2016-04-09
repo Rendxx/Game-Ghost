@@ -65,6 +65,14 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 'Cabinet (Wood) 2': 'cabinet_wood_2_1.data.json',
                 'Cabinet (Wood) 3': 'cabinet_wood_2_1_b.data.json',
                 'Chair (Wood) 1': 'chair_wood_1_1.data.json',
+
+                'Bed (Simple) 1': 'bed_simple_3_2.data.json',
+                'Bench (Wood) 1': 'bench_wood_2_1.data.json',
+                'Chair (Simple) 1': 'chair_simple_1_1.data.json',
+                'Curtain (White) 1': 'curtain_white_2_1.data.json',
+                'Sofa (Simple) 1': 'sofa_simple_1_1.data.json',
+                'Toilet 1': 'toilet_1_1.data.json',
+                'Toilet 2': 'toilet_b_1_1.data.json',
             },
             stuff: {
                 'Vase ': 'vase_1.data.json',

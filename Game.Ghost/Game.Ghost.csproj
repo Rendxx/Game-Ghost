@@ -531,6 +531,13 @@
     <Content Include="ModelBuilder\Furniture\curtain_white_2_1\curtain_white_2_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\curtain_white_2_1\curtain_white_2_1.tex.fla" />
     <Content Include="Model\Furniture\curtain_white_2_1\curtain_white_2_1.json" />
+    <Content Include="Model\Furniture\bench_wood_2_1.data.json" />
+    <Content Include="Model\Furniture\bed_simple_3_2.data.json" />
+    <Content Include="Model\Furniture\chair_simple_1_1.data.json" />
+    <Content Include="Model\Furniture\curtain_white_2_1.data.json" />
+    <Content Include="Model\Furniture\sofa_simple_1_1.data.json" />
+    <Content Include="Model\Furniture\toilet_1_1.data.json" />
+    <Content Include="Model\Furniture\toilet_b_1_1.data.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

@@ -1,0 +1,20 @@
+﻿{
+  "id": "toilet_1_1",
+  "dimension": [ 1, 1, 1 ],
+  "blockSight": false,
+  "support": 0.7,
+  "slot": [ 0.3, 0, 0.7 ],
+  "accessPos": [
+    [ -1, 0 ],
+    [ -1, 1 ],
+
+    [ 0, 1 ],
+
+    [ 1, 0 ],
+    [ 1, 1 ]
+  ],
+  "slotInside": false,
+  "model": "toilet_1_1.json",
+  "texture": [ "toilet_1_1.tex.png" ],
+  "icon": "toilet_1_1.icon.png"
+}

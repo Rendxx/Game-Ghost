@@ -1,0 +1,26 @@
+﻿{
+  "id": "curtain_white_2_1",
+  "dimension": [ 2, 1, 1 ],
+  "blockSight": true,
+  "support": 0,
+  "slot": [ 0.5, 0, 0 ],
+  "accessPos": [
+    [ -1, -1 ],
+    [ -1, 0 ],
+    [ -1, 1 ],
+
+    [ 0, -1 ],
+    [ 0, 1 ],
+
+    [ 1, -1 ],
+    [ 1, 1 ],
+
+    [ 2, -1 ],
+    [ 2, 0 ],
+    [ 2, 1 ]
+  ],
+  "slotInside": false,
+  "model": "curtain_white_2_1.2.json",
+  "texture": [ "curtain_white_2_1.tex.png" ],
+  "icon": "curtain_white_2_1.icon.png"
+}

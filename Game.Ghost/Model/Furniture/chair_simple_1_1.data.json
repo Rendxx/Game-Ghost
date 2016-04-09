@@ -1,5 +1,5 @@
 ﻿{
-  "id": "chair_wood_1_1",
+  "id": "chair_simple_1_1",
   "dimension": [ 1, 1, 1 ],
   "blockSight": false,
   "support": 0.6,
@@ -17,7 +17,7 @@
     [ 1, 1 ]
   ],
   "slotInside": false,
-  "model": "chair.json",
-  "texture": [ "chair_wood_1_1.png" ],
-  "icon": "chair_wood_1_1.icon.png"
+  "model": "chair_simple_1_1.json",
+  "texture": [ "chair_simple_1_1.tex.png" ],
+  "icon": "chair_simple_1_1.icon.png"
 }
