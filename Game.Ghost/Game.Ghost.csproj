@@ -42,6 +42,8 @@
     <Content Include="ModelBuilder\Environment\ground_wood\14436628374289.jpg" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.png" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.png" />
+    <Content Include="ModelBuilder\Furniture\curtain_white_2_1\curtain_white_2_1.tex.png" />
+    <Content Include="ModelBuilder\Furniture\curtain_white_2_1\curtain_white_2_1.uv.png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet.1.uv.png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet.2.uv.png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet.3.uv.png" />
@@ -121,6 +123,8 @@
     <Content Include="Model\Furniture\chair_simple_1_1\chair_simple_1_1.icon.png" />
     <Content Include="Model\Furniture\chair_simple_1_1\chair_simple_1_1.tex.png" />
     <Content Include="Model\Furniture\chair_wood_1_1\chair_wood_1_1.tex.png" />
+    <Content Include="Model\Furniture\curtain_white_2_1\curtain_white_2_1.icon.png" />
+    <Content Include="Model\Furniture\curtain_white_2_1\curtain_white_2_1.tex.png" />
     <Content Include="Model\Furniture\shelf_wood_2_1\shelf_wood_2_1.icon.tex.png" />
     <Content Include="Model\Furniture\sofa_simple_1_1\sofa_simple_1_1.icon.png" />
     <Content Include="Model\Furniture\sofa_simple_1_1\sofa_simple_1_1.tex.png" />
@@ -522,6 +526,11 @@
     <Content Include="ModelBuilder\Furniture\toilet_b_1_1\toilet_b_1_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\toilet_b_1_1\toilet_b_1_1.tex.fla" />
     <Content Include="Model\Furniture\toilet_b_1_1\toilet_b_1_1.json" />
+    <Content Include="ModelBuilder\Furniture\curtain_white_2_1\curtain_white_2_1.blend" />
+    <Content Include="ModelBuilder\Furniture\curtain_white_2_1\curtain_white_2_1.blend1" />
+    <Content Include="ModelBuilder\Furniture\curtain_white_2_1\curtain_white_2_1.icon.fla" />
+    <Content Include="ModelBuilder\Furniture\curtain_white_2_1\curtain_white_2_1.tex.fla" />
+    <Content Include="Model\Furniture\curtain_white_2_1\curtain_white_2_1.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
