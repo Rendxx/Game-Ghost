@@ -3,7 +3,7 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], false);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], true);
     var systemWrapper = window.Rendxx.Game.Ghost.WebWorker.Create(_root, "../js/Game.Ghost.System.Core.js");
     systemWrapper.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -57,7 +57,7 @@
             id: 'p7',
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
-            modelId: 'white'
+            modelId: 'ghost-mary'
         }
     },{ 
         map: 'test'
@@ -75,7 +75,7 @@
     //renderer.onTimeInterval = system.nextInterval;
 
     renderer.onSetuped = function () {
-        SetupControl(systemWrapper, 'p2');
+        SetupControl(systemWrapper, 'p7');
         systemWrapper.start();
         renderer.show();
     };

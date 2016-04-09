@@ -86,7 +86,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                             "distance": 5
                         }
                     }
-
                 },
                 ghost: {
                     action: {
@@ -100,37 +99,39 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     },
                     initAction: 'idle',
                     light: {
-                        x: 0,
-                        y: 7,
-                        z: 1,
-                        intensity: 1,
-                        distance: 20,
-                        angle: 1,
-                        exponent: 10,
-                        color: 0xffffff
-                    },
-                    torch: {
-                        x: -1.4,
-                        y: 2.4,
-                        z: 0.8,
-                        color: 0xffffff,
-                        intensity: 1,
-                        distance: 50,
-                        angle: 1,
-                        exponent: 8,
-                        shadowCameraNear: 1,
-                        shadowCameraFar: 50,
-                        shadowCameraFov: 50,
-                        shadowCameraVisible: false,
-                        shadowMapWidth: 2056,
-                        shadowMapHeight: 2056,
-                        shadowBias: 0.00,
-                        shadowDarkness: 1.0
-                    },
-                    noTorch: {
-                        color: 0xE9F0F3,
-                        intensity: 0.5,
-                        distance: 5
+                        "top": {
+                            "x": 0,
+                            "y": 2.5,
+                            "z": 0.25,
+                            "intensity": 1,
+                            "distance": 5,
+                            "angle": 1,
+                            "exponent": 1,
+                            "color": "0xffffff"
+                        },
+                        "torch": {
+                            "x": -0.455,
+                            "y": 1.4,
+                            "z": 0.28,
+                            "color": "0xFFB7B7",
+                            "intensity": 1,
+                            "distance": 12,
+                            "angle": 0.8,
+                            "exponent": 0.5,
+                            "shadowCameraNear": 0.8,
+                            "shadowCameraFar": 16,
+                            "shadowCameraFov": 100,
+                            "shadowCameraVisible": false,
+                            "shadowMapWidth": 2056,
+                            "shadowMapHeight": 2056,
+                            "shadowBias": 0,
+                            "shadowDarkness": 1.0
+                        },
+                        "noTorch": {
+                            "color": 0xE9F0F3,
+                            "intensity": 0.5,
+                            "distance": 5
+                        }
                     }
                 }
             },

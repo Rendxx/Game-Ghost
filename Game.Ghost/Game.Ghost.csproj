@@ -86,6 +86,8 @@
     <Content Include="ModelBuilder\Furniture\table_wood_3_1\wood-2.jpg" />
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.old\wood-2.jpg" />
     <Content Include="ModelBuilder\Player\basic\player-basic.tex.png" />
+    <Content Include="ModelBuilder\Player\ghost\mary\player-mary.tex.png" />
+    <Content Include="ModelBuilder\Player\ghost\mary\player-mary.uv.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Body-Ghost-Mary.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Face-Ghost-Mary-.png" />
     <Content Include="ModelBuilder\Player\survivor.old\player-uv-body-ghost-mary.png" />
@@ -157,6 +159,7 @@
     <Content Include="Model\Player\blue\Player-Texture-2.png" />
     <Content Include="Model\Player\bobo\player-bobo.tex.png" />
     <Content Include="Model\Player\capboy\player-capboy.tex.png" />
+    <Content Include="Model\Player\ghost-mary\player-mary.tex.png" />
     <Content Include="Model\Player\girl1\player-girl1.tex.png" />
     <Content Include="Model\Player\girl2\player-girl2.tex.png" />
     <Content Include="Model\Player\highcircle\player-highcircle.tex.png" />
@@ -540,6 +543,12 @@
     <Content Include="Model\Furniture\sofa_simple_1_1.data.json" />
     <Content Include="Model\Furniture\toilet_1_1.data.json" />
     <Content Include="Model\Furniture\toilet_b_1_1.data.json" />
+    <Content Include="ModelBuilder\Player\ghost\mary\player-mary.tex.fla" />
+    <Content Include="ModelBuilder\Player\ghost\mary\test.blend" />
+    <Content Include="ModelBuilder\Player\ghost\mary\player-mary.blend" />
+    <Content Include="ModelBuilder\Player\ghost\mary\player-mary.blend1" />
+    <Content Include="Model\Player\ghost-mary\player-mary.json" />
+    <Content Include="Model\Player\player_ghost_mary.data.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

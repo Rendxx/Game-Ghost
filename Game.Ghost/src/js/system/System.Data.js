@@ -30,7 +30,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     capboy: 'player_survivor_capboy.data.json'
                 },
                 ghost: {
-                    white: 'player_ghost_white.data.json'
+                    white: 'player_ghost_white.data.json',
+                    'ghost-mary': 'player_ghost_mary.data.json'
                 }
             },
             path: '/Model/Player/',
@@ -53,7 +54,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         battery: 100,
                         endurance: 0
                     },
-                    enduranceCost: 150,
+                    enduranceCost: 200,
                     enduranceRecover: 3,
                     batteryCost: 0
                 }

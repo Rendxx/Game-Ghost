@@ -547,7 +547,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var updateEdge = function () {
             var d = that.character.danger;
-            if (d >= 0.2 && d <= 0.6) d = 0.3;
+            d = Math.floor(d * 4) / 4;
             sprites["edges"].material.opacity = d;
         };
 

@@ -109,17 +109,20 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         }
         if (this.rush) this.endurance -= this.enduranceCost / 20;
 
+        var closest = _Data.range.danger;
+
         for (var i = 0; i < this.characterCheckingList.length; i++) {
             var c = this.entity.characters[this.characterCheckingList[i]];
             if (!c.actived) continue;
             var r = Math.sqrt(Math.pow(this.x - c.x, 2) + Math.pow(this.y - c.y, 2));
             if (r > _Data.range.danger) continue;
+            if (r < closest) closest = r;
             if (r < 1) c.die();     // die
             else {
                 if (!this.rush) {
                     if (this.endurance < this.modelData.para.endurance) {
-                        if (this.visibleCharacter[i]) this.endurance += (this.enduranceRecover * (_Data.range.danger - r) / 10);
-                        else this.endurance += (this.enduranceRecover * (_Data.range.danger - r) / 20);
+                        if (this.visibleCharacter[i]) this.endurance += (this.enduranceRecover * (_Data.range.danger - r) / 8);
+                        else this.endurance += (this.enduranceRecover * (_Data.range.danger - r) / 24);
                     }
                 }
             }
@@ -135,7 +138,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         }
 
         // danger
-        this.danger = this.endurance / this.modelData.para.endurance;
+        this.danger = (_Data.range.danger - closest) / _Data.range.danger;
+        if (this.danger > 0.8) this.danger = 0.8;
     };
 
     Ghost.prototype.crazy = function () {

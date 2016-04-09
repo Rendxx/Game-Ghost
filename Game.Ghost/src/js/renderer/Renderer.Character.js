@@ -255,7 +255,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         that.torchDirectionObj.position.y = that.mesh.position.y + torchData.y * GridSize - 0.4;
                         that.torchDirectionObj.position.z = that.mesh.position.z + torchData.z * GridSize + 1;
 
-                        that.torch = new THREE.SpotLight()
+                        that.torch = new THREE.SpotLight(torchData.color)
                         that.torch.position.x = that.mesh.position.x + torchData.x * GridSize;
                         that.torch.position.y = that.mesh.position.y + torchData.y * GridSize;
                         that.torch.position.z = that.mesh.position.z + torchData.z * GridSize;
@@ -270,13 +270,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         //that.torch.shadow.mapSize.set(2048, 2048);
                         that.torch.castShadow = true;
                         that.torch.target = that.torchDirectionObj;
-                        that.torch.color.setHex(torchData.color);
+                        var c = hexToRgb(torchData.color);
+                        that.torch.color.setRGB(c.r / 256, c.g / 256, c.b / 256);
                         scene.add(that.torchDirectionObj);
                         scene.add(that.torch);
                     }
 
                     if (topLightData != null) {
-                        that.topLight = new THREE.SpotLight()
+
+                        that.topLight = new THREE.SpotLight();
                         that.topLight.position.x = that.mesh.position.x + topLightData.x * GridSize;
                         that.topLight.position.y = that.mesh.position.y + topLightData.y * GridSize;
                         that.topLight.position.z = that.mesh.position.z + topLightData.z * GridSize;
@@ -285,7 +287,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         that.topLight.angle = topLightData.angle;
                         that.topLight.penumbra = topLightData.exponent;
                         that.topLight.target = that.mesh;
-                        that.topLight.color.setHex(topLightData.color);
+                        var c = hexToRgb(topLightData.color);
+                        that.topLight.color.setRGB(c.r / 256, c.g / 256, c.b / 256);
                         that.topLight.castShadow = false;
                         scene.add(that.topLight);
                     }
@@ -373,6 +376,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var textureLoader = new THREE.TextureLoader();
             spriteTex['key'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_key.png');
         };
+        
+        var hexToRgb = function (hex) {
+            var result = /^0x?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
 
         // setup ----------------------------------------------------------
         var _init = function () {
