@@ -132,8 +132,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.teleportCount++;
         if (this.teleportCount >= _Data.teleportCountMax) {
             var yx =  this.entity.interAction.findEmptyPos();
-            this.x = yx[1];
-            this.y = yx[0];
+            this.x = yx[1] + 0.5;
+            this.y = yx[0] + 0.5;
             this.teleportCount = 0;
         }
 
@@ -151,8 +151,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype.teleport = function () {
         if (this.endurance >= this.modelData.para.endurance / 5) {
             var yx =  this.entity.interAction.findEmptyPos();
-            this.x = yx[1];
-            this.y = yx[0];
+            this.x = yx[1] + 0.5;
+            this.y = yx[0] + 0.5;
             this.endurance -= this.modelData.para.endurance / 5;
             this.teleportCount = 0;
         }
