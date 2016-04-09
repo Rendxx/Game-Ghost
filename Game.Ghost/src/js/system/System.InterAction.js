@@ -49,6 +49,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setupObjOperation();
             setupAccess();
             setupInteractionObj();
+            setupSoundObj();
         };
 
         this.updateMap = function () {
@@ -74,6 +75,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         this.checkSoundObj = function (x, y) {
+            x = Math.floor(x);
+            y = Math.floor(y);
             return soundGrid[y][x];
         };
 
