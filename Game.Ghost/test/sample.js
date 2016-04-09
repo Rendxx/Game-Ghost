@@ -3,18 +3,19 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], true);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], false);
     var systemWrapper = window.Rendxx.Game.Ghost.WebWorker.Create(_root, "../js/Game.Ghost.System.Core.js");
     systemWrapper.onSetuped = function (setupData) {
         renderer.reset(setupData);
     };
     systemWrapper.onStarted = function (modelData, mapData) {
     };
-    systemWrapper.onEnded = function (isWin) {
+    systemWrapper.onEnd = function (endData) {
         renderer.hide();
-        var s = isWin ? "Survivor Escaped!!!!" : "Survior all killed!!!";
-        var t = isWin ? "GOOD JOB" : "GAME OVER";
+        var s = endData.survivorWin ? "Survivor Escaped!!!!" : "Survior all killed!!!";
+        var t = endData.survivorWin ? "GOOD JOB" : "GAME OVER";
         $$.info.alert(s, t, false, "rgba(0,0,0,0.6)", null);
+        console.log(endData);
     };
     systemWrapper.setup({
         'p1': {
@@ -23,12 +24,12 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'bobo'
         },
-        'p2': {
-            id: 'p2',
-            name: 'player 2',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'capboy'
-        },
+        //'p2': {
+        //    id: 'p2',
+        //    name: 'player 2',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'capboy'
+        //},
         //'p3': {
         //    id: 'p3',
         //    name: 'player 3',
@@ -75,7 +76,7 @@
     //renderer.onTimeInterval = system.nextInterval;
 
     renderer.onSetuped = function () {
-        SetupControl(systemWrapper, 'p7');
+        SetupControl(systemWrapper, 'p1');
         systemWrapper.start();
         renderer.show();
     };

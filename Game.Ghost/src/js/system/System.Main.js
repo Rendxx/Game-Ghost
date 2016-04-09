@@ -107,11 +107,30 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // end game
-        this.end = function (isWin) {
+        this.end = function () {
             isStarted = false;
             if (intervalFunc != null) clearInterval(intervalFunc);
-            gameData['end'] = isWin ? "Suvivor Escaped!!!" : "All KILL!!!"
-            if (this.onEnd) this.onEnd(isWin);
+
+            var survivorWin = false;
+            var win = 0, isEnd = true, survivorEnd = {};
+            for (var i = 0; i < that.characters.length; i++) {
+                if (that.characters[i].role == Data.character.type.survivor) {
+                    if (that.characters[i].win) {
+                        survivorWin = true;
+                    } 
+
+                    survivorEnd[that.characters[i].id] = {
+                        name: that.characters[i].name,
+                        isWin: that.characters[i].win
+                    };
+                }
+            }
+
+            gameData['end'] = {
+                survivorWin: survivorWin,
+                survivorEnd: survivorEnd
+            };
+            if (this.onEnd) this.onEnd(gameData['end']);
         };
 
         // renew game
@@ -148,7 +167,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     if (that.characters[i].win) win++;
                 }
             }
-            if (isEnd) that.end(win > 0);
+            if (isEnd) { that.end(); }
             // ----------------------------------------------
 
             if (that.onUpdated) that.onUpdated(gameData);

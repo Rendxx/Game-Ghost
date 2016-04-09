@@ -46,11 +46,11 @@ var funcMap = {
                 }
             });
         };
-        _system.onEnd = function (isWin) {
+        _system.onEnd = function (endData) {
             postMessage({
                 func: 'onEnd',
                 para: {
-                    isWin: isWin
+                    endData: endData
                 }
             });
         };

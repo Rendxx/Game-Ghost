@@ -57,9 +57,9 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
                     if (that.clientUpdate) that.clientUpdate(targets, clientData);
                 },
                 "onEnd": function (para) {
-                    var isWin = undefined;
-                    if (para) isWin = para.isWin;
-                    if (that.onEnd) that.onEnd(isWin);
+                    var endData = undefined;
+                    if (para) endData = para.endData;
+                    if (that.onEnd) that.onEnd(endData);
                 }
             };
 
