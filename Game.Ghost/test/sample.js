@@ -27,7 +27,7 @@
             id: 'p2',
             name: 'player 2',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'basic'
+            modelId: 'capboy'
         },
         'p3': {
             id: 'p3',
@@ -75,7 +75,7 @@
     //renderer.onTimeInterval = system.nextInterval;
 
     renderer.onSetuped = function () {
-        SetupControl(systemWrapper, 'p6');
+        SetupControl(systemWrapper, 'p2');
         systemWrapper.start();
         renderer.show();
     };

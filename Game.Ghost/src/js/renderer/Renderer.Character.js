@@ -202,7 +202,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     materials[i].skinning = true;
                 }
                 mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
-                mesh.castShadow = false;
+                mesh.castShadow = true;
                 mesh.receiveShadow = true;
                 //mesh.scale.set(1.5, 1.5, 1.5);
 

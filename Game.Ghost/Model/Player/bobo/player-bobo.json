@@ -13,7 +13,7 @@
         "mapDiffuse":"player-bobo.tex.png",
         "mapDiffuseWrap":["RepeatWrapping","RepeatWrapping"],
         "colorDiffuse":[0.8,0.8,0.8],
-        "shading":"lambert",
+        "shading":"phong",
         "mapDiffuseRepeat":[1,1],
         "mapDiffuseAnisotropy":1,
         "opacity":1,
