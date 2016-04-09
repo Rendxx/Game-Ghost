@@ -427,6 +427,7 @@
     <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.tex.fla" />
     <Content Include="Model\Player\bobo\player-bobo.json" />
     <Content Include="Model\Player\player_survivor_bobo.data.json" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.blend1" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

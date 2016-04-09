@@ -75,7 +75,7 @@
     //renderer.onTimeInterval = system.nextInterval;
 
     renderer.onSetuped = function () {
-        SetupControl(systemWrapper, 'p1');
+        SetupControl(systemWrapper, 'p2');
         systemWrapper.start();
         renderer.show();
     };
