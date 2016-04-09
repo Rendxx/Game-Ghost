@@ -1,7 +1,7 @@
 ﻿{
-  "id": "bobo",
+  "id": "highcircle",
   "radius": 0.4,
-  "model": "bobo/player-bobo.json",
+  "model": "highcircle/player-highcircle.json",
   "color": "0x009933",
   "para": {
     "endurance": 10,

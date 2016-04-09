@@ -33,13 +33,13 @@
             id: 'p3',
             name: 'player 3',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'blue'
+            modelId: 'highcircle'
         },
         'p4': {
             id: 'p4',
             name: 'player 4',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'yellow'
+            modelId: 'girl1'
         },
         'p5': {
             id: 'p5',
@@ -75,7 +75,7 @@
     //renderer.onTimeInterval = system.nextInterval;
 
     renderer.onSetuped = function () {
-        SetupControl(systemWrapper, 'p2');
+        SetupControl(systemWrapper, 'p4');
         systemWrapper.start();
         renderer.show();
     };

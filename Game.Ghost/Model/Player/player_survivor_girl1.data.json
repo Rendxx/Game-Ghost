@@ -1,7 +1,7 @@
 ﻿{
-  "id": "bobo",
+  "id": "girl1",
   "radius": 0.4,
-  "model": "bobo/player-bobo.json",
+  "model": "girl1/player-girl1.json",
   "color": "0x009933",
   "para": {
     "endurance": 10,
