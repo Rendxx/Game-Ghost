@@ -319,6 +319,7 @@
     <Content Include="GameData\Map\MapData4debug_1.json" />
     <Content Include="GameData\Map\DogCan2.json" />
     <Content Include="GameData\Map\FurnitureTest.json" />
+    <Content Include="GameData\Map\Hospital1.json" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="Model\Furniture\table_wood_1_1.data.json" />
     <Content Include="Model\Furniture\table_wood_2_1.data.json" />

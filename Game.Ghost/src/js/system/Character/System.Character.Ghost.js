@@ -21,7 +21,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         range: {
             danger: 12
         },
-        teleportCountMax: 2400
+        teleportCountMax: 3400
     };
 
     // Construct -----------------------------------------------------
