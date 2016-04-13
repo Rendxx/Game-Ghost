@@ -62,6 +62,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 if (loadCount > 0) return;
                 flag_loaded = true;
                 if (that.onSetuped) that.onSetuped();
+                if (that.test != null)
+                    that.test.setup();
             };
 
             // load models

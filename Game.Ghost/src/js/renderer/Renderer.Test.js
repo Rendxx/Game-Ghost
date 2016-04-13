@@ -8,13 +8,26 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
  */
 (function (RENDERER) {
     var Data = RENDERER.Data;
+    var GridSize = Data.grid.size;
 
     var Test = function (entity) {
         var datGUI, cameraControl, stats;
 
+        this.setup = function () {
+            setup();
+            setupLight();
+
+            entity.onRender = function () {
+                cameraControl.update();
+                stats.update();
+            };
+        };
+
         var setup = function () {
             // camera control
-            //cameraControl = new THREE.OrbitControls(entity.env.camera[0], entity.env.renderer.domElement);
+            entity.env.camera[0].camera.far = 100 * GridSize;
+            entity.env.camera[0].camera.updateProjectionMatrix();
+            cameraControl = new THREE.OrbitControls(entity.env.camera[0].camera, entity.env.renderer.domElement);
 
             // status track
             stats = new Stats();
@@ -27,8 +40,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             datGUI = new dat.GUI();
 
             // axis
-            var axisHelper = new THREE.AxisHelper(100);
-            entity.env.scene.add(axisHelper);
+            //var axisHelper = new THREE.AxisHelper(100);
+            //entity.env.scene.add(axisHelper);
         };
 
         var setupLight = function () {
@@ -46,13 +59,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             });
         };
         var _init = function () {
-            setup();
-            setupLight();
-
-            entity.onRender = function () {
-                //cameraControl.update();
-                stats.update();
-            };
         };
         _init();
     };
