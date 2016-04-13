@@ -61,7 +61,7 @@
             modelId: 'ghost-mary'
         }
     },{ 
-        map: 'Hospital1'
+        map: 'test'
     });
     //system.setup([
     //    {

@@ -210,9 +210,53 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         }
         if (min <= _Data.range.danger) this.danger = (1 - min / _Data.range.danger);
         else this.danger = 0;
-        if (this.entity.interAction.checkInEnd(this.x, this.y)) {
-            this.winning();
+        //if (this.entity.interAction.checkInEnd(this.x, this.y)) {
+        //    this.winning();
+        //}
+    };
+
+    Survivor.prototype._updatePositionTrigger = function () {
+        // position check
+        var triggerList = this.entity.interAction.checkPosTrigger(this.id, this.x, this.y);
+
+        // leave
+        if (this.triggeringList != null) {
+            for (var i in this.triggeringList) {
+                if (triggerList== null || !triggerList.hasOwnProperty(i)) {
+                    var obj = this.entity.map.objList[this.triggeringList[i].type][this.triggeringList[i].id];
+                    var info = obj.check();
+                    switch (obj.objType) {
+                        //case SYSTEM.MapObject.Door.Data.ObjType:
+                        //    if (info.status == SYSTEM.MapObject.Door.Data.Status.Closed) {
+                        //        obj.unblock(this.id);
+                        //    }
+                        //    break;
+                    }
+                }
+            }
         }
+
+        // enter
+        if (triggerList != null) {
+            for (var i in triggerList) {
+                if (this.triggeringList == null || !this.triggeringList.hasOwnProperty(i)) {
+                    var obj = this.entity.map.objList[triggerList[i].type][triggerList[i].id];
+                    var info = obj.check();
+                    switch (obj.objType) {
+                        //case SYSTEM.MapObject.Door.Data.ObjType:
+                        //    if (info.status == SYSTEM.MapObject.Door.Data.Status.Closed) {
+                        //        obj.block(this.id);
+                        //    }
+                        //    break;
+                        case SYSTEM.MapObject.Position.Data.ObjType:
+                            this.winning();
+                            break;
+                    }
+                }
+            }
+        }
+
+        this.triggeringList = triggerList;
     };
 
     Survivor.prototype.die = function () {

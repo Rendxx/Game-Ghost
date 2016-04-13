@@ -64,6 +64,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         
         this.enduranceRecover = _para.enduranceRecover;
         this.enduranceCost = _para.enduranceCost;
+        this.triggeringList = {};
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -206,6 +207,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         }
     };
 
+    Basic.prototype._updatePositionTrigger = function () {
+    };
+
     Basic.prototype._updateStatus = function () {
     };
 
@@ -229,6 +233,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (!this.actived) return;
 
         this._updateMove();
+        this._updatePositionTrigger();
         this._updateStatus();
         this._updateInteraction();
         this._updateVisible();

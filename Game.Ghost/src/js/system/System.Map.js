@@ -37,7 +37,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             furniture: {},
             door: {},
             body: {},
-            key: {}
+            key: {},
+            position: {}
         };
         this.position = {            // list of position coordinate
             survivor: [],
@@ -184,6 +185,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             // end
             var idx = Math.floor(tmp['end'].length * Math.random());
             that.position['end'].push(tmp['end'][idx]);
+            that.objList.position[0] = new SYSTEM.MapObject.Position(0, that.position['end'][0], SYSTEM.MapObject.Position.Data.PosType.End);
             tmp['end'].splice(idx, 1);
 
             that.setupData.position = that.position;
@@ -191,6 +193,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var recoverPosition = function (recoverData) {
             that.position = recoverData;
+            that.objList.position[0] = new SYSTEM.MapObject.Position(0, that.position['end'][0], SYSTEM.MapObject.Position.Data.PosType.End);
         };
         
         // furniture --------------------------------------------

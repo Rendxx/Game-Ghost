@@ -19,11 +19,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 door: {},           // door id: door status
                 furniture: {}       // furniture id: furniture status
             },
-            position = {            // list of position coordinate
-                survivor: [],
-                ghost: [],
-                end: []
-            },
             emptyPos = [],
             /* this is designed for checking next available in O(1)
              * Any character interact with object will update these data
@@ -32,11 +27,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
              * objOperation:    { obj-type { obj-id [ character { type | id | op }]}}
              * accessGrid:      [ grid-y [ grid-x [ character [ obj-packages { angle | info } ]]]]
              * surroundGrid:    [ grid-y [ grid-x [ character [ obj-packages { angle | dst | info } ]]]]
+             * positionGrid:    [ grid-y [ grid-x [ character [ info ]]]]
              * soundGrid:       [ grid-y [ grid-x { obj-id: distance }]]
              */
             accessGrid = [],
             objOperation = [],
             surroundGrid = [],
+            positionGrid = [],
             soundGrid = [];
 
         this.characterCheckingList;
@@ -48,6 +45,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setupCharacterCheckingList();
             setupObjOperation();
             setupAccess();
+            setupTriggerPos();
             setupInteractionObj();
             setupSoundObj();
         };
@@ -55,6 +53,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.updateMap = function () {
             setupObjOperation();
             setupAccess();
+            setupTriggerPos();
             setupInteractionObj();
             setupSoundObj();
         };
@@ -72,6 +71,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (deltaY != 0 && (newY < 0 || newY >= height || (map.grid.empty[newY][oldX] != SYSTEM.Map.Data.Grid.Empty && !(map.grid.empty[newY][oldX] == SYSTEM.Map.Data.Grid.Door && map.objList['door'][map.grid.door[newY][oldX]].status == SYSTEM.MapObject.Door.Data.Status.Opened))))
                 rst[1] = (deltaY > 0) ? newY : newY + 1;
             return rst;
+        };
+
+        // get obj triggered in the position
+        this.checkPosTrigger = function (c, x, y) {
+            x = Math.floor(x);
+            y = Math.floor(y);
+            var list = positionGrid[y][x][c];
+            return list;
         };
 
         this.checkSoundObj = function (x, y) {
@@ -223,14 +230,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return emptyPos[idx];
         };
 
-        this.checkInEnd = function (x, y) {
-            x = Math.floor(x);
-            y = Math.floor(y);
-            for (var i = 0; i < map.position['end'].length; i++) {
-                if (x == map.position['end'][i][0] && y == map.position['end'][i][1]) return true;
-            }
-            return false;
-        };
+        //this.checkInEnd = function (x, y) {
+        //    x = Math.floor(x);
+        //    y = Math.floor(y);
+        //    for (var i = 0; i < map.position['end'].length; i++) {
+        //        if (x == map.position['end'][i][0] && y == map.position['end'][i][1]) return true;
+        //    }
+        //    return false;
+        //};
 
         // update ----------------------------------------------
         // update interaction of that object for all characters
@@ -678,7 +685,57 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             console.log('---------------------------------------------------------------');
         };
 
-        var setupTriggerPos = function () { };
+        var setupTriggerPos = function () {
+            // build positionGrid
+            positionGrid = [];
+            for (var i = 0; i < height; i++) {
+                positionGrid[i] = [];
+                for (var j = 0; j < width; j++) {
+                    positionGrid[i][j] = [];
+                    for (var c = 0; c < characters.length; c++) {
+                        positionGrid[i][j][c] = null;
+                    }
+                }
+            }
+
+            //// add position grid for door
+            //var doors = map.objList.door;
+            //for (var k in doors) {
+            //    var door = doors[k];
+            //    var x = door.anchor.x;
+            //    var y = door.anchor.y;
+            //    var r = door.rotation;
+            //    var accessPos = map.modelData.items[Data.item.categoryName.door][door.modelId].accessPos;
+            //    if (accessPos == null) continue;
+
+            //    for (var i = 0; i < accessPos.length; i++) {
+            //        var p = accessPos[i];
+            //        var r1 = (((p[1] >= 0) ? (p[0] >= 0 ? 0 : 1) : (p[0] >= 0 ? 3 : 2)) + r) % 4;
+            //        var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
+            //        var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
+            //        if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
+            //        for (var c = 0; c < characters.length; c++) {
+            //            if (positionGrid[new_y][new_x][c] == null) positionGrid[new_y][new_x][c] = {};
+            //            positionGrid[new_y][new_x][c]['door'+k] = {
+            //                'type': 'door',
+            //                'id': k
+            //            };
+            //        }
+            //    }
+            //}
+            // add position grid for end
+            var ends = map.position['end'];
+            for (var k = 0; k < ends.length; k++) {
+                var endPos = ends[k];
+                for (var c = 0; c < characters.length; c++) {
+                    if (positionGrid[endPos[1]][endPos[0]][c] == null) positionGrid[endPos[1]][endPos[0]][c] = {};
+                    positionGrid[endPos[1]][endPos[0]][c]['position' + k] = {
+                        'type': 'position',
+                        'id': k
+                    };
+                }
+            }
+        };
 
         var setupCharacterCheckingList = function () {
             for (var c = 0; c < characters.length; c++) {
