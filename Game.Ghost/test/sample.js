@@ -88,6 +88,7 @@ function SetupControl(system, pId) {
     var moveDirction = 0;
     var direction = [0, 0];
     var rush = false;
+    var delayFunc = null;
     /*
      * direction[0]: move direction
      * direction[1]: head direction
@@ -146,9 +147,15 @@ function SetupControl(system, pId) {
                 actionType: '02'
             });
         } else if (e.keyCode == keyCode['e']) {
-            system.action(pId, {
-                actionType: '03'
-            });
+            //system.action(pId, {
+            //    actionType: '03'
+            //});
+            delayFunc = setTimeout(function () {
+                delayFunc = null;
+                system.action(pId, {
+                    actionType: '06'
+                });
+            }, 200);
         } else if (e.keyCode == keyCode['g']) {
             system.action(pId, {
                 actionType: '04'
@@ -172,6 +179,18 @@ function SetupControl(system, pId) {
                 headFollow: direction[1] == 0
             });
             e.preventDefault();
+        } else if (e.keyCode == keyCode['e']) {
+            if (delayFunc != null) {
+                clearTimeout(delayFunc);
+                delayFunc = null;
+                system.action(pId, {
+                    actionType: '03'
+                });
+            } else {
+                system.action(pId, {
+                    actionType: '07'
+                });
+            }
         }
     });
     //controlPlayer(direction);

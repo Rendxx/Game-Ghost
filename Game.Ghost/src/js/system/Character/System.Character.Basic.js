@@ -65,6 +65,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.enduranceRecover = _para.enduranceRecover;
         this.enduranceCost = _para.enduranceCost;
         this.triggeringList = {};
+        this.longInteractionObj = null;
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -112,6 +113,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.headFollow = headFollow_in;
         if (!stay_in) this.requiredRotation.body = direction;
         if (!headFollow_in) this.requiredRotation.head = directionHead;
+    };
+
+    Basic.prototype.longInteraction = function () {
+    };
+
+    Basic.prototype.cancelLongInteraction = function () {
     };
     
     // use the item in front of the character
@@ -217,6 +224,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.visibleObject =  this.entity.interAction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation.head);
         this.soundObject = this.entity.interAction.checkSoundObj(this.x, this.y);
         this.accessObject = this.entity.interAction.getAccessObject(this.id, this.x, this.y, this.currentRotation.head);
+
+        if (this.longInteractionObj != null && this.longInteractionObj != this.accessObject) this.cancelLongInteraction();
     };
 
     Basic.prototype._updateVisible = function () {

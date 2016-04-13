@@ -55,6 +55,43 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         return dat;
     };
 
+    Survivor.prototype.longInteraction = function () {
+        if (!this.actived) return;
+        if (this.accessObject == null) return;
+        var obj = this.entity.map.objList[this.accessObject.type][this.accessObject.id];
+        var info = obj.check();
+        switch (obj.objType) {
+            case SYSTEM.MapObject.Door.Data.ObjType:
+                if (info.status == SYSTEM.MapObject.Door.Data.Status.Closed) {
+                    this.longInteractionObj = obj;
+                    obj.block(this.id);
+                }
+                break;
+            case SYSTEM.MapObject.Furniture.Data.ObjType:
+                break;
+            case SYSTEM.MapObject.Body.Data.ObjType:
+                break;
+        }
+        this.entity.interAction.updateInteraction(obj.objType, info.id);
+        this.updateData();
+    };
+    
+    Survivor.prototype.cancelLongInteraction = function () {
+        if (this.longInteractionObj != null) {
+            var obj = this.longInteractionObj;
+            var info = obj.check();
+            switch (obj.objType) {
+                case SYSTEM.MapObject.Door.Data.ObjType:
+                    if (info.status == SYSTEM.MapObject.Door.Data.Status.Closed) {
+                        obj.unblock(this.id);
+                    }
+                    break;
+            }
+        }
+
+        this.longInteractionObj = null;
+    };
+
     // use the item in front of the character
     Survivor.prototype.interaction = function () {
         if (!this.actived) return;

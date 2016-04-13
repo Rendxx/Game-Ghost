@@ -14,7 +14,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             'lightSwitch': '02',
             'use': '03',
             'teleport': '04',
-            'crazy': '05'
+            'crazy': '05',
+            'longUse': '06',
+            'cancelLongUse': '07'
         }
     };
     var UserInput = function (entity) {
@@ -56,6 +58,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     break;
                 case _Data.actionType.crazy:
                     if (entity.characters[clientId].role == Data.character.type.ghost) entity.characters[clientId].crazy();
+                    break;
+                case _Data.actionType.longUse:
+                    entity.characters[clientId].longInteraction();
+                    break;
+                case _Data.actionType.cancelLongUse:
+                    entity.characters[clientId].cancelLongInteraction();
                     break;
                 default:
                     break;
