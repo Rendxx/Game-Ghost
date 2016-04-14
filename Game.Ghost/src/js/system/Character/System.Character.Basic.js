@@ -101,7 +101,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             action: this.action,
             accessObject: this.accessObject,
             visibleObject: this.visibleObject,
-            visibleCharacter: this.visibleCharacter
+            visibleCharacter: this.visibleCharacter,
+            longInteractionObj: this.longInteractionObj
         };
     };
 
@@ -125,7 +126,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype.interaction = function () {
         if (!this.actived) return;
         if (this.accessObject == null) return;
-        return this.accessObject.check();
+        return ;
     };
 
     Basic.prototype.checkOperation = function () {

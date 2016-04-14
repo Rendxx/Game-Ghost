@@ -20,7 +20,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Open: 1,
             Close: 2,
             Locked: 3,
-            Unlock: 4
+            Unlock: 4,
+            Block: 5
         }
     };
 

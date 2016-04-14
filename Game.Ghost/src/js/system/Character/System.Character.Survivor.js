@@ -63,7 +63,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Closed) {
-                    this.longInteractionObj = obj;
+                    this.longInteractionObj = this.accessObject;
                     obj.block(this.id);
                 }
                 break;
@@ -78,7 +78,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     
     Survivor.prototype.cancelLongInteraction = function () {
         if (this.longInteractionObj != null) {
-            var obj = this.longInteractionObj;
+            var obj = this.entity.map.objList[this.longInteractionObj.type][this.longInteractionObj.id];
             var info = obj.check();
             switch (obj.objType) {
                 case SYSTEM.MapObject.Door.Data.ObjType:
@@ -192,31 +192,31 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
-                    return SYSTEM.MapObject.Door.Data.Operation.Close;
+                    return [SYSTEM.MapObject.Door.Data.Operation.Close];
                 }
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Locked) {
                     if (this.key.hasOwnProperty(info.id)) {
-                        return SYSTEM.MapObject.Door.Data.Operation.Unlock;
+                        return [SYSTEM.MapObject.Door.Data.Operation.Unlock];
                     } else if (this.lockDoor[info.id]) {
-                        return SYSTEM.MapObject.Door.Data.Operation.Locked;
+                        return [SYSTEM.MapObject.Door.Data.Operation.Locked];
                     }
                 }
-                return SYSTEM.MapObject.Door.Data.Operation.Open;
+                return [SYSTEM.MapObject.Door.Data.Operation.Open, SYSTEM.MapObject.Door.Data.Operation.Block];
                 break;
             case SYSTEM.MapObject.Furniture.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Closed) {
-                    return SYSTEM.MapObject.Furniture.Data.Operation.Open;
+                    return [SYSTEM.MapObject.Furniture.Data.Operation.Open];
                 } else if (info.key != null) {
-                    return SYSTEM.MapObject.Furniture.Data.Operation.Key;
+                    return [SYSTEM.MapObject.Furniture.Data.Operation.Key];
                 } else if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Opened) {
-                    return SYSTEM.MapObject.Furniture.Data.Operation.Close;
+                    return [SYSTEM.MapObject.Furniture.Data.Operation.Close];
                 }
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:
-                return SYSTEM.MapObject.Body.Data.Operation.Search;
+                return [SYSTEM.MapObject.Body.Data.Operation.Search];
                 break;
         }
-        return SYSTEM.MapObject.Basic.Data.Operation.None;
+        return [SYSTEM.MapObject.Basic.Data.Operation.None];
     };
 
     Survivor.prototype._updateStatus = function () {

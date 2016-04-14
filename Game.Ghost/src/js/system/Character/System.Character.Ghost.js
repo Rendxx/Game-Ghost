@@ -84,21 +84,21 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
-                    return SYSTEM.MapObject.Door.Data.Operation.Close;
+                    return [SYSTEM.MapObject.Door.Data.Operation.Close];
                 }
-                return SYSTEM.MapObject.Door.Data.Operation.Open;
+                return [SYSTEM.MapObject.Door.Data.Operation.Open];
                 break;
             case SYSTEM.MapObject.Furniture.Data.ObjType:
-                if (info.status == SYSTEM.MapObject.Furniture.Data.Status.None) return null;
+                if (info.status == SYSTEM.MapObject.Furniture.Data.Status.None) return [SYSTEM.MapObject.Basic.Data.Operation.None];
                 if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Closed) {
-                    return SYSTEM.MapObject.Furniture.Data.Operation.Open;
+                    return [SYSTEM.MapObject.Furniture.Data.Operation.Open];
                 }
-                return SYSTEM.MapObject.Furniture.Data.Operation.Close;
+                return [SYSTEM.MapObject.Furniture.Data.Operation.Close];
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:
                 break;
         }
-        return SYSTEM.MapObject.Basic.Data.Operation.None;
+        return [SYSTEM.MapObject.Basic.Data.Operation.None];
     };
 
     Ghost.prototype._updateStatus = function () {
