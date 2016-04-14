@@ -1,6 +1,7 @@
 ﻿{
   "id": "door_wood_1",
   "dimension": [ 1, 1, 2 ],
+  "blockSight": false,
   "accessPos": [
     [ 0, 1 ],
     [ 0, 0 ],
