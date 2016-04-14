@@ -185,6 +185,11 @@
     <Content Include="Model\Sprite\EscapeScreen.png" />
     <Content Include="Model\Sprite\interaction.close-2.png" />
     <Content Include="Model\Sprite\interaction.close.png" />
+    <Content Include="Model\Sprite\interaction.door.block-2.png" />
+    <Content Include="Model\Sprite\interaction.door.close-2.png" />
+    <Content Include="Model\Sprite\interaction.door.close.png" />
+    <Content Include="Model\Sprite\interaction.door.open-2.png" />
+    <Content Include="Model\Sprite\interaction.door.open.png" />
     <Content Include="Model\Sprite\interaction.key-2.png" />
     <Content Include="Model\Sprite\interaction.key.png" />
     <Content Include="Model\Sprite\interaction.lock-2.png" />

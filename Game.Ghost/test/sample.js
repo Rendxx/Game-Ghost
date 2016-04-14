@@ -89,6 +89,7 @@ function SetupControl(system, pId) {
     var direction = [0, 0];
     var rush = false;
     var delayFunc = null;
+    var longPress = false;
     /*
      * direction[0]: move direction
      * direction[1]: head direction
@@ -150,12 +151,15 @@ function SetupControl(system, pId) {
             //system.action(pId, {
             //    actionType: '03'
             //});
-            delayFunc = setTimeout(function () {
-                delayFunc = null;
-                system.action(pId, {
-                    actionType: '06'
-                });
-            }, 200);
+            if (!longPress) {
+                delayFunc = setTimeout(function () {
+                    delayFunc = null;
+                    longPress = true;
+                    system.action(pId, {
+                        actionType: '06'
+                    });
+                }, 200);
+            }
         } else if (e.keyCode == keyCode['g']) {
             system.action(pId, {
                 actionType: '04'
@@ -180,6 +184,7 @@ function SetupControl(system, pId) {
             });
             e.preventDefault();
         } else if (e.keyCode == keyCode['e']) {
+            longPress = false;
             if (delayFunc != null) {
                 clearTimeout(delayFunc);
                 delayFunc = null;
