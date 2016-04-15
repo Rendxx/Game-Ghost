@@ -14,14 +14,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             'OpenDoor': 1,
             'CloseDoor': 2,
             'Unlock': 3,
-            'CantOpen': 4,
-            'OpenCarbinet': 5,
-            'CloseCarbinet': 6,
-            'Walk': 7,
-            'Run': 8,
-            'Danger': 9,
-            'Die': 10,
-            'Scream': 11
+            'Locked': 4,
+            'CantOpen': 5,
+            'OpenCarbinet': 6,
+            'CloseCarbinet': 7,
+            'Walk': 8,
+            'Run': 9,
+            'Danger': 10,
+            'Die': 11,
+            'Scream': 12
         },
         Type: {
             'Character': 0,

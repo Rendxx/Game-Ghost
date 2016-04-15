@@ -238,6 +238,13 @@
     <Content Include="PlayerControlTest\renderer\Character.js" />
     <Content Include="PlayerControlTest\sample.html" />
     <Content Include="PlayerControlTest\sample.js" />
+    <Content Include="Sound\cabinet.mp3" />
+    <Content Include="Sound\die.mp3" />
+    <Content Include="Sound\doorClose.mp3" />
+    <Content Include="Sound\heart.mp3" />
+    <Content Include="Sound\key.mp3" />
+    <Content Include="Sound\lock.mp3" />
+    <Content Include="Sound\unlock.mp3" />
     <Content Include="src\js\lib\OBJLoader.js" />
     <Content Include="src\js\renderer\Renderer.Character.js" />
     <Content Include="src\js\renderer\Renderer.Data.js" />
@@ -561,6 +568,7 @@
     <Content Include="ModelBuilder\Player\ghost\mary\player-mary.blend1" />
     <Content Include="Model\Player\ghost-mary\player-mary.json" />
     <Content Include="Model\Player\player_ghost_mary.data.json" />
+    <Content Include="ModelBuilder\Sprite\interaction.door.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

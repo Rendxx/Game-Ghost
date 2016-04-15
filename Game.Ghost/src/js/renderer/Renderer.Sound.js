@@ -14,14 +14,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             'OpenDoor': 1,
             'CloseDoor': 2,
             'Unlock': 3,
-            'CantOpen': 4,
-            'OpenCarbinet': 5,
-            'CloseCarbinet': 6,
-            'Walk': 7,
-            'Run': 8,
-            'Danger': 9,
-            'Die': 10,
-            'Scream': 11
+            'Locked': 4,
+            'CantOpen': 5,
+            'OpenCarbinet': 6,
+            'CloseCarbinet': 7,
+            'Walk': 8,
+            'Run': 9,
+            'Danger': 10,
+            'Die': 11,
+            'Scream': 12
         },
         Type: {
             'Character': 0,
@@ -144,10 +145,58 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // helper ------------------------
         var _init = function () {
             var path = root + Data.sound.path;
-            sounds[_Data.Name.OpenDoor] = new Howl({
-                urls: [path+'door.wav'],
+            sounds[_Data.Name.Key] = new Howl({
+                urls: [path + 'door.wav'],
                 loop: false
-            })
+            });
+            sounds[_Data.Name.OpenDoor] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.CloseDoor] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.Locked] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.Unlock] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.CantOpen] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.OpenCarbinet] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.CloseCarbinet] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.Walk] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.Run] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.Danger] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.Die] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.Scream] = new Howl({
+                urls: [path + 'door.wav'],
+                loop: false
+            });
         };
 
         _init();
