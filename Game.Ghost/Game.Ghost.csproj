@@ -183,6 +183,7 @@
     <Content Include="Model\Sprite\DeadScreen.png" />
     <Content Include="Model\Sprite\EnduranceBar.png" />
     <Content Include="Model\Sprite\EscapeScreen.png" />
+    <Content Include="Model\Sprite\fog-bg.png" />
     <Content Include="Model\Sprite\fog.png" />
     <Content Include="Model\Sprite\interaction.close-2.png" />
     <Content Include="Model\Sprite\interaction.close.png" />
@@ -571,6 +572,7 @@
     <Content Include="Model\Player\player_ghost_mary.data.json" />
     <Content Include="ModelBuilder\Sprite\interaction.door.fla" />
     <Content Include="ModelBuilder\Sprite\fog.fla" />
+    <Content Include="ModelBuilder\Sprite\fog-bg.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
