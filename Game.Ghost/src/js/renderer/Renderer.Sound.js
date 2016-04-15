@@ -37,12 +37,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // data ----------------------------------------------
         var that = this,
+            root = entity.root,
             viewPlayerIdxList = null,
             playerNum = null,
             turnIdx = -1,
             characterIdList = [],
             playingSound = {},
-            soundSource = {};
+            sounds = {};
 
         // public method -------------------------------------------------
         this.playerSetup = function (viewPlayer_in) {
@@ -104,7 +105,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // private method -------------------------------------------------
         var playSound = function (id, volume) {
-
+            if (sounds.hasOwnProperty(id)) sounds[id].play();
         };
 
         // update conherent sound
@@ -142,6 +143,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // helper ------------------------
         var _init = function () {
+            var path = root + Data.sound.path;
+            sounds[_Data.Name.OpenDoor] = new Howl({
+                urls: [path+'door.wav'],
+                loop: false
+            })
         };
 
         _init();

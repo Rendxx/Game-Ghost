@@ -270,6 +270,12 @@
     <Content Include="src\js\system\System.Main.js" />
     <Content Include="test\sample.html" />
     <Content Include="test\sample.js" />
+    <Content Include="Sound\bell.wav" />
+    <Content Include="Sound\cabinet.wav" />
+    <Content Include="Sound\door.wav" />
+    <Content Include="Sound\scream.wav" />
+    <Content Include="Sound\step.mp3" />
+    <Content Include="Sound\step.wav" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />

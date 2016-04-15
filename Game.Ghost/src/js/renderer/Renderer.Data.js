@@ -34,6 +34,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 sprite: '/Model/Sprite/'
             }
         },
+        sound: {
+            path: '/Sound/'
+        },
         character: {
             type: {
                 survivor: 'survivor',
