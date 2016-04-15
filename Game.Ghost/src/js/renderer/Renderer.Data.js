@@ -107,7 +107,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                             "distance": 5,
                             "angle": 1,
                             "exponent": 1,
-                            "color": "0xffffff"
+                            "color": "0xFFB7B7"
                         },
                         "torch": {
                             "x": -0.455,

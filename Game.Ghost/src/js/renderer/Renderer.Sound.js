@@ -65,12 +65,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // object
             var s_obj = soundDat[0][1];
             var soundList = {};
-            for (var i in s_obj) {
-                for (var i = 0; i < playerNum; i++) {
-                    var soundObj = characterDat[characterIdList[i]].soundObject;
-                    if (soundObj.hasOwnProperty(s_obj[i].id)) {
-                        if (soundList[s_obj[i].sound] == null || soundList[s_obj[i].sound] < soundObj[s_obj[i].id])
-                            soundList[s_obj[i].sound] = soundObj[s_obj[i].id];
+            for (var i = 0; i < playerNum; i++) {
+                var soundObj = characterDat[characterIdList[i]].soundObject;
+                for (var t in s_obj) {
+                    if (soundObj[s_obj[t].type].hasOwnProperty(s_obj[t].id)) {
+                        if (soundList[s_obj[t].sound] == null || soundList[s_obj[t].sound] < soundObj[s_obj[t].id])
+                            soundList[s_obj[t].sound] = soundObj[s_obj[t].id];
                     }
                 }
             }

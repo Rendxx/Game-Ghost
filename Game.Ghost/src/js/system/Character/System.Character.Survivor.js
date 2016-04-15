@@ -102,6 +102,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             case SYSTEM.MapObject.Door.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
                     obj.close();
+                    this.entity.sound.once(this.accessObject.type, this.accessObject.id, SYSTEM.Sound.Data.Name.OpenDoor);
                     break;
                 }
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Locked) {

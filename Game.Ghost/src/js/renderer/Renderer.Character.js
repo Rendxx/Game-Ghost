@@ -256,8 +256,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         that.torchDirectionObj.position.x = that.mesh.position.x + torchData.x * GridSize;
                         that.torchDirectionObj.position.y = that.mesh.position.y + torchData.y * GridSize - 0.4;
                         that.torchDirectionObj.position.z = that.mesh.position.z + torchData.z * GridSize + 1;
+                        scene.add(that.torchDirectionObj);
 
-                        that.torch = new THREE.SpotLight(torchData.color)
+                        that.torch = new THREE.SpotLight(parseInt(torchData.color));
                         that.torch.position.x = that.mesh.position.x + torchData.x * GridSize;
                         that.torch.position.y = that.mesh.position.y + torchData.y * GridSize;
                         that.torch.position.z = that.mesh.position.z + torchData.z * GridSize;
@@ -272,15 +273,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         //that.torch.shadow.mapSize.set(2048, 2048);
                         that.torch.castShadow = true;
                         that.torch.target = that.torchDirectionObj;
-                        var c = hexToRgb(torchData.color);
-                        that.torch.color.setRGB(c.r / 256, c.g / 256, c.b / 256);
-                        scene.add(that.torchDirectionObj);
                         scene.add(that.torch);
                     }
 
                     if (topLightData != null) {
-
-                        that.topLight = new THREE.SpotLight();
+                        that.topLight = new THREE.SpotLight(parseInt(topLightData.color));
                         that.topLight.position.x = that.mesh.position.x + topLightData.x * GridSize;
                         that.topLight.position.y = that.mesh.position.y + topLightData.y * GridSize;
                         that.topLight.position.z = that.mesh.position.z + topLightData.z * GridSize;
@@ -289,8 +286,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         that.topLight.angle = topLightData.angle;
                         that.topLight.penumbra = topLightData.exponent;
                         that.topLight.target = that.mesh;
-                        var c = hexToRgb(topLightData.color);
-                        that.topLight.color.setRGB(c.r / 256, c.g / 256, c.b / 256);
                         that.topLight.castShadow = false;
                         scene.add(that.topLight);
                     }
@@ -386,7 +381,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 g: parseInt(result[2], 16),
                 b: parseInt(result[3], 16)
             } : null;
-        }
+        };
 
         // setup ----------------------------------------------------------
         var _init = function () {

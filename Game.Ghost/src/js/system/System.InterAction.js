@@ -493,11 +493,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         var setupSoundObj = function () {
-            var range = Data.map.para.soundange + 1;
+            var range = Data.map.para.soundRange + 1;
             var range2 = range * range;
             // build sound grid
             soundGrid = [];
 
+            console.log("SOUND -------------------------------");
             for (var i = 0; i < height; i++) {
                 soundGrid[i] = [];
 

@@ -102,7 +102,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             accessObject: this.accessObject,
             visibleObject: this.visibleObject,
             visibleCharacter: this.visibleCharacter,
-            longInteractionObj: this.longInteractionObj
+            longInteractionObj: this.longInteractionObj,
+            soundObject:this.soundObject
         };
     };
 
