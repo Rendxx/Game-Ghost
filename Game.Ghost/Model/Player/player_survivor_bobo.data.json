@@ -2,7 +2,7 @@
   "id": "bobo",
   "radius": 0.4,
   "model": "bobo/player-bobo.json",
-  "color": "0x009933",
+  "color": "0x693939",
   "para": {
     "endurance": 10,
     "hp": 1,

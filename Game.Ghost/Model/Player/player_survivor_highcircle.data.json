@@ -2,7 +2,7 @@
   "id": "highcircle",
   "radius": 0.4,
   "model": "highcircle/player-highcircle.json",
-  "color": "0x009933",
+  "color": "0xFFCC99",
   "para": {
     "endurance": 10,
     "hp": 1,

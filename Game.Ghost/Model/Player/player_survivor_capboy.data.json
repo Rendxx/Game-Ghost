@@ -2,7 +2,7 @@
   "id": "capboy",
   "radius": 0.4,
   "model": "capboy/player-capboy.json",
-  "color": "0x009933",
+  "color": "0x0066CC",
   "para": {
     "endurance": 10,
     "hp": 1,
