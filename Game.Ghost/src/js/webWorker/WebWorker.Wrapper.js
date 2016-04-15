@@ -133,10 +133,11 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
         };
 
         this.renew = function () {
-            worker.postMessage({
-                func: 'renew',
-                para: {}
-            });
+            _setupWebWorker();
+            //worker.postMessage({
+            //    func: 'renew',
+            //    para: {}
+            //});
         };
 
         this.pause = function () {
@@ -177,6 +178,7 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
         };
 
         var _setupWebWorker = function () {
+            if (worker != null) worker.terminate();
             worker = new Worker((root || "") + core);
             worker.onmessage = function (e) {
                 if (e == null || e.data == null || e.data.func == null || !funcMap.hasOwnProperty(e.data.func)) return;
