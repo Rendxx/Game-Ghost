@@ -139,7 +139,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // danger
         this.danger = (_Data.range.danger - closest) / _Data.range.danger;
-        if (this.danger > 0.8) this.danger = 0.8;
+        if (this.danger > 0.3) this.danger = 0.3;
     };
 
     Ghost.prototype.crazy = function () {
