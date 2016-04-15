@@ -10,6 +10,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Data = RENDERER.Data;
     var GridSize = Data.grid.size;
     var _Data = {
+        fogRange:20,
         enduranceBarWidth: 100,
         enduranceBarHeight: 2,
         furnitureOperation: {
@@ -180,6 +181,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 updateDoor();
             }
 
+            // fog
+            sprites["fog"].position.set(x, 2*GridSize, y);
 
             // render
             that.renderer.setViewport(that.x, that.y, that.width, that.height);
@@ -202,8 +205,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprites["nameDeco"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["nameDeco"] }));
             sprites["nameDeco"].scale.set(120, 30, 1.0);
             sprites["nameDeco"].material.transparent = true;
-            sprites["nameDeco"].material.opacity = 0.8;
+            sprites["nameDeco"].material.opacity = 0.95;
             that.sceneOrtho.add(sprites["nameDeco"]);
+
+            // fog
+            sprites["fog"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["fog"] }));
+            sprites["fog"].scale.set(_Data.fogRange * GridSize, _Data.fogRange * GridSize, 1.0);
+            sprites["fog"].material.transparent = true;
+            sprites["fog"].material.opacity = 0.8;
+            that.sceneEffort.add(sprites["fog"]);
 
             // border
             var border_mat = new THREE.SpriteMaterial({ color: 0x222222 });
@@ -688,6 +698,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex = {};
             var textureLoader = new THREE.TextureLoader();
             var path = root + Data.files.path[Data.categoryName.sprite];
+            tex['fog'] = textureLoader.load(path + 'fog.png');
             tex['nameDeco'] = textureLoader.load(path + 'name-deco-white.png');
             tex['deadScreen'] = textureLoader.load(path + 'DeadScreen.png');
             tex['escapeScreen'] = textureLoader.load(path + 'EscapeScreen.png');
