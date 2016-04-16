@@ -10,7 +10,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Data = RENDERER.Data;
     var GridSize = Data.grid.size;
     var _Data = {
-        fogRange: 20,
+        fogRange: 30,
         enduranceBarWidth: 100,
         enduranceBarHeight: 2,
         furnitureOperation: {
@@ -128,11 +128,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // name deco
             sprites["nameDeco"].position.set(60 - that.width / 2, -30 + that.height / 2, 5);
 
-            // fog
-            var f_range = _Data.fogRange * GridSize;
-            sprites["fog-bg"][0].scale.set(that.width - f_range + 4, that.height, 1.0);
-            sprites["fog-bg"][1].scale.set(that.width - f_range + 4, that.height, 1.0);
-
             // border
             sprites["top"].position.set(0, that.height / 2, 8);
             sprites["top"].scale.set(that.width, 2, 1.0);
@@ -187,9 +182,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             // fog
-            sprites["fog"].position.set(x, 3 * GridSize - 1, y);
-            sprites["fog-bg"][0].position.set(x + that.width / 2, 3 * GridSize - 1, y);
-            sprites["fog-bg"][1].position.set(x - that.width / 2, 3 * GridSize - 1, y);
+            sprites["fog"].position.set(x, 3 * GridSize - 0.1, y);
 
             // render
             that.renderer.setViewport(that.x, that.y, that.width, that.height);
@@ -221,16 +214,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprites["fog"].material.transparent = true;
             sprites["fog"].material.opacity = 0.95;
             that.sceneEffort.add(sprites["fog"]);
-
-            var fogBgMat = new THREE.SpriteMaterial({ map: tex["fog-bg"] });
-            fogBgMat.transparent = true;
-            fogBgMat.opacity = 0.95;
-
-            sprites["fog-bg"] = [];
-            sprites["fog-bg"][0] = new THREE.Sprite(fogBgMat);
-            that.sceneEffort.add(sprites["fog-bg"][0]);
-            sprites["fog-bg"][1] = new THREE.Sprite(fogBgMat);
-            that.sceneEffort.add(sprites["fog-bg"][1]);
 
             // border
             var border_mat = new THREE.SpriteMaterial({ color: 0x222222 });
@@ -716,9 +699,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var textureLoader = new THREE.TextureLoader();
             var path = root + Data.files.path[Data.categoryName.sprite];
             tex['fog'] = textureLoader.load(path + 'fog.png');
-            tex['fog-bg'] = textureLoader.load(path + 'fog-bg.png');
-            tex['fog-bg'].wrapS = THREE.RepeatWrapping;
-            tex['fog-bg'].wrapT = THREE.RepeatWrapping;
             tex['nameDeco'] = textureLoader.load(path + 'name-deco-white.png');
             tex['deadScreen'] = textureLoader.load(path + 'DeadScreen.png');
             tex['escapeScreen'] = textureLoader.load(path + 'EscapeScreen.png');
