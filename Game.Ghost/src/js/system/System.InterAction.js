@@ -568,15 +568,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             soundGrid[i][j].body[t] += 1;
                         if (soundGrid[i][j].body[t] > range) delete soundGrid[i][j].body[t];
                     }
-
-                    var nothing = true;
-                    for (var t in soundGrid[i][j].furniture) { nothing = false; break; }
-                    for (var t in soundGrid[i][j].door) { nothing = false; break; }
-                    for (var t in soundGrid[i][j].body) { nothing = false; break; }
-                    if (nothing) soundGrid[i][j] = null;
                 }
             }
-
         };
 
         var setupInteractionObj = function () {

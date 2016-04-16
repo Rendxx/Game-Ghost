@@ -134,7 +134,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         map: {
             files: {
                 test: 'MapDataTest.json',
-                test2: 'MapDataTest2.json',
+                test2: 't2.json',
                 debug: 'MapData4debug_1.json',
                 dogcan2: 'DogCan2.json',
                 FurnitureTest: 'FurnitureTest.json',

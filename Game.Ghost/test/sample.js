@@ -22,20 +22,20 @@
             id: 'p1',
             name: 'player 1',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'bobo'
+            modelId: 'green'
         },
-        'p2': {
-            id: 'p2',
-            name: 'player 2',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'capboy'
-        },
-        'p3': {
-            id: 'p3',
-            name: 'player 3',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'highcircle'
-        },
+        //'p2': {
+        //    id: 'p2',
+        //    name: 'player 2',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'capboy'
+        //},
+        //'p3': {
+        //    id: 'p3',
+        //    name: 'player 3',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'highcircle'
+        //},
         //'p4': {
         //    id: 'p4',
         //    name: 'player 4',
@@ -58,18 +58,12 @@
             id: 'p7',
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
-            modelId: 'ghost-mary'
+            modelId: 'white'
         }
     },{ 
-        map: 'test'
+        map: 'test2'
     });
-    //system.setup([
-    //    {
-    //        name: 'player 1',
-    //        role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-    //        modelId: 'green'
-    //    }
-    //], 'test2');
+
     systemWrapper.onUpdated = function (gamepData) {
         renderer.updateGame(gamepData);
     }; 
