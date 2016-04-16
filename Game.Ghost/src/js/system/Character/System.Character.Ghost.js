@@ -10,6 +10,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Data ----------------------------------------------------------
     var Data = SYSTEM.Data;
     var _Data = {
+        objType: 'character',
         message: {
             getKey: "Get: ",
             hasKey: "Already have: ",
@@ -146,7 +147,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Ghost.prototype.crazy = function () {
         if (this.endurance >= this.modelData.para.endurance) {
-            this.entity.sound.once(_Data.ObjType, this.id, SYSTEM.Sound.Data.Name.Unlock);
+            this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Scream);
             this.rush = true;
         }
     };

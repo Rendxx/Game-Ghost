@@ -92,10 +92,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return list;
         };
 
-        this.checkSoundObj = function (x, y) {
+        this.checkSoundObj = function (c, x, y) {
             x = Math.floor(x);
             y = Math.floor(y);
-            return soundGrid[y][x];
+            var s = soundGrid[y][x];
+            s.character = {};
+
+            for (var i = 0; i < characters.length; i++) {
+                if (i != c && this.chracterRange[c][i] <= Data.map.para.soundRange) {
+                    s.character[i] = this.chracterRange[c][i];
+                }
+            }
+
+            return s;
         };
 
         // get surround interaction obj list

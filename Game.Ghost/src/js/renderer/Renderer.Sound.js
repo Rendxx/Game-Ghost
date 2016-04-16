@@ -25,6 +25,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             'Scream': 12,
             'Bell': 13
         },
+        Type: {
+            Effort: 0,
+            Normal: 1,
+            OverAll: 2
+        },
         MaxDistance: 6
     };
     var Sound = function (entity) {
@@ -53,13 +58,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.update = function (soundDat, characterDat) {
             if (soundDat == null) return;
             // once ------------------------------------
-            // character
-            var s_character = soundDat[0][0];
+            // Effort
+            var s_character = soundDat[0][_Data.Type.Effort];
             for (var i = 0; i < playerNum; i++) {
                 if (characterIdList[i] in s_character) playSound(s_character[characterIdList[i]], 100);
             }
-            // object
-            var s_obj = soundDat[0][1];
+            // Normal
+            var s_obj = soundDat[0][_Data.Type.Normal];
             var soundList = {};
             for (var i = 0; i < playerNum; i++) { 
                 var soundObj = characterDat[characterIdList[i]].soundObject;
@@ -70,12 +75,18 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     }
                 }
             }
-
             for (var i in soundList) playSound(i, (_Data.MaxDistance - soundList[i]) * 100 / _Data.MaxDistance);
 
+            // OverAll
+            var s_all = soundDat[0][_Data.Type.OverAll];
+            for (var i in s_all) {
+                if (s_all[i]) playSound(s_all[i], 100);
+            }
+
+
             // conherent ------------------------------------
-            // character
-            var s_character = soundDat[1][0];
+            // Effort
+            var s_character = soundDat[1][_Data.Type.Effort];
             if (s_character != null) {
                 for (var i = 0; i < playerNum; i++) {
                     if (characterIdList[i] in s_character)
@@ -83,8 +94,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 }
             }
 
-            // object
-            var s_obj = soundDat[1][1];
+            // Normal
+            var s_obj = soundDat[1][_Data.Type.Normal];
             var soundList = {};
             for (var i in s_obj) {
                 for (var i = 0; i < playerNum; i++) {
@@ -97,6 +108,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             for (var i in soundList) updateSound(i, (_Data.MaxDistance - soundList[i]) * 100 / _Data.MaxDistance);
+            
+            // OverAll
+            var s_all = soundDat[1][_Data.Type.OverAll];
+            for (var i in s_all) {
+                if (s_all[i]) updateSound(s_all[i], 100);
+            }
+
             clearSounds();
         };
 
@@ -149,11 +167,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             });
             sounds[_Data.Name.OpenDoor] = new Howl({
                 urls: [path + 'door4.mp3'],
-                loop: false
+                loop: false,
+                volume: 0.4
             });
             sounds[_Data.Name.CloseDoor] = new Howl({
                 urls: [path + 'door4.mp3'],
-                loop: false
+                loop: false,
+                volume: 0.4
             });
             sounds[_Data.Name.Locked] = new Howl({
                 urls: [path + 'lock.mp3'],
@@ -169,11 +189,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             });
             sounds[_Data.Name.OpenCarbinet] = new Howl({
                 urls: [path + 'carbinet4.wav'],
-                loop: false
+                loop: false,
+                volume: 0.4
             });
             sounds[_Data.Name.CloseCarbinet] = new Howl({
                 urls: [path + 'carbinet4.wav'],
-                loop: false
+                loop: false,
+                volume: 0.4
             });
             sounds[_Data.Name.Walk] = new Howl({
                 urls: [path + 'step.mp3'],

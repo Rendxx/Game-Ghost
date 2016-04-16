@@ -10,6 +10,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Data ----------------------------------------------------------
     var Data = SYSTEM.Data;
     var _Data = {
+        objType: 'character',
         message: {
             getKey: "Get: ",
             hasKey: "Already have: ",
@@ -150,7 +151,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         keyNames += this.entity.map.objList.key[i].name + ", ";
                     }
                     if (keyNames.length > 0) {
-                        this.entity.sound.once(null, this.id, SYSTEM.Sound.Data.Name.Key, true);
+                        this.entity.sound.once(SYSTEM.Sound.Data.Type.Effort, null, this.id, SYSTEM.Sound.Data.Name.Key);
                         this.entity.message.send(this.id, _Data.message.getKey + keyNames.substring(0, keyNames.length - 2));
                     }
                     this.entity.interAction.updateDoorInteraction(this.key, this.id);
@@ -307,6 +308,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.visibleObject = {};    
         this.visibleCharacter = {}; 
         this.entity.map.createBody(this);
+        this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Die);
+        this.entity.sound.once(SYSTEM.Sound.Data.Type.OverAll, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Bell);
         this.updateData();
     };
 
@@ -315,6 +318,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.win = true;
         this.action = 'idle';
         this.actived = false;
+        this.entity.sound.once(SYSTEM.Sound.Data.Type.OverAll, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Bell);
         this.updateData();
     };
 

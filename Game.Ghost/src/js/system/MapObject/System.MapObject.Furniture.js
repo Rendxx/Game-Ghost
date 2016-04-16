@@ -70,7 +70,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setTimeout(function () { that.actioning = false; }, this.modelData.duration);
         }
         this.status = _Data.Status.Opened;
-        this.entity.sound.once(_Data.ObjType, this.id, SYSTEM.Sound.Data.Name.OpenCarbinet);
+        this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.OpenCarbinet);
         this.updateData();
         return true;
     };
@@ -84,7 +84,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setTimeout(function () { that.actioning = false; }, this.modelData.duration);
         }
         this.status = _Data.Status.Closed;
-        this.entity.sound.once(_Data.ObjType, this.id, SYSTEM.Sound.Data.Name.CloseCarbinet);
+        this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.CloseCarbinet);
         this.updateData();
         return true;
     };

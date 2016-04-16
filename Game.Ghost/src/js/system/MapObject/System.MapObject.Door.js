@@ -67,33 +67,33 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Door.prototype.open = function (isSuccess) {
         if (!isSuccess) {
-            this.entity.sound.once(_Data.ObjType, this.id, SYSTEM.Sound.Data.Name.CantOpen);
+            this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.CantOpen);
             return;
         }
         this.status = _Data.Status.Opened;
-        this.entity.sound.once(_Data.ObjType, this.id, SYSTEM.Sound.Data.Name.OpenDoor);
+        this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.OpenDoor);
         this.updateData();
     };
 
     Door.prototype.close = function () {
         this.status = _Data.Status.Closed;
-        this.entity.sound.once(_Data.ObjType, this.id, SYSTEM.Sound.Data.Name.CloseDoor);
+        this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.CloseDoor);
         this.updateData();
     };
 
     Door.prototype.unlock = function (isSuccess) {
         if (!isSuccess) {
-            this.entity.sound.once(_Data.ObjType, this.id, SYSTEM.Sound.Data.Name.Locked);
+            this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.Locked);
             return;
         }
         this.status = _Data.Status.Closed;
-        this.entity.sound.once(_Data.ObjType, this.id, SYSTEM.Sound.Data.Name.Unlock);
+        this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.Unlock);
         this.updateData();
     };
 
     Door.prototype.lock = function () {
         this.status = _Data.Status.Locked;
-        this.entity.sound.once(_Data.ObjType, this.id, SYSTEM.Sound.Data.Name.Unlock);
+        this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.Unlock);
         this.updateData();
     };
 

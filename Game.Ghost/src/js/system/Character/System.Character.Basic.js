@@ -224,7 +224,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Basic.prototype._updateInteraction = function () {
         this.visibleObject =  this.entity.interAction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation.head);
-        this.soundObject = this.entity.interAction.checkSoundObj(this.x, this.y);
+        this.soundObject = this.entity.interAction.checkSoundObj(this.id, this.x, this.y);
         this.accessObject = this.entity.interAction.getAccessObject(this.id, this.x, this.y, this.currentRotation.head);
 
         if (this.longInteractionObj != null && this.longInteractionObj != this.accessObject) this.cancelLongInteraction();
