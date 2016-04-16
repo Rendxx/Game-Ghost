@@ -10,7 +10,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Data = RENDERER.Data;
     var GridSize = Data.grid.size;
     var _Data = {
-        fogRange:20,
+        fogRange: 20,
         enduranceBarWidth: 100,
         enduranceBarHeight: 2,
         furnitureOperation: {
@@ -106,7 +106,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             that.sceneOrtho = new THREE.Scene();
             that.sceneEffort = new THREE.Scene();
-            that.cameraOrtho = new THREE.OrthographicCamera(-that.width / 2, that.width / 2, that.height/2, -that.height/2, 1, 10);
+            that.cameraOrtho = new THREE.OrthographicCamera(-that.width / 2, that.width / 2, that.height / 2, -that.height / 2, 1, 10);
             that.cameraOrtho.position.z = 10;
 
             createFrame();
@@ -130,22 +130,22 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // fog
             var f_range = _Data.fogRange * GridSize;
-            sprites["fog-bg"][0].scale.set(that.width - f_range, that.height, 1.0);
-            sprites["fog-bg"][1].scale.set(that.width - f_range, that.height, 1.0);
+            sprites["fog-bg"][0].scale.set(that.width - f_range + 4, that.height, 1.0);
+            sprites["fog-bg"][1].scale.set(that.width - f_range + 4, that.height, 1.0);
 
             // border
             sprites["top"].position.set(0, that.height / 2, 8);
             sprites["top"].scale.set(that.width, 2, 1.0);
 
-            sprites["right"].position.set(that.width/2, 0, 8);
+            sprites["right"].position.set(that.width / 2, 0, 8);
             sprites["right"].scale.set(2, that.height, 1.0);
 
-            sprites["bottom"].position.set(0, -that.height/2, 8);
+            sprites["bottom"].position.set(0, -that.height / 2, 8);
             sprites["bottom"].scale.set(that.width, 2, 1.0);
 
             sprites["left"].position.set(-that.width / 2, 0, 8);
             sprites["left"].scale.set(1, that.height, 1.0);
-            
+
             // endurance
             if (sprites["enduranceBar"]) sprites["enduranceBar"].position.set(-that.width / 2, -50 + that.height / 2, 6);
 
@@ -154,7 +154,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.camera.updateProjectionMatrix();
             that.cameraOrtho.left = -that.width / 2;
             that.cameraOrtho.right = that.width / 2;
-            that.cameraOrtho.top = that.height / 2 ;
+            that.cameraOrtho.top = that.height / 2;
             that.cameraOrtho.bottom = -that.height / 2;
             that.cameraOrtho.updateProjectionMatrix();
         };
@@ -187,9 +187,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             // fog
-            sprites["fog"].position.set(x, 2 * GridSize, y);
-            sprites["fog-bg"][0].position.set(x + that.width / 2, 2 * GridSize, y);
-            sprites["fog-bg"][1].position.set(x - that.width / 2, 2 * GridSize, y);
+            sprites["fog"].position.set(x, 3 * GridSize - 1, y);
+            sprites["fog-bg"][0].position.set(x + that.width / 2, 3 * GridSize - 1, y);
+            sprites["fog-bg"][1].position.set(x - that.width / 2, 3 * GridSize - 1, y);
 
             // render
             that.renderer.setViewport(that.x, that.y, that.width, that.height);
@@ -313,14 +313,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 highLightObj['id'] = that.character.longInteractionObj.id;
                 highLightObj['op'] = that.character.longInteractionObj.op[1];
                 if (visibleObject[highLightObj['type']].hasOwnProperty(highLightObj['id'])) delete (visibleObject[highLightObj['type']])[(highLightObj['id'])];
-            } else  if (that.character.accessObject != null) {
+            } else if (that.character.accessObject != null) {
                 highLightObj = {};
                 highLightObj['type'] = that.character.accessObject.type;
                 highLightObj['id'] = that.character.accessObject.id;
                 highLightObj['op'] = that.character.accessObject.op[0];
                 if (visibleObject[highLightObj['type']].hasOwnProperty(highLightObj['id'])) delete (visibleObject[highLightObj['type']])[(highLightObj['id'])];
             }
-            
+
             // normal
             for (var t in interactionIcon) {
                 for (var id in interactionIcon[t]) {
@@ -329,7 +329,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     }
                 }
             }
-            
+
             for (var t in visibleObject) {
                 for (var id in visibleObject[t]) {
                     if (!interactionIcon.hasOwnProperty(t) || visibleObject[t][id] != interactionIcon[t][id]) {
@@ -341,7 +341,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // highlight
             if (highLightIcon != null) {
-                if (highLightObj==null || highLightIcon.type != highLightObj.type || highLightIcon.id != highLightObj.id || highLightIcon.op != highLightObj.op) {
+                if (highLightObj == null || highLightIcon.type != highLightObj.type || highLightIcon.id != highLightObj.id || highLightIcon.op != highLightObj.op) {
                     hideInteraction_highlight(highLightIcon.type, highLightIcon.id, highLightIcon.op);
                 }
             }
@@ -419,7 +419,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var showInteraction_normal = function (objType, objId, objOp) {
-            if (spritesInteraction.normal[objType][objId] == null ) spritesInteraction.normal[objType][objId] = {};
+            if (spritesInteraction.normal[objType][objId] == null) spritesInteraction.normal[objType][objId] = {};
             if (spritesInteraction.normal[objType][objId][objOp] == null)
                 spritesInteraction.normal[objType][objId][objOp] = createInteractionIcon(objType, objId, objOp, false);
             var sprPkg = spritesInteraction.normal[objType][objId][objOp];
@@ -477,9 +477,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var showMessage = function (content) {
-            var spr = makeTextSprite(content, { fontsize: 42, color: { r: 255, g: 255, b: 255, a: 1.0 }, align:"center", fontface: "Poor Richard, Calibri, Arial" });
+            var spr = makeTextSprite(content, { fontsize: 42, color: { r: 255, g: 255, b: 255, a: 1.0 }, align: "center", fontface: "Poor Richard, Calibri, Arial" });
             that.sceneOrtho.add(spr);
-            spr.position.set(0, that.height/4, 1);
+            spr.position.set(0, that.height / 4, 1);
 
             if (msg != null) {
                 msg.tween.stop();
@@ -570,7 +570,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (doorIcon[idx][1] != null)
                 that.sceneEffort.remove(doorIcon[idx][1]);
         };
-        
+
         // Edges -----------------------------------------------------
         var resizeEdge = function () {
             if (sprites['edges'] != null) that.sceneOrtho.remove(sprites["edges"]);
@@ -610,7 +610,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // measure text
             var metrics = _helper_canvas_ctx.measureText(message);
             var width = parameters.hasOwnProperty("width") ?
-                parameters["width"]*2 : Math.ceil(metrics.width);
+                parameters["width"] * 2 : Math.ceil(metrics.width);
             var height = parameters.hasOwnProperty("height") ?
                 parameters["height"] * 2 : fontsize;
 
@@ -632,7 +632,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var spriteMaterial = new THREE.SpriteMaterial({ map: texture });
             var sprite = new THREE.Sprite(spriteMaterial);
-            sprite.scale.set(width/2, height/2, 1.0);
+            sprite.scale.set(width / 2, height / 2, 1.0);
             return sprite;
         }
 
@@ -745,10 +745,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close.png');
             tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = textureLoader.load(path + 'interaction.key.png');
             tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search.png');
-            tex['interaction']['normal']['body'][_Data.operation.body.Search]= textureLoader.load(path + 'interaction.search.png');
+            tex['interaction']['normal']['body'][_Data.operation.body.Search] = textureLoader.load(path + 'interaction.search.png');
             tex['interaction']['normal']['door'][_Data.operation.door.Open] = textureLoader.load(path + 'interaction.door.open.png');
             tex['interaction']['normal']['door'][_Data.operation.door.Close] = textureLoader.load(path + 'interaction.door.close.png');
-            tex['interaction']['normal']['door'][_Data.operation.door.Locked]= textureLoader.load(path + 'interaction.lock.png');
+            tex['interaction']['normal']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock.png');
             tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock.png');
             //tex['interaction']['normal']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.block.png');
 

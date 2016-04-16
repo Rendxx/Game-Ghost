@@ -57,11 +57,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
                     obj.close();
                 } else if (info.status == SYSTEM.MapObject.Door.Data.Status.Locked) {
+                    obj.unlock(false);
                     this.entity.message.send(this.id, _Data.message.doorLock.replace('#name#', obj.name));
                 } else if (info.blocked) {
+                    obj.open(false);
                     this.entity.message.send(this.id, _Data.message.doorBlock);
                 } else {
-                    obj.open();
+                    obj.open(true);
                 }
                 break;
             case SYSTEM.MapObject.Furniture.Data.ObjType:
@@ -114,7 +116,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         for (var i = 0; i < this.characterCheckingList.length; i++) {
             var c = this.entity.characters[this.characterCheckingList[i]];
             if (!c.actived) continue;
-            var r = Math.sqrt(Math.pow(this.x - c.x, 2) + Math.pow(this.y - c.y, 2));
+            var r = this.entity.interAction.chracterRange[this.id][this.characterCheckingList[i]];
             if (r > _Data.range.danger) continue;
             if (r < closest) closest = r;
             if (r < 1) c.die();     // die
@@ -144,6 +146,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Ghost.prototype.crazy = function () {
         if (this.endurance >= this.modelData.para.endurance) {
+            this.entity.sound.once(_Data.ObjType, this.id, SYSTEM.Sound.Data.Name.Unlock);
             this.rush = true;
         }
     };

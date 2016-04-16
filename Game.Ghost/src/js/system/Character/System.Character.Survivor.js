@@ -102,24 +102,25 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             case SYSTEM.MapObject.Door.Data.ObjType:
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
                     obj.close();
-                    this.entity.sound.once(this.accessObject.type, this.accessObject.id, SYSTEM.Sound.Data.Name.OpenDoor);
                     break;
                 }
                 if (info.status == SYSTEM.MapObject.Door.Data.Status.Locked) {
                     if (this.key.hasOwnProperty(info.id)) {
-                        obj.unlock();
+                        obj.unlock(true);
                         this.entity.message.send(this.id, _Data.message.useKey.replace('#key#', this.entity.map.objList.key[this.key[info.id]].name));
                         delete (this.lockDoor[info.id])
                     } else {
                         this.lockDoor[info.id] = true;
+                        obj.unlock(false);
                         this.entity.message.send(this.id, _Data.message.doorLock.replace('#name#', obj.name));
                         break;
                     }
                 }
                 if (info.blocked) {
+                    obj.open(false);
                     this.entity.message.send(this.id, _Data.message.doorBlock);                    
                 } else {
-                    obj.open();
+                    obj.open(true);
                 }
                 break;
             case SYSTEM.MapObject.Furniture.Data.ObjType:
@@ -149,6 +150,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         keyNames += this.entity.map.objList.key[i].name + ", ";
                     }
                     if (keyNames.length > 0) {
+                        this.entity.sound.once(null, this.id, SYSTEM.Sound.Data.Name.Key, true);
                         this.entity.message.send(this.id, _Data.message.getKey + keyNames.substring(0, keyNames.length - 2));
                     }
                     this.entity.interAction.updateDoorInteraction(this.key, this.id);
@@ -242,8 +244,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // danger
         var min = 100000;
         for (var i = 0; i < this.characterCheckingList.length; i++) {
-            var c = this.entity.characters[this.characterCheckingList[i]];
-            var r = Math.sqrt(Math.pow(this.x - c.x, 2) + Math.pow(this.y - c.y, 2));
+            var r = this.entity.interAction.chracterRange[this.id][this.characterCheckingList[i]];
             if (r < min) min = r;
         }
         if (min <= _Data.range.danger) this.danger = (1 - min / _Data.range.danger);

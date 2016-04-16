@@ -25,13 +25,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             'Scream': 12,
             'Bell': 13
         },
-        Type: {
-            'Character': 0,
-            'Furniture': 1,
-            'Door': 2,
-            'Stuff': 3,
-            'Body': 4
-        },
         MaxDistance: 6
     };
     var Sound = function (entity) {
@@ -68,7 +61,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // object
             var s_obj = soundDat[0][1];
             var soundList = {};
-            for (var i = 0; i < playerNum; i++) {
+            for (var i = 0; i < playerNum; i++) { 
                 var soundObj = characterDat[characterIdList[i]].soundObject;
                 for (var t in s_obj) {
                     if (soundObj[s_obj[t].type].hasOwnProperty(s_obj[t].id)) {
@@ -83,9 +76,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // conherent ------------------------------------
             // character
             var s_character = soundDat[1][0];
-            for (var i = 0; i < playerNum; i++) {
-                if (characterIdList[i] in s_character)
-                    updateSound(s_character[characterIdList[i]], 100);
+            if (s_character != null) {
+                for (var i = 0; i < playerNum; i++) {
+                    if (characterIdList[i] in s_character)
+                        updateSound(s_character[characterIdList[i]], 100);
+                }
             }
 
             // object
@@ -131,14 +126,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var startSound = function (id) {
+            if (sounds.hasOwnProperty(id)) sounds[id].play();
 
         };
 
         var stopSound = function (id) {
+            if (sounds.hasOwnProperty(id)) sounds[id].stop();
 
         };
 
-        var sstVolume = function (id, volume) {
+        var setVolume = function (id, volume) {
 
         };
 
@@ -155,7 +152,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 loop: false
             });
             sounds[_Data.Name.CloseDoor] = new Howl({
-                urls: [path + 'door.mp3'],
+                urls: [path + 'door4.mp3'],
                 loop: false
             });
             sounds[_Data.Name.Locked] = new Howl({
@@ -171,23 +168,23 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 loop: false
             });
             sounds[_Data.Name.OpenCarbinet] = new Howl({
-                urls: [path + 'cabinet4.wav'],
+                urls: [path + 'carbinet4.wav'],
                 loop: false
             });
             sounds[_Data.Name.CloseCarbinet] = new Howl({
-                urls: [path + 'cabinet4.wav'],
+                urls: [path + 'carbinet4.wav'],
                 loop: false
             });
             sounds[_Data.Name.Walk] = new Howl({
                 urls: [path + 'step.mp3'],
-                loop: false
+                loop: true
             });
             sounds[_Data.Name.Run] = new Howl({
                 urls: [path + 'step.mp3'],
-                loop: false
+                loop: true
             });
             sounds[_Data.Name.Danger] = new Howl({
-                urls: [path + 'door.wav'],
+                urls: [path + 'danger.wav'],
                 loop: false
             });
             sounds[_Data.Name.Die] = new Howl({

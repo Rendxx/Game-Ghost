@@ -24,13 +24,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             'Die': 11,
             'Scream': 12,
             'Bell': 13
-        },
-        Type: {
-            'Character': 0,
-            'Furniture': 1,
-            'Door': 2,
-            'Stuff': 3,
-            'Body': 4
         }
     };
     var Sound = function (entity) {
@@ -53,8 +46,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
-        this.once = function (objType, id, soundName) {
-            if (objType == _Data.Type.Character) {
+        this.once = function (objType, id, soundName, isEffort) {
+            if (isEffort) {
                 _sounds_once[0][id] = soundName;
             } else {
                 _sounds_once[1][objType + '_' + id + '_' + soundName] = {

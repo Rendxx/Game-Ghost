@@ -37,6 +37,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             soundGrid = [];
 
         this.characterCheckingList;
+        this.chracterRange;
 
         // public method -------------------------------------------------
         this.reset = function () {
@@ -48,6 +49,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setupTriggerPos();
             setupInteractionObj();
             setupSoundObj();
+            setupCharacterRange();
         };
 
         this.updateMap = function () {
@@ -56,6 +58,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setupTriggerPos();
             setupInteractionObj();
             setupSoundObj();
+        };
+
+        // update in time data
+        this.update = function () {
+            for (var c = 0; c < characters.length; c++) {
+                for (var c2 = c+1; c2 < characters.length; c2++) {
+                    this.chracterRange[c][c2] = this.chracterRange[c2][c] = Math.sqrt(Math.pow(characters[c].x - characters[c2].x, 2) + Math.pow(characters[c].y - characters[c2].y, 2));
+                }
+            }
         };
 
         // check whether this position can be moved to, return result
@@ -229,16 +240,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var idx = Math.floor(emptyPos.length * Math.random());
             return emptyPos[idx];
         };
-
-        //this.checkInEnd = function (x, y) {
-        //    x = Math.floor(x);
-        //    y = Math.floor(y);
-        //    for (var i = 0; i < map.position['end'].length; i++) {
-        //        if (x == map.position['end'][i][0] && y == map.position['end'][i][1]) return true;
-        //    }
-        //    return false;
-        //};
-
+        
         // update ----------------------------------------------
         // update interaction of that object for all characters
         this.updateInteraction = function (type, id) {
@@ -744,6 +746,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     characters[c].characterCheckingList = entity.characterRoleMap.ghost;
                 } else if (characters[c].role == Data.character.type.ghost) {
                     characters[c].characterCheckingList = entity.characterRoleMap.survivor;
+                }
+            }
+        };
+
+        var setupCharacterRange = function () {
+            that.chracterRange = [];
+            for (var c = 0; c < characters.length; c++) {
+                that.chracterRange[c] = [];
+                for (var c2 = 0; c2 < characters.length; c2++) {
+                    that.chracterRange[c][c2] = -1;
                 }
             }
         };

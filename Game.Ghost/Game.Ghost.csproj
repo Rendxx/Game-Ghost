@@ -240,6 +240,7 @@
     <Content Include="PlayerControlTest\renderer\Character.js" />
     <Content Include="PlayerControlTest\sample.html" />
     <Content Include="PlayerControlTest\sample.js" />
+    <Content Include="Sound\danger.wav" />
     <Content Include="Sound\door4.mp3" />
     <Content Include="Sound\die.mp3" />
     <Content Include="Sound\key.mp3" />

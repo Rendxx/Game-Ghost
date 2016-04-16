@@ -150,6 +150,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // called every time frame
         var nextInterval = function () {
             if (gameData == null) return;
+            that.interAction.update();
             for (var i = 0; i < that.characters.length; i++) {
                 that.characters[i].nextInterval();
             }

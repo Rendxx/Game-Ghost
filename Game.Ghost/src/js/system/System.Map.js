@@ -203,7 +203,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var k = 0; k < furnitures.length; k++) {
                 if (furnitures[k] == null) continue;
                 var f = furnitures[k];
-                that.objList.furniture[k] = new SYSTEM.MapObject.Furniture(k, f, modelData.items[Data.item.categoryName.furniture][f.id]);
+                that.objList.furniture[k] = new SYSTEM.MapObject.Furniture(k, f, modelData.items[Data.item.categoryName.furniture][f.id], entity);
                 gameData.furniture[k] = that.objList.furniture[k].toJSON();
                 that.objList.furniture[k].onChange = function (idx, data) {
                     gameData.furniture[idx] = data;
@@ -286,7 +286,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var k = 0; k < doors.length; k++) {
                 if (doors[k] == null) continue;
                 var door = doors[k];
-                that.objList.door[k] = new SYSTEM.MapObject.Door(k, door, modelData.items[Data.item.categoryName.door][door.id], doorSetting[k].name);
+                that.objList.door[k] = new SYSTEM.MapObject.Door(k, door, modelData.items[Data.item.categoryName.door][door.id], doorSetting[k].name, entity);
                 gameData.door[k] = that.objList.door[k].toJSON();
                 that.objList.door[k].onChange = function (idx, data) {
                     gameData.door[idx] = data;

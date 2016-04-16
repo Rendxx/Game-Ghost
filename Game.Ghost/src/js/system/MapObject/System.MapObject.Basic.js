@@ -18,10 +18,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     // Construct -----------------------------------------------------
-    var Basic = function (id, para, modelData) {
+    var Basic = function (id, para, modelData, entity) {
         this.para;
         this.modelData;
 
+        this.entity = entity;
         this.objType = _Data.ObjType;
         this.id;
         this.x;
