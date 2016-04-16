@@ -210,6 +210,7 @@
     <Content Include="Model\Sprite\interaction.unlock-2.png" />
     <Content Include="Model\Sprite\interaction.unlock.png" />
     <Content Include="Model\Sprite\name-deco-white.png" />
+    <Content Include="Model\Sprite\playerHighlight.png" />
     <Content Include="Model\Sprite\Sprite_block.png" />
     <Content Include="Model\Sprite\Sprite_EndPos.png" />
     <Content Include="Model\Sprite\Sprite_key.png" />
@@ -591,6 +592,7 @@
     <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.blend" />
     <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.blend1" />
     <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.fla" />
+    <Content Include="ModelBuilder\Sprite\playerHighlight.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

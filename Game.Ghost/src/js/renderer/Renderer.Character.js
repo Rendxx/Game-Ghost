@@ -26,7 +26,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.name = _para.name;
         this.role = _para.role;
         this.modelId = _para.modelId;
-        this.color = _data.color;
+        this.color = parseInt(_data.color, 16);;
         this.maxEndurance = _data.para.endurance;
         this.longInteractionObj = null;
         this.accessObject = null;
@@ -43,6 +43,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.torch = null;
         this.torchDirectionObj = null;
         this.mesh = null;
+        this.highlight = null;
         this.materials = null;
         this.actions = null;
         this.mixer = null;
@@ -97,9 +98,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (gameData == null) return;
             if (this.isVisible == false) {
                 this.mesh.visible = false;
+                this.highlight.visible = false;
                 return;
             } else {
                 this.mesh.visible = true;
+                this.highlight.visible = true;
             }
             var action = gameData.action;
             var x = (gameData.x - entity.map.width / 2) * GridSize;
@@ -192,6 +195,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 this.torch.position.z = this.mesh.position.z + torch_radius * Math.cos(r_torch);
                 this.torch.position.x = this.mesh.position.x + torch_radius * Math.sin(r_torch);
             }
+
+            that.highlight.position.x = this.mesh.position.x;
+            that.highlight.position.y = 0.1;
+            that.highlight.position.z = this.mesh.position.z;
         };
 
 
@@ -292,6 +299,18 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     setupLightCache();
                 }
 
+                // setup highlight
+                var mat = new THREE.SpriteMaterial({
+                    color: that.color,
+                    map: spriteTex['highlight'],
+                    transparent: true
+                });
+                mat.opacity = 1.4;
+                var spr = new THREE.Sprite(mat);
+                spr.scale.set(GridSize * 1.2, GridSize * 1.2, 1.0);
+                scene.add(spr);
+                that.highlight = spr;
+
                 // setup if scene is set
                 that.setuped = true;
                 if (that.onLoaded != null) that.onLoaded();
@@ -326,52 +345,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         // sprite ---------------------------------------------------------
-        var createSprite = function (x, y) {
-            if (newKeyId === null) return;
-            var id = newKeyId;
-            var key_mat = new THREE.SpriteMaterial({
-                map: spriteTex['key']
-            });
-            var key_spr = new THREE.Sprite(key_mat);
-            key_spr.position.set(x, 4 * GridSize, y);
-            key_spr.scale.set(3, 3, 1.0); // imageWidth, imageHeight
-            scene.add(key_spr);
-            sprite[id] = key_spr;
-
-            key_mat.opacity = 0;
-            var last = 0;
-            var tween1 = new TWEEN.Tween({ t: 0 }).to({ t: 10 }, 100)
-                        .onStart(function () {
-                            last = 0;
-                        }).onUpdate(function () {
-                            key_mat.opacity = this.t * 10;
-                            key_spr.position.z -= (this.t - last) / 20 * GridSize;
-                            last = this.t;
-                        });
-            var tween2 = new TWEEN.Tween({ t: 100 }).to({ t: 0 }, 600).easing(TWEEN.Easing.Quadratic.In)
-                        .onStart(function () {
-                            last = 100;
-                        }).onUpdate(function () {
-                            key_mat.opacity = this.t;
-                            key_spr.position.z += (this.t - last) / 600 * GridSize;
-                            last = this.t;
-                        }).onStop(function () {
-                            scene.remove(key_spr);
-                            delete sprite[id];
-                        }).onComplete(function () {
-                            scene.remove(key_spr);
-                            delete sprite[id];
-                        });
-            tween1.chain(tween2);
-            tween1.start();
-            newKeyId = null;
-        };
-
         var setupSprite = function () {
             spriteTex = {
             };
             var textureLoader = new THREE.TextureLoader();
-            spriteTex['key'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_key.png');
+            spriteTex['highlight'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.png');
         };
         
         var hexToRgb = function (hex) {

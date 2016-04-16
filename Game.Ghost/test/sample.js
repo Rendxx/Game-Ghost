@@ -28,20 +28,20 @@
             id: 'p2',
             name: 'player 2',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'bobo'
+            modelId: 'capboy'
         },
-        //'p3': {
-        //    id: 'p3',
-        //    name: 'player 3',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'highcircle'
-        //},
-        //'p4': {
-        //    id: 'p4',
-        //    name: 'player 4',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'girl1'
-        //},
+        'p3': {
+            id: 'p3',
+            name: 'player 3',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'highcircle'
+        },
+        'p4': {
+            id: 'p4',
+            name: 'player 4',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'girl1'
+        },
         //'p5': {
         //    id: 'p5',
         //    name: 'player 5',
@@ -61,7 +61,7 @@
             modelId: 'ghost-mary'
         }
     },{ 
-        map: 'test2'
+        map: 'test'
     });
 
     systemWrapper.onUpdated = function (gamepData) {
