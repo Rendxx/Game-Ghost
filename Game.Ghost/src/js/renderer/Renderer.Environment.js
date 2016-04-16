@@ -182,7 +182,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.renderer.setClearColor(0x050505);
             that.renderer.autoClear = false; // To allow render overlay on top of sprited sphere
             that.renderer.shadowMap.enabled = true;
-            that.renderer.shadowMapSoft = true;
+            that.renderer.shadowMap.soft = true;
 
             // add renderer to dom
             $(entity.domElement).append(that.renderer.domElement);

@@ -182,7 +182,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var d = Math.abs(r - characterA.currentRotation.head);
             if (d > 180) d = 360 - d;
             var d2 = Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
-            if (d > 60 && d2>1.5) return false;
+            if (d > 60 && d2>2.5) return false;
             return _checkVisibleLine(x1, y1, x2, y2, null, null);
         };
 
