@@ -34,6 +34,10 @@
     <Content Include="mapDesigner\Scripts\ItemSelector.js" />
     <Content Include="mapDesigner\Scripts\Main.js" />
     <Content Include="mapDesigner\Scripts\GridPanel.js" />
+    <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.tex.png" />
+    <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.uv.png" />
+    <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.tex.png" />
+    <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.uv.png" />
     <Content Include="ModelBuilder\Door\door_wood_1\door_wood_1.uv.png" />
     <Content Include="ModelBuilder\Door\Old\29-smooth-seamless-metal-texture.jpg" />
     <Content Include="ModelBuilder\Door\Old\door_wood_1.png" />
@@ -113,6 +117,10 @@
     <Content Include="ModelBuilder\Sprite\sports.png" />
     <Content Include="ModelBuilder\Stuff\vase_1.png" />
     <Content Include="Model\Door\door_wood_1\door_wood_1.tex.png" />
+    <Content Include="Model\Door\door_wood_3\door_wood_3.icon.png" />
+    <Content Include="Model\Door\door_wood_3\door_wood_3.tex.png" />
+    <Content Include="Model\Door\door_wood_2\door_wood_2.icon.png" />
+    <Content Include="Model\Door\door_wood_2\door_wood_2.tex.png" />
     <Content Include="Model\Environment\wall_0\wall-top.png" />
     <Content Include="Model\Environment\wall_0\wall.png" />
     <Content Include="Model\Furniture\bed_simple_3_2\bed_simple_3_2.icon.png" />
@@ -570,6 +578,19 @@
     <Content Include="Model\Player\player_ghost_mary.data.json" />
     <Content Include="ModelBuilder\Sprite\interaction.door.fla" />
     <Content Include="ModelBuilder\Sprite\fog.fla" />
+    <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.blend" />
+    <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.blend1" />
+    <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.fla" />
+    <Content Include="ModelBuilder\Door\door_wood_1\door_wood_1.icon.fla" />
+    <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.icon.fla" />
+    <Content Include="Model\Door\door_wood_2\door_wood_2.json" />
+    <Content Include="Model\Door\door_wood_2.data.json" />
+    <Content Include="Model\Door\door_wood_3.data.json" />
+    <Content Include="Model\Door\door_wood_3\door_wood_3.json" />
+    <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.icon.fla" />
+    <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.blend" />
+    <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.blend1" />
+    <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

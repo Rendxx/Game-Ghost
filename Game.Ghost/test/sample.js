@@ -24,12 +24,12 @@
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'bobo'
         },
-        //'p2': {
-        //    id: 'p2',
-        //    name: 'player 2',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'capboy'
-        //},
+        'p2': {
+            id: 'p2',
+            name: 'player 2',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'bobo'
+        },
         //'p3': {
         //    id: 'p3',
         //    name: 'player 3',

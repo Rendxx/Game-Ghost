@@ -1,0 +1,18 @@
+﻿{
+  "id": "door_wood_3",
+  "dimension": [ 2, 1, 2 ],
+  "blockSight": false,
+  "accessPos": [
+    [ 0, 1 ],
+    [ 0, 0 ],
+    [ 0, -1 ]
+  ],
+  "model": "door_wood_3.json",
+  "texture": [ "door_wood_3.png" ],
+  "icon": "door_wood_3.icon.png",
+  "duration": 200,
+  "action": {
+    "l_Bone.Door": { "z": 90 },
+    "r_Bone.Door": { "z": -90 }
+  }
+}

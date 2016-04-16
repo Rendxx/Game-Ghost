@@ -112,6 +112,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 },
                 door: {
                     'Door (Wood) 1': 'door_wood_1.data.json',
+                    'Door (Wood) 2': 'door_wood_2.data.json',
+                    'Door (Wood) 3': 'door_wood_3.data.json',
                 },
                 body: {
                     'Body 1': 'body_1.data.json',
