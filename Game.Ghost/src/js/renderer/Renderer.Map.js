@@ -758,40 +758,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
         };
 
-        var createSprite = function (id, x, y, texId) {
-            if (_sprite.hasOwnProperty(id)) return;
-            var mat = new THREE.SpriteMaterial({ map: _tex[texId] });
-            var spr = new THREE.Sprite(mat);
-            spr.position.set(x, 2.1 * GridSize, y);
-            spr.scale.set(3, 3, 1.0); // imageWidth, imageHeight
-            _scene.add(spr);
-            _sprite[id] = spr;
-            mat.opacity = 0;
-            var last = 0;
-            var tween1 = new TWEEN.Tween({ t: 0 }).to({ t: 10 }, 100)
-                        .onStart(function () {
-                            last = 0;
-                        }).onUpdate(function () {
-                            mat.opacity = this.t * 10;
-                            last = this.t;
-                        });
-            var tween2 = new TWEEN.Tween({ t: 100 }).to({ t: 0 }, 1200).easing(TWEEN.Easing.Quadratic.In)
-                        .onStart(function () {
-                            last = 100;
-                        }).onUpdate(function () {
-                            mat.opacity = this.t;
-                            last = this.t;
-                        }).onStop(function () {
-                            delete _sprite[id];
-                            _scene.remove(spr);
-                        }).onComplete(function () {
-                            delete _sprite[id];
-                            _scene.remove(spr);
-                        });
-            tween1.chain(tween2);
-            tween1.start();
-        };
-
         var createEndPos = function (dat) {
             if (that.posEnd != null) return;
             that.posEnd = [];

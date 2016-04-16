@@ -10,7 +10,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Data = RENDERER.Data;
     var GridSize = Data.grid.size;
     var _Data = {
-        fogRange: 30,
+        fogRange: 34,
         enduranceBarWidth: 100,
         enduranceBarHeight: 2,
         furnitureOperation: {
