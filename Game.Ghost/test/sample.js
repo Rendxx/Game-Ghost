@@ -22,7 +22,7 @@
             id: 'p1',
             name: 'player 1',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'green'
+            modelId: 'bobo'
         },
         //'p2': {
         //    id: 'p2',
@@ -58,7 +58,7 @@
             id: 'p7',
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
-            modelId: 'white'
+            modelId: 'ghost-mary'
         }
     },{ 
         map: 'test2'
