@@ -2,7 +2,7 @@
   "id": "white",
   "radius": 0.4,
   "model": "ghost-mary/player-mary.json",
-  "color": "0xffffff",
+  "color": "0xff0000",
   "para": {
     "endurance": 1000,
     "hp": 1,

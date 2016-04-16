@@ -235,7 +235,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 return true;
             }
             if (map.grid.empty[y][x] == SYSTEM.Map.Data.Grid.Door) {
-                if ((!map.objList.door[map.grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened && map.objList.door[map.grid.door[y][x]].blockSight)
+                if ((!(map.objList.door[map.grid.door[y][x]].status == SYSTEM.MapObject.Door.Data.Status.Opened) && map.objList.door[map.grid.door[y][x]].blockSight)
                 && !(objType == SYSTEM.Map.Data.Grid.Door && objId == map.grid.door[y][x])) {
                     return false;
                 }

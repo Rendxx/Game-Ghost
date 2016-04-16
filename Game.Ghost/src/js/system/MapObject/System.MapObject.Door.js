@@ -30,6 +30,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         SYSTEM.MapObject.Basic.call(this, id, info, modelData, entity);
 
         this.objType = _Data.ObjType;
+        this.blockSight = modelData.blockSight;
         this.blockList = {};
         this.name = name;
         this.status = _Data.Status.Closed;

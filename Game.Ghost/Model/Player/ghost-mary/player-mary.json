@@ -56044,7 +56044,7 @@
         "DbgColor":15658734,
         "opacity":1,
         "shading":"phong",
-        "colorEmissive":[0.1,0,0],
+        "colorEmissive":[0.05,0,0],
         "mapDiffuseRepeat":[1,1],
         "mapDiffuseWrap":["RepeatWrapping","RepeatWrapping"],
         "mapDiffuse":"player-mary.tex.png",
