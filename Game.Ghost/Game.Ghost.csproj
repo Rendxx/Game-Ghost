@@ -240,11 +240,10 @@
     <Content Include="PlayerControlTest\renderer\Character.js" />
     <Content Include="PlayerControlTest\sample.html" />
     <Content Include="PlayerControlTest\sample.js" />
-    <Content Include="Sound\cabinet.mp3" />
+    <Content Include="Sound\door4.mp3" />
     <Content Include="Sound\die.mp3" />
-    <Content Include="Sound\doorClose.mp3" />
-    <Content Include="Sound\heart.mp3" />
     <Content Include="Sound\key.mp3" />
+    <Content Include="Sound\knock.mp3" />
     <Content Include="Sound\lock.mp3" />
     <Content Include="Sound\unlock.mp3" />
     <Content Include="src\js\lib\OBJLoader.js" />
@@ -280,8 +279,7 @@
     <Content Include="test\sample.html" />
     <Content Include="test\sample.js" />
     <Content Include="Sound\bell.wav" />
-    <Content Include="Sound\cabinet.wav" />
-    <Content Include="Sound\door.wav" />
+    <Content Include="Sound\carbinet4.wav" />
     <Content Include="Sound\scream.wav" />
     <Content Include="Sound\step.mp3" />
     <Content Include="Sound\step.wav" />
