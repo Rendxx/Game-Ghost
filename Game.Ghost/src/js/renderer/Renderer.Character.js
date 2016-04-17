@@ -9,6 +9,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 (function (RENDERER) {
     var Data = RENDERER.Data;
     var GridSize = RENDERER.Data.grid.size;
+    var _Data = {
+        teamColor: [
+            0xFF6600,
+            0x0099CC,
+            0xff0000
+        ]
+    };
     var Character = function (entity, id, modelData, characterPara) {
         // data ----------------------------------------------
         var that = this,
@@ -26,7 +33,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.name = _para.name;
         this.role = _para.role;
         this.modelId = _para.modelId;
-        this.color = parseInt(_data.color, 16);;
+        //this.color = parseInt(_data.color, 16);
+        this.color = _Data.teamColor[characterPara.team];
         this.maxEndurance = _data.para.endurance;
         this.longInteractionObj = null;
         this.accessObject = null;
@@ -223,8 +231,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     materials[i].skinning = true;
                 }
                 mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
+                mesh.castShadow = false;
+                mesh.receiveShadow = false;
                 //mesh.scale.set(1.5, 1.5, 1.5);
 
                 mixer = new THREE.AnimationMixer(mesh);

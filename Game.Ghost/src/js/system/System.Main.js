@@ -114,11 +114,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (intervalFunc != null) clearInterval(intervalFunc);
 
             var survivorWin = false;
+            var winTeam = -1;
             var win = 0, isEnd = true, survivorEnd = {};
             for (var i = 0; i < that.characters.length; i++) {
                 if (that.characters[i].role == Data.character.type.survivor) {
                     if (that.characters[i].win) {
                         survivorWin = true;
+                        winTeam = that.characters[i].team;
                     } 
 
                     survivorEnd[that.characters[i].id] = {
@@ -130,7 +132,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
             gameData['end'] = {
                 survivorWin: survivorWin,
-                survivorEnd: survivorEnd
+                survivorEnd: survivorEnd,
+                team: winTeam
             };
             if (this.onEnd) this.onEnd(gameData['end']);
         };
@@ -167,7 +170,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         isEnd = false;
                         break;
                     }
-                    if (that.characters[i].win) win++;
+                    //if (that.characters[i].win) win++;
+                    if (that.characters[i].win) {
+                        isEnd = true;
+                        break;
+                    }
                 }
             }
             if (isEnd) { that.end(); }

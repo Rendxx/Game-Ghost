@@ -13,7 +13,7 @@
     systemWrapper.onEnd = function (endData) {
         renderer.hide();
         var s = endData.survivorWin ? "Survivor Escaped!!!!" : "Survior all killed!!!";
-        var t = endData.survivorWin ? "GOOD JOB" : "GAME OVER";
+        var t = endData.survivorWin ? "GOOD JOB" + " Team " + endData.team : "GAME OVER";
         $$.info.alert(s, t, false, "rgba(0,0,0,0.6)", null);
         console.log(endData);
     };
@@ -22,25 +22,29 @@
             id: 'p1',
             name: 'player 1',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'bobo'
+            modelId: 'bobo',
+            team: 0
         },
         'p2': {
             id: 'p2',
             name: 'player 2',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'capboy'
+            modelId: 'capboy',
+            team: 0
         },
         'p3': {
             id: 'p3',
             name: 'player 3',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'highcircle'
+            modelId: 'highcircle',
+            team: 1
         },
         'p4': {
             id: 'p4',
             name: 'player 4',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'girl1'
+            modelId: 'girl1',
+            team: 1
         },
         //'p5': {
         //    id: 'p5',
@@ -58,7 +62,8 @@
             id: 'p7',
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
-            modelId: 'ghost-mary'
+            modelId: 'ghost-mary',
+            team: 2
         }
     },{ 
         map: 'test'

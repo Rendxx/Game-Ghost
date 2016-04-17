@@ -202,7 +202,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.sceneOrtho.add(sprites["name"]);
 
             // name deco
-            sprites["nameDeco"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["nameDeco"] }));
+            sprites["nameDeco"] = new THREE.Sprite(new THREE.SpriteMaterial({ color: that.character.color, map: tex["nameDeco"] }));
             sprites["nameDeco"].scale.set(120, 30, 1.0);
             sprites["nameDeco"].material.transparent = true;
             sprites["nameDeco"].material.opacity = 0.8;
