@@ -70,6 +70,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.characters[i].reset(gameData_in != null ? gameData_in.characters[i] : null);
             }
             this.interAction.reset();
+            flag_setuped = true;
+            if (flag_started && !isStarted) this.start();
         };
 
         // setup game

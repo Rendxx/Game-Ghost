@@ -185,11 +185,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             mesh_ground = [];
             for (var i = 0, l = ground_in.length; i < l; i++) {
                 if (ground_in[i] == null) continue;
-                var mesh = createGround(ground_in[i]);
-
-                var id = ground_in[i].id;
-                if (!mesh_ground.hasOwnProperty(id)) mesh_ground[id] = [];
-                mesh_ground[id].push(mesh);
+                createGround(i, ground_in[i], scene, function (idx, dat, mesh) {
+                    var id = dat.id;
+                    if (!mesh_ground.hasOwnProperty(id)) mesh_ground[id] = [];
+                    mesh_ground[id].push(mesh);
+                    _loadCount--;
+                    onLoaded();
+                });
             }
 
             /*create ceiling*/
@@ -202,19 +204,27 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             mesh_wall = {};
             for (var i = 0, l = wall.length; i < l; i++) {
                 if (wall[i] == null) continue;
-                var mesh = createWall(wall[i]);
-                var id = wall[i].id;
-                if (!mesh_wall.hasOwnProperty(id)) mesh_wall[id] = [];
-                mesh_wall[id].push(mesh);
+                _loadCount++;
+                createWall(i, wall[i], scene, function (idx, dat, mesh) {
+                    var id = dat.id;
+                    if (!mesh_wall.hasOwnProperty(id)) mesh_wall[id] = [];
+                    mesh_wall[id].push(mesh);
+                    _loadCount--;
+                    onLoaded();
+                });
             }
 
             mesh_wallTop = {};
             for (var i = 0, l = wallTop.length; i < l; i++) {
                 if (wallTop[i] == null) continue;
-                var mesh = createWallTop(wallTop[i]);
-                var id = wallTop[i].id;
-                if (!mesh_wallTop.hasOwnProperty(id)) mesh_wallTop[id] = [];
-                mesh_wallTop[id].push(mesh);
+                _loadCount++;
+                createWallTop(i, wallTop[i], scene, function (idx, dat, mesh) {
+                    var id = dat.id;
+                    if (!mesh_wallTop.hasOwnProperty(id)) mesh_wallTop[id] = [];
+                    mesh_wallTop[id].push(mesh);
+                    _loadCount--;
+                    onLoaded();
+                });
             }
         };
 
@@ -312,7 +322,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             return ceiling;
         };
 
-        var createGround = function (dat) {
+        var createGround = function (idx, dat, scene, onSuccess) {
             if (dat == null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
@@ -321,34 +331,35 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.ground][id];
 
+            getTexture(root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.texture[0], function (texture) {
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
 
-            var texture = getTexture(root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.texture[0]);
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
+                var geometry = new THREE.PlaneGeometry(w, h, 1, 1);
+                // set uv
+                var uvs = geometry.faceVertexUvs[0];
+                uvs[0][0].set(0, h / GridSize);
+                uvs[0][1].set(0, 0);
+                uvs[0][2].set(w / GridSize, h / GridSize);
+                uvs[1][0].set(0, 0);
+                uvs[1][1].set(w / GridSize, 0);
+                uvs[1][2].set(w / GridSize, h / GridSize);
 
-            var geometry = new THREE.PlaneGeometry(w, h, 1, 1);
-            // set uv
-            var uvs = geometry.faceVertexUvs[0];
-            uvs[0][0].set(0, h / GridSize);
-            uvs[0][1].set(0, 0);
-            uvs[0][2].set(w / GridSize, h / GridSize);
-            uvs[1][0].set(0, 0);
-            uvs[1][1].set(w / GridSize, 0);
-            uvs[1][2].set(w / GridSize, h / GridSize);
+                var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
+                material.side = THREE.DoubleSide;
+                mesh = new THREE.Mesh(geometry, material);
 
-            var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
-            material.side = THREE.DoubleSide;
-            mesh = new THREE.Mesh(geometry, material);
+                mesh.position.x = x;
+                mesh.position.y = 0;
+                mesh.position.z = y;
+                mesh.rotation.x = -.5 * Math.PI;
+                mesh.receiveShadow = true;
 
-            mesh.position.x = x;
-            mesh.position.y = 0;
-            mesh.position.z = y;
-            mesh.rotation.x = -.5 * Math.PI;
-            mesh.receiveShadow = true;
-            return mesh;
+                onSuccess(idx, dat, mesh);
+            });
         };
 
-        var createWall = function (dat) {
+        var createWall = function (idx, dat, scene, onSuccess) {
             if (dat == null) return null;
             var id = dat.id;
             var r = dat.rotation - 2;
@@ -363,40 +374,42 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 y += len / 2;
             }
             //console.log(x, y, len, r);
-            var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[1]);
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            //texture.repeat.x = len / 3;
-            //texture.repeat.y = 1;
+            getTexture(root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[1], function (texture) {
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                //texture.repeat.x = len / 3;
+                //texture.repeat.y = 1;
 
-            var geometry = new THREE.PlaneGeometry(len * GridSize, 3 * GridSize, 1, 1);
-            // set uv
-            var uvs = geometry.faceVertexUvs[0];
-            uvs[0][0].set(0, 0.75);
-            uvs[0][1].set(0, 0);
-            uvs[0][2].set(len / 4, 0.75);
-            uvs[1][0].set(0, 0);
-            uvs[1][1].set(len / 4, 0);
-            uvs[1][2].set(len / 4, 0.75);
+                var geometry = new THREE.PlaneGeometry(len * GridSize, 3 * GridSize, 1, 1);
+                // set uv
+                var uvs = geometry.faceVertexUvs[0];
+                uvs[0][0].set(0, 0.75);
+                uvs[0][1].set(0, 0);
+                uvs[0][2].set(len / 4, 0.75);
+                uvs[1][0].set(0, 0);
+                uvs[1][1].set(len / 4, 0);
+                uvs[1][2].set(len / 4, 0.75);
 
-            var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
-            material.side = THREE.DoubleSide;
-            var mesh = new THREE.Mesh(geometry, material);
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
+                var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
+                material.side = THREE.DoubleSide;
+                var mesh = new THREE.Mesh(geometry, material);
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
 
-            x *= GridSize;
-            y *= GridSize;
-            len *= GridSize;
+                x *= GridSize;
+                y *= GridSize;
+                len *= GridSize;
 
-            mesh.rotation.y = (4 - r) / 2 * Math.PI;
-            mesh.position.x = x;
-            mesh.position.y = 1.5 * GridSize;
-            mesh.position.z = y;
-            return mesh;
+                mesh.rotation.y = (4 - r) / 2 * Math.PI;
+                mesh.position.x = x;
+                mesh.position.y = 1.5 * GridSize;
+                mesh.position.z = y;
+
+                onSuccess(idx, dat, mesh);
+            });
         };
 
-        var createWallTop = function (dat) {
+        var createWallTop = function (idx, dat, scene, onSuccess) {
             if (dat == null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
@@ -406,38 +419,38 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.wall][id];
 
-            var mesh = null;
-
             console.log(dat);
             console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             // top wall
-            var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[0]);
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
+            var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[0], function (texture) {
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
 
-            var geometry = new THREE.PlaneGeometry(w, h, 1, 1);
-            // set uv
-            var uvs = geometry.faceVertexUvs[0];
-            uvs[0][0].set(0, h / GridSize);
-            uvs[0][1].set(0, 0);
-            uvs[0][2].set(w / GridSize, h / GridSize);
-            uvs[1][0].set(0, 0);
-            uvs[1][1].set(w / GridSize, 0);
-            uvs[1][2].set(w / GridSize, h / GridSize);
+                var geometry = new THREE.PlaneGeometry(w, h, 1, 1);
+                // set uv
+                var uvs = geometry.faceVertexUvs[0];
+                uvs[0][0].set(0, h / GridSize);
+                uvs[0][1].set(0, 0);
+                uvs[0][2].set(w / GridSize, h / GridSize);
+                uvs[1][0].set(0, 0);
+                uvs[1][1].set(w / GridSize, 0);
+                uvs[1][2].set(w / GridSize, h / GridSize);
 
-            var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
-            material.side = THREE.DoubleSide;
-            var mesh = new THREE.Mesh(geometry, material);
+                var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
+                material.side = THREE.DoubleSide;
+                var mesh = new THREE.Mesh(geometry, material);
 
-            mesh.position.x = x;
-            mesh.position.y = 3 * GridSize;
-            mesh.position.z = y;
-            //mesh.rotation.y = r / 180 * Math.PI;
-            mesh.rotation.x = -.5 * Math.PI;
-            mesh.castShadow = false;
-            mesh.receiveShadow = false;
-            return mesh;
+                mesh.position.x = x;
+                mesh.position.y = 3 * GridSize;
+                mesh.position.z = y;
+                //mesh.rotation.y = r / 180 * Math.PI;
+                mesh.rotation.x = -.5 * Math.PI;
+                mesh.castShadow = false;
+                mesh.receiveShadow = false;
+
+                onSuccess(idx, dat, mesh);
+            });
         };
 
         var createFurniture = function (idx, dat, scene, onSuccess) {
@@ -676,8 +689,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             onSuccess(idx);
         };
 
-        var getTexture = function (path) {
-            return _textureLoader.load(path);
+        var getTexture = function (path, onSuccess) {
+            return _textureLoader.load(path, onSuccess);
         };
 
         // Update items ----------------------------------------------------------

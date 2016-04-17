@@ -95,7 +95,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // render model
         this.render = function (delta) {
-            if (gameData == null) return;
+            if (gameData == null || this.mesh==null) return;
             if (this.isVisible == false) {
                 this.mesh.visible = false;
                 this.highlight.visible = false;

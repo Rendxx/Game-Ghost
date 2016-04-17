@@ -120,7 +120,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.updateGame = function (gameData) {
-            if (gameData == null) return;
+            if (gameData == null || !flag_loaded) return;
             that.map.update(gameData.map);
 
             // handle player visible 
