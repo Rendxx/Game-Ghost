@@ -25,27 +25,27 @@
             modelId: 'bobo',
             team: 0
         },
-        'p2': {
-            id: 'p2',
-            name: 'player 2',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'capboy',
-            team: 0
-        },
-        'p3': {
-            id: 'p3',
-            name: 'player 3',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'highcircle',
-            team: 1
-        },
-        'p4': {
-            id: 'p4',
-            name: 'player 4',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'girl1',
-            team: 1
-        },
+        //'p2': {
+        //    id: 'p2',
+        //    name: 'player 2',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'capboy',
+        //    team: 0
+        //},
+        //'p3': {
+        //    id: 'p3',
+        //    name: 'player 3',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'highcircle',
+        //    team: 1
+        //},
+        //'p4': {
+        //    id: 'p4',
+        //    name: 'player 4',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'girl1',
+        //    team: 1
+        //},
         //'p5': {
         //    id: 'p5',
         //    name: 'player 5',

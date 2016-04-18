@@ -330,10 +330,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var furnitures = map.objList.furniture;
             for (var k in furnitures) {
                 var furniture = furnitures[k];
-                var x = furniture.anchor.x;
-                var y = furniture.anchor.y;
+                var x = furniture.anchor[0];
+                var y = furniture.anchor[1];
                 var r = furniture.rotation;
-                var accessPos = map.modelData.items[Data.item.categoryName.furniture][furniture.modelId].accessPos;
+                var accessPos = furniture.modelData.accessPos;
                 if (accessPos == null) continue;
 
                 for (var i = 0; i < accessPos.length; i++) {
@@ -351,10 +351,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var doors = map.objList.door;
             for (var k in doors) {
                 var door = doors[k];
-                var x = door.anchor.x;
-                var y = door.anchor.y;
+                var x = door.anchor[0];
+                var y = door.anchor[1];
                 var r = door.rotation;
-                var accessPos = map.modelData.items[Data.item.categoryName.door][door.modelId].accessPos;
+                var accessPos = door.modelData.accessPos;
                 if (accessPos == null) continue;
 
                 for (var i = 0; i < accessPos.length; i++) {
@@ -372,10 +372,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var bodies = map.objList.body;
             for (var k in bodies) {
                 var body = bodies[k];
-                var x = body.anchor.x;
-                var y = body.anchor.y;
+                var x = body.anchor[0];
+                var y = body.anchor[1];
                 var r = body.rotation;
-                var accessPos = map.modelData.items[Data.item.categoryName.body][body.modelId].accessPos;
+                var accessPos = body.modelData.accessPos;
                 if (accessPos == null) continue;
 
                 for (var i = 0; i < accessPos.length; i++) {
@@ -703,31 +703,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
             }
 
-            //// add position grid for door
-            //var doors = map.objList.door;
-            //for (var k in doors) {
-            //    var door = doors[k];
-            //    var x = door.anchor.x;
-            //    var y = door.anchor.y;
-            //    var r = door.rotation;
-            //    var accessPos = map.modelData.items[Data.item.categoryName.door][door.modelId].accessPos;
-            //    if (accessPos == null) continue;
-
-            //    for (var i = 0; i < accessPos.length; i++) {
-            //        var p = accessPos[i];
-            //        var r1 = (((p[1] >= 0) ? (p[0] >= 0 ? 0 : 1) : (p[0] >= 0 ? 3 : 2)) + r) % 4;
-            //        var new_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[0] : p[1]) + x;
-            //        var new_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? p[1] : p[0]) + y;
-            //        if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
-            //        for (var c = 0; c < characters.length; c++) {
-            //            if (positionGrid[new_y][new_x][c] == null) positionGrid[new_y][new_x][c] = {};
-            //            positionGrid[new_y][new_x][c]['door'+k] = {
-            //                'type': 'door',
-            //                'id': k
-            //            };
-            //        }
-            //    }
-            //}
             // add position grid for end
             var ends = map.position['end'];
             for (var k = 0; k < ends.length; k++) {

@@ -19,17 +19,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Construct -----------------------------------------------------
     var Basic = function (id, para, modelData, entity) {
-        this.para;
-        this.modelData;
+        this.para;                          // setup parameters for this object
+        this.modelData;                     // parameter of this type 
 
-        this.entity = entity;
-        this.objType = _Data.ObjType;
-        this.id;
-        this.x;
+        this.entity = entity;               // game entity 
+        this.objType = _Data.ObjType;       // type of map object
+        this.id;                            // object id
+        this.x;                             // object coordinate
         this.y;
-        this.anchor;
-        this.rotation;
-        this.modelId;
+        this.anchor;                        // top-left position of this object
+        this.rotation;                      // rotation from original rotation (facing down)
 
         this.setup(id, para, modelData);
 
@@ -55,14 +54,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (id != null) this.id = id;
         if (para != null) {
             this.para = para;
-            this.anchor = { x: para.x, y: para.y };
+            this.anchor = [para.x, para.y];
             this.x = (para.left + para.right + 1) / 2;
             this.y = (para.top + para.bottom + 1) / 2;
             this.rotation = para.rotation;
         }
         if (modelData != null) {
             this.modelData = modelData;
-            this.modelId = modelData.id;
         }
     };
 
