@@ -26,7 +26,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Method --------------------------------------------------------
     Basic.prototype.reset = function (_recoverData) {
-        if (_recoverData == null) return;
+        if (_recoverData === undefined || _recoverData === null) return;
         if ('mapObjectId' in _recoverData) this.mapObjectId = _recoverData.mapObjectId;
         if ('characterId' in _recoverData) this.characterId = _recoverData.characterId;
     };

@@ -39,7 +39,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Method --------------------------------------------------------
     Furniture.prototype.reset = function (_recoverData) {
-        if (_recoverData == null) return;
+        if (_recoverData === undefined || _recoverData === null) return;
         if ('status' in _recoverData) this.status = _recoverData.status;
         if ('key' in _recoverData) this.key = _recoverData.key;
     };
@@ -64,7 +64,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Furniture.prototype.open = function () {
         if (!this.modelData.statusChange) return false;       // no interaction if status can not being changed
         if (this.actioning) return false;                     // no interaction during action
-        if (this.modelData.duration != null && this.modelData.duration != 0) {
+        if (this.modelData.duration !== undefined && this.modelData.duration !== null && this.modelData.duration !== 0) {
             this.actioning = true;
             var that = this;
             setTimeout(function () { that.actioning = false; }, this.modelData.duration);
@@ -78,7 +78,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Furniture.prototype.close = function () {
         if (!this.modelData.statusChange) return false;       // no interaction if status can not being changed
         if (this.actioning) return false;                     // no interaction during action
-        if (this.modelData.duration != null && this.modelData.duration != 0) {
+        if (this.modelData.duration !== undefined && this.modelData.duration !== null && this.modelData.duration !== 0) {
             this.actioning = true;
             var that = this;
             setTimeout(function () { that.actioning = false; }, this.modelData.duration);
@@ -91,7 +91,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Furniture.prototype.takeKey = function (keyIds) {
         if (this.actioning) return [];                     // no interaction during action
-        if (this.key == null || keyIds == null || keyIds.length==0) return [];
+        if (this.key === null || keyIds === undefined || keyIds.length === 0) return [];
         var rst = {};
         for (var i = 0; i < keyIds.length; i++) {
             var k = keyIds[i];
@@ -113,7 +113,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
         
     Furniture.prototype.placeKey = function (key) {
-        if (this.key == null) this.key = {};
+        if (this.key === null) this.key = {};
         this.key[key.id] = key.doorId;
     };
 

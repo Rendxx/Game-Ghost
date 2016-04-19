@@ -31,7 +31,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Method --------------------------------------------------------
     Body.prototype.reset = function (_recoverData) {
-        if (_recoverData == null) return;
+        if (_recoverData === undefined || _recoverData === null) return;
         if ('id' in _recoverData) this.id = _recoverData.id;
         if ('key' in _recoverData) this.key = _recoverData.key;
     };
@@ -52,7 +52,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Body.prototype.takeKey = function (keyIds) {
-        if (this.key == null || keyIds == null || keyIds.length == 0) return [];
+        if (this.key === null || keyIds === undefined || keyIds.length === 0) return [];
         var rst = {};
         for (var i = 0; i<keyIds.length; i++) {
             var k = keyIds[i];
@@ -74,14 +74,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Body.prototype.setup = function (character) {
-        if (character == null) return;
+        if (character === null || character === undefined) return;
         this.name = character.name + "'s Body";
         this.realPos = {
             x: character.x,
             y: character.y
         };
         for (var id in character.key) {
-            if (this.key==null) this.key = {};
+            if (this.key === null) this.key = {};
             this.key[character.key[id]] = id;
         }
 

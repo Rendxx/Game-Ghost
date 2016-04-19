@@ -40,7 +40,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Method --------------------------------------------------------
     Door.prototype.reset = function (_recoverData) {
-        if (_recoverData == null) return;
+        if (_recoverData === undefined || _recoverData === null) return;
         if ('status' in _recoverData) this.status = _recoverData.status;
         if ('blockList' in _recoverData) this.blockList = _recoverData.blockList;
     };
