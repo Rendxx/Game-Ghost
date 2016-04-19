@@ -39,17 +39,21 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype.constructor = Basic;
 
     // Method --------------------------------------------------------
+    // Reset object variable data
     Basic.prototype.reset = function (_recoverData) {
         if (_recoverData == null) return;
     };
 
+    // get all variable data as JSON. These JSON can be used for recovering.
     Basic.prototype.toJSON = function () {
         return {};
     };
 
+    // check object status for interaction
     Basic.prototype.check = function () {
     };
 
+    // setup Immutable data
     Basic.prototype.setup = function (id, para, modelData) {
         if (id != null) this.id = id;
         if (para != null) {
@@ -64,6 +68,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         }
     };
 
+    // update current object data to game entity
     Basic.prototype.updateData = function () {
         if (this.onChange == null) return;
         this.onChange(this.id, this.toJSON());
