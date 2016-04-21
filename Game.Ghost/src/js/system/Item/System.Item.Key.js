@@ -18,7 +18,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
     Key.prototype = Object.create(SYSTEM.Item.Basic.prototype);
     Key.prototype.constructor = Key;
-    
+
     // Method --------------------------------------------------------
 
     // ---------------------------------------------------------------

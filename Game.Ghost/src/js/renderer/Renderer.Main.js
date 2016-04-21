@@ -40,7 +40,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 this.characters[i].render(delta);
             }
 
-            if (that.onRender != null) that.onRender();
+            if (that.onRender !== null) that.onRender();
         };
 
         // api -------------------------------------------
@@ -55,14 +55,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.reset = function (setupData) {
-            if (setupData == null) return;
+            if (setupData === undefined || setupData === null) return;
             // onload callback
             var loadCount = 1;
             var onLoaded = function () {
                 if (loadCount > 0) return;
                 flag_loaded = true;
                 if (that.onSetuped) that.onSetuped();
-                if (that.test != null)
+                if (that.test !== null)
                     that.test.setup();
             };
 
@@ -89,18 +89,18 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     onLoaded();
                 };
             }
-            if (isGhost_in != undefined) {
+            if (isGhost_in !== undefined || isGhost_in !== null) {
                 this.isGhost = isGhost_in;
                 this.viewPlayer = [];
                 for (var i = 0, l = _playerData.length; i < l; i++) {
-                    if ((_playerData[i].role == Data.character.type.ghost) == this.isGhost)
+                    if ((_playerData[i].role === Data.character.type.ghost) === this.isGhost)
                         this.viewPlayer.push(_playerData[i].id);
                 }
             } else {
                 this.viewPlayer = viewPlayer_in;
                 this.isGhost = false;
                 for (var i = 0; i < this.viewPlayer.length; i++) {
-                    if (this.characters[this.playerIdxMap[this.viewPlayer[i]]].role == Data.character.type.ghost) {
+                    if (this.characters[this.playerIdxMap[this.viewPlayer[i]]].role === Data.character.type.ghost) {
                         this.isGhost = true;
                         break;
                     }
@@ -120,34 +120,34 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.updateGame = function (gameData) {
-            if (gameData == null || !flag_loaded) return;
+            if (gameData === undefined || gameData === null || !flag_loaded) return;
             that.map.update(gameData.map);
 
             // handle player visible 
             var playerVisibleList = {};
             if (this.isGhost) {
                 for (var i = 0, l = that.characters.length; i < l; i++) {
-                    if (that.characters[i].role == Data.character.type.ghost) {
+                    if (that.characters[i].role === Data.character.type.ghost) {
                         playerVisibleList[i] = true;
                         for (var idx in gameData.characters[i].visibleCharacter) {
-                            if (gameData.characters[i].visibleCharacter[idx] == true) playerVisibleList[idx] = true;
+                            if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
                         }
                     }
                 }
             } else {
                 for (var i = 0, l = that.characters.length; i < l; i++) {
-                    if (that.characters[i].role == Data.character.type.survivor) {
+                    if (that.characters[i].role === Data.character.type.survivor) {
                         playerVisibleList[i] = true;
                         for (var idx in gameData.characters[i].visibleCharacter) {
-                            if (gameData.characters[i].visibleCharacter[idx] == true) playerVisibleList[idx] = true;
+                            if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
                         }
                     }
                 }
             }
 
             for (var i = 0, l = that.characters.length; i < l; i++) {
-                if (gameData.message && gameData.message[i]) that.characters[i].showMessage(gameData.message[i]);
-                that.characters[i].update(gameData.characters[i], playerVisibleList[i]===true);
+                if (gameData.message!==null && gameData.message[i]!==null) that.characters[i].showMessage(gameData.message[i]);
+                that.characters[i].update(gameData.characters[i], playerVisibleList[i] === true);
             }
             that.sound.update(gameData.sound, gameData.characters);
         };

@@ -87,11 +87,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // public method --------------------------------------------------
         // update data from system
         this.update = function (data_in, isVisible_in) {
-            if (lightType != data_in.light) {
+            if (lightType !== data_in.light) {
                 changeTorch(data_in.light);
                 lightType = data_in.light;
             }
-            if (data_in.message != null) that.message = data_in.message;
 
             gameData = data_in;
             that.isVisible = isVisible_in;
@@ -103,8 +102,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // render model
         this.render = function (delta) {
-            if (gameData == null || this.mesh==null) return;
-            if (this.isVisible == false) {
+            if (gameData === null || this.mesh === null) return;
+            if (this.isVisible === false) {
                 this.mesh.visible = false;
                 this.highlight.visible = false;
                 return;
@@ -117,7 +116,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var y = (gameData.y - entity.map.height / 2) * GridSize;
             var r_body = gameData.currentRotation.body;
             var r_head = gameData.currentRotation.headBody;
-            var isDead = gameData.hp == 0;
+            var isDead = gameData.hp === 0;
             var isWin = gameData.win;
             //console.log(x+"  "+y+"  "+r_body+"  "+r_head);
             if (!this.setuped) return;
@@ -134,7 +133,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // dead
             if (isDead) {
-                if (currentAction != action) {
+                if (currentAction !== action) {
                     //this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
                     //this.actions[currentAction].setEffectiveWeight(0);
                     tween.show[action].start();
@@ -146,7 +145,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 if (this.mixer) this.mixer.update(delta);
                 return;
             } else if (isWin) {
-                if (currentAction != action) {
+                if (currentAction !== action) {
                     tween.show[action].start();
                     tween.hide[currentAction].start();
                     currentAction = action;
@@ -158,7 +157,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.mesh.position.x = x;
             this.mesh.position.z = y;
 
-            if (currentAction != action) {
+            if (currentAction !== action) {
                 //this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
                 //this.actions[currentAction].setEffectiveWeight(0);
                 //this.actions[action].crossFadeFrom(this.actions[currentAction], 0.3).play();
@@ -193,11 +192,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var r_torch = r3 + torch_angle;
 
             //console.log(r_body, r_head, r_light, r_torchD, r_torch, torch_angle);
-            if (this.topLight != null) {
+            if (this.topLight !== null) {
                 this.topLight.position.z = this.mesh.position.z + light_radius * Math.cos(r_light);
                 this.topLight.position.x = this.mesh.position.x + light_radius * Math.sin(r_light);
             }
-            if (this.torch != null) {
+            if (this.torch !== null) {
                 this.torchDirectionObj.position.z = this.mesh.position.z + torchDirectionObj_radius * Math.cos(r_torchD);
                 this.torchDirectionObj.position.x = this.mesh.position.x + torchDirectionObj_radius * Math.sin(r_torchD);
                 this.torch.position.z = this.mesh.position.z + torch_radius * Math.cos(r_torch);
@@ -264,8 +263,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 r_head_2 = mesh.skeleton.bones[4];
 
                 // setup light
-                if ((_para.role == Data.character.type.survivor && !entity.isGhost) || (_para.role == Data.character.type.ghost && entity.isGhost)) {
-                    if (torchData != null) {
+                if ((_para.role === Data.character.type.survivor && !entity.isGhost) || (_para.role === Data.character.type.ghost && entity.isGhost)) {
+                    if (torchData !== null) {
                         that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
                         that.torchDirectionObj.rotation.x = Math.PI;
                         that.torchDirectionObj.position.x = that.mesh.position.x + torchData.x * GridSize;
@@ -291,7 +290,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         scene.add(that.torch);
                     }
 
-                    if (topLightData != null) {
+                    if (topLightData !== null) {
                         that.topLight = new THREE.SpotLight(parseInt(topLightData.color));
                         that.topLight.position.x = that.mesh.position.x + topLightData.x * GridSize;
                         that.topLight.position.y = that.mesh.position.y + topLightData.y * GridSize;
@@ -321,13 +320,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                 // setup if scene is set
                 that.setuped = true;
-                if (that.onLoaded != null) that.onLoaded();
+                if (that.onLoaded !== null) that.onLoaded();
             });
         };
 
         var changeTorch = function (type) {
-            if (that.torch == null) return;
-            if (type == 1) {
+            if (that.torch === null) return;
+            if (type === 1) {
                 that.torch.intensity = torchData.intensity;
                 that.torch.distance = torchData.distance * GridSize;
                 that.torch.color.setHex(torchData.color);
@@ -340,13 +339,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // setup light cache with
         var setupLightCache = function () {
-            if (torchData != null) {
+            if (torchData !== null) {
                 torchDirectionObj_radius = Math.sqrt((torchData.z + 1) * (torchData.z + 1) + torchData.x * torchData.x);
                 torchDirectionObj_angle = Math.atan2(torchData.x, (torchData.z + 1));
                 torch_radius = Math.sqrt(torchData.z * torchData.z + torchData.x * torchData.x);
                 torch_angle = Math.atan2(torchData.x, torchData.z);
             }
-            if (topLightData != null) {
+            if (topLightData !== null) {
                 light_radius = Math.sqrt(topLightData.z * topLightData.z + topLightData.x * topLightData.x);
                 light_angle = Math.atan2(topLightData.x, topLightData.z);
             }
@@ -359,7 +358,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var textureLoader = new THREE.TextureLoader();
             spriteTex['highlight'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.png');
         };
-        
+
         var hexToRgb = function (hex) {
             var result = /^0x?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             return result ? {

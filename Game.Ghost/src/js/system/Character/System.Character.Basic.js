@@ -17,10 +17,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             useKey: "Key [#key#] is used",
             noKey: "Nothing found",
         },
-        range:{
-            danger:8
+        range: {
+            danger: 8
         },
-        flyCountMax:1600
+        flyCountMax: 1600
     };
 
     // Construct -----------------------------------------------------
@@ -52,7 +52,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             head: 0,
             body: 0
         };
-        this.actived = true;        
+        this.actived = true;
         this.rush = false;          // flag: character is rushing
         this.stay = true;           // flag: character does not move
         this.headFollow = true;     // flag: character dose not turn his head
@@ -61,7 +61,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.visibleObject = {};    // visible object list: {Object type: {Object Id: [distance, angle from front]}}
         this.visibleCharacter = {}; // visible character list
         this.characterCheckingList = {};
-        
+
         this.enduranceRecover = _para.enduranceRecover;
         this.enduranceCost = _para.enduranceCost;
         this.triggeringList = {};
@@ -75,7 +75,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Method --------------------------------------------------------
     Basic.prototype.reset = function (_recoverData) {
-        if (_recoverData == null) return;
+        if (_recoverData === null || _recoverData === undefined) return;
         if ('x' in _recoverData) this.x = _recoverData.x;
         if ('y' in _recoverData) this.y = _recoverData.y;
         if ('actived' in _recoverData) this.actived = _recoverData.actived;
@@ -103,14 +103,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             visibleObject: this.visibleObject,
             visibleCharacter: this.visibleCharacter,
             longInteractionObj: this.longInteractionObj,
-            soundObject:this.soundObject
+            soundObject: this.soundObject
         };
     };
 
     // move to a directionn with a rotation of head 
     Basic.prototype.move = function (direction, directionHead, rush_in, stay_in, headFollow_in) {
         if (!this.actived) return;
-        if (this.role == Data.character.type.survivor) this.rush = rush_in;
+        if (this.role === Data.character.type.survivor) this.rush = rush_in;
         this.stay = stay_in;
         this.headFollow = headFollow_in;
         if (!stay_in) this.requiredRotation.body = direction;
@@ -122,12 +122,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Basic.prototype.cancelLongInteraction = function () {
     };
-    
+
     // use the item in front of the character
     Basic.prototype.interaction = function () {
         if (!this.actived) return;
-        if (this.accessObject == null) return;
-        return ;
+        if (this.accessObject === null) return;
+        return;
     };
 
     Basic.prototype.checkOperation = function () {
@@ -156,7 +156,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         d_body = realDirection_body - this.currentRotation.body;
         if (d_body < -180) d_body += 360;
         else if (d_body > 180) d_body -= 360;
-        if (d_body != 0) {
+        if (d_body !== 0) {
             if (Math.abs(d_body) < _speed_rotate.body) {
                 this.currentRotation.body += d_body;
             } else {
@@ -170,7 +170,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         d_head = realDirection_head - this.currentRotation.head;
         if (d_head < -180) d_head += 360;
         else if (d_head > 180) d_head -= 360;
-        if (d_head != 0) {
+        if (d_head !== 0) {
             if (Math.abs(d_head) < _speed_rotate.head) {
                 this.currentRotation.head += d_head;
             } else {
@@ -201,7 +201,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var _radius_y = 0;
                 var _radius = this.modelData.radius;
                 var deltaX = speed * Math.sin(this.currentRotation.body / 180 * Math.PI);
-                var deltaY =  speed * Math.cos(this.currentRotation.body / 180 * Math.PI);
+                var deltaY = speed * Math.cos(this.currentRotation.body / 180 * Math.PI);
 
                 if (deltaX > 0) _radius_x = _radius;
                 else if (deltaX < 0) _radius_x = -_radius;
@@ -209,9 +209,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 else if (deltaY < 0) _radius_y = -_radius;
                 deltaX += _radius_x;
                 deltaY += _radius_y;
-                var canMove =  this.entity.interAction.moveCheck(this.x, this.y, deltaX, deltaY);
-                if (deltaX != 0) this.x = canMove[0] - _radius_x;
-                if (deltaY != 0) this.y = canMove[1] - _radius_y;
+                var canMove = this.entity.interAction.moveCheck(this.x, this.y, deltaX, deltaY);
+                if (deltaX !== 0) this.x = canMove[0] - _radius_x;
+                if (deltaY !== 0) this.y = canMove[1] - _radius_y;
             }
         }
     };
@@ -223,11 +223,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Basic.prototype._updateInteraction = function () {
-        this.visibleObject =  this.entity.interAction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation.head);
+        this.visibleObject = this.entity.interAction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation.head);
         this.soundObject = this.entity.interAction.checkSoundObj(this.id, this.x, this.y);
         this.accessObject = this.entity.interAction.getAccessObject(this.id, this.x, this.y, this.currentRotation.head);
 
-        if (this.longInteractionObj != null && this.longInteractionObj != this.accessObject) this.cancelLongInteraction();
+        if (this.longInteractionObj !== null && this.longInteractionObj !== this.accessObject) this.cancelLongInteraction();
     };
 
     Basic.prototype._updateVisible = function () {
@@ -236,7 +236,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (!this.entity.characters[c].actived)
                 this.visibleCharacter[c] = true;
             else
-                this.visibleCharacter[c] =  this.entity.interAction.checkVisible(this, this.entity.characters[c]);
+                this.visibleCharacter[c] = this.entity.interAction.checkVisible(this, this.entity.characters[c]);
         }
     };
 
@@ -252,7 +252,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Basic.prototype.updateData = function () {
-        if (this.onChange == null) return;
+        if (this.onChange === null) return;
         this.onChange(this.id, this.toJSON());
     };
 

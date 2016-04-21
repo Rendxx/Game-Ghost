@@ -33,7 +33,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         MaxDistance: 6
     };
     var Sound = function (entity) {
-        if (entity == null) throw new Error('Container not specified.');
+        if (entity === undefined || entity === null) throw new Error('Entity not specified.');
 
         // data ----------------------------------------------
         var that = this,
@@ -56,7 +56,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.update = function (soundDat, characterDat) {
-            if (soundDat == null) return;
+            if (soundDat === null) return;
             // once ------------------------------------
             // Effort
             var s_character = soundDat[0][_Data.Type.Effort];
@@ -66,12 +66,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // Normal
             var s_obj = soundDat[0][_Data.Type.Normal];
             var soundList = {};
-            for (var i = 0; i < playerNum; i++) { 
+            for (var i = 0; i < playerNum; i++) {
                 var soundObj = characterDat[characterIdList[i]].soundObject;
                 for (var t in s_obj) {
                     if (soundObj[s_obj[t].type].hasOwnProperty(s_obj[t].id)) {
-                        if (soundList[s_obj[t].sound] == null || soundList[s_obj[t].sound] < soundObj[s_obj[t].id])
-                            soundList[s_obj[t].sound] = soundObj[s_obj[t].id];
+                        var sName = s_obj[t].sound;
+                        if (!soundList.hasOwnProperty(sName) || soundList[sName] < soundObj[s_obj[t].id])
+                            soundList[sName] = soundObj[s_obj[t].id];
                     }
                 }
             }
@@ -87,7 +88,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // conherent ------------------------------------
             // Effort
             var s_character = soundDat[1][_Data.Type.Effort];
-            if (s_character != null) {
+            if (s_character !== null) {
                 for (var i = 0; i < playerNum; i++) {
                     if (characterIdList[i] in s_character)
                         updateSound(s_character[characterIdList[i]], 100);
@@ -101,14 +102,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 for (var i = 0; i < playerNum; i++) {
                     var soundObj = characterDat[characterIdList[i]].soundObject;
                     if (soundObj.hasOwnProperty(s_obj[i].id)) {
-                        if (soundList[s_obj[i].sound] == null || soundList[s_obj[i].sound] < soundObj[s_obj[i].id])
-                            soundList[s_obj[i].sound] = soundObj[s_obj[i].id];
+                        var sName = s_obj[i].sound;
+                        if (!soundList.hasOwnProperty(sName) || soundList[sName] < soundObj[s_obj[i].id])
+                            soundList[sName] = soundObj[s_obj[i].id];
                     }
                 }
             }
 
             for (var i in soundList) updateSound(i, (_Data.MaxDistance - soundList[i]) * 100 / _Data.MaxDistance);
-            
+
             // OverAll
             var s_all = soundDat[1][_Data.Type.OverAll];
             for (var i in s_all) {
@@ -135,7 +137,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // stop useless conherent sounds
         var clearSounds = function () {
             for (var id in playingSound) {
-                if (playingSound[id].turn != turnId) stopSound(id);
+                if (playingSound[id].turn !== turnId) stopSound(id);
             }
         };
 

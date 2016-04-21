@@ -98,7 +98,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             // add wall
             var walls = _data.item.wall;
             for (var k = 0; k < walls.length; k++) {
-                if (walls[k] == null) continue;
+                if (walls[k] === null) continue;
                 var wall = walls[k];
                 for (var i = wall.top; i <= wall.bottom; i++) {
                     for (var j = wall.left; j <= wall.right; j++) {
@@ -111,7 +111,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             // add furniture
             var furnitures = _data.item.furniture;
             for (var k = 0; k < furnitures.length; k++) {
-                if (furnitures[k] == null) continue;
+                if (furnitures[k] === null) continue;
                 var furniture = furnitures[k];
                 for (var i = furniture.top; i <= furniture.bottom; i++) {
                     for (var j = furniture.left; j <= furniture.right; j++) {
@@ -124,7 +124,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             // add door
             var doors = _data.item.door;
             for (var k = 0; k < doors.length; k++) {
-                if (doors[k] == null) continue;
+                if (doors[k] === null) continue;
                 var door = doors[k];
                 for (var i = door.top; i <= door.bottom; i++) {
                     for (var j = door.left; j <= door.right; j++) {
@@ -151,10 +151,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 end: []
             };
             for (var k = 0, l = positionList.length; k < l; k++) {
-                if (positionList[k] == null) continue;
+                if (positionList[k] === null) continue;
                 var p = positionList[k];
                 for (var i in Data.item.positionType) {
-                    if (p.id == Data.item.positionType[i]) {
+                    if (p.id === Data.item.positionType[i]) {
                         tmp[i].push([p.x, p.y]);
                         break;
                     }
@@ -163,13 +163,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
             var t;
             for (var i = 0; i < entity.characters.length; i++) {
-                if (entity.characters[i].role == Data.character.type.survivor) {
+                if (entity.characters[i].role === Data.character.type.survivor) {
                     // survivor
                     var idx = Math.floor(tmp['survivor'].length * Math.random());
                     t = tmp['survivor'][idx];
                     that.position['survivor'].push(t);
                     tmp['survivor'].splice(idx, 1);
-                } else if (entity.characters[i].role == Data.character.type.ghost) {
+                } else if (entity.characters[i].role === Data.character.type.ghost) {
                     // ghost
                     var idx = Math.floor(tmp['ghost'].length * Math.random());
                     t = tmp['ghost'][idx];
@@ -195,13 +195,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.position = recoverData;
             that.objList.position[0] = new SYSTEM.MapObject.Position(0, that.position['end'][0], SYSTEM.MapObject.Position.Data.PosType.End);
         };
-        
+
         // furniture --------------------------------------------
         var initFurniture = function (furnitures) {
             that.objList.furniture = {};
             gameData.furniture = {};
             for (var k = 0; k < furnitures.length; k++) {
-                if (furnitures[k] == null) continue;
+                if (furnitures[k] === null) continue;
                 var f = furnitures[k];
                 that.objList.furniture[k] = new SYSTEM.MapObject.Furniture(k, f, modelData.items[Data.item.categoryName.furniture][f.id], entity);
                 gameData.furniture[k] = that.objList.furniture[k].toJSON();
@@ -232,7 +232,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
             var hasKeyList = {};
             for (var k in doors) {
-                if (doors[k] == null) continue;
+                if (doors[k] === null) continue;
                 var door = doors[k];
                 var keyNum = Math.floor(Data.keyNumber * Math.random() + 1);
                 var tmpList = [];
@@ -269,7 +269,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var recoverKey = function (recoverData) {
             that.objList.key = {};
             for (var i in recoverData) {
-                var setupData= recoverData[i];
+                var setupData = recoverData[i];
                 var keyItem = new SYSTEM.Item.Key(setupData.id, setupData.mapObjectId, setupData.name, setupData.doorId);
                 keyItem.reset();
                 that.objList.key[i] = keyItem;
@@ -284,7 +284,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.objList.door = {};
             gameData.door = {};
             for (var k = 0; k < doors.length; k++) {
-                if (doors[k] == null) continue;
+                if (doors[k] === null) continue;
                 var door = doors[k];
                 that.objList.door[k] = new SYSTEM.MapObject.Door(k, door, modelData.items[Data.item.categoryName.door][door.id], doorSetting[k].name, entity);
                 gameData.door[k] = that.objList.door[k].toJSON();
@@ -296,7 +296,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var setupDoor = function (doorSetting) {
             for (var k in that.objList.door) {
-                if (doorSetting[k].keys != null) {
+                if (doorSetting[k].keys !== null) {
                     for (var x in doorSetting[k].keys) {
                         that.objList.door[k].lock();
                         break;

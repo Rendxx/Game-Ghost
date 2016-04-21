@@ -14,7 +14,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
      * @returns {object} data-pkg of environment 
      */
     var SetupEnv = function (entity) {
-        if (entity == null) throw new Error('Container not specified.');
+        if (entity === undefined || entity === null) throw new Error('Entity not specified.');
 
         // data ----------------------------------------------
         var that = this,
@@ -48,7 +48,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var delta = clock.getDelta();
             TWEEN.update();
             _cameraUpdate();
-            if (entity._onRender != null) entity._onRender(delta);
+            if (entity._onRender !== null) entity._onRender(delta);
         }
 
         // camera --------------------------------------------
@@ -146,7 +146,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.renderer.clear();
             that.renderer.clearDepth();
 
-            if (cameraNum == 0) return;
+            if (cameraNum === 0) return;
             for (var i = 0; i < cameraNum; i++) {
                 that.camera[i].render();
             }

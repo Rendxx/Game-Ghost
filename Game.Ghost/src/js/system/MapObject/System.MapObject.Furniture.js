@@ -31,7 +31,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.objType = _Data.ObjType;
         this.actioning = false;          // this furnition is actioning
         this.blockSight = modelData.blockSight;
-        this.status = modelData.statusChange == true ? _Data.Status.Closed : _Data.Status.None;
+        this.status = modelData.statusChange === true ? _Data.Status.Closed : _Data.Status.None;
         this.key = null;                // {key id : door id}
     };
     Furniture.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
@@ -74,7 +74,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.updateData();
         return true;
     };
-    
+
     Furniture.prototype.close = function () {
         if (!this.modelData.statusChange) return false;       // no interaction if status can not being changed
         if (this.actioning) return false;                     // no interaction during action
@@ -111,7 +111,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.updateData();
         return rst;
     };
-        
+
     Furniture.prototype.placeKey = function (key) {
         if (this.key === null) this.key = {};
         this.key[key.id] = key.doorId;

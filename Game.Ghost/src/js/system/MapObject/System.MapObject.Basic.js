@@ -72,7 +72,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype.updateData = function () {
         if (this.onChange === null) return;
         this.onChange(this.id, this.toJSON());
-    };    
+    };
 
     // ----------------------------------------------------------------
     SYSTEM.MapObject = SYSTEM.MapObject || {};

@@ -12,8 +12,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ----------------------------------------------------------
         var that = this,
             count = 0;
-            _msg = {};
-        
+        _msg = {};
+
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
@@ -23,7 +23,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         this.getNewMsg = function () {
-            if (count == 0) return {};
+            if (count === 0) return {};
             var msg = _msg;
             _msg = {};
             count = 0;

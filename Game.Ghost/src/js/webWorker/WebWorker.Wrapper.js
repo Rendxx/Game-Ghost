@@ -106,7 +106,7 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
         this.setup = function (playerData, para) {
             _playerData = playerData;
             var mapName = para.map;
-            if (Data.map.files[mapName] == null) throw new Error('Map can not be found.');
+            if (!Data.map.files.hasOwnProperty(mapName)) throw new Error('Map can not be found.');
             fileLoader.loadMap(Data.map.files[mapName],
                 function (data) {
                     _mapData = data;
@@ -158,7 +158,7 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
 
         // private method ------------------------------------------------
         var onLoaded = function () {
-            if (_mapData == null || _modelData == null) return;
+            if (_mapData === null || _modelData === null) return;
             worker.postMessage({
                 func: 'setup',
                 para: {
@@ -178,10 +178,10 @@ window.Rendxx.Game.Ghost.WebWorker = window.Rendxx.Game.Ghost.WebWorker || {};
         };
 
         var _setupWebWorker = function () {
-            if (worker != null) worker.terminate();
+            if (worker !== null) worker.terminate();
             worker = new Worker((root || "") + core);
             worker.onmessage = function (e) {
-                if (e == null || e.data == null || e.data.func == null || !funcMap.hasOwnProperty(e.data.func)) return;
+                if (!funcMap.hasOwnProperty(e.data.func)) return;
                 funcMap[e.data.func](e.data.para);
             };
             worker.postMessage({

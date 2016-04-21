@@ -46,7 +46,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         this.action = function (clientId, dat) {
-            if (!isStarted || characterIdxMap == null || !characterIdxMap.hasOwnProperty(clientId)) return;
+            if (!isStarted || characterIdxMap === null || !characterIdxMap.hasOwnProperty(clientId)) return;
             this.userInput.action(characterIdxMap[clientId], dat);
         };
 
@@ -60,14 +60,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // public method ------------------------------------------
         // reset game with given data
         this.reset = function (setupData_in, gameData_in) {
-            if (setupData_in == null) return;
+            if (setupData_in === undefined || setupData_in === null) return;
             gameData = gameData_in;
             initComponent(setupData_in.model, setupData_in.map, setupData_in.player);
             characterIdxMap = setupData_in.characterIdxMap;
             this.characterRoleMap = setupData_in.characterRoleMap;
             this.map.reset(setupData_in.mapSetup);
             for (var i = 0; i < that.characters.length; i++) {
-                that.characters[i].reset(gameData_in != null ? gameData_in.characters[i] : null);
+                that.characters[i].reset((gameData_in !== null && gameData_in !== undefined) ? gameData_in.characters[i] : null);
             }
             this.interAction.reset();
             flag_setuped = true;
@@ -102,26 +102,26 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // start game
         this.start = function () {
             flag_started = true;
-            if (flag_setuped == false) return;
+            if (flag_setuped === false) return;
             isStarted = true;
-            if (intervalFunc != null) clearInterval(intervalFunc);
+            if (intervalFunc !== null) clearInterval(intervalFunc);
             intervalFunc = setInterval(function () { nextInterval(); }, 25);
         };
 
         // end game
         this.end = function () {
             isStarted = false;
-            if (intervalFunc != null) clearInterval(intervalFunc);
+            if (intervalFunc !== null) clearInterval(intervalFunc);
 
             var survivorWin = false;
             var winTeam = -1;
             var win = 0, isEnd = true, survivorEnd = {};
             for (var i = 0; i < that.characters.length; i++) {
-                if (that.characters[i].role == Data.character.type.survivor) {
+                if (that.characters[i].role === Data.character.type.survivor) {
                     if (that.characters[i].win) {
                         survivorWin = true;
                         winTeam = that.characters[i].team;
-                    } 
+                    }
 
                     survivorEnd[that.characters[i].id] = {
                         name: that.characters[i].name,
@@ -142,7 +142,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.renew = function () {
             // to do
             isStarted = false;
-            if (intervalFunc != null) clearInterval(intervalFunc);
+            if (intervalFunc !== null) clearInterval(intervalFunc);
+
+            intervalFunc = null;
         };
 
         // pause game
@@ -154,7 +156,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method -----------------------------------------
         // called every time frame
         var nextInterval = function () {
-            if (gameData == null) return;
             that.interAction.update();
             for (var i = 0; i < that.characters.length; i++) {
                 that.characters[i].nextInterval();
@@ -165,7 +166,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             // end check ----------------------------------
             var win = 0, isEnd = true;
             for (var i = 0; i < that.characters.length; i++) {
-                if (that.characters[i].role == Data.character.type.survivor) {
+                if (that.characters[i].role === Data.character.type.survivor) {
                     if (that.characters[i].hp > 0 && !that.characters[i].win) {
                         isEnd = false;
                         break;
@@ -191,7 +192,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 survivor: [],
                 ghost: []
             };
-            
+
             that.map = new SYSTEM.Map(that, modelData, mapData, gameData.map);
             that.interAction = new SYSTEM.InterAction(that);
             that.message = new SYSTEM.Message();
@@ -201,10 +202,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var index = 0;
             players = [];
             for (var i in playerData) {
-                if (playerData[i].role == Data.character.type.survivor) {
+                if (playerData[i].role === Data.character.type.survivor) {
                     that.characters[index] = new SYSTEM.Character.Survivor(index, playerData[i], modelData.characters, that);
                     that.characterRoleMap.survivor.push(index);
-                } else if (playerData[i].role == Data.character.type.ghost) {
+                } else if (playerData[i].role === Data.character.type.ghost) {
                     that.characters[index] = new SYSTEM.Character.Ghost(index, playerData[i], modelData.characters, that);
                     that.characterRoleMap.ghost.push(index);
                 }

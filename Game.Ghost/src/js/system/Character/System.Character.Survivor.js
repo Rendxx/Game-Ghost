@@ -45,7 +45,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Method --------------------------------------------------------
     Survivor.prototype.reset = function (_recoverData) {
-        if (_recoverData == null) return;
+        if (_recoverData === null || _recoverData === undefined) return;
         if ('win' in _recoverData) this.win = _recoverData.win;
         if ('key' in _recoverData) this.key = _recoverData.key;
         if ('recover' in _recoverData) this.recover = _recoverData.recover;
@@ -64,12 +64,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Survivor.prototype.longInteraction = function () {
         if (!this.actived) return;
-        if (this.accessObject == null) return;
+        if (this.accessObject === null) return;
         var obj = this.entity.map.objList[this.accessObject.type][this.accessObject.id];
         var info = obj.check();
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
-                if (info.status == SYSTEM.MapObject.Door.Data.Status.Closed) {
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.Closed) {
                     this.longInteractionObj = this.accessObject;
                     obj.block(this.id);
                 }
@@ -82,14 +82,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.entity.interAction.updateInteraction(obj.objType, info.id);
         this.updateData();
     };
-    
+
     Survivor.prototype.cancelLongInteraction = function () {
-        if (this.longInteractionObj != null) {
+        if (this.longInteractionObj !== null) {
             var obj = this.entity.map.objList[this.longInteractionObj.type][this.longInteractionObj.id];
             var info = obj.check();
             switch (obj.objType) {
                 case SYSTEM.MapObject.Door.Data.ObjType:
-                    if (info.status == SYSTEM.MapObject.Door.Data.Status.Closed) {
+                    if (info.status === SYSTEM.MapObject.Door.Data.Status.Closed) {
                         obj.unblock(this.id);
                     }
                     break;
@@ -102,16 +102,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // use the item in front of the character
     Survivor.prototype.interaction = function () {
         if (!this.actived) return;
-        if (this.accessObject == null) return;
+        if (this.accessObject === null) return;
         var obj = this.entity.map.objList[this.accessObject.type][this.accessObject.id];
         var info = obj.check();
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
-                if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened) {
                     obj.close();
                     break;
                 }
-                if (info.status == SYSTEM.MapObject.Door.Data.Status.Locked) {
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.Locked) {
                     if (this.key.hasOwnProperty(info.id)) {
                         obj.unlock(true);
                         this.entity.message.send(this.id, _Data.message.useKey.replace('#key#', this.entity.map.objList.key[this.key[info.id]].name));
@@ -125,16 +125,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
                 if (info.blocked) {
                     obj.open(false);
-                    this.entity.message.send(this.id, _Data.message.doorBlock);                    
+                    this.entity.message.send(this.id, _Data.message.doorBlock);
                 } else {
                     obj.open(true);
                 }
                 break;
             case SYSTEM.MapObject.Furniture.Data.ObjType:
                 if (info.disabled) break;
-                if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Closed) {
+                if (info.status === SYSTEM.MapObject.Furniture.Data.Status.Closed) {
                     obj.open();
-                } else if (info.key == null) {
+                } else if (info.key === null) {
                     obj.close();
                 } else {
                     var k = [];
@@ -143,7 +143,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         if (!this.key.hasOwnProperty(info.key[i])) k.push(i);
                         else keyNames += this.entity.map.objList.key[i].name + ", ";
                     }
-                    if (k.length == 0) {
+                    if (k.length === 0) {
                         this.entity.message.send(this.id, _Data.message.hasKey + keyNames.substring(0, keyNames.length - 2));
                         break;
                     }
@@ -164,7 +164,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:
-                if (info.key == null) {
+                if (info.key === null) {
                     this.entity.message.send(this.id, _Data.message.noKey);
                     break;
                 }
@@ -175,7 +175,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     if (!this.key.hasOwnProperty(info.key[i])) k.push(i);
                     else keyNames += this.entity.map.objList.key[i].name + ", ";
                 }
-                if (k.length == 0) {
+                if (k.length === 0) {
                     this.entity.message.send(this.id, _Data.message.hasKey + keyNames.substring(0, keyNames.length - 2));
                     break;
                 }
@@ -201,10 +201,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var info = obj.check();
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
-                if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened) {
                     return [SYSTEM.MapObject.Door.Data.Operation.Close];
                 }
-                if (info.status == SYSTEM.MapObject.Door.Data.Status.Locked) {
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.Locked) {
                     if (this.key.hasOwnProperty(info.id)) {
                         return [SYSTEM.MapObject.Door.Data.Operation.Unlock];
                     } else if (this.lockDoor[info.id]) {
@@ -214,11 +214,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 return [SYSTEM.MapObject.Door.Data.Operation.Open, SYSTEM.MapObject.Door.Data.Operation.Block];
                 break;
             case SYSTEM.MapObject.Furniture.Data.ObjType:
-                if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Closed) {
+                if (info.status === SYSTEM.MapObject.Furniture.Data.Status.Closed) {
                     return [SYSTEM.MapObject.Furniture.Data.Operation.Open];
-                } else if (info.key != null) {
+                } else if (info.key !== null) {
                     return [SYSTEM.MapObject.Furniture.Data.Operation.Key];
-                } else if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Opened) {
+                } else if (info.status === SYSTEM.MapObject.Furniture.Data.Status.Opened) {
                     return [SYSTEM.MapObject.Furniture.Data.Operation.Close];
                 }
                 break;
@@ -266,14 +266,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var triggerList = this.entity.interAction.checkPosTrigger(this.id, this.x, this.y);
 
         // leave
-        if (this.triggeringList != null) {
+        if (this.triggeringList !== null) {
             for (var i in this.triggeringList) {
-                if (triggerList== null || !triggerList.hasOwnProperty(i)) {
+                if (triggerList === null || !triggerList.hasOwnProperty(i)) {
                     var obj = this.entity.map.objList[this.triggeringList[i].type][this.triggeringList[i].id];
                     var info = obj.check();
                     switch (obj.objType) {
                         //case SYSTEM.MapObject.Door.Data.ObjType:
-                        //    if (info.status == SYSTEM.MapObject.Door.Data.Status.Closed) {
+                        //    if (info.status === SYSTEM.MapObject.Door.Data.Status.Closed) {
                         //        obj.unblock(this.id);
                         //    }
                         //    break;
@@ -283,14 +283,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         }
 
         // enter
-        if (triggerList != null) {
+        if (triggerList !== null) {
             for (var i in triggerList) {
-                if (this.triggeringList == null || !this.triggeringList.hasOwnProperty(i)) {
+                if (this.triggeringList === null || !this.triggeringList.hasOwnProperty(i)) {
                     var obj = this.entity.map.objList[triggerList[i].type][triggerList[i].id];
                     var info = obj.check();
                     switch (obj.objType) {
                         //case SYSTEM.MapObject.Door.Data.ObjType:
-                        //    if (info.status == SYSTEM.MapObject.Door.Data.Status.Closed) {
+                        //    if (info.status === SYSTEM.MapObject.Door.Data.Status.Closed) {
                         //        obj.block(this.id);
                         //    }
                         //    break;
@@ -310,9 +310,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.hp = 0;
         this.action = 'die';
         this.actived = false;
-        this.accessObject = null;   
-        this.visibleObject = {};    
-        this.visibleCharacter = {}; 
+        this.accessObject = null;
+        this.visibleObject = {};
+        this.visibleCharacter = {};
         this.entity.map.createBody(this);
         this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Die);
         this.entity.sound.once(SYSTEM.Sound.Data.Type.OverAll, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Bell);

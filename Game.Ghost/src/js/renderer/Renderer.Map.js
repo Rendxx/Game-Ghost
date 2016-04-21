@@ -67,6 +67,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _loadCount = 0,
             _textureLoader = null,
 
+            light= null,
             // mesh
             mesh_ground = null,         // ground
             combined_ground = null,
@@ -150,7 +151,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 for (var j = 0, l2 = combined_stuff[i].material.materials.length; j < l2; j++)
                     combined_stuff[i].material.materials[j].needsUpdate = true;
             for (var i in mesh_key) {
-                if (mesh_key[i] == null) continue;
+                if (mesh_key[i] === null) continue;
                 for (var j = 0, l2 = mesh_key[i].material.materials.length; j < l2; j++)
                     mesh_key[i].material.materials[j].needsUpdate = true;
             }
@@ -158,23 +159,23 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // get data ---------------------------------
         this.isDoorLock = function (idx) {
-            return gameData.door[idx].status == _Data.status.door.Locked;
+            return gameData.door[idx].status === _Data.status.door.Locked;
         };
 
         // private method ---------------------------
         var setupLight = function (scene) {
-            if (that.light != null) {
-                for (var i = 0, l = that.light.length; i < l; i++) scene.remove(that.light[i]);
-                that.light = null;
+            if (light !== null) {
+                for (var i = 0, l = light.length; i < l; i++) scene.remove(light[i]);
+                light = null;
             }
 
-            that.light = [
+            light = [
                 new THREE.AmbientLight()
             ];
 
             // Ambient
-            that.light[0].color.setHex(Data.light.ambient.ambColor);
-            scene.add(that.light[0]);
+            light[0].color.setHex(Data.light.ambient.ambColor);
+            scene.add(light[0]);
         };
 
         var setupGround = function (scene, grid, ground_in) {
@@ -184,7 +185,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             mesh_ground = [];
             for (var i = 0, l = ground_in.length; i < l; i++) {
-                if (ground_in[i] == null) continue;
+                if (ground_in[i] === null) continue;
                 createGround(i, ground_in[i], scene, function (idx, dat, mesh) {
                     var id = dat.id;
                     if (!mesh_ground.hasOwnProperty(id)) mesh_ground[id] = [];
@@ -203,7 +204,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var setupWall = function (scene, wall, wallTop) {
             mesh_wall = {};
             for (var i = 0, l = wall.length; i < l; i++) {
-                if (wall[i] == null) continue;
+                if (wall[i] === null) continue;
                 _loadCount++;
                 createWall(i, wall[i], scene, function (idx, dat, mesh) {
                     var id = dat.id;
@@ -216,7 +217,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             mesh_wallTop = {};
             for (var i = 0, l = wallTop.length; i < l; i++) {
-                if (wallTop[i] == null) continue;
+                if (wallTop[i] === null) continue;
                 _loadCount++;
                 createWallTop(i, wallTop[i], scene, function (idx, dat, mesh) {
                     var id = dat.id;
@@ -234,7 +235,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             itemStatus['door'] = {};
             itemData['door'] = {};
             for (var i = 0, l = doors.length; i < l; i++) {
-                if (doors[i] == null) continue;
+                if (doors[i] === null) continue;
                 _loadCount++;
                 createDoor(i, doors[i], scene, function (idx, dat, mesh, tween) {
                     var id = dat.id;
@@ -260,7 +261,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     _map[i][j] = -1;
             }
             for (var i = 0, l = furniture.length; i < l; i++) {
-                if (furniture[i] == null) continue;
+                if (furniture[i] === null) continue;
                 _loadCount++;
                 createFurniture(i, furniture[i], scene, function (idx, dat, mesh, tween) {
                     var id = dat.id;
@@ -281,9 +282,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var setupStuff = function (scene, stuff) {
             mesh_stuff = {};
-            if (stuff == null || stuff.length == 0) return;
+            if (stuff === null || stuff.length === 0) return;
             for (var i = 0, l = stuff.length; i < l; i++) {
-                if (stuff[i] == null) continue;
+                if (stuff[i] === null) continue;
                 _loadCount++;
                 createStuff(stuff[i], scene, function (dat, mesh) {
                     var id = dat.id;
@@ -297,7 +298,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var setupKey = function (scene) {
-            if (mesh_key != null) {
+            if (mesh_key !== null) {
                 for (var i in mesh_key) scene.remove(mesh_key[i]);
                 mesh_key = null;
             }
@@ -323,7 +324,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var createGround = function (idx, dat, scene, onSuccess) {
-            if (dat == null) return null;
+            if (dat === null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
             var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize;
@@ -360,7 +361,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var createWall = function (idx, dat, scene, onSuccess) {
-            if (dat == null) return null;
+            if (dat === null) return null;
             var id = dat.id;
             var r = dat.rotation - 2;
             var len = dat.len;
@@ -368,7 +369,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var y = dat.top - that.height / 2;
             var para = _modelData.items[Data.categoryName.wall][id];
 
-            if ((r & 1) == 0) {
+            if ((r & 1) === 0) {
                 x += len / 2;
             } else {
                 y += len / 2;
@@ -410,7 +411,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var createWallTop = function (idx, dat, scene, onSuccess) {
-            if (dat == null) return null;
+            if (dat === null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
             var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize;
@@ -454,7 +455,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var createFurniture = function (idx, dat, scene, onSuccess) {
-            if (dat == null) return null;
+            if (dat === null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
             var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize;
@@ -475,7 +476,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             loader.load(root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model, function (geometry, materials) {
                 var mesh = null,
                     tweenNew = null;
-                if (para.action == null) {
+                if (para.action === null) {
                     // static furniture
                     mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 } else {
@@ -489,7 +490,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     var recoverPara = {};
                     for (var i in para.action) {
                         for (var j = 0; j < mesh.skeleton.bones.length; j++) {
-                            if (mesh.skeleton.bones[j].name == i) {
+                            if (mesh.skeleton.bones[j].name === i) {
                                 actionPara[j] = {};
                                 recoverPara[j] = {};
                                 if ('z' in para.action[i]) {
@@ -536,7 +537,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var createDoor = function (idx, dat, scene, onSuccess) {
-            if (dat == null) return null;
+            if (dat === null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
             var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize;
@@ -563,7 +564,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             loader.load(root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model, function (geometry, materials) {
                 var mesh = null,
                     tweenNew = null;
-                if (para.action == null) {
+                if (para.action === null || para.action === undefined) {
                     // static furniture
                     mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 } else {
@@ -577,7 +578,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     var recoverPara = {};
                     for (var i in para.action) {
                         for (var j = 0; j < mesh.skeleton.bones.length; j++) {
-                            if (mesh.skeleton.bones[j].name == i) {
+                            if (mesh.skeleton.bones[j].name === i) {
                                 actionPara[j] = {};
                                 recoverPara[j] = {};
                                 if ('z' in para.action[i]) {
@@ -620,7 +621,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var createStuff = function (dat, scene, onSuccess) {
-            if (dat == null) return null;
+            if (dat === null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
             var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize;
@@ -640,7 +641,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                 mesh.position.x = x
                 var mapObjectId = _map[dat.top][dat.left];
-                mesh.position.y = mapObjectId == -1 ? 0 : _modelData.items[Data.categoryName.furniture][mapObjectId].support * GridSize;
+                mesh.position.y = mapObjectId === -1 ? 0 : _modelData.items[Data.categoryName.furniture][mapObjectId].support * GridSize;
                 mesh.position.z = y;
                 mesh.rotation.y = (4 - r) / 2 * Math.PI;
 
@@ -658,8 +659,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var slot = _modelData.items[Data.categoryName.furniture][id].slot;
             var r1 = (((slot[1] >= 0) ? (slot[0] >= 0 ? 0 : 1) : (slot[0] >= 0 ? 3 : 2)) + r) % 4;
-            var offset_x = (r1 == 0 || r1 == 3 ? 1 : -1) * Math.abs(((r & 1) == 0) ? slot[0] : slot[1]);
-            var offset_y = (r1 == 0 || r1 == 1 ? 1 : -1) * Math.abs(((r & 1) == 0) ? slot[1] : slot[0]);
+            var offset_x = (r1 === 0 || r1 === 3 ? 1 : -1) * Math.abs(((r & 1) === 0) ? slot[0] : slot[1]);
+            var offset_y = (r1 === 0 || r1 === 1 ? 1 : -1) * Math.abs(((r & 1) === 0) ? slot[1] : slot[0]);
 
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize + offset_x * GridSize;
             var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize + offset_y * GridSize;
@@ -669,7 +670,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var para_Key = _modelData.items[Data.categoryName.stuff][_Data.keyData];
             var loader = new THREE.JSONLoader();
-            loader.load(root + Data.files.path[Data.categoryName.stuff] + para_Key.id +'/' +para_Key.model, function (geometry, materials) {
+            loader.load(root + Data.files.path[Data.categoryName.stuff] + para_Key.id + '/' + para_Key.model, function (geometry, materials) {
                 var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 mesh.castShadow = false;
                 mesh.receiveShadow = true;
@@ -697,9 +698,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var updateFuniture = function () {
             // update furniture
             for (var i in gameData.furniture) {
-                if (gameData.furniture[i].status != itemStatus['furniture'][i] && itemStatus['furniture'][i] != null) {
+                if (gameData.furniture[i].status !== itemStatus['furniture'][i] && itemStatus['furniture'][i] !== null) {
                     itemStatus['furniture'][i] = gameData.furniture[i].status;
-                    if (itemTween['furniture'] != null && itemTween['furniture'][i] != null) {
+                    if (itemTween['furniture'][i] !== null) {
                         var t = itemTween['furniture'][i][1 - _Data.animationId.furniture[itemStatus['furniture'][i]]];
                         for (var j = 0; j < t.length; j++) {
                             t[j].stop();
@@ -716,10 +717,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var updateDoor = function () {
             // update door
             for (var i in gameData.door) {
-                if (itemStatus['door'][i] != null) {
-                    if (gameData.door[i].status != itemStatus['door'][i]) {
+                if (itemStatus['door'][i] !== null) {
+                    if (gameData.door[i].status !== itemStatus['door'][i]) {
                         itemStatus['door'][i] = gameData.door[i].status;
-                        if (itemTween['door'] != null && itemTween['door'][i] != null) {
+                        if (itemTween['door'] !== null && itemTween['door'][i] !== null) {
                             var t = itemTween['door'][i][1 - _Data.animationId.door[itemStatus['door'][i]]];
                             for (var j = 0; j < t.length; j++) {
                                 t[j].stop();
@@ -737,8 +738,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var updateBody = function () {
             // update body
             for (var i in gameData.body) {
-                if (itemData['body'][i] == null) {
-                    if (entity.characters != null && entity.characters[i] != null) {
+                if (itemData['body'][i] === undefined || itemData['body'][i] === null) {
+                    if (entity.characters !== null && entity.characters[i] !== null) {
                         itemData['body'][i] = {
                             x: entity.characters[i].x,
                             y: entity.characters[i].y,
@@ -751,17 +752,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var updateKey = function () {
             // update key
-            if (_mapData == null) return;
+            if (_mapData === null) return;
             for (var i in mesh_key) {
-                if (gameData.key.hasOwnProperty(i) && gameData.key[i] != null && gameData.key[i].mapObjectId != -1) continue;
-                if (mesh_key[i] == null) continue;
+                if (gameData.key.hasOwnProperty(i) && gameData.key[i] !== null && gameData.key[i].mapObjectId !== -1) continue;
+                if (mesh_key[i] === null) continue;
                 removeKey(i, _scene, function (idx) {
                     delete mesh_key[idx];
                 });
             }
 
             for (var i in gameData.key) {
-                if (mesh_key.hasOwnProperty(i) || gameData.key[i].mapObjectId == -1) continue;
+                if (mesh_key.hasOwnProperty(i) || gameData.key[i].mapObjectId === -1) continue;
                 mesh_key[i] = null;
                 var key = gameData.key[i];
                 createKey(_mapData.item.furniture[key.mapObjectId], i, _scene, function (idx, mesh) {
@@ -772,7 +773,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var createEndPos = function (dat) {
-            if (that.posEnd != null) return;
+            if (that.posEnd !== null) return;
             that.posEnd = [];
             var mat = new THREE.SpriteMaterial({ map: _tex['end'] });
             mat.transparent = true;
@@ -800,7 +801,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var _addToScene = function () {
             // ground
-            if (combined_ground != null) {
+            if (combined_ground !== null) {
                 for (var id in combined_ground) _scene.remove(combined_ground[id]);
             }
             combined_ground = {};
@@ -812,7 +813,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             // ceiling
-            if (combined_ceiling != null) {
+            if (combined_ceiling !== null) {
                 for (var i in combined_ceiling) _scene.remove(combined_ceiling[i]);
             }
             combined_ceiling = {};
@@ -822,7 +823,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             // wall
-            if (combined_wall != null) {
+            if (combined_wall !== null) {
                 for (var id in combined_wall) _scene.remove(combined_wall[id]);
             }
             combined_wall = {};
@@ -834,7 +835,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             // wall top
-            if (combined_wallTop != null) {
+            if (combined_wallTop !== null) {
                 for (var id in combined_wallTop) _scene.remove(combined_wallTop[id]);
             }
             combined_wallTop = {};
@@ -844,7 +845,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             // door 
-            if (combined_door != null) {
+            if (combined_door !== null) {
                 for (var id in combined_door) _scene.remove(combined_door[id]);
             }
             combined_door = {};
@@ -859,7 +860,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             // furniture 
-            if (combined_furniture != null) {
+            if (combined_furniture !== null) {
                 for (var id in combined_furniture) _scene.remove(combined_furniture[id]);
             }
             combined_furniture = {};
@@ -881,7 +882,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             // stuff 
-            if (combined_stuff != null) {
+            if (combined_stuff !== null) {
                 for (var id in combined_stuff) _scene.remove(combined_stuff[id]);
             }
             combined_stuff = {};

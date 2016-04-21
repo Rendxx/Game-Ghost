@@ -19,7 +19,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.name = name;
 
         // callback
-        this.onChange = null;        
+        this.onChange = null;
     };
     Basic.prototype = Object.create(null);
     Basic.prototype.constructor = Basic;
@@ -49,9 +49,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.characterId = -1;
         this.updateData();
     };
-    
+
     Basic.prototype.updateData = function () {
-        if (this.onChange == null) return;
+        if (this.onChange === null) return;
         this.onChange(this.id, this.toJSON());
     };
 

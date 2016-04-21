@@ -49,14 +49,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var that = this,
             _sounds_once = {},
             _sounds_conherent = {}
-        
+
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
         this.once = function (soundType, objType, id, soundName) {
-            if (soundType == _Data.Type.Effort) {
+            if (soundType === _Data.Type.Effort) {
                 _sounds_once[soundType][id] = soundName;
-            }else if (soundType == _Data.Type.Normal) {
+            } else if (soundType === _Data.Type.Normal) {
                 _sounds_once[soundType][objType + '_' + id + '_' + soundName] = {
                     type: objType,
                     id: id,

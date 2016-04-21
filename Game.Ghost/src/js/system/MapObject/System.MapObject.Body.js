@@ -54,14 +54,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Body.prototype.takeKey = function (keyIds) {
         if (this.key === null || keyIds === undefined || keyIds.length === 0) return [];
         var rst = {};
-        for (var i = 0; i<keyIds.length; i++) {
+        for (var i = 0; i < keyIds.length; i++) {
             var k = keyIds[i];
             if (this.key.hasOwnProperty(k)) {
                 rst[k] = this.key[k];
                 delete this.key[k];
             }
         }
-        
+
         var noKey = true;
         for (var i in this.key) {
             noKey = false;

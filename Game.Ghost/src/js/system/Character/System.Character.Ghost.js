@@ -37,7 +37,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Method --------------------------------------------------------
     Ghost.prototype.reset = function (_recoverData) {
-        if (_recoverData == null) return;
+        if (_recoverData === null || _recoverData === undefined) return;
         SYSTEM.Character.Basic.prototype.reset.call(this, _recoverData);
     };
 
@@ -50,14 +50,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // use the item in front of the character
     Ghost.prototype.interaction = function () {
         if (!this.actived) return;
-        if (this.accessObject == null) return;
+        if (this.accessObject === null) return;
         var obj = this.entity.map.objList[this.accessObject.type][this.accessObject.id];
         var info = obj.check();
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
-                if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened) {
                     obj.close();
-                } else if (info.status == SYSTEM.MapObject.Door.Data.Status.Locked) {
+                } else if (info.status === SYSTEM.MapObject.Door.Data.Status.Locked) {
                     obj.unlock(false);
                     this.entity.message.send(this.id, _Data.message.doorLock.replace('#name#', obj.name));
                 } else if (info.blocked) {
@@ -69,7 +69,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 break;
             case SYSTEM.MapObject.Furniture.Data.ObjType:
                 if (info.disabled) break;
-                if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Closed) {
+                if (info.status === SYSTEM.MapObject.Furniture.Data.Status.Closed) {
                     obj.open();
                 } else {
                     obj.close();
@@ -86,14 +86,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var info = obj.check();
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
-                if (info.status == SYSTEM.MapObject.Door.Data.Status.Opened) {
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened) {
                     return [SYSTEM.MapObject.Door.Data.Operation.Close];
                 }
                 return [SYSTEM.MapObject.Door.Data.Operation.Open];
                 break;
             case SYSTEM.MapObject.Furniture.Data.ObjType:
-                if (info.status == SYSTEM.MapObject.Furniture.Data.Status.None) return [SYSTEM.MapObject.Basic.Data.Operation.None];
-                if (info.status == SYSTEM.MapObject.Furniture.Data.Status.Closed) {
+                if (info.status === SYSTEM.MapObject.Furniture.Data.Status.None) return [SYSTEM.MapObject.Basic.Data.Operation.None];
+                if (info.status === SYSTEM.MapObject.Furniture.Data.Status.Closed) {
                     return [SYSTEM.MapObject.Furniture.Data.Operation.Open];
                 }
                 return [SYSTEM.MapObject.Furniture.Data.Operation.Close];
@@ -134,7 +134,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // random fly
         this.teleportCount++;
         if (this.teleportCount >= _Data.teleportCountMax) {
-            var yx =  this.entity.interAction.findEmptyPos();
+            var yx = this.entity.interAction.findEmptyPos();
             this.x = yx[1] + 0.5;
             this.y = yx[0] + 0.5;
             this.teleportCount = 0;
@@ -154,7 +154,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Ghost.prototype.teleport = function () {
         if (this.endurance >= this.modelData.para.endurance / 5) {
-            var yx =  this.entity.interAction.findEmptyPos();
+            var yx = this.entity.interAction.findEmptyPos();
             this.x = yx[1] + 0.5;
             this.y = yx[0] + 0.5;
             this.endurance -= this.modelData.para.endurance / 5;

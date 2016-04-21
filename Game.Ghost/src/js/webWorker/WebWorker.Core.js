@@ -56,7 +56,7 @@ var funcMap = {
         };
     },
     "action": function (para) {
-        if (_system == null) return;
+        if (_system === null) return;
         var clientId = undefined,
             dat = undefined;
         if (para) {
@@ -66,13 +66,13 @@ var funcMap = {
         _system.action(clientId, dat);
     },
     "receive": function (para) {
-        if (_system == null) return;
+        if (_system === null) return;
         var msg = undefined;
         if (para) msg = para.msg;
         _system.receive(msg);
     },
     "reset": function (para) {
-        if (_system == null) return;
+        if (_system === null) return;
         var setupData = undefined,
             gameData = undefined;
         if (para) {
@@ -82,7 +82,7 @@ var funcMap = {
         _system.reset(setupData, gameData);
     },
     "setup": function (para) {
-        if (_system == null) return;
+        if (_system === null) return;
         var modelData = undefined,
             mapData = undefined,
             playerData = undefined;
@@ -94,29 +94,29 @@ var funcMap = {
         _system.setup(modelData, mapData, playerData);
     },
     "start": function () {
-        if (_system == null) return;
+        if (_system === null) return;
         _system.start();
     },
     "end": function () {
-        if (_system == null) return;
+        if (_system === null) return;
         _system.end();
     },
     "renew": function () {
-        if (_system == null) return;
+        if (_system === null) return;
         _system.renew();
     },
     "pause": function () {
-        if (_system == null) return;
+        if (_system === null) return;
         _system.pause();
     },
     "continue": function () {
-        if (_system == null) return;
+        if (_system === null) return;
         _system.continue();
     }
 };
 
 
 onmessage = function (e) {
-    if (e == null || e.data == null || e.data.func == null || !funcMap.hasOwnProperty(e.data.func)) return;
+    if (!funcMap.hasOwnProperty(e.data.func)) return;
     funcMap[e.data.func](e.data.para);
 };
