@@ -96,6 +96,7 @@
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Face-Ghost-Mary-.png" />
     <Content Include="ModelBuilder\Player\survivor.old\player-uv-body-ghost-mary.png" />
     <Content Include="ModelBuilder\Player\basic\player-basic.uv.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.tex.dds" />
     <Content Include="ModelBuilder\Player\survivor\capboy\player-capboy.tex.png" />
     <Content Include="ModelBuilder\Player\survivor\capboy\player-capboy.uv.png" />
     <Content Include="ModelBuilder\Player\survivor\girl2\player-girl2.tex.png" />
@@ -165,6 +166,7 @@
     <Content Include="Model\Furniture\toilet_b_1_1\toilet_b_1_1.tex.png" />
     <Content Include="Model\Player\basic\player-basic.tex.png" />
     <Content Include="Model\Player\blue\Player-Texture-2.png" />
+    <Content Include="Model\Player\bobo\player-bobo.tex.dds" />
     <Content Include="Model\Player\bobo\player-bobo.tex.png" />
     <Content Include="Model\Player\capboy\player-capboy.tex.png" />
     <Content Include="Model\Player\ghost-mary\player-mary.tex.png" />
