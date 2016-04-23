@@ -477,7 +477,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             loader.load(root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model, function (geometry, materials) {
                 var mesh = null,
                     tweenNew = null;
-                if (para.action === null) {
+                if (para.action === undefined || para.action === null) {
                     // static furniture
                     mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
                 } else {

@@ -290,7 +290,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         scene.add(that.torch);
                     }
 
-                    if (topLightData !== null) {
+                    if (topLightData !== null && false) {
                         that.topLight = new THREE.SpotLight(parseInt(topLightData.color));
                         that.topLight.position.x = that.mesh.position.x + topLightData.x * GridSize;
                         that.topLight.position.y = that.mesh.position.y + topLightData.y * GridSize;

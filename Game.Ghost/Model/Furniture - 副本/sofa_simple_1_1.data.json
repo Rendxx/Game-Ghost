@@ -1,0 +1,20 @@
+﻿{
+  "id": "sofa_simple_1_1",
+  "dimension": [ 1, 1, 1 ],
+  "blockSight": false,
+  "support": 0.4,
+  "slot": [ 0, 0, 0.4 ],
+  "accessPos": [
+    [ -1, 0 ],
+    [ -1, 1 ],
+
+    [ 0, 1 ],
+
+    [ 1, 0 ],
+    [ 1, 1 ]
+  ],
+  "slotInside": false,
+  "model": "sofa_simple_1_1.json",
+  "texture": [ "sofa_simple_1_1.tex.png" ],
+  "icon": "sofa_simple_1_1.icon.png"
+}

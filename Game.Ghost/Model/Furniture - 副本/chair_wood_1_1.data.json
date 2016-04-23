@@ -1,0 +1,23 @@
+﻿{
+  "id": "chair_wood_1_1",
+  "dimension": [ 1, 1, 1 ],
+  "blockSight": false,
+  "support": 0.6,
+  "slot": [ 0, 0, 0.6 ],
+  "accessPos": [
+    [ -1, -1 ],
+    [ -1, 0 ],
+    [ -1, 1 ],
+
+    [ 0, -1 ],
+    [ 0, 1 ],
+
+    [ 1, -1 ],
+    [ 1, 0 ],
+    [ 1, 1 ]
+  ],
+  "slotInside": false,
+  "model": "chair.json",
+  "texture": [ "chair_wood_1_1.png" ],
+  "icon": "chair_wood_1_1.icon.png"
+}
