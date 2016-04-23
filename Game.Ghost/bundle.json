@@ -51,6 +51,7 @@
     "js": {
       "#dest#/Game.Ghost.Renderer": [
         "#src#/lib/OBJLoader.js",
+        "#src#/lib/DDSLoader.js",
         "#src#/renderer/Renderer.Data.js",
         "#src#/renderer/Renderer.Environment.js",
         "#src#/renderer/Renderer.Camera.js",

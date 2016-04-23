@@ -695,12 +695,69 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // setup -----------------------------------------------------
         var _setupTex = function () {
             tex = {};
-            var textureLoader = new THREE.TextureLoader();
             var path = root + Data.files.path[Data.categoryName.sprite];
-            tex['fog'] = textureLoader.load(path + 'fog.png');
-            tex['nameDeco'] = textureLoader.load(path + 'name-deco-white.png');
-            tex['deadScreen'] = textureLoader.load(path + 'DeadScreen.png');
-            tex['escapeScreen'] = textureLoader.load(path + 'EscapeScreen.png');
+
+            //// texture loader -------------------------------------------------------------------------------------------
+            //var textureLoader = new THREE.TextureLoader();
+            //tex['fog'] = textureLoader.load(path + 'fog.png');
+            //tex['nameDeco'] = textureLoader.load(path + 'name-deco-white.png');
+            //tex['deadScreen'] = textureLoader.load(path + 'DeadScreen.png');
+            //tex['escapeScreen'] = textureLoader.load(path + 'EscapeScreen.png');
+            //tex['interaction'] = {
+            //    'normal': {
+            //        'furniture': {
+            //        },
+            //        'door': {
+            //        },
+            //        'body': {
+            //        }
+            //    },
+            //    'highlight': {
+            //        'furniture': {
+            //        },
+            //        'door': {
+            //        },
+            //        'body': {
+            //        }
+            //    }
+            //};
+
+            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open.png');
+            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close.png');
+            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = textureLoader.load(path + 'interaction.key.png');
+            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search.png');
+            //tex['interaction']['normal']['body'][_Data.operation.body.Search] = textureLoader.load(path + 'interaction.search.png');
+            //tex['interaction']['normal']['door'][_Data.operation.door.Open] = textureLoader.load(path + 'interaction.door.open.png');
+            //tex['interaction']['normal']['door'][_Data.operation.door.Close] = textureLoader.load(path + 'interaction.door.close.png');
+            //tex['interaction']['normal']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock.png');
+            //tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock.png');
+            ////tex['interaction']['normal']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.block.png');
+
+            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open-2.png');
+            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close-2.png');
+            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key] = textureLoader.load(path + 'interaction.key-2.png');
+            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search-2.png');
+            //tex['interaction']['highlight']['body'][_Data.operation.body.Search] = textureLoader.load(path + 'interaction.search-2.png');
+            //tex['interaction']['highlight']['door'][_Data.operation.door.Open] = textureLoader.load(path + 'interaction.door.open-2.png');
+            //tex['interaction']['highlight']['door'][_Data.operation.door.Close] = textureLoader.load(path + 'interaction.door.close-2.png');
+            //tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock-2.png');
+            //tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock-2.png');
+            //tex['interaction']['highlight']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.door.block-2.png');
+
+            ////tex['enduranceBarBase'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
+
+
+            // DDS Loader -------------------------------------------------------------------------------------------
+            var ddsLoader = new THREE.DDSLoader();
+            tex['fog'] = ddsLoader.load(path + 'fog.dds');
+            tex['fog'].anisotropy = 4;
+            tex['nameDeco'] = ddsLoader.load(path + 'name-deco-white.dds');
+            tex['nameDeco'].anisotropy = 4;
+            tex['deadScreen'] = ddsLoader.load(path + 'DeadScreen.dds');
+            tex['deadScreen'].anisotropy = 4;
+            tex['escapeScreen'] = ddsLoader.load(path + 'EscapeScreen.dds');
+            tex['escapeScreen'].anisotropy = 4;
+
             tex['interaction'] = {
                 'normal': {
                     'furniture': {
@@ -720,29 +777,48 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 }
             };
 
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open.png');
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close.png');
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = textureLoader.load(path + 'interaction.key.png');
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search.png');
-            tex['interaction']['normal']['body'][_Data.operation.body.Search] = textureLoader.load(path + 'interaction.search.png');
-            tex['interaction']['normal']['door'][_Data.operation.door.Open] = textureLoader.load(path + 'interaction.door.open.png');
-            tex['interaction']['normal']['door'][_Data.operation.door.Close] = textureLoader.load(path + 'interaction.door.close.png');
-            tex['interaction']['normal']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock.png');
-            tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock.png');
-            //tex['interaction']['normal']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.block.png');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = ddsLoader.load(path + 'interaction.open.dds');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open].anisotropy = 4;
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = ddsLoader.load(path + 'interaction.close.dds');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close].anisotropy = 4;
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = ddsLoader.load(path + 'interaction.key.dds');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key].anisotropy = 4;
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = ddsLoader.load(path + 'interaction.search.dds');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search].anisotropy = 4;
+            tex['interaction']['normal']['body'][_Data.operation.body.Search] = ddsLoader.load(path + 'interaction.search.dds');
+            tex['interaction']['normal']['body'][_Data.operation.body.Search].anisotropy = 4;
+            tex['interaction']['normal']['door'][_Data.operation.door.Open] = ddsLoader.load(path + 'interaction.door.open.dds');
+            tex['interaction']['normal']['door'][_Data.operation.door.Open].anisotropy = 4;
+            tex['interaction']['normal']['door'][_Data.operation.door.Close] = ddsLoader.load(path + 'interaction.door.close.dds');
+            tex['interaction']['normal']['door'][_Data.operation.door.Close].anisotropy = 4;
+            tex['interaction']['normal']['door'][_Data.operation.door.Locked] = ddsLoader.load(path + 'interaction.lock.dds');
+            tex['interaction']['normal']['door'][_Data.operation.door.Locked].anisotropy = 4;
+            tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = ddsLoader.load(path + 'interaction.unlock.dds');
+            tex['interaction']['normal']['door'][_Data.operation.door.Unlock].anisotropy = 4;
+            //tex['interaction']['normal']['door'][_Data.operation.door.Block] = ddsLoader.load(path + 'interaction.block.dds');
 
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open-2.png');
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close-2.png');
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key] = textureLoader.load(path + 'interaction.key-2.png');
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search-2.png');
-            tex['interaction']['highlight']['body'][_Data.operation.body.Search] = textureLoader.load(path + 'interaction.search-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Open] = textureLoader.load(path + 'interaction.door.open-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Close] = textureLoader.load(path + 'interaction.door.close-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.door.block-2.png');
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = ddsLoader.load(path + 'interaction.open-2.dds');
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open].anisotropy = 4;
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close] = ddsLoader.load(path + 'interaction.close-2.dds');
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close].anisotropy = 4;
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key] = ddsLoader.load(path + 'interaction.key-2.dds');
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key].anisotropy = 4;
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search] = ddsLoader.load(path + 'interaction.search-2.dds');
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search].anisotropy = 4;
+            tex['interaction']['highlight']['body'][_Data.operation.body.Search] = ddsLoader.load(path + 'interaction.search-2.dds');
+            tex['interaction']['highlight']['body'][_Data.operation.body.Search].anisotropy = 4;
+            tex['interaction']['highlight']['door'][_Data.operation.door.Open] = ddsLoader.load(path + 'interaction.door.open-2.dds');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Open].anisotropy = 4;
+            tex['interaction']['highlight']['door'][_Data.operation.door.Close] = ddsLoader.load(path + 'interaction.door.close-2.dds');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Close].anisotropy = 4;
+            tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = ddsLoader.load(path + 'interaction.lock-2.dds');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Locked].anisotropy = 4;
+            tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = ddsLoader.load(path + 'interaction.unlock-2.dds');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Unlock].anisotropy = 4;
+            tex['interaction']['highlight']['door'][_Data.operation.door.Block] = ddsLoader.load(path + 'interaction.door.block-2.dds');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Block].anisotropy = 4;
 
-            //tex['enduranceBarBase'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
+            //tex['enduranceBarBase'] = ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.dds');
         };
 
         var _init = function () {

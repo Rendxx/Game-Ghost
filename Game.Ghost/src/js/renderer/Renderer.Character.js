@@ -355,8 +355,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var setupSprite = function () {
             spriteTex = {
             };
-            var textureLoader = new THREE.TextureLoader();
-            spriteTex['highlight'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.png');
+            //var textureLoader = new THREE.TextureLoader();
+            //spriteTex['highlight'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.png');
+
+            var ddsLoader = new THREE.DDSLoader();
+            spriteTex['highlight'] = ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.dds');
+            spriteTex['highlight'].anisotropy = 4;
         };
 
         var hexToRgb = function (hex) {
