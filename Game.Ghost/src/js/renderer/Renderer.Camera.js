@@ -459,7 +459,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // Message ---------------------------------------------------
         var updateMessage = function () {
-            if (that.character.message == undefined || that.character.message == null) return;
+            if (that.character.message === undefined || that.character.message === null) return;
             showMessage(that.character.message);
             that.character.message = null;
         };
