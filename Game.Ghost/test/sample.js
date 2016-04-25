@@ -4,20 +4,29 @@
     // game -----------------------------------------------------
     var _root = null;
     var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], false);
-    var systemWrapper = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
-    systemWrapper.onSetuped = function (setupData) {
+    var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
+    system.onSetuped = function (setupData) {
         renderer.reset(setupData);
     };
-    systemWrapper.onStarted = function (modelData, mapData) {
+    system.onStarted = function (modelData, mapData) {
     };
-    systemWrapper.onEnd = function (endData) {
+    system.onEnd = function (endData) {
         renderer.hide();
         var s = endData.survivorWin ? "Survivor Escaped!!!!" : "Survior all killed!!!";
         var t = endData.survivorWin ? "GOOD JOB" + " Team " + endData.team : "GAME OVER";
         $$.info.alert(s, t, false, "rgba(0,0,0,0.6)", null);
         console.log(endData);
     };
-    systemWrapper.setup({
+    system.onUpdated = function (gamepData) {
+        renderer.updateGame(gamepData);
+    };
+    renderer.onSetuped = function () {
+        SetupControl(system, 'p1');
+        renderer.show();
+    };
+    renderer.hide();
+
+    system.setup({
         'p1': {
             id: 'p1',
             name: 'player 1',
@@ -68,18 +77,7 @@
     },{ 
         map: 'test'
     });
-
-    systemWrapper.onUpdated = function (gamepData) {
-        renderer.updateGame(gamepData);
-    }; 
-    //renderer.onTimeInterval = system.nextInterval;
-
-    renderer.onSetuped = function () {
-        SetupControl(systemWrapper, 'p1');
-        systemWrapper.start();
-        renderer.show();
-    };
-    renderer.hide();
+    system.start();
 });
 
 

@@ -86,12 +86,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 'characterIdxMap': characterIdxMap,
                 'characterRoleMap': this.characterRoleMap
             };
-            this.onSetuped(setupData);
             for (var i in playerData) {
                 this.clientSetup([i], { role: playerData[i].role, color: this.characters[characterIdxMap[i]].color });
             }
 
             flag_setuped = true;
+            this.onSetuped(setupData);
             if (flag_started && !isStarted) this.start();
         };
 

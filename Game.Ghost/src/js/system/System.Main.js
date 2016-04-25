@@ -8,17 +8,21 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
-    var Main = function (root, core) {
+    var Main = function (root, corePath) {
         // data ----------------------------------------------------------
         var that = this,
             // components
-            worker = null,
+            core = null,            // webworker for core
             fileLoader = null,
+
+            // parameters
             root = root || '',
+
             // cache
             _mapData = null,
             _modelData = null,
             _playerData = null,
+
             // function map
             funcMap = {
                 "send": function (para) {
@@ -65,7 +69,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.send = null;   // (code, content)
 
         this.receive = function (msg) {
-            worker.postMessage({
+            core.postMessage({
                 func: 'receive',
                 para: {
                     msg: msg
@@ -74,7 +78,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         this.action = function (clientId, dat) {
-            worker.postMessage({
+            core.postMessage({
                 func: 'action',
                 para: {
                     clientId: clientId,
@@ -91,8 +95,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.onEnd = null;          // (target, clientData)
 
         // update ---------------------------------------------
+        // reset the game with given data
         this.reset = function (setupData, gameData) {
-            worker.postMessage({
+            core.postMessage({
                 func: 'reset',
                 para: {
                     setupData: setupData,
@@ -101,6 +106,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             });
         }
 
+        // setup a new game
         this.setup = function (playerData, para) {
             _playerData = playerData;
             var mapName = para.map;
@@ -117,36 +123,34 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // game ------------------------------------------------
         this.start = function () {
-            worker.postMessage({
+            core.postMessage({
                 func: 'start',
                 para: {}
             });
         };
 
         this.end = function () {
-            worker.postMessage({
+            core.postMessage({
                 func: 'end',
                 para: {}
             });
         };
 
         this.renew = function () {
+            _mapData = null;
+            _playerData = null;
             _setupWebWorker();
-            //worker.postMessage({
-            //    func: 'renew',
-            //    para: {}
-            //});
         };
 
         this.pause = function () {
-            worker.postMessage({
+            core.postMessage({
                 func: 'pause',
                 para: {}
             });
         };
 
         this.continue = function () {
-            worker.postMessage({
+            core.postMessage({
                 func: 'continue',
                 para: {
                 }
@@ -156,7 +160,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method ------------------------------------------------
         var onLoaded = function () {
             if (_mapData === null || _modelData === null) return;
-            worker.postMessage({
+            core.postMessage({
                 func: 'setup',
                 para: {
                     modelData: _modelData,
@@ -175,13 +179,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         var _setupWebWorker = function () {
-            if (worker !== null) worker.terminate();
-            worker = new Worker((root || "") + core);
-            worker.onmessage = function (e) {
+            if (core !== null) core.terminate();
+            core = new Worker((root || "") + corePath);
+            core.onmessage = function (e) {
                 if (!funcMap.hasOwnProperty(e.data.func)) return;
                 funcMap[e.data.func](e.data.para);
             };
-            worker.postMessage({
+            core.postMessage({
                 func: 'init',
                 para: {}
             });
@@ -195,10 +199,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     /**
-     * Create web worker
+     * Create web core
      */
-    SYSTEM.Create = function (root, core) {
-        var main = new Main(root, core);
+    SYSTEM.Create = function (root, corePath) {
+        var main = new Main(root, corePath);
         return main;
     };
 })(window.Rendxx.Game.Ghost.System);
