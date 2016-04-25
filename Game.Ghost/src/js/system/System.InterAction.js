@@ -84,6 +84,22 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return rst;
         };
 
+
+        // check whether this position can be moved to, return result
+        this.moveCheck2 = function (x, y, deltaX, deltaY) {
+            var newX = Math.floor(x + deltaX),
+                newY = Math.floor(y + deltaY),
+                oldX = Math.floor(x),
+                oldY = Math.floor(y);
+
+            var rst = [x + deltaX, y + deltaY];
+            if (deltaX !== 0 && (newX < 0 || newX >= width || (map.grid.empty[oldY][newX] !== SYSTEM.Map.Data.Grid.Empty && map.grid.empty[oldY][newX] !== SYSTEM.Map.Data.Grid.Door)))
+                rst[0] = (deltaX > 0) ? newX : newX + 1;
+            if (deltaY !== 0 && (newY < 0 || newY >= height || (map.grid.empty[newY][oldX] !== SYSTEM.Map.Data.Grid.Empty && map.grid.empty[newY][oldX] !== SYSTEM.Map.Data.Grid.Door)))
+                rst[1] = (deltaY > 0) ? newY : newY + 1;
+            return rst;
+        };
+
         // get obj triggered in the position
         this.checkPosTrigger = function (c, x, y) {
             x = Math.floor(x);

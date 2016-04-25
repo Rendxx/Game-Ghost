@@ -96,8 +96,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.color = hexToRgb(character.color);
 
             //camera
-            that.camera = new THREE.PerspectiveCamera(45, that.width / that.height, .1, 30 * GridSize);
-            that.camera.position.y = 20 * GridSize;
+            that.camera = new THREE.PerspectiveCamera(45, that.width / that.height, .1, 40 * GridSize);
+            if (that.character.role === Data.character.type.ghost)
+                that.camera.position.y = 30 * GridSize;
+            else
+                that.camera.position.y = 20 * GridSize;
             that.camera.position.x = 0;
             that.camera.position.z = 0;
             that.camera.lookAt(new THREE.Vector3(0, 0, 0));
@@ -210,7 +213,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // fog
             sprites["fog"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["fog"] }));
-            sprites["fog"].scale.set(_Data.fogRange * GridSize, _Data.fogRange * GridSize, 1.0);
+            if (that.character.role === Data.character.type.ghost)
+                sprites["fog"].scale.set((_Data.fogRange+7) * GridSize, (_Data.fogRange+7) * GridSize, 1.0);
+            else
+                sprites["fog"].scale.set(_Data.fogRange * GridSize, _Data.fogRange * GridSize, 1.0);
             sprites["fog"].material.transparent = true;
             sprites["fog"].material.opacity = 0.95;
             that.sceneEffort.add(sprites["fog"]);
@@ -453,7 +459,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // Message ---------------------------------------------------
         var updateMessage = function () {
-            if (that.character.message === undefined || that.character.message === null) return;
+            if (that.character.message == undefined || that.character.message == null) return;
             showMessage(that.character.message);
             that.character.message = null;
         };

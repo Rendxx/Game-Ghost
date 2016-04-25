@@ -12,9 +12,9 @@
         "body": 10
       },
       "move": {
-        "walk": 2.6,
+        "walk": 6,
         "run": 40,
-        "back": -1.6
+        "back": -2
       }
     },
     "interactionDistance": 0.42

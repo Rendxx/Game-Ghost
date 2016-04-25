@@ -54,8 +54,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         battery: 100,
                         endurance: 0
                     },
-                    enduranceCost: 200,
-                    enduranceRecover: 3,
+                    enduranceCost: 500,
+                    enduranceRecover: 10,
                     batteryCost: 0
                 }
             }

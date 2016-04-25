@@ -119,6 +119,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.updateObList = function (clientData) {
         };
 
+        var lookCache = false;
         this.updateGame = function (gameData) {
             if (gameData === undefined || gameData === null || !flag_loaded) return;
             that.map.update(gameData.map);
@@ -132,6 +133,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         for (var idx in gameData.characters[i].visibleCharacter) {
                             if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
                         }
+
+
+                        if (gameData.characters[i].look) {
+                            if (!lookCache) that.map.ambient.color.setHex(0x663333);
+                        } else {
+                            if (lookCache) that.map.ambient.color.setHex(Data.light.ambient.ambColor);
+                        }
+                        lookCache = gameData.characters[i].look;
                     }
                 }
             } else {
@@ -141,12 +150,19 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         for (var idx in gameData.characters[i].visibleCharacter) {
                             if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
                         }
+                    } else {
+                        if (gameData.characters[i].look) {
+                            if (!lookCache) that.map.ambient.color.setHex(0x663333);
+                        } else {
+                            if (lookCache) that.map.ambient.color.setHex(Data.light.ambient.ambColor);
+                        }
+                        lookCache = gameData.characters[i].look;
                     }
                 }
             }
 
             for (var i = 0, l = that.characters.length; i < l; i++) {
-                if (gameData.message!==null && gameData.message[i]!==null) that.characters[i].showMessage(gameData.message[i]);
+                if (gameData.message!=null && gameData.message[i]!=null) that.characters[i].showMessage(gameData.message[i]);
                 that.characters[i].update(gameData.characters[i], playerVisibleList[i] === true);
             }
             that.sound.update(gameData.sound, gameData.characters);

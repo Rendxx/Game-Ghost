@@ -97,6 +97,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             body: {}
         };
         this.posEnd = null;
+        this.ambient = null;
 
         // callback --------------------------------
         this.onLoaded = null;
@@ -177,6 +178,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // Ambient
             light[0].color.setHex(Data.light.ambient.ambColor);
             scene.add(light[0]);
+            that.ambient = light[0];
         };
 
         var setupGround = function (scene, grid, ground_in) {
