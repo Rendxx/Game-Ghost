@@ -62,33 +62,33 @@
         "#src#/renderer/Renderer.Main.js"
       ],
       "#dest#/Game.Ghost.System.Core": [
-        "#src#/webWorker/WebWorker.Core.js",
+        "#src#/system/Core/System.WebWorkerWrapper.js",
         "#src#/system/System.Data.js",
-        "#src#/system/System.Message.js",
-        "#src#/system/System.Sound.js",
+        "#src#/system/Core/System.Message.js",
+        "#src#/system/Core/System.Sound.js",
         // MapObject
-        "#src#/system/MapObject/System.MapObject.Basic.js",
-        "#src#/system/MapObject/System.MapObject.Body.js",
-        "#src#/system/MapObject/System.MapObject.Furniture.js",
-        "#src#/system/MapObject/System.MapObject.Door.js",
-        "#src#/system/MapObject/System.MapObject.Position.js",
+        "#src#/system/Core/MapObject/System.MapObject.Basic.js",
+        "#src#/system/Core/MapObject/System.MapObject.Body.js",
+        "#src#/system/Core/MapObject/System.MapObject.Furniture.js",
+        "#src#/system/Core/MapObject/System.MapObject.Door.js",
+        "#src#/system/Core/MapObject/System.MapObject.Position.js",
         // Item
-        "#src#/system/Item/System.Item.Basic.js",
-        "#src#/system/Item/System.Item.Key.js",
+        "#src#/system/Core/Item/System.Item.Basic.js",
+        "#src#/system/Core/Item/System.Item.Key.js",
         // Character
-        "#src#/system/Character/System.Character.Basic.js",
-        "#src#/system/Character/System.Character.Survivor.js",
-        "#src#/system/Character/System.Character.Ghost.js",
+        "#src#/system/Core/Character/System.Character.Basic.js",
+        "#src#/system/Core/Character/System.Character.Survivor.js",
+        "#src#/system/Core/Character/System.Character.Ghost.js",
 
-        "#src#/system/System.Map.js",
-        "#src#/system/System.InterAction.js",
-        "#src#/system/System.UserInput.js",
-        "#src#/system/System.Main.js"
+        "#src#/system/Core/System.Map.js",
+        "#src#/system/Core/System.InterAction.js",
+        "#src#/system/Core/System.UserInput.js",
+        "#src#/system/Core/System.Core.js"
       ],
       "#dest#/Game.Ghost.System.Wrapper": [
         "#src#/system/System.Data.js",
         "#src#/system/System.FileLoader.js",
-        "#src#/webWorker/WebWorker.Wrapper.js"
+        "#src#/system/System.Main.js"
       ],
       "#mapDesigner#/_index": [
         "#mapDesigner#/Scripts/Data.js",

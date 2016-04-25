@@ -3,7 +3,7 @@ var _system = null;
 
 var funcMap = {
     "init": function (para) {
-        _system = window.Rendxx.Game.Ghost.System.Create();
+        _system = new window.Rendxx.Game.Ghost.System.Core();
         _system.send = function (dat) {
             postMessage({
                 func: 'send',
