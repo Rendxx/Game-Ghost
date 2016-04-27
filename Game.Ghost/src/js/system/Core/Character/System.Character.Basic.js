@@ -199,21 +199,35 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 speed = _speed_move[this.action] / 100;
                 var _radius_x = 0;
                 var _radius_y = 0;
-                var _radius = this.modelData.radius;
                 var deltaX = speed * Math.sin(this.currentRotation.body / 180 * Math.PI);
                 var deltaY = speed * Math.cos(this.currentRotation.body / 180 * Math.PI);
 
-                if (deltaX > 0) _radius_x = _radius;
-                else if (deltaX < 0) _radius_x = -_radius;
-                if (deltaY > 0) _radius_y = _radius;
-                else if (deltaY < 0) _radius_y = -_radius;
-                deltaX += _radius_x;
-                deltaY += _radius_y;
-                var canMove = this.entity.interAction.moveCheck(this.x, this.y, deltaX, deltaY);
-                if (deltaX !== 0) this.x = canMove[0] - _radius_x;
-                if (deltaY !== 0) this.y = canMove[1] - _radius_y;
+                this._move(deltaX, deltaY);
             }
         }
+    };
+
+    Basic.prototype._move = function (deltaX, deltaY) {
+        var _radius = this.modelData.radius;
+        var x2 = this.x + deltaX + (deltaX > 0 ? _radius : -_radius),
+            y2 = this.y + deltaY + (deltaY > 0 ? _radius : -_radius);
+        var newX = Math.floor(x2),
+            newY = Math.floor(y2),
+            oldX = Math.floor(this.x),
+            oldY = Math.floor(this.y);
+
+        var obj_x = this.entity.interAction.getObject(newX, oldY);
+        var obj_y = this.entity.interAction.getObject(oldX, newY);
+
+        if (obj_x === null || (obj_x.type === SYSTEM.Map.Data.Grid.Door && obj_x.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened)) 
+            this.x += deltaX;
+        else 
+            this.x = deltaX > 0 ? (newX - _radius) : (newX + 1 + _radius);
+
+        if (obj_y === null || (obj_y.type === SYSTEM.Map.Data.Grid.Door && obj_y.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened))
+            this.y += deltaY;
+        else 
+            this.y = deltaY > 0 ? (newY - _radius) : (newY + 1 + _radius);
     };
 
     Basic.prototype._updatePositionTrigger = function () {

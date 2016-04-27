@@ -78,7 +78,8 @@
         // Character
         "#src#/system/Core/Character/System.Character.Basic.js",
         "#src#/system/Core/Character/System.Character.Survivor.js",
-        "#src#/system/Core/Character/System.Character.Ghost.js",
+        "#src#/system/Core/Character/System.Character.Ghost.Mary.js",
+        "#src#/system/Core/Character/System.Character.Ghost.Specter.js",
 
         "#src#/system/Core/System.Map.js",
         "#src#/system/Core/System.InterAction.js",

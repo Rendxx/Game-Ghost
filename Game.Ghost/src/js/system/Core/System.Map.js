@@ -16,6 +16,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Door: 3,
             Body: 4
         },
+        ObjectMap: {
+            0: 'empty',
+            1: 'wall',
+            2: 'furniture',
+            3: 'door',
+            4: 'body'
+        },
         bodyId: 'body_1'
     };
 
@@ -46,6 +53,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             end: []
         };
         this.setupData = {};
+        this.danger = 0;
 
         // public method -------------------------------------------------
         // setup game map data for 1st time
@@ -68,7 +76,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             recoverBody(gameData.body);
         };
 
-        // that.grid -------------------------------------------
+        // set map danger effort
+        this.setDanger = function (danger_in) {            
+            gameData.map.danger = this.danger = danger_in;
+        };
+
+        // data ------------------------------------------------
+        var initData = function () {
+            gameData.map = {
+                danger: 0
+            };
+        };
+
+        // grid ------------------------------------------------
         var initGrid = function (_data) {
             // create that.grid
             that.grid = {
@@ -351,6 +371,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             initKey();
             initDoor(mapData.item.door, mapData.doorSetting);
             initBody();
+            initData();
         };
         _init();
     };

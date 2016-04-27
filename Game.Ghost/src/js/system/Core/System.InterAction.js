@@ -100,6 +100,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return rst;
         };
 
+        // get object on the position
+        this.getObject = function (x, y) {
+            if (x < 0 || x >= width || y < 0 || y >= height) return { type: SYSTEM.Map.Data.Grid.Wall };
+            if (map.grid.empty[y][x] === SYSTEM.Map.Data.Grid.Empty) return null;
+            var t = map.grid.empty[y][x];
+            var name = SYSTEM.Map.Data.ObjectMap[t];
+            if (map.objList.hasOwnProperty(name)) return { type: t, obj: map.objList[name][map.grid[name][y][x]] };
+            return { type: t };
+        };
+
         // get obj triggered in the position
         this.checkPosTrigger = function (c, x, y) {
             x = Math.floor(x);
