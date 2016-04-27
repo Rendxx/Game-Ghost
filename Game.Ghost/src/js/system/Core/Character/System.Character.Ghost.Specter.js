@@ -82,16 +82,30 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var obj_x = this.entity.interAction.getObject(newX, oldY);
         var obj_y = this.entity.interAction.getObject(oldX, newY);
+        var obj_new = this.entity.interAction.getObject(newX, newY);
+        var canMove = (obj_new === null || (obj_new.type === SYSTEM.Map.Data.Grid.Door));
 
         if (obj_x === null || (obj_x.type === SYSTEM.Map.Data.Grid.Door))
             this.x += deltaX;
-        else
+        else {
             this.x = deltaX > 0 ? (newX - _radius) : (newX + 1 + _radius);
+            canMove = true;
+        }
 
         if (obj_y === null || (obj_y.type === SYSTEM.Map.Data.Grid.Door))
             this.y += deltaY;
-        else
+        else {
             this.y = deltaY > 0 ? (newY - _radius) : (newY + 1 + _radius);
+            canMove = true;
+        }
+
+        if (!canMove) {
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                this.y = deltaY > 0 ? (newY - _radius) : (newY + 1 + _radius);
+            } else {
+                this.x = deltaX > 0 ? (newX - _radius) : (newX + 1 + _radius);
+            }
+        }
     };
 
     Ghost.prototype._updateStatus = function () {
