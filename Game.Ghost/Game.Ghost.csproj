@@ -509,12 +509,13 @@
     <Content Include="mapDesigner\index.html" />
     <Content Include="src\js\system\Core\Character\System.Character.Basic.js" />
     <Content Include="src\js\system\Core\Character\System.Character.Ghost.Specter.js" />
-    <Content Include="src\js\system\Core\Character\System.Character.Survivor.js" />
+    <Content Include="src\js\system\Core\Character\System.Character.Survivor.Normal.js" />
     <Content Include="src\js\system\Core\Item\System.Item.Basic.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Position.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Body.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Basic.js" />
     <Content Include="src\js\system\Core\System.Sound.js" />
+    <Content Include="src\js\system\Core\System.CharacterManager.js" />
     <Content Include="src\js\system\Core\System.UserInput.js" />
     <Content Include="src\js\system\Core\System.Message.js" />
     <Content Include="src\js\system\Core\System.WebWorkerWrapper.js" />

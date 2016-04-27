@@ -330,5 +330,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // ---------------------------------------------------------------
     SYSTEM.Character = SYSTEM.Character || {};
-    SYSTEM.Character.Survivor = Survivor;
+    SYSTEM.Character.Survivor = SYSTEM.Character.Survivor || {};
+    SYSTEM.Character.Survivor.Normal = Survivor;
 })(window.Rendxx.Game.Ghost.System);

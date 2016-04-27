@@ -41,7 +41,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 characterFunc[id] = {};
                 var c = characters[id];
                 var func = characterFunc[id];
-                if (c instanceof SYSTEM.Character.Survivor) {
+                if (c instanceof SYSTEM.Character.Survivor.Normal) {
                     // survivor
                     _setupSurvivor(func, c);
                 } else if (c instanceof SYSTEM.Character.Ghost.Mary) {

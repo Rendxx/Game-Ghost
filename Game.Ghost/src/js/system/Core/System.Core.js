@@ -202,7 +202,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             players = [];
             for (var i in playerData) {
                 if (playerData[i].role === Data.character.type.survivor) {
-                    that.characters[index] = new SYSTEM.Character.Survivor(index, playerData[i], modelData.characters, that);
+                    that.characters[index] = new SYSTEM.Character.Survivor.Normal(index, playerData[i], modelData.characters, that);
                     that.characterRoleMap.survivor.push(index);
                 } else if (playerData[i].role === Data.character.type.ghost) {
                     that.characters[index] = new SYSTEM.Character.Ghost.Specter(index, playerData[i], modelData.characters, that);

@@ -15,13 +15,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             },
             files: {
                 survivor: {
-                    green: 'player_survivor_green.data.json',
-                    blue: 'player_survivor_blue.data.json',
-                    red: 'player_survivor_red.data.json',
-                    yellow: 'player_survivor_yellow.data.json',
-                    purple: 'player_survivor_purple.data.json',
-                    orange: 'player_survivor_orange.data.json',
-                    basic: 'player_survivor_basic.data.json',
+                    //green: 'player_survivor_green.data.json',
+                    //blue: 'player_survivor_blue.data.json',
+                    //red: 'player_survivor_red.data.json',
+                    //yellow: 'player_survivor_yellow.data.json',
+                    //purple: 'player_survivor_purple.data.json',
+                    //orange: 'player_survivor_orange.data.json',
+                    //basic: 'player_survivor_basic.data.json',
                     bobo: 'player_survivor_bobo.data.json',
                     highcircle: 'player_survivor_highcircle.data.json',
                     girl1: 'player_survivor_girl1.data.json',
@@ -30,8 +30,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     capboy: 'player_survivor_capboy.data.json'
                 },
                 ghost: {
-                    white: 'player_ghost_white.data.json',
-                    'ghost-mary': 'player_ghost_mary.data.json'
+                    //'white': 'player_ghost_white.data.json',
+                    'ghost-mary': 'player_ghost_mary.data.json',
+                    'ghost-specter': 'player_ghost_mary.data.json'
+                }
+            },
+            className: {
+                survivor: {
+                    bobo: 'Normal',
+                    highcircle: 'Normal',
+                    girl1: 'Normal',
+                    girl2: 'Normal',
+                    mohicans: 'Normal',
+                    capboy: 'Normal'
+                },
+                ghost: {
+                    'ghost-mary': 'Mary',
+                    'ghost-specter': 'Specter'
                 }
             },
             path: '/Model/Player/',
