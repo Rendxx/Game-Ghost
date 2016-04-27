@@ -21,15 +21,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         },
         range: {
             danger: 14
-        },
-        teleportCountMax: 3400
+        }
     };
 
     // Construct -----------------------------------------------------
     var Ghost = function (id, characterPara, characterData, entity) {
         SYSTEM.Character.Basic.call(this, id, characterPara, characterData, entity);
         // data
-        this.look = false;
+        this.observing = false;
         this.danger = 0;        // danger level
         this.teleportCount = 0;      // count to auto fly
     };
@@ -45,7 +44,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype.toJSON = function () {
         var dat = SYSTEM.Character.Basic.prototype.toJSON.call(this);
         dat['danger'] = this.danger;
-        dat['look'] = this.look;
+        dat['observing'] = this.observing;
         return dat;
     };
 
@@ -110,11 +109,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Ghost.prototype._updateStatus = function () {
         // endurance
-        if (this.endurance <= 0) this.look = false;
+        if (this.endurance <= 0 && this.observing) this.observing = false;
         if (this.endurance < this.modelData.para.endurance) {
             this.endurance += this.enduranceRecover / 20;
         }
-        if (this.look) this.endurance -= this.enduranceCost / 20;
+        if (this.observing) this.endurance -= this.enduranceCost / 20;
 
         var closest = _Data.range.danger;
 
@@ -129,15 +128,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
         }
 
-        // random fly
-        //this.teleportCount++;
-        //if (this.teleportCount >= _Data.teleportCountMax) {
-        //    var yx = this.entity.interAction.findEmptyPos();
-        //    this.x = yx[1] + 0.5;
-        //    this.y = yx[0] + 0.5;
-        //    this.teleportCount = 0;
-        //}
-
         // danger
         this.danger = (_Data.range.danger - closest) / _Data.range.danger;
         if (this.danger > 0.3) this.danger = 0.3;
@@ -149,23 +139,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         for (var i = 0; i < this.characterCheckingList.length; i++) {
             var c = this.characterCheckingList[i];
             if (this.entity.characters[c].actived) {
-                this.visibleCharacter[c] = (this.entity.characters[c].rush || this.look);
+                this.visibleCharacter[c] = (this.entity.characters[c].rush || this.observing);
             } else {
                 this.visibleCharacter[c] = true;
             }
         }
     };
 
-    Ghost.prototype.crazy = function () {
-        return;
-        if (this.endurance >= this.modelData.para.endurance) {
-            this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Scream);
-            this.rush = true;
-        }
-    };
-
-    Ghost.prototype.teleport = function () {
-        if (this.endurance >= this.modelData.para.endurance/2) this.look = true;
+    Ghost.prototype.observe = function () {
+        if (this.endurance >= this.modelData.para.endurance / 2) this.observing = true;
     };
 
     // ---------------------------------------------------------------

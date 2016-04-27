@@ -10,52 +10,72 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Data = SYSTEM.Data;
     var _Data = {
         actionType: {
-            'move': '01',
-            'lightSwitch': '02',
-            'use': '03',
-            'teleport': '04',
-            'crazy': '05',
-            'longUse': '06',
-            'cancelLongUse': '07'
+            'move': 'm',
+            'tap_move': 'tm',
+
+            'tap_1': 't1',
+            'press_1': 'p1',
+            'release_1': 'r1',
+
+            'tap_2': 't2',
+            'press_2': 'p2',
+            'release_2': 'r2',
         }
     };
     var UserInput = function (entity) {
         // data ----------------------------------------------------------
-        var that = this;
+        var that = this,
+            characterFunc = {};
 
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
-
         this.action = function (clientId, dat) {
-            switch (dat['actionType']) {
-                case _Data.actionType.move:
-                    entity.characters[clientId].move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']);
-                    break;
-                case _Data.actionType.lightSwitch:
-                    if (entity.characters[clientId].role === Data.character.type.survivor) entity.characters[clientId].switchTorch();
-                    break;
-                case _Data.actionType.use:
-                    entity.characters[clientId].interaction();
-                    break;
-                case _Data.actionType.teleport:
-                    if (entity.characters[clientId].role === Data.character.type.ghost) entity.characters[clientId].teleport();
-                    break;
-                case _Data.actionType.crazy:
-                    if (entity.characters[clientId].role === Data.character.type.ghost) entity.characters[clientId].crazy();
-                    break;
-                case _Data.actionType.longUse:
-                    entity.characters[clientId].longInteraction();
-                    break;
-                case _Data.actionType.cancelLongUse:
-                    entity.characters[clientId].cancelLongInteraction();
-                    break;
-                default:
-                    break;
-            };
+            if (characterFunc[clientId].hasOwnProperty(dat['actionType'])) characterFunc[clientId][dat['actionType']](dat);
+        };
+
+        // bind character function to user input
+        this.reset = function (characters) {
+            characterFunc = {};
+            for (var id in characters) {
+                characterFunc[id] = {};
+                var c = characters[id];
+                var func = characterFunc[id];
+                if (c instanceof SYSTEM.Character.Survivor) {
+                    // survivor
+                    _setupSurvivor(func, c);
+                } else if (c instanceof SYSTEM.Character.Ghost.Mary) {
+                    // ghost.mary
+                    _setupGhostMary(func, c);
+                } else if (c instanceof SYSTEM.Character.Ghost.Specter) {
+                    // ghost.specter
+                    _setupGhostSpecter(func, c);
+                }
+            }
         };
 
         // private method ------------------------------------------------
+        var _setupSurvivor = function (func, c) {
+            func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
+            func[_Data.actionType.tap_move] = function (dat) { c.interaction(); };
+            func[_Data.actionType.press_1] = function (dat) { c.longInteraction(); };
+            func[_Data.actionType.release_1] = function (dat) { c.cancelLongInteraction(); };
+        };
+
+        var _setupGhostMary = function (func, c) {
+            func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
+            func[_Data.actionType.tap_move] = function (dat) { c.interaction(); };
+            func[_Data.actionType.press_1] = function (dat) { c.longInteraction(); };
+            func[_Data.actionType.release_1] = function (dat) { c.cancelLongInteraction(); };
+            func[_Data.actionType.tap_1] = function (dat) { c.crazy(); };
+            func[_Data.actionType.tap_2] = function (dat) { c.teleport(); };
+        };
+
+        var _setupGhostSpecter = function (func, c) {
+            func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
+            func[_Data.actionType.release_1] = function (dat) { c.cancelLongInteraction(); };
+            func[_Data.actionType.tap_1] = function (dat) { c.observe(); };
+        };
 
         var _init = function () {
         };

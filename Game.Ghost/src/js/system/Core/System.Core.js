@@ -63,10 +63,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             characterIdxMap = setupData_in.characterIdxMap;
             this.characterRoleMap = setupData_in.characterRoleMap;
             this.map.reset(setupData_in.mapSetup);
-            for (var i = 0; i < that.characters.length; i++) {
-                that.characters[i].reset((gameData_in !== null && gameData_in !== undefined) ? gameData_in.characters[i] : null);
+            for (var i = 0; i < this.characters.length; i++) {
+                this.characters[i].reset((gameData_in !== null && gameData_in !== undefined) ? gameData_in.characters[i] : null);
             }
             this.interAction.reset();
+            this.userInput.reset(this.characters);
             flag_setuped = true;
             if (flag_started && !isStarted) this.start();
         };
@@ -78,6 +79,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             initComponent(modelData, mapData, playerData);
             this.map.setup();
             this.interAction.reset();
+            this.userInput.reset(this.characters);
             var setupData = {
                 'model': modelData,
                 'map': mapData,

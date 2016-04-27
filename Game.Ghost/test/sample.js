@@ -3,7 +3,7 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], true);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], false);
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -21,7 +21,7 @@
         renderer.updateGame(gamepData);
     };
     renderer.onSetuped = function () {
-        SetupControl(system, 'p7');
+        SetupControl(system, 'p1');
         renderer.show();
     };
     renderer.hide();
@@ -86,7 +86,9 @@ function SetupControl(system, pId) {
     var direction = [0, 0];
     var rush = false;
     var delayFunc = null;
+    var delayFunc2 = null;
     var longPress = false;
+    var longPress2 = false;
     /*
      * direction[0]: move direction
      * direction[1]: head direction
@@ -132,7 +134,7 @@ function SetupControl(system, pId) {
             getDirection(codeMap);
 
             system.action(pId, {
-                actionType: '01',
+                actionType: 'm',
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
                 rush: rush,
@@ -140,31 +142,34 @@ function SetupControl(system, pId) {
                 headFollow: direction[1] == 0
             });
             e.preventDefault();
+        } else if (e.keyCode == keyCode['g']) {
+            if (!longPress2) {
+                delayFunc2 = setTimeout(function () {
+                    delayFunc2 = null;
+                    longPress2 = true;
+                    system.action(pId, {
+                        actionType: 'p2'
+                    });
+                }, 200);
+            }
         } else if (e.keyCode == keyCode['f']) {
-            system.action(pId, {
-                actionType: '02'
-            });
-        } else if (e.keyCode == keyCode['e']) {
-            //system.action(pId, {
-            //    actionType: '03'
-            //});
             if (!longPress) {
                 delayFunc = setTimeout(function () {
                     delayFunc = null;
                     longPress = true;
                     system.action(pId, {
-                        actionType: '06'
+                        actionType: 'p1'
                     });
                 }, 200);
             }
-        } else if (e.keyCode == keyCode['g']) {
+        } else if (e.keyCode == keyCode['e']) {
             system.action(pId, {
-                actionType: '04'
+                actionType: 'tm'
             });
-        } else if (e.keyCode == keyCode['c']) {
-            system.action(pId, {
-                actionType: '05'
-            });
+        //} else if (e.keyCode == keyCode['c']) {
+        //    system.action(pId, {
+        //        actionType: 't1'
+        //    });
         }
     }).keyup(function (e) {
         if (e.keyCode in codeMap) {
@@ -172,7 +177,7 @@ function SetupControl(system, pId) {
             getDirection(codeMap, true);
 
             system.action(pId, {
-                actionType: '01',
+                actionType: 'm',
                 direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
                 directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
                 rush: rush,
@@ -180,17 +185,30 @@ function SetupControl(system, pId) {
                 headFollow: direction[1] == 0
             });
             e.preventDefault();
-        } else if (e.keyCode == keyCode['e']) {
+        } else if (e.keyCode == keyCode['g']) {
+            longPress2 = false;
+            if (delayFunc2 != null) {
+                clearTimeout(delayFunc2);
+                delayFunc2 = null;
+                system.action(pId, {
+                    actionType: 't2'
+                });
+            } else {
+                system.action(pId, {
+                    actionType: 'r2'
+                });
+            }
+        } else if (e.keyCode == keyCode['f']) {
             longPress = false;
             if (delayFunc != null) {
                 clearTimeout(delayFunc);
                 delayFunc = null;
                 system.action(pId, {
-                    actionType: '03'
+                    actionType: 't1'
                 });
             } else {
                 system.action(pId, {
-                    actionType: '07'
+                    actionType: 'r1'
                 });
             }
         }
