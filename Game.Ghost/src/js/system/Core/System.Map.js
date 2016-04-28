@@ -78,14 +78,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // set map danger effort
         this.setDanger = function (danger_in) {            
-            gameData.map.danger = this.danger = danger_in;
+            gameData.danger = this.danger = danger_in;
         };
 
         // data ------------------------------------------------
         var initData = function () {
-            gameData.map = {
-                danger: 0
-            };
+            gameData.danger = 0;
         };
 
         // grid ------------------------------------------------
