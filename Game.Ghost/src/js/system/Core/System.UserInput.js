@@ -35,12 +35,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // bind character function to user input
-        this.reset = function (characters) {
+        this.reset = function (characters, index2Id) {
             characterFunc = {};
-            for (var id in characters) {
-                characterFunc[id] = {};
-                var c = characters[id];
-                var func = characterFunc[id];
+            for (var i = 0; i < characters.length; i++) {
+                var c = characters[i];
+                var func = {};
+                characterFunc[index2Id[i]] = func;
                 if (c instanceof SYSTEM.Character.Survivor.Normal) {
                     // survivor
                     _setupSurvivor(func, c);

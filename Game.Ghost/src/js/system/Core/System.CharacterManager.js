@@ -16,13 +16,39 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             len = 0;
 
         this.characters = null;
-        this.characterIdxMap = {};      // {id: index}
+        this.id2Index = {};      // {id: index}
+        this.index2Id = {};      // {index: id}
         this.team = {};
 
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
-        this.setup = function () {
+        this.setup = function (survivorPos, ghostPos) {
+            var t;
+            var pos_s = [],
+                pos_g = [];
+
+            for (var i = 0; i < survivorPos.length; i++) pos_s[i] = survivorPos[i];
+            for (var i = 0; i < ghostPos.length; i++) pos_g[i] = ghostPos[i];
+
+            for (var i = 0; i < entity.characters.length; i++) {
+                var c = this.characters[i];
+                if (c.role === Data.character.type.survivor) {
+                    // survivor
+                    var idx = Math.floor(pos_s.length * Math.random());
+                    t = pos_s[idx];
+                    pos_s.splice(idx, 1);
+                } else if (c.role === Data.character.type.ghost) {
+                    // ghost
+                    var idx = Math.floor(pos_g.length * Math.random());
+                    t = pos_g[idx];
+                    pos_g.splice(idx, 1);
+                }
+                c.reset({
+                    x: t[0] + 0.5,
+                    y: t[1] + 0.5
+                });
+            }
         };
 
         this.reset = function (recoverData) {
@@ -52,6 +78,31 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return isEnd;
         };
 
+        this.getEndInfo = function () {
+            var survivorWin = false;
+            var winTeam = -1;
+            var win = 0, isEnd = true, survivorEnd = {};
+            for (var i = 0; i < len; i++) {
+                if (this.characters[i].role === Data.character.type.survivor) {
+                    if (this.characters[i].win) {
+                        survivorWin = true;
+                        winTeam = this.characters[i].team;
+                    }
+
+                    survivorEnd[this.characters[i].id] = {
+                        name: this.characters[i].name,
+                        isWin: this.characters[i].win
+                    };
+                }
+            }
+
+            return {
+                survivorWin: survivorWin,
+                survivorEnd: survivorEnd,
+                team: winTeam
+            };
+        };
+
         // private method ------------------------------------------------
         var _init = function () {
             var index = 0;
@@ -73,7 +124,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 if (!that.team.hasOwnProperty(p.team)) that.team[p.team] = [];
                 that.team[p.team].push(c);
 
-                that.characterIdxMap[id] = index++;
+                that.id2Index[id] = index;
+                that.index2Id[index] = id;
+                index++;
             }
             len = index;
         };

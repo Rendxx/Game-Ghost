@@ -14,7 +14,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Core = function () {
         // data ---------------------------------------------------
         var that = this,
-            characterIdxMap = null,         // id: index
             isStarted = false,
             gameData = {},      // store all data in the game, use to render
             intervalFunc = null,
@@ -42,8 +41,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         this.action = function (clientId, dat) {
-            if (!isStarted || characterIdxMap === null || !characterIdxMap.hasOwnProperty(clientId)) return;
-            this.userInput.action(characterIdxMap[clientId], dat);
+            if (!isStarted) return;
+            this.userInput.action(clientId, dat);
         };
 
         // callback -----------------------------------------------
@@ -59,11 +58,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (setupData_in === undefined || setupData_in === null) return;
             gameData = gameData_in;
             initComponent(setupData_in.model, setupData_in.map, setupData_in.player);
-            characterIdxMap = setupData_in.characterIdxMap;
             this.map.reset(setupData_in.mapSetup);
             this.interAction.reset();
             this.characterManager.reset((gameData_in !== null && gameData_in !== undefined) ? gameData_in.characters[i] : null);
-            this.userInput.reset(this.characterManager.characters);
+            this.userInput.reset(this.characterManager.characters, this.characterManager.index2Id);
             flag_setuped = true;
             if (flag_started && !isStarted) this.start();
         };
@@ -75,16 +73,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             initComponent(modelData, mapData, playerData);
             this.map.setup();
             this.interAction.reset();
-            this.characterManager.setup();
-            this.userInput.reset(this.characterManager.characters);
+            this.characterManager.setup(this.map.position.survivor, this.map.position.ghost);
+            this.userInput.reset(this.characterManager.characters, this.characterManager.index2Id);
             var setupData = {
                 'model': modelData,
                 'map': mapData,
                 'mapSetup': this.map.setupData,
-                'characterIdxMap': characterIdxMap
+                'character': this.characterManager.characters
             };
             for (var i in playerData) {
-                this.clientSetup([i], { role: playerData[i].role, color: this.characterManager.characters[characterIdxMap[i]].color });
+                this.clientSetup([i], { role: playerData[i].role, color: this.characterManager.characters[this.characterManager.characterIdxMap[i]].color });
             }
 
             flag_setuped = true;
@@ -107,28 +105,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             isStarted = false;
             if (intervalFunc !== null) clearInterval(intervalFunc);
 
-            var survivorWin = false;
-            var winTeam = -1;
-            var win = 0, isEnd = true, survivorEnd = {};
-            for (var i = 0; i < that.characters.length; i++) {
-                if (that.characters[i].role === Data.character.type.survivor) {
-                    if (that.characters[i].win) {
-                        survivorWin = true;
-                        winTeam = that.characters[i].team;
-                    }
-
-                    survivorEnd[that.characters[i].id] = {
-                        name: that.characters[i].name,
-                        isWin: that.characters[i].win
-                    };
-                }
-            }
-
-            gameData['end'] = {
-                survivorWin: survivorWin,
-                survivorEnd: survivorEnd,
-                team: winTeam
-            };
+            gameData['end'] = this.characterManager.getEndInfo();
             if (this.onEnd) this.onEnd(gameData['end']);
         };
 
@@ -160,7 +137,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // init component
         var initComponent = function (modelData, mapData, playerData) {
-            characterIdxMap = {};
             that.characterRoleMap =
             {
                 survivor: [],

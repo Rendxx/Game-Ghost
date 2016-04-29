@@ -12,7 +12,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ----------------------------------------------------------
         var that = this,
             map = entity.map,
-            characters = entity.characters,
+            characters = entity.characterManager.characters,
             width = 0,
             height = 0,
             statusList = {
@@ -62,43 +62,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // update in time data
         this.update = function () {
-            for (var c = 0; c < characters.length; c++) {
-                for (var c2 = c + 1; c2 < characters.length; c2++) {
+            for (var c = 0, l= characters.length; c <l; c++) {
+                for (var c2 = c + 1; c2 < l; c2++) {
                     this.chracterRange[c][c2] = this.chracterRange[c2][c] = Math.sqrt(Math.pow(characters[c].x - characters[c2].x, 2) + Math.pow(characters[c].y - characters[c2].y, 2));
                 }
             }
         };
-
-        //// check whether this position can be moved to, return result
-        //this.moveCheck = function (x, y, deltaX, deltaY) {
-        //    var newX = Math.floor(x + deltaX),
-        //        newY = Math.floor(y + deltaY),
-        //        oldX = Math.floor(x),
-        //        oldY = Math.floor(y);
-
-        //    var rst = [x + deltaX, y + deltaY];
-        //    if (deltaX !== 0 && (newX < 0 || newX >= width || (map.grid.empty[oldY][newX] !== SYSTEM.Map.Data.Grid.Empty && !(map.grid.empty[oldY][newX] === SYSTEM.Map.Data.Grid.Door && map.objList['door'][map.grid.door[oldY][newX]].status === SYSTEM.MapObject.Door.Data.Status.Opened))))
-        //        rst[0] = (deltaX > 0) ? newX : newX + 1;
-        //    if (deltaY !== 0 && (newY < 0 || newY >= height || (map.grid.empty[newY][oldX] !== SYSTEM.Map.Data.Grid.Empty && !(map.grid.empty[newY][oldX] === SYSTEM.Map.Data.Grid.Door && map.objList['door'][map.grid.door[newY][oldX]].status === SYSTEM.MapObject.Door.Data.Status.Opened))))
-        //        rst[1] = (deltaY > 0) ? newY : newY + 1;
-        //    return rst;
-        //};
-
-
-        //// check whether this position can be moved to, return result
-        //this.moveCheck2 = function (x, y, deltaX, deltaY) {
-        //    var newX = Math.floor(x + deltaX),
-        //        newY = Math.floor(y + deltaY),
-        //        oldX = Math.floor(x),
-        //        oldY = Math.floor(y);
-
-        //    var rst = [x + deltaX, y + deltaY];
-        //    if (deltaX !== 0 && (newX < 0 || newX >= width || (map.grid.empty[oldY][newX] !== SYSTEM.Map.Data.Grid.Empty && map.grid.empty[oldY][newX] !== SYSTEM.Map.Data.Grid.Door)))
-        //        rst[0] = (deltaX > 0) ? newX : newX + 1;
-        //    if (deltaY !== 0 && (newY < 0 || newY >= height || (map.grid.empty[newY][oldX] !== SYSTEM.Map.Data.Grid.Empty && map.grid.empty[newY][oldX] !== SYSTEM.Map.Data.Grid.Door)))
-        //        rst[1] = (deltaY > 0) ? newY : newY + 1;
-        //    return rst;
-        //};
 
         // get object on the position
         this.getObject = function (x, y) {
@@ -124,7 +93,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var s = soundGrid[y][x];
             s.character = {};
 
-            for (var i = 0; i < characters.length; i++) {
+            for (var i = 0, l = characters.length; i < l; i++) {
                 if (i !== c && this.chracterRange[c][i] <= Data.map.para.soundRange) {
                     s.character[i] = this.chracterRange[c][i];
                 }
@@ -279,7 +248,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // update ----------------------------------------------
         // update interaction of that object for all characters
         this.updateInteraction = function (type, id) {
-            for (var c = 0; c < characters.length; c++) {
+            for (var c = 0, l = characters.length; c < l; c++) {
                 objOperation[type][id][c]['op'] = characters[c].checkOperation(map.objList[type][id]);
             }
         };
@@ -304,7 +273,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var furniture = furnitures[k];
 
                 objOperation['furniture'][k] = [];
-                for (var c = 0; c < characters.length; c++) {
+                for (var c = 0, l = characters.length; c < l; c++) {
                     objOperation['furniture'][k][c] = {
                         'type': 'furniture',
                         'id': k,
@@ -318,7 +287,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var door = doors[k];
 
                 objOperation['door'][k] = [];
-                for (var c = 0; c < characters.length; c++) {
+                for (var c = 0, l = characters.length; c < l; c++) {
                     objOperation['door'][k][c] = {
                         'type': 'door',
                         'id': k,
@@ -332,7 +301,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var body = bodies[k];
 
                 objOperation['body'][k] = [];
-                for (var c = 0; c < characters.length; c++) {
+                for (var c = 0, l = characters.length; c < l; c++) {
                     objOperation['body'][k][c] = {
                         'type': 'body',
                         'id': k,

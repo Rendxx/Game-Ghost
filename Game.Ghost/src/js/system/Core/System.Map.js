@@ -179,27 +179,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
             }
 
-            var t;
-            for (var i = 0; i < entity.characters.length; i++) {
-                if (entity.characters[i].role === Data.character.type.survivor) {
-                    // survivor
-                    var idx = Math.floor(tmp['survivor'].length * Math.random());
-                    t = tmp['survivor'][idx];
-                    that.position['survivor'].push(t);
-                    tmp['survivor'].splice(idx, 1);
-                } else if (entity.characters[i].role === Data.character.type.ghost) {
-                    // ghost
-                    var idx = Math.floor(tmp['ghost'].length * Math.random());
-                    t = tmp['ghost'][idx];
-                    that.position['ghost'].push(t);
-                    tmp['ghost'].splice(idx, 1);
-                }
-                entity.characters[i].reset({
-                    x: t[0] + 0.5,
-                    y: t[1] + 0.5
-                });
-            }
-
+            that.position['survivor'] = tmp['survivor'];
+            that.position['ghost'] = tmp['ghost'];
             // end
             var idx = Math.floor(tmp['end'].length * Math.random());
             that.position['end'].push(tmp['end'][idx]);
@@ -342,7 +323,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.objList.body = {};
             for (var k in gameData.body) {
                 var b = new SYSTEM.MapObject.Body(modelData.items[Data.item.categoryName.body][_Data.bodyId]);
-                var character = entity.characters[gameData.body[k].id];
+                var character = entity.characterManager.characters[gameData.body[k].id];
                 b.setup(character);
                 b.reset(gameData.body[k]);
                 that.objList.body[k] = b;
