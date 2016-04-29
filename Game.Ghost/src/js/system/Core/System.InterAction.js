@@ -37,6 +37,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             soundGrid = [];
 
         this.chracterRange;
+        this.chracterAngle;
 
         // public method -------------------------------------------------
         this.reset = function () {
@@ -63,6 +64,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var c = 0, l= characters.length; c <l; c++) {
                 for (var c2 = c + 1; c2 < l; c2++) {
                     this.chracterRange[c][c2] = this.chracterRange[c2][c] = Math.sqrt(Math.pow(characters[c].x - characters[c2].x, 2) + Math.pow(characters[c].y - characters[c2].y, 2));
+                    this.chracterAngle[c][c2] = Math.atan2(characters[c].x - characters[c2].x, characters[c].y - characters[c2].y);
                 }
             }
         };
@@ -712,10 +714,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var setupCharacterRange = function () {
             that.chracterRange = [];
+            that.chracterAngle = [];
             for (var c = 0; c < characters.length; c++) {
                 that.chracterRange[c] = [];
+                that.chracterAngle[c] = [];
                 for (var c2 = 0; c2 < characters.length; c2++) {
                     that.chracterRange[c][c2] = -1;
+                    that.chracterAngle[c][c2] = null;
                 }
             }
         };

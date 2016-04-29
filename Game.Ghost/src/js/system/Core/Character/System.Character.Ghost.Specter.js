@@ -161,6 +161,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (this.endurance >= this.modelData.para.endurance / 2) this.observing = true;
     };
 
+    Ghost.prototype.kill = function () {
+        for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
+            var c = this.entity.characterManager.characters[i];
+            if (!c.actived || c.team == this.team) continue;
+            var r = this.entity.interAction.chracterRange[this.id][c.id];
+            if (r > _Data.range.danger) continue;
+            if (r < closest) closest = r;
+            if (r < 1) c.die();     // die
+            else if (r < 2) {
+            }
+        }
+    };
+
     // ---------------------------------------------------------------
     SYSTEM.Character = SYSTEM.Character || {};
     SYSTEM.Character.Ghost = SYSTEM.Character.Ghost || {};
