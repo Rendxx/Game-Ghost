@@ -51,7 +51,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             playerNum = viewPlayer_in.length;
             characterIdList = [];
             for (var i = 0; i < playerNum; i++) {
-                characterIdList.push(entity.playerIdxMap[viewPlayerIdxList[i]]);
+                characterIdList.push(viewPlayerIdxList[i]);
             }
         };
 

@@ -10,7 +10,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Data = SYSTEM.Data;
     var _Data = {
     };
-    var CharacterManager = function (entity, playerData_in, gameData) {
+    var CharacterManager = function (entity, modelData, playerData_in, gameData) {
         // data ----------------------------------------------------------
         var that = this,
             len = 0;
@@ -32,7 +32,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var i = 0; i < survivorPos.length; i++) pos_s[i] = survivorPos[i];
             for (var i = 0; i < ghostPos.length; i++) pos_g[i] = ghostPos[i];
 
-            for (var i = 0; i < entity.characters.length; i++) {
+            for (var i = 0; i < len; i++) {
                 var c = this.characters[i];
                 if (c.role === Data.character.type.survivor) {
                     // survivor
@@ -108,13 +108,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var _init = function () {
             var index = 0;
             that.playerData = [];
+            that.characters = [];
             for (var id in playerData_in) {
                 var p = playerData_in[id];
                 var c = null;
                 if (p.role === Data.character.type.survivor) {
-                    c = new SYSTEM.Character.Survivor[Data.character.className.survivor[p.modelId]](index, p, modelData.characters, that);
+                    c = new SYSTEM.Character.Survivor[Data.character.className.survivor[p.modelId]](index, p, modelData.characters, entity);
                 } else if (p.role === Data.character.type.ghost) {
-                    c = new SYSTEM.Character.Ghost[Data.character.className.ghost[p.modelId]](index, p, modelData.characters, that);
+                    c = new SYSTEM.Character.Ghost[Data.character.className.ghost[p.modelId]](index, p, modelData.characters, entity);
                 }
                 c.onChange = function (idx, data) {
                     gameData[idx] = data;

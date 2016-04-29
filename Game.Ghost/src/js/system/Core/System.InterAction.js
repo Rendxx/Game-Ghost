@@ -42,7 +42,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.reset = function () {
             width = map.width;
             height = map.height;
-            setupCharacterCheckingList();
             setupObjOperation();
             setupAccess();
             setupTriggerPos();

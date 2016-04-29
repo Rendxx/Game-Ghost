@@ -209,7 +209,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype._move = function (deltaX, deltaY) {
         var _radius = this.modelData.radius;
         var x2 = this.x + deltaX + (deltaX > 0 ? _radius : -_radius),
-            y2 = this.y + deltaY + (deltaY > 0 ? _radius : -_radius);
+            y2 = this.y + deltaY + (deltaY > 0 ? _radius : -_radius),
+            x_t = 0,
+            y_t = 0;
+
         var newX = Math.floor(x2),
             newY = Math.floor(y2),
             oldX = Math.floor(this.x),
@@ -220,25 +223,29 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var obj_new = this.entity.interAction.getObject(newX, newY);
         var canMove = (obj_new === null || (obj_new.type === SYSTEM.Map.Data.Grid.Door && obj_new.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened));
 
-        if (obj_x === null || (obj_x.type === SYSTEM.Map.Data.Grid.Door && obj_x.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened))
+        if (obj_x === null || (obj_x.type === SYSTEM.Map.Data.Grid.Door && obj_x.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened)) {
             this.x += deltaX;
-        else {
-            this.x = deltaX > 0 ? (newX - _radius) : (newX + 1 + _radius);
+        } else {
+            x_t = deltaX > 0 ? (newX - _radius) : (newX + 1 + _radius);
+            if ((deltaX > 0 && x_t > this.x) || (deltaX < 0 && x_t < this.x)) this.x = x_t;                
             canMove = true;
         }
 
-        if (obj_y === null || (obj_y.type === SYSTEM.Map.Data.Grid.Door && obj_y.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened))
+        if (obj_y === null || (obj_y.type === SYSTEM.Map.Data.Grid.Door && obj_y.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened)) {
             this.y += deltaY;
-        else {
-            this.y = deltaY > 0 ? (newY - _radius) : (newY + 1 + _radius);
+        } else {
+            y_t = deltaY > 0 ? (newY - _radius) : (newY + 1 + _radius);
+            if ((deltaY > 0 && y_t > this.y) || (deltaY < 0 && y_t < this.x)) this.y = y_t;
             canMove = true;
         }
 
         if (!canMove) {
             if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                this.y = deltaY > 0 ? (newY - _radius) : (newY + 1 + _radius);
+                y_t = deltaY > 0 ? (newY - _radius) : (newY + 1 + _radius);
+                if ((deltaY > 0 && y_t > this.y) || (deltaY < 0 && y_t < this.x)) this.y = y_t;
             } else {
-                this.x = deltaX > 0 ? (newX - _radius) : (newX + 1 + _radius);
+                x_t = deltaX > 0 ? (newX - _radius) : (newX + 1 + _radius);
+                if ((deltaX > 0 && x_t > this.x) || (deltaX < 0 && x_t < this.x)) this.x = x_t;
             }
         }
     };
@@ -260,10 +267,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype._updateVisible = function () {
         for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
             var c = this.entity.characterManager.characters[i];
-            if (!c.actived || c.team==this.team)
-                this.visibleCharacter[c] = true;
+            if (!c.actived || c.team == this.team)
+                this.visibleCharacter[c.id] = true;
             else
-                this.visibleCharacter[c] = this.entity.interAction.checkVisible(this, this.entity.characters[c]);
+                this.visibleCharacter[c.id] = this.entity.interAction.checkVisible(this, c);
         }
     };
 

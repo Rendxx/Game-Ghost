@@ -76,7 +76,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 'player': this.characterManager.playerData
             };
             for (var i in playerData) {
-                this.clientSetup([i], { role: playerData[i].role, color: this.characterManager.characters[this.characterManager.characterIdxMap[i]].color });
+                this.clientSetup([i], { role: playerData[i].role, color: this.characterManager.characters[this.characterManager.id2Index[i]].color });
             }
 
             flag_setuped = true;
@@ -121,22 +121,26 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method -----------------------------------------
         // called every time frame
         var nextInterval = function () {
-            that.interAction.update();
-            that.characterManager.update();
-            gameData.message = that.message.getNewMsg();
-            gameData.sound = that.sound.getSoundDat();
-            if (that.characterManager.checkEnd()) { that.end(); }
-            if (that.onUpdated) that.onUpdated(gameData);
+            try{
+                that.interAction.update();
+                that.characterManager.update();
+                gameData.message = that.message.getNewMsg();
+                gameData.sound = that.sound.getSoundDat();
+                if (that.characterManager.checkEnd()) { that.end(); }
+                if (that.onUpdated) that.onUpdated(gameData);
+            } catch (e) {
+                console.log(e);
+            }
         };
 
         // init component
         var initComponent = function (modelData, mapData, playerData) {
             that.map = new SYSTEM.Map(that, modelData, mapData, gameData.map);
+            that.characterManager = new SYSTEM.CharacterManager(that, modelData, playerData, gameData.characters);
             that.interAction = new SYSTEM.InterAction(that);
             that.message = new SYSTEM.Message();
             that.sound = new SYSTEM.Sound();
             that.userInput = new SYSTEM.UserInput(that);
-            that.characterManager = new SYSTEM.CharacterManager(that, playerData, gameData.characters);
         };
     };
 

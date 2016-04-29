@@ -71,7 +71,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var _mapData = setupData.map;
             var _modelData = setupData.model;
             var _playerData = setupData.player;
-            this.playerIdxMap = setupData.characterIdxMap;
 
             loadCount++;
             this.map.loadData(_mapData, _modelData, _mapSetup);
@@ -94,13 +93,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 this.viewPlayer = [];
                 for (var i = 0, l = _playerData.length; i < l; i++) {
                     if ((_playerData[i].role === Data.character.type.ghost) === this.isGhost)
-                        this.viewPlayer.push(_playerData[i].id);
+                        this.viewPlayer.push(i);
                 }
             } else {
                 this.viewPlayer = viewPlayer_in;
                 this.isGhost = false;
                 for (var i = 0; i < this.viewPlayer.length; i++) {
-                    if (this.characters[this.playerIdxMap[this.viewPlayer[i]]].role === Data.character.type.ghost) {
+                    if (this.characters[this.viewPlayer[i]].role === Data.character.type.ghost) {
                         this.isGhost = true;
                         break;
                     }
