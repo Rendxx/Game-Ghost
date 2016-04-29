@@ -11,7 +11,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
      * Game Entity
      */
     var Data = RENDERER.Data;
-    var Entity = function (container, root, viewPlayer_in, isGhost_in) {
+    var Entity = function (container, root, viewPlayer_in, team_in) {
         // data
         this.domElement = container;
         this.env = null;
@@ -23,7 +23,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.started = false;
         this.viewPlayer = null;
         this.layerIdxMap = null;
-        this.isGhost = false;
+        this.team = false;
 
         var that = this,
             flag_loaded = false;
@@ -88,21 +88,19 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     onLoaded();
                 };
             }
-            if (isGhost_in !== undefined || isGhost_in !== null) {
-                this.isGhost = isGhost_in;
+            if (team_in !== undefined || team_in !== null) {
+                this.team = team_in;
                 this.viewPlayer = [];
                 for (var i = 0, l = _playerData.length; i < l; i++) {
-                    if ((_playerData[i].role === Data.character.type.ghost) === this.isGhost)
+                    if (_playerData[i].team === this.team)
                         this.viewPlayer.push(i);
                 }
             } else {
                 this.viewPlayer = viewPlayer_in;
-                this.isGhost = false;
+                this.team = false;
                 for (var i = 0; i < this.viewPlayer.length; i++) {
-                    if (this.characters[this.viewPlayer[i]].role === Data.character.type.ghost) {
-                        this.isGhost = true;
-                        break;
-                    }
+                    this.team = this.characters[this.viewPlayer[i]].team;
+                    break;
                 }
             }
 
@@ -125,40 +123,52 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // handle player visible 
             var playerVisibleList = {};
-            if (this.isGhost) {
-                for (var i = 0, l = that.characters.length; i < l; i++) {
-                    if (that.characters[i].role === Data.character.type.ghost) {
-                        playerVisibleList[i] = true;
-                        for (var idx in gameData.characters[i].visibleCharacter) {
-                            if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
-                        }
 
-
-                        if (gameData.characters[i].look) {
-                            if (!lookCache) that.map.ambient.color.setHex(0x663333);
-                        } else {
-                            if (lookCache) that.map.ambient.color.setHex(Data.light.ambient.ambColor);
-                        }
-                        lookCache = gameData.characters[i].look;
-                    }
-                }
-            } else {
-                for (var i = 0, l = that.characters.length; i < l; i++) {
-                    if (that.characters[i].role === Data.character.type.survivor) {
-                        playerVisibleList[i] = true;
-                        for (var idx in gameData.characters[i].visibleCharacter) {
-                            if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
-                        }
-                    } else {
-                        if (gameData.characters[i].look) {
-                            if (!lookCache) that.map.ambient.color.setHex(0x663333);
-                        } else {
-                            if (lookCache) that.map.ambient.color.setHex(Data.light.ambient.ambColor);
-                        }
-                        lookCache = gameData.characters[i].look;
+            for (var i = 0, l = that.characters.length; i < l; i++) {
+                if (that.characters[i].team===this.team) {
+                    playerVisibleList[i] = true;
+                    for (var idx in gameData.characters[i].visibleCharacter) {
+                        if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
                     }
                 }
             }
+
+
+
+            //if (this.isGhost) {
+            //    for (var i = 0, l = that.characters.length; i < l; i++) {
+            //        if (that.characters[i].role === Data.character.type.ghost) {
+            //            playerVisibleList[i] = true;
+            //            for (var idx in gameData.characters[i].visibleCharacter) {
+            //                if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
+            //            }
+
+
+            //            if (gameData.characters[i].look) {
+            //                if (!lookCache) that.map.ambient.color.setHex(0x663333);
+            //            } else {
+            //                if (lookCache) that.map.ambient.color.setHex(Data.light.ambient.ambColor);
+            //            }
+            //            lookCache = gameData.characters[i].look;
+            //        }
+            //    }
+            //} else {
+            //    for (var i = 0, l = that.characters.length; i < l; i++) {
+            //        if (that.characters[i].role === Data.character.type.survivor) {
+            //            playerVisibleList[i] = true;
+            //            for (var idx in gameData.characters[i].visibleCharacter) {
+            //                if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
+            //            }
+            //        } else {
+            //            if (gameData.characters[i].look) {
+            //                if (!lookCache) that.map.ambient.color.setHex(0x663333);
+            //            } else {
+            //                if (lookCache) that.map.ambient.color.setHex(Data.light.ambient.ambColor);
+            //            }
+            //            lookCache = gameData.characters[i].look;
+            //        }
+            //    }
+            //}
 
             for (var i = 0, l = that.characters.length; i < l; i++) {
                 if (gameData.message!=null && gameData.message[i]!=null) that.characters[i].showMessage(gameData.message[i]);
@@ -173,8 +183,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
      * @param {dom element} container - Dom element to contain the scene
      * @param {string} root - root path
      */
-    RENDERER.Create = function (container, root, viewPlayer_in, isGhost_in) {
-        var entity = new Entity(container, root, viewPlayer_in, isGhost_in);
+    RENDERER.Create = function (container, root, viewPlayer_in, team_in) {
+        var entity = new Entity(container, root, viewPlayer_in, team_in);
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
         entity.sound = new RENDERER.Sound(entity);

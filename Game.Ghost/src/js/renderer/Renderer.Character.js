@@ -263,7 +263,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 r_head_2 = mesh.skeleton.bones[4];
 
                 // setup light
-                if ((_para.role === Data.character.type.survivor && !entity.isGhost) || (_para.role === Data.character.type.ghost && entity.isGhost)) {
+                if (_para.team === entity.team) {
                     if (torchData !== null) {
                         that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
                         that.torchDirectionObj.rotation.x = Math.PI;
