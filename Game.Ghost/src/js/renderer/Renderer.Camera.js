@@ -185,7 +185,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             // fog
-            sprites["fog"].position.set(x, 3 * GridSize - 0.1, y);
+            updateFog(x, y);
 
             // render
             that.renderer.setViewport(that.x, that.y, that.width, that.height);
@@ -559,6 +559,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 that.sceneEffort.remove(doorIcon[idx][1]);
         };
 
+        // Fog -------------------------------------------------------
+        var updateFog = function (x, y) {
+            var d = that.character.danger;
+            sprites["fog"].material.color.g = sprites["fog"].material.color.b = 1 - 0.5 * d;
+            sprites["fog"].position.set(x, 3 * GridSize - 0.1, y);
+        };
+
         // Edges -----------------------------------------------------
         var resizeEdge = function () {
             if (sprites['edges'] !== undefined && sprites['edges'] !== null) that.sceneOrtho.remove(sprites["edges"]);
@@ -569,7 +576,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var updateEdge = function () {
             var d = that.character.danger;
-            d = Math.floor(d * 4) / 4;
             sprites["edges"].material.opacity = d;
         };
 
@@ -632,14 +638,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _helper_canvas2.width = w;
             _helper_canvas2.height = h;
             //
-            _helper_canvas_ctx2.fillStyle = "rgba(255,0,0,0.02)";
+            _helper_canvas_ctx2.fillStyle = "rgba(255,40,40,0.04)";
             _helper_canvas_ctx2.fillRect(0, 0, w, h);
             //
             _helper_canvas_ctx2.strokeStyle = 'red';
             _helper_canvas_ctx2.lineWidth = 4;
             //
             _helper_canvas_ctx2.shadowColor = 'red';
-            _helper_canvas_ctx2.shadowBlur = 120;
+            _helper_canvas_ctx2.shadowBlur = Math.min(w,h)/3;
             //
             _helper_canvas_ctx2.beginPath();
             _helper_canvas_ctx2.rect(0, 0, w, h);

@@ -3,7 +3,7 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], 2);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], 0);
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -21,7 +21,7 @@
         renderer.updateGame(gamepData);
     };
     renderer.onSetuped = function () {
-        SetupControl(system, 'p7');
+        SetupControl(system, 'p1');
         renderer.show();
     };
     renderer.hide();
