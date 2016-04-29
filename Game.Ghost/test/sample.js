@@ -3,7 +3,7 @@
 
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], false);
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], 2);
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -21,7 +21,7 @@
         renderer.updateGame(gamepData);
     };
     renderer.onSetuped = function () {
-        SetupControl(system, 'p1');
+        SetupControl(system, 'p7');
         renderer.show();
     };
     renderer.hide();
@@ -39,7 +39,7 @@
             name: 'player 2',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'capboy',
-            team: 0
+            team: 1
         },
         //'p3': {
         //    id: 'p3',
@@ -71,7 +71,7 @@
             id: 'p7',
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
-            modelId: 'ghost-mary',
+            modelId: 'ghost-specter',
             team: 2
         }
     },{ 

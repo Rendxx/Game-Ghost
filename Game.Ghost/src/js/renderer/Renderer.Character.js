@@ -31,10 +31,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         this.id = id;
         this.name = _para.name;
+        this.team = _para.team;
         this.role = _para.role;
         this.modelId = _para.modelId;
         //this.color = parseInt(_data.color, 16);
-        this.color = _Data.teamColor[characterPara.team];
+        this.color = _Data.teamColor[_para.team];
         this.maxEndurance = _data.para.endurance;
         this.longInteractionObj = null;
         this.accessObject = null;

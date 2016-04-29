@@ -65,10 +65,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _sprite = {},
             _scene = entity.env.scene,
             _loadCount = 0,
+            _dangerCache = 0,
             //_textureLoader = null,
             _ddsLoader = null,
 
-            light= null,
+            _ambientNormal = null,
+            _ambientDanger = null,
+
             // mesh
             mesh_ground = null,         // ground
             combined_ground = null,
@@ -135,6 +138,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             updateFuniture();
             updateDoor();
             updateBody();
+            updateLight();
         };
 
         // render model
@@ -166,19 +170,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // private method ---------------------------
         var setupLight = function (scene) {
-            if (light !== null) {
-                for (var i = 0, l = light.length; i < l; i++) scene.remove(light[i]);
-                light = null;
+            if (that.ambient !== null) {
+                scene.remove(that.ambient);
             }
+            _ambientNormal = new THREE.Color(Data.light.ambient.normal);
+            _ambientDanger = new THREE.Color(Data.light.ambient.danger);
 
-            light = [
-                new THREE.AmbientLight()
-            ];
-
+            that.ambient = new THREE.AmbientLight();
             // Ambient
-            light[0].color.setHex(Data.light.ambient.ambColor);
-            scene.add(light[0]);
-            that.ambient = light[0];
+            that.ambient.color.set(_ambientNormal);
+            scene.add(that.ambient);
         };
 
         var setupGround = function (scene, grid, ground_in) {
@@ -777,6 +778,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     mesh_key[idx] = mesh;
                 });
             }
+        };
+
+        var updateLight = function () {
+            if (_dangerCache === gameData.danger) return;
+            _dangerCache = gameData.danger;
+            var vector =  _dangerCache / 100;
+            that.ambient.color.r = _ambientNormal.r + (_ambientDanger.r - _ambientNormal.r) * vector;
+            that.ambient.color.g = _ambientNormal.g + (_ambientDanger.g - _ambientNormal.g) * vector;
+            that.ambient.color.b = _ambientNormal.b + (_ambientDanger.b - _ambientNormal.b) * vector;            
         };
 
         var createEndPos = function (dat) {
