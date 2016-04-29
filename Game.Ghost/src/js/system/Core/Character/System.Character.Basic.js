@@ -60,7 +60,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.soundObject = null;    // sound object
         this.visibleObject = {};    // visible object list: {Object type: {Object Id: [distance, angle from front]}}
         this.visibleCharacter = {}; // visible character list
-        this.characterCheckingList = {};
 
         this.enduranceRecover = _para.enduranceRecover;
         this.enduranceCost = _para.enduranceCost;
@@ -259,9 +258,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Basic.prototype._updateVisible = function () {
-        for (var i = 0; i < this.characterCheckingList.length; i++) {
-            var c = this.characterCheckingList[i];
-            if (!this.entity.characters[c].actived)
+        for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
+            var c = this.entity.characterManager.characters[i];
+            if (!c.actived || c.team==this.team)
                 this.visibleCharacter[c] = true;
             else
                 this.visibleCharacter[c] = this.entity.interAction.checkVisible(this, this.entity.characters[c]);

@@ -250,8 +250,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // danger
         var min = 100000;
-        for (var i = 0; i < this.characterCheckingList.length; i++) {
-            var r = this.entity.interAction.chracterRange[this.id][this.characterCheckingList[i]];
+        for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
+            var c = this.entity.characterManager.characters[i];
+            if (!c.actived || c.role != Data.character.type.ghost) continue;
+            var r = this.entity.interAction.chracterRange[this.id][c.id];
             if (r < min) min = r;
         }
         if (min <= _Data.range.danger) this.danger = (1 - min / _Data.range.danger);

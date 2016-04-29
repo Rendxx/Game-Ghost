@@ -20,12 +20,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             flag_started = false,
             flag_setuped = false;
 
-        this.characterRoleMap =
-            {
-                survivor: [],
-                ghost: []
-
-            };
         // component ----------------------------------------------
         this.map = null;
         this.sound = null;
@@ -58,9 +52,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (setupData_in === undefined || setupData_in === null) return;
             gameData = gameData_in;
             initComponent(setupData_in.model, setupData_in.map, setupData_in.player);
+            this.characterManager.reset((gameData_in !== null && gameData_in !== undefined) ? gameData_in.characters : null);
             this.map.reset(setupData_in.mapSetup);
             this.interAction.reset();
-            this.characterManager.reset((gameData_in !== null && gameData_in !== undefined) ? gameData_in.characters[i] : null);
             this.userInput.reset(this.characterManager.characters, this.characterManager.index2Id);
             flag_setuped = true;
             if (flag_started && !isStarted) this.start();
@@ -79,7 +73,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 'model': modelData,
                 'map': mapData,
                 'mapSetup': this.map.setupData,
-                'character': this.characterManager.characters
+                'player': this.characterManager.playerData
             };
             for (var i in playerData) {
                 this.clientSetup([i], { role: playerData[i].role, color: this.characterManager.characters[this.characterManager.characterIdxMap[i]].color });
@@ -137,12 +131,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // init component
         var initComponent = function (modelData, mapData, playerData) {
-            that.characterRoleMap =
-            {
-                survivor: [],
-                ghost: []
-            };
-
             that.map = new SYSTEM.Map(that, modelData, mapData, gameData.map);
             that.interAction = new SYSTEM.InterAction(that);
             that.message = new SYSTEM.Message();

@@ -10,12 +10,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Data = SYSTEM.Data;
     var _Data = {
     };
-    var CharacterManager = function (entity, playerData, gameData) {
+    var CharacterManager = function (entity, playerData_in, gameData) {
         // data ----------------------------------------------------------
         var that = this,
             len = 0;
 
         this.characters = null;
+        this.playerData = null;
         this.id2Index = {};      // {id: index}
         this.index2Id = {};      // {index: id}
         this.team = {};
@@ -106,15 +107,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method ------------------------------------------------
         var _init = function () {
             var index = 0;
-            for (var id in playerData) {
-                var p = playerData[id];
+            that.playerData = [];
+            for (var id in playerData_in) {
+                var p = playerData_in[id];
                 var c = null;
-                if (playerData[id].role === Data.character.type.survivor) {
+                if (p.role === Data.character.type.survivor) {
                     c = new SYSTEM.Character.Survivor[Data.character.className.survivor[p.modelId]](index, p, modelData.characters, that);
-                    //that.characterRoleMap.survivor.push(index);
-                } else if (playerData[id].role === Data.character.type.ghost) {
+                } else if (p.role === Data.character.type.ghost) {
                     c = new SYSTEM.Character.Ghost[Data.character.className.ghost[p.modelId]](index, p, modelData.characters, that);
-                    //that.characterRoleMap.ghost.push(index);
                 }
                 c.onChange = function (idx, data) {
                     gameData[idx] = data;
@@ -126,6 +126,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
                 that.id2Index[id] = index;
                 that.index2Id[index] = id;
+                that.playerData[index] = p;
                 index++;
             }
             len = index;

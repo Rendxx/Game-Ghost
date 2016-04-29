@@ -36,7 +36,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             positionGrid = [],
             soundGrid = [];
 
-        this.characterCheckingList;
         this.chracterRange;
 
         // public method -------------------------------------------------
@@ -708,16 +707,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         'type': 'position',
                         'id': k
                     };
-                }
-            }
-        };
-
-        var setupCharacterCheckingList = function () {
-            for (var c = 0; c < characters.length; c++) {
-                if (characters[c].role === Data.character.type.survivor) {
-                    characters[c].characterCheckingList = entity.characterRoleMap.ghost;
-                } else if (characters[c].role === Data.character.type.ghost) {
-                    characters[c].characterCheckingList = entity.characterRoleMap.survivor;
                 }
             }
         };

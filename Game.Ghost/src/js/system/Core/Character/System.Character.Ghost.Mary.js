@@ -114,10 +114,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var closest = _Data.range.danger;
 
-        for (var i = 0; i < this.characterCheckingList.length; i++) {
-            var c = this.entity.characters[this.characterCheckingList[i]];
-            if (!c.actived) continue;
-            var r = this.entity.interAction.chracterRange[this.id][this.characterCheckingList[i]];
+        for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
+            var c = this.entity.characterManager.characters[i];
+            if (!c.actived || c.team==this.team) continue;
+            var r = this.entity.interAction.chracterRange[this.id][c.id];
             if (r > _Data.range.danger) continue;
             if (r < closest) closest = r;
             if (r < 1) c.die();     // die
