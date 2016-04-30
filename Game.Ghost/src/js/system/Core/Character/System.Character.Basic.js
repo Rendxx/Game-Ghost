@@ -117,6 +117,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Basic.prototype.getSetupData = function () {
         return {
+            id: this.id,
             enduranceMax: this.enduranceMax
         };
     };

@@ -133,13 +133,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.isWin = isWin;
 
             if (gameData.hasOwnProperty('teleporting')) {
-                if (gameData.teleporting) {
-                    this.topLight.position.y = this.mesh.position.y + (10 + topLightData.y )* GridSize;
-                    this.topLight.distance = (10+ topLightData.distance) * GridSize;
-                } else {
+                if (this.topLight !== null) {
+                    if (gameData.teleporting) {
+                        this.topLight.position.y = this.mesh.position.y + (10 + topLightData.y) * GridSize;
+                        this.topLight.distance = (10 + topLightData.distance) * GridSize;
+                    } else {
 
-                    this.topLight.position.y = this.mesh.position.y + topLightData.y * GridSize;
-                    this.topLight.distance = topLightData.distance * GridSize;
+                        this.topLight.position.y = this.mesh.position.y + topLightData.y * GridSize;
+                        this.topLight.distance = topLightData.distance * GridSize;
+                    }
                 }
             }
 
@@ -276,7 +278,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 r_head_2 = mesh.skeleton.bones[4];
 
                 // setup light
-                if (_para.team === entity.team) {
+                if (entity.team[_para.team]===true) {
                     if (torchData !== null) {
                         that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
                         that.torchDirectionObj.rotation.x = Math.PI;

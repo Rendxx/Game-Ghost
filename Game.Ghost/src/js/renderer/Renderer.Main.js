@@ -23,7 +23,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.started = false;
         this.viewPlayer = null;
         this.layerIdxMap = null;
-        this.team = false;
+        this.team = {};
 
         var that = this,
             flag_loaded = false;
@@ -80,10 +80,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             };
 
             this.characters = [];
-            for (var i = 0, l = _playerData.length; i < l; i++) {
+            for (var i in _playerData) {
                 loadCount++;
-                this.characters[i] = new RENDERER.Character(this, i, _modelData.characters, _playerData[i]);
-                this.characters[i].onLoaded = function () {
+                var idx = _playerData[i].setupData.id;
+                this.characters[idx] = new RENDERER.Character(this, idx, _modelData.characters, _playerData[i]);
+                this.characters[idx].onLoaded = function () {
                     loadCount--;
                     onLoaded();
                 };
@@ -91,15 +92,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (team_in !== undefined || team_in !== null) {
                 this.team = team_in;
                 this.viewPlayer = [];
-                for (var i = 0, l = _playerData.length; i < l; i++) {
-                    if (_playerData[i].team === this.team)
-                        this.viewPlayer.push(i);
+                for (var i in _playerData) {
+                    if (this.team[_playerData[i].team]===true) {
+                        this.viewPlayer.push(_playerData[i].setupData.id);
+                    }
                 }
             } else {
                 this.viewPlayer = viewPlayer_in;
-                this.team = false;
+                this.team = {};
                 for (var i = 0; i < this.viewPlayer.length; i++) {
-                    this.team = this.characters[this.viewPlayer[i]].team;
+                    this.team[this.characters[this.viewPlayer[i]].team] = true;
                     break;
                 }
             }
@@ -125,7 +127,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var playerVisibleList = {};
 
             for (var i = 0, l = that.characters.length; i < l; i++) {
-                if (that.characters[i].team===this.team) {
+                if (this.team[that.characters[i].team]===true) {
                     playerVisibleList[i] = true;
                     for (var idx in gameData.characters[i].visibleCharacter) {
                         if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;

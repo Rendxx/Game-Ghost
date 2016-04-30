@@ -50,8 +50,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     x: t[0] + 0.5,
                     y: t[1] + 0.5
                 });
-                this.setupData[i] = playerData_in[this.index2Id[i]];
-                this.setupData[i].setupData = c.getSetupData();
+                this.setupData[this.index2Id[i]] = playerData_in[this.index2Id[i]];
+                this.setupData[this.index2Id[i]].setupData = c.getSetupData();
             }
         };
 
