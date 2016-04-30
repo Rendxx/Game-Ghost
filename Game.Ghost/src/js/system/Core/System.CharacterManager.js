@@ -25,7 +25,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // public method -------------------------------------------------
         this.setup = function (survivorPos, ghostPos) {
-            this.setupData = [];
+            this.setupData = {};
             var t;
             var pos_s = [],
                 pos_g = [];

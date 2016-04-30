@@ -712,7 +712,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
             }
 
-            console.log(surroundGrid);
+            //console.log(surroundGrid);
             console.log('---------------------------------------------------------------');
         };
 
