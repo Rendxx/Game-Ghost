@@ -216,7 +216,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype._teleport = function () {
         if (!this.teleporting) return;
         this.teleporting = false;
-        this.teleportCount = 0;
+        //this.teleportCount = 0;
         var yx = this.entity.interAction.findEmptyPos2(this.y, this.x);
         this.x = yx[1] + 0.5;
         this.y = yx[0] + 0.5;
