@@ -78,6 +78,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 show: {},
                 hide: {}
             },
+            cache_lightR = null,
+            teleportingFlag = false,
             torchData = Data.character.parameter[_para.role].light.torch,
             topLightData = Data.character.parameter[_para.role].light.top,
             noTorchData = Data.character.parameter[_para.role].light.noTorch;
@@ -134,17 +136,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             if (gameData.hasOwnProperty('teleporting')) {
                 if (this.topLight !== null) {
-                    if (gameData.teleporting) {
+                    if (gameData.teleporting && !teleportingFlag) {
                         this.topLight.position.y = this.mesh.position.y + (10 + topLightData.y) * GridSize;
                         this.topLight.distance = (10 + topLightData.distance) * GridSize;
-                    } else {
-
+                        this.topLight.color.r = 3;
+                        this.topLight.visible = true;
+                        teleportingFlag = true;
+                    } else if (!gameData.teleporting && teleportingFlag) {
                         this.topLight.position.y = this.mesh.position.y + topLightData.y * GridSize;
                         this.topLight.distance = topLightData.distance * GridSize;
+                        this.topLight.color.r = cache_lightR;
+                        this.topLight.visible = (entity.team[_para.team] === true);
+                        teleportingFlag = false;
                     }
                 }
             }
-
 
             // dead
             if (isDead) {
@@ -278,7 +284,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 r_head_2 = mesh.skeleton.bones[4];
 
                 // setup light
-                if (entity.team[_para.team]===true) {
                     if (torchData !== null) {
                         that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
                         that.torchDirectionObj.rotation.x = Math.PI;
@@ -303,6 +308,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         that.torch.castShadow = true;
                         that.torch.target = that.torchDirectionObj;
                         scene.add(that.torch);
+                        that.torch.visible = (entity.team[_para.team] === true);
                     }
 
                     if (topLightData !== null) {
@@ -317,9 +323,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         that.topLight.target = that.mesh;
                         that.topLight.castShadow = false;
                         scene.add(that.topLight);
+                        that.topLight.visible = (entity.team[_para.team] === true);
                     }
                     setupLightCache();
-                }
 
                 // setup highlight
                 var mat = new THREE.SpriteMaterial({
@@ -361,6 +367,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 torch_angle = Math.atan2(torchData.x, torchData.z);
             }
             if (topLightData !== null) {
+                cache_lightR = that.topLight.color.r;
                 light_radius = Math.sqrt(topLightData.z * topLightData.z + topLightData.x * topLightData.x);
                 light_angle = Math.atan2(topLightData.x, topLightData.z);
             }

@@ -65,16 +65,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var _setupGhostMary = function (func, c) {
             func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
             func[_Data.actionType.tap_move] = function (dat) { c.interaction(); };
-            func[_Data.actionType.press_1] = function (dat) { c.longInteraction(); };
-            func[_Data.actionType.release_1] = function (dat) { c.cancelLongInteraction(); };
             func[_Data.actionType.tap_1] = function (dat) { c.crazy(); };
-            func[_Data.actionType.press_2] = function (dat) { c.teleportStart(); };
-            func[_Data.actionType.release_2] = function (dat) { c.teleportEnd(); };
+            func[_Data.actionType.press_1] = function (dat) { c.teleportStart(); };
+            func[_Data.actionType.release_1] = function (dat) { c.teleportEnd(); };
         };
 
         var _setupGhostSpecter = function (func, c) {
             func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
-            func[_Data.actionType.release_1] = function (dat) { c.cancelLongInteraction(); };
             func[_Data.actionType.tap_move] = function (dat) { c.observe(); };
             func[_Data.actionType.tap_1] = function (dat) { c.kill(); };
         };

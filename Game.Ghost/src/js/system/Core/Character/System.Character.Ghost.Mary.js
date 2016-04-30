@@ -115,7 +115,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (this.endurance < this.enduranceMax && !this.teleporting && !this.rush) {
             this.endurance += this.enduranceRecover / 20;
         }
-        if (this.rush) this.endurance -= this.enduranceCost / 20;
+
+        if (this.rush) {
+            this.endurance -= this.enduranceCost / 20;
+            this.entity.map.setDanger(Math.floor(50 + this.endurance * 50 / this.enduranceMax));
+        } else {
+            this.entity.map.setDanger(0);
+        }
         if (this.teleporting) this.endurance -= this.enduranceCost /60;
 
         var closest = _Data.range.danger;
