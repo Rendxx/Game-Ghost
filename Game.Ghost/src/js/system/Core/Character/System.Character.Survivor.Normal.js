@@ -253,13 +253,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             this.danger = 1;
         } else {
             var min = 100000;
+            var ghost = null;
             for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
                 var c = this.entity.characterManager.characters[i];
                 if (!c.actived || c.role != Data.character.type.ghost) continue;
                 var r = this.entity.interAction.chracterRange[this.id][c.id];
-                if (r < min) min = r;
+                if (r < min) { min = r; ghost = c;}
             }
-            if (min <= _Data.range.danger) this.danger = (1 - min / _Data.range.danger);
+            if (min <= _Data.range.danger) this.danger = ghost.getDanger(1 - min / _Data.range.danger);
             else this.danger = 0;
         }
         //if (this.entity.interAction.checkInEnd(this.x, this.y)) {

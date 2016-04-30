@@ -153,6 +153,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.warningMark = isWarning;
     };
 
+    Basic.prototype.getDanger = function (d) {
+        return d;
+    };
+
     Basic.prototype._updateMove = function () {
         // is back?
         var isBack = false,

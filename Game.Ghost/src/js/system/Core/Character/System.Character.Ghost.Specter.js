@@ -72,6 +72,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         return [SYSTEM.MapObject.Basic.Data.Operation.None];
     };
 
+    Ghost.prototype.getDanger = function (d) {
+        return 0.3;
+    };
+
     Ghost.prototype._move = function (deltaX, deltaY) {
         var _radius = this.modelData.radius;
         var x2 = this.x + deltaX + (deltaX > 0 ? _radius : -_radius),
