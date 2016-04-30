@@ -16,7 +16,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             len = 0;
 
         this.characters = null;
-        this.playerData = null;
+        this.setupData = null;
         this.id2Index = {};      // {id: index}
         this.index2Id = {};      // {index: id}
         this.team = {};
@@ -25,6 +25,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // public method -------------------------------------------------
         this.setup = function (survivorPos, ghostPos) {
+            this.setupData = [];
             var t;
             var pos_s = [],
                 pos_g = [];
@@ -49,10 +50,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     x: t[0] + 0.5,
                     y: t[1] + 0.5
                 });
+                this.setupData[i] = playerData_in[this.index2Id[i]];
+                this.setupData[i].setupData = c.getSetupData();
             }
         };
 
-        this.reset = function (recoverData) {
+        this.reset = function (setupData_in, recoverData) {
+            this.setupData = setupData_in;
             for (var i = 0; i < len; i++) {
                 this.characters[i].reset((recoverData !== null) ? recoverData[i] : null);
             }
@@ -107,7 +111,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method ------------------------------------------------
         var _init = function () {
             var index = 0;
-            that.playerData = [];
             that.characters = [];
             for (var id in playerData_in) {
                 var p = playerData_in[id];
@@ -127,7 +130,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
                 that.id2Index[id] = index;
                 that.index2Id[index] = id;
-                that.playerData[index] = p;
                 index++;
             }
             len = index;

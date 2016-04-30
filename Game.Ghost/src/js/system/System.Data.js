@@ -32,7 +32,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 ghost: {
                     //'white': 'player_ghost_white.data.json',
                     'ghost-mary': 'player_ghost_mary.data.json',
-                    'ghost-specter': 'player_ghost_mary.data.json'
+                    'ghost-specter': 'player_ghost_specter.data.json'
                 }
             },
             className: {
@@ -56,21 +56,27 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         hp: 1,
                         light: 1,
                         battery: 100,
-                        endurance: 10
                     },
-                    enduranceCost: 3,
-                    enduranceRecover: 1.5,
+                    endurance:{
+                        init: 10,
+                        max: 10,
+                        cost: 3,
+                        recover:1.5
+                    },
                     batteryCost: 0
                 },
                 ghost: {
                     init: {
                         hp: 100,
                         light: 0,
-                        battery: 100,
-                        endurance: 0
+                        battery: 100
                     },
-                    enduranceCost: 500,
-                    enduranceRecover: 10,
+                    endurance: {
+                        init: 0,
+                        max: 1000,
+                        cost: 500,
+                        recover: 20
+                    },
                     batteryCost: 0
                 }
             }

@@ -190,6 +190,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             mesh_ground = [];
             for (var i = 0, l = ground_in.length; i < l; i++) {
                 if (ground_in[i] === null) continue;
+                _loadCount++;
                 createGround(i, ground_in[i], scene, function (idx, dat, mesh) {
                     var id = dat.id;
                     if (!mesh_ground.hasOwnProperty(id)) mesh_ground[id] = [];
@@ -424,8 +425,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.wall][id];
 
-            console.log(dat);
-            console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
+            //console.log(dat);
+            //console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             // top wall
             var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[0], function (texture) {
@@ -470,8 +471,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var mesh = null;
 
-            console.log(dat);
-            console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
+            //console.log(dat);
+            //aconsole.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             that.objectPos.furniture[idx] = [x, y];
 
@@ -559,8 +560,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
             var mesh = null;
 
-            console.log(dat);
-            console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
+            //console.log(dat);
+            //console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             that.objectPos.door[idx] = [x, y];
 
@@ -649,8 +650,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 mesh.position.z = y;
                 mesh.rotation.y = (4 - r) / 2 * Math.PI;
 
-                console.log(dat);
-                console.log(id, 'x:' + x, 'y:' + mesh.position.y, 'w:' + w, 'h:' + h, 'r:' + r);
+                //console.log(dat);
+                //console.log(id, 'x:' + x, 'y:' + mesh.position.y, 'w:' + w, 'h:' + h, 'r:' + r);
                 onSuccess(dat, mesh);
             });
         };
@@ -683,8 +684,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 mesh.position.y = z;
                 mesh.position.z = y;
 
-                console.log(dat);
-                console.log(id, 'x:' + x, 'y:' + mesh.position.y, 'w:' + w, 'h:' + h, 'r:' + r);
+                //console.log(dat);
+                //console.log(id, 'x:' + x, 'y:' + mesh.position.y, 'w:' + w, 'h:' + h, 'r:' + r);
                 onSuccess(idx, mesh);
             });
         };

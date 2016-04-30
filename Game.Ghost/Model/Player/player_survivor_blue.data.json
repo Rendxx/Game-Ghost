@@ -4,7 +4,6 @@
   "model": "blue/player-2.json",
   "color": "0x3399FF",
   "para": {
-    "endurance": 10,
     "hp": 1,
     "speed": {
       "rotate": {

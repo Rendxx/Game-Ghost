@@ -74,7 +74,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var _setupGhostSpecter = function (func, c) {
             func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
             func[_Data.actionType.release_1] = function (dat) { c.cancelLongInteraction(); };
-            func[_Data.actionType.tap_1] = function (dat) { c.observe(); };
+            func[_Data.actionType.tap_move] = function (dat) { c.observe(); };
+            func[_Data.actionType.tap_1] = function (dat) { c.kill(); };
         };
 
         var _init = function () {

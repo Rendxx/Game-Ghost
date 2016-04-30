@@ -4,7 +4,6 @@
   "model": "capboy/player-capboy.json",
   "color": "0x0066CC",
   "para": {
-    "endurance": 10,
     "hp": 1,
     "speed": {
       "rotate": {

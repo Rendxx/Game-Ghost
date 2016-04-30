@@ -4,7 +4,6 @@
   "model": "basic/player-basic.json",
   "color": "0x009933",
   "para": {
-    "endurance": 10,
     "hp": 1,
     "speed": {
       "rotate": {

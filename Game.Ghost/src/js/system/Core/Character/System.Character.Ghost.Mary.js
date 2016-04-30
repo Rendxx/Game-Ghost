@@ -107,15 +107,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype._updateStatus = function () {
         // endurance
         if (this.endurance <= 0) this.rush = false;
-        if (this.endurance < this.modelData.para.endurance) {
+        if (this.endurance < this.enduranceMax) {
             this.endurance += this.enduranceRecover / 20;
         }
-        if (this.rush) {
-            this.endurance -= this.enduranceCost / 20;
-            this.entity.map.setDanger(Math.floor(50 + this.endurance * 50 / this.modelData.para.endurance));
-        } else {
-            this.entity.map.setDanger(0);
-        }
+        if (this.rush) this.endurance -= this.enduranceCost / 20;
 
         var closest = _Data.range.danger;
 
@@ -128,7 +123,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (r < 1) c.die();     // die
             else {
                 if (!this.rush) {
-                    if (this.endurance < this.modelData.para.endurance) {
+                    if (this.endurance < this.enduranceMax) {
                         if (this.visibleCharacter[i]) this.endurance += (this.enduranceRecover * (_Data.range.danger - r) / 8);
                         else this.endurance += (this.enduranceRecover * (_Data.range.danger - r) / 24);
                     }
@@ -147,22 +142,22 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // danger
         this.danger = (_Data.range.danger - closest) / _Data.range.danger;
-        this.danger = Math.floor(this.danger*5)/5;
+        if (this.danger > 0.3) this.danger = 0.3;
     };
 
     Ghost.prototype.crazy = function () {
-        if (this.endurance >= this.modelData.para.endurance) {
+        if (this.endurance >= this.enduranceMax) {
             this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Scream);
             this.rush = true;
         }
     };
 
     Ghost.prototype.teleport = function () {
-        if (this.endurance >= this.modelData.para.endurance / 5) {
+        if (this.endurance >= this.enduranceMax / 5) {
             var yx = this.entity.interAction.findEmptyPos();
             this.x = yx[1] + 0.5;
             this.y = yx[0] + 0.5;
-            this.endurance -= this.modelData.para.endurance / 5;
+            this.endurance -= this.enduranceMax / 5;
             this.teleportCount = 0;
         }
     };

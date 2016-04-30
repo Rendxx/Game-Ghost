@@ -4,7 +4,6 @@
   "model": "girl2/player-girl2.json",
   "color": "0x9900CC",
   "para": {
-    "endurance": 10,
     "hp": 1,
     "speed": {
       "rotate": {

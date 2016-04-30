@@ -638,7 +638,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _helper_canvas2.width = w;
             _helper_canvas2.height = h;
             //
-            _helper_canvas_ctx2.fillStyle = "rgba(255,40,40,0.04)";
+            _helper_canvas_ctx2.fillStyle = "rgba(255,40,40,0.03)";
             _helper_canvas_ctx2.fillRect(0, 0, w, h);
             //
             _helper_canvas_ctx2.strokeStyle = 'red';

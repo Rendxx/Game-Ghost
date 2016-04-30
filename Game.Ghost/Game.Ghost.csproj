@@ -815,6 +815,7 @@
     <Content Include="Model\Player - 副本\white\player-2.json" />
     <Content Include="Model\Player - 副本\white\player-ghost-mary.json" />
     <Content Include="Model\Player - 副本\yellow\player-2.json" />
+    <Content Include="Model\Player\player_ghost_specter.data.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

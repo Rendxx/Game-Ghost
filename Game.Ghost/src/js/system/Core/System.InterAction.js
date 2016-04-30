@@ -61,10 +61,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // update in time data
         this.update = function () {
-            for (var c = 0, l= characters.length; c <l; c++) {
+            for (var c = 0, l = characters.length; c < l; c++) {
                 for (var c2 = c + 1; c2 < l; c2++) {
                     this.chracterRange[c][c2] = this.chracterRange[c2][c] = Math.sqrt(Math.pow(characters[c].x - characters[c2].x, 2) + Math.pow(characters[c].y - characters[c2].y, 2));
-                    this.chracterAngle[c][c2] = Math.atan2(characters[c].x - characters[c2].x, characters[c].y - characters[c2].y);
+                }
+            }
+            for (var c = 0, l = characters.length; c < l; c++) {
+                for (var c2 = 0; c2 < l; c2++) {
+                    this.chracterAngle[c][c2] = (360+Math.atan2(characters[c2].x - characters[c].x, characters[c2].y - characters[c].y) * 180 / Math.PI)%360;
                 }
             }
         };
@@ -103,6 +107,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // get surround interaction obj list
+        var cache = null;
         this.checkInteractionObj = function (c, x, y, r) {
             var x_idx = Math.floor(x),
                 y_idx = Math.floor(y);
@@ -120,7 +125,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
                 var d2 = Math.sqrt(Math.pow(obj.x - x, 2) + Math.pow(obj.y - y, 2));
                 if (d > 90 && d2 > 1.5) continue;
-
                 rst.push(f.info);
             }
 
@@ -504,7 +508,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             // build sound grid
             soundGrid = [];
 
-            console.log("SOUND -------------------------------");
+            //console.log("SOUND -------------------------------");
             for (var i = 0; i < height; i++) {
                 soundGrid[i] = [];
 
@@ -618,15 +622,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     if (sGrid[i][j] === null) continue;
                     for (var t in sGrid[i][j].furniture) {
                         if (sGrid[i][j].furniture[t] > range2 || !_checkVisibleLine(j, i, map.objList.furniture[t].x, map.objList.furniture[t].y, SYSTEM.Map.Data.Grid.Furniture, t)) delete sGrid[i][j].furniture[t];
-                        else sGrid[i][j].furniture[t] = [sGrid[i][j].furniture[t], Math.atan2(map.objList.furniture[t].x - j, map.objList.furniture[t].y - i) * 180 / Math.PI];
+                        else sGrid[i][j].furniture[t] = [sGrid[i][j].furniture[t], (360 + Math.atan2(map.objList.furniture[t].x - j + 0.5, map.objList.furniture[t].y - i + 0.5) * 180 / Math.PI) % 360];
                     }
                     for (var t in sGrid[i][j].door) {
                         if (sGrid[i][j].door[t] > range2 || !_checkVisibleLine(j, i, map.objList.door[t].x, map.objList.door[t].y, SYSTEM.Map.Data.Grid.Door, t)) delete sGrid[i][j].door[t];
-                        else sGrid[i][j].door[t] = [sGrid[i][j].door[t], Math.atan2(map.objList.door[t].x - j, map.objList.door[t].y - i) * 180 / Math.PI];
+                        else sGrid[i][j].door[t] = [sGrid[i][j].door[t], (360 + Math.atan2(map.objList.door[t].x - j + 0.5, map.objList.door[t].y - i + 0.5) * 180 / Math.PI) % 360];
                     }
                     for (var t in sGrid[i][j].body) {
                         if (sGrid[i][j].body[t] > range2 || !_checkVisibleLine(j, i, map.objList.body[t].x, map.objList.body[t].y, SYSTEM.Map.Data.Grid.Door, t)) delete sGrid[i][j].body[t];
-                        else sGrid[i][j].body[t] = [sGrid[i][j].body[t], Math.atan2(map.objList.body[t].x - j, map.objList.body[t].y - i) * 180 / Math.PI];
+                        else sGrid[i][j].body[t] = [sGrid[i][j].body[t], (360 + Math.atan2(map.objList.body[t].x - j + 0.5, map.objList.body[t].y - i + 0.5) * 180 / Math.PI) % 360];
                     }
 
                     var nothing = true;
@@ -682,6 +686,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     }
                 }
             }
+
+            console.log(surroundGrid);
             console.log('---------------------------------------------------------------');
         };
 

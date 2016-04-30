@@ -237,10 +237,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 this.recover -= this.enduranceRecover / 20;
             } else {
                 this.recover = 0;
-                if (this.endurance < this.modelData.para.endurance) {
+                if (this.endurance < this.enduranceMax) {
                     this.endurance += this.enduranceRecover / 20;
                 } else {
-                    this.endurance = this.modelData.para.endurance;
+                    this.endurance = this.enduranceMax;
                 }
             }
         } else {

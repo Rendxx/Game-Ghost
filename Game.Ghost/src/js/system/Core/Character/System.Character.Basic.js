@@ -38,11 +38,17 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.para = characterPara;
         this.modelData = characterData[characterPara.role][characterPara.modelId];
         this.color = parseInt(this.modelData.color, 16);
-        this.endurance = _para.init.endurance;
         this.light = _para.init.light;
         this.battery = _para.init.battery;
         this.hp = _para.init.hp;
         this.action = this.modelData.action.list[this.modelData.action.init];
+
+        //    O------------->
+        //    | 225 180 135
+        //    | 270     90
+        //    | 315  0  45
+        //    v
+
         this.currentRotation = {
             head: 0,
             body: 0,
@@ -61,8 +67,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.visibleObject = {};    // visible object list: {Object type: {Object Id: [distance, angle from front]}}
         this.visibleCharacter = {}; // visible character list
 
-        this.enduranceRecover = _para.enduranceRecover;
-        this.enduranceCost = _para.enduranceCost;
+        this.endurance = (this.modelData.para.hasOwnProperty('endurance') && this.modelData.para.endurance.hasOwnProperty('init')) ? this.modelData.para.endurance.init : _para.endurance.init;
+        this.enduranceRecover = (this.modelData.para.hasOwnProperty('endurance') && this.modelData.para.endurance.hasOwnProperty('recover')) ? this.modelData.para.endurance.recover : _para.endurance.recover;
+        this.enduranceCost = (this.modelData.para.hasOwnProperty('endurance') && this.modelData.para.endurance.hasOwnProperty('cost')) ? this.modelData.para.endurance.cost : _para.endurance.cost;
+        this.enduranceMax = (this.modelData.para.hasOwnProperty('endurance') && this.modelData.para.endurance.hasOwnProperty('max')) ? this.modelData.para.endurance.max : _para.endurance.max;
         this.triggeringList = {};
         this.longInteractionObj = null;
 
@@ -103,6 +111,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             visibleCharacter: this.visibleCharacter,
             longInteractionObj: this.longInteractionObj,
             soundObject: this.soundObject
+        };
+    };
+
+    Basic.prototype.getSetupData = function () {
+        return {
+            enduranceMax: this.enduranceMax
         };
     };
 

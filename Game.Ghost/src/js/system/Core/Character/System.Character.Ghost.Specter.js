@@ -117,12 +117,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype._updateStatus = function () {
         // endurance
         if (this.endurance <= 0 && this.observing) this.observing = false;
-        if (this.endurance < this.modelData.para.endurance) {
+        if (this.endurance < this.enduranceMax) {
             this.endurance += this.enduranceRecover / 20;
         }
         if (this.observing) {
             this.endurance -= this.enduranceCost / 20;
-            this.entity.map.setDanger(Math.floor(50 + this.endurance * 50 / this.modelData.para.endurance));
+            this.entity.map.setDanger(Math.floor(50 + this.endurance * 50 / this.enduranceMax));
         } else {
             this.entity.map.setDanger(0);
         }
@@ -135,14 +135,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var r = this.entity.interAction.chracterRange[this.id][c.id];
             if (r > _Data.range.danger) continue;
             if (r < closest) closest = r;
-            if (r < 1) c.die();     // die
-            else {
+            if (r < 1) {
+            }else {
             }
         }
 
         // danger
         this.danger = (_Data.range.danger - closest) / _Data.range.danger;
-        this.danger = Math.floor(this.danger * 4) / 4;
+        this.danger = Math.floor(this.danger * 3) / 3;
     };
 
 
@@ -158,19 +158,26 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Ghost.prototype.observe = function () {
-        if (this.endurance >= this.modelData.para.endurance / 2) this.observing = true;
+        if (this.endurance >= this.enduranceMax / 2) this.observing = true;
     };
 
     Ghost.prototype.kill = function () {
+        if (this.endurance < this.enduranceMax / 10) return;
+        this.endurance -= this.enduranceMax / 10;
         for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
             var c = this.entity.characterManager.characters[i];
             if (!c.actived || c.team == this.team) continue;
-            var r = this.entity.interAction.chracterRange[this.id][c.id];
-            if (r > _Data.range.danger) continue;
-            if (r < closest) closest = r;
-            if (r < 1) c.die();     // die
-            else if (r < 2) {
+            var r = this.entity.interAction.chracterRange[this.id][c.id];            
+            
+            if (r < 1) {
+                c.die();
+            } else if (r < 2) {
+                var d = Math.abs(this.currentRotation.head - this.entity.interAction.chracterAngle[this.id][c.id]);
+                if (d > 180) d = 360 - d;
+
+                if (d < 60) c.die();
             }
+            //console.log(angle);
         }
     };
 

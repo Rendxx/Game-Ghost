@@ -4,7 +4,12 @@
   "model": "white/player-ghost-mary.json",
   "color": "0xffffff",
   "para": {
-    "endurance": 1000,
+    "endurance": {
+      "init": 0,
+      "max": 1000,
+      "cost": 500,
+      "recover": 20
+    },
     "hp": 1,
     "speed": {
       "rotate": {

@@ -4,7 +4,6 @@
   "model": "highcircle/player-highcircle.json",
   "color": "0xFFCC99",
   "para": {
-    "endurance": 10,
     "hp": 1,
     "speed": {
       "rotate": {
