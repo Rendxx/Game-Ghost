@@ -35,7 +35,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             objOperation = [],
             surroundGrid = [],
             positionGrid = [],
-            soundGrid = [];
+            soundGrid = [],
+                
+            forceVisible = {};  // contains id of force visible character
 
         this.chracterRange;
         this.chracterAngle;
@@ -173,7 +175,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return list[objId].info;
         };
 
+        this.setForceVisible = function (c) {
+            forceVisible[c.id] = true;
+        }
+
+        this.cancelForceVisible = function (c) {
+            forceVisible[c.id] = false;
+        }
+
         this.checkVisible = function (characterA, characterB) {
+            if (forceVisible[characterB.id]===true) return true;
             var x1 = characterA.x,
                 y1 = characterA.y,
                 x2 = characterB.x,

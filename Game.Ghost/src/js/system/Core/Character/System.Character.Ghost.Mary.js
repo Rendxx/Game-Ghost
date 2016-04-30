@@ -212,11 +212,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (this.endurance < this.enduranceMax / 5 || this.teleporting) return;
         this.endurance -= this.enduranceMax / 10;
         this.teleporting = true;
+        this.entity.interAction.setForceVisible(this);
     };
 
     Ghost.prototype.teleportEnd = function () {
         if (!this.teleporting) return;
         this._teleport();
+        this.entity.interAction.cancelForceVisible(this);
     };
 
     Ghost.prototype._teleport = function () {
