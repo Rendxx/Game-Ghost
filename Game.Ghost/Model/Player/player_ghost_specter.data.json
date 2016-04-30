@@ -7,7 +7,7 @@
     "endurance": {
       "init": 0,
       "max": 1000,
-      "cost": 500,
+      "cost": 400,
       "recover": 20
     },
     "hp": 1,

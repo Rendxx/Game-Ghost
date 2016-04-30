@@ -73,6 +73,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.enduranceMax = (this.modelData.para.hasOwnProperty('endurance') && this.modelData.para.endurance.hasOwnProperty('max')) ? this.modelData.para.endurance.max : _para.endurance.max;
         this.triggeringList = {};
         this.longInteractionObj = null;
+        this.warningMark = false;
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -145,6 +146,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Basic.prototype.checkOperation = function () {
         return null;
+    };
+
+    Basic.prototype.warning = function (isWarning) {
+        this.warningMark = isWarning;
     };
 
     Basic.prototype._updateMove = function () {

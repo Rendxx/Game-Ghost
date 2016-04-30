@@ -21,7 +21,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         },
         range: {
             danger: 14
-        }
+        },
+        touchNumer: 16
     };
 
     // Construct -----------------------------------------------------
@@ -31,6 +32,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.observing = false;
         this.danger = 0;        // danger level
         this.teleportCount = 0;      // count to auto fly
+        this.touchList = {};
     };
     Ghost.prototype = Object.create(SYSTEM.Character.Basic.prototype);
     Ghost.prototype.constructor = Ghost;
@@ -129,14 +131,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var closest = _Data.range.danger;
 
+        for (var i in this.touchList) {
+            this.touchList[i]--;
+            if (this.touchList[i] == 0) {
+                delete (this.touchList[i]);
+                this.entity.characterManager.characters[i].warning(false);
+            }
+        }
+
         for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
             var c = this.entity.characterManager.characters[i];
             if (!c.actived || c.team == this.team) continue;
             var r = this.entity.interAction.chracterRange[this.id][c.id];
             if (r > _Data.range.danger) continue;
             if (r < closest) closest = r;
-            if (r < 1) {
-            }else {
+            if (r < 0.5) {
+                this.touchList[c.id] = _Data.touchNumer;
+                c.warning(true);
             }
         }
 
@@ -149,7 +160,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype._updateVisible = function () {
         for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
             var c = this.entity.characterManager.characters[i];
-            if (!c.actived || c.team == this.team) {
+            if (!c.actived || c.team == this.team || this.touchList.hasOwnProperty(c.id)) {
                 this.visibleCharacter[c.id] = true;
             } else {
                 this.visibleCharacter[c.id] = (c.rush || this.observing);
