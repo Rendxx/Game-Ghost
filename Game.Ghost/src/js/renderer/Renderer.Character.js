@@ -132,6 +132,18 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.isDead = isDead;
             this.isWin = isWin;
 
+            if (gameData.hasOwnProperty('teleporting')) {
+                if (gameData.teleporting) {
+                    this.topLight.position.y = this.mesh.position.y + (10 + topLightData.y )* GridSize;
+                    this.topLight.distance = (10+ topLightData.distance) * GridSize;
+                } else {
+
+                    this.topLight.position.y = this.mesh.position.y + topLightData.y * GridSize;
+                    this.topLight.distance = topLightData.distance * GridSize;
+                }
+            }
+
+
             // dead
             if (isDead) {
                 if (currentAction !== action) {

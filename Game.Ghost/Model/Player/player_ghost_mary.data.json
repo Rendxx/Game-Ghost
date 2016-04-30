@@ -8,7 +8,7 @@
       "init": 0,
       "max": 1000,
       "cost": 500,
-      "recover": 4
+      "recover": 6
     },
     "hp": 1,
     "speed": {

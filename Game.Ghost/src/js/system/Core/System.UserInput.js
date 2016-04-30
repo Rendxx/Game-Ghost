@@ -68,7 +68,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             func[_Data.actionType.press_1] = function (dat) { c.longInteraction(); };
             func[_Data.actionType.release_1] = function (dat) { c.cancelLongInteraction(); };
             func[_Data.actionType.tap_1] = function (dat) { c.crazy(); };
-            func[_Data.actionType.tap_2] = function (dat) { c.teleport(); };
+            func[_Data.actionType.press_2] = function (dat) { c.teleportStart(); };
+            func[_Data.actionType.release_2] = function (dat) { c.teleportEnd(); };
         };
 
         var _setupGhostSpecter = function (func, c) {

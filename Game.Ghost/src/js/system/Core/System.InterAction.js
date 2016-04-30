@@ -20,6 +20,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 furniture: {}       // furniture id: furniture status
             },
             emptyPos = [],
+            emptyGrids = [],
             /* this is designed for checking next available in O(1)
              * Any character interact with object will update these data
              * 
@@ -247,6 +248,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.findEmptyPos = function () {
             var idx = Math.floor(emptyPos.length * Math.random());
             return emptyPos[idx];
+        };
+
+        this.findEmptyPos2 = function (y, x) {
+            x = Math.floor(x);
+            y = Math.floor(y);
+            var pos = emptyGrids[y][x];
+            var idx = Math.floor(pos.length * Math.random());
+            return pos[idx];
         };
 
         // update ----------------------------------------------
@@ -497,6 +506,22 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 for (var j = 0; j < width; j++) {
                     if (map.grid.empty[i][j] === SYSTEM.Map.Data.Grid.Empty) {
                         emptyPos.push([i, j]);
+                    }
+                }
+            }
+
+            emptyGrids = [];
+            for (var i = 0; i < height; i++) {
+                emptyGrids[i] = [];
+                for (var j = 0; j < width; j++) {
+                    emptyGrids[i][j] = [];
+
+                    for (var y = i - 8; y < i + 8; y++) {
+                        for (var x = j - 8; x < j + 8; x++) {
+                            if (y >= 0 && y < height && x > 0 && x < width && map.grid.empty[y][x] === SYSTEM.Map.Data.Grid.Empty) {
+                                emptyGrids[i][j].push([y, x]);
+                            }
+                        }
                     }
                 }
             }
