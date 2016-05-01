@@ -90,6 +90,8 @@
     <Content Include="ModelBuilder\Furniture\table_wood_3_1\wood-2.jpg" />
     <Content Include="ModelBuilder\Furniture\chair_wood_1_1.old\wood-2.jpg" />
     <Content Include="ModelBuilder\Player\basic\player-basic.tex.png" />
+    <Content Include="ModelBuilder\Player\ghost\specter\player-specter.tex.png" />
+    <Content Include="ModelBuilder\Player\ghost\specter\player-specter.uv.png" />
     <Content Include="ModelBuilder\Player\ghost\mary\player-mary.tex.png" />
     <Content Include="ModelBuilder\Player\ghost\mary\player-mary.uv.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Body-Ghost-Mary.png" />
@@ -341,6 +343,7 @@
     <Content Include="Model\Player\ghost-mary\player-mary.json" />
     <Content Include="Model\Player\ghost-mary\player-mary.tex.dds" />
     <Content Include="Model\Player\ghost-mary\player-mary.tex.png" />
+    <Content Include="Model\Player\ghost-specter\player-specter.tex.png" />
     <Content Include="Model\Player\girl1\player-girl1.json" />
     <Content Include="Model\Player\girl1\player-girl1.tex.dds" />
     <Content Include="Model\Player\girl1\player-girl1.tex.png" />
@@ -816,6 +819,11 @@
     <Content Include="Model\Player - 副本\white\player-ghost-mary.json" />
     <Content Include="Model\Player - 副本\yellow\player-2.json" />
     <Content Include="Model\Player\player_ghost_specter.data.json" />
+    <Content Include="ModelBuilder\Player\ghost\specter\player-specter.blend" />
+    <Content Include="ModelBuilder\Player\ghost\specter\player-specter.blend1" />
+    <Content Include="ModelBuilder\Player\ghost\specter\player-specter.tex.fla" />
+    <Content Include="ModelBuilder\Player\ghost\specter\test.blend" />
+    <Content Include="Model\Player\ghost-specter\player-specter.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

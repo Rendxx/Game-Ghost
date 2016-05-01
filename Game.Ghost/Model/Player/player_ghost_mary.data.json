@@ -1,5 +1,5 @@
 ﻿{
-  "id": "white",
+  "id": "ghost-mary",
   "radius": 0.4,
   "model": "ghost-mary/player-mary.json",
   "color": "0xff0000",

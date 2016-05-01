@@ -1,7 +1,7 @@
 ﻿{
-  "id": "white",
+  "id": "ghost-specter",
   "radius": 0.4,
-  "model": "ghost-mary/player-mary.json",
+  "model": "ghost-specter/player-specter.json",
   "color": "0xff0000",
   "para": {
     "endurance": {

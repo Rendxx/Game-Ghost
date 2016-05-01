@@ -218,10 +218,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype.teleportEnd = function () {
         if (!this.teleporting) return;
         this._teleport();
-        this.entity.interAction.cancelForceVisible(this);
     };
 
     Ghost.prototype._teleport = function () {
+        this.entity.interAction.cancelForceVisible(this);
         if (!this.teleporting) return;
         this.teleporting = false;
         //this.teleportCount = 0;
