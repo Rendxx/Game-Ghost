@@ -1,11 +1,14 @@
 ﻿$(function () {
     var cameraControl, stats, datGUI;
+    var cache_game= "gameDat";
+    var cache_setup = "SetupDat";
 
     // game -----------------------------------------------------
     var _root = null;
     var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], { 2: true });
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
+        localStorage.setItem(cache_setup, setupData);
         renderer.reset(setupData);
     };
     system.onStarted = function (modelData, mapData) {
@@ -18,6 +21,7 @@
         console.log(endData);
     };
     system.onUpdated = function (gamepData) {
+        localStorage.setItem(cache_game, gamepData);
         renderer.updateGame(gamepData);
     };
     renderer.onSetuped = function () {
@@ -78,6 +82,14 @@
         map: 'test'
     });
     system.start();
+
+    // dat gui -------------------------------------------------------
+    var guiControls = {
+        reset: function () { }
+    };
+
+    var datGUI = new dat.GUI();
+    datGUI.add(guiControls, 'reset');
 });
 
 
