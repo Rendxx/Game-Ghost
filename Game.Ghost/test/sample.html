@@ -3,22 +3,43 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <link type="text/css" rel="stylesheet" href="sample.css"/>
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f2f2f2;
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: auto;
+        }
+    </style>
     <title>GHOST</title>
 </head>
 <body>
     <div id="game-container"></div>
-
+    <!--Base-->
+    <script type="text/javascript" src="../lib/jquery.js"></script>
+    <script type="text/javascript" src="../lib/InfoBox.js"></script>
+    <!--Game-->
     <script type="text/javascript" src="../lib/howler.js"></script>
     <script type="text/javascript" src="../lib/three.js"></script>
     <script type="text/javascript" src="../lib/OrbitControls.js"></script>
-    <script type="text/javascript" src="../lib/stats.min.js"></script>
     <script type="text/javascript" src="../lib/Tween.js"></script>
-    <script type="text/javascript" src="../lib/dat.gui.min.js"></script>
-    <script type="text/javascript" src="../lib/jquery.js"></script>
-    <script type="text/javascript" src="../lib/InfoBox.js"></script>
     <script type="text/javascript" src="../js/Game.Ghost.Renderer.js"></script>
     <script type="text/javascript" src="../js/Game.Ghost.System.Wrapper.js"></script>
-    <script type="text/javascript" src="sample.js"></script>
+    <!--Test-->
+    <script type="text/javascript" src="../lib/stats.min.js"></script>
+    <script type="text/javascript" src="../lib/dat.gui.min.js"></script>
+    <!--js-->
+    <script type="text/javascript" src="inputSimulator.js"></script>
+    <script type="text/javascript" src="helper.js"></script>
+    <script type="text/javascript" src="game.js"></script>
 </body>
 </html>

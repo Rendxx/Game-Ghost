@@ -36,7 +36,6 @@
       "#dest#/howler": "#src#/howler.js/*.{js,map}"
     },
     "less": {
-      "#test#/sample": [ "#test#/sample.less" ],
       "#mapDesigner#/index": [
         "#mapDesigner#/Styles/index.less",
         "#mapDesigner#/Styles/category.less",

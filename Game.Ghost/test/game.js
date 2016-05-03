@@ -1,0 +1,92 @@
+﻿$(function () {
+    // game -----------------------------------------------------
+    var _root = null;
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], { 2: true });
+    var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
+    system.onSetuped = function (setupData) {
+        renderer.reset(setupData);
+        HELPER.cacheSetup(setupData);
+    };
+    system.onStarted = function (modelData, mapData) {
+    };
+    system.onEnd = function (endData) {
+        renderer.hide();
+        var s = endData.survivorWin ? "Survivor Escaped!!!!" : "Survior all killed!!!";
+        var t = endData.survivorWin ? "GOOD JOB" + " Team " + endData.team : "GAME OVER";
+        $$.info.alert(s, t, false, "rgba(0,0,0,0.6)", null);
+        console.log(endData);
+    };
+    system.onUpdated = function (gameData) {
+        renderer.updateGame(gameData);
+        HELPER.cacheGame(gameData);
+        HELPER.updateStat();
+    };
+    renderer.onSetuped = function () {
+        SetupControl(system, 'p7');
+        renderer.show();
+    };
+    renderer.hide();
+
+    system.setup({
+        'p1': {
+            id: 'p1',
+            name: 'player 1',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'bobo',
+            team: 0
+        },
+        'p2': {
+            id: 'p2',
+            name: 'player 2',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'capboy',
+            team: 1
+        },
+        //'p3': {
+        //    id: 'p3',
+        //    name: 'player 3',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'highcircle',
+        //    team: 1
+        //},
+        //'p4': {
+        //    id: 'p4',
+        //    name: 'player 4',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'girl1',
+        //    team: 1
+        //},
+        //'p5': {
+        //    id: 'p5',
+        //    name: 'player 5',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'mohicans'
+        //},
+        //'p6': {
+        //    id: 'p6',
+        //    name: 'player 6',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'girl2'
+        //},
+        'p7': {
+            id: 'p7',
+            name: 'player 7',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
+            modelId: 'ghost-specter',
+            team: 2
+        }
+    },{ 
+        map: 'test'
+    });
+    system.start();
+
+    // helper --------------------------------------------------------
+    HELPER.addStats($('#game-container'));
+    // dat gui -------------------------------------------------------
+    var guiControls = {
+        reset: function () { }
+    };
+
+    var datGUI = new dat.GUI();
+    datGUI.add(guiControls, 'reset');
+});

@@ -532,8 +532,10 @@
     <Content Include="src\js\system\System.FileLoader.js" />
     <Content Include="src\js\system\System.Data.js" />
     <Content Include="src\js\system\Core\System.Core.js" />
+    <Content Include="test\helper.js" />
+    <Content Include="test\inputSimulator.js" />
     <Content Include="test\sample.html" />
-    <Content Include="test\sample.js" />
+    <Content Include="test\game.js" />
     <Content Include="Sound\bell.wav" />
     <Content Include="Sound\carbinet4.wav" />
     <Content Include="Sound\scream.wav" />
@@ -824,7 +826,6 @@
     <Content Include="ModelBuilder\Player\ghost\specter\player-specter.tex.fla" />
     <Content Include="ModelBuilder\Player\ghost\specter\test.blend" />
     <Content Include="Model\Player\ghost-specter\player-specter.json" />
-    <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
   <PropertyGroup>
