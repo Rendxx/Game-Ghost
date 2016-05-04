@@ -70,10 +70,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.reset = function (setupData_in) {
             this.setupData = setupData_in;
             recoverPosition(setupData_in.position);
-            recoverFurniture(gameData.furniture);
-            recoverKey(setupData_in.key, gameData.key);
-            recoverDoor(gameData.door);
-            recoverBody(gameData.body);
+            recoverFurniture();
+            recoverKey(setupData_in.key);
+            recoverDoor();
+            recoverBody();
         };
 
         // set map danger effort
@@ -198,12 +198,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // furniture --------------------------------------------
         var initFurniture = function (furnitures) {
             that.objList.furniture = {};
-            gameData.furniture = {};
             for (var k = 0; k < furnitures.length; k++) {
                 if (furnitures[k] === null) continue;
                 var f = furnitures[k];
                 that.objList.furniture[k] = new SYSTEM.MapObject.Furniture(k, f, modelData.items[Data.item.categoryName.furniture][f.id], entity);
-                gameData.furniture[k] = that.objList.furniture[k].toJSON();
+                //gameData.furniture[k] = that.objList.furniture[k].toJSON();
                 that.objList.furniture[k].onChange = function (idx, data) {
                     gameData.furniture[idx] = data;
                 };
@@ -211,21 +210,25 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         var setupFurniture = function () {
+            gameData.furniture = {};
+            for (var k in that.objList.furniture) {
+                gameData.furniture[k] = that.objList.furniture[k].toJSON();
+            }
         };
 
-        var recoverFurniture = function (furnitures) {
-            for (var k in furnitures) {
-                that.objList.furniture[k].reset(furnitures[k]);
+        var recoverFurniture = function () {
+            for (var k in gameData.furniture) {
+                that.objList.furniture[k].reset(gameData.furniture[k]);
             }
         };
 
         // key --------------------------------------------
         var initKey = function () {
             that.objList.key = {};
-            gameData.key = {};
         };
 
         var setupKey = function (doors) {
+            gameData.key = {};
             var setupData = {};
             var index = 0;
 
@@ -265,7 +268,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.setupData.key = setupData;
         };
 
-        var recoverKey = function (recoverData, keyData) {
+        var recoverKey = function (recoverData) {
             that.objList.key = {};
             for (var i in recoverData) {
                 var setupData = recoverData[i];
@@ -273,24 +276,24 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 keyItem.onChange = function (idx, data) {
                     gameData.key[idx] = data;
                 };
-                keyItem.reset(keyData[i]);
+
                 that.objList.key[i] = keyItem;
-                that.objList.furniture[keyItem.mapObjectId].placeKey(keyItem);
             }
             for (var k in gameData.key) {
-                that.objList.key[k].reset(gameData.key[k]);
+                var keyItem = that.objList.key[k];
+                keyItem.reset(gameData.key[k]);
+                if (keyItem.mapObjectId != -1) that.objList.furniture[keyItem.mapObjectId].placeKey(keyItem);
             }
         };
 
         // door --------------------------------------------
         var initDoor = function (doors, doorSetting) {
             that.objList.door = {};
-            gameData.door = {};
             for (var k = 0; k < doors.length; k++) {
                 if (doors[k] === null) continue;
                 var door = doors[k];
                 that.objList.door[k] = new SYSTEM.MapObject.Door(k, door, modelData.items[Data.item.categoryName.door][door.id], doorSetting[k].name, entity);
-                gameData.door[k] = that.objList.door[k].toJSON();
+                //gameData.door[k] = that.objList.door[k].toJSON();
                 that.objList.door[k].onChange = function (idx, data) {
                     gameData.door[idx] = data;
                 };
@@ -298,6 +301,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         var setupDoor = function (doorSetting) {
+            gameData.door = {};
+            for (var k in that.objList.door) {
+                gameData.door[k] = that.objList.door[k].toJSON();
+            }
             for (var k in that.objList.door) {
                 if (doorSetting[k].keys !== null) {
                     for (var x in doorSetting[k].keys) {
@@ -308,19 +315,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
         };
 
-        var recoverDoor = function (doors) {
-            for (var k in doors) {
-                that.objList.door[k].reset(doors[k]);
+        var recoverDoor = function () {
+            for (var k in gameData.door) {
+                that.objList.door[k].reset(gameData.door[k]);
             }
         };
 
         // body ------------------------------------------------
         var initBody = function () {
             that.objList.body = {};
-            gameData.body = {};
         };
 
         var setupBody = function () {
+            gameData.body = {};
         };
 
         var recoverBody = function () {
