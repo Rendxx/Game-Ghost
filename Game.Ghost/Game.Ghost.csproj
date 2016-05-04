@@ -587,6 +587,7 @@
     <Content Include="GameData\Map\DogCan2.json" />
     <Content Include="GameData\Map\FurnitureTest.json" />
     <Content Include="GameData\Map\Hospital1.json" />
+    <Content Include="GameData\Map\MapDataTest3.json" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.icon.fla" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.icon.fla" />

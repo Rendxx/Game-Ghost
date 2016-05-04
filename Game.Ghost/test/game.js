@@ -81,7 +81,7 @@ $(function () {
                 team: 2
             }
         }, {
-            map: 'test'
+            map: 'test3'
         });
         system.start();
         renderer.show();

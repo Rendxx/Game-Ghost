@@ -71,7 +71,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             this.setupData = setupData_in;
             recoverPosition(setupData_in.position);
             recoverFurniture(gameData.furniture);
-            recoverKey(setupData_in.key);
+            recoverKey(setupData_in.key, gameData.key);
             recoverDoor(gameData.door);
             recoverBody(gameData.body);
         };
@@ -265,13 +265,17 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.setupData.key = setupData;
         };
 
-        var recoverKey = function (recoverData) {
+        var recoverKey = function (recoverData, keyData) {
             that.objList.key = {};
             for (var i in recoverData) {
                 var setupData = recoverData[i];
                 var keyItem = new SYSTEM.Item.Key(setupData.id, setupData.mapObjectId, setupData.name, setupData.doorId);
-                keyItem.reset();
+                keyItem.onChange = function (idx, data) {
+                    gameData.key[idx] = data;
+                };
+                keyItem.reset(keyData[i]);
                 that.objList.key[i] = keyItem;
+                that.objList.furniture[keyItem.mapObjectId].placeKey(keyItem);
             }
             for (var k in gameData.key) {
                 that.objList.key[k].reset(gameData.key[k]);
