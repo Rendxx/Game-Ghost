@@ -98,11 +98,17 @@
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-Face-Ghost-Mary-.png" />
     <Content Include="ModelBuilder\Player\survivor.old\player-uv-body-ghost-mary.png" />
     <Content Include="ModelBuilder\Player\basic\player-basic.uv.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.portrait.png" />
     <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.tex.dds" />
+    <Content Include="ModelBuilder\Player\survivor\capboy\player-capboy.portrait.png" />
     <Content Include="ModelBuilder\Player\survivor\capboy\player-capboy.tex.png" />
     <Content Include="ModelBuilder\Player\survivor\capboy\player-capboy.uv.png" />
+    <Content Include="ModelBuilder\Player\survivor\girl1\player-girl1.portrait.png" />
+    <Content Include="ModelBuilder\Player\survivor\girl2\player-girl2.portrait.png" />
     <Content Include="ModelBuilder\Player\survivor\girl2\player-girl2.tex.png" />
     <Content Include="ModelBuilder\Player\survivor\girl2\player-girl2.uv.png" />
+    <Content Include="ModelBuilder\Player\survivor\highcircle\player-highcircle.portrait.png" />
+    <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.portrait.png" />
     <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.tex.png" />
     <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.uv.png" />
     <Content Include="ModelBuilder\Player\survivor\girl1\player-girl1.tex.png" />
@@ -827,6 +833,12 @@
     <Content Include="ModelBuilder\Player\ghost\specter\player-specter.tex.fla" />
     <Content Include="ModelBuilder\Player\ghost\specter\test.blend" />
     <Content Include="Model\Player\ghost-specter\player-specter.json" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.portrait.fla" />
+    <Content Include="ModelBuilder\Player\survivor\capboy\player-capboy.portrait.fla" />
+    <Content Include="ModelBuilder\Player\survivor\highcircle\player-highcircle.portrait.fla" />
+    <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.portrait.fla" />
+    <Content Include="ModelBuilder\Player\survivor\girl1\player-girl1.portrait.fla" />
+    <Content Include="ModelBuilder\Player\survivor\girl2\player-girl2.portrait.fla" />
     <None Include="package.json" />
   </ItemGroup>
   <PropertyGroup>
