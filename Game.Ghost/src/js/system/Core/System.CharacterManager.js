@@ -95,6 +95,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     }
 
                     survivorEnd[this.characters[i].id] = {
+                        name: this.characters[i].modelData.portrait,
                         name: this.characters[i].name,
                         isWin: this.characters[i].win
                     };

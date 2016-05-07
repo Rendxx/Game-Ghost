@@ -249,19 +249,25 @@
     <Content Include="Model\Player\blue\Player-Texture.dds" />
     <Content Include="Model\Player\blue\Player-Texture.png" />
     <Content Include="Model\Player\bobo\player-bobo.json" />
+    <Content Include="Model\Player\bobo\player-bobo.portrait.png" />
     <Content Include="Model\Player\bobo\player-bobo.tex.dds" />
     <Content Include="Model\Player\bobo\player-bobo.tex.png" />
     <Content Include="Model\Player\capboy\player-capboy.json" />
+    <Content Include="Model\Player\capboy\player-capboy.portrait.png" />
     <Content Include="Model\Player\capboy\player-capboy.tex.dds" />
     <Content Include="Model\Player\capboy\player-capboy.tex.png" />
     <Content Include="Model\Player\ghost-mary\player-mary.json" />
+    <Content Include="Model\Player\ghost-mary\player-mary.portrait.png" />
     <Content Include="Model\Player\ghost-mary\player-mary.tex.dds" />
     <Content Include="Model\Player\ghost-mary\player-mary.tex.png" />
+    <Content Include="Model\Player\ghost-specter\player-specter.portrait.png" />
     <Content Include="Model\Player\ghost-specter\player-specter.tex.png" />
     <Content Include="Model\Player\girl1\player-girl1.json" />
+    <Content Include="Model\Player\girl1\player-girl1.portrait.png" />
     <Content Include="Model\Player\girl1\player-girl1.tex.dds" />
     <Content Include="Model\Player\girl1\player-girl1.tex.png" />
     <Content Include="Model\Player\girl2\player-girl2.json" />
+    <Content Include="Model\Player\girl2\player-girl2.portrait.png" />
     <Content Include="Model\Player\girl2\player-girl2.tex.dds" />
     <Content Include="Model\Player\girl2\player-girl2.tex.png" />
     <Content Include="Model\Player\green\player-2.json" />
@@ -270,9 +276,11 @@
     <Content Include="Model\Player\green\Player-Texture.dds" />
     <Content Include="Model\Player\green\Player-Texture.png" />
     <Content Include="Model\Player\highcircle\player-highcircle.json" />
+    <Content Include="Model\Player\highcircle\player-highcircle.portrait.png" />
     <Content Include="Model\Player\highcircle\player-highcircle.tex.dds" />
     <Content Include="Model\Player\highcircle\player-highcircle.tex.png" />
     <Content Include="Model\Player\mohicans\player-mohicans.json" />
+    <Content Include="Model\Player\mohicans\player-mohicans.portrait.png" />
     <Content Include="Model\Player\mohicans\player-mohicans.tex.dds" />
     <Content Include="Model\Player\mohicans\player-mohicans.tex.png" />
     <Content Include="Model\Player\orange\player-2.json" />
@@ -452,8 +460,10 @@
     <Content Include="src\js\system\System.FileLoader.js" />
     <Content Include="src\js\system\System.Data.js" />
     <Content Include="src\js\system\Core\System.Core.js" />
+    <Content Include="src\js\Renderer.End.js" />
     <Content Include="test\helper.js" />
     <Content Include="test\inputSimulator.js" />
+    <Content Include="test_end\end.html" />
     <Content Include="test\sample.html" />
     <Content Include="test\game.js" />
     <Content Include="Sound\bell.wav" />
@@ -700,6 +710,7 @@
     <Content Include="PrepareScreen\Logo.fla" />
     <Content Include="src\less\loadingScreen.less" />
     <Content Include="PrepareScreen\pic.fla" />
+    <Content Include="src\less\end.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

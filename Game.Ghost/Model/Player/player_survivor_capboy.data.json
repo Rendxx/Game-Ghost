@@ -2,6 +2,7 @@
   "id": "capboy",
   "radius": 0.4,
   "model": "capboy/player-capboy.json",
+  "portrait": "capboy/player-capboy.portrait.png",
   "color": "0x0066CC",
   "para": {
     "hp": 1,

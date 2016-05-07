@@ -2,6 +2,7 @@
   "id": "ghost-specter",
   "radius": 0.4,
   "model": "ghost-specter/player-specter.json",
+  "portrait": "ghost-specter/player-specter.portrait.png",
   "color": "0xff0000",
   "para": {
     "endurance": {
