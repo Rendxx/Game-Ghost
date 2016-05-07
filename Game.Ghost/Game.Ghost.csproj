@@ -16,6 +16,8 @@
   <ItemGroup>
     <Content Include="Document\Notice.txt" />
     <Content Include="gulpfile.js" />
+    <Content Include="Images\LoadingScreen_1.png" />
+    <Content Include="Images\Logo.png" />
     <Content Include="mapDesigner\Document\category-icon0001.png" />
     <Content Include="mapDesigner\Document\category-icon0002.png" />
     <Content Include="mapDesigner\Document\category-icon0003.png" />
@@ -498,6 +500,8 @@
     <Content Include="PlayerControlTest\renderer\Character.js" />
     <Content Include="PlayerControlTest\sample.html" />
     <Content Include="PlayerControlTest\sample.js" />
+    <Content Include="PrepareScreen\LoadingScreen_1.png" />
+    <Content Include="PrepareScreen\Logo.png" />
     <Content Include="PrepareScreen\StartScreen.PNG" />
     <Content Include="PrepareScreen\StartScreen2.png" />
     <Content Include="PrepareScreen\StartScreen3.png" />
@@ -513,6 +517,7 @@
     <Content Include="src\js\renderer\Renderer.Character.js" />
     <Content Include="src\js\renderer\Renderer.Data.js" />
     <Content Include="src\js\renderer\Renderer.Camera.js" />
+    <Content Include="src\js\renderer\Renderer.Loading.js" />
     <Content Include="src\js\renderer\Renderer.Sound.js" />
     <Content Include="src\js\renderer\Renderer.Map.js" />
     <Content Include="src\js\renderer\Renderer.Test.js" />
@@ -845,6 +850,10 @@
     <None Include="package.json" />
     <Content Include="PrepareScreen\StartScreen.fla" />
     <Content Include="PrepareScreen\StartScreen.psd" />
+    <Content Include="PrepareScreen\LoadingScreen.fla" />
+    <Content Include="PrepareScreen\Logo.fla" />
+    <Content Include="src\less\loadingScreen.less" />
+    <Content Include="PrepareScreen\pic.fla" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

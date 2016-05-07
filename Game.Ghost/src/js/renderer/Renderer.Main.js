@@ -19,6 +19,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.root = root || '';
         this.characters = null;
         this.sound = null;
+        this.loading = null;
         this.test = null;
         this.started = false;
         this.viewPlayer = null;
@@ -32,6 +33,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.onSetuped = null;
         this.onRender = null;
         this.onStarted = null;
+        var _onStarted = function () {
+            _onStarted = null;
+            that.loading.hide();
+            if (that.onStarted !== null) that.onStarted();
+        };
 
         // inner callback
         this._onRender = function (delta) {
@@ -42,10 +48,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             if (that.onRender !== null) that.onRender();
-            if (that.onStarted !== null) {
-                that.onStarted();
-                that.onStarted = null;
-            }
+            if (_onStarted !== null) _onStarted();
         };
 
         // api -------------------------------------------
@@ -158,6 +161,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
         entity.sound = new RENDERER.Sound(entity);
+        entity.loading = new RENDERER.Loading(container);
         //entity.test = new RENDERER.Test(entity);
         return entity;
     };

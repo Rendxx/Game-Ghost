@@ -45,6 +45,9 @@
         "#mapDesigner#/Styles/instruction.less",
         "#mapDesigner#/Styles/doorSetting.less",
         "#mapDesigner#/Styles/itemSelectorList.less"
+      ],
+      "#dest#/Game.Ghost": [
+        "#src#/loadingScreen.less"
       ]
     },
     "js": {
@@ -52,6 +55,7 @@
         "#src#/lib/OBJLoader.js",
         "#src#/lib/DDSLoader.js",
         "#src#/renderer/Renderer.Data.js",
+        "#src#/renderer/Renderer.Loading.js",
         "#src#/renderer/Renderer.Environment.js",
         "#src#/renderer/Renderer.Camera.js",
         "#src#/renderer/Renderer.Map.js",
