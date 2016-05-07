@@ -76,7 +76,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 'player': this.characterManager.setupData
             };
             for (var i in playerData) {
-                this.clientSetup([i], { role: playerData[i].role, color: this.characterManager.characters[this.characterManager.id2Index[i]].color });
+                var c = 
+                this.clientSetup([i], {
+                    role: playerData[i].role,
+                    portrait: playerData[i].modelData.portrait,
+                    color: this.characterManager.characters[this.characterManager.id2Index[i]].color
+                });
             }
 
             flag_setuped = true;
