@@ -31,6 +31,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // callback -------------------------------------------
         this.onSetuped = null;
         this.onRender = null;
+        this.onStarted = null;
 
         // inner callback
         this._onRender = function (delta) {
@@ -41,6 +42,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
 
             if (that.onRender !== null) that.onRender();
+            if (that.onStarted !== null) {
+                that.onStarted();
+                that.onStarted = null;
+            }
         };
 
         // api -------------------------------------------

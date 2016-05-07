@@ -28,6 +28,9 @@ $(function () {
 
     renderer.onSetuped = function () {
     };
+    renderer.onRender = null;
+    renderer.onStart = function () {
+    };
     renderer.hide();
 
     // game control --------------------------------------------------
