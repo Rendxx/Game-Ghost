@@ -55,6 +55,7 @@
     },
     "js": {
       "#dest#/Game.Ghost.End": [
+        "#src#/renderer/Renderer.Data.js",
         "#src#/Renderer.End.js"
       ],
       "#dest#/Game.Ghost.Renderer": [

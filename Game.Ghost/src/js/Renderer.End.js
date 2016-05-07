@@ -9,10 +9,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             wrap: '<div class="end-screen"></div>',
             logo: '<div class="ghost-logo"></div>',
             renew: '<div class="_renew">RENEW</div>',
+            list: '<div class="_list"></div>',
             item: '<div class="_renew">RENEW</div>'
         }
     };
-    var End = function (container, opts_in) {
+    var End = function (container, root, onRenew) {
         var html_wrap = $('.end'),
             isShown = false,
             _html = {},
@@ -47,13 +48,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         // Private ---------------------------------------
+        var _setupItem = function () {
+
+        };
+
         var _setupHtml = function (opts) {
-            var onRenew = (opts && opts.renew != null) ? opts.renew : null;
             _html['container'] = $(container);
             _html['wrap'] = $(_Data.html.wrap).appendTo(_html['container']);
             _html['logo'] = $(_Data.html.logo).appendTo(_html['wrap']);
+            _html['list'] = $(_Data.html.logo).appendTo(_html['list']);
 
-            if (onRenew !== null) {
+            if (onRenew != null) {
                 _html['renew'] = $(_Data.html.renew).appendTo(_html['wrap']);
                 _html['renew'].click(function () {
                     onRenew();
@@ -61,8 +66,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
         };
 
-        var _init = function (opts) {
-            _setupHtml(opts);
+        var _init = function () {
+            _setupHtml();
         }(opts_in);
     };
     RENDERER.End = End;
