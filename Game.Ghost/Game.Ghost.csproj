@@ -498,6 +498,9 @@
     <Content Include="PlayerControlTest\renderer\Character.js" />
     <Content Include="PlayerControlTest\sample.html" />
     <Content Include="PlayerControlTest\sample.js" />
+    <Content Include="PrepareScreen\StartScreen.PNG" />
+    <Content Include="PrepareScreen\StartScreen2.png" />
+    <Content Include="PrepareScreen\StartScreen3.png" />
     <Content Include="Sound\danger.wav" />
     <Content Include="Sound\door4.mp3" />
     <Content Include="Sound\die.mp3" />
@@ -840,6 +843,8 @@
     <Content Include="ModelBuilder\Player\survivor\girl1\player-girl1.portrait.fla" />
     <Content Include="ModelBuilder\Player\survivor\girl2\player-girl2.portrait.fla" />
     <None Include="package.json" />
+    <Content Include="PrepareScreen\StartScreen.fla" />
+    <Content Include="PrepareScreen\StartScreen.psd" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
