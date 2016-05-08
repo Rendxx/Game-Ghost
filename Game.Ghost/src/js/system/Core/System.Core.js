@@ -79,7 +79,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var c = 
                 this.clientSetup([i], {
                     role: playerData[i].role,
-                    portrait: playerData[i].modelData.portrait,
+                    portrait: this.characterManager.characters[this.characterManager.id2Index[i]].modelData.portrait,
                     color: this.characterManager.characters[this.characterManager.id2Index[i]].color
                 });
             }

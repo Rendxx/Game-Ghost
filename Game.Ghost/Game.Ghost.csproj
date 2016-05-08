@@ -18,6 +18,7 @@
     <Content Include="gulpfile.js" />
     <Content Include="Images\LoadingScreen_1.png" />
     <Content Include="Images\Logo.png" />
+    <Content Include="Images\EndScreen.png" />
     <Content Include="mapDesigner\Document\category-icon0001.png" />
     <Content Include="mapDesigner\Document\category-icon0002.png" />
     <Content Include="mapDesigner\Document\category-icon0003.png" />

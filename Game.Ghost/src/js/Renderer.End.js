@@ -4,6 +4,7 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
 (function (RENDERER) {
+    var Data = RENDERER.Data;
     var _Data = {
         html: {
             wrap: '<div class="end-screen"></div>',
@@ -14,8 +15,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         }
     };
     var End = function (container, root, onRenew) {
-        var html_wrap = $('.end'),
-            isShown = false,
+        var isShown = false,
             _html = {},
             html_content = null,
             html_renew = null;
@@ -39,12 +39,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.updateGame = function (gameData) {
-            if (gameData.end.survivorWin) {
+            if (gameData.survivorWin) {
                 s = "survivor win!"
             } else {
                 s = "ghost win!"
             }
-            html_content.html(s);
+            //html_content.html(s);
         };
 
         // Private ---------------------------------------
@@ -68,7 +68,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var _init = function () {
             _setupHtml();
-        }(opts_in);
+        }();
     };
     RENDERER.End = End;
 })(window.Rendxx.Game.Ghost.Renderer);
