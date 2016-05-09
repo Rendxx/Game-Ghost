@@ -8,8 +8,8 @@
     "hp": 1,
     "speed": {
       "rotate": {
-        "head": 20,
-        "body": 10
+        "head": 40,
+        "body": 30
       },
       "move": {
         "walk": 4,
