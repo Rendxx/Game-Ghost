@@ -415,11 +415,11 @@
     <Content Include="PlayerControlTest\renderer\Character.js" />
     <Content Include="PlayerControlTest\sample.html" />
     <Content Include="PlayerControlTest\sample.js" />
-    <Content Include="PrepareScreen\LoadingScreen_1.png" />
-    <Content Include="PrepareScreen\Logo.png" />
-    <Content Include="PrepareScreen\StartScreen.PNG" />
-    <Content Include="PrepareScreen\StartScreen2.png" />
-    <Content Include="PrepareScreen\StartScreen3.png" />
+    <Content Include="ImageEdit\LoadingScreen_1.png" />
+    <Content Include="ImageEdit\Logo.png" />
+    <Content Include="ImageEdit\StartScreen.PNG" />
+    <Content Include="ImageEdit\StartScreen2.png" />
+    <Content Include="ImageEdit\StartScreen3.png" />
     <Content Include="Sound\danger.wav" />
     <Content Include="Sound\door4.mp3" />
     <Content Include="Sound\die.mp3" />
@@ -705,14 +705,14 @@
     <Content Include="ModelBuilder\Player\ghost\mary\player-mary.portrait.fla" />
     <Content Include="ModelBuilder\Player\ghost\specter\player-specter.portrait.fla" />
     <None Include="package.json" />
-    <Content Include="PrepareScreen\StartScreen.fla" />
-    <Content Include="PrepareScreen\StartScreen.psd" />
-    <Content Include="PrepareScreen\LoadingScreen.fla" />
-    <Content Include="PrepareScreen\Logo.fla" />
+    <Content Include="ImageEdit\StartScreen.fla" />
+    <Content Include="ImageEdit\StartScreen.psd" />
+    <Content Include="ImageEdit\LoadingScreen.fla" />
+    <Content Include="ImageEdit\Logo.fla" />
     <Content Include="src\less\loadingScreen.less" />
-    <Content Include="PrepareScreen\pic.fla" />
+    <Content Include="ImageEdit\pic.fla" />
     <Content Include="src\less\end.less" />
-    <Content Include="PrepareScreen\EndScreen.fla" />
+    <Content Include="ImageEdit\EndScreen.fla" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
