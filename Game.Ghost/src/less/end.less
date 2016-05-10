@@ -12,34 +12,46 @@
     z-index:100;
     background-image: url('../Images/EndScreen.png');
     background-position:center center;
+    background-repeat:no-repeat;
 
-    .ghost-logo{
+    ._inner{
         z-index:20;
-        width:500px;
-        height:250px;
-        position:absolute;
-        top:10px;
-        left:50%;
-        margin-left:-250px;
-        background-image: url('../Images/logo.png');
-        background-position:center center;
-        background-repeat:no-repeat;
-    }
-    ._list{
-        z-index:20;
-        width:500px;
-        height:250px;
-        position:absolute;
-        top:10px;
-        left:50%;
-        margin-left:-250px;
+        width:800px;
+        height:100%;
+        position:relative;
+        top:0;
+        left:0;
+        margin:0 auto;
+        background-color:rgba(0, 0, 0, 0.95);
 
-        ._item{
+        .ghost-logo{
+            z-index:20;
+            width:500px;
+            height:250px;
+            position:absolute;
+            top:10px;
+            left:50%;
+            margin-left:-250px;
+            background-image: url('../Images/logo.png');
+            background-position:center center;
+            background-repeat:no-repeat;
+        }
+        ._list{
+            z-index:20;
+            width:500px;
+            height:250px;
+            position:absolute;
+            top:10px;
+            left:50%;
+            margin-left:-250px;
+
+            ._item{
+
+            }
+        }
+
+        ._renew{
 
         }
-    }
-
-    ._renew{
-
     }
 }

@@ -9,6 +9,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         html: {
             wrap: '<div class="end-screen"></div>',
             logo: '<div class="ghost-logo"></div>',
+            inner: '<div class="_inner"></div>',
             renew: '<div class="_renew">RENEW</div>',
             list: '<div class="_list"></div>',
             item: '<div class="_renew">RENEW</div>'
@@ -55,11 +56,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var _setupHtml = function (opts) {
             _html['container'] = $(container);
             _html['wrap'] = $(_Data.html.wrap).appendTo(_html['container']);
-            _html['logo'] = $(_Data.html.logo).appendTo(_html['wrap']);
-            _html['list'] = $(_Data.html.logo).appendTo(_html['list']);
+            _html['inner'] = $(_Data.html.inner).appendTo(_html['wrap']);
+            _html['logo'] = $(_Data.html.logo).appendTo(_html['inner']);
+            _html['list'] = $(_Data.html.logo).appendTo(_html['inner']);
 
             if (onRenew != null) {
-                _html['renew'] = $(_Data.html.renew).appendTo(_html['wrap']);
+                _html['renew'] = $(_Data.html.renew).appendTo(_html['inner']);
                 _html['renew'].click(function () {
                     onRenew();
                 });
