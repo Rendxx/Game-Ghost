@@ -86,7 +86,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.getEndInfo = function () {
             var survivorWin = false;
             var winTeam = -1;
-            var win = 0, isEnd = true, survivorEnd = {};
+            var win = 0, isEnd = true, survivorEnd = {}, ghostEnd = {};
             for (var i = 0; i < len; i++) {
                 if (this.characters[i].role === Data.character.type.survivor) {
                     if (this.characters[i].win) {
@@ -99,12 +99,18 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         name: this.characters[i].name,
                         isWin: this.characters[i].win
                     };
+                } else {
+                    ghostEnd[this.characters[i].id] = {
+                        portrait: this.characters[i].modelData.portrait,
+                        name: this.characters[i].name
+                    };
                 }
             }
 
             return {
                 survivorWin: survivorWin,
-                survivorEnd: survivorEnd,
+                survivor: survivorEnd,
+                ghost: ghostEnd,
                 team: winTeam
             };
         };

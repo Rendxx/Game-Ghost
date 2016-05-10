@@ -16,6 +16,7 @@
   <ItemGroup>
     <Content Include="Document\Notice.txt" />
     <Content Include="gulpfile.js" />
+    <Content Include="ImageEdit\delLine.png" />
     <Content Include="ImageEdit\ResultIcon_failed.png" />
     <Content Include="ImageEdit\ResultIcon_success.png" />
     <Content Include="Images\LoadingScreen_1.png" />

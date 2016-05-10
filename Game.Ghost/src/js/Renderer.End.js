@@ -11,10 +11,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             logo: '<div class="ghost-logo"></div>',
             icon: '<div class="_rstIcon"></div>',
             inner: '<div class="_inner"></div>',
-            title: '<div class="_title">RENEW</div>',
+            title: '<div class="_title"></div>',
             renew: '<div class="_renew">RENEW</div>',
             list: '<div class="_list"></div>',
-            item: '<div class="_renew">RENEW</div>'
+            item: '<div class="_item"><div class="_text"></div></div>'
         },
         cssClass: {
             success: '_success',
@@ -55,6 +55,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 _html['icon'].addClass(_Data.cssClass.failed);
             }
             _html['title'].text(s);
+
+            _html['item'] = {};
+            for (var id in gameData.survivor) {
+                _html['item'][id] = $(_Data.html.item).appendTo(_html['list']);
+                _html['item'][id].css('background-image', 'url(' + root + Data.character.path + gameData.survivor[id].portrait + ')');
+                _html['item'][id].find('._text').text(gameData.survivor[id].name);
+                if (!gameData.survivor[id].isWin) _html['item'][id].addClass(_Data.cssClass.failed);
+            }
         };
 
         // Private ---------------------------------------

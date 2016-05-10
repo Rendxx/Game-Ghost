@@ -30,8 +30,8 @@
     <script type="text/javascript" src="../js/Game.Ghost.End.js"></script>
     <script>
         $(function () {
-            var x = { "survivorWin": false, "survivorEnd": { "0": { "portrait": "bobo/player-bobo.portrait.png", "name": "player 1", "isWin": false }, "1": { "portrait": "capboy/player-capboy.portrait.png", "name": "player 2", "isWin": false } }, "team": -1 };
-            var end = new window.Rendxx.Game.Ghost.Renderer.End($('.end')[0], '/', function () { console.log('123'); });
+            var x = { "survivorWin": false, "survivor": { "0": { "portrait": "bobo/player-bobo.portrait2.png", "name": "player 1", "isWin": false }, "1": { "portrait": "capboy/player-capboy.portrait2.png", "name": "player 2", "isWin": false } }, "team": -1 };
+            var end = new window.Rendxx.Game.Ghost.Renderer.End($('.end')[0], '', function () { console.log('123'); });
             end.updateGame(x);
         });
     </script>
