@@ -712,6 +712,7 @@
     <Content Include="src\less\loadingScreen.less" />
     <Content Include="PrepareScreen\pic.fla" />
     <Content Include="src\less\end.less" />
+    <Content Include="PrepareScreen\EndScreen.fla" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
