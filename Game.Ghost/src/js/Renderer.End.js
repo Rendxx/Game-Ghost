@@ -9,10 +9,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         html: {
             wrap: '<div class="end-screen"></div>',
             logo: '<div class="ghost-logo"></div>',
+            icon: '<div class="_rstIcon"></div>',
             inner: '<div class="_inner"></div>',
+            title: '<div class="_title">RENEW</div>',
             renew: '<div class="_renew">RENEW</div>',
             list: '<div class="_list"></div>',
             item: '<div class="_renew">RENEW</div>'
+        },
+        cssClass: {
+            success: '_success',
+            failed: '_failed'
         }
     };
     var End = function (container, root, onRenew) {
@@ -40,12 +46,15 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.updateGame = function (gameData) {
+            var s;
             if (gameData.survivorWin) {
-                s = "survivor win!"
+                s = "Survivor Escaped!"
+                _html['icon'].addClass(_Data.cssClass.success);
             } else {
-                s = "ghost win!"
+                s = "All Surviors Are Killed!"
+                _html['icon'].addClass(_Data.cssClass.failed);
             }
-            //html_content.html(s);
+            _html['title'].text(s);
         };
 
         // Private ---------------------------------------
@@ -57,8 +66,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _html['container'] = $(container);
             _html['wrap'] = $(_Data.html.wrap).appendTo(_html['container']);
             _html['inner'] = $(_Data.html.inner).appendTo(_html['wrap']);
-            _html['logo'] = $(_Data.html.logo).appendTo(_html['inner']);
-            _html['list'] = $(_Data.html.logo).appendTo(_html['inner']);
+            _html['icon'] = $(_Data.html.icon).appendTo(_html['inner']);
+            _html['title'] = $(_Data.html.title).appendTo(_html['inner']);
+            _html['list'] = $(_Data.html.list).appendTo(_html['inner']);
+            _html['logo'] = $(_Data.html.logo).appendTo(_html['wrap']); 
 
             if (onRenew != null) {
                 _html['renew'] = $(_Data.html.renew).appendTo(_html['inner']);
