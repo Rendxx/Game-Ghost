@@ -2,7 +2,7 @@
   "id": "bobo",
   "radius": 0.4,
   "model": "bobo/player-bobo.json",
-  "portrait": "bobo/player-bobo.portrait.png",
+  "portrait": "bobo/player-bobo.portrait2.png",
   "color": "0x693939",
   "para": {
     "hp": 1,

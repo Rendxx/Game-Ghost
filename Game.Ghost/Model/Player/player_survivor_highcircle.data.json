@@ -2,7 +2,7 @@
   "id": "highcircle",
   "radius": 0.4,
   "model": "highcircle/player-highcircle.json",
-  "portrait": "highcircle/player-highcircle.portrait.png",
+  "portrait": "highcircle/player-highcircle.portrait2.png",
   "color": "0xFFCC99",
   "para": {
     "hp": 1,

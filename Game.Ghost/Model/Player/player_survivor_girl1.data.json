@@ -2,7 +2,7 @@
   "id": "girl1",
   "radius": 0.4,
   "model": "girl1/player-girl1.json",
-  "portrait": "girl1/player-girl1.portrait.png",
+  "portrait": "girl1/player-girl1.portrait2.png",
   "color": "0xFF9900",
   "para": {
     "hp": 1,

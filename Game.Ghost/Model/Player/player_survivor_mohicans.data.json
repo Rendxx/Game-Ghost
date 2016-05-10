@@ -2,7 +2,7 @@
   "id": "mohicans",
   "radius": 0.4,
   "model": "mohicans/player-mohicans.json",
-  "portrait": "mohicans/player-mohicans.portrait.png",
+  "portrait": "mohicans/player-mohicans.portrait2.png",
   "color": "0x009966",
   "para": {
     "hp": 1,
