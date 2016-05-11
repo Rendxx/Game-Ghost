@@ -19,11 +19,15 @@
     <Content Include="ImageEdit\delLine.png" />
     <Content Include="ImageEdit\ResultIcon_failed.png" />
     <Content Include="ImageEdit\ResultIcon_success.png" />
+    <Content Include="ImageEdit\verticalLine.png" />
+    <Content Include="ImageEdit\verticalLine2.png" />
     <Content Include="Images\LoadingScreen_1.png" />
     <Content Include="Images\Logo.png" />
     <Content Include="Images\EndScreen.png" />
+    <Content Include="Images\missing.png" />
     <Content Include="Images\ResultIcon_failed.png" />
     <Content Include="Images\ResultIcon_success.png" />
+    <Content Include="Images\verticalLine.png" />
     <Content Include="mapDesigner\Document\category-icon0001.png" />
     <Content Include="mapDesigner\Document\category-icon0002.png" />
     <Content Include="mapDesigner\Document\category-icon0003.png" />
@@ -543,6 +547,9 @@
     <Content Include="ImageEdit\ResultIcon.fla" />
     <Content Include="ImageEdit\ResultIcon_failed.psd" />
     <Content Include="ImageEdit\ResultIcon_success.psd" />
+    <Content Include="ImageEdit\missing.fla" />
+    <Content Include="ImageEdit\verticalLine.fla" />
+    <Content Include="ImageEdit\verticalLine2.psd" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.icon.fla" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.icon.fla" />
