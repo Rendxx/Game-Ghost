@@ -32,7 +32,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Survivor = function (id, characterPara, characterData, entity) {
         SYSTEM.Character.Basic.call(this, id, characterPara, characterData, entity);
         // data
-        this.team = characterPara.team;
         this.color = _Data.teamColor[this.team];
         this.win = false;       // character is win or not
         this.recover = 0;       // recover enfurance count

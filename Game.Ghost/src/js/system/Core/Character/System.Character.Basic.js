@@ -31,6 +31,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.entity = entity;
         this.id = id;
         this.name = characterPara.name;
+        this.team = characterPara.team;
         this.role = characterPara.role;
         this.modelId = characterPara.modelId;
         this.x = -1;

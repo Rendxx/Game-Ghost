@@ -97,13 +97,17 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     survivorEnd[this.characters[i].id] = {
                         portrait: this.characters[i].modelData.portrait,
                         name: this.characters[i].name,
+                        team: this.characters[i].team,
+                        dead: this.characters[i].hp===0,
                         isWin: this.characters[i].win
                     };
                 } else {
                     ghostEnd[this.characters[i].id] = {
                         portrait: this.characters[i].modelData.portrait,
-                        name: this.characters[i].name
+                        name: this.characters[i].name,
+                        team: this.characters[i].team
                     };
+                    if (winTeam === -1) winTeam = this.characters[i].team;
                 }
             }
 

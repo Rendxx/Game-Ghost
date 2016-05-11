@@ -12,13 +12,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             icon: '<div class="_rstIcon"></div>',
             inner: '<div class="_inner"></div>',
             title: '<div class="_title"></div>',
-            renew: '<div class="_renew">RENEW</div>',
+            renew: '<div class="_renew"></div>',
             list: '<div class="_list"></div>',
-            item: '<div class="_item"><div class="_text"></div></div>'
+            item: '<div class="_item"><div class="_text"></div></div>',
+            sep: '<div class="_sep"></div>',
+            clear: '<div class="_clear"></div>'
         },
         cssClass: {
             success: '_success',
-            failed: '_failed'
+            failed: '_failed',
+            dead: '_dead',
+            win: '_win'
         }
     };
     var End = function (container, root, onRenew) {
@@ -58,11 +62,24 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             _html['item'] = {};
             for (var id in gameData.survivor) {
+                var c = gameData.survivor[id];
                 _html['item'][id] = $(_Data.html.item).appendTo(_html['list']);
-                _html['item'][id].css('background-image', 'url(' + root + Data.character.path + gameData.survivor[id].portrait + ')');
-                _html['item'][id].find('._text').text(gameData.survivor[id].name);
-                if (!gameData.survivor[id].isWin) _html['item'][id].addClass(_Data.cssClass.failed);
+                _html['item'][id].css('background-image', 'url(' + root + Data.character.path + c.portrait + ')');
+                _html['item'][id].find('._text').text(c.name);
+                if (c.dead) _html['item'][id].addClass(_Data.cssClass.dead);
+                if (c.isWin) _html['item'][id].addClass(_Data.cssClass.win);
+                else if (c.team !== gameData.team) _html['item'][id].addClass(_Data.cssClass.failed);
             }
+            _html['sep'] = $(_Data.html.sep).appendTo(_html['list']);
+            for (var id in gameData.ghost) {
+                var c = gameData.ghost[id];
+                _html['item'][id] = $(_Data.html.item).appendTo(_html['list']);
+                _html['item'][id].css('background-image', 'url(' + root + Data.character.path + c.portrait + ')');
+                _html['item'][id].find('._text').text(c.name);
+                if (c.team !== gameData.team) _html['item'][id].addClass(_Data.cssClass.failed);
+                else _html['item'][id].addClass(_Data.cssClass.win);
+            }
+            _html['clear'] = $(_Data.html.clear).appendTo(_html['list']);
         };
 
         // Private ---------------------------------------
