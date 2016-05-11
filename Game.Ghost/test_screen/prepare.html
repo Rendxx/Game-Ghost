@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f2f2f2;
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: auto;
+        }
+    </style>
+    <link type="text/css" rel="stylesheet" href="../css/Game.Ghost.End.css" />
+    <title>PREPARE - GHOST</title>
+</head>
+<body>
+    <div class="end"></div>
+    <!--Base-->
+    <script type="text/javascript" src="../lib/jquery.js"></script>
+    <script type="text/javascript" src="../js/Game.Ghost.End.js"></script>
+    <script>
+        $(function () {
+            var x = { "survivorWin": false, "survivor": { "0": { "portrait": "bobo/player-bobo.portrait2.png", "name": "player 1", "team": 0, "dead": true, "isWin": false }, "1": { "portrait": "capboy/player-capboy.portrait2.png", "name": "player 2", "team": 1, "dead": true, "isWin": false }, "2": { "portrait": "highcircle/player-highcircle.portrait2.png", "name": "player 3", "team": 1, "dead": true, "isWin": false }, "3": { "portrait": "girl1/player-girl1.portrait2.png", "name": "player 4", "team": 1, "dead": true, "isWin": false }, "4": { "portrait": "mohicans/player-mohicans.portrait2.png", "name": "player 5", "team": 0, "dead": true, "isWin": false } }, "ghost": { "5": { "portrait": "ghost-specter/player-specter.portrait2.png", "name": "player 7", "team": 2 } }, "team": 2 };
+            var x2 = { "survivorWin": true, "survivor": { "0": { "portrait": "bobo/player-bobo.portrait2.png", "name": "player 1", "team": 0, "dead": true, "isWin": false }, "1": { "portrait": "capboy/player-capboy.portrait2.png", "name": "player 2", "team": 1, "dead": true, "isWin": false }, "2": { "portrait": "highcircle/player-highcircle.portrait2.png", "name": "player 3", "team": 1, "dead": false, "isWin": true }, "3": { "portrait": "girl1/player-girl1.portrait2.png", "name": "player 4", "team": 1, "dead": false, "isWin": false }, "4": { "portrait": "mohicans/player-mohicans.portrait2.png", "name": "player 5", "team": 0, "dead": true, "isWin": false } }, "ghost": { "5": { "portrait": "ghost-specter/player-specter.portrait2.png", "name": "player 7", "team": 2 } }, "team": 1 };
+            var end = new window.Rendxx.Game.Ghost.Renderer.End($('.end')[0], '', function () { console.log('123'); });
+            end.updateGame(x);
+        });
+    </script>
+</body>
+</html>

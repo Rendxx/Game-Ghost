@@ -495,7 +495,8 @@
     <Content Include="src\js\Renderer.End.js" />
     <Content Include="test\helper.js" />
     <Content Include="test\inputSimulator.js" />
-    <Content Include="test_end\end.html" />
+    <Content Include="test_screen\prepare.html" />
+    <Content Include="test_screen\end.html" />
     <Content Include="test\sample.html" />
     <Content Include="test\game.js" />
     <Content Include="Sound\bell.wav" />
