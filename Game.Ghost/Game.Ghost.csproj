@@ -18,7 +18,9 @@
     <Content Include="gulpfile.js" />
     <Content Include="ImageEdit\crown.png" />
     <Content Include="ImageEdit\delLine.png" />
+    <Content Include="ImageEdit\gamePad.png" />
     <Content Include="ImageEdit\horizontalLine.png" />
+    <Content Include="ImageEdit\ob.png" />
     <Content Include="ImageEdit\renew.png" />
     <Content Include="ImageEdit\ResultIcon_failed.png" />
     <Content Include="ImageEdit\ResultIcon_success.png" />
@@ -560,6 +562,7 @@
     <Content Include="ImageEdit\verticalLine2.psd" />
     <Content Include="ImageEdit\crown.fla" />
     <Content Include="ImageEdit\renew.fla" />
+    <Content Include="ImageEdit\gamePad.fla" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.icon.fla" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.icon.fla" />

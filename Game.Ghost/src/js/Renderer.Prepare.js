@@ -7,22 +7,19 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Data = RENDERER.Data;
     var _Data = {
         html: {
-            wrap: '<div class="end-screen"></div>',
+            wrap: '<div class="prepare-screen"></div>',
             logo: '<div class="ghost-logo"></div>',
-            icon: '<div class="_rstIcon"></div>',
-            inner: '<div class="_inner"></div>',
-            title: '<div class="_title"></div>',
-            renew: '<div class="_renew"></div>',
-            list: '<div class="_list"></div>',
+            playerList: '<div class="_playerList"></div>',
+            obList: '<div class="_obList"></div>',
+            playerPanel: '<div class="_playerPanel"></div>',
+            optionPanel: '<div class="_optionPanel"></div>',
+            start: '<div class="_start"></div>',
             item: '<div class="_item"><div class="_text"></div></div>',
             sep: '<div class="_sep"></div>',
             clear: '<div class="_clear"></div>'
         },
         cssClass: {
-            success: '_success',
-            failed: '_failed',
-            dead: '_dead',
-            win: '_win'
+            occupied: '_occupied'
         }
     };
     var HTML = {
@@ -34,20 +31,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         mapItem: '<div class="_map-item"></div>'
     };
 
-    var CSS = {
-        occupied: '_occupied'
-    };
-
-    var Prepare = function (opts_in) {
+    var Prepare = function (container, opts_in, onStart) {
         // Property -------------------------------------
         var // html
-            html_wrap = $('.prepare'),
-            html_startBtn = $('._start'),
-            html_clients = html_wrap.children('._clients'),
-            html_playerList = null,
-            html_obList = null,
-            html_players = [],
-            html_obs = {},
+            _html = {},
             html_mapSelector = null,
             html_mapItemWrap = null,
             html_mapItem = [],
@@ -69,12 +56,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             isShown = true;
             _renderClient(cache_client);
             _renderOb(cache_ob);
-            html_wrap.fadeIn();
+            _html['container'].fadeIn();
         };
 
         this.hide = function () {
             isShown = false;
-            html_wrap.fadeOut();
+            _html['container'].fadeOut();
         };
 
         // Update ---------------------------------------
@@ -103,21 +90,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (obData == null) return;
             // ob
             var obCount = 0;
-            for (var id in html_obs) {
+            for (var id in _html['ob']) {
                 if (!(id in obData) || obData[id].number != -1) {
-                    html_obs[id].remove();
-                    delete html_obs[id];
+                    _html['ob'][id].remove();
+                    delete _html['ob'][id];
                 }
             }
             for (var id in obData) {
                 if (obData[id].number == -1) continue;
                 obCount++;
-                if (id in html_obs) continue;
-                html_obs[id] = $(HTML.item).html(obData[id].name).addClass(CSS.occupied).appendTo(html_obList);
+                if (id in _html['ob']) continue;
+                _html['ob'][id] = $(_Data.html.item).html(obData[id].name).addClass(_Data.cssClass.occupied).appendTo(_html['obList']);
             }
 
-            if (obCount > 0) html_obList.show();
-            else html_obList.hide();
+            if (obCount > 0) _html['obList'].show();
+            else _html['obList'].hide();
         };
 
         var _renderClient = function (clientData) {
@@ -131,9 +118,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             for (var i = 0; i < _max; i++) {
                 if (i in occupiedNumber) {
-                    html_players[i].html(clientData[occupiedNumber[i]].name).addClass(CSS.occupied);
+                    _html['player'][i].html(clientData[occupiedNumber[i]].name).addClass(_Data.cssClass.occupied);
                 } else {
-                    html_players[i].html("").removeClass(CSS.occupied);
+                    _html['player'][i].html("").removeClass(_Data.cssClass.occupied);
                 }
             }
         };
@@ -145,29 +132,39 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // Setup -----------------------------------------
         var _setupHtml = function () {
-            html_playerList = $(HTML.player).appendTo(html_clients);
-            html_obList = $(HTML.ob).appendTo(html_clients);
+            _html['container'] = $(container);
+            _html['wrap'] = $(_Data.html.wrap).appendTo(_html['container']);
+            _html['playerPanel'] = $(_Data.html.playerPanel).appendTo(_html['wrap']);
+            _html['optionPanel'] = $(_Data.html.optionPanel).appendTo(_html['wrap']);
+            _html['start'] = $(_Data.html.start).appendTo(_html['wrap']);
+
+            _html['logo'] = $(_Data.html.logo).appendTo(_html['playerPanel']);
+            _html['playerList'] = $(_Data.html.playerList).appendTo(_html['playerPanel']);
+            _html['obList'] = $(_Data.html.obList).appendTo(_html['playerPanel']);
+
+            _html['player'] = [];
             for (var i = 0; i < _max; i++) {
-                html_players[i] = $(HTML.item).appendTo(html_playerList);
+                _html['player'][i] = $(_Data.html.item).appendTo(_html['playerList']);
             }
-            html_startBtn.click(function () {
-                $.get('/Host/Start')
+            _html['start'].click(function () {
+                if (onStart) onStart();
             });
+            _html['ob'] = [];
 
             // map selector
-            html_mapSelector = $(HTML.mapSelector).appendTo(html_wrap);
-            html_mapItemWrap = $(HTML.mapItemWrap).appendTo(html_mapSelector).hide();
-            for (var i in _map) {
-                var ele = $(HTML.mapItem).text(_map[i]).appendTo(html_mapItemWrap);
-                if (mapId == null) _selectMap(i);
-                ele.click({ id: i }, function (e) {
-                    _selectMap(e.data.id);
-                });
-                html_mapItem[i] = ele;
-            }
-            html_mapSelector.click(function () {
-                html_mapItemWrap.fadeToggle(200);
-            });
+            //html_mapSelector = $(HTML.mapSelector).appendTo(html_wrap);
+            //html_mapItemWrap = $(HTML.mapItemWrap).appendTo(html_mapSelector).hide();
+            //for (var i in _map) {
+            //    var ele = $(HTML.mapItem).text(_map[i]).appendTo(html_mapItemWrap);
+            //    if (mapId == null) _selectMap(i);
+            //    ele.click({ id: i }, function (e) {
+            //        _selectMap(e.data.id);
+            //    });
+            //    html_mapItem[i] = ele;
+            //}
+            //html_mapSelector.click(function () {
+            //    html_mapItemWrap.fadeToggle(200);
+            //});
         };
 
         var _init = function (opts_in) {

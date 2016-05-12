@@ -1,23 +1,130 @@
-﻿.prepare {
-    width: 500px;
-    height: 500px;
+﻿.prepare-screen {
+    font-family: 'Poor Richard';
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 0;
+    left: 0;
     margin: 0;
-    margin-top: -250px;
-    margin-left: -250px;
     padding: 0;
     border: 0;
+    background-color: #000;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 100;
+    background-image: url('../Images/EndScreen.png');
+    background-position: 300px center;
+    background-repeat: no-repeat;
+    
+    ._playerPanel{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width:400px;
+        height:100%;
+        background-color:#000;
+        border-right:1px solid #111;
+        
+        .ghost-logo {
+            z-index: 20;
+            width: 400px;
+            height: 200px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-image: url('../Images/logo.png');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
 
-    ._title {
-        width: 100%;
-        height: 50px;
-        line-height: 50px;
-        text-align: center;
-        font-size: 24px;
-        color: #333;
+        ._playerList{
+            width:100%;
+            position:relative;
+            margin-top:240px;
+            top:0;
+            left:0;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAADIElEQVRYhe2XvYsbVxTFz7mzTdLsgl0FjFWYpLRqg/EshnQBVWmjQLDGleXVCoErVwFnNBulCVIIWNsGEgQBF2mixf+A3BoMcpUmCxsIKQLzjguNlNFoJWu00m4R/aqZ+8679/DezPsAtmzZ8j+h02jsXkUuvi+RnOtC8kHuJeEBpZ6c6wVHR6+WLfRDvX7PSSWQPoAipDOQfZqVK8+e/ZXbYJKwlzI2jXRGoAXPa80r0Gk0dhHHVQHVRXmMLD0Iw5OlDbbr9ecAyvPMn8OQUneqLlkGUMiRoxuE4ZfZ4IzBdr3+CEArR+J1Ug3C8Lt0YMpgp9HYVRwP507HppHO6HmF9CdjU+3Ola/MHACQe3KunA5ZRlLG1VNOv0wMtg8ObgMoXrabcygmXgCkR9DzqjNSqUayQrKydhvS90neFzNtnvd01qBUWruJBdDsFAAonc40Sv5EBySLMtCftANR8vjGyBgAnPRx0vlzkjdW9PUPgF8l3SJ5E8ApgBuQXgL4F+RnY6EB/oMwPNkZ1ZQP/rfiGPk6m3kc06jISlD6BmZ/gPwJ0s8ArgP4k2a/AIBz7hrJOxNPwIklRf1Vi+bBAZ9K+gDO3U+FP5Rz1zQy99E4OPa0AwDJBj5BUid5qNHs76nYBUhG504yWy8EDADcJfn1OWIfACz9S18yvxn51qThPEH74OD2DjzPnycg8FBSvAl3AB660Xfozz1SeZ6/gwWLs8hbm3CW8AmBJ+mf8xyKBqmwQRMXQypk9+K8CfqQSgb4NNsLwpBBGJJmewb4kEqQ+ivnJwts1+taqa9z5UoUHS+j7dRqX8isu0qd/CMonSGOi8uaA4BKFB0jjkf3kJxY3imgVM1zWRoTHB29ojR7IFmE1DeQwxwdWnlGLkslio4hLX+dIIdmQHdJeY+pY9CqJDl6y2gN6BIA2oeHv2e3uymkVtBsPr6ouTTtw8NvQc6fcqkfNJv7BgBBs7mfnAcHWZEB/rrNJTUfJ0tRP9M0gFQKms19IHOr+7FWu+nMChN/ZoNFt/510Gk0duncZDcz54ZfRdHbTdbcsmXLZfIOIJNI0LEA+tAAAAAASUVORK5CYII=");
+            background-repeat:no-repeat;
+            background-position: 50px 6px;
+
+            ._item{
+                color:#bf8d8d;
+                font-size:20px;
+                font-family:'Poor Richard';
+                text-shadow:0 0 5px #bd4545;
+                text-align:left;
+                padding:10px 20px;
+                margin-left:100px;
+                line-height:30px;
+                min-height:30px;
+                position:relative;
+                top:0;
+                left:0;
+
+                &::after {
+                    content: "[EMPTY]";
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    left: 20px;
+                    width: 100px;
+                    height: 50px;
+                    line-height: 50px;
+                    color: rgba(255, 255, 255, 0.15);
+                    font-size: 14px;
+                    text-shadow: none;
+                }
+
+                &._occupied {
+                    &::after {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        ._obList{
+            margin-top:20px;
+            width:100%;
+            position:relative;
+            top:0;
+            left:0;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAADYElEQVRYhe2YT3bbNhDGvwGzt4/A7LoTax+g7AmqG1glBW2rnCDOCepsBVJlb+DcgFl2Y9EnKHMD+QCa6SJIHv8AJBVLfn1tvpUkDDk/zQCDAYDv+o+LnvNwkiQzpVQIIPKYVMxcb7fbx2/1cTTgarW6YOY1Ec0HwLqqROReKXW32Wyezga4XC7fEtHtMc90JSK3WZa9m2o/CXC1Wl2ISInpERtTRUTxlGiqMYMkSWbMXON0cAAQMXOdJMlszHAwgjZyFYDwVGQd1UQUDUXSG8FGWsMzgH1RKCLlarW68Bl4AUWkwGnT6lNkfTkVuH7UWv8GYH0uIod+uL6+3j88PPzVHejNQVvnaiK6fBm2zxKRvVIq7M7HXoptEX5ROAAgoktm7mXtlcNwMeWFIrIHUAEoR0xjANGUP219t4p4K8VJksyCIKgG3lGLSMHM98391a741oIioqqZLrtvzy1E6HNwOByi5rtbEQyCIB4AW2dZ9qE7oLX+yZajlkQEWuvYGPMRAKzTRwDvlsvlL0R05wK1DF8Bu3OwFQWbxrUx5rULztavwvOnAKBw1bgsyz4YY14DWFsfXoYWoIiEjc+liETGmPc+74fDYY7hQh5aG6eMMe9FJGpmoMkAOBaJVZFl2a8DjgEARDQEN8kmz/NPAH7WWv8BYNEdd+4kIhIObT+nll1koWvMCUhEsYiUY92GiNRjzsdskiSZiUhJRPEUwGaJiZRSZZqmN76XB0FwPwY4ZJOm6Y1SqkR7YbTKXAuQiOrO90ulVKG13rmiudlsnph54QNg5oWrlUqSZKa13imlim4B7zF0Hxwq1HZlF3me/9n83c6hhYhcWid7Iiq6cGma3hDRwpdOoF+oe82C1vpvTOsB70WkIqJyyEhEYiKKAHjLTUO1rY9f1SszIlJMPBjN7cluUETTz2WuvrC3ioeax3PL5bvXsO52u6erqysMzZNzSERu8zzvbafe+Gutd3iZlh8AKmPMj64B75mEmeeOjfzkEpE9M3vnshcwz/NPzByfE9LCxXY/dmrw4L7dbh9tIzrUxH6rKhGJxi6W/vVXH8deHv1ORM86jorIXZZlb6baj97NNJVl2RtmDjHcRftUMHN4DBzwjAtMe36OiWju6+WIqLb3guWx94Lf9b/RP8vExd4fCDQqAAAAAElFTkSuQmCC");
+            background-repeat:no-repeat;
+            background-position: 50px 6px;
+
+            ._item{
+                color:#fff;
+                font-size:20px;
+                font-family:'Poor Richard';
+                text-shadow:0 0 5px #fff;
+                text-align:left;
+                padding:10px 20px;
+                margin-left:100px;
+                line-height:30px;
+                min-height:30px;
+                position:relative;
+                top:0;
+                left:0;
+            }
+        }
     }
+
+    ._optionPanel{
+        position: absolute;
+        top: 0;
+        left: 400px;
+        width:400px;
+        height:100%;
+        background-color:rgba(0, 0, 0, 0.50);
+    }
+
+    ._start{
+
+    }
+
+
+
 
     ._clients {
         width: 100%;
