@@ -20,6 +20,7 @@
     <Content Include="ImageEdit\delLine.png" />
     <Content Include="ImageEdit\gamePad.png" />
     <Content Include="ImageEdit\horizontalLine.png" />
+    <Content Include="ImageEdit\map.png" />
     <Content Include="ImageEdit\ob.png" />
     <Content Include="ImageEdit\renew.png" />
     <Content Include="ImageEdit\ResultIcon_failed.png" />
@@ -27,10 +28,13 @@
     <Content Include="ImageEdit\verticalLine.png" />
     <Content Include="ImageEdit\verticalLine2.png" />
     <Content Include="Images\crown.png" />
+    <Content Include="Images\gamePad.png" />
     <Content Include="Images\LoadingScreen_1.png" />
     <Content Include="Images\Logo.png" />
     <Content Include="Images\EndScreen.png" />
+    <Content Include="Images\map.png" />
     <Content Include="Images\missing.png" />
+    <Content Include="Images\ob.png" />
     <Content Include="Images\renew.png" />
     <Content Include="Images\ResultIcon_failed.png" />
     <Content Include="Images\ResultIcon_success.png" />
@@ -562,7 +566,7 @@
     <Content Include="ImageEdit\verticalLine2.psd" />
     <Content Include="ImageEdit\crown.fla" />
     <Content Include="ImageEdit\renew.fla" />
-    <Content Include="ImageEdit\gamePad.fla" />
+    <Content Include="ImageEdit\prepareIcon.fla" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.icon.fla" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.icon.fla" />

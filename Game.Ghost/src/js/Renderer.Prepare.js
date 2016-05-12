@@ -10,16 +10,18 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             wrap: '<div class="prepare-screen"></div>',
             logo: '<div class="ghost-logo"></div>',
             playerList: '<div class="_playerList"></div>',
-            obList: '<div class="_obList"></div>',
             playerPanel: '<div class="_playerPanel"></div>',
             optionPanel: '<div class="_optionPanel"></div>',
+            obList: '<div class="_obList"></div>',
+            mapList: '<div class="_mapList"></div>',
             start: '<div class="_start"></div>',
             item: '<div class="_item"><div class="_text"></div></div>',
             sep: '<div class="_sep"></div>',
             clear: '<div class="_clear"></div>'
         },
         cssClass: {
-            occupied: '_occupied'
+            occupied: '_occupied',
+            selected: '_selected'
         }
     };
     var HTML = {
@@ -40,7 +42,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             html_mapItem = [],
             // data
             _max = 5,
-            _map = 5,
+            _map = [],
             mapId = null,
             // flag
             isShown = false,
@@ -126,18 +128,23 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var _selectMap = function (id) {
+            if (_map.hasOwnProperty(mapId)) {
+                _html['map'][mapId].removeClass(_Data.cssClass.selected);
+            }
             mapId = id;
-            html_mapSelector.children('span').text(_map[id]);
+            _html['map'][mapId].addClass(_Data.cssClass.selected);
         };
 
         // Setup -----------------------------------------
         var _setupHtml = function () {
+            // containers
             _html['container'] = $(container);
             _html['wrap'] = $(_Data.html.wrap).appendTo(_html['container']);
             _html['playerPanel'] = $(_Data.html.playerPanel).appendTo(_html['wrap']);
             _html['optionPanel'] = $(_Data.html.optionPanel).appendTo(_html['wrap']);
             _html['start'] = $(_Data.html.start).appendTo(_html['wrap']);
 
+            // player panel
             _html['logo'] = $(_Data.html.logo).appendTo(_html['playerPanel']);
             _html['playerList'] = $(_Data.html.playerList).appendTo(_html['playerPanel']);
             _html['obList'] = $(_Data.html.obList).appendTo(_html['playerPanel']);
@@ -146,11 +153,23 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0; i < _max; i++) {
                 _html['player'][i] = $(_Data.html.item).appendTo(_html['playerList']);
             }
+            _html['ob'] = [];
+
+            // option panel
+            _html['mapList'] = $(_Data.html.mapList).appendTo(_html['optionPanel']);
+            _html['map'] = [];
+            for (var i = 0; i < _map.length; i++) {
+                _html['map'][i] = $(_Data.html.item).html(_map[i].name).appendTo(_html['mapList']);
+                _html['map'][i].click({ id: i }, function (e) {
+                    _selectMap(e.data.id);
+                });
+            }
+            _selectMap(0);
+
+            // start
             _html['start'].click(function () {
                 if (onStart) onStart();
             });
-            _html['ob'] = [];
-
             // map selector
             //html_mapSelector = $(HTML.mapSelector).appendTo(html_wrap);
             //html_mapItemWrap = $(HTML.mapItemWrap).appendTo(html_mapSelector).hide();
