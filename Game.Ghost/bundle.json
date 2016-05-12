@@ -51,9 +51,16 @@
       ],
       "#dest#/Game.Ghost.End": [
         "#src#/end.less"
+      ],
+      "#dest#/Game.Ghost.Prepare": [
+        "#src#/prepare.less"
       ]
     },
     "js": {
+      "#dest#/Game.Ghost.Prepare": [
+        "#src#/renderer/Renderer.Data.js",
+        "#src#/Renderer.Prepare.js"
+      ],
       "#dest#/Game.Ghost.End": [
         "#src#/renderer/Renderer.Data.js",
         "#src#/Renderer.End.js"
