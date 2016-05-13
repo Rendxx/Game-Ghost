@@ -15,6 +15,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             obList: '<div class="_obList"></div>',
             mapList: '<div class="_mapList"></div>',
             start: '<div class="_start"></div>',
+            listTitle: '<div class="_title"></div>',
             item: '<div class="_item"><div class="_text"></div></div>',
             sep: '<div class="_sep"></div>',
             clear: '<div class="_clear"></div>'
@@ -148,7 +149,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _html['logo'] = $(_Data.html.logo).appendTo(_html['playerPanel']);
             _html['playerList'] = $(_Data.html.playerList).appendTo(_html['playerPanel']);
             _html['obList'] = $(_Data.html.obList).appendTo(_html['playerPanel']);
-
+            _html['playerTitle'] = $(_Data.html.listTitle).html('Player').appendTo(_html['playerList']);
+            _html['obTitle'] = $(_Data.html.listTitle).html('Observer').appendTo(_html['obList']);
+            
             _html['player'] = [];
             for (var i = 0; i < _max; i++) {
                 _html['player'][i] = $(_Data.html.item).appendTo(_html['playerList']);
@@ -157,6 +160,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // option panel
             _html['mapList'] = $(_Data.html.mapList).appendTo(_html['optionPanel']);
+            _html['mapTitle'] = $(_Data.html.listTitle).html('Map').appendTo(_html['mapList']);
             _html['map'] = [];
             for (var i = 0; i < _map.length; i++) {
                 _html['map'][i] = $(_Data.html.item).html(_map[i].name).appendTo(_html['mapList']);
