@@ -14,6 +14,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             optionPanel: '<div class="_optionPanel"></div>',
             obList: '<div class="_obList"></div>',
             mapList: '<div class="_mapList"></div>',
+            ghostList: '<div class="_ghostList"></div>',
             start: '<div class="_start"></div>',
             listTitle: '<div class="_title"></div>',
             item: '<div class="_item"><div class="_text"></div></div>',
@@ -38,13 +39,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // Property -------------------------------------
         var // html
             _html = {},
-            html_mapSelector = null,
-            html_mapItemWrap = null,
-            html_mapItem = [],
             // data
             _max = 5,
             _map = [],
+            _ghost = [],
             mapId = null,
+            ghostId = {},
             // flag
             isShown = false,
             // cache     
@@ -136,6 +136,19 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _html['map'][mapId].addClass(_Data.cssClass.selected);
         };
 
+        var _toggleGhost = function (id) {
+            var count = 0;
+            for (var i in ghostId) count++;
+            if (ghostId.hasOwnProperty(id)) {
+                if (count < 2) return;
+                delete ghostId[id];
+                _html['ghost'][id].removeClass(_Data.cssClass.selected);
+            } else {
+                ghostId[id] = true;
+                _html['ghost'][id].addClass(_Data.cssClass.selected);
+            }
+        };
+
         // Setup -----------------------------------------
         var _setupHtml = function () {
             // containers
@@ -170,6 +183,18 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
             _selectMap(0);
 
+            _html['ghostList'] = $(_Data.html.ghostList).appendTo(_html['optionPanel']);
+            _html['ghostTitle'] = $(_Data.html.listTitle).html('Ghost').appendTo(_html['ghostList']);
+            _html['ghost'] = [];
+            for (var i = 0; i < _ghost.length; i++) {
+                _html['ghost'][i] = $(_Data.html.item).html(_ghost[i].name).appendTo(_html['ghostList']);
+                _html['ghost'][i].click({ id: i }, function (e) {
+                    _toggleGhost(e.data.id);
+                });
+                _toggleGhost(i);
+            }
+
+
             // start
             _html['start'].click(function () {
                 if (onStart) onStart();
@@ -192,6 +217,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var _init = function (opts_in) {
             _max = opts_in.max;
+            _ghost = opts_in.ghost;
             _map = opts_in.map || {};
             _setupHtml();
         }(opts_in);

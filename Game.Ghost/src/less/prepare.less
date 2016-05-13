@@ -55,6 +55,7 @@
         text-align: left;
         padding: 10px 20px;
         margin-left: 100px;
+        margin-right: 60px;
         line-height: 30px;
         min-height: 30px;
         position: relative;
@@ -175,6 +176,8 @@
                 -o-transition: 0.2s;
                 -webkit-transition: 0.2s;
                 transition: 0.2s;
+                background-position: right 20px center;
+                background-repeat: no-repeat;
 
                 &:hover {
                     opacity: 0.6;
@@ -182,7 +185,45 @@
 
                 &._selected {
                     opacity: 1;
+                    background-image: url('../Images/selected.png');
                     text-shadow: 0 0 5px rgba(255, 255, 255, 0.40);
+                }
+            }
+        }
+
+        ._ghostList {
+            .__list;
+            margin-top: 40px;
+
+            &:after{
+                .__icon;
+                content:'';
+                background-image: url('../Images/ghost.png');
+            }
+            
+            ._title{
+                .__title;
+            }
+
+            ._item {
+                .__item;
+                opacity: 0.2;
+                cursor: pointer;
+                -moz-transition: 0.2s;
+                -o-transition: 0.2s;
+                -webkit-transition: 0.2s;
+                transition: 0.2s;
+                background-position: right 20px center;
+                background-repeat: no-repeat;
+
+                &:hover {
+                    opacity: 0.6;
+                }
+
+                &._selected {
+                    opacity: 1;
+                    background-image: url('../Images/selected.png');
+                    text-shadow: 0 0 5px rgba(226, 58, 58, 0.50);
                 }
             }
         }
@@ -197,43 +238,5 @@
         color: #333;
         font-size: 20px;
         text-align: center;
-    }
-
-    .map-selector {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 120px;
-        height: 40px;
-        background-color: rgba(255, 255, 255, 0.29);
-        border: 1px dotted #999;
-        text-align: center;
-        color: #666;
-        cursor: pointer;
-
-        span {
-            display: block;
-            height: 20px;
-            padding: 10px 20px;
-        }
-
-        .map-item-wrap {
-            width: 120px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: #222;
-
-            ._map-item {
-                height: 20px;
-                padding: 10px 20px;
-                color: #eee;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: #111;
-                }
-            }
-        }
     }
 }
