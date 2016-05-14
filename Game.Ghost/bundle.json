@@ -59,6 +59,8 @@
     "js": {
       "#dest#/Game.Ghost.Prepare": [
         "#src#/renderer/Renderer.Data.js",
+        "#src#/system/System.Data.js",
+        "#src#/GameSetting.js",
         "#src#/Renderer.Prepare.js"
       ],
       "#dest#/Game.Ghost.End": [

@@ -33,16 +33,32 @@
         $(function () {
             var p = {
                 0: {
-                    name: 'player 01',
+                    name: 'player 00',
                     number: 0
                 },
                 1: {
                     name: 'playerplayer 01',
-                    number: 2
+                    number: 1
                 },
                 2: {
-                    name: 'test Gamer',
+                    name: 'test Gamer 02',
+                    number: 2
+                },
+                3: {
+                    name: 'test Gamer33',
                     number: 3
+                },
+                4: {
+                    name: 'test Gamer4444',
+                    number: 4
+                },
+                5: {
+                    name: 'test Gamer55',
+                    number: 5
+                },
+                6: {
+                    name: 'test Gamer66',
+                    number: 6
                 }
             };
             var ob = {
@@ -55,35 +71,11 @@
                     number: 2
                 }
             };
-            var x2 = { "survivorWin": true, "survivor": { "0": { "portrait": "bobo/player-bobo.portrait2.png", "name": "player 1", "team": 0, "dead": true, "isWin": false }, "1": { "portrait": "capboy/player-capboy.portrait2.png", "name": "player 2", "team": 1, "dead": true, "isWin": false }, "2": { "portrait": "highcircle/player-highcircle.portrait2.png", "name": "player 3", "team": 1, "dead": false, "isWin": true }, "3": { "portrait": "girl1/player-girl1.portrait2.png", "name": "player 4", "team": 1, "dead": false, "isWin": false }, "4": { "portrait": "mohicans/player-mohicans.portrait2.png", "name": "player 5", "team": 0, "dead": true, "isWin": false } }, "ghost": { "5": { "portrait": "ghost-specter/player-specter.portrait2.png", "name": "player 7", "team": 2 } }, "team": 1 };
 
-            var mapData = [
-                {
-                    name: "Hospital1",
-                    id: "Hospital1"
-                },
-                {
-                    name: "test",
-                    id: "test"
-                },
-                {
-                    name: "test2",
-                    id: "test2"
-                }
-            ];
-            var ghostData = [
-                {
-                    name: "Mary",
-                    id: "ghost-mary"
-                },
-                {
-                    name: "Specter",
-                    id: "ghost-specter"
-                }
-            ];
-            var _maxPlayer = 7;
-
-            var prepare = new window.Rendxx.Game.Ghost.Renderer.Prepare($('.prepare')[0], { max: _maxPlayer, map: mapData, ghost: ghostData }, function (dat) { alert(JSON.stringify(dat)); });
+            var prepare = new window.Rendxx.Game.Ghost.Renderer.Prepare($('.prepare')[0], function (dat) {
+                alert(JSON.stringify(dat));
+                console.log(dat);
+            });
             prepare.updateClientList(p);
             prepare.updateObList(ob);
         });

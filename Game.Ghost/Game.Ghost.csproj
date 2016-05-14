@@ -471,6 +471,7 @@
     <Content Include="Sound\unlock.mp3" />
     <Content Include="src\js\lib\DDSLoader.js" />
     <Content Include="src\js\lib\OBJLoader.js" />
+    <Content Include="src\js\GameSetting.js" />
     <Content Include="src\js\Renderer.Prepare.js" />
     <Content Include="src\js\renderer\Renderer.Character.js" />
     <Content Include="src\js\renderer\Renderer.Data.js" />

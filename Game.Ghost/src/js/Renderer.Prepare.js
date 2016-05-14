@@ -3,8 +3,9 @@ window.Rendxx.Game = window.Rendxx.Game || {};
 window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
-(function (RENDERER) {
+(function (RENDERER, SYSTEM, GAMESETTING) {
     var Data = RENDERER.Data;
+    var Data_System = SYSTEM.Data;
     var _Data = {
         html: {
             wrap: '<div class="prepare-screen"></div>',
@@ -35,7 +36,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         mapItem: '<div class="_map-item"></div>'
     };
 
-    var Prepare = function (container, opts_in, onStart) {
+    var Prepare = function (container, onStart) {
         // Property -------------------------------------
         var // html
             _html = {},
@@ -43,8 +44,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _max = 5,
             _map = [],
             _ghost = [],
+            _survivor = [],
+            _team = [],
             mapId = null,
             ghostId = {},
+            clientData = {},
             // flag
             isShown = false,
             // cache     
@@ -84,8 +88,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // api -------------------------------------------
         this.getSetupPara = function () {
             return {
-                map: mapId,
-                ghost: ghostId
+                map: _map[mapId].id,
+                clientList: clientData
             };
         };
 
@@ -150,6 +154,81 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
         };
 
+        var _setupPlayer = function () {
+            var playerData = {};
+
+            // setup data
+            var playerNum = 0;
+            for (var i in cache_client) playerNum++;
+            var ghostPlayerIdx = Math.floor(playerNum * Math.random());
+            var ghostIdxList = [],
+                survivorIdxList = [];
+            for (var i in ghostId) ghostIdxList.push(i);
+            for (var i in _survivor) survivorIdxList.push(i);
+
+            // setup player
+            var count = 0,
+                ghostIdx = Math.floor(ghostIdxList.length * Math.random()),
+                survivorList = [],
+                ghostList = [];
+
+            for (var id in cache_client) {
+                if (count != ghostPlayerIdx) {
+                    var roleIdx = Math.floor(survivorIdxList.length * Math.random());
+                    var m = _survivor[survivorIdxList[roleIdx]];
+                    survivorIdxList.splice(roleIdx, 1);
+                    playerData[id] = {
+                        name: cache_client[id].name,
+                        id: id,
+                        role: Data_System.character.type.survivor,
+                        modelId: m.id,
+                        team: 0
+                    };
+                    survivorList.push(id);
+                } else {
+                    var roleIdx = Math.floor(ghostIdxList.length * Math.random());
+                    var m = _ghost[ghostIdxList[roleIdx]];
+                    playerData[id] = {
+                        name: cache_client[id].name,
+                        id: id,
+                        role: Data_System.character.type.ghost,
+                        modelId: m.id,
+                        team: 0
+                    };
+                    ghostList.push(id);
+                }
+                count++;
+            }
+
+            // setup team
+            var survivorTeamIdx = [],
+                ghostTeamIdx = [],
+                teamIdx = 0;
+            for (var i = 0; i < survivorList.length; i++) {
+                survivorTeamIdx.push(teamIdx);
+                teamIdx = (teamIdx + 1) % _team.survivor.length;
+            }
+            teamIdx = 0;
+            for (var i = 0; i < ghostList.length; i++) {
+                ghostTeamIdx.push(teamIdx);
+                teamIdx = (teamIdx + 1) % _team.ghost.length;
+            }
+
+            for (var i = 0; i < survivorList.length; i++) {
+                var t = Math.floor(survivorTeamIdx.length * Math.random());
+                playerData[survivorList[i]].team = _team.survivor[survivorTeamIdx[t]].id;
+                survivorTeamIdx.splice(t, 1);
+            }
+
+            for (var i = 0; i < ghostList.length; i++) {
+                var t = Math.floor(ghostTeamIdx.length * Math.random());
+                playerData[ghostList[i]].team = _team.ghost[ghostTeamIdx[t]].id;
+                ghostTeamIdx.splice(t, 1);
+            }
+
+            return playerData;
+        };
+
         // Setup -----------------------------------------
         var _setupHtml = function () {
             // containers
@@ -197,33 +276,22 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // start
             _html['start'].click(function () {
+                clientData = _setupPlayer();
                 if (onStart) onStart({
-                    map: mapId,
-                    ghost: ghostId
+                    map: _map[mapId].id,
+                    clientList: clientData
                 });
             });
-            // map selector
-            //html_mapSelector = $(HTML.mapSelector).appendTo(html_wrap);
-            //html_mapItemWrap = $(HTML.mapItemWrap).appendTo(html_mapSelector).hide();
-            //for (var i in _map) {
-            //    var ele = $(HTML.mapItem).text(_map[i]).appendTo(html_mapItemWrap);
-            //    if (mapId == null) _selectMap(i);
-            //    ele.click({ id: i }, function (e) {
-            //        _selectMap(e.data.id);
-            //    });
-            //    html_mapItem[i] = ele;
-            //}
-            //html_mapSelector.click(function () {
-            //    html_mapItemWrap.fadeToggle(200);
-            //});
         };
 
-        var _init = function (opts_in) {
-            _max = opts_in.max;
-            _ghost = opts_in.ghost;
-            _map = opts_in.map || {};
+        var _init = function () {
+            _max = GAMESETTING.max;
+            _ghost = GAMESETTING.ghost;
+            _survivor = GAMESETTING.survivor;
+            _map = GAMESETTING.map;
+            _team = GAMESETTING.team;
             _setupHtml();
-        }(opts_in);
+        }();
     };
     RENDERER.Prepare = Prepare;
-})(window.Rendxx.Game.Ghost.Renderer);
+})(window.Rendxx.Game.Ghost.Renderer, window.Rendxx.Game.Ghost.System, window.Rendxx.Game.Ghost.GameSetting);
