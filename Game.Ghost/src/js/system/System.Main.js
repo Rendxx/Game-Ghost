@@ -108,7 +108,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // setup a new game
         this.setup = function (playerData, para) {
-            _playerData = playerData;
+            //_playerData = playerData;
+            _playerData = para.player;
             var mapName = para.map;
             if (!Data.map.files.hasOwnProperty(mapName)) throw new Error('Map can not be found.');
             fileLoader.loadMap(Data.map.files[mapName],

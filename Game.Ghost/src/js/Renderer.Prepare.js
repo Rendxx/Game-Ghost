@@ -89,7 +89,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.getSetupPara = function () {
             return {
                 map: _map[mapId].id,
-                clientList: clientData
+                player: clientData
             };
         };
 
@@ -279,7 +279,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 clientData = _setupPlayer();
                 if (onStart) onStart({
                     map: _map[mapId].id,
-                    clientList: clientData
+                    player: clientData
                 });
             });
         };
