@@ -83,7 +83,7 @@
             ];
             var _maxPlayer = 7;
 
-            var prepare = new window.Rendxx.Game.Ghost.Renderer.Prepare($('.prepare')[0], { max: _maxPlayer, map: mapData, ghost: ghostData }, function () { });
+            var prepare = new window.Rendxx.Game.Ghost.Renderer.Prepare($('.prepare')[0], { max: _maxPlayer, map: mapData, ghost: ghostData }, function (dat) { alert(JSON.stringify(dat)); });
             prepare.updateClientList(p);
             prepare.updateObList(ob);
         });

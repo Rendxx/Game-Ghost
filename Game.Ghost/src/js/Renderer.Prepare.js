@@ -84,7 +84,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // api -------------------------------------------
         this.getSetupPara = function () {
             return {
-                map: mapId
+                map: mapId,
+                ghost: ghostId
             };
         };
 
@@ -194,10 +195,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 _toggleGhost(i);
             }
 
-
             // start
             _html['start'].click(function () {
-                if (onStart) onStart();
+                if (onStart) onStart({
+                    map: mapId,
+                    ghost: ghostId
+                });
             });
             // map selector
             //html_mapSelector = $(HTML.mapSelector).appendTo(html_wrap);
