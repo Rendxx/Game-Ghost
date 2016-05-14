@@ -338,7 +338,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 b.setup(character);
                 b.reset(gameData.body[k]);
                 that.objList.body[k] = b;
-                that.grid.body[b.y][b.x] = b.id;
+                that.grid.body[Math.floor(b.y)][Math.floor(b.x)] = b.id;
             }
         };
 
