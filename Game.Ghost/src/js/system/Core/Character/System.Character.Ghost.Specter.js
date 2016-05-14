@@ -31,7 +31,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data
         this.observing = false;
         this.danger = 0;        // danger level
-        this.teleportCount = 0;      // count to auto fly
+        this.obCount = 0;       // count to observer
         this.touchList = {};
     };
     Ghost.prototype = Object.create(SYSTEM.Character.Basic.prototype);
@@ -122,12 +122,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Ghost.prototype._updateStatus = function () {
         // endurance
-        if (this.endurance <= 0 && this.observing) this.observing = false;
+        if ((this.obCount <= 0 || this.endurance <= 0) && this.observing) { this.observing = false; this.obCount = 0; }
         if (this.endurance < this.enduranceMax) {
             this.endurance += this.enduranceRecover / 20;
         }
         if (this.observing) {
-            this.endurance -= this.enduranceCost / 20;
+            this.obCount--;
             this.entity.map.setDanger(Math.floor(50 + this.endurance * 50 / this.enduranceMax));
         } else {
             this.entity.map.setDanger(0);
@@ -173,12 +173,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Ghost.prototype.observe = function () {
-        if (this.endurance >= this.enduranceMax / 2) this.observing = true;
+        if (this.obCount === 0 && this.endurance >= this.enduranceMax / 4) {
+            this.endurance -= this.enduranceMax / 4;
+            this.observing = true;
+            this.obCount = 20;
+        }
     };
 
     Ghost.prototype.kill = function () {
-        if (this.endurance < this.enduranceMax / 10) return;
-        this.endurance -= this.enduranceMax / 10;
+        if (this.endurance < this.enduranceMax / 20) return;
+        this.endurance -= this.enduranceMax / 20;
         for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
             var c = this.entity.characterManager.characters[i];
             if (!c.actived || c.team == this.team) continue;
