@@ -51,7 +51,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         this.updateGame = function (gameData) {
             var s;
-            if (gameData.survivorWin) {
+            var endData = gameData.end;
+            if (endData.survivorWin) {
                 s = "Survivor Escaped!"
                 _html['icon'].addClass(_Data.cssClass.success);
             } else {
@@ -61,22 +62,22 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _html['title'].text(s);
 
             _html['item'] = {};
-            for (var id in gameData.survivor) {
-                var c = gameData.survivor[id];
+            for (var id in endData.survivor) {
+                var c = endData.survivor[id];
                 _html['item'][id] = $(_Data.html.item).appendTo(_html['list']);
                 _html['item'][id].css('background-image', 'url(' + root + Data.character.path + c.portrait + ')');
                 _html['item'][id].find('._text').text(c.name);
                 if (c.dead) _html['item'][id].addClass(_Data.cssClass.dead);
                 if (c.isWin) _html['item'][id].addClass(_Data.cssClass.win);
-                else if (c.team !== gameData.team) _html['item'][id].addClass(_Data.cssClass.failed);
+                else if (c.team !== endData.team) _html['item'][id].addClass(_Data.cssClass.failed);
             }
             _html['sep'] = $(_Data.html.sep).appendTo(_html['list']);
-            for (var id in gameData.ghost) {
-                var c = gameData.ghost[id];
+            for (var id in endData.ghost) {
+                var c = endData.ghost[id];
                 _html['item'][id] = $(_Data.html.item).appendTo(_html['list']);
                 _html['item'][id].css('background-image', 'url(' + root + Data.character.path + c.portrait + ')');
                 _html['item'][id].find('._text').text(c.name);
-                if (c.team !== gameData.team) _html['item'][id].addClass(_Data.cssClass.failed);
+                if (c.team !== endData.team) _html['item'][id].addClass(_Data.cssClass.failed);
                 else _html['item'][id].addClass(_Data.cssClass.win);
             }
             _html['clear'] = $(_Data.html.clear).appendTo(_html['list']);
