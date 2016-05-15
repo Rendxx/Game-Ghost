@@ -173,10 +173,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Ghost.prototype.observe = function () {
-        if (this.obCount === 0 && this.endurance >= this.enduranceMax / 4) {
-            this.endurance -= this.enduranceMax / 4;
+        if (this.obCount === 0 && this.endurance >= this.enduranceMax / 3) {
+            this.endurance -= this.enduranceMax / 3;
             this.observing = true;
-            this.obCount = 20;
+            this.obCount = 24;
         }
     };
 
@@ -188,9 +188,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (!c.actived || c.team == this.team) continue;
             var r = this.entity.interAction.chracterRange[this.id][c.id];            
             
-            if (r < 1) {
+            if (r < 0.5) {
                 c.die();
-            } else if (r < 2) {
+            } else if (r < 1) {
                 var d = Math.abs(this.currentRotation.head - this.entity.interAction.chracterAngle[this.id][c.id]);
                 if (d > 180) d = 360 - d;
 
