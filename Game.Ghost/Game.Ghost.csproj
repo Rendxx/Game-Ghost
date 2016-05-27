@@ -46,6 +46,7 @@
     <Content Include="Images\start.png" />
     <Content Include="Images\teamWin.png" />
     <Content Include="Images\verticalLine.png" />
+    <Content Include="logo.png" />
     <Content Include="mapDesigner\Document\category-icon0001.png" />
     <Content Include="mapDesigner\Document\category-icon0002.png" />
     <Content Include="mapDesigner\Document\category-icon0003.png" />
@@ -578,6 +579,7 @@
     <Content Include="ImageEdit\START.fla" />
     <Content Include="ImageEdit\LogoBrief.fla" />
     <Content Include="ImageEdit\logo-preview.fla" />
+    <Content Include="Description.json" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.icon.fla" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.icon.fla" />
