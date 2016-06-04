@@ -525,6 +525,7 @@
     <Folder Include="css\" />
     <Folder Include="js\" />
     <Folder Include="lib\" />
+    <Folder Include="src\js\renderer2D\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />
@@ -766,6 +767,7 @@
     <Content Include="ModelBuilder\Player\survivor\girl2\player-girl2.portrait.fla" />
     <Content Include="ModelBuilder\Player\ghost\mary\player-mary.portrait.fla" />
     <Content Include="ModelBuilder\Player\ghost\specter\player-specter.portrait.fla" />
+    <Content Include="ModelBuilder\Player\ghost\mary\player-mary.icon.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />
