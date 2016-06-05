@@ -136,6 +136,15 @@
     <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.portrait.png" />
     <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.portrait2.png" />
     <Content Include="ModelBuilder\Player\survivor\bobo\player-bobo.tex.dds" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\run\0001.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\run\0002.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\run\0003.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\run\0004.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\run\0005.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\run\0006.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\run\0007.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\run\0008.png" />
+    <Content Include="ModelBuilder\Player\survivor\bobo\run\0009.png" />
     <Content Include="ModelBuilder\Player\survivor\capboy\player-capboy.portrait.png" />
     <Content Include="ModelBuilder\Player\survivor\capboy\player-capboy.portrait2.png" />
     <Content Include="ModelBuilder\Player\survivor\capboy\player-capboy.tex.png" />
