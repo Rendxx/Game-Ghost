@@ -3,7 +3,7 @@
 $(function () {
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], { 0: true, 2: false });
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], { 0: false, 1: true });
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -106,5 +106,5 @@ $(function () {
     // helper --------------------------------------------------------
     HELPER.addStats($('#game-container'));
     HELPER.addDatGUI($('body'));
-    SetupControl(system, 'p7');
+    SetupControl(system, 'p1');
 });
