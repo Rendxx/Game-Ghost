@@ -7,6 +7,17 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
  * Camera for each player 
  */
 (function (RENDERER) {
+    var _Data = {
+        html: {
+            scene: '<div class="_scene_ortho"></div>',
+            name: '<div class="_name"></div>',
+            fog: '<div class="_fog"></div>',
+            enduranceBarWrap: '<div class="_enduranceBarWrap"></div>',
+            enduranceBar: '<div class="_enduranceBar"></div>',
+        }
+    };
+
+
     var Data = RENDERER.Data;
     var GridSize = Data.grid.size;
     var _Data = {
@@ -47,7 +58,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
      * Setup camera in three.js
      * @param {game entity} entity - Game entity
      */
-    var Camera = function (entity, scene_in, renderer_in) {
+    var Camera = function (entity, scene_in) {
         // data ----------------------------------------------
         var that = this,
             tex = {},
@@ -73,50 +84,27 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             doorIcon = {};
 
         this.scene = scene_in;
-        this.renderer = renderer_in
-        this.camera = null;
-        this.cameraOrtho = null;
         this.sceneOrtho = null;
         this.sceneEffort = null;
         this.character = -1;
         this.width = -1;
         this.height = -1;
-        this.x = -1;
-        this.y = -1;
         this.color = null;
 
         // public method -------------------------------------------------
-        this.setup = function (character, x, y, w, h) {
+        this.setup = function (character, w, h) {
             // data
             this.character = character;
             this.width = w;
             this.height = h;
-            this.x = x;
-            this.y = y;
             this.color = hexToRgb(character.color);
-
-            //camera
-            that.camera = new THREE.PerspectiveCamera(45, that.width / that.height, .1, 40 * GridSize);
-            if (that.character.role === Data.character.type.ghost)
-                that.camera.position.y = 30 * GridSize;
-            else
-                that.camera.position.y = 20 * GridSize;
-            that.camera.position.x = 0;
-            that.camera.position.z = 0;
-            that.camera.lookAt(new THREE.Vector3(0, 0, 0));
-            that.camera.rotation.z = 0;
-            that.camera.rotationAutoUpdate = false;
-
-            that.sceneOrtho = new THREE.Scene();
-            that.sceneEffort = new THREE.Scene();
-            that.cameraOrtho = new THREE.OrthographicCamera(-that.width / 2, that.width / 2, that.height / 2, -that.height / 2, 1, 10);
-            that.cameraOrtho.position.z = 10;
+            this.sceneOrtho = $(_Data.html.name).appendTo($(entity.domElement));
 
             createFrame();
             createEnduranceBar();
         };
 
-        this.resize = function (x, y, w, h) {
+        this.resize = function (w, h) {
             this.width = w;
             this.height = h;
             this.x = x;
@@ -161,14 +149,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var x = that.character.x;
             var y = that.character.y;
 
-            // update camera
-            that.camera.position.x = x;
-            that.camera.position.z = y + 1;
+            this.scene.css({
 
-            //if (that.character.mesh !== null) {
-            //    //that.camera.lookAt(that.character.mesh.position);
-            //}
-
+            });
             if (that.character.isDead) {
                 showDeadScreen();
             } else if (that.character.isWin) {
@@ -186,12 +169,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             // fog
             updateFog(x, y);
-
-            // render
-            that.renderer.setViewport(that.x, that.y, that.width, that.height);
-            that.renderer.render(that.scene, that.camera);
-            that.renderer.render(that.sceneEffort, that.camera);
-            that.renderer.render(that.sceneOrtho, that.cameraOrtho);
         };
 
         // private method -------------------------------------------------
@@ -201,70 +178,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             sprites = {};
 
             // name
-            sprites["name"] = makeTextSprite(that.character.name, { fontsize: 32, color: { r: 255, g: 255, b: 255, a: 1.0 }, align: "left", width: 160, height: 40, fontface: "Poor Richard, Calibri, Arial" });
-            that.sceneOrtho.add(sprites["name"]);
-
-            // name deco
-            sprites["nameDeco"] = new THREE.Sprite(new THREE.SpriteMaterial({ color: that.character.color, map: tex["nameDeco"] }));
-            sprites["nameDeco"].scale.set(120, 30, 1.0);
-            sprites["nameDeco"].material.transparent = true;
-            sprites["nameDeco"].material.opacity = 0.8;
-            that.sceneOrtho.add(sprites["nameDeco"]);
+            sprites["name"] = $(_Data.html.name).appendTo(that.scene).text(that.character.name);
 
             // fog
-            sprites["fog"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["fog"] }));
-            if (that.character.role === Data.character.type.ghost)
-                sprites["fog"].scale.set((_Data.fogRange+7) * GridSize, (_Data.fogRange+7) * GridSize, 1.0);
-            else
-                sprites["fog"].scale.set(_Data.fogRange * GridSize, _Data.fogRange * GridSize, 1.0);
-            sprites["fog"].material.transparent = true;
-            sprites["fog"].material.opacity = 0.95;
-            that.sceneEffort.add(sprites["fog"]);
-
-            // border
-            var border_mat = new THREE.SpriteMaterial({ color: 0x222222 });
-            sprites["top"] = new THREE.Sprite(border_mat);
-            that.sceneOrtho.add(sprites["top"]);
-
-            sprites["right"] = new THREE.Sprite(border_mat);
-            that.sceneOrtho.add(sprites["right"]);
-
-            sprites["bottom"] = new THREE.Sprite(border_mat);
-            that.sceneOrtho.add(sprites["bottom"]);
-
-            sprites["left"] = new THREE.Sprite(border_mat);
-            that.sceneOrtho.add(sprites["left"]);
-
-            that.resize(that.x, that.y, that.width, that.height);
+            sprites["fog"] = $(_Data.html.fog).appendTo(that.scene);
+            that.resize(that.width, that.height);
         };
 
         // Endurance ------------------------------------------------
         var createEnduranceBar = function () {
             // endurance
-            var mat = new THREE.SpriteMaterial({
-                color: 0xcccccc,
-                transparent: true
-            });
-            mat.opacity = 0.8;
-            var spr = new THREE.Sprite(mat);
-            spr.position.set(-that.width / 2, -50 + that.height / 2, 6);
-            spr.scale.set(_Data.enduranceBarWidth * 2, _Data.enduranceBarHeight, 1.0);
-            that.sceneOrtho.add(spr);
-
-            sprites["enduranceBar"] = spr;
-
-            // base
-            var mat = new THREE.SpriteMaterial({
-                color: 0x000000,
-                transparent: true
-            });
-            mat.opacity = 0.6;
-            var spr = new THREE.Sprite(mat);
-            spr.position.set(-that.width / 2, -50 + that.height / 2, 1);
-            spr.scale.set(2 + _Data.enduranceBarWidth * 2, 2 + _Data.enduranceBarHeight, 1.0);
-            that.sceneOrtho.add(spr);
-
-            sprites["enduranceBarBase"] = spr;
+            sprites["enduranceBarWrap"] = $(_Data.html.enduranceBarWrap).appendTo(that.scene);
+            sprites["enduranceBar"] = $(_Data.html.enduranceBar).appendTo(sprites["enduranceBarWrap"]);
         };
 
         var updateEnduranceBar = function () {
@@ -709,66 +634,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             tex = {};
             var path = root + Data.files.path[Data.categoryName.sprite];
 
-            //// texture loader -------------------------------------------------------------------------------------------
-            //var textureLoader = new THREE.TextureLoader();
-            //tex['fog'] = textureLoader.load(path + 'fog.png');
-            //tex['nameDeco'] = textureLoader.load(path + 'name-deco-white.png');
-            //tex['deadScreen'] = textureLoader.load(path + 'DeadScreen.png');
-            //tex['escapeScreen'] = textureLoader.load(path + 'EscapeScreen.png');
-            //tex['interaction'] = {
-            //    'normal': {
-            //        'furniture': {
-            //        },
-            //        'door': {
-            //        },
-            //        'body': {
-            //        }
-            //    },
-            //    'highlight': {
-            //        'furniture': {
-            //        },
-            //        'door': {
-            //        },
-            //        'body': {
-            //        }
-            //    }
-            //};
-
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open.png');
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close.png');
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = textureLoader.load(path + 'interaction.key.png');
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search.png');
-            //tex['interaction']['normal']['body'][_Data.operation.body.Search] = textureLoader.load(path + 'interaction.search.png');
-            //tex['interaction']['normal']['door'][_Data.operation.door.Open] = textureLoader.load(path + 'interaction.door.open.png');
-            //tex['interaction']['normal']['door'][_Data.operation.door.Close] = textureLoader.load(path + 'interaction.door.close.png');
-            //tex['interaction']['normal']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock.png');
-            //tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock.png');
-            ////tex['interaction']['normal']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.block.png');
-
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open-2.png');
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close-2.png');
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key] = textureLoader.load(path + 'interaction.key-2.png');
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search] = textureLoader.load(path + 'interaction.search-2.png');
-            //tex['interaction']['highlight']['body'][_Data.operation.body.Search] = textureLoader.load(path + 'interaction.search-2.png');
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Open] = textureLoader.load(path + 'interaction.door.open-2.png');
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Close] = textureLoader.load(path + 'interaction.door.close-2.png');
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock-2.png');
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock-2.png');
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.door.block-2.png');
-
-            ////tex['enduranceBarBase'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
-
-
-            // DDS Loader -------------------------------------------------------------------------------------------
-            var ddsLoader = new THREE.DDSLoader();
-            tex['fog'] = ddsLoader.load(path + 'fog.dds');
-            tex['fog'].anisotropy = 4;
-            tex['nameDeco'] = ddsLoader.load(path + 'name-deco-white.dds');
-            tex['nameDeco'].anisotropy = 4;
-            tex['deadScreen'] = ddsLoader.load(path + 'DeadScreen.dds');
-            tex['deadScreen'].anisotropy = 4;
-            tex['escapeScreen'] = ddsLoader.load(path + 'EscapeScreen.dds');
-            tex['escapeScreen'].anisotropy = 4;
+            // png Loader -------------------------------------------------------------------------------------------
+            var pngLoader = new THREE.pngLoader();
+            tex['fog'] = _loadImg(path + 'fog.png');
+            tex['nameDeco'] = _loadImg(path + 'name-deco-white.png');
+            tex['deadScreen'] = _loadImg(path + 'DeadScreen.png');
+            tex['escapeScreen'] = _loadImg(path + 'EscapeScreen.png');
 
             tex['interaction'] = {
                 'normal': {
@@ -789,48 +660,35 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 }
             };
 
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = ddsLoader.load(path + 'interaction.open.dds');
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open].anisotropy = 4;
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = ddsLoader.load(path + 'interaction.close.dds');
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close].anisotropy = 4;
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = ddsLoader.load(path + 'interaction.key.dds');
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key].anisotropy = 4;
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = ddsLoader.load(path + 'interaction.search.dds');
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search].anisotropy = 4;
-            tex['interaction']['normal']['body'][_Data.operation.body.Search] = ddsLoader.load(path + 'interaction.search.dds');
-            tex['interaction']['normal']['body'][_Data.operation.body.Search].anisotropy = 4;
-            tex['interaction']['normal']['door'][_Data.operation.door.Open] = ddsLoader.load(path + 'interaction.door.open.dds');
-            tex['interaction']['normal']['door'][_Data.operation.door.Open].anisotropy = 4;
-            tex['interaction']['normal']['door'][_Data.operation.door.Close] = ddsLoader.load(path + 'interaction.door.close.dds');
-            tex['interaction']['normal']['door'][_Data.operation.door.Close].anisotropy = 4;
-            tex['interaction']['normal']['door'][_Data.operation.door.Locked] = ddsLoader.load(path + 'interaction.lock.dds');
-            tex['interaction']['normal']['door'][_Data.operation.door.Locked].anisotropy = 4;
-            tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = ddsLoader.load(path + 'interaction.unlock.dds');
-            tex['interaction']['normal']['door'][_Data.operation.door.Unlock].anisotropy = 4;
-            //tex['interaction']['normal']['door'][_Data.operation.door.Block] = ddsLoader.load(path + 'interaction.block.dds');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = _loadImg(path + 'interaction.open.png');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = _loadImg(path + 'interaction.close.png');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = _loadImg(path + 'interaction.key.png');
+            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = _loadImg(path + 'interaction.search.png');
+            tex['interaction']['normal']['body'][_Data.operation.body.Search] = _loadImg(path + 'interaction.search.png');
+            tex['interaction']['normal']['door'][_Data.operation.door.Open] = _loadImg(path + 'interaction.door.open.png');
+            tex['interaction']['normal']['door'][_Data.operation.door.Close] = _loadImg(path + 'interaction.door.close.png');
+            tex['interaction']['normal']['door'][_Data.operation.door.Locked] = _loadImg(path + 'interaction.lock.png');
+            tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = _loadImg(path + 'interaction.unlock.png');
+            //tex['interaction']['normal']['door'][_Data.operation.door.Block] = _loadImg(path + 'interaction.block.png');
 
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = ddsLoader.load(path + 'interaction.open-2.dds');
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open].anisotropy = 4;
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close] = ddsLoader.load(path + 'interaction.close-2.dds');
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close].anisotropy = 4;
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key] = ddsLoader.load(path + 'interaction.key-2.dds');
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key].anisotropy = 4;
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search] = ddsLoader.load(path + 'interaction.search-2.dds');
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search].anisotropy = 4;
-            tex['interaction']['highlight']['body'][_Data.operation.body.Search] = ddsLoader.load(path + 'interaction.search-2.dds');
-            tex['interaction']['highlight']['body'][_Data.operation.body.Search].anisotropy = 4;
-            tex['interaction']['highlight']['door'][_Data.operation.door.Open] = ddsLoader.load(path + 'interaction.door.open-2.dds');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Open].anisotropy = 4;
-            tex['interaction']['highlight']['door'][_Data.operation.door.Close] = ddsLoader.load(path + 'interaction.door.close-2.dds');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Close].anisotropy = 4;
-            tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = ddsLoader.load(path + 'interaction.lock-2.dds');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Locked].anisotropy = 4;
-            tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = ddsLoader.load(path + 'interaction.unlock-2.dds');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Unlock].anisotropy = 4;
-            tex['interaction']['highlight']['door'][_Data.operation.door.Block] = ddsLoader.load(path + 'interaction.door.block-2.dds');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Block].anisotropy = 4;
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = _loadImg(path + 'interaction.open-2.png');
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close] = _loadImg(path + 'interaction.close-2.png');
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key] = _loadImg(path + 'interaction.key-2.png');
+            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search] = _loadImg(path + 'interaction.search-2.png');
+            tex['interaction']['highlight']['body'][_Data.operation.body.Search] = _loadImg(path + 'interaction.search-2.png');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Open] = _loadImg(path + 'interaction.door.open-2.png');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Close] = _loadImg(path + 'interaction.door.close-2.png');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = _loadImg(path + 'interaction.lock-2.png');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = _loadImg(path + 'interaction.unlock-2.png');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Block] = _loadImg(path + 'interaction.door.block-2.png');
 
-            //tex['enduranceBarBase'] = ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.dds');
+            //tex['enduranceBarBase'] = _loadImg(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
+        };
+
+        var _loadImg = function (name) {
+            var img = new Image();
+            img.src = name;
+            return img;
         };
 
         var _init = function () {

@@ -49,23 +49,23 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // camera --------------------------------------------
 
         var _cameraSetup = function () {
-            that.camera = new RENDERER.Camera(entity);
-            that.camera.setup(entity.characters[viewPlayerIdxList[i]]);
+            that.camera = new RENDERER.Camera(entity, that.scene);
+            that.camera.setup(entity.characters[viewPlayerIdxList[i]], SCREEN_WIDTH, SCREEN_HEIGHT);
         };
 
         var _cameraUpdate = function () {
             that.camera.render();
         };
 
-        var _cameraResize = function () {
-            that.camera.resize();
+        var _cameraResize = function (w, h) {
+            that.camera.resize(w, h);
         };
 
         // set resize
         var resize = function () {
             SCREEN_WIDTH = window.innerWidth;
             SCREEN_HEIGHT = window.innerHeight;
-            _cameraResize();
+            _cameraResize(SCREEN_WIDTH, SCREEN_HEIGHT);
         };
 
         // helper ------------------------
@@ -81,7 +81,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         _init();
-    };0
+    };
 
     /**
      * Setup game with the viewport domelement
