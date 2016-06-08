@@ -821,6 +821,14 @@
     <Content Include="src\js\lib\OBJLoader.js" />
     <Content Include="src\js\GameSetting.js" />
     <Content Include="src\js\Renderer.Prepare.js" />
+    <Content Include="src\js\renderer2D\Renderer2D.Camera.js" />
+    <Content Include="src\js\renderer2D\Renderer2D.Character.js" />
+    <Content Include="src\js\renderer2D\Renderer2D.Data.js" />
+    <Content Include="src\js\renderer2D\Renderer2D.Environment.js" />
+    <Content Include="src\js\renderer2D\Renderer2D.Loading.js" />
+    <Content Include="src\js\renderer2D\Renderer2D.Main.js" />
+    <Content Include="src\js\renderer2D\Renderer2D.Map.js" />
+    <Content Include="src\js\renderer2D\Renderer2D.Sound.js" />
     <Content Include="src\js\renderer\Renderer.Character.js" />
     <Content Include="src\js\renderer\Renderer.Data.js" />
     <Content Include="src\js\renderer\Renderer.Camera.js" />
@@ -870,7 +878,6 @@
     <Folder Include="css\" />
     <Folder Include="js\" />
     <Folder Include="lib\" />
-    <Folder Include="src\js\renderer2D\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />
