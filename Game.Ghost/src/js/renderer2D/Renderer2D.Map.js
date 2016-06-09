@@ -44,6 +44,17 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 2: 1,
                 3: 1
             }
+        },
+        html: {
+            dark: '<div class="_dark"></div>',
+            layerDark: '<div class="_layer _layer_dark"></div>',
+            layerGround: '<div class="_layer _layer_ground"></div>',
+            layerWall: '<div class="_layer _layer_wall"></div>',
+            layerDoor: '<div class="_layer _layer_door"></div>',
+            layerFurniture: '<div class="_layer _layer_furniture"></div>',
+            ground: '<div class="_ground"></div>',
+            wall: '<div class="_wall"></div>',
+            wallTop: '<div class="_wallTop"></div>',
         }
     };
 
@@ -64,6 +75,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _tex = {},
             _sprite = {},
             _scene = entity.env.scene,
+            _layers = entity.env.layers,
             _loadCount = 0,
             _dangerCache = 0,
             //_textureLoader = null,
@@ -75,8 +87,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             // mesh
             mesh_ground = null,         // ground
             combined_ground = null,
-            mesh_ceiling = null,        // ceiling
-            combined_ceiling = null,
             mesh_wall = null,           // wall
             mesh_wallTop = null,
             combined_wall = null,
@@ -100,7 +110,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             body: {}
         };
         this.posEnd = null;
-        this.ambient = null;
+        this.dark = null;
 
         // callback --------------------------------
         this.onLoaded = null;
@@ -143,24 +153,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // render model
         this.render = function () {
-            for (var i in combined_ground) combined_ground[i].material.needsUpdate = true;
-            for (var i in combined_ceiling) combined_ceiling[i].material.needsUpdate = true;
-            for (var i in combined_wall) combined_wall[i].material.needsUpdate = true;
-            for (var i in combined_wallTop) combined_wallTop[i].material.needsUpdate = true;
-            for (var i in combined_door)
-                for (var j = 0, l2 = combined_door[i].material.materials.length; j < l2; j++)
-                    combined_door[i].material.materials[j].needsUpdate = true;
-            for (var i in combined_furniture)
-                for (var j = 0, l2 = combined_furniture[i].material.materials.length; j < l2; j++)
-                    combined_furniture[i].material.materials[j].needsUpdate = true;
-            for (var i = 0, l = combined_stuff.length; i < l; i++)
-                for (var j = 0, l2 = combined_stuff[i].material.materials.length; j < l2; j++)
-                    combined_stuff[i].material.materials[j].needsUpdate = true;
-            for (var i in mesh_key) {
-                if (mesh_key[i] === null) continue;
-                for (var j = 0, l2 = mesh_key[i].material.materials.length; j < l2; j++)
-                    mesh_key[i].material.materials[j].needsUpdate = true;
-            }
         };
 
         // get data ---------------------------------
@@ -169,29 +161,24 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         // private method ---------------------------
-        var setupLight = function (scene) {
-            if (that.ambient !== null) {
-                scene.remove(that.ambient);
-            }
-            _ambientNormal = new THREE.Color(Data.light.ambient.normal);
-            _ambientDanger = new THREE.Color(Data.light.ambient.danger);
-
-            that.ambient = new THREE.AmbientLight();
-            // Ambient
-            that.ambient.color.set(_ambientNormal);
-            scene.add(that.ambient);
+        var setupLight = function () {
+            _layers['dark'] = $(_Data.html.layerDark).appendTo(_scene);
+            that.dark = $(_Data.html.dark).css({
+                'opacity': 0.2
+            }).appendTo(_layers['dark']);
         };
 
         var setupGround = function (scene, grid, ground_in) {
             /*create ground*/
             that.width = grid.width;
             that.height = grid.height;
+            _layers['ground'] = $(_Data.html.layerGround).appendTo(_scene);
 
             mesh_ground = [];
             for (var i = 0, l = ground_in.length; i < l; i++) {
                 if (ground_in[i] === null) continue;
                 _loadCount++;
-                createGround(i, ground_in[i], scene, function (idx, dat, mesh) {
+                createGround(i, ground_in[i], _layers['ground'], function (idx, dat, mesh) {
                     var id = dat.id;
                     if (!mesh_ground.hasOwnProperty(id)) mesh_ground[id] = [];
                     mesh_ground[id].push(mesh);
@@ -199,19 +186,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     onLoaded();
                 });
             }
-
-            /*create ceiling*/
-            mesh_ceiling = [];
-            var ceiling = createCeiling(grid);
-            mesh_ceiling.push(ceiling);
         };
 
         var setupWall = function (scene, wall, wallTop) {
             mesh_wall = {};
+            _layers['wall'] = $(_Data.html.layerWall).appendTo(_scene);
             for (var i = 0, l = wall.length; i < l; i++) {
                 if (wall[i] === null) continue;
                 _loadCount++;
-                createWall(i, wall[i], scene, function (idx, dat, mesh) {
+                createWall(i, wall[i], _layers['wall'], function (idx, dat, mesh) {
                     var id = dat.id;
                     if (!mesh_wall.hasOwnProperty(id)) mesh_wall[id] = [];
                     mesh_wall[id].push(mesh);
@@ -224,10 +207,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i = 0, l = wallTop.length; i < l; i++) {
                 if (wallTop[i] === null) continue;
                 _loadCount++;
-                createWallTop(i, wallTop[i], scene, function (idx, dat, mesh) {
+                createWallTop(i, wallTop[i], _layers['wall'], function (idx, dat, mesh) {
                     var id = dat.id;
                     if (!mesh_wallTop.hasOwnProperty(id)) mesh_wallTop[id] = [];
-                    mesh_wallTop[id].push(mesh);
+                    mesh_wallTop[id].push(mesh); 
                     _loadCount--;
                     onLoaded();
                 });
@@ -236,19 +219,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var setupDoor = function (scene, doors) {
             mesh_door = {};
-            itemTween['door'] = {};
+            _layers['door'] = $(_Data.html.layerDoor).appendTo(_scene);
             itemStatus['door'] = {};
             itemData['door'] = {};
             for (var i = 0, l = doors.length; i < l; i++) {
                 if (doors[i] === null) continue;
                 _loadCount++;
-                createDoor(i, doors[i], scene, function (idx, dat, mesh, tween) {
+                createDoor(i, doors[i], _layers['door'], function (idx, dat, mesh) {
                     var id = dat.id;
                     if (!mesh_door.hasOwnProperty(id)) mesh_door[id] = [];
                     mesh_door[id].push(mesh);
 
                     itemStatus['door'][idx] = _Data.status.door.Closed;
-                    itemTween['door'][idx] = tween;
                     _loadCount--;
                     onLoaded();
                 });
@@ -257,8 +239,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var setupFurniture = function (scene, furniture) {
             mesh_furniture = {};
-            itemTween['furniture'] = {};
             itemStatus['furniture'] = {};
+            _layers['furniture'] = $(_Data.html.layerFurniture).appendTo(_scene);
             _map = [];
             for (var i = 0; i < that.height; i++) {
                 _map[i] = [];
@@ -268,13 +250,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i = 0, l = furniture.length; i < l; i++) {
                 if (furniture[i] === null) continue;
                 _loadCount++;
-                createFurniture(i, furniture[i], scene, function (idx, dat, mesh, tween) {
+                createFurniture(i, furniture[i], _layers['furniture'], function (idx, dat, mesh) {
                     var id = dat.id;
                     if (!mesh_furniture.hasOwnProperty(id)) mesh_furniture[id] = [];
                     mesh_furniture[id].push(mesh);
 
                     itemStatus['furniture'][idx] = _Data.status.furniture.Closed;
-                    itemTween['furniture'][idx] = tween;
                     _loadCount--;
                     onLoaded();
                 });
@@ -317,18 +298,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         // Add items ----------------------------------------------------------
-        var createCeiling = function (grid) {
-            var planeGeometry = new THREE.PlaneGeometry(grid.width * GridSize, grid.height * GridSize);
-            var planeMaterial = new THREE.MeshPhongMaterial({ color: 0xdddddd });
-            var ceiling = new THREE.Mesh(planeGeometry, planeMaterial);
-            ceiling.rotation.x = .5 * Math.PI;
-            ceiling.position.y = 3 * GridSize;
-            ceiling.castShadow = false;
-            ceiling.receiveShadow = true;
-            return ceiling;
-        };
-
-        var createGround = function (idx, dat, scene, onSuccess) {
+        var createGround = function (idx, dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
@@ -337,35 +307,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.ground][id];
 
-            getTexture(root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.texture[0], function (texture) {
-                texture.wrapS = THREE.RepeatWrapping;
-                texture.wrapT = THREE.RepeatWrapping;
-
-                var geometry = new THREE.PlaneGeometry(w, h, 1, 1);
-                // set uv
-                var uvs = geometry.faceVertexUvs[0];
-                uvs[0][0].set(0, h / GridSize);
-                uvs[0][1].set(0, 0);
-                uvs[0][2].set(w / GridSize, h / GridSize);
-                uvs[1][0].set(0, 0);
-                uvs[1][1].set(w / GridSize, 0);
-                uvs[1][2].set(w / GridSize, h / GridSize);
-
-                var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
-                material.side = THREE.DoubleSide;
-                mesh = new THREE.Mesh(geometry, material);
-
-                mesh.position.x = x;
-                mesh.position.y = 0;
-                mesh.position.z = y;
-                mesh.rotation.x = -.5 * Math.PI;
-                mesh.receiveShadow = true;
-
-                onSuccess(idx, dat, mesh);
-            });
+            var mesh = $(_Data.html.ground).css({
+                'background-image': 'url("' + root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.texture[0] + '")',
+                'width': w + 'px',
+                'height': h + 'px',
+                'top': y + 'px',
+                'left': x + 'px',
+                'transform': 'rotate('+((4 - r) *90)+'deg)'
+            }).appendTo(layer);
+            onSuccess(idx, dat, mesh);
         };
 
-        var createWall = function (idx, dat, scene, onSuccess) {
+        var createWall = function (idx, dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
             var r = dat.rotation - 2;
@@ -379,43 +332,19 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             } else {
                 y += len / 2;
             }
-            //console.log(x, y, len, r);
-            getTexture(root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[1], function (texture) {
-                texture.wrapS = THREE.RepeatWrapping;
-                texture.wrapT = THREE.RepeatWrapping;
-                //texture.repeat.x = len / 3;
-                //texture.repeat.y = 1;
 
-                var geometry = new THREE.PlaneGeometry(len * GridSize, 3 * GridSize, 1, 1);
-                // set uv
-                var uvs = geometry.faceVertexUvs[0];
-                uvs[0][0].set(0, 0.75);
-                uvs[0][1].set(0, 0);
-                uvs[0][2].set(len / 4, 0.75);
-                uvs[1][0].set(0, 0);
-                uvs[1][1].set(len / 4, 0);
-                uvs[1][2].set(len / 4, 0.75);
-
-                var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
-                material.side = THREE.DoubleSide;
-                var mesh = new THREE.Mesh(geometry, material);
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
-
-                x *= GridSize;
-                y *= GridSize;
-                len *= GridSize;
-
-                mesh.rotation.y = (4 - r) / 2 * Math.PI;
-                mesh.position.x = x;
-                mesh.position.y = 1.5 * GridSize;
-                mesh.position.z = y;
-
-                onSuccess(idx, dat, mesh);
-            });
+            var mesh = $(_Data.html.wall).css({
+                'background-image': 'url("' + root + Data.files.path[Data.categoryName.wall] + para.id + '/' + 'wallShadow.png' + '")',
+                'width': w + 'px',
+                'height': h + 'px',
+                'top': y + 'px',
+                'left': x + 'px',
+                'transform': 'rotate(' + ((4 - r) * 90) + 'deg)'
+            }).appendTo(layer);
+            onSuccess(idx, dat, mesh);
         };
 
-        var createWallTop = function (idx, dat, scene, onSuccess) {
+        var createWallTop = function (idx, dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
@@ -428,38 +357,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             //console.log(dat);
             //console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
-            // top wall
-            var texture = getTexture(root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[0], function (texture) {
-                texture.wrapS = THREE.RepeatWrapping;
-                texture.wrapT = THREE.RepeatWrapping;
 
-                var geometry = new THREE.PlaneGeometry(w, h, 1, 1);
-                // set uv
-                var uvs = geometry.faceVertexUvs[0];
-                uvs[0][0].set(0, h / GridSize);
-                uvs[0][1].set(0, 0);
-                uvs[0][2].set(w / GridSize, h / GridSize);
-                uvs[1][0].set(0, 0);
-                uvs[1][1].set(w / GridSize, 0);
-                uvs[1][2].set(w / GridSize, h / GridSize);
-
-                var material = new THREE.MeshPhongMaterial({ color: 0xeeeeee, map: texture });
-                material.side = THREE.DoubleSide;
-                var mesh = new THREE.Mesh(geometry, material);
-
-                mesh.position.x = x;
-                mesh.position.y = 3 * GridSize;
-                mesh.position.z = y;
-                //mesh.rotation.y = r / 180 * Math.PI;
-                mesh.rotation.x = -.5 * Math.PI;
-                mesh.castShadow = false;
-                mesh.receiveShadow = false;
-
-                onSuccess(idx, dat, mesh);
-            });
+            var mesh = $(_Data.html.wallTop).css({
+                'background-image': 'url("' + root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[0] + '")',
+                'width': w + 'px',
+                'height': h + 'px',
+                'top': y + 'px',
+                'left': x + 'px'
+            }).appendTo(layer);
+            onSuccess(idx, dat, mesh);
         };
 
-        var createFurniture = function (idx, dat, scene, onSuccess) {
+        var createFurniture = function (idx, dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
@@ -468,80 +377,23 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var w = (dat.right - dat.left + 1) * GridSize;
             var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.furniture][id];
-
-            var mesh = null;
-
+            
             //console.log(dat);
             //aconsole.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
             that.objectPos.furniture[idx] = [x, y];
-
-
-            var loader = new THREE.JSONLoader();
-            loader.load(root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model, function (geometry, materials) {
-                var mesh = null,
-                    tweenNew = null;
-                if (para.action === undefined || para.action === null) {
-                    // static furniture
-                    mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-                } else {
-                    // dynamic furniture
-                    for (var i = 0; i < materials.length; i++) {
-                        materials[i].skinning = true;
-                    }
-                    mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
-
-                    var actionPara = {};
-                    var recoverPara = {};
-                    for (var i in para.action) {
-                        for (var j = 0; j < mesh.skeleton.bones.length; j++) {
-                            if (mesh.skeleton.bones[j].name === i) {
-                                actionPara[j] = {};
-                                recoverPara[j] = {};
-                                if ('z' in para.action[i]) {
-                                    actionPara[j]['y'] = para.action[i]['z'] / 180 * Math.PI;
-                                    recoverPara[j]['y'] = 0;
-                                }
-                                if ('y' in para.action[i]) {
-                                    actionPara[j]['z'] = para.action[i]['y'] / 180 * Math.PI;
-                                    recoverPara[j]['z'] = 0;
-                                }
-                                if ('x' in para.action[i]) {
-                                    actionPara[j]['x'] = para.action[i]['x'] / 180 * Math.PI;
-                                    recoverPara[j]['x'] = 0;
-                                }
-
-                                break;
-                            }
-                        }
-                    }
-
-                    tweenNew = [[], []];
-                    for (var i in actionPara) {
-                        tweenNew[0].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(actionPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));
-                    }
-                    for (var i in recoverPara) {
-                        tweenNew[1].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(recoverPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));
-                    }
-                }
-
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
-
-                mesh.position.x = x;
-                mesh.position.z = y;
-                mesh.rotation.y = (4 - r) / 2 * Math.PI;
-
-                for (var i = dat.top; i <= dat.bottom; i++) {
-                    for (var j = dat.left; j <= dat.right; j++)
-                        _map[i][j] = id;
-                }
-
-                onSuccess(idx, dat, mesh, tweenNew);
-            });
+            var mesh = $(_Data.html.furniture).css({
+                'background-image': 'url("' + root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[0] + '")',
+                'width': w + 'px',
+                'height': h + 'px',
+                'top': y + 'px',
+                'left': x + 'px',
+                'transform': 'rotate(' + ((4 - r) * 90) + 'deg)'
+            }).appendTo(layer);
+            onSuccess(idx, dat, mesh);
         };
 
-        var createDoor = function (idx, dat, scene, onSuccess) {
+        var createDoor = function (idx, dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
             var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
@@ -558,71 +410,20 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 w: w,
                 h: h
             }
-            var mesh = null;
+            that.objectPos.door[idx] = [x, y];
+
+            var mesh = $(_Data.html.door).css({
+                'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.icon + '")',
+                'width': w + 'px',
+                'height': h + 'px',
+                'top': y + 'px',
+                'left': x + 'px',
+                'transform': 'rotate(' + ((4 - r) * 90) + 'deg)'
+            }).appendTo(layer);
+            onSuccess(idx, dat, mesh);
 
             //console.log(dat);
             //console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
-
-            that.objectPos.door[idx] = [x, y];
-
-            var loader = new THREE.JSONLoader();
-            loader.load(root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model, function (geometry, materials) {
-                var mesh = null,
-                    tweenNew = null;
-                if (para.action === null || para.action === undefined) {
-                    // static furniture
-                    mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-                } else {
-                    // dynamic furniture
-                    for (var i = 0; i < materials.length; i++) {
-                        materials[i].skinning = true;
-                    }
-                    mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
-
-                    var actionPara = {};
-                    var recoverPara = {};
-                    for (var i in para.action) {
-                        for (var j = 0; j < mesh.skeleton.bones.length; j++) {
-                            if (mesh.skeleton.bones[j].name === i) {
-                                actionPara[j] = {};
-                                recoverPara[j] = {};
-                                if ('z' in para.action[i]) {
-                                    actionPara[j]['y'] = para.action[i]['z'] / 180 * Math.PI;
-                                    recoverPara[j]['y'] = 0;
-                                }
-                                if ('y' in para.action[i]) {
-                                    actionPara[j]['z'] = para.action[i]['y'] / 180 * Math.PI;
-                                    recoverPara[j]['z'] = 0;
-                                }
-                                if ('x' in para.action[i]) {
-                                    actionPara[j]['x'] = para.action[i]['x'] / 180 * Math.PI;
-                                    recoverPara[j]['x'] = 0;
-                                }
-
-                                break;
-                            }
-                        }
-                    }
-
-                    tweenNew = [[], []];
-                    for (var i in actionPara) {
-                        tweenNew[0].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(actionPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));
-                    }
-                    for (var i in recoverPara) {
-                        tweenNew[1].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(recoverPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));
-                    }
-                }
-
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
-
-                mesh.position.x = x;
-                //mesh.position.y = depth/2;
-                mesh.position.z = y;
-                mesh.rotation.y = (4 - r) / 2 * Math.PI;
-
-                onSuccess(idx, dat, mesh, tweenNew);
-            });
         };
 
         var createStuff = function (dat, scene, onSuccess) {
@@ -830,15 +631,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 _scene.add(combined_ground[id]);
             }
 
-            // ceiling
-            if (combined_ceiling !== null) {
-                for (var i in combined_ceiling) _scene.remove(combined_ceiling[i]);
-            }
-            combined_ceiling = {};
-            for (var i = 0; i < mesh_ceiling.length; i++) {
-                combined_ceiling[i] = mesh_ceiling[i];
-                _scene.add(combined_ceiling[i]);
-            }
 
             // wall
             if (combined_wall !== null) {
@@ -915,15 +707,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // Setup ----------------------------------------------------------
         var _setupTex = function () {
             _tex = {};
-            //_textureLoader = new THREE.TextureLoader();
-            //_tex['lock'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_locked.png');
-            //_tex['end'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
+            _tex['highlight'] = _loadImg(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
+        };
 
-            _ddsLoader = new THREE.DDSLoader();
-            _tex['lock'] = _ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_locked.dds');
-            _tex['lock'].anisotropy = 4;
-            _tex['end'] = _ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.dds');
-            _tex['end'].anisotropy = 4;
+        var _loadImg = function (name) {
+            var img = new Image();
+            img.src = name;
+            return img;
         };
 
         var _init = function () {

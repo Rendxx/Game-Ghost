@@ -29,13 +29,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             viewPlayerIdx = null;
 
         this.scene = null;
+        this.layers = {};
 
         // public method -------------------------------------------------
         this.viewportSetup = function (viewPlayer_in) {
             viewPlayerIdxList = viewPlayer_in;
             _cameraSetup();
         };
-
 
         // private method -------------------------------------------------
 

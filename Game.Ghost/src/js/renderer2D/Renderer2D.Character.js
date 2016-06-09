@@ -14,12 +14,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             0xFF6600,
             0x0099CC,
             0xff0000
-        ]
+        ],
+        html: {
+            character: '<div class="_character"></div>',
+            layer: '<div class="_layer _layer_char"></div>'
+        }
     };
     var Character = function (entity, id, modelData, characterPara) {
         // data ----------------------------------------------
         var that = this,
-            scene = entity.env.scene,
             root = entity.root,
             _para = characterPara,
             _data = modelData[_para.role][_para.modelId];
@@ -51,7 +54,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.topLight = null;
         this.torch = null;
         this.torchDirectionObj = null;
-        this.mesh = null;
+        this.element = null;
         this.highlight = null;
         this.materials = null;
         this.actions = null;
@@ -91,7 +94,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // update data from system
         this.update = function (data_in, isVisible_in) {
             if (lightType !== data_in.light) {
-                changeTorch(data_in.light);
                 lightType = data_in.light;
             }
 
@@ -107,12 +109,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.render = function (delta) {
             if (gameData === null || this.mesh === null) return;
             if (this.isVisible === false) {
-                this.mesh.visible = false;
-                this.highlight.visible = false;
+                this.elemen.css({opacity: 0});
                 return;
             } else {
-                this.mesh.visible = true;
-                this.highlight.visible = true;
+                this.elemen.css({ opacity: 1 });
             }
             var action = gameData.action;
             var x = (gameData.x - entity.map.width / 2) * GridSize;
@@ -134,101 +134,49 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.isDead = isDead;
             this.isWin = isWin;
 
-            if (gameData.hasOwnProperty('teleporting')) {
-                if (this.topLight !== null) {
-                    if (gameData.teleporting && !teleportingFlag) {
-                        this.topLight.position.y = this.mesh.position.y + (10 + topLightData.y) * GridSize;
-                        this.topLight.distance = (10 + topLightData.distance) * GridSize;
-                        this.topLight.color.r = 3;
-                        this.topLight.visible = true;
-                        teleportingFlag = true;
-                    } else if (!gameData.teleporting && teleportingFlag) {
-                        this.topLight.position.y = this.mesh.position.y + topLightData.y * GridSize;
-                        this.topLight.distance = topLightData.distance * GridSize;
-                        this.topLight.color.r = cache_lightR;
-                        this.topLight.visible = (entity.team[_para.team] === true);
-                        teleportingFlag = false;
-                    }
-                }
-            }
-
             // dead
             if (isDead) {
                 if (currentAction !== action) {
-                    //this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
-                    //this.actions[currentAction].setEffectiveWeight(0);
-                    tween.show[action].start();
-                    tween.hide[currentAction].start();
-                    currentAction = action;
-                    //this.actions[currentAction].setEffectiveWeight(1);
-                    //this.actions[currentAction].play();
+                    this.element.css({
+                        'background-image': 'url("' + root + Data.character.path + action+'.gif")'
+                    });
                 }
                 if (this.mixer) this.mixer.update(delta);
                 return;
             } else if (isWin) {
                 if (currentAction !== action) {
-                    tween.show[action].start();
-                    tween.hide[currentAction].start();
-                    currentAction = action;
+                    this.element.css({
+                        'background-image': 'url("' + root + Data.character.path + action + '.gif")'
+                    });
                 }
-                if (this.mixer) this.mixer.update(delta);
                 return;
             }
             // move
-            this.mesh.position.x = x;
-            this.mesh.position.z = y;
 
             if (currentAction !== action) {
-                //this.mixer.crossFade(this.actions[currentAction], this.actions[action], .3);
-                //this.actions[currentAction].setEffectiveWeight(0);
-                //this.actions[action].crossFadeFrom(this.actions[currentAction], 0.3).play();
-                //this.actions[currentAction].setEffectiveWeight(1);
-                //this.actions[currentAction].play();
-                //this.actions[action].play();
-                //(new TWEEN.Tween(this.actions[action]).to({ weight: 1 }, 200)).start();
-                //(new TWEEN.Tween(this.actions[currentAction]).to({ weight: 0 }, 200)).start();
-
-                tween.show[action].start();
-                tween.hide[currentAction].start();
+                this.element.css({
+                    'background-image': 'url("' + root + Data.character.path + action + '.gif")'
+                });
                 currentAction = action;
             }
-            if (this.mixer) this.mixer.update(delta);
 
             // rotate
-
             var r1 = r_body / 180 * Math.PI;
             var r2 = -r_head / 180 * Math.PI;
             var r3 = r1 - r2;
             r_head_1.rotation.z = r2 / 3 * 2;
             r_head_2.rotation.z = r2 / 3;
-            this.mesh.rotation.y = r1;
+
+            // transform
+            this.element.css({
+                'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + r_body + 'deg)'
+            });
 
             this.rotation = {
                 body: r2,
                 head: r3
             };
-
-            var r_light = r1 + light_angle;
-            var r_torchD = r3 + torchDirectionObj_angle;
-            var r_torch = r3 + torch_angle;
-
-            //console.log(r_body, r_head, r_light, r_torchD, r_torch, torch_angle);
-            if (this.topLight !== null) {
-                this.topLight.position.z = this.mesh.position.z + light_radius * Math.cos(r_light);
-                this.topLight.position.x = this.mesh.position.x + light_radius * Math.sin(r_light);
-            }
-            if (this.torch !== null) {
-                this.torchDirectionObj.position.z = this.mesh.position.z + torchDirectionObj_radius * Math.cos(r_torchD);
-                this.torchDirectionObj.position.x = this.mesh.position.x + torchDirectionObj_radius * Math.sin(r_torchD);
-                this.torch.position.z = this.mesh.position.z + torch_radius * Math.cos(r_torch);
-                this.torch.position.x = this.mesh.position.x + torch_radius * Math.sin(r_torch);
-            }
-
-            that.highlight.position.x = this.mesh.position.x;
-            that.highlight.position.y = 0.1;
-            that.highlight.position.z = this.mesh.position.z;
         };
-
 
         /*
          * direction[0]: move direction
@@ -242,137 +190,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
          */
         // private method -------------------------------------------------
         var load = function () {
-            var loader = new THREE.JSONLoader();
-            loader.load(root + Data.character.path + _data.model, function (geometry, materials) {
-                var mesh = null,
-                    actions = {},
-                    mixer = null;
-                for (var i = 0; i < materials.length; i++) {
-                    materials[i].skinning = true;
-                }
-                mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
-                mesh.castShadow = false;
-                mesh.receiveShadow = false;
-                //mesh.scale.set(1.5, 1.5, 1.5);
-
-                mixer = new THREE.AnimationMixer(mesh);
-                for (var i in _data.action.list) {
-
-                    var action = mixer.clipAction(geometry.animations[i]);
-                    //action.weight = 0;
-                    //mixer.addAction(action);
-
-                    tween.show[_data.action.list[i]] = new TWEEN.Tween(action).to({ weight: 1 }, 200);
-                    tween.hide[_data.action.list[i]] = new TWEEN.Tween(action).to({ weight: 0 }, 200);
-                    action.setEffectiveWeight(0);
-                    action.play();
-                    actions[_data.action.list[i]] = action;
-                }
-
-                currentAction = _data.action.list[_data.action.init];
-                //actions[currentAction].weight = 1;
-                actions[currentAction].setEffectiveWeight(1);
-
-                that.mesh = mesh;
-                that.actions = actions;
-                that.mixer = mixer;
-                that.materials = materials;
-                scene.add(that.mesh);
-
-                // setup cache 
-                r_head_1 = mesh.skeleton.bones[3];
-                r_head_2 = mesh.skeleton.bones[4];
-
-                // setup light
-                    if (torchData !== null) {
-                        that.torchDirectionObj = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), new THREE.MeshPhongMaterial({ color: 0x333333 }));
-                        that.torchDirectionObj.rotation.x = Math.PI;
-                        that.torchDirectionObj.position.x = that.mesh.position.x + torchData.x * GridSize;
-                        that.torchDirectionObj.position.y = that.mesh.position.y + torchData.y * GridSize - 0.4;
-                        that.torchDirectionObj.position.z = that.mesh.position.z + torchData.z * GridSize + 1;
-                        scene.add(that.torchDirectionObj);
-
-                        that.torch = new THREE.SpotLight(parseInt(torchData.color));
-                        that.torch.position.x = that.mesh.position.x + torchData.x * GridSize;
-                        that.torch.position.y = that.mesh.position.y + torchData.y * GridSize;
-                        that.torch.position.z = that.mesh.position.z + torchData.z * GridSize;
-                        that.torch.intensity = torchData.intensity;
-                        that.torch.distance = torchData.distance * GridSize;
-                        that.torch.angle = torchData.angle;
-                        that.torch.penumbra = torchData.exponent;
-                        that.torch.shadow.camera.near = torchData.shadowCameraNear * GridSize;
-                        that.torch.shadow.camera.far = torchData.shadowCameraFar * GridSize;
-                        that.torch.shadow.camera.fov = torchData.shadowCameraFov;
-                        that.torch.shadow.bias = torchData.shadowBias;
-                        //that.torch.shadow.mapSize.set(2048, 2048);
-                        that.torch.castShadow = true;
-                        that.torch.target = that.torchDirectionObj;
-                        scene.add(that.torch);
-                        that.torch.visible = (entity.team[_para.team] === true);
-                    }
-
-                    if (topLightData !== null) {
-                        that.topLight = new THREE.SpotLight(parseInt(topLightData.color));
-                        that.topLight.position.x = that.mesh.position.x + topLightData.x * GridSize;
-                        that.topLight.position.y = that.mesh.position.y + topLightData.y * GridSize;
-                        that.topLight.position.z = that.mesh.position.z + topLightData.z * GridSize;
-                        that.topLight.intensity = topLightData.intensity;
-                        that.topLight.distance = topLightData.distance * GridSize;
-                        that.topLight.angle = topLightData.angle;
-                        that.topLight.penumbra = topLightData.exponent;
-                        that.topLight.target = that.mesh;
-                        that.topLight.castShadow = false;
-                        scene.add(that.topLight);
-                        that.topLight.visible = (entity.team[_para.team] === true);
-                    }
-                    setupLightCache();
-
-                // setup highlight
-                var mat = new THREE.SpriteMaterial({
-                    color: that.color,
-                    map: spriteTex['highlight'],
-                    transparent: true
-                });
-                mat.opacity = 1.4;
-                var spr = new THREE.Sprite(mat);
-                spr.scale.set(GridSize * 1.2, GridSize * 1.2, 1.0);
-                scene.add(spr);
-                that.highlight = spr;
-
-                // setup if scene is set
-                that.setuped = true;
-                if (that.onLoaded !== null) that.onLoaded();
-            });
-        };
-
-        var changeTorch = function (type) {
-            if (that.torch === null) return;
-            if (type === 1) {
-                that.torch.intensity = torchData.intensity;
-                that.torch.distance = torchData.distance * GridSize;
-                that.torch.color.setHex(torchData.color);
-            } else {
-                that.torch.intensity = noTorchData.intensity;
-                that.torch.distance = noTorchData.distance * GridSize;
-                that.torch.color.setHex(noTorchData.color);
+            var layer = entity.env.layer.character;
+            if (layer == null) {
+                entity.env.layer.character = layer = $(_Data.html.layer).appendTo(entity.env.scene);
             }
+            that.element = $(_Data.html.character).css({
+                'background-image': 'url("' + root + Data.character.path + 'idle.gif")'
+            }).appendTo(layer);
         };
-
-        // setup light cache with
-        var setupLightCache = function () {
-            if (torchData !== null) {
-                torchDirectionObj_radius = Math.sqrt((torchData.z + 1) * (torchData.z + 1) + torchData.x * torchData.x);
-                torchDirectionObj_angle = Math.atan2(torchData.x, (torchData.z + 1));
-                torch_radius = Math.sqrt(torchData.z * torchData.z + torchData.x * torchData.x);
-                torch_angle = Math.atan2(torchData.x, torchData.z);
-            }
-            if (topLightData !== null) {
-                cache_lightR = that.topLight.color.r;
-                light_radius = Math.sqrt(topLightData.z * topLightData.z + topLightData.x * topLightData.x);
-                light_angle = Math.atan2(topLightData.x, topLightData.z);
-            }
-        };
-
+        
         // sprite ---------------------------------------------------------
         var setupSprite = function () {
             spriteTex = {
