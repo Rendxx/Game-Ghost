@@ -9,11 +9,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 (function (RENDERER) {
     var _Data = {
         html: {
-            scene: '<div class="_scene_ortho"></div>',
+            sceneOrtho: '<div class="_scene_ortho"></div>',
+            sceneEffort: '<div class="_scene_effort"></div>',
             name: '<div class="_name"></div>',
             fog: '<div class="_fog"></div>',
             enduranceBarWrap: '<div class="_enduranceBarWrap"></div>',
             enduranceBar: '<div class="_enduranceBar"></div>',
+            edges: '<div class="_edges"></div>',
+            message: '<div class="_message"></div>',
+            marker: '<div class="_marker"></div>'
         }
     };
 
@@ -97,52 +101,17 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.character = character;
             this.width = w;
             this.height = h;
-            this.color = hexToRgb(character.color);
-            this.sceneOrtho = $(_Data.html.name).appendTo($(entity.domElement));
+            this.sceneOrtho = $(_Data.html.sceneOrtho).appendTo($(entity.domElement));
+            this.sceneEffort = $(_Data.html.sceneEffort).appendTo($(entity.domElement));
 
             createFrame();
+            createEdges();
             createEnduranceBar();
         };
 
         this.resize = function (w, h) {
             this.width = w;
             this.height = h;
-            this.x = x;
-            this.y = y;
-
-            // edge 
-            resizeEdge();
-
-            // name
-            sprites["name"].position.set(84 - that.width / 2, -32 + that.height / 2, 6);
-
-            // name deco
-            sprites["nameDeco"].position.set(60 - that.width / 2, -30 + that.height / 2, 5);
-
-            // border
-            sprites["top"].position.set(0, that.height / 2, 8);
-            sprites["top"].scale.set(that.width, 2, 1.0);
-
-            sprites["right"].position.set(that.width / 2, 0, 8);
-            sprites["right"].scale.set(2, that.height, 1.0);
-
-            sprites["bottom"].position.set(0, -that.height / 2, 8);
-            sprites["bottom"].scale.set(that.width, 2, 1.0);
-
-            sprites["left"].position.set(-that.width / 2, 0, 8);
-            sprites["left"].scale.set(1, that.height, 1.0);
-
-            // endurance
-            if (sprites["enduranceBar"]) sprites["enduranceBar"].position.set(-that.width / 2, -50 + that.height / 2, 6);
-
-            // camera
-            that.camera.aspect = that.width / that.height;
-            that.camera.updateProjectionMatrix();
-            that.cameraOrtho.left = -that.width / 2;
-            that.cameraOrtho.right = that.width / 2;
-            that.cameraOrtho.top = that.height / 2;
-            that.cameraOrtho.bottom = -that.height / 2;
-            that.cameraOrtho.updateProjectionMatrix();
         };
 
         this.render = function () {
@@ -150,7 +119,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var y = that.character.y;
 
             this.scene.css({
-
+                'transform': 'translate(' + -x * GridSize + 'px,' + -y * GridSize + 'px)'
+            });
+            this.sceneEffort.css({
+                'transform': 'translate(' + -x * GridSize + 'px,' + -y * GridSize + 'px)'
             });
             if (that.character.isDead) {
                 showDeadScreen();
@@ -166,9 +138,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 updateMessage();
                 updateDoor();
             }
-
-            // fog
-            updateFog(x, y);
         };
 
         // private method -------------------------------------------------
@@ -178,11 +147,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             sprites = {};
 
             // name
-            sprites["name"] = $(_Data.html.name).appendTo(that.scene).text(that.character.name);
+            sprites["name"] = $(_Data.html.name).appendTo(that.sceneOrtho).text(that.character.name);
 
             // fog
-            sprites["fog"] = $(_Data.html.fog).appendTo(that.scene);
+            sprites["fog"] = $(_Data.html.fog).appendTo(that.sceneOrtho);
             that.resize(that.width, that.height);
+
+            // message
+            sprites["message"] = $(_Data.html.message).appendTo(that.sceneOrtho);
+
         };
 
         // Endurance ------------------------------------------------
@@ -194,17 +167,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var updateEnduranceBar = function () {
             if (!sprites.hasOwnProperty('enduranceBar')) return;
-            var val = that.character.endurance;
-            var w = (val / that.character.maxEndurance);
-            sprites["enduranceBar"].scale.x = w * _Data.enduranceBarWidth * 2;
+            var w = Math.floor((that.character.endurance / that.character.maxEndurance) * 100);
 
-            if (val >= that.character.maxEndurance) {
-                sprites["enduranceBar"].material.color.b = 0.8;
-                sprites["enduranceBar"].material.color.g = 0.8;
-            } else {
-                sprites["enduranceBar"].material.color.b = 0.8 * w;
-                sprites["enduranceBar"].material.color.g = 0.8 * w;
-            }
+            sprites["enduranceBar"].css({
+                'transform': 'scaleX(' + w + '%)'
+            });
         };
 
         // Interaction icon ------------------------------------------
@@ -272,19 +239,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (spritesInteraction.highlight[objType][objId] === undefined || spritesInteraction.highlight[objType][objId] === null
                 || spritesInteraction.highlight[objType][objId][objOp] === undefined || spritesInteraction.highlight[objType][objId][objOp] === null) return;
             var sprPkg = spritesInteraction.highlight[objType][objId][objOp];
-
-            if (sprPkg.tween !== undefined && sprPkg.tween !== null) sprPkg.tween.stop();
-            var start_opacity = 0,
-                spr = sprPkg.icon,
-                mat = spr.material;
-            var tween_hide = new TWEEN.Tween({ t: 10 }).to({ t: 0 }, 100)
-                        .onUpdate(function () {
-                            mat.opacity = this.t * 0.08;
-                        }).onComplete(function () {
-                            that.sceneEffort.remove(spr);
-                        });
-            sprPkg.tween = tween_hide;
-            tween_hide.start();
+            sprPkg.css({ opacity: 0 });
         };
 
         var showInteraction_highlight = function (objType, objId, objOp) {
@@ -293,22 +248,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 spritesInteraction.highlight[objType][objId][objOp] = createInteractionIcon(objType, objId, objOp, true);
             var sprPkg = spritesInteraction.highlight[objType][objId][objOp];
             if (sprPkg === null) return;
-
-            if (sprPkg.tween !== undefined && sprPkg.tween !== null) sprPkg.tween.stop();
-            var start_opacity = 0,
-                start_z = entity.map.objectPos[objType][objId][1] - GridSize / 4,
-                scale_y = GridSize * 2,
-                spr = sprPkg.icon,
-                mat = spr.material;
-
-            var tween_show = new TWEEN.Tween({ t: 0 }).to({ t: 10 }, 100)
-                        .onStart(function () {
-                            that.sceneEffort.add(spr);
-                        }).onUpdate(function () {
-                            mat.opacity = this.t * 0.08;
-                        });
-            sprPkg.tween = tween_show;
-            tween_show.start();
+            sprPkg.css({ opacity: 1 });
         };
 
         // interation normal
@@ -317,19 +257,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 || spritesInteraction.normal[objType][objId][objOp] === undefined || spritesInteraction.normal[objType][objId][objOp] === null) return;
             var sprPkg = spritesInteraction.normal[objType][objId][objOp];
 
-            if (sprPkg.tween !== undefined && sprPkg.tween !== null) sprPkg.tween.stop();
-            var start_opacity = 0,
-                scale_y = GridSize * 2,
-                spr = sprPkg.icon,
-                mat = spr.material;
-            var tween_hide = new TWEEN.Tween({ t: 10 }).to({ t: 0 }, 400)
-                        .onUpdate(function () {
-                            mat.opacity = this.t * 0.04;
-                        }).onComplete(function () {
-                            that.sceneEffort.remove(spr);
-                        });
-            tween_hide.start();
-            sprPkg.tween = tween_hide;
+            sprPkg.css({ opacity: 0 });
         };
 
         var showInteraction_normal = function (objType, objId, objOp) {
@@ -337,49 +265,24 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (!spritesInteraction.normal[objType][objId].hasOwnProperty(objOp) || spritesInteraction.normal[objType][objId][objOp] === null)
                 spritesInteraction.normal[objType][objId][objOp] = createInteractionIcon(objType, objId, objOp, false);
             var sprPkg = spritesInteraction.normal[objType][objId][objOp];
+
             if (sprPkg === null) return;
-
-            if (sprPkg.tween !== undefined && sprPkg.tween !== null) sprPkg.tween.stop();
-            var start_opacity = 0,
-                start_z = entity.map.objectPos[objType][objId][1] - GridSize / 4,
-                scale_y = GridSize * 2,
-                spr = sprPkg.icon,
-                mat = spr.material;
-
-            var tween_show = new TWEEN.Tween({ t: 0 }).to({ t: 10 }, 150)
-                        .onStart(function () {
-                            that.sceneEffort.add(spr);
-                        }).onUpdate(function () {
-                            mat.opacity = this.t * 0.04;
-                            spr.scale.y = scale_y / 2 + scale_y * this.t / 20;
-                            spr.position.z = start_z - this.t * GridSize / 20;
-                        });
-            tween_show.start();
-            sprPkg.tween = tween_show;
+            sprPkg.css({ opacity: 1 });
         };
 
         var createInteractionIcon = function (objType, objId, objOp, isHighlight) {
             var tex1 = isHighlight ? tex['interaction']['highlight'][objType][objOp] : tex['interaction']['normal'][objType][objOp];
             if (tex1 === undefined || tex1 === null) return null;
 
-            var mat = new THREE.SpriteMaterial({
-                map: tex1,
-                transparent: true,
-                depthTest: false
-            });
-            mat.opacity = 0;
-
-            var spr = new THREE.Sprite(mat);
             var pos = entity.map.objectPos[objType][objId];
+            var marker = $(_Data.html.marker).css({
+                'background-image': 'url("' + tex1.src + '")',
+                left: pos[0],
+                top: pos[1],
+                opacity:0
+            }).appendTo(that.sceneEffort);
 
-            spr.position.set(pos[0], GridSize, pos[1] - 3 * GridSize / 4);
-            spr.scale.set(GridSize * 2, GridSize * 2, 1.0);
-            if (isHighlight) spr.position.y += 0.1;
-
-            return {
-                icon: spr,
-                tween: null
-            };
+            return marker;
         };
 
         // Message ---------------------------------------------------
@@ -389,31 +292,23 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             that.character.message = null;
         };
 
+        var msgHideFunc = null;
         var showMessage = function (content) {
-            var spr = makeTextSprite(content, { fontsize: 42, color: { r: 255, g: 255, b: 255, a: 1.0 }, align: "center", fontface: "Poor Richard, Calibri, Arial" });
-            that.sceneOrtho.add(spr);
-            spr.position.set(0, that.height / 4, 1);
-
-            if (msg !== null) {
-                msg.tween.stop();
-                that.sceneOrtho.remove(msg.spr);
-            }
-            var tween = new TWEEN.Tween(spr.material).to({ opacity: 0 }, 500)
-                        .onComplete(function () {
-                            that.sceneOrtho.remove(spr);
-                        });
-            tween.delay(3000);
-            tween.start();
-            msg = {
-                tween: tween,
-                spr: spr
-            }
+            if (msgHideFunc !== null) clearTimeout(msgHideFunc);
+            sprites["message"].text(content).css({
+                'opacity':1
+            });
+            msgHideFunc = setTimeout(function () {
+                sprites["message"].css({
+                    'opacity': 0
+                });
+            }, 3000);
         };
 
         // Door ------------------------------------------------------
+        var doorMarkers = {};
         var updateDoor = function () {
             var d = that.character.lockDoor;
-            var i
             for (var i in doorIcon) {
                 if (!d.hasOwnProperty(i) || !entity.map.isDoorLock(i)) {
                     removeDoorIcon(i);
@@ -431,170 +326,63 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 if (!entity.map.isDoorLock(i)) continue;
                 if (!doorIcon.hasOwnProperty(i)) doorIcon[i] = {};
                 var idx = d[i] ? 0 : 1;
-                if (!doorIcon[i].hasOwnProperty(idx)) {
-                    doorIcon[i][idx] = (d[i] ? createDoorLock(i) : createDoorUnlock(i));
-                }
+                if (!doorMarkers.hasOwnProperty(i)) doorMarkers[i] = [null,null];
+                if (doorMarkers[i][idx] === null) doorMarkers[i][idx]=(d[i] ? createDoorLock(i) : createDoorUnlock(i));
+                doorIcon[i][idx] = doorMarkers[i][idx];
+                showDoorIcon(i);
             }
         };
 
         var createDoorLock = function (idx) {
-            var tex1 = tex['interaction-lock'];
-
-            var mat = new THREE.SpriteMaterial({
-                map: tex1,
-                transparent: true,
-                depthTest: false
-            });
-            mat.opacity = 0.5;
-
-            var spr = new THREE.Sprite(mat);
             var pos = entity.map.doorPos[idx];
-
-            spr.position.set(pos[0], GridSize, pos[1]);
-            spr.scale.set(GridSize * 2, GridSize * 2, 1.0);
-            that.sceneEffort.add(spr);
+            var marker = $(_Data.html.marker).appendTo(that.sceneEffort).css({
+                'background-image': 'url("'+tex['interaction-lock'].src +'")',
+                left: pos[0],
+                top: pos[1]
+            });
 
             return spr;
         };
 
         var createDoorUnlock = function (idx) {
-            var tex1 = tex['interaction-unlock'];
-
-            var mat = new THREE.SpriteMaterial({
-                map: tex1,
-                transparent: true,
-                depthTest: false
-            });
-            mat.opacity = 0.5;
-
-            var spr = new THREE.Sprite(mat);
             var pos = entity.map.doorPos[idx];
-
-            spr.position.set(pos[0], GridSize, pos[1]);
-            spr.scale.set(GridSize * 2, GridSize * 2, 1.0);
-            that.sceneEffort.add(spr);
+            var marker = $(_Data.html.marker).appendTo(that.sceneEffort).css({
+                'background-image': 'url("' + tex['interaction-unlock'].src + '")',
+                left: pos[0],
+                top: pos[1]
+            });
 
             return spr;
         };
 
         var removeDoorIcon = function (idx) {
             if (doorIcon[idx][0] !== undefined || doorIcon[idx][0] !== null)
-                that.sceneEffort.remove(doorIcon[idx][0]);
+                doorIcon[idx][0].css('opacity', 0);
             if (doorIcon[idx][1] !== undefined || doorIcon[idx][1] !== null)
-                that.sceneEffort.remove(doorIcon[idx][1]);
+                doorIcon[idx][1].css('opacity', 0);
+        };
+
+        var showDoorIcon = function (idx) {
+            if (doorIcon[idx][0] !== undefined || doorIcon[idx][0] !== null)
+                doorIcon[idx][0].css('opacity', 1);
+            if (doorIcon[idx][1] !== undefined || doorIcon[idx][1] !== null)
+                doorIcon[idx][1].css('opacity', 1);
         };
 
         // Fog -------------------------------------------------------
-        var updateFog = function (x, y) {
-            var d = that.character.danger;
-            sprites["fog"].material.color.g = sprites["fog"].material.color.b = 1 - 0.5 * d;
-            sprites["fog"].position.set(x, 3 * GridSize - 0.1, y);
-        };
 
         // Edges -----------------------------------------------------
-        var resizeEdge = function () {
-            if (sprites['edges'] !== undefined && sprites['edges'] !== null) that.sceneOrtho.remove(sprites["edges"]);
-            sprites['edges'] = createEdges();
-            sprites["edges"].position.set(0, 0, 7);
-            that.sceneOrtho.add(sprites["edges"]);
+        var createEdges = function () {
+            sprites["edges"] = $(_Data.html.edges).appendTo(that.sceneOrtho);
         };
 
         var updateEdge = function () {
-            var d = that.character.danger;
-            sprites["edges"].material.opacity = d;
+            sprites["edges"].css({
+                'opacity': that.character.danger
+            });
         };
 
         // Helper ----------------------------------------------------
-        var _helper_canvas = document.createElement('canvas');
-        var _helper_canvas_ctx = _helper_canvas.getContext('2d');
-        var makeTextSprite = function (message, parameters) {
-            _helper_canvas_ctx.clearRect(0, 0, _helper_canvas.width, _helper_canvas.height);
-            if (parameters === undefined) parameters = {};
-
-            var fontface = parameters.hasOwnProperty("fontface") ?
-                parameters["fontface"] : "Arial";
-
-            var fontsize = parameters.hasOwnProperty("fontsize") ?
-                parameters["fontsize"] : 18;
-
-            var color = parameters.hasOwnProperty("color") ?
-                parameters["color"] : { r: 255, g: 255, b: 255, a: 1.0 };
-
-            var align = parameters.hasOwnProperty("align") ?
-                parameters["align"] : "center";
-
-            // set font parameter
-            _helper_canvas_ctx.font = fontsize + "px " + fontface;
-
-            // measure text
-            var metrics = _helper_canvas_ctx.measureText(message);
-            var width = parameters.hasOwnProperty("width") ?
-                parameters["width"] * 2 : Math.ceil(metrics.width);
-            var height = parameters.hasOwnProperty("height") ?
-                parameters["height"] * 2 : fontsize;
-
-            _helper_canvas.width = width;
-            _helper_canvas.height = height;
-
-            // text 
-            _helper_canvas_ctx.textBaseline = "bottom";
-            _helper_canvas_ctx.font = fontsize + "px " + fontface;
-            _helper_canvas_ctx.shadowColor = "black";
-            _helper_canvas_ctx.shadowBlur = 5;
-            _helper_canvas_ctx.fillStyle = "rgba(" + color.r + "," + color.g + ","
-                                          + color.b + "," + color.a + ")";
-            _helper_canvas_ctx.fillText(message, 0, (_helper_canvas.height + fontsize) / 2);
-
-            // canvas contents will be used for a texture
-            var texture = new THREE.Texture(_helper_canvas);
-            texture.needsUpdate = true;
-
-            var spriteMaterial = new THREE.SpriteMaterial({ map: texture });
-            var sprite = new THREE.Sprite(spriteMaterial);
-            sprite.scale.set(width / 2, height / 2, 1.0);
-            return sprite;
-        }
-
-        var createEdges = function () {
-            var w = that.width;
-            var h = that.height;
-            var _helper_canvas2 = document.createElement('canvas');
-            var _helper_canvas_ctx2 = _helper_canvas2.getContext('2d');
-            _helper_canvas2.width = w;
-            _helper_canvas2.height = h;
-            //
-            _helper_canvas_ctx2.fillStyle = "rgba(255,40,40,0.03)";
-            _helper_canvas_ctx2.fillRect(0, 0, w, h);
-            //
-            _helper_canvas_ctx2.strokeStyle = 'red';
-            _helper_canvas_ctx2.lineWidth = 4;
-            //
-            _helper_canvas_ctx2.shadowColor = 'red';
-            _helper_canvas_ctx2.shadowBlur = Math.min(w,h)/3;
-            //
-            _helper_canvas_ctx2.beginPath();
-            _helper_canvas_ctx2.rect(0, 0, w, h);
-            _helper_canvas_ctx2.clip();
-            _helper_canvas_ctx2.stroke();
-
-            var texture = new THREE.Texture(_helper_canvas2);
-            texture.needsUpdate = true;
-
-            var spriteMaterial = new THREE.SpriteMaterial({ map: texture });
-            spriteMaterial.transparent = true;
-            var sprite = new THREE.Sprite(spriteMaterial);
-            sprite.scale.set(w, h, 1.0);
-            return sprite;
-        };
-
-        var hexToRgb = function (hex) {
-            var result = /^0x?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
 
         // dead -----------------------------------------------------
         var showDeadScreen = function () {
