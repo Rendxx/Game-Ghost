@@ -379,19 +379,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             };
             //var textureLoader = new THREE.TextureLoader();
             //spriteTex['highlight'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.png');
-
-            var ddsLoader = new THREE.DDSLoader();
-            spriteTex['highlight'] = ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.dds');
-            spriteTex['highlight'].anisotropy = 4;
+            spriteTex['highlight'] = _loadImg(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.png');
         };
-
-        var hexToRgb = function (hex) {
-            var result = /^0x?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
+        var _loadImg = function (name) {
+            var img = new Image();
+            img.src = name;
+            return img;
         };
 
         // setup ----------------------------------------------------------
