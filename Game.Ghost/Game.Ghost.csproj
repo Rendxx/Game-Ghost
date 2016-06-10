@@ -553,8 +553,8 @@
     <Content Include="Model\Furniture\cabinet_wood_1_1\cabinet_wood_1_1.tex.png" />
     <Content Include="Model\Furniture\cabinet_wood_2_1.data.json" />
     <Content Include="Model\Furniture\cabinet_wood_2_1\cabinet_b.2.json" />
-    <Content Include="Model\Furniture\cabinet_wood_2_1\cabinet_wood_1_2.2d.close.png" />
-    <Content Include="Model\Furniture\cabinet_wood_2_1\cabinet_wood_1_2.2d.open.png" />
+    <Content Include="Model\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.2d.close.png" />
+    <Content Include="Model\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.2d.open.png" />
     <Content Include="Model\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.icon.png" />
     <Content Include="Model\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.tex.png" />
     <Content Include="Model\Furniture\cabinet_wood_2_1_b.data.json" />
@@ -894,6 +894,10 @@
     <Content Include="src\js\system\System.Data.js" />
     <Content Include="src\js\system\Core\System.Core.js" />
     <Content Include="src\js\Renderer.End.js" />
+    <Content Include="test2D\game.js" />
+    <Content Include="test2D\helper.js" />
+    <Content Include="test2D\inputSimulator.js" />
+    <Content Include="test2D\sample.html" />
     <Content Include="test\helper.js" />
     <Content Include="test\inputSimulator.js" />
     <Content Include="test_screen\prepare.html" />

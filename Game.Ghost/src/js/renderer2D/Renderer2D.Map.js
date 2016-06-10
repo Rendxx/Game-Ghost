@@ -84,6 +84,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             darkScreen = null,
             dangerScreen = null,
 
+            _animation = {},
+
             // mesh
             mesh_ground = null,         // ground
             mesh_wall = null,           // wall
@@ -297,8 +299,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 'width': w + 'px',
                 'height': h + 'px',
                 'top': y + 'px',
-                'left': x + 'px',
-                'transform': 'rotate('+((4 - r) *90)+'deg)'
+                'left': x + 'px'
             }).appendTo(layer);
             onSuccess(idx, dat, mesh);
         };
@@ -368,7 +369,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             that.objectPos.furniture[idx] = [x, y];
             var mesh = $(_Data.html.furniture).css({
-                'background-image': 'url("' + root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.model2D[0] + '")',
+                'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")',
                 'width': w + 'px',
                 'height': h + 'px',
                 'top': y + 'px',
@@ -376,6 +377,19 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 'transform': 'rotate(' + ((4 - r) * 90) + 'deg)',
                 'transform-origin': GridSize / 2 + 'px ' + GridSize / 2 + 'px'
             }).appendTo(layer);
+            
+            _animation['furniture'] = _animation['furniture'] || {};
+            _animation['furniture'][idx] = [
+                function () {
+                    mesh.css({
+                        'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")'
+                    });
+                },
+                function () {
+                    mesh.css({
+                        'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[1] + '")'
+                    });
+                }];
             onSuccess(idx, dat, mesh);
         };
 
@@ -407,6 +421,19 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 'transform': 'rotate(' + ((4 - r) * 90) + 'deg)',
                 'transform-origin': GridSize / 2 + 'px ' + GridSize / 2 + 'px'
             }).appendTo(layer);
+
+            _animation['door'] = _animation['door'] || {};
+            _animation['door'][idx] = [
+                function () {
+                    mesh.css({
+                        'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[0] + '")'
+                    });
+                },
+                function () {
+                    mesh.css({
+                        'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[1] + '")'
+                    });
+                }];
             onSuccess(idx, dat, mesh);
 
             //console.log(dat);
@@ -424,7 +451,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var para = _modelData.items[Data.categoryName.stuff][id];
 
             var mesh = $(_Data.html.stuff).css({
-                'background-image': 'url("' + root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.model2D[0] + '")',
+                'background-image': 'url("' + root + Data.files.path[Data.categoryName.stuff] + para.id + '/' + para.model2D[0] + '")',
                 'width': w + 'px',
                 'height': h + 'px',
                 'top': y + 'px',
@@ -443,9 +470,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i in gameData.furniture) {
                 if (gameData.furniture[i].status !== itemStatus['furniture'][i] && itemStatus['furniture'][i] !== null) {
                     itemStatus['furniture'][i] = gameData.furniture[i].status;
-                    mesh_furniture[idx].css({
-                        'background-image': 'url("' + root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.model2D[itemStatus['furniture'][i]] + '")',
-                    });
+                    _animation['furniture'][i][itemStatus['furniture'][i]]();
                 }
             }
         };
@@ -456,9 +481,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 if (itemStatus['door'][i] !== null) {
                     if (gameData.door[i].status !== itemStatus['door'][i]) {
                         itemStatus['door'][i] = gameData.door[i].status;
-                        mesh_door[idx].css({
-                            'background-image': 'url("' + root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.model2D[itemStatus['door'][i]] + '")',
-                        });
+                        _animation['door'][i][itemStatus['door'][i]]();
                     }
                 }
             }

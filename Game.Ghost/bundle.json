@@ -83,6 +83,10 @@
         "#src#/renderer/Renderer.Test.js",
         "#src#/renderer/Renderer.Main.js"
       ],
+      "#dest#/Game.Ghost.Renderer2D": [
+        "#src#/renderer2D/Renderer2D.Data.js",
+        "#src#/renderer2D/*.js"
+      ],
       "#dest#/Game.Ghost.System.Core": [
         "#src#/system/Core/System.WebWorkerWrapper.js",
         "#src#/system/System.Data.js",

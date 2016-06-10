@@ -11,7 +11,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
      * Game Entity
      */
     var Data = RENDERER.Data;
-    var Entity = function (container, root, viewPlayer_in, team_in) {
+    var Entity = function (container, root, viewPlayer_in) {
         // data
         this.domElement = container;
         this.env = null;
@@ -40,11 +40,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         // inner callback
-        this._onRender = function (delta) {
+        this._onRender = function () {
             if (!this.started || !flag_loaded) return;
             this.map.render();
             for (var i = 0, l = this.characters.length; i < l; i++) {
-                this.characters[i].render(delta);
+                this.characters[i].render();
             }
 
             if (that.onRender !== null) that.onRender();
@@ -81,11 +81,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var _playerData = setupData.player;
 
             loadCount++;
-            this.map.loadData(_mapData, _modelData, _mapSetup);
             this.map.onLoaded = function () {
                 loadCount--;
                 onLoaded();
             };
+            this.map.loadData(_mapData, _modelData, _mapSetup);
 
             this.characters = [];
             for (var i in _playerData) {
@@ -96,23 +96,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     loadCount--;
                     onLoaded();
                 };
+                this.characters[idx].load();
             }
-            if (team_in !== undefined || team_in !== null) {
-                this.team = team_in;
-                this.viewPlayer = [];
-                for (var i in _playerData) {
-                    if (this.team[_playerData[i].team]===true) {
-                        this.viewPlayer.push(_playerData[i].setupData.id);
-                    }
-                }
-            } else {
-                this.viewPlayer = viewPlayer_in;
-                this.team = {};
-                for (var i = 0; i < this.viewPlayer.length; i++) {
-                    this.team[this.characters[this.viewPlayer[i]].team] = true;
-                    break;
-                }
-            }
+
+            this.viewPlayer = _playerData[viewPlayer_in].setupData.id;
 
             this.env.viewportSetup(this.viewPlayer);
             this.sound.playerSetup(this.viewPlayer);

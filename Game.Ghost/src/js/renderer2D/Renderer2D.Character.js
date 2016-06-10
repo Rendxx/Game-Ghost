@@ -109,10 +109,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.render = function (delta) {
             if (gameData === null || this.mesh === null) return;
             if (this.isVisible === false) {
-                this.elemen.css({opacity: 0});
+                this.element.css({opacity: 0});
                 return;
             } else {
-                this.elemen.css({ opacity: 1 });
+                this.element.css({ opacity: 1 });
             }
             var action = gameData.action;
             var x = (gameData.x - entity.map.width / 2) * GridSize;
@@ -189,14 +189,16 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
          * 8 1 2
          */
         // private method -------------------------------------------------
-        var load = function () {
-            var layer = entity.env.layer.character;
+        this.load = function () {
+            var layer = entity.env.layers.character;
             if (layer == null) {
-                entity.env.layer.character = layer = $(_Data.html.layer).appendTo(entity.env.scene);
+                entity.env.layers.character = layer = $(_Data.html.layer).appendTo(entity.env.scene);
             }
             that.element = $(_Data.html.character).css({
-                'background-image': 'url("' + root + Data.character.path + 'idle.gif")'
+                'background-image': 'url("' + root + Data.character.path +_data.path+ 'idle.gif")'
             }).appendTo(layer);
+            that.setuped = true;
+            if (that.onLoaded !== null) that.onLoaded();
         };
         
         // sprite ---------------------------------------------------------
@@ -215,7 +217,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // setup ----------------------------------------------------------
         var _init = function () {
-            load();
             setupSprite();
         };
 

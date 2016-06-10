@@ -1,5 +1,6 @@
 ﻿{
   "id": "highcircle",
+  "path": "highcircle/",
   "radius": 0.4,
   "model": "highcircle/player-highcircle.json",
   "portrait": "highcircle/player-highcircle.portrait2.png",

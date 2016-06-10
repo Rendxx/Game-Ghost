@@ -1,5 +1,6 @@
 ﻿{
   "id": "ghost-specter",
+  "path": "ghost-specter/",
   "radius": 0.4,
   "model": "ghost-specter/player-specter.json",
   "portrait": "ghost-specter/player-specter.portrait2.png",

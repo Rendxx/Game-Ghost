@@ -1,5 +1,6 @@
 ﻿{
   "id": "mohicans",
+  "path": "mohicans/",
   "radius": 0.4,
   "model": "mohicans/player-mohicans.json",
   "portrait": "mohicans/player-mohicans.portrait2.png",

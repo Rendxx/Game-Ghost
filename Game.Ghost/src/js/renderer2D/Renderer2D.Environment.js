@@ -30,10 +30,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         this.scene = null;
         this.layers = {};
+        this.camera = null;
 
         // public method -------------------------------------------------
         this.viewportSetup = function (viewPlayer_in) {
-            viewPlayerIdxList = viewPlayer_in;
+            viewPlayerIdx = viewPlayer_in;
             _cameraSetup();
         };
 
@@ -43,22 +44,22 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var animate = function () {
             requestAnimationFrame(animate);
             _cameraUpdate();
-            if (entity._onRender !== null) entity._onRender(delta);
+            if (entity._onRender !== null) entity._onRender();
         }
 
         // camera --------------------------------------------
 
         var _cameraSetup = function () {
             that.camera = new RENDERER.Camera(entity, that.scene);
-            that.camera.setup(entity.characters[viewPlayerIdxList[i]], SCREEN_WIDTH, SCREEN_HEIGHT);
+            that.camera.setup(entity.characters[viewPlayerIdx], SCREEN_WIDTH, SCREEN_HEIGHT);
         };
 
         var _cameraUpdate = function () {
-            that.camera.render();
+            if (that.camera !== null) that.camera.render();
         };
 
         var _cameraResize = function (w, h) {
-            that.camera.resize(w, h);
+            if (that.camera!==null) that.camera.resize(w, h);
         };
 
         // set resize

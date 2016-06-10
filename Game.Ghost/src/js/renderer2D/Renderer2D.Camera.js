@@ -7,21 +7,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
  * Camera for each player 
  */
 (function (RENDERER) {
-    var _Data = {
-        html: {
-            sceneOrtho: '<div class="_scene_ortho"></div>',
-            sceneEffort: '<div class="_scene_effort"></div>',
-            name: '<div class="_name"></div>',
-            fog: '<div class="_fog"></div>',
-            enduranceBarWrap: '<div class="_enduranceBarWrap"></div>',
-            enduranceBar: '<div class="_enduranceBar"></div>',
-            edges: '<div class="_edges"></div>',
-            message: '<div class="_message"></div>',
-            marker: '<div class="_marker"></div>'
-        }
-    };
-
-
     var Data = RENDERER.Data;
     var GridSize = Data.grid.size;
     var _Data = {
@@ -56,6 +41,17 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             body: {
                 Search: 1
             }
+        },
+        html: {
+            sceneOrtho: '<div class="_scene_ortho"></div>',
+            sceneEffort: '<div class="_scene_effort"></div>',
+            name: '<div class="_name"></div>',
+            fog: '<div class="_fog"></div>',
+            enduranceBarWrap: '<div class="_enduranceBarWrap"></div>',
+            enduranceBar: '<div class="_enduranceBar"></div>',
+            edges: '<div class="_edges"></div>',
+            message: '<div class="_message"></div>',
+            marker: '<div class="_marker"></div>'
         }
     };
     /**
@@ -425,7 +421,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var path = root + Data.files.path[Data.categoryName.sprite];
 
             // png Loader -------------------------------------------------------------------------------------------
-            var pngLoader = new THREE.pngLoader();
             tex['fog'] = _loadImg(path + 'fog.png');
             tex['nameDeco'] = _loadImg(path + 'name-deco-white.png');
             tex['deadScreen'] = _loadImg(path + 'DeadScreen.png');

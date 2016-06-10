@@ -1,5 +1,6 @@
 ﻿{
   "id": "capboy",
+  "path": "capboy/",
   "radius": 0.4,
   "model": "capboy/player-capboy.json",
   "portrait": "capboy/player-capboy.portrait2.png",

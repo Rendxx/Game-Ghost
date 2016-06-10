@@ -1,5 +1,6 @@
 ﻿{
   "id": "ghost-mary",
+  "path": "ghost-mary/",
   "radius": 0.4,
   "model": "ghost-mary/player-mary.json",
   "portrait": "ghost-mary/player-mary.portrait2.png",

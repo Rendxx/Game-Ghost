@@ -1,5 +1,6 @@
 ﻿{
   "id": "girl1",
+  "path": "girl1/",
   "radius": 0.4,
   "model": "girl1/player-girl1.json",
   "portrait": "girl1/player-girl1.portrait2.png",
