@@ -1130,6 +1130,9 @@
     <Content Include="src\less\end.less" />
     <Content Include="ImageEdit\EndScreen.fla" />
     <Content Include="src\less\prepare.less" />
+    <Content Include="src\less\renderer2D\Render2D.Character.less" />
+    <Content Include="src\less\renderer2D\Render2D.Map.less" />
+    <Content Include="src\less\renderer2D\Render2D.Camera.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

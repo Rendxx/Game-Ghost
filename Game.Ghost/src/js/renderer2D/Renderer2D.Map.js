@@ -48,7 +48,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         html: {
             dark: '<div class="_dark"></div>',
             danger: '<div class="_danger"></div>',
-            layerDark: '<div class="_layer _layer_dark"></div>',
+            layerLight: '<div class="_layer _layer_light"></div>',
             layerGround: '<div class="_layer _layer_ground"></div>',
             layerWall: '<div class="_layer _layer_wall"></div>',
             layerDoor: '<div class="_layer _layer_door"></div>',
@@ -58,6 +58,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             ground: '<div class="_ground"></div>',
             wall: '<div class="_wall"></div>',
             wallTop: '<div class="_wallTop"></div>',
+            door: '<div class="_door"></div>',
+            furniture: '<div class="_furniture"></div>',
+            stuff: '<div class="_stuff"></div>',
+            pos: '<div class="_pos"></div>'
         }
     };
 
@@ -150,7 +154,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // private method ---------------------------
         var setupLight = function () {
-            _layers['light'] = $(_Data.html.layerDark).appendTo(_scene);
+            _layers['light'] = $(_Data.html.layerLight).appendTo(_scene);
             var darkScreen = $(_Data.html.dark).css({
                 'opacity': 0.2
             }).appendTo(_layers['light']);
@@ -417,7 +421,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.stuff][id];
 
-            var mesh = $(_Data.html.furniture).css({
+            var mesh = $(_Data.html.stuff).css({
                 'background-image': 'url("' + root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.texture[0] + '")',
                 'width': w + 'px',
                 'height': h + 'px',
@@ -493,7 +497,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             
             for (var i = 0; i < dat.length; i++) {
                 _layers['pos'] = $(_Data.html.layerPos).appendTo(_scene);
-                var mesh = $(_Data.html.furniture).css({
+                var mesh = $(_Data.html.pos).css({
                     'background-image': 'url("' + _tex['end'].src + '")',
                     'width': GridSize * 2 + 'px',
                     'height': GridSize * 2 + 'px',

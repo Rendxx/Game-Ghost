@@ -49,6 +49,9 @@
       "#dest#/Game.Ghost.Main": [
         "#src#/loadingScreen.less"
       ],
+      "#dest#/Game.Ghost.Renderer2D": [
+        "#src#/renderer2D/*.less"
+      ],
       "#dest#/Game.Ghost.End": [
         "#src#/end.less"
       ],
