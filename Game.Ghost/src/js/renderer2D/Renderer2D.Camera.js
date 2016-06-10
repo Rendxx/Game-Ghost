@@ -150,7 +150,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             sprites["name"] = $(_Data.html.name).appendTo(that.sceneOrtho).text(that.character.name);
 
             // fog
-            sprites["fog"] = $(_Data.html.fog).appendTo(that.sceneOrtho);
+            sprites["fog"] = $(_Data.html.fog).css({
+                'background-image': 'url("' + tex['fog'].src + '")',
+            }).appendTo(that.sceneOrtho);
             that.resize(that.width, that.height);
 
             // message

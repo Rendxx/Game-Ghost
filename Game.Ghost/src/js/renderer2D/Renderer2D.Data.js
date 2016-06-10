@@ -9,7 +9,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 (function (RENDERER) {
     var Data = {
         grid: {
-            size: 4        // size of grid
+            size: 64        // size of grid
         },
         light: {
             ambient: {

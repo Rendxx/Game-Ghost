@@ -759,6 +759,7 @@
     <Content Include="Model\Sprite\EscapeScreen.png" />
     <Content Include="Model\Sprite\fog.dds" />
     <Content Include="Model\Sprite\fog.png" />
+    <Content Include="Model\Sprite\fog2.png" />
     <Content Include="Model\Sprite\interaction.close-2.dds" />
     <Content Include="Model\Sprite\interaction.close-2.png" />
     <Content Include="Model\Sprite\interaction.close.dds" />

@@ -1,22 +1,115 @@
 ﻿._scene {
+    display:block;
+    margin:0;
+    padding:0;
+    border:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:10;
 }
 
 ._scene_ortho {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20;
+
     ._name {
+        display: block;
+        width: 200px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 16px;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #fff;
+        text-shadow: 0 0 3px #000;
+        z-index: 20;
     }
 
     ._fog {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
     }
 
     ._enduranceBarWrap {
+        display: block;
+        width: 200px;
+        height: 4px;
+        border: 1px solid #777;
+        background-color: #999;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 15;
+
         ._enduranceBar {
+            display: block;
+            width: 200px;
+            height: 4px;
+            background-color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            -moz-transform-origin: left center;
+            -ms-transform-origin: left center;
+            -o-transform-origin: left center;
+            -webkit-transform-origin: left center;
+            transform-origin: left center;
         }
     }
 
     ._edges {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 5;
+        background-color: rgba(255, 0, 0, 0.25);
     }
 
     ._message {
+        display: block;
+        width: 80%;
+        line-height: 24px;
+        font-size: 20px;
+        color: #fff;
+        text-shadow: 0 0 3px #000;
+        overflow: hidden;
+        position: absolute;
+        top: 30%;
+        left: 10%;
+        z-index: 50;
+        -moz-transition: opacity 0.2s;
+        -o-transition: opacity 0.2s;
+        -webkit-transition: opacity 0.2s;
+        transition: opacity 0.2s;
     }
 }
 
