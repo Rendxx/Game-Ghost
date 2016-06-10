@@ -1,5 +1,6 @@
 ﻿{
   "id": "vase_1",
   "model": "vase_1.json",
+  "model2D": [ "vase_1.2d.png" ],
   "icon": "vase_1.icon.png"
 }

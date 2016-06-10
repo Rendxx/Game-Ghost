@@ -9,6 +9,7 @@
   "statusChange": true,
   "model": "cabinet_b.1.json",
   "texture": [ "cabinet_wood_1_1.png" ],
+  "model2D": [ "cabinet_wood_1_1.2d.close.png", "cabinet_wood_1_1.2d.open.png" ],
   "icon": "cabinet_wood_1_1.icon.png",
   "duration": 300,
   "action": {

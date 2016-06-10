@@ -22,5 +22,6 @@
   "slotInside": false,
   "model": "curtain_white_2_1.json",
   "texture": [ "curtain_white_2_1.tex.png" ],
+  "model2D": [ "curtain_white_2_1.2d.png" ],
   "icon": "curtain_white_2_1.icon.png"
 }

@@ -8,10 +8,10 @@
     [ -1, -1 ],
     [ -1, 0 ],
     [ -1, 1 ],
-    
+
     [ 0, -1 ],
     [ 0, 1 ],
-    
+
     [ 1, -1 ],
     [ 1, 0 ],
     [ 1, 1 ]
@@ -19,5 +19,6 @@
   "slotInside": false,
   "model": "table.1.json",
   "texture": [ "table_wood_1_1.png" ],
+  "model2D": [ "table_wood_1_1.2d.png" ],
   "icon": "table_wood_1_1.icon.png"
 }

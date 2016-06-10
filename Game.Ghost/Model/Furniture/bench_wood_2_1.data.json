@@ -22,5 +22,6 @@
   "slotInside": false,
   "model": "bench_wood_2_1.json",
   "texture": [ "bench_wood_2_1.tex.png" ],
+  "model2D": [ "bench_wood_2_1.2d.png" ],
   "icon": "bench_wood_2_1.icon.png"
 }

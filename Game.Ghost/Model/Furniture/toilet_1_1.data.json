@@ -16,5 +16,6 @@
   "slotInside": false,
   "model": "toilet_1_1.json",
   "texture": [ "toilet_1_1.tex.png" ],
+  "model2D": [ "toilet_1_1.2d.png" ],
   "icon": "toilet_1_1.icon.png"
 }

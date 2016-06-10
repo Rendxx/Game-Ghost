@@ -9,9 +9,10 @@
   ],
   "model": "door_wood_2.json",
   "texture": [ "door_wood_2.png" ],
+  "model2D": [ "door_wood_2.2d.close.png", "door_wood_2.2d.open.png" ],
   "icon": "door_wood_2.icon.png",
   "duration": 200,
   "action": {
-    "Bone.Door":{"z": 90} 
+    "Bone.Door": { "z": 90 }
   }
 }

@@ -8,13 +8,13 @@
     [ -1, -1 ],
     [ -1, 0 ],
     [ -1, 1 ],
-    
+
     [ 0, -1 ],
     [ 0, 1 ],
-    
+
     [ 1, -1 ],
     [ 1, 1 ],
-    
+
     [ 2, -1 ],
     [ 2, 1 ],
 
@@ -25,5 +25,6 @@
   "slotInside": false,
   "model": "table.3.json",
   "texture": [ "table_wood_3_1.png" ],
+  "model2D": [ "table_wood_3_1.2d.png" ],
   "icon": "table_wood_3_1.icon.png"
 }

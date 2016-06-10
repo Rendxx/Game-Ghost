@@ -4,15 +4,19 @@
   "blockSight": true,
   "support": 2,
   "slot": [ 0.5, 0, 0.15 ],
-  "accessPos": [[ 0, 1 ],[ 1, 1 ]],
+  "accessPos": [
+    [ 0, 1 ],
+    [ 1, 1 ]
+  ],
   "slotInside": true,
-  "statusChange":  true,
+  "statusChange": true,
   "model": "cabinet_b.3.json",
   "texture": [ "cabinet_wood_2_1_b.png" ],
+  "model2D": [ "cabinet_wood_2_1_b.2d.close.png", "cabinet_wood_2_1_b.2d.open.png" ],
   "icon": "cabinet_wood_2_1_b.icon.png",
   "duration": 300,
   "action": {
-    "l_Bone.Door": {"z": 90},
-    "r_Bone.Door": {"z": -90} 
+    "l_Bone.Door": { "z": 90 },
+    "r_Bone.Door": { "z": -90 }
   }
 }

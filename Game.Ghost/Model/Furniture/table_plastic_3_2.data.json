@@ -9,10 +9,10 @@
     [ -1, 0 ],
     [ -1, 1 ],
     [ -1, 2 ],
-    
+
     [ 0, -1 ],
     [ 0, 2 ],
-    
+
     [ 1, -1 ],
     [ 1, 2 ],
 
@@ -27,5 +27,6 @@
   "slotInside": false,
   "model": "table.4.json",
   "texture": [ "table_plastic_3_2.png" ],
+  "model2D": [ "table_plastic_3_2.2d.png" ],
   "icon": "table_plastic_3_2.icon.png"
 }

@@ -1,5 +1,6 @@
 ﻿{
   "id": "books_1",
   "model": "books_1.json",
+  "model2D": [ "books_1.2d.png" ],
   "icon": "books_1.icon.png"
 }

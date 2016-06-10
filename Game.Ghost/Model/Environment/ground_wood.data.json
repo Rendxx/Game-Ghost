@@ -1,5 +1,6 @@
 ﻿{
   "id": "ground_wood",
   "texture": [ "ground_wood.icon.dds" ],
+  "model2D": [ "ground_wood.2d.png" ],
   "icon": "ground_wood.icon.png"
 }

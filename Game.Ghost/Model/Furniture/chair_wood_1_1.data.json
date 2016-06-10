@@ -19,5 +19,6 @@
   "slotInside": false,
   "model": "chair.json",
   "texture": [ "chair_wood_1_1.png" ],
+  "model2D": [ "chair_wood_1_1.2d.png" ],
   "icon": "chair_wood_1_1.icon.png"
 }

@@ -9,6 +9,7 @@
   ],
   "model": "door_wood_3.json",
   "texture": [ "door_wood_3.png" ],
+  "model2D": [ "door_wood_3.2d.close.png", "door_wood_3.2d.open.png" ],
   "icon": "door_wood_3.icon.png",
   "duration": 200,
   "action": {

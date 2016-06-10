@@ -19,5 +19,6 @@
   "slotInside": false,
   "model": "chair_simple_1_1.json",
   "texture": [ "chair_simple_1_1.tex.png" ],
+  "model2D": [ "chair_simple_1_1.2d.png" ],
   "icon": "chair_simple_1_1.icon.png"
 }
