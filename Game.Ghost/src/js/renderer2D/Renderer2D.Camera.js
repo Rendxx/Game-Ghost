@@ -127,10 +127,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var y = that.character.y;
 
             this.scene.css({
-                'transform': 'translate(' + -x * GridSize + 'px,' + -y * GridSize + 'px)'
+                'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
             });
             this.sceneEffort.css({
-                'transform': 'translate(' + -x * GridSize + 'px,' + -y * GridSize + 'px)'
+                'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
             });
             if (that.character.isDead) {
                 showDeadScreen();

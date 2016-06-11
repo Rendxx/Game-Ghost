@@ -100,6 +100,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
 
             this.viewPlayer = _playerData[viewPlayer_in].setupData.id;
+            this.team[_playerData[viewPlayer_in].team] = true;
 
             this.env.viewportSetup(this.viewPlayer);
             this.sound.playerSetup(this.viewPlayer);
@@ -143,8 +144,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
      * @param {dom element} container - Dom element to contain the scene
      * @param {string} root - root path
      */
-    RENDERER.Create = function (container, root, viewPlayer_in, team_in) {
-        var entity = new Entity(container, root, viewPlayer_in, team_in);
+    RENDERER.Create = function (container, root, viewPlayer_in) {
+        var entity = new Entity(container, root, viewPlayer_in);
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
         entity.sound = new RENDERER.Sound(entity);

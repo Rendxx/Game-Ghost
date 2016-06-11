@@ -1,6 +1,6 @@
 ﻿{
   "id": "curtain_white_2_1",
-  "dimension": [ 2, 1, 1 ],
+  "dimension": [ 2, 1, 2 ],
   "blockSight": true,
   "support": 0,
   "slot": [ 0.5, 0, 0 ],

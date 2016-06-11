@@ -1,96 +1,119 @@
-﻿._scene{
-    ._layer{
+﻿
+body {
+    background-color: #111;
+    width:100%;
+    height:100%;
+}
+
+._scene {
+    ._layer {
         display: block;
         margin: 0;
         padding: 0;
         border: 0;
         width: 100%;
         height: 100%;
-        overflow: hidden;
+        overflow: visible;
         position: absolute;
         top: 0;
         left: 0;
 
-        &._layer_light{
-            z-index:100;
-            ._dark{
+        &._layer_light {
+            z-index: 100;
+
+            ._dark {
                 width: 100%;
                 height: 100%;
                 position: absolute;
                 top: 0;
                 left: 0;
-                background-color:#000;
-                opacity:0.1;
+                background-color: #333;
+                opacity: 0.3;
             }
-            ._danger{
+
+            ._danger {
                 width: 100%;
                 height: 100%;
                 position: absolute;
                 top: 0;
                 left: 0;
-                background-color:rgba(255, 0, 0, 0.2);
+                background-color: rgba(255, 0, 0, 0.2);
             }
         }
 
-        .__item{
-            position:absolute;
-            display:block;
-            background-position:left top;
-            background-repeat:no-repeat;
-            background-size:contain;
+        .__item {
+            position: absolute;
+            display: block;
+            background-position: left top;
+            background-repeat: no-repeat;
+            background-size: contain;
+            transform-origin: center center;
         }
 
-        &._layer_pos{
-            z-index:90;
-            ._pos{
+        &._layer_pos {
+            z-index: 90;
+
+            ._pos {
                 .__item;
             }
         }
-        &._layer_wall{
-            z-index:80;
-            ._wallTop{
+
+        &._layer_wall {
+            z-index: 80;
+
+            ._wallTop {
                 .__item;
-                z-index:10;
-                background-repeat:repeat;
-                background-size:auto;
+                z-index: 10;
+                background-repeat: repeat;
+                background-size: auto;
             }
-            ._wallEdge{
+
+            ._wallEdge {
                 .__item;
-                box-shadow:0 0 16px 3px #000;
-                z-index:5;
+                box-shadow: 0 0 16px 3px #000;
+                z-index: 5;
             }
-            ._wallShadow{
+
+            ._wallShadow {
                 .__item;
-                border:2px solid #333;
-                margin-top:-2px;
-                margin-left:-2px;
-                z-index:6;
-            }
-        }
-        &._layer_door{
-            z-index:70;
-            ._door{
-                .__item;
+                border: 2px solid #333;
+                margin-top: -2px;
+                margin-left: -2px;
+                z-index: 6;
             }
         }
-        &._layer_stuff{
-            z-index:40;
-            ._stuff{
-                .__item;
-            }
-        }
-        &._layer_furniture{
-            z-index:30;
-            ._furniture{
+
+        &._layer_door {
+            z-index: 70;
+
+            ._door {
                 .__item;
             }
         }
-        &._layer_ground{
-            z-index:10;
-            ._ground{
+
+        &._layer_stuff {
+            z-index: 40;
+
+            ._stuff {
                 .__item;
-                background-repeat:repeat;
-                background-size:auto;
+            }
+        }
+
+        &._layer_furniture {
+            z-index: 30;
+
+            ._furniture {
+                .__item;
+            }
+        }
+
+        &._layer_ground {
+            z-index: 10;
+
+            ._ground {
+                .__item;
+                background-repeat: repeat;
+                background-size: auto;
             }
         }
     }

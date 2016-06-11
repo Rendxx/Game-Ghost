@@ -27,9 +27,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _para = characterPara,
             _data = modelData[_para.role][_para.modelId];
 
-        var r_head_1 = null,
-            r_head_2 = null,
-            _win = false,
+        var _win = false,
             currentAction = null;
 
         this.id = id;
@@ -115,8 +113,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 this.element.css({ opacity: 1 });
             }
             var action = gameData.action;
-            var x = (gameData.x - entity.map.width / 2) * GridSize;
-            var y = (gameData.y - entity.map.height / 2) * GridSize;
+            var x = (gameData.x) * GridSize;
+            var y = (gameData.y ) * GridSize;
             var r_body = gameData.currentRotation.body;
             var r_head = gameData.currentRotation.headBody;
             var isDead = gameData.hp === 0;
@@ -138,7 +136,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (isDead) {
                 if (currentAction !== action) {
                     this.element.css({
-                        'background-image': 'url("' + root + Data.character.path + action+'.gif")'
+                        'background-image': 'url("' + root + Data.character.path + _data.path + action + '.gif")'
                     });
                 }
                 if (this.mixer) this.mixer.update(delta);
@@ -146,7 +144,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             } else if (isWin) {
                 if (currentAction !== action) {
                     this.element.css({
-                        'background-image': 'url("' + root + Data.character.path + action + '.gif")'
+                        'background-image': 'url("' + root + Data.character.path + _data.path + action + '.gif")'
                     });
                 }
                 return;
@@ -155,7 +153,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             if (currentAction !== action) {
                 this.element.css({
-                    'background-image': 'url("' + root + Data.character.path + action + '.gif")'
+                    'background-image': 'url("' + root + Data.character.path + _data.path + action + '.gif")'
                 });
                 currentAction = action;
             }
@@ -164,12 +162,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var r1 = r_body / 180 * Math.PI;
             var r2 = -r_head / 180 * Math.PI;
             var r3 = r1 - r2;
-            r_head_1.rotation.z = r2 / 3 * 2;
-            r_head_2.rotation.z = r2 / 3;
 
             // transform
             this.element.css({
-                'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + r_body + 'deg)'
+                'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg)'
             });
 
             this.rotation = {
@@ -195,6 +191,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 entity.env.layers.character = layer = $(_Data.html.layer).appendTo(entity.env.scene);
             }
             that.element = $(_Data.html.character).css({
+                'width': GridSize + 'px',
+                'height': GridSize + 'px',
+                'margin-top': -GridSize / 2 + 'px',
+                'margin-left': -GridSize / 2 + 'px',
                 'background-image': 'url("' + root + Data.character.path +_data.path+ 'idle.gif")'
             }).appendTo(layer);
             that.setuped = true;

@@ -160,7 +160,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var setupLight = function () {
             _layers['light'] = $(_Data.html.layerLight).appendTo(_scene);
             var darkScreen = $(_Data.html.dark).css({
-                'opacity': 0.2
+                'opacity': 0.6
             }).appendTo(_layers['light']);
             var dangerScreen = $(_Data.html.danger).css({
                 'opacity': 0
@@ -172,6 +172,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             that.width = grid.width;
             that.height = grid.height;
             _layers['ground'] = $(_Data.html.layerGround).appendTo(_scene);
+            _scene.width(that.width * GridSize).height(that.height * GridSize);
 
             mesh_ground = [];
             for (var i = 0, l = ground_in.length; i < l; i++) {
@@ -309,10 +310,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var r = dat.rotation;
             var w = (dat.right - dat.left + 1) * GridSize;
             var h = (dat.bottom - dat.top + 1) * GridSize;
-
             //console.log(dat);
             //console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
-
 
             var meshTop = $(_Data.html.wallTop).css({
                 'background-image': 'url("' + root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.model2D[0] + '")',
@@ -347,16 +346,33 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var y = dat.top  * GridSize;
             var r = dat.rotation;
             var w = para.dimension[0] * GridSize;
-            var h = para.dimension[2] * GridSize;
+            var h = (para.dimension[1]) * GridSize;
             
             //console.log(dat);
             //aconsole.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
+            var offset_x = 0;
+            var offset_y = 0;
+            switch (r) {
+                case 1:
+                    offset_x = h - GridSize;
+                    break;
+                case 2:
+                    offset_x = w - GridSize;
+                    offset_y = h - GridSize;
+                    break;
+                case 3:
+                    offset_y = w - GridSize;
+                    break;
+            }
+
             that.objectPos.furniture[idx] = [x, y];
             var mesh = $(_Data.html.furniture).css({
                 'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")',
+                'margin-top': offset_y + 'px',
+                'margin-left': offset_x + 'px',
                 'width': w + 'px',
-                'height': h + 'px',
+                'height': h + GridSize + 'px',
                 'top': y + 'px',
                 'left': x + 'px',
                 'transform': 'rotate(' + -((4 - r) * 90) + 'deg)',
@@ -364,17 +380,22 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }).appendTo(layer);
             
             _animation['furniture'] = _animation['furniture'] || {};
-            _animation['furniture'][idx] = [
-                function () {
-                    mesh.css({
-                        'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")'
-                    });
-                },
-                function () {
-                    mesh.css({
-                        'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[1] + '")'
-                    });
-                }];
+            _animation['furniture'][idx] = {};
+            _animation['furniture'][idx][_Data.status.furniture.None] = function () {
+                mesh.css({
+                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")'
+                });
+            };
+            _animation['furniture'][idx][_Data.status.furniture.Opened] = function () {
+                mesh.css({
+                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[1] + '")'
+                });
+            };
+            _animation['furniture'][idx][_Data.status.furniture.Closed] = function () {
+                mesh.css({
+                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")'
+                });
+            };
             onSuccess(idx, dat, mesh);
         };
 
@@ -386,7 +407,22 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var y = dat.top  * GridSize;
             var r = dat.rotation;
             var w = para.dimension[0] * GridSize;
-            var h = para.dimension[2] * GridSize;
+            var h = (para.dimension[1]) * GridSize;
+
+            var offset_x = 0;
+            var offset_y = 0;
+            switch (r) {
+                case 1:
+                    offset_x = h - GridSize;
+                    break;
+                case 2:
+                    offset_x = w - GridSize;
+                    offset_y = h - GridSize;
+                    break;
+                case 3:
+                    offset_y = w - GridSize;
+                    break;
+            }
 
             itemData['door'][idx] = {
                 x: x,
@@ -399,8 +435,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             var mesh = $(_Data.html.door).css({
                 'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[0] + '")',
+                'margin-top': offset_y + 'px',
+                'margin-left': offset_x + 'px',
                 'width': w + 'px',
-                'height': h + 'px',
+                'height': h + GridSize + 'px',
                 'top': y + 'px',
                 'left': x + 'px',
                 'transform': 'rotate(' + -((4 - r) * 90) + 'deg)',
@@ -408,17 +446,27 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }).appendTo(layer);
 
             _animation['door'] = _animation['door'] || {};
-            _animation['door'][idx] = [
-                function () {
-                    mesh.css({
-                        'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[0] + '")'
-                    });
-                },
-                function () {
-                    mesh.css({
-                        'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[1] + '")'
-                    });
-                }];
+            _animation['door'][idx] = {};
+            _animation['door'][idx][_Data.status.door.Locked] = function () {
+                mesh.css({
+                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[0] + '")'
+                });
+            };
+            _animation['door'][idx][_Data.status.door.Opened] = function () {
+                mesh.css({
+                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[1] + '")'
+                });
+            };
+            _animation['door'][idx][_Data.status.door.Closed] = function () {
+                mesh.css({
+                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[0] + '")'
+                });
+            };
+            _animation['door'][idx][_Data.status.door.Blocked] = function () {
+                mesh.css({
+                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[0] + '")'
+                });
+            };
             onSuccess(idx, dat, mesh);
 
             //console.log(dat);
@@ -431,8 +479,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var x = dat.left  * GridSize;
             var y = dat.top * GridSize;
             var r = dat.rotation;
-            var w = (dat.right - dat.left + 1) * GridSize;
-            var h = (dat.bottom - dat.top + 1) * GridSize;
+            var w =  GridSize;
+            var h =  GridSize;
             var para = _modelData.items[Data.categoryName.stuff][id];
 
             var mesh = $(_Data.html.stuff).css({
