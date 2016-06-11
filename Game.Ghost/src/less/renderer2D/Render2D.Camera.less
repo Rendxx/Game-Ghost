@@ -1,17 +1,29 @@
 ﻿._scene {
-    display:block;
-    margin:0;
-    padding:0;
-    width:100%;
-    height:100%;
-    overflow:visible;
-    position:absolute;
-    top:0;
-    left:0;
-    z-index:10;
-    border:20px solid #222;
-    margin-top:-20px;
-    margin-left:-20px;
+    -moz-transform: scale(0.75,0.75);
+    -ms-transform: scale(0.75,0.75);
+    -o-transform: scale(0.75,0.75);
+    -webkit-transform: scale(0.75,0.75);
+    transform: scale(0.75,0.75);
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    border: 20px solid #222;
+    margin-top: -20px;
+    margin-left: -20px;
+    -moz-transition: transform 0.2s;
+    -o-transition: transform 0.2s;
+    -webkit-transition: transform 0.2s;
+    transition: transform 0.2s;
 }
 
 ._scene_ortho {
@@ -132,6 +144,10 @@
     border:20px solid transparent;
     margin-top:-20px;
     margin-left:-20px;
+    -moz-transition: transform 0.2s;
+    -o-transition: transform 0.2s;
+    -webkit-transition: transform 0.2s;
+    transition: transform 0.2s;
 
     ._marker {
         position: absolute;
