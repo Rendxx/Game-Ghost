@@ -83,7 +83,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _loadCount = 0,
             _dangerCache = 0,
             darkScreen = null,
-            dangerScreen = null,
 
             _animation = {},
 
@@ -161,9 +160,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _layers['light'] = $(_Data.html.layerLight).appendTo(_scene);
             var darkScreen = $(_Data.html.dark).css({
                 'opacity': 0.6
-            }).appendTo(_layers['light']);
-            var dangerScreen = $(_Data.html.danger).css({
-                'opacity': 0
             }).appendTo(_layers['light']);
         };
 
@@ -366,7 +362,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     break;
             }
 
-            that.objectPos.furniture[idx] = [x, y];
+            that.objectPos.furniture[idx] = [(dat.left + dat.right) / 2 * GridSize, (dat.top + dat.bottom) / 2 * GridSize];
             var mesh = $(_Data.html.furniture).css({
                 'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")',
                 'margin-top': offset_y + 'px',
@@ -425,13 +421,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
 
             itemData['door'][idx] = {
-                x: x,
-                y: y,
+                x: (dat.left + dat.right) / 2 * GridSize,
+                y: (dat.top + dat.bottom) / 2 * GridSize,
                 r: r,
                 w: w,
                 h: h
             }
-            that.objectPos.door[idx] = [x, y];
+            that.objectPos.door[idx] = [(dat.left + dat.right) / 2 * GridSize, (dat.top + dat.bottom) / 2 * GridSize];
 
             var mesh = $(_Data.html.door).css({
                 'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[0] + '")',
@@ -543,10 +539,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var updateLight = function () {
             if (_dangerCache === gameData.danger) return;
             _dangerCache = gameData.danger;
-            var vector =  _dangerCache / 100;            
-            dangerScreen.css({
-                'opacity': vector
-            });
         };
 
         var createEndPos = function (dat) {

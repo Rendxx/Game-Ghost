@@ -38,6 +38,10 @@ body {
                 top: 0;
                 left: 0;
                 background-color: rgba(255, 0, 0, 0.2);
+                -moz-transition: opacity 0.2s;
+                -o-transition: opacity 0.2s;
+                -webkit-transition: opacity 0.2s;
+                transition: opacity 0.2s;
             }
         }
 
@@ -47,7 +51,12 @@ body {
             background-position: left top;
             background-repeat: no-repeat;
             background-size: contain;
+            -moz-transform-origin: center center;
+            -ms-transform-origin: center center;
+            -o-transform-origin: center center;
+            -webkit-transform-origin: center center;
             transform-origin: center center;
+            opacity: 0.75;
         }
 
         &._layer_pos {
@@ -66,6 +75,7 @@ body {
                 z-index: 10;
                 background-repeat: repeat;
                 background-size: auto;
+                opacity: 1;
             }
 
             ._wallEdge {

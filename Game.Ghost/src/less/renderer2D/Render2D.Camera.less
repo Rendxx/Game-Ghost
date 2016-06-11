@@ -2,7 +2,6 @@
     display:block;
     margin:0;
     padding:0;
-    border:0;
     width:100%;
     height:100%;
     overflow:visible;
@@ -19,7 +18,6 @@
     display: block;
     margin: 0;
     padding: 0;
-    border: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -103,8 +101,8 @@
     ._message {
         display: block;
         width: 80%;
-        line-height: 24px;
-        font-size: 20px;
+        line-height: 36px;
+        font-size: 30px;
         color: #fff;
         text-shadow: 0 0 3px #000;
         overflow: hidden;
@@ -112,6 +110,7 @@
         top: 30%;
         left: 10%;
         z-index: 50;
+        text-align:center;
         -moz-transition: opacity 0.2s;
         -o-transition: opacity 0.2s;
         -webkit-transition: opacity 0.2s;
@@ -120,9 +119,38 @@
 }
 
 ._scene_effort {
-    border:20px solid #222;
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    border:20px solid transparent;
     margin-top:-20px;
     margin-left:-20px;
+
     ._marker {
+        position: absolute;
+        display: block;
+        background-position: left top;
+        background-repeat: no-repeat;
+        background-size: contain;
+        -moz-transform-origin: center center;
+        -ms-transform-origin: center center;
+        -o-transform-origin: center center;
+        -webkit-transform-origin: center center;
+        transform-origin: center center;
+        width: 64px;
+        height: 64px;
+        opacity: 0.75;
+        -moz-transition: opacity 0.2s;
+        -o-transition: opacity 0.2s;
+        -webkit-transition: opacity 0.2s;
+        transition: opacity 0.2s;
+        margin-top:-16px;
     }
 }

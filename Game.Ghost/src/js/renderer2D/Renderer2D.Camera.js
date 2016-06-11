@@ -120,6 +120,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 'margin-top': h / 2 + 'px',
                 'margin-left': w / 2 + 'px'
             });
+            this.sceneEffort.css({
+                'margin-top': h / 2 + 'px',
+                'margin-left': w / 2 + 'px'
+            });
         };
 
         this.render = function () {

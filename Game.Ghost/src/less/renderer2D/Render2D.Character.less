@@ -1,6 +1,6 @@
 ﻿._scene {
-    ._layer{
-        &._layer_char{
+    ._layer {
+        &._layer_char {
             display: block;
             margin: 0;
             padding: 0;
@@ -11,14 +11,47 @@
             position: absolute;
             top: 0;
             left: 0;
-            z-index:40;
+            z-index: 40;
 
-            ._character{
-                position:absolute;
-                display:block;
-                background-position:left top;
-                background-repeat:no-repeat;
-                background-size:contain;
+            ._character {
+                position: absolute;
+                display: block;
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                -moz-transform-origin: center center;
+                -ms-transform-origin: center center;
+                -o-transform-origin: center center;
+                -webkit-transform-origin: center center;
+                transform-origin: center center;
+                -moz-transform: scale(1.25,1.25);
+                -ms-transform: scale(1.25,1.25);
+                -o-transform: scale(1.25,1.25);
+                -webkit-transform: scale(1.25,1.25);
+                transform: scale(1.25,1.25);
+                z-index: 10;
+                -moz-transition: opacity 0.2s;
+                -o-transition: opacity 0.2s;
+                -webkit-transition: opacity 0.2s;
+                transition: opacity 0.2s;
+            }
+
+            ._shadow {
+                position: absolute;
+                display: block;
+                background-color: rgba(0, 0, 0, 0.5);
+                border-radius: 50%;
+                box-shadow: 0 0 20px 20px rgba(0, 0, 0, 0.5);
+                -moz-transform-origin: center center;
+                -ms-transform-origin: center center;
+                -o-transform-origin: center center;
+                -webkit-transform-origin: center center;
+                transform-origin: center center;
+                z-index: 5;
+                -moz-transition: opacity 0.2s;
+                -o-transition: opacity 0.2s;
+                -webkit-transition: opacity 0.2s;
+                transition: opacity 0.2s;
             }
         }
     }

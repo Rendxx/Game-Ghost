@@ -17,6 +17,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         ],
         html: {
             character: '<div class="_character"></div>',
+            shadow: '<div class="_shadow"></div>',
             layer: '<div class="_layer _layer_char"></div>'
         }
     };
@@ -53,6 +54,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.torch = null;
         this.torchDirectionObj = null;
         this.element = null;
+        this.shadow = null;
         this.highlight = null;
         this.materials = null;
         this.actions = null;
@@ -107,10 +109,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.render = function (delta) {
             if (gameData === null) return;
             if (this.isVisible === false) {
-                this.element.css({opacity: 0});
+                this.element.css({ opacity: 0 });
+                this.shadow.css({ opacity: 0 });
                 return;
             } else {
                 this.element.css({ opacity: 1 });
+                this.shadow.css({ opacity: 1 });
             }
             var action = gameData.action;
             var x = (gameData.x) * GridSize;
@@ -165,7 +169,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             // transform
             this.element.css({
-                'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg)'
+                'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) '
+            });
+            this.shadow.css({
+                'transform': 'translate(' + x + 'px,' + y + 'px) '
             });
 
             this.rotation = {
@@ -195,7 +202,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 'height': GridSize + 'px',
                 'margin-top': -GridSize / 2 + 'px',
                 'margin-left': -GridSize / 2 + 'px',
-                'background-image': 'url("' + root + Data.character.path +_data.path+ 'idle.gif")'
+                'background-image': 'url("' + root + Data.character.path + _data.path + 'idle.gif")'
+            }).appendTo(layer);
+            that.shadow = $(_Data.html.shadow).css({
+                'width': 2 + 'px',
+                'height': 2 + 'px',
+                'margin-top': -1 + 'px',
+                'margin-left': -1 + 'px'
             }).appendTo(layer);
             that.setuped = true;
             if (that.onLoaded !== null) that.onLoaded();
