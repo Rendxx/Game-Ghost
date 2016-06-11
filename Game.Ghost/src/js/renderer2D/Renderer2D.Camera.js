@@ -108,6 +108,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.resize = function (w, h) {
             this.width = w;
             this.height = h;
+
+            var t = Math.max(w,h);
+            sprites["fog"].css({
+                'width': t + 'px',
+                'height': t + 'px',
+                'margin-top': (h - t) / 2 + 'px',
+                'margin-left': (w - t) / 2 + 'px',
+            });
+            this.scene.css({
+                'margin-top': h / 2 + 'px',
+                'margin-left': w / 2 + 'px'
+            });
         };
 
         this.render = function () {
@@ -421,7 +433,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var path = root + Data.files.path[Data.categoryName.sprite];
 
             // png Loader -------------------------------------------------------------------------------------------
-            tex['fog'] = _loadImg(path + 'fog.png');
+            tex['fog'] = _loadImg(path + 'fog2.png');
             tex['nameDeco'] = _loadImg(path + 'name-deco-white.png');
             tex['deadScreen'] = _loadImg(path + 'DeadScreen.png');
             tex['escapeScreen'] = _loadImg(path + 'EscapeScreen.png');

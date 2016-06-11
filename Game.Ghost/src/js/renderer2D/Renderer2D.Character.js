@@ -107,7 +107,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // render model
         this.render = function (delta) {
-            if (gameData === null || this.mesh === null) return;
+            if (gameData === null) return;
             if (this.isVisible === false) {
                 this.element.css({opacity: 0});
                 return;

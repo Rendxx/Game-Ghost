@@ -531,6 +531,7 @@
     <Content Include="Model\Environment\ground_wood\ground_wood.png" />
     <Content Include="Model\Environment\wall_0\wall-top.dds" />
     <Content Include="Model\Environment\wall_0\wall-top.png" />
+    <Content Include="Model\Environment\wall_0\wall.2d.png" />
     <Content Include="Model\Environment\wall_0\wall.dds" />
     <Content Include="Model\Environment\wall_0\wall.png" />
     <Content Include="Model\Environment\wall_0\wall_white.icon.png" />
@@ -1181,6 +1182,7 @@
     <Content Include="ModelBuilder\Stuff\box_1.2d.fla" />
     <Content Include="ModelBuilder\Stuff\key_1.2d.fla" />
     <Content Include="ModelBuilder\Stuff\vase_1.2d.fla" />
+    <Content Include="ModelBuilder\Environment\wall_0\wall.2d.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />
