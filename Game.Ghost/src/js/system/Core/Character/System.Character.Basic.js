@@ -43,6 +43,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.battery = _para.init.battery;
         this.hp = _para.init.hp;
         this.action = this.modelData.action.list[this.modelData.action.init];
+        this.actionForce = null;
 
         //    O------------->
         //    | 225 180 135
@@ -210,8 +211,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.currentRotation.headBody = d_headBody;
 
         // move
-        if (this.stay) this.action = 'idle';
-        else {
+        if (this.actionForce !== null) {
+            this.action = this.actionForce;
+        } else if (this.stay) {
+            this.action = 'idle';
+        } else {
             if (!isBack) {
                 if (this.rush) this.action = 'run';
                 else this.action = 'walk';

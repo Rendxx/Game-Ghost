@@ -33,6 +33,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.danger = 0;        // danger level
         this.obCount = 0;       // count to observer
         this.touchList = {};
+        this.isAction = false;
     };
     Ghost.prototype = Object.create(SYSTEM.Character.Basic.prototype);
     Ghost.prototype.constructor = Ghost;
@@ -76,7 +77,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         return 0.3;
     };
 
-    Ghost.prototype._move = function (deltaX, deltaY) {
+    Ghost.prototype._move = function (deltaX, deltaY){
+        if (this.isAction) return;
         var _radius = this.modelData.radius;
         var x2 = this.x + deltaX + (deltaX > 0 ? _radius : -_radius),
             y2 = this.y + deltaY + (deltaY > 0 ? _radius : -_radius),
@@ -157,7 +159,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // danger
         this.danger = (_Data.range.danger - closest) / _Data.range.danger;
-        this.danger = Math.floor(this.danger * 3) / 3;
+        this.danger = this.danger;
     };
 
 
@@ -174,14 +176,21 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Ghost.prototype.observe = function () {
         if (this.obCount === 0 && this.endurance >= this.enduranceMax / 3) {
-            this.endurance -= this.enduranceMax / 3;
+            this.endurance -= this.enduranceMax / 2;
             this.observing = true;
             this.obCount = 24;
         }
     };
 
     Ghost.prototype.kill = function () {
-        if (this.endurance < this.enduranceMax / 20) return;
+        if (this.endurance < this.enduranceMax / 20 && this.isAction) return;
+        this.actionForce = 'attack';
+        this.isAction = true;
+        var that = this;
+        setTimeout(function () {
+            that.isAction = false;
+            that.actionForce = null;
+        },300);
         this.endurance -= this.enduranceMax / 20;
         for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
             var c = this.entity.characterManager.characters[i];
@@ -199,6 +208,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             //console.log(angle);
         }
     };
+
 
     // ---------------------------------------------------------------
     SYSTEM.Character = SYSTEM.Character || {};

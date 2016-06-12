@@ -28,14 +28,15 @@
   },
   "action": {
     "list": {
-      "0": "back",
-      "1": "init",
-      "2": "die",
-      "3": "idle",
-      "4": "idle2",
-      "5": "run",
-      "6": "turn",
-      "7": "walk"
+      "0": "attack",
+      "1": "back",
+      "2": "init",
+      "3": "die",
+      "4": "idle",
+      "5": "idle2",
+      "6": "run",
+      "7": "turn",
+      "8": "walk"
     },
     "init": "3"
   }

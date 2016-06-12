@@ -53,7 +53,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             para: {
                 survivor: {
                     init: {
-                        hp: 1,
+                        hp: 2,
                         light: 1,
                         battery: 100,
                     },
@@ -162,7 +162,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 debug: 'MapData4debug_1.json',
                 dogcan2: 'DogCan2.json',
                 FurnitureTest: 'FurnitureTest.json',
-                Hospital1: 'Hospital1.json'
+                Hospital1: 'Hospital1.json',
+                Hospital2: 'Hospital2.json'
             },
             path: '/GameData/Map/',
             para: {

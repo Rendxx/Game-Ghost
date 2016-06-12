@@ -236,7 +236,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 this.recover -= this.enduranceRecover / 20;
             } else {
                 this.recover = 0;
-                if (this.endurance < this.enduranceMax) {
+                if (this.endurance < this.enduranceMax * (this.hp/Data.character.para.survivor.init.hp)) {
                     this.endurance += this.enduranceRecover / 20;
                 } else {
                     this.endurance = this.enduranceMax;
@@ -248,7 +248,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         }
 
         // danger
-        if (this.warningMark) {
+        if (this.hp < Data.character.para.survivor.init.hp || this.warningMark) {
             this.danger = 1;
         } else {
             var min = 100000;
@@ -313,15 +313,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Survivor.prototype.die = function () {
         if (!this.actived) return;
-        this.hp = 0;
-        this.action = 'die';
-        this.actived = false;
-        this.accessObject = null;
-        this.visibleObject = {};
-        this.visibleCharacter = {};
-        this.entity.map.createBody(this);
-        this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Die);
-        this.entity.sound.once(SYSTEM.Sound.Data.Type.OverAll, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Bell);
+        if (this.hp === Data.character.para.survivor.init.hp) {
+            this.hp = 1;
+        } else {
+            this.hp = 0;
+            this.action = 'die';
+            this.actived = false;
+            this.accessObject = null;
+            this.visibleObject = {};
+            this.visibleCharacter = {};
+            this.entity.map.createBody(this);
+            this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Die);
+            this.entity.sound.once(SYSTEM.Sound.Data.Type.OverAll, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Bell);
+        }
         this.updateData();
     };
 
