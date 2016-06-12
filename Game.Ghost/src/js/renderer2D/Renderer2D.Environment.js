@@ -9,7 +9,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 (function (RENDERER) {
     var _Data = {
         html: {
-            scene: '<div class="_scene"></div>'
+            scene: '<div class="_scene"></div>',
+            wrap: '<div class="_sceneWrap"></div>'
         }
     };
     var Data = RENDERER.Data;
@@ -29,6 +30,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             viewPlayerIdx = null;
 
         this.scene = null;
+        this.wrap = null;
         this.layers = {};
         this.camera = null;
 
@@ -71,7 +73,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // helper ------------------------
         var _init = function () {
-            that.scene = $(_Data.html.scene).appendTo($(entity.domElement));
+            that.wrap = $(_Data.html.wrap).appendTo($(entity.domElement));
+            that.scene = $(_Data.html.scene).appendTo(that.wrap);
 
             // bind resize function
             $(window).resize(resize);

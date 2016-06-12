@@ -98,7 +98,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.width = w;
             this.height = h;
             this.sceneOrtho = $(_Data.html.sceneOrtho).appendTo($(entity.domElement));
-            this.sceneEffort = $(_Data.html.sceneEffort).appendTo($(entity.domElement));
+            this.sceneEffort = $(_Data.html.sceneEffort).appendTo(entity.env.wrap);
 
             createFrame();
             createEdges();

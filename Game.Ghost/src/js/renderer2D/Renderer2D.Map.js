@@ -139,8 +139,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.update = function (data_in) {
             gameData = data_in;
 
-            updateKey();
-            updateFuniture();
+            //updateKey();
+            //updateFuniture();
             updateDoor();
             updateBody();
             updateLight();
