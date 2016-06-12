@@ -117,25 +117,26 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         //var lookCache = false;
         this.updateGame = function (gameData) {
             if (gameData === undefined || gameData === null || !flag_loaded) return;
-            that.map.update(gameData.map);
+            //that.map.update(gameData.map);
 
             // handle player visible 
             var playerVisibleList = {};
 
-            for (var i = 0, l = that.characters.length; i < l; i++) {
-                if (this.team[that.characters[i].team]===true) {
-                    playerVisibleList[i] = true;
-                    for (var idx in gameData.characters[i].visibleCharacter) {
-                        if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
-                    }
-                }
-            }
+            //for (var i = 0, l = that.characters.length; i < l; i++) {
+            //    if (this.team[that.characters[i].team]===true) {
+            //        playerVisibleList[i] = true;
+            //        for (var idx in gameData.characters[i].visibleCharacter) {
+            //            if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
+            //        }
+            //    }
+            //}
 
+            playerVisibleList = gameData.characters[this.viewPlayer].visibleCharacter;
             for (var i = 0, l = that.characters.length; i < l; i++) {
                 if (gameData.message!=null && gameData.message[i]!=null) that.characters[i].showMessage(gameData.message[i]);
                 that.characters[i].update(gameData.characters[i], playerVisibleList[i] === true);
             }
-            that.sound.update(gameData.sound, gameData.characters);
+            //that.sound.update(gameData.sound, gameData.characters);
         };
     };
 

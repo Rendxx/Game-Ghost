@@ -133,9 +133,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.scene.css({
                 'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
             });
-            this.sceneEffort.css({
-                'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
-            });
+            //this.sceneEffort.css({
+            //    'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
+            //});
             if (that.character.isDead) {
                 showDeadScreen();
             } else if (that.character.isWin) {
@@ -144,11 +144,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 // update edge
                 updateEdge();
                 // update sprite
-                updateEnduranceBar();
+                //updateEnduranceBar();
                 // update effort
-                updateInteractionIcon();
+                //updateInteractionIcon();
                 updateMessage();
-                updateDoor();
+                //updateDoor();
             }
         };
 
@@ -387,12 +387,16 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // Edges -----------------------------------------------------
         var createEdges = function () {
-            sprites["edges"] = $(_Data.html.edges).appendTo(that.sceneOrtho);
+            sprites["edges"] = $(_Data.html.edges).appendTo(that.sceneOrtho).css({
+                'opacity': 0
+            });;
         };
-
+        var _dangerCache = 0;
         var updateEdge = function () {
+            if (_dangerCache === that.character.danger) return;
+            _dangerCache = that.character.danger;
             sprites["edges"].css({
-                'opacity': that.character.danger
+                'opacity': _dangerCache
             });
         };
 
