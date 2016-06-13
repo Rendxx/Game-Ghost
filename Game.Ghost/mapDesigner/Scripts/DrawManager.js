@@ -9,11 +9,12 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             _h = -1,
             _w = -1,
             _x = -1,
-            _y = -1;
+            _y = -1,
+            _ele = null;
 
         this.id = null;
         this.category = null;
-        this.icon = null;
+        //this.icon = null;
         this.top = -1;
         this.bottom = -1;
         this.left = -1;
@@ -24,14 +25,17 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         this.y = -1;
         this.h = -1;
         this.w = -1;
-        this.ele = null;
+
+        this.ele = function () {
+            return _ele;
+        };
 
         this.rotate = function (r) {
             this.rotation = r;
             calculatePos();
 
             var m_str = "rotate(" + r * 90 + "deg)";
-            this.ele.css({
+            _ele.css({
                 "-ms-transform": m_str,
                 "-webkit-transform": m_str,
                 "transform": m_str
@@ -106,7 +110,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 default:
                     break;
             }
-            that.ele.css({
+            _ele.css({
                 width: that.w * Data.grid.size,
                 height: that.h * Data.grid.size,
                 top: that.y * Data.grid.size,
@@ -123,9 +127,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 this.w = 1;
                 _h = this.h;
                 _w = this.w;
-                this.ele.removeClass('furniture-' + this.category);
-                this.icon = null;
-                this.ele.css('background-image', 'none');
+                _ele.removeClass('furniture-' + this.category);
+                //this.icon = null;
+                _ele.css('background-image', 'none');
                 this.id = null;
                 this.category = null;
             } else {
@@ -139,13 +143,13 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 _h = this.h;
                 _w = this.w;
 
-                if (this.category != null) this.ele.removeClass('furniture-' + this.category);
-                this.icon = _getIcon(data);
-                this.ele.css('background-image', this.icon);
+                if (this.category != null) _ele.removeClass('furniture-' + this.category);
+                //this.icon = _getIcon(data);
+                _ele.css('background-image', _getIcon(data));
                 this.id = data.id;
                 this.category = data.category;
-                if (this.category != null) this.ele.addClass('furniture-' + this.category);
-                this.ele.width(this.w * Data.grid.size).height(this.h * Data.grid.size);
+                if (this.category != null) _ele.addClass('furniture-' + this.category);
+                _ele.width(this.w * Data.grid.size).height(this.h * Data.grid.size);
             }
             this.rotate(0);
         };
@@ -155,19 +159,19 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         var _init = function (instance) {
-            that.ele = $(Data.html.furniture);
+            _ele = $(Data.html.furniture);
             if (instance != null) {
                 that.id = instance.id;
                 that.rotation = instance.rotation;
                 that.category = instance.category;
-                that.icon = _getIcon(instance);
+                //that.icon = _getIcon(instance);
                 that.x = instance.x;
                 that.y = instance.y;
                 that.h = instance.h;
                 that.w = instance.w;
-                that.ele.width(that.w * Data.grid.size).height(that.h * Data.grid.size)
-                    .css('background-image', that.icon);
-                if (that.category != null) that.ele.addClass('furniture-' + that.category);
+                _ele.width(that.w * Data.grid.size).height(that.h * Data.grid.size)
+                    .css('background-image', _getIcon(instance));
+                if (that.category != null) _ele.addClass('furniture-' + that.category);
                 that.rotate(instance.rotation);
             }
         };
@@ -179,14 +183,19 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         this.y = -1
         this.len = -1;
         this.rotation = -1;
-        this.ele = null;
 
         this.top = -1;
         this.left = -1;
 
+        var _ele = null;
+
+        this.ele = function () {
+            return _ele;
+        };
+
         this.createEle = function () {
             var m_str = "rotate(" + this.rotation * 90 + "deg)";
-            this.ele = $(Data.html.wall).css({
+            _ele = $(Data.html.wall).css({
                 width: this.len * Data.grid.size,
                 top: this.y * Data.grid.size,
                 left: this.x * Data.grid.size,
@@ -213,7 +222,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     this.left = this.x;
                     break;
             }
-            return this.ele;
+            return _ele;
         };
     };
 
@@ -309,7 +318,6 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 var list = item_in[Data.categoryName[k]];
                 for (var i = 0; i < list.length; i++) {
                     if (list[i] == null) continue;
-                    this.getFullData(list[i]);
                     addItem(list[i]);
                 }
             }
@@ -410,7 +418,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
             //add item
             if (tmpFurniture.category == null) return;
-            if (tmpFurniture.ele.hasClass('warning')) return;
+            if (tmpFurniture.ele().hasClass('warning')) return;
             if (tmpFurniture.category == Data.categoryName.wall && !isWallLock) {
                 isWallLock = true;
             } else if (tmpFurniture.category == Data.categoryName.ground && !isGroundLock) {
@@ -437,9 +445,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             tmpFurniture.reset(furnitureData);
             closeKeyPanel();
             if (tmpFurniture.category == null)
-                tmpFurniture.ele.hide();
+                tmpFurniture.ele().hide();
             else {
-                tmpFurniture.ele.show();
+                tmpFurniture.ele().show();
             }
         };
 
@@ -449,7 +457,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 closeKeyPanel();
                 isKeySetting = false;
                 tmpFurniture.reset(null);
-                tmpFurniture.ele.hide();
+                tmpFurniture.ele().hide();
                 return;
             }
 
@@ -457,11 +465,12 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             gridManager.noHighlight();
             gridManager.highlight(door.y, door.x);
 
-            tmpFurniture.ele.show();
+            tmpFurniture.ele().show();
             var furnitureData = {
                 "id": idx,
                 "category": null,
                 "icon": "key.icon.png",
+                "model2D": ["key.icon.png"],
                 "isKey": true
             };
             isWallLock = false;
@@ -558,21 +567,22 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                     }
                 }
             }
-            if (illegal) tmpFurniture.ele.addClass('warning');
-            else tmpFurniture.ele.removeClass('warning');
+            if (illegal) tmpFurniture.ele().addClass('warning');
+            else tmpFurniture.ele().removeClass('warning');
         };
 
         var addItem = function (item_in) {
+            that.getFullData(item_in);
             var s = new ItemInstance(item_in);
             var category = s.category;
             count[category]++;
             if (category == Data.categoryName.ground) {
-                s.ele.appendTo(groundPanel).css({
+                s.ele().appendTo(groundPanel).css({
                     top: s.y * Data.grid.size,
                     left: s.x * Data.grid.size
                 });
             } else {
-                s.ele.appendTo(container).css({
+                s.ele().appendTo(container).css({
                     top: s.y * Data.grid.size,
                     left: s.x * Data.grid.size
                 });
@@ -589,7 +599,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var removeItem = function (category, id) {
             if (id == 0 || itemList[category][id] == null) return;
             var item = itemList[category][id];
-            item.ele.remove();
+            item.ele().remove();
             for (var t = item.top, b = item.bottom; t <= b; t++) {
                 for (var l = item.left, r = item.right; l <= r; l++) {
                     itemMap[category][t][l] = 0;
@@ -756,7 +766,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             tmp_keyEles = {};
             var keyList = doorSetting[idx].keys;
             for (var i in keyList) {
-                tmp_keyEles[i] = itemList[Data.categoryName.furniture][i].ele.clone().css('background-image', tmpFurniture.icon).appendTo(_html.keyPanel);
+                tmp_keyEles[i] = itemList[Data.categoryName.furniture][i].ele().clone().css('background-image', tmpFurniture.ele().css('background-image')).appendTo(_html.keyPanel);
             }
             _html.keyPanel.fadeIn(200);
         };
@@ -772,7 +782,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             var keyList = doorSetting[idx].keys;
             if (itemIdx in keyList) return;
             keyList[itemIdx] = itemIdx;
-            tmp_keyEles[itemIdx] = itemList[Data.categoryName.furniture][itemIdx].ele.clone().css('background-image', tmpFurniture.icon).appendTo(_html.keyPanel);
+            tmp_keyEles[itemIdx] = itemList[Data.categoryName.furniture][itemIdx].ele().clone().css('background-image', tmpFurniture.ele().css('background-image')).appendTo(_html.keyPanel);
         };
 
         var removeKey = function (y, x) {
@@ -789,9 +799,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         // init ----------------------------------------------------------------------------------
         var _init = function () {
             tmpFurniture = new ItemInstance();
-            tmpFurniture.ele.addClass('_tmp').appendTo(container);
+            tmpFurniture.ele().addClass('_tmp').appendTo(container);
 
-            sensorPanel.hover(function () { tmpFurniture.ele.show(); }, function () { tmpFurniture.ele.hide(); });
+            sensorPanel.hover(function () { tmpFurniture.ele().show(); }, function () { tmpFurniture.ele().hide(); });
             closeKeyPanel();
         };
         _init();
