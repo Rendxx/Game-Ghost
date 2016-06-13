@@ -140,7 +140,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 _w = this.w;
 
                 if (this.category != null) this.ele.removeClass('furniture-' + this.category);
-                this.icon = 'url("' + ((data.category != null && Data.path[data.category] != null) ? Data.path[data.category] : 'Images/') +(data.isKey?'':data.id+'/')+ data.icon + '")';
+                this.icon = _getIcon(data);
                 this.ele.css('background-image', this.icon);
                 this.id = data.id;
                 this.category = data.category;
@@ -150,13 +150,17 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             this.rotate(0);
         };
 
+        var _getIcon = function (data) {
+            return 'url("' + ((data.category != null && Data.path[data.category] != null) ? Data.path[data.category] : 'Images/') + (data.isKey ? '' : data.id + '/') + data.model2D[0] + '")';
+        };
+
         var _init = function (instance) {
             that.ele = $(Data.html.furniture);
             if (instance != null) {
                 that.id = instance.id;
                 that.rotation = instance.rotation;
                 that.category = instance.category;
-                that.icon = instance.icon;
+                that.icon = _getIcon(instance);
                 that.x = instance.x;
                 that.y = instance.y;
                 that.h = instance.h;
