@@ -14,6 +14,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         var doorSetting = new MapDesigner.DoorSetting($('.doorSetting'));
 
         // callback ----------------------------------------
+        drawManager.getFullData = itemSelector.getFullData;
         hotKeyManager.callback.rotate = function () {
             drawManager.rotate();
         };

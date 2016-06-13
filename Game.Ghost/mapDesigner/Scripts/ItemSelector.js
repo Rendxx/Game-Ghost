@@ -19,7 +19,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             loadedCount = 0,
             lastSelect = null,
             lastSelectCategory = null,
-            defaultItem = null;
+            defaultItem = null,
+                id2name={};
 
         // callback
         this.onChange = null;
@@ -39,6 +40,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             loadCount = 1;
             for (var category in Data.files) {
                 itemData[category] = {};
+                id2name[category] ={};
                 _html.selectorCategory[category] = $(Data.html.itemSelectorCategory).appendTo(_html.selectorList).hide();
                 for (var name in Data.files[category]) {
                     _loadItemData(category, name, Data.files[category][name]);
@@ -59,12 +61,29 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             if (that.onChange) that.onChange(null);
         };
 
+        this.getFullData = function (dat) {
+            if (dat == null) return dat;
+
+            var c = dat.category;
+            if (c == 'position') {
+                var f = 0;
+            }
+            var n = id2name[c][dat.id];
+            var d = itemData[c][n];
+            for (var i in d) {
+                if (dat.hasOwnProperty(i)) continue;
+                dat[i] = d[i];
+            }
+            return dat;
+        };
+
         var _loadItemData = function (category, name, file) {
             loadCount++;
             $.getJSON(Data.path[category] + file, function (data) {
                 if (data == null) throw new Error(category + '.' + name + ': Not find.');
                 if (itemData[category][name] != null) console.log(category+'.'+name+': load multiple data.');
                 itemData[category][name] = data;
+                id2name[category][data.id] =name;
                 var ele = $(Data.html.itemSelector).html((data.dimension != null ? '[' + data.dimension[0] + '*' + data.dimension[1] + ']&nbsp;&nbsp;' : '') + '<b>' + name + '</b>').appendTo(_html.selectorCategory[category])
                     .click(function (e) {
                         if (lastSelect != null) lastSelect.removeClass('hover');

@@ -1,4 +1,5 @@
 ﻿{
   "id": "start_2",
-  "icon": "start_2.icon.png"
+  "icon": "start_2.icon.png",
+  "model2D": [ "start_2.icon.png" ]
 }

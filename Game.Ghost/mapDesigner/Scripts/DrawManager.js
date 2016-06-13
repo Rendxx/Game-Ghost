@@ -242,6 +242,11 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             count = null,
             defaultItem = null;
 
+        // get full data from loading data
+        this.getFullData = function (dat) {
+            return dat;
+        };
+
         // method
         this.getList = function () {
             return itemList;
@@ -304,6 +309,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 var list = item_in[Data.categoryName[k]];
                 for (var i = 0; i < list.length; i++) {
                     if (list[i] == null) continue;
+                    this.getFullData(list[i]);
                     addItem(list[i]);
                 }
             }
