@@ -55,39 +55,12 @@ body {
         }
 
         &._layer_pos {
-            z-index: 90;
+            z-index: 100;
 
             ._pos {
                 .__item;
             }
         }
-
-        &._layer_wall {
-            z-index: 80;
-
-            ._wallTop {
-                .__item;
-                z-index: 10;
-                background-repeat: repeat;
-                background-size: auto;
-                opacity: 1;
-            }
-
-            ._wallEdge {
-                .__item;
-                box-shadow: 0 0 16px 3px #000;
-                z-index: 5;
-            }
-
-            ._wallShadow {
-                .__item;
-                border: 2px solid #333;
-                margin-top: -2px;
-                margin-left: -2px;
-                z-index: 6;
-            }
-        }
-
         &._layer_door {
             z-index: 70;
 
@@ -95,15 +68,6 @@ body {
                 .__item;
             }
         }
-
-        &._layer_stuff {
-            z-index: 40;
-
-            ._stuff {
-                .__item;
-            }
-        }
-
         &._layer_furniture {
             z-index: 30;
 
@@ -112,11 +76,35 @@ body {
             }
         }
 
+        /*&._layer_wallEdge {
+            z-index: 90;
+        }
+
+        &._layer_wall {
+            z-index: 80;
+        }
+
+        &._layer_wallShadow {
+            z-index: 79;
+        }
+
+        &._layer_stuff {
+            z-index: 40;
+        }
+
+
         &._layer_furniture_static {
             z-index: 20;
         }
 
         &._layer_ground {
+            z-index: 10;
+        }*/
+
+        &._layer_static_top {
+            z-index: 100;
+        }
+        &._layer_static_btm {
             z-index: 10;
         }
     }
