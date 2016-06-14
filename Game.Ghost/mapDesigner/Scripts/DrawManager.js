@@ -155,7 +155,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         var _getIcon = function (data) {
-            return 'url("' + ((data.category != null && Data.path[data.category] != null) ? Data.path[data.category] : 'Images/') + (data.isKey ? '' : data.id + '/') + data.model2D[0] + '")';
+            return 'url("' + ((data.category != null && Data.path[data.category] != null) ? Data.path[data.category] : 'Images/') + (data.isKey ? '' : data.id + '/') + data.icon + '")';
         };
 
         var _init = function (instance) {
@@ -572,8 +572,8 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
         };
 
         var addItem = function (item_in) {
-            that.getFullData(item_in);
-            var s = new ItemInstance(item_in);
+            var d = that.getFullData(item_in);
+            var s = new ItemInstance(d);
             var category = s.category;
             count[category]++;
             if (category == Data.categoryName.ground) {

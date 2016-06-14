@@ -61,13 +61,11 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             if (that.onChange) that.onChange(null);
         };
 
-        this.getFullData = function (dat) {
-            if (dat == null) return dat;
+        this.getFullData = function (dat_in) {
+            if (dat_in == null) return null;
 
+            var dat = $.extend(true, {}, dat_in);
             var c = dat.category;
-            if (c == 'position') {
-                var f = 0;
-            }
             var n = id2name[c][dat.id];
             var d = itemData[c][n];
             for (var i in d) {
