@@ -49,12 +49,14 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             dark: '<div class="_dark"></div>',
             danger: '<div class="_danger"></div>',
             layerLight: '<div class="_layer _layer_light"></div>',
-            layerGround: '<div class="_layer _layer_ground"></div>',
+            //layerGround: '<div class="_layer _layer_ground"></div>',
             layerWall: '<div class="_layer _layer_wall"></div>',
+            layerTop: '<canvas class="_layer _layer_top"></canvas>',              // stuff + wall
+            layerBottom: '<canvas class="_layer _layer_bottom"></canvas>',        // static furniture + ground
             layerDoor: '<div class="_layer _layer_door"></div>',
             layerFurniture: '<div class="_layer _layer_furniture"></div>',
             layerStuff: '<div class="_layer _layer_stuff"></div>',
-            layerPos: '<div class="_layer _layer_pos"></div>',            
+            layerPos: '<div class="_layer _layer_pos"></div>',
             ground: '<div class="_ground"></div>',
             wallTop: '<div class="_wallTop"></div>',
             wallEdge: '<div class="_wallEdge"></div>',
@@ -90,7 +92,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             mesh_ground = null,         // ground
             mesh_wallTop = null,        // wall       
             mesh_wallEdge = null,
-            mesh_wallShadow = null,    
+            mesh_wallShadow = null,
             mesh_door = null,           // door
             mesh_furniture = null,      // furniture
             mesh_stuff = null,          // stuff
@@ -123,11 +125,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             itemData = {};
             _loadCount = 1;
             setupGround(_scene, mapData.grid, mapData.item.ground);
-            setupWall(_scene, mapData.wall, mapData.item.wall);
             setupDoor(_scene, mapData.item.door);
             setupBody();
             setupFurniture(_scene, mapData.item.furniture);
             setupStuff(_scene, mapData.item.stuff);
+            setupWall(_scene, mapData.wall, mapData.item.wall);
             setupKey(_scene);
 
             createEndPos(_mapSetupData.position.end);
@@ -167,14 +169,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             /*create ground*/
             that.width = grid.width;
             that.height = grid.height;
-            _layers['ground'] = $(_Data.html.layerGround).appendTo(_scene);
+            //_layers['ground'] = $(_Data.html.layerGround).appendTo(_scene);
             _scene.width(that.width * GridSize).height(that.height * GridSize);
+            _layers['bottom'] = _layers['bottom'] || ($(_Data.html.layerBottom).attr({ width: that.width * GridSize, height: that.height * GridSize }).appendTo(_scene));
 
             mesh_ground = [];
             for (var i = 0, l = ground_in.length; i < l; i++) {
                 if (ground_in[i] === null) continue;
                 _loadCount++;
-                createGround(i, ground_in[i], _layers['ground'], function (idx, dat, mesh) {
+                createGround(i, ground_in[i], _layers['bottom'], function (idx, dat, mesh) {
                     var id = dat.id;
                     if (!mesh_ground.hasOwnProperty(id)) mesh_ground[id] = [];
                     mesh_ground[id].push(mesh);
@@ -230,12 +233,14 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             mesh_furniture = {};
             itemStatus['furniture'] = {};
             _layers['furniture'] = $(_Data.html.layerFurniture).appendTo(_scene);
+            _layers['bottom'] = _layers['bottom'] || ($(_Data.html.layerBottom).attr({ width: that.width * GridSize, height: that.height * GridSize }).appendTo(_scene));
+
             for (var i = 0, l = furniture.length; i < l; i++) {
                 if (furniture[i] === null) continue;
                 _loadCount++;
-                createFurniture(i, furniture[i], _layers['furniture'], function (idx, dat, mesh) {
+                createFurniture(i, furniture[i], _layers['furniture'], _layers['bottom'], function (idx, dat, mesh) {
                     var id = dat.id;
-                    mesh_furniture[idx]=(mesh);
+                    mesh_furniture[idx] = (mesh);
 
                     itemStatus['furniture'][idx] = _Data.status.furniture.Closed;
                     _loadCount--;
@@ -282,26 +287,34 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (dat === null) return null;
             var id = dat.id;
             var para = _modelData.items[Data.categoryName.ground][id];
-            var x = dat.left  * GridSize;
+            var x = dat.left * GridSize;
             var y = dat.top * GridSize;
             var w = (dat.right - dat.left + 1) * GridSize;
             var h = (dat.bottom - dat.top + 1) * GridSize;
 
-            var mesh = $(_Data.html.ground).css({
-                'background-image': 'url("' + root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.model2D[0] + '")',
-                'width': w + 'px',
-                'height': h + 'px',
-                'top': y + 'px',
-                'left': x + 'px'
-            }).appendTo(layer);
-            onSuccess(idx, dat, mesh);
+            var ctx = layer[0].getContext("2d");
+            var img = _loadImg('g_' + id, root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.model2D[0],
+                function () {
+                    var ptrn = ctx.createPattern(img, 'repeat'); // Create a pattern with this image, and set it to "repeat".
+                    ctx.fillStyle = ptrn;
+                    ctx.fillRect(x, y, w, h);
+                    onSuccess(idx, dat, null);
+                });
+
+            //var mesh = $(_Data.html.ground).css({
+            //    'background-image': 'url("' + root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.model2D[0] + '")',
+            //    'width': w + 'px',
+            //    'height': h + 'px',
+            //    'top': y + 'px',
+            //    'left': x + 'px'
+            //}).appendTo(layer);
         };
 
         var createWall = function (idx, dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
             var para = _modelData.items[Data.categoryName.wall][id];
-            var x = dat.left* GridSize;
+            var x = dat.left * GridSize;
             var y = dat.top * GridSize;
             var r = dat.rotation;
             var w = (dat.right - dat.left + 1) * GridSize;
@@ -334,16 +347,16 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             onSuccess(idx, dat, meshTop, meshEdge, meshShadow);
         };
 
-        var createFurniture = function (idx, dat, layer, onSuccess) {
+        var createFurniture = function (idx, dat, layer, layer2, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
             var para = _modelData.items[Data.categoryName.furniture][id];
-            var x = dat.left  * GridSize;
-            var y = dat.top  * GridSize;
+            var x = dat.left * GridSize;
+            var y = dat.top * GridSize;
             var r = dat.rotation;
             var w = para.dimension[0] * GridSize;
             var h = (para.dimension[1]) * GridSize;
-            
+
             //console.log(dat);
             //aconsole.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
@@ -363,6 +376,26 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
 
             that.objectPos.furniture[idx] = [(dat.left + dat.right) / 2 * GridSize, (dat.top + dat.bottom) / 2 * GridSize];
+
+            _animation['furniture'] = _animation['furniture'] || {};
+            _animation['furniture'][idx] = {};
+
+            if (!para.hasOwnProperty('action') || para['action'] == null) {
+                var ctx = layer2[0].getContext("2d");
+                var img = _loadImg('f_' + id, root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0],
+                    function (img) {
+                        //ctx.translate(GridSize / 2, GridSize / 2);
+
+                        // rotate around this point
+                        ctx.rotate(-(4 - r) * Math.PI / 2);
+
+                        ctx.drawImage(img, x + offset_x, y + offset_y, w, h);
+                        onSuccess(idx, dat, null);
+                    });
+                return;
+            }
+
+
             var mesh = $(_Data.html.furniture).css({
                 'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")',
                 'margin-top': offset_y + 'px',
@@ -374,9 +407,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 'transform': 'rotate(' + -((4 - r) * 90) + 'deg)',
                 'transform-origin': GridSize / 2 + 'px ' + GridSize / 2 + 'px'
             }).appendTo(layer);
-            
-            _animation['furniture'] = _animation['furniture'] || {};
-            _animation['furniture'][idx] = {};
+
             _animation['furniture'][idx][_Data.status.furniture.None] = function () {
                 mesh.css({
                     'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")'
@@ -400,7 +431,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var id = dat.id;
             var para = _modelData.items[Data.categoryName.door][id];
             var x = dat.left * GridSize;
-            var y = dat.top  * GridSize;
+            var y = dat.top * GridSize;
             var r = dat.rotation;
             var w = para.dimension[0] * GridSize;
             var h = (para.dimension[1]) * GridSize;
@@ -472,11 +503,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var createStuff = function (dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
-            var x = dat.left  * GridSize;
+            var x = dat.left * GridSize;
             var y = dat.top * GridSize;
             var r = dat.rotation;
-            var w =  GridSize;
-            var h =  GridSize;
+            var w = GridSize;
+            var h = GridSize;
             var para = _modelData.items[Data.categoryName.stuff][id];
 
             var mesh = $(_Data.html.stuff).css({
@@ -544,7 +575,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var createEndPos = function (dat) {
             if (that.posEnd !== null) return;
             that.posEnd = [];
-            
+
             for (var i = 0; i < dat.length; i++) {
                 _layers['pos'] = $(_Data.html.layerPos).appendTo(_scene);
                 var mesh = $(_Data.html.pos).css({
@@ -557,16 +588,24 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 that.posEnd[i] = mesh;
             }
         };
-        
+
         // Setup ----------------------------------------------------------
         var _setupTex = function () {
             _tex = {};
-            _tex['end'] = _loadImg(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
+            _loadImg('end', root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
         };
 
-        var _loadImg = function (name) {
+        var _loadImg = function (name, src, onload) {
+            if (_tex[name] != null) {
+                if (onload) onload(_tex[name]);
+                return _tex[name];
+            }
             var img = new Image();
-            img.src = name;
+            img.onload = function () {
+                _tex[name] = img;
+                if (onload) onload(img);
+            };
+            img.src = src;
             return img;
         };
 
