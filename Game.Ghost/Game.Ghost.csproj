@@ -861,7 +861,6 @@
     <Content Include="src\js\renderer2D\Renderer2D.Loading.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Main.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Map.js" />
-    <Content Include="src\js\renderer2D\Renderer2D.Sound.js" />
     <Content Include="src\js\renderer\Renderer.Character.js" />
     <Content Include="src\js\renderer\Renderer.Data.js" />
     <Content Include="src\js\renderer\Renderer.Camera.js" />

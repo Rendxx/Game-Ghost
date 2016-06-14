@@ -144,7 +144,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             gameData = data_in;
 
             //updateKey();
-            //updateFuniture();
+            updateFuniture();
             updateDoor();
             updateBody();
             updateLight();
@@ -253,7 +253,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     var id = dat.id;
                     mesh_furniture[idx] = (mesh);
 
-                    itemStatus['furniture'][idx] = _Data.status.furniture.Closed;
+                    itemStatus['furniture'][idx] = (mesh == null) ? _Data.status.furniture.None : _Data.status.furniture.Closed;
                     _loadCount--;
                     onLoaded();
                 });
