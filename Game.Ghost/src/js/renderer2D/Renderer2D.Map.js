@@ -381,15 +381,17 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _animation['furniture'][idx] = {};
 
             if (!para.hasOwnProperty('action') || para['action'] == null) {
-                var ctx = layer2[0].getContext("2d");
                 var img = _loadImg('f_' + id, root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0],
                     function (img) {
-                        //ctx.translate(GridSize / 2, GridSize / 2);
+                        var ctx = layer2[0].getContext("2d");
+                        ctx.save();
+                        ctx.translate(x + offset_x, y + offset_y);
 
                         // rotate around this point
                         ctx.rotate(-(4 - r) * Math.PI / 2);
 
-                        ctx.drawImage(img, x + offset_x, y + offset_y, w, h);
+                        ctx.drawImage(img, 0, 0, w, h);
+                        ctx.restore();
                         onSuccess(idx, dat, null);
                     });
                 return;
