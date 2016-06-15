@@ -43,8 +43,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
         },
         html: {
-            sceneOrtho: '<div class="_scene_ortho"></div>',
-            sceneEffort: '<div class="_scene_effort"></div>',
+            sceneCharacter: '<div class="_scene_character"></div>',
+            scene:{
+                ortho: '<div class="_scene_ortho"></div>',
+                effort: '<div class="_scene_effort"></div>'
+             },
             name: '<div class="_name"></div>',
             fog: '<div class="_fog"></div>',
             enduranceBarWrap: '<div class="_enduranceBarWrap"></div>',
@@ -84,8 +87,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             doorIcon = {};
 
         this.scene = scene_in;
-        this.sceneOrtho = null;
-        this.sceneEffort = null;
         this.character = -1;
         this.width = -1;
         this.height = -1;
@@ -97,8 +98,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.character = character;
             this.width = w;
             this.height = h;
-            this.sceneOrtho = $(_Data.html.sceneOrtho).appendTo($(entity.domElement));
-            this.sceneEffort = $(_Data.html.sceneEffort).appendTo(entity.env.wrap);
+            this.scene['ortho'] = $(_Data.html.scene['ortho']).appendTo($(entity.domElement));
+            this.scene['effort'] = $(_Data.html.scene['effort']).appendTo(entity.env.wrap);
 
             createFrame();
             createEdges();
@@ -116,11 +117,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 'margin-top': (h - t) / 2 + 'px',
                 'margin-left': (w - t) / 2 + 'px',
             });
-            this.scene.css({
+            this.scene['map'].css({
                 'margin-top': h / 2 + 'px',
                 'margin-left': w / 2 + 'px'
             });
-            this.sceneEffort.css({
+            this.scene['effort'].css({
                 'margin-top': h / 2 + 'px',
                 'margin-left': w / 2 + 'px'
             });
@@ -130,10 +131,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var x = that.character.x;
             var y = that.character.y;
 
-            this.scene.css({
+            this.scene['map'].css({
                 'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
             });
-            //this.sceneEffort.css({
+            //this.scene['effort'].css({
             //    'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
             //});
             if (that.character.isDead) {
@@ -159,24 +160,24 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             sprites = {};
 
             // name
-            sprites["name"] = $(_Data.html.name).appendTo(that.sceneOrtho).text(that.character.name);
+            sprites["name"] = $(_Data.html.name).appendTo(that.scene['ortho']).text(that.character.name);
 
             // fog
             //sprites["fog"] = $(_Data.html.fog).css({
             //    'background-image': 'url("' + tex['fog'].src + '")',
-            //}).appendTo(that.sceneOrtho);
-            sprites["fog"] = $(_Data.html.fog).appendTo(that.sceneOrtho);
+            //}).appendTo(that.scene['ortho']);
+            sprites["fog"] = $(_Data.html.fog).appendTo(that.scene['ortho']);
             that.resize(that.width, that.height);
 
             // message
-            sprites["message"] = $(_Data.html.message).appendTo(that.sceneOrtho);
+            sprites["message"] = $(_Data.html.message).appendTo(that.scene['ortho']);
 
         };
 
         // Endurance ------------------------------------------------
         var createEnduranceBar = function () {
             // endurance
-            sprites["enduranceBarWrap"] = $(_Data.html.enduranceBarWrap).appendTo(that.scene);
+            sprites["enduranceBarWrap"] = $(_Data.html.enduranceBarWrap).appendTo(that.scene['map']);
             sprites["enduranceBar"] = $(_Data.html.enduranceBar).appendTo(sprites["enduranceBarWrap"]);
         };
 
@@ -295,7 +296,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 left: pos[0],
                 top: pos[1],
                 opacity:0
-            }).appendTo(that.sceneEffort);
+            }).appendTo(that.scene['effort']);
 
             return marker;
         };
@@ -350,7 +351,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var createDoorLock = function (idx) {
             var pos = entity.map.doorPos[idx];
-            var marker = $(_Data.html.marker).appendTo(that.sceneEffort).css({
+            var marker = $(_Data.html.marker).appendTo(that.scene['effort']).css({
                 'background-image': 'url("'+tex['interaction-lock'].src +'")',
                 left: pos[0],
                 top: pos[1]
@@ -361,7 +362,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var createDoorUnlock = function (idx) {
             var pos = entity.map.doorPos[idx];
-            var marker = $(_Data.html.marker).appendTo(that.sceneEffort).css({
+            var marker = $(_Data.html.marker).appendTo(that.scene['effort']).css({
                 'background-image': 'url("' + tex['interaction-unlock'].src + '")',
                 left: pos[0],
                 top: pos[1]
@@ -388,7 +389,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // Edges -----------------------------------------------------
         var createEdges = function () {
-            sprites["edges"] = $(_Data.html.edges).appendTo(that.sceneOrtho).css({
+            sprites["edges"] = $(_Data.html.edges).appendTo(that.scene['ortho']).css({
                 'opacity': 0
             });;
         };
@@ -411,7 +412,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             sprites["deadScreen"].material.transparent = true;
             sprites["deadScreen"].material.opacity = 0;
             sprites["deadScreen"].position.set(0, 0, 9);
-            that.sceneOrtho.add(sprites["deadScreen"]);
+            that.scene['ortho'].add(sprites["deadScreen"]);
             var mat = sprites["deadScreen"].material;
             new TWEEN.Tween({ t: 0 }).to({ t: 20 }, 500)
                 .onUpdate(function () {
@@ -427,7 +428,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             sprites["escapeScreen"].material.transparent = true;
             sprites["escapeScreen"].material.opacity = 0;
             sprites["escapeScreen"].position.set(0, 0, 9);
-            that.sceneOrtho.add(sprites["escapeScreen"]);
+            that.scene['ortho'].add(sprites["escapeScreen"]);
             var mat = sprites["escapeScreen"].material;
             new TWEEN.Tween({ t: 0 }).to({ t: 20 }, 500)
                 .onUpdate(function () {

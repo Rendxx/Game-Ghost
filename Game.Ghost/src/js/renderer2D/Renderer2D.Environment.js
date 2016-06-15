@@ -29,8 +29,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             GridSize = Data.grid.size,
             viewPlayerIdx = null;
 
-        this.scene = null;
         this.wrap = null;
+        this.scene = {};
         this.layers = {};
         this.camera = null;
 
@@ -74,7 +74,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // helper ------------------------
         var _init = function () {
             that.wrap = $(_Data.html.wrap).appendTo($(entity.domElement));
-            that.scene = $(_Data.html.scene).appendTo(that.wrap);
+            that.scene['map'] = $(_Data.html.scene).appendTo(that.wrap);
 
             // bind resize function
             $(window).resize(resize);

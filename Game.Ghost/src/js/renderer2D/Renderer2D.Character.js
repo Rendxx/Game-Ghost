@@ -18,10 +18,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         html: {
             character: '<div class="_character"></div>',
             shadow: '<div class="_shadow"></div>',
-            layer: '<div class="_layer _layer_char"></div>'
+            layer: '<div class="_layer _layer_char"></div>',
+            scene: {
+                character: '<div class="_scene_character"></div>'
+            }
         }
     };
-    var Character = function (entity, id, modelData, characterPara) {
+    var Character = function (entity, id, modelData, characterPara, isMain) {
         // data ----------------------------------------------
         var that = this,
             root = entity.root,
@@ -58,7 +61,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.highlight = null;
         this.materials = null;
         this.actions = null;
-        this.mixer = null;
         this.setuped = false;
         this.message = null;
         this.isVisible = false;
@@ -143,7 +145,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                         'background-image': 'url("' + root + Data.character.path + _data.path + action + '.gif")'
                     });
                 }
-                if (this.mixer) this.mixer.update(delta);
                 return;
             } else if (isWin) {
                 if (currentAction !== action) {
@@ -168,12 +169,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var r3 = r1 - r2;
 
             // transform
-            this.element.css({
-                'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) '
-            });
-            this.shadow.css({
-                'transform': 'translate(' + x + 'px,' + y + 'px) '
-            });
+            if (isMain) {
+                this.element.css({
+                    'transform': 'rotate(' + -r_body + 'deg) scale(1.25, 1.25) '
+                });
+            } else {
+                this.element.css({
+                    'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) '
+                });
+                this.shadow.css({
+                    'transform': 'translate(' + x + 'px,' + y + 'px) '
+                });
+            }
 
             this.rotation = {
                 body: r2,
@@ -193,23 +200,41 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
          */
         // private method -------------------------------------------------
         this.load = function () {
-            var layer = entity.env.layers.character;
-            if (layer == null) {
-                entity.env.layers.character = layer = $(_Data.html.layer).appendTo(entity.env.scene);
+            if (isMain) {
+                var layer = entity.env.scene['character'] = $(_Data.html.scene['character']).appendTo($(entity.domElement));;
+                that.element = $(_Data.html.character).css({
+                    'width': GridSize + 'px',
+                    'height': GridSize + 'px',
+                    'margin-top': -GridSize / 2 + 'px',
+                    'margin-left': -GridSize / 2 + 'px',
+                    'background-image': 'url("' + root + Data.character.path + _data.path + 'idle.gif")'
+                }).appendTo(layer);
+                that.shadow = $(_Data.html.shadow).css({
+                    'width': 2 + 'px',
+                    'height': 2 + 'px',
+                    'margin-top': -1 + 'px',
+                    'margin-left': -1 + 'px'
+                }).appendTo(layer);
+            } else {
+                var layer = entity.env.layers.character;
+                if (layer == null) {
+                    entity.env.layers.character = layer = $(_Data.html.layer).appendTo(entity.env.scene['map']);
+                }
+                that.element = $(_Data.html.character).css({
+                    'width': GridSize + 'px',
+                    'height': GridSize + 'px',
+                    'margin-top': -GridSize / 2 + 'px',
+                    'margin-left': -GridSize / 2 + 'px',
+                    'background-image': 'url("' + root + Data.character.path + _data.path + 'idle.gif")'
+                }).appendTo(layer);
+                that.shadow = $(_Data.html.shadow).css({
+                    'width': 2 + 'px',
+                    'height': 2 + 'px',
+                    'margin-top': -1 + 'px',
+                    'margin-left': -1 + 'px'
+                }).appendTo(layer);
             }
-            that.element = $(_Data.html.character).css({
-                'width': GridSize + 'px',
-                'height': GridSize + 'px',
-                'margin-top': -GridSize / 2 + 'px',
-                'margin-left': -GridSize / 2 + 'px',
-                'background-image': 'url("' + root + Data.character.path + _data.path + 'idle.gif")'
-            }).appendTo(layer);
-            that.shadow = $(_Data.html.shadow).css({
-                'width': 2 + 'px',
-                'height': 2 + 'px',
-                'margin-top': -1 + 'px',
-                'margin-left': -1 + 'px'
-            }).appendTo(layer);
+
             that.setuped = true;
             if (that.onLoaded !== null) that.onLoaded();
         };

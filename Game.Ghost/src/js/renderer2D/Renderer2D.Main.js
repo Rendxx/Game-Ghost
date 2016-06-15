@@ -90,7 +90,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i in _playerData) {
                 loadCount++;
                 var idx = _playerData[i].setupData.id;
-                this.characters[idx] = new RENDERER.Character(this, idx, _modelData.characters, _playerData[i]);
+                this.characters[idx] = new RENDERER.Character(this, idx, _modelData.characters, _playerData[i], viewPlayer_in===i);
                 this.characters[idx].onLoaded = function () {
                     loadCount--;
                     onLoaded();
