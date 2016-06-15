@@ -15,13 +15,13 @@
     "hp": 1,
     "speed": {
       "rotate": {
-        "head": 20,
-        "body": 10
+        "head": 40,
+        "body": 20
       },
       "move": {
-        "walk": 6,
-        "run": 40,
-        "back": -2
+        "walk": 12,
+        "run": 80,
+        "back": -4
       }
     },
     "interactionDistance": 0.42

@@ -41,7 +41,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // inner callback
         this._onRender = function () {
             if (!this.started || !flag_loaded) return;
-            this.map.render();
+            //this.map.render();
             for (var i = 0, l = this.characters.length; i < l; i++) {
                 this.characters[i].render();
             }

@@ -189,6 +189,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
             if (this.currentRotation.body < 0) this.currentRotation.body += 360;
             this.currentRotation.body = this.currentRotation.body % 360;
+            if (this.role==='ghost')console.log(this.currentRotation.body);
         }
         // head rotation
         realDirection_head = (!this.stay && (this.headFollow || (this.rush && !isBack))) ? this.currentRotation.body : (this.headFollow ? this.currentRotation.head : this.requiredRotation.head);
