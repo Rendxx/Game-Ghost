@@ -3,7 +3,7 @@
 $(function () {
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer2D.Create(document.getElementById('game-container'), _root, 'p1');
+    var renderer = window.Rendxx.Game.Ghost.Renderer2D.Create(document.getElementById('game-container'), _root, 'p7');
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -77,13 +77,13 @@ $(function () {
         //    modelId: 'girl2',
         //    team: 2
         //},
-        //'p7': {
-        //    id: 'p7',
-        //    name: 'player 7',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
-        //    modelId: 'ghost-specter',
-        //    team: 0
-        //}
+        'p7': {
+            id: 'p7',
+            name: 'player 7',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
+            modelId: 'ghost-specter',
+            team: 0
+        }
     };
     GameSetup = function () {
         system.setup(playerData, {
@@ -106,5 +106,5 @@ $(function () {
     // helper --------------------------------------------------------
     HELPER.addStats($('#game-container'));
     HELPER.addDatGUI($('body'));
-    SetupControl(system, 'p1');
+    SetupControl(system, 'p7');
 });

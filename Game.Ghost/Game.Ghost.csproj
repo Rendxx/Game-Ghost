@@ -56,6 +56,7 @@
     <Content Include="mapDesigner\Document\key.icon.png" />
     <Content Include="mapDesigner\Document\shoeprint3-300px.png" />
     <Content Include="mapDesigner\Images\key.icon.png" />
+    <Content Include="mapDesigner\index.html" />
     <Content Include="mapDesigner\Scripts\Data.js" />
     <Content Include="mapDesigner\Scripts\DatGui.js" />
     <Content Include="mapDesigner\Scripts\HotKey.js" />
@@ -870,7 +871,6 @@
     <Content Include="src\js\renderer\Renderer.Test.js" />
     <Content Include="src\js\renderer\Renderer.Main.js" />
     <Content Include="src\js\renderer\Renderer.Environment.js" />
-    <Content Include="mapDesigner\index.html" />
     <Content Include="src\js\system\Core\Character\System.Character.Basic.js" />
     <Content Include="src\js\system\Core\Character\System.Character.Ghost.Specter.js" />
     <Content Include="src\js\system\Core\Character\System.Character.Survivor.Normal.js" />

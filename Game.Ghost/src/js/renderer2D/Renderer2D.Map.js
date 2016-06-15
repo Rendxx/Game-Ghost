@@ -47,7 +47,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         },
         html: {
             dark: '<div class="_dark"></div>',
-            danger: '<div class="_danger"></div>',
             layer: {
                 ground: '<canvas class="_layer _layer_ground"></canvas>',
                 wall: '<canvas class="_layer _layer_wall"></canvas>',
@@ -90,7 +89,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _scene = entity.env.scene,
             _layers = entity.env.layers,
             _loadCount = 0,
-            _dangerCache = 0,
             darkScreen = null,
 
             _animation = {},
@@ -662,8 +660,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         var updateLight = function () {
-            if (_dangerCache === gameData.danger) return;
-            _dangerCache = gameData.danger;
         };
 
         var createEndPos = function (dat) {
