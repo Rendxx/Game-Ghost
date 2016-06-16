@@ -90,12 +90,35 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // public method --------------------------------------------------
         // update data from system
         this.update = function (data_in, isVisible_in) {
-            if (lightType !== data_in.light) {
-                changeTorch(data_in.light);
-                lightType = data_in.light;
+            gameData = {
+                x: data_in[0],
+                y: data_in[1],
+                endurance: data_in[2],
+                hp: data_in[3],
+                currentRotation: data_in[4],
+                
+                action: data_in[5],
+                accessObject: data_in[6],
+                visibleObject: data_in[7],
+                visibleCharacter: data_in[8],
+                longInteractionObj: data_in[9],
+                
+                danger: data_in[10],
+                win: data_in[11],
+                actived: data_in[12],
+                light: data_in[13],
+                battery: data_in[14],
+
+                soundObject: data_in[15],
+
+                teleporting: data_in[19] == null ? null : data_in[19]
+            };
+
+            if (lightType !== gameData.light) {
+                changeTorch(gameData.light);
+                lightType = gameData.light;
             }
 
-            gameData = data_in;
             that.isVisible = isVisible_in;
         };
 
@@ -134,7 +157,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.isDead = isDead;
             this.isWin = isWin;
 
-            if (gameData.hasOwnProperty('teleporting')) {
+            if (gameData.teleporting!=null) {
                 if (this.topLight !== null) {
                     if (gameData.teleporting && !teleportingFlag) {
                         this.topLight.position.y = this.mesh.position.y + (10 + topLightData.y) * GridSize;

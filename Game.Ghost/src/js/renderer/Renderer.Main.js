@@ -137,8 +137,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = that.characters.length; i < l; i++) {
                 if (this.team[that.characters[i].team]===true) {
                     playerVisibleList[i] = true;
-                    for (var idx in gameData.characters[i].visibleCharacter) {
-                        if (gameData.characters[i].visibleCharacter[idx] === true) playerVisibleList[idx] = true;
+                    for (var idx in gameData.characters[i][8]) {
+                        if (gameData.characters[i][8][idx] === true) playerVisibleList[idx] = true;
                     }
                 }
             }

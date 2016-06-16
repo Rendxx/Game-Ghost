@@ -36,6 +36,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype.constructor = Ghost;
 
     // Method --------------------------------------------------------
+    Ghost.prototype.toJSON = function () {
+        var dat = SYSTEM.Character.Basic.prototype.toJSON.call(this);
+        dat[19] = this.teleporting;
+        return dat;
+    };
 
     // use the item in front of the character
     Ghost.prototype.interaction = function () {
