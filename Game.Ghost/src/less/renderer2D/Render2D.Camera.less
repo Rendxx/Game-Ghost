@@ -53,60 +53,48 @@
     margin-top: -20px;
     margin-left: -20px;
 
-    ._name {
-        display: block;
-        width: 200px;
-        height: 30px;
-        line-height: 30px;
-        font-size: 16px;
-        overflow: hidden;
-        position: absolute;
-        top: 0;
-        left: 0;
-        color: #fff;
-        text-shadow: 0 0 3px #000;
-        z-index: 20;
-    }
-
-    ._fog {
-        display: block;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: contain;
-    }
-
     ._enduranceBarWrap {
         display: block;
-        width: 200px;
-        height: 4px;
-        border: 1px solid #777;
-        background-color: #999;
+        width: 50%;
+        height: 14px;
+        background-color: #333;
         overflow: hidden;
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 14px;
+        left: 25%;
+        margin-left: -2px;
         z-index: 15;
 
         ._enduranceBar {
             display: block;
-            width: 200px;
-            height: 4px;
+            height: 8px;
+            margin:3px;
             background-color: #fff;
-            position: absolute;
-            top: 0;
-            left: 0;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
             -moz-transform-origin: left center;
             -ms-transform-origin: left center;
             -o-transform-origin: left center;
             -webkit-transform-origin: left center;
             transform-origin: left center;
+            z-index:10;
+        }
+
+        &::after{
+            display: block;
+            content:'';
+            width: 100%;
+            height: 100%;
+            box-shadow:inset 0 0 0 1px #000;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index:20;
         }
     }
 

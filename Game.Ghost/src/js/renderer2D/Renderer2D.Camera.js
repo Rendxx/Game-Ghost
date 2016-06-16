@@ -44,12 +44,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         },
         html: {
             sceneCharacter: '<div class="_scene_character"></div>',
-            scene:{
+            scene: {
                 ortho: '<div class="_scene_ortho"></div>',
                 effort: '<div class="_scene_effort"></div>'
-             },
-            name: '<div class="_name"></div>',
-            fog: '<div class="_fog"></div>',
+            },
             enduranceBarWrap: '<div class="_enduranceBarWrap"></div>',
             enduranceBar: '<div class="_enduranceBar"></div>',
             edges: '<div class="_edges"></div>',
@@ -110,13 +108,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.width = w;
             this.height = h;
 
-            var t = Math.max(w,h);
-            sprites["fog"].css({
-                'width': t + 'px',
-                'height': t + 'px',
-                'margin-top': (h - t) / 2 + 'px',
-                'margin-left': (w - t) / 2 + 'px',
-            });
+            var t = Math.max(w, h);
             this.scene['map'].css({
                 'margin-top': h / 2 + 'px',
                 'margin-left': w / 2 + 'px'
@@ -132,7 +124,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var y = that.character.y;
 
             this.scene['map'].css({
-                'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
+                'transform': 'translate(' + -x + 'px,' + -y + 'px)'
             });
             //this.scene['effort'].css({
             //    'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
@@ -145,7 +137,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 // update edge
                 updateEdge();
                 // update sprite
-                //updateEnduranceBar();
+                updateEnduranceBar();
                 // update effort
                 //updateInteractionIcon();
                 updateMessage();
@@ -159,14 +151,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var createFrame = function () {
             sprites = {};
 
-            // name
-            sprites["name"] = $(_Data.html.name).appendTo(that.scene['ortho']).text(that.character.name);
-
-            // fog
-            //sprites["fog"] = $(_Data.html.fog).css({
-            //    'background-image': 'url("' + tex['fog'].src + '")',
-            //}).appendTo(that.scene['ortho']);
-            sprites["fog"] = $(_Data.html.fog).appendTo(that.scene['ortho']);
             that.resize(that.width, that.height);
 
             // message
@@ -177,16 +161,16 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // Endurance ------------------------------------------------
         var createEnduranceBar = function () {
             // endurance
-            sprites["enduranceBarWrap"] = $(_Data.html.enduranceBarWrap).appendTo(that.scene['map']);
+            sprites["enduranceBarWrap"] = $(_Data.html.enduranceBarWrap).appendTo(that.scene['ortho']);
             sprites["enduranceBar"] = $(_Data.html.enduranceBar).appendTo(sprites["enduranceBarWrap"]);
         };
 
         var updateEnduranceBar = function () {
             if (!sprites.hasOwnProperty('enduranceBar')) return;
-            var w = Math.floor((that.character.endurance / that.character.maxEndurance) * 100);
+            var w = (that.character.endurance / that.character.maxEndurance);
 
             sprites["enduranceBar"].css({
-                'transform': 'scaleX(' + w + '%)'
+                'transform': 'scaleX(' + w + ')'
             });
         };
 
@@ -295,7 +279,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 'background-image': 'url("' + tex1.src + '")',
                 left: pos[0],
                 top: pos[1],
-                opacity:0
+                opacity: 0
             }).appendTo(that.scene['effort']);
 
             return marker;
@@ -312,7 +296,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var showMessage = function (content) {
             if (msgHideFunc !== null) clearTimeout(msgHideFunc);
             sprites["message"].text(content).css({
-                'opacity':1
+                'opacity': 1
             });
             msgHideFunc = setTimeout(function () {
                 sprites["message"].css({
@@ -342,8 +326,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 if (!entity.map.isDoorLock(i)) continue;
                 if (!doorIcon.hasOwnProperty(i)) doorIcon[i] = {};
                 var idx = d[i] ? 0 : 1;
-                if (!doorMarkers.hasOwnProperty(i)) doorMarkers[i] = [null,null];
-                if (doorMarkers[i][idx] === null) doorMarkers[i][idx]=(d[i] ? createDoorLock(i) : createDoorUnlock(i));
+                if (!doorMarkers.hasOwnProperty(i)) doorMarkers[i] = [null, null];
+                if (doorMarkers[i][idx] === null) doorMarkers[i][idx] = (d[i] ? createDoorLock(i) : createDoorUnlock(i));
                 doorIcon[i][idx] = doorMarkers[i][idx];
                 showDoorIcon(i);
             }
@@ -352,7 +336,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var createDoorLock = function (idx) {
             var pos = entity.map.doorPos[idx];
             var marker = $(_Data.html.marker).appendTo(that.scene['effort']).css({
-                'background-image': 'url("'+tex['interaction-lock'].src +'")',
+                'background-image': 'url("' + tex['interaction-lock'].src + '")',
                 left: pos[0],
                 top: pos[1]
             });
@@ -443,8 +427,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var path = root + Data.files.path[Data.categoryName.sprite];
 
             // png Loader -------------------------------------------------------------------------------------------
-            tex['fog'] = _loadImg(path + 'fog2.png');
-            tex['nameDeco'] = _loadImg(path + 'name-deco-white.png');
             tex['deadScreen'] = _loadImg(path + 'DeadScreen.png');
             tex['escapeScreen'] = _loadImg(path + 'EscapeScreen.png');
 
