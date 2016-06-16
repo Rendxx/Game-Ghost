@@ -37,7 +37,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.recover = 0;       // recover enfurance count
         this.key = {};          // key list {door id : key id}
         this.lockDoor = {};     // record of locked door
-        this.danger = 0;        // danger level
     };
     Survivor.prototype = Object.create(SYSTEM.Character.Basic.prototype);
     Survivor.prototype.constructor = Survivor;
@@ -56,7 +55,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         dat['win'] = this.win;
         dat['key'] = this.key;
         dat['lockDoor'] = this.lockDoor;
-        dat['danger'] = this.danger;
         dat['recover'] = this.recover;
         return dat;
     };

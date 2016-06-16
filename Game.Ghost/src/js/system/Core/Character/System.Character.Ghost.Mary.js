@@ -29,7 +29,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Ghost = function (id, characterPara, characterData, entity) {
         SYSTEM.Character.Basic.call(this, id, characterPara, characterData, entity);
         // data
-        this.danger = 0;        // danger level
         this.teleportCount = 0;      // count to auto fly
         this.teleporting = false;
     };
@@ -40,13 +39,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype.reset = function (_recoverData) {
         if (_recoverData === null || _recoverData === undefined) return;
         SYSTEM.Character.Basic.prototype.reset.call(this, _recoverData);
-    };
-
-    Ghost.prototype.toJSON = function () {
-        var dat = SYSTEM.Character.Basic.prototype.toJSON.call(this);
-        dat['danger'] = this.danger;
-        dat['teleporting'] = this.teleporting;
-        return dat;
     };
 
     // use the item in front of the character

@@ -26,7 +26,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         bodyId: 'body_1'
     };
 
-    var Map = function (entity, modelData, mapData, gameData) {
+    var Map = function (entity, modelData, mapData, gameData, updateData) {
         // data ----------------------------------------------------------
         var that = this;
 
@@ -79,6 +79,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // set map danger effort
         this.setDanger = function (danger_in) {            
             gameData.danger = this.danger = danger_in;
+            updateData.danger = danger_in;
         };
 
         // data ------------------------------------------------
@@ -205,6 +206,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 //gameData.furniture[k] = that.objList.furniture[k].toJSON();
                 that.objList.furniture[k].onChange = function (idx, data) {
                     gameData.furniture[idx] = data;
+                    updateData.f = updateData.f || {};
+                    updateData.f[idx] = data;
                 };
             }
         };
@@ -254,6 +257,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var keyItem = new SYSTEM.Item.Key(_setupDat.id, _setupDat.mapObjectId, _setupDat.name, _setupDat.doorId);
                     keyItem.onChange = function (idx, data) {
                         gameData.key[idx] = data;
+                        updateData.k = updateData.k || {};
+                        updateData.k[idx] = data;
                     };
 
                     that.objList.key[index] = keyItem;
@@ -275,6 +280,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var keyItem = new SYSTEM.Item.Key(setupData.id, setupData.mapObjectId, setupData.name, setupData.doorId);
                 keyItem.onChange = function (idx, data) {
                     gameData.key[idx] = data;
+                    updateData.k = updateData.k || {};
+                    updateData.k[idx] = data;
                 };
 
                 that.objList.key[i] = keyItem;
@@ -296,6 +303,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 //gameData.door[k] = that.objList.door[k].toJSON();
                 that.objList.door[k].onChange = function (idx, data) {
                     gameData.door[idx] = data;
+                    updateData.d = updateData.d || {};
+                    updateData.d[idx] = data;
                 };
             }
         };
@@ -348,6 +357,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.grid.body[Math.floor(b.y)][Math.floor(b.x)] = b.id;
             that.objList.body[character.id] = b;
             gameData.body[character.id] = b.toJSON();
+            updateData.b = updateData.b || {};
+            updateData.b[character] = b.toJSON();
 
             entity.interAction.updateMap();
         };

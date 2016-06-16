@@ -44,6 +44,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.hp = _para.init.hp;
         this.action = this.modelData.action.list[this.modelData.action.init];
         this.actionForce = null;
+        this.danger = 0;        // danger level
 
         //    O------------->
         //    | 225 180 135
@@ -113,8 +114,27 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             visibleObject: this.visibleObject,
             visibleCharacter: this.visibleCharacter,
             longInteractionObj: this.longInteractionObj,
-            soundObject: this.soundObject
+            soundObject: this.soundObject,
+            danger: this.danger
         };
+    };
+    
+    Basic.prototype.toJSONBrief = function () {
+        return [
+            this.x,                     // 0
+            this.y,
+            this.actived,
+            this.endurance,
+            this.hp,
+            this.currentRotation,       // 5
+            this.action,
+            this.accessObject,
+            this.visibleObject,
+            this.visibleCharacter,
+            this.longInteractionObj,    // 10
+            this.soundObject,
+            this.danger
+        ];
     };
 
     Basic.prototype.getSetupData = function () {
@@ -316,7 +336,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Basic.prototype.updateData = function () {
         if (this.onChange === null) return;
-        this.onChange(this.id, this.toJSON());
+        this.onChange(this.id, this.toJSON(), this.toJSONBrief());
     };
 
     // ---------------------------------------------------------------

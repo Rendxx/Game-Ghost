@@ -10,7 +10,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Data = SYSTEM.Data;
     var _Data = {
     };
-    var CharacterManager = function (entity, modelData, playerData_in, gameData) {
+    var CharacterManager = function (entity, modelData, playerData_in, gameData, updateData) {
         // data ----------------------------------------------------------
         var that = this,
             len = 0;
@@ -131,8 +131,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 } else if (p.role === Data.character.type.ghost) {
                     c = new SYSTEM.Character.Ghost[Data.character.className.ghost[p.modelId]](index, p, modelData.characters, entity);
                 }
-                c.onChange = function (idx, data) {
+                c.onChange = function (idx, data, dataBrief) {
                     gameData[idx] = data;
+                    updateData[idx] = dataBrief;
                 };
                 
                 that.characters[index] = c;

@@ -16,6 +16,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var that = this,
             isStarted = false,
             gameData = {},      // store all data in the game, use to render
+            updateData = {},    // data updated in the time interval
             intervalFunc = null,
             flag_started = false,
             flag_setuped = false;
@@ -64,6 +65,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.setup = function (modelData, mapData, playerData) {
             gameData.map = {};
             gameData.characters = [];
+            updateData = [
+                {},     // map
+                [],     // character
+                null,
+                null
+            ];
             initComponent(modelData, mapData, playerData);
             this.map.setup();
             this.interAction.reset();
@@ -126,11 +133,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method -----------------------------------------
         // called every time frame
         var nextInterval = function () {
-            try{
+            try {
+                updateData = [
+                    {},     // map
+                    []      // character
+                ];
                 that.interAction.update();
                 that.characterManager.update();
                 gameData.message = that.message.getNewMsg();
                 gameData.sound = that.sound.getSoundDat();
+                updateData[2] = gameData.message;
                 if (that.characterManager.checkEnd()) { that.end(); }
                 if (that.onUpdated) that.onUpdated(gameData);
             } catch (e) {
@@ -140,8 +152,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // init component
         var initComponent = function (modelData, mapData, playerData) {
-            that.map = new SYSTEM.Map(that, modelData, mapData, gameData.map);
-            that.characterManager = new SYSTEM.CharacterManager(that, modelData, playerData, gameData.characters);
+            that.map = new SYSTEM.Map(that, modelData, mapData, gameData.map, updateData[0]);
+            that.characterManager = new SYSTEM.CharacterManager(that, modelData, playerData, gameData.characters, updateData[1]);
             that.interAction = new SYSTEM.InterAction(that);
             that.message = new SYSTEM.Message();
             that.sound = new SYSTEM.Sound();
