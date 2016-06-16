@@ -45,6 +45,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.action = this.modelData.action.list[this.modelData.action.init];
         this.actionForce = null;
         this.danger = 0;        // danger level
+        this.win = false;       // character is win or not
 
         //    O------------->
         //    | 225 180 135
@@ -87,53 +88,94 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Method --------------------------------------------------------
     Basic.prototype.reset = function (_recoverData) {
         if (_recoverData === null || _recoverData === undefined) return;
-        if ('x' in _recoverData) this.x = _recoverData.x;
-        if ('y' in _recoverData) this.y = _recoverData.y;
-        if ('actived' in _recoverData) this.actived = _recoverData.actived;
-        if ('endurance' in _recoverData) this.endurance = _recoverData.endurance;
-        if ('light' in _recoverData) this.light = _recoverData.light;
-        if ('battery' in _recoverData) this.battery = _recoverData.battery;
-        if ('hp' in _recoverData) this.hp = _recoverData.hp;
-        if ('currentRotation' in _recoverData) this.currentRotation = _recoverData.currentRotation;
-        if ('action' in _recoverData) this.action = _recoverData.action;
+        //if ('x' in _recoverData) this.x = _recoverData.x;
+        //if ('y' in _recoverData) this.y = _recoverData.y;
+        //if ('actived' in _recoverData) this.actived = _recoverData.actived;
+        //if ('endurance' in _recoverData) this.endurance = _recoverData.endurance;
+        //if ('light' in _recoverData) this.light = _recoverData.light;
+        //if ('battery' in _recoverData) this.battery = _recoverData.battery;
+        //if ('hp' in _recoverData) this.hp = _recoverData.hp;
+        //if ('currentRotation' in _recoverData) this.currentRotation = _recoverData.currentRotation;
+        //if ('action' in _recoverData) this.action = _recoverData.action;
+        //if ('win' in _recoverData) this.win = _recoverData.win;
+
+        
+        if (_recoverData[0] != null) this.x = _recoverData[0];
+        if (_recoverData[1] != null) this.y = _recoverData[1];
+        if (_recoverData[2] != null) this.endurance = _recoverData[2];
+        if (_recoverData[3] != null) this.hp = _recoverData[3];
+        if (_recoverData[4] != null) this.currentRotation = _recoverData[4];
+
+        if (_recoverData[5] != null) this.action = _recoverData[5];
+
+        if (_recoverData[11] != null) this.win = _recoverData[11];
+        if (_recoverData[12] != null) this.actived = _recoverData[12];
+        if (_recoverData[13] != null) this.light = _recoverData[13];
+        if (_recoverData[14] != null) this.battery = _recoverData[14];
+
         this.updateData();
     };
 
     Basic.prototype.toJSON = function () {
-        return {
-            x: this.x,
-            y: this.y,
-            actived: this.actived,
-            endurance: this.endurance,
-            light: this.light,
-            battery: this.battery,
-            hp: this.hp,
-            currentRotation: this.currentRotation,
-            action: this.action,
-            accessObject: this.accessObject,
-            visibleObject: this.visibleObject,
-            visibleCharacter: this.visibleCharacter,
-            longInteractionObj: this.longInteractionObj,
-            soundObject: this.soundObject,
-            danger: this.danger
-        };
+        //return {
+        //    x: this.x,
+        //    y: this.y,
+        //    actived: this.actived,
+        //    endurance: this.endurance,
+        //    light: this.light,
+
+        //    battery: this.battery,
+        //    hp: this.hp,
+        //    currentRotation: this.currentRotation,
+        //    action: this.action,
+        //    accessObject: this.accessObject,
+
+        //    visibleObject: this.visibleObject,
+        //    visibleCharacter: this.visibleCharacter,
+        //    longInteractionObj: this.longInteractionObj,
+        //    soundObject: this.soundObject,
+        //    danger: this.danger,
+
+        //    win:this.win
+        //};
+        return [
+            this.x,                     // 0
+            this.y,
+            this.endurance,
+            this.hp,
+            this.currentRotation,
+
+            this.action,                // 5
+            this.accessObject,
+            this.visibleObject,
+            this.visibleCharacter,
+            this.longInteractionObj,
+
+            this.danger,                // 10
+            this.win,
+            this.actived,
+            this.light,
+            this.battery,
+
+            this.soundObject,           // 15
+        ];
+
     };
     
     Basic.prototype.toJSONBrief = function () {
         return [
             this.x,                     // 0
             this.y,
-            this.actived,
             this.endurance,
             this.hp,
-            this.currentRotation,       // 5
-            this.action,
+            this.currentRotation,       
+            this.action,                // 5
             this.accessObject,
             this.visibleObject,
             this.visibleCharacter,
-            this.longInteractionObj,    // 10
-            this.soundObject,
-            this.danger
+            this.longInteractionObj,    
+            this.danger,                // 10
+            this.win
         ];
     };
 

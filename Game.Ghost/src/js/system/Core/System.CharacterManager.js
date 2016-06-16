@@ -10,7 +10,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Data = SYSTEM.Data;
     var _Data = {
     };
-    var CharacterManager = function (entity, modelData, playerData_in, gameData, updateData) {
+    var CharacterManager = function (entity, modelData, playerData_in, gameData) {
         // data ----------------------------------------------------------
         var that = this,
             len = 0;
@@ -133,7 +133,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
                 c.onChange = function (idx, data, dataBrief) {
                     gameData[idx] = data;
-                    updateData[idx] = dataBrief;
                 };
                 
                 that.characters[index] = c;

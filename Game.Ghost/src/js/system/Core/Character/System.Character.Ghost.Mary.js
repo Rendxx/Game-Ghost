@@ -36,10 +36,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype.constructor = Ghost;
 
     // Method --------------------------------------------------------
-    Ghost.prototype.reset = function (_recoverData) {
-        if (_recoverData === null || _recoverData === undefined) return;
-        SYSTEM.Character.Basic.prototype.reset.call(this, _recoverData);
-    };
 
     // use the item in front of the character
     Ghost.prototype.interaction = function () {

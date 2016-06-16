@@ -19,8 +19,8 @@ $(function () {
         $$.info.alert(s, t, false, "rgba(0,0,0,0.6)", null);
         console.log(endData);
     };
-    system.onUpdated = function (gameData) {
-        renderer.updateGame(gameData);
+    system.onUpdated = function (gameData, updateData) {
+        renderer.updateGame(updateData);
         HELPER.cacheGame(gameData);
         HELPER.updateStat();
     };

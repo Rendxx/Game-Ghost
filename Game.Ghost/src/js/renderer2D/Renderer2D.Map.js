@@ -154,7 +154,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // get data ---------------------------------
         this.isDoorLock = function (idx) {
-            return gameData.door[idx].status === _Data.status.door.Locked;
+            return itemStatus['door'][idx].status === _Data.status.door.Locked;
         };
 
         // private method ---------------------------
@@ -619,9 +619,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // Update items ----------------------------------------------------------
         var updateFuniture = function () {
             // update furniture
-            for (var i in gameData.furniture) {
-                if (gameData.furniture[i].status !== itemStatus['furniture'][i] && itemStatus['furniture'][i] !== null) {
-                    itemStatus['furniture'][i] = gameData.furniture[i].status;
+            for (var i in gameData.f) {
+                if (gameData.f[i].status !== itemStatus['furniture'][i] && itemStatus['furniture'][i] !== null) {
+                    itemStatus['furniture'][i] = gameData.f[i].status;
                     _animation['furniture'][i][itemStatus['furniture'][i]]();
                 }
             }
@@ -629,10 +629,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var updateDoor = function () {
             // update door
-            for (var i in gameData.door) {
+            for (var i in gameData.d) {
                 if (itemStatus['door'][i] !== null) {
-                    if (gameData.door[i].status !== itemStatus['door'][i]) {
-                        itemStatus['door'][i] = gameData.door[i].status;
+                    if (gameData.d[i].status !== itemStatus['door'][i]) {
+                        itemStatus['door'][i] = gameData.d[i].status;
                         _animation['door'][i][itemStatus['door'][i]]();
                     }
                 }
@@ -641,7 +641,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var updateBody = function () {
             // update body
-            for (var i in gameData.body) {
+            for (var i in gameData.b) {
                 if (itemData['body'][i] === undefined || itemData['body'][i] === null) {
                     if (entity.characters !== null && entity.characters[i] !== null) {
                         itemData['body'][i] = {

@@ -76,7 +76,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             light_radiusadius = 0,
             light_angle = 0,
             gameData = null,
-            lightType = 1,
             sprite = {},
             spriteTex = {},
             tween = {
@@ -95,10 +94,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // public method --------------------------------------------------
         // update data from system
         this.update = function (data_in, isVisible_in) {
-            if (lightType !== data_in.light) {
-                lightType = data_in.light;
-            }
-
             gameData = data_in;
             that.isVisible = isVisible_in;
         };
@@ -118,23 +113,23 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 this.element.css({ opacity: 1 });
                 this.shadow.css({ opacity: 1 });
             }
-            var action = gameData.action;
-            var x = (gameData.x) * GridSize;
-            var y = (gameData.y ) * GridSize;
-            var r_body = gameData.currentRotation.body;
-            var r_head = gameData.currentRotation.headBody;
-            var isDead = gameData.hp === 0;
-            var isWin = gameData.win;
+            var x = (gameData[0]) * GridSize;
+            var y = (gameData[1]) * GridSize;
+            this.endurance = gameData[2];
+            var isDead = gameData[3] === 0;
+            var r_body = gameData[4].body;
+            var r_head = gameData[4].headBody;
+            var action = gameData[5];
+            this.accessObject = gameData[6];
+            this.visibleObject = gameData[7];
+            this.longInteractionObj = gameData[9];
+            this.danger = gameData[10];
+            var isWin = gameData[11];
             //console.log(x+"  "+y+"  "+r_body+"  "+r_head);
             if (!this.setuped) return;
 
             this.x = x;
             this.y = y;
-            this.danger = gameData.danger;
-            this.endurance = gameData.endurance;
-            this.accessObject = gameData.accessObject;
-            this.longInteractionObj = gameData.longInteractionObj;
-            this.visibleObject = gameData.visibleObject;
             this.isDead = isDead;
             this.isWin = isWin;
 

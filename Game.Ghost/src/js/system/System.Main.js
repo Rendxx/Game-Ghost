@@ -37,8 +37,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 },
                 "onUpdated": function (para) {
                     var gameData = undefined;
-                    if (para) gameData = para.gameData;
-                    if (that.onUpdated) that.onUpdated(gameData);
+                    if (para) {
+                        gameData = para.gameData;
+                        updateData = para.updateData;
+                    }
+                    if (that.onUpdated) that.onUpdated(gameData, updateData);
                 },
                 "clientSetup": function (para) {
                     var targets = undefined;

@@ -33,7 +33,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         SYSTEM.Character.Basic.call(this, id, characterPara, characterData, entity);
         // data
         this.color = _Data.teamColor[this.team];
-        this.win = false;       // character is win or not
         this.recover = 0;       // recover enfurance count
         this.key = {};          // key list {door id : key id}
         this.lockDoor = {};     // record of locked door
@@ -44,18 +43,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Method --------------------------------------------------------
     Survivor.prototype.reset = function (_recoverData) {
         if (_recoverData === null || _recoverData === undefined) return;
-        if ('win' in _recoverData) this.win = _recoverData.win;
-        if ('key' in _recoverData) this.key = _recoverData.key;
-        if ('recover' in _recoverData) this.recover = _recoverData.recover;
+        //if ('key' in _recoverData) this.key = _recoverData.key;
+        //if ('recover' in _recoverData) this.recover = _recoverData.recover;
+
+        if (_recoverData[16] != null) this.key = _recoverData[16];
+        if (_recoverData[18] != null) this.recover = _recoverData[18];
         SYSTEM.Character.Basic.prototype.reset.call(this, _recoverData);
     };
 
     Survivor.prototype.toJSON = function () {
         var dat = SYSTEM.Character.Basic.prototype.toJSON.call(this);
-        dat['win'] = this.win;
-        dat['key'] = this.key;
-        dat['lockDoor'] = this.lockDoor;
-        dat['recover'] = this.recover;
+        dat[16] = this.key;
+        dat[17] = this.lockDoor;
+        dat[18] = this.recover;
         return dat;
     };
 

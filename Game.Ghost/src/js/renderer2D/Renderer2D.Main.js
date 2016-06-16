@@ -115,15 +115,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         //var lookCache = false;
         this.updateGame = function (gameData) {
             if (gameData === undefined || gameData === null || !flag_loaded) return;
-            that.map.update(gameData.map);
+            that.map.update(gameData[0]);
 
             // handle player visible 
             var playerVisibleList = {};
 
-            playerVisibleList = gameData.characters[this.viewPlayer].visibleCharacter;
+            if (gameData[1] && gameData[1][this.viewPlayer]!=null) playerVisibleList = gameData[1][this.viewPlayer][8];
+            if (gameData[2] != null && gameData[2][this.viewPlayer] != null) that.characters[this.viewPlayer].showMessage(gameData[2][this.viewPlayer]);
             for (var i = 0, l = that.characters.length; i < l; i++) {
-                if (gameData.message!=null && gameData.message[i]!=null) that.characters[i].showMessage(gameData.message[i]);
-                that.characters[i].update(gameData.characters[i], playerVisibleList[i] === true);
+                that.characters[i].update(gameData[1][i], playerVisibleList[i] === true);
             }
         };
     };
