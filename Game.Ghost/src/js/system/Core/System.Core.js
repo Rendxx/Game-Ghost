@@ -137,6 +137,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     gameData.characters,
                     gameData.message
                 ]);
+                gameData.map.updateData = {};
             } catch (e) {
                 console.log(e);
             }

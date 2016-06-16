@@ -88,18 +88,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Method --------------------------------------------------------
     Basic.prototype.reset = function (_recoverData) {
         if (_recoverData === null || _recoverData === undefined) return;
-        //if ('x' in _recoverData) this.x = _recoverData.x;
-        //if ('y' in _recoverData) this.y = _recoverData.y;
-        //if ('actived' in _recoverData) this.actived = _recoverData.actived;
-        //if ('endurance' in _recoverData) this.endurance = _recoverData.endurance;
-        //if ('light' in _recoverData) this.light = _recoverData.light;
-        //if ('battery' in _recoverData) this.battery = _recoverData.battery;
-        //if ('hp' in _recoverData) this.hp = _recoverData.hp;
-        //if ('currentRotation' in _recoverData) this.currentRotation = _recoverData.currentRotation;
-        //if ('action' in _recoverData) this.action = _recoverData.action;
-        //if ('win' in _recoverData) this.win = _recoverData.win;
-
-        
+                
         if (_recoverData[0] != null) this.x = _recoverData[0];
         if (_recoverData[1] != null) this.y = _recoverData[1];
         if (_recoverData[2] != null) this.endurance = _recoverData[2];
@@ -113,6 +102,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (_recoverData[13] != null) this.light = _recoverData[13];
         if (_recoverData[14] != null) this.battery = _recoverData[14];
 
+        if ('x' in _recoverData) this.x = _recoverData.x;
+        if ('y' in _recoverData) this.y = _recoverData.y;
+        if ('actived' in _recoverData) this.actived = _recoverData.actived;
+        if ('endurance' in _recoverData) this.endurance = _recoverData.endurance;
+        if ('light' in _recoverData) this.light = _recoverData.light;
+        if ('battery' in _recoverData) this.battery = _recoverData.battery;
+        if ('hp' in _recoverData) this.hp = _recoverData.hp;
+        if ('currentRotation' in _recoverData) this.currentRotation = _recoverData.currentRotation;
+        if ('action' in _recoverData) this.action = _recoverData.action;
+        if ('win' in _recoverData) this.win = _recoverData.win;
         this.updateData();
     };
 
@@ -160,23 +159,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             this.soundObject,           // 15
         ];
 
-    };
-    
-    Basic.prototype.toJSONBrief = function () {
-        return [
-            this.x,                     // 0
-            this.y,
-            this.endurance,
-            this.hp,
-            this.currentRotation,       
-            this.action,                // 5
-            this.accessObject,
-            this.visibleObject,
-            this.visibleCharacter,
-            this.longInteractionObj,    
-            this.danger,                // 10
-            this.win
-        ];
     };
 
     Basic.prototype.getSetupData = function () {
@@ -378,7 +360,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Basic.prototype.updateData = function () {
         if (this.onChange === null) return;
-        this.onChange(this.id, this.toJSON(), this.toJSONBrief());
+        this.onChange(this.id, this.toJSON());
     };
 
     // ---------------------------------------------------------------

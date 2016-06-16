@@ -131,7 +131,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 } else if (p.role === Data.character.type.ghost) {
                     c = new SYSTEM.Character.Ghost[Data.character.className.ghost[p.modelId]](index, p, modelData.characters, entity);
                 }
-                c.onChange = function (idx, data, dataBrief) {
+                c.onChange = function (idx, data) {
                     gameData[idx] = data;
                 };
                 
