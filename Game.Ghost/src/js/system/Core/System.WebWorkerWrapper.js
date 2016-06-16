@@ -20,12 +20,13 @@ var funcMap = {
                 }
             });
         };
-        _system.onUpdated = function (gameData, updateData) {
+        _system.onUpdated = function (renderData, gameData, clientData) {
             postMessage({
                 func: 'onUpdated',
                 para: {
+                    renderData: renderData,
                     gameData: gameData,
-                    updateData: updateData
+                    clientData: clientData
                 }
             });
         };

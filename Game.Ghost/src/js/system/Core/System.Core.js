@@ -15,10 +15,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ---------------------------------------------------
         var that = this,
             isStarted = false,
-            gameData = {},      // store all data in the game, use to render
+            gameData = {},          // store all data in the game, use to render
             intervalFunc = null,
             flag_started = false,
-            flag_setuped = false;
+            flag_setuped = false,
+            check_count = 0;        // count left to send full data  
 
         // component ----------------------------------------------
         this.map = null;
@@ -62,8 +63,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // setup game
         this.setup = function (modelData, mapData, playerData) {
-            gameData.map = {};
-            gameData.characters = [];
+            gameData.map = [{}, {}];                // [ all data , modified data ]
+            gameData.characters = [[], []];         // [ basic data , assist data ]
             initComponent(modelData, mapData, playerData);
             this.map.setup();
             this.interAction.reset();
@@ -76,7 +77,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 'player': this.characterManager.setupData
             };
             for (var i in playerData) {
-                var c = 
                 this.clientSetup([i], {
                     role: playerData[i].role,
                     portrait: this.characterManager.characters[this.characterManager.id2Index[i]].modelData.portrait,
@@ -124,6 +124,66 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.continue = function () { };
 
         // private method -----------------------------------------
+        // handler update data
+        var _update = function () {
+            var clientData = {};
+            if (--check_count < 0) { 
+                check_count = 200;
+                // full data
+
+                for (var i = 0, len = that.characterManager.characters.length; i < len; i++) {
+                    var id = that.characterManager.index2Id[i];
+                    clientData[id] = [
+                        gameData.map[0],
+                        gameData.characters[0],
+                        [gameData.characters[1][i]],
+                        gameData.message
+                    ];
+                }
+
+                if (that.onUpdated) that.onUpdated(                    
+                    {   // to RENDERER
+                        map: gameData.map[0],
+                        characters: gameData.characters[0],
+                        assist: gameData.characters[1],
+                        message: gameData.message,
+                        sound: gameData.sound
+                    },
+                    {   // to SERVER
+                        map: gameData.map[0],
+                        characters: gameData.characters[0]
+                    },
+                        // to CLIENT
+                        clientData);
+            } else {
+                for (var i = 0, len = that.characterManager.characters.length; i < len; i++) {
+                    var id = that.characterManager.index2Id[i];
+                    clientData[id] = [
+                        gameData.map[1],
+                        gameData.characters[0],
+                        [gameData.characters[1][i]],
+                        gameData.message
+                    ];
+                }
+
+                if (that.onUpdated) that.onUpdated(
+                    {   // to RENDERER
+                        map: gameData.map[1],
+                        characters: gameData.characters[0],
+                        assist: gameData.characters[1],
+                        message: gameData.message,
+                        sound: gameData.sound
+                    },
+                    {   // to SERVER
+                        map: gameData.map[0],
+                        characters: gameData.characters[0]
+                    },
+                        // to CLIENT
+                        clientData);
+            }
+            gameData.map.updateData = {};
+        };
+
         // called every time frame
         var nextInterval = function () {
             try {
@@ -131,13 +191,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.characterManager.update();
                 gameData.message = that.message.getNewMsg();
                 gameData.sound = that.sound.getSoundDat();
+                _update();
                 if (that.characterManager.checkEnd()) { that.end(); }
-                if (that.onUpdated) that.onUpdated(gameData, [
-                    gameData.map.updateData,
-                    gameData.characters,
-                    gameData.message
-                ]);
-                gameData.map.updateData = {};
             } catch (e) {
                 console.log(e);
             }

@@ -38,10 +38,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 "onUpdated": function (para) {
                     var gameData = undefined;
                     if (para) {
+                        renderData = para.renderData;
                         gameData = para.gameData;
-                        updateData = para.updateData;
+                        clientData = para.clientData;
                     }
-                    if (that.onUpdated) that.onUpdated(gameData, updateData);
+                    if (that.onUpdated) that.onUpdated(renderData, gameData, clientData);
                 },
                 "clientSetup": function (para) {
                     var targets = undefined;

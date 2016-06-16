@@ -67,7 +67,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var s_obj = soundDat[0][_Data.Type.Normal];
             var soundList = {};
             for (var i = 0; i < playerNum; i++) {
-                var soundObj = characterDat[characterIdList[i]].soundObject;
+                var soundObj = characterDat[characterIdList[i]][5];
                 for (var t in s_obj) {
                     if (soundObj[s_obj[t].type].hasOwnProperty(s_obj[t].id)) {
                         var sName = s_obj[t].sound;

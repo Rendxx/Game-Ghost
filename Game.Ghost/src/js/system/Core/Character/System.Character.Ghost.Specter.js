@@ -188,7 +188,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (r < 0.5) {
                 c.die();
             } else if (r < 1) {
-                var d = Math.abs(this.currentRotation.head - this.entity.interAction.chracterAngle[this.id][c.id]);
+                var d = Math.abs(this.currentRotation[0] - this.entity.interAction.chracterAngle[this.id][c.id]);
                 if (d > 180) d = 360 - d;
 
                 if (d < 60) c.die();

@@ -53,15 +53,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         //    | 315  0  45
         //    v
 
-        this.currentRotation = {
-            head: 0,
-            body: 0,
-            headBody: 0
-        };
-        this.requiredRotation = {
-            head: 0,
-            body: 0
-        };
+        this.currentRotation = [0, 0, 0]; // [head, body, headBody]
+
+        this.requiredRotation = [0, 0]; // [head, body]
         this.actived = true;
         this.rush = false;          // flag: character is rushing
         this.stay = true;           // flag: character does not move
@@ -88,7 +82,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Method --------------------------------------------------------
     Basic.prototype.reset = function (_recoverData) {
         if (_recoverData === null || _recoverData === undefined) return;
-                
+
         if (_recoverData[0] != null) this.x = _recoverData[0];
         if (_recoverData[1] != null) this.y = _recoverData[1];
         if (_recoverData[2] != null) this.endurance = _recoverData[2];
@@ -96,11 +90,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (_recoverData[4] != null) this.currentRotation = _recoverData[4];
 
         if (_recoverData[5] != null) this.action = _recoverData[5];
-
-        if (_recoverData[11] != null) this.win = _recoverData[11];
-        if (_recoverData[12] != null) this.actived = _recoverData[12];
-        if (_recoverData[13] != null) this.light = _recoverData[13];
-        if (_recoverData[14] != null) this.battery = _recoverData[14];
+        if (_recoverData[6] != null) this.win = _recoverData[6];
+        if (_recoverData[7] != null) this.actived = _recoverData[7];
+        if (_recoverData[8] != null) this.light = _recoverData[8];
+        if (_recoverData[9] != null) this.battery = _recoverData[9];
 
         if ('x' in _recoverData) this.x = _recoverData.x;
         if ('y' in _recoverData) this.y = _recoverData.y;
@@ -116,27 +109,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Basic.prototype.toJSON = function () {
-        //return {
-        //    x: this.x,
-        //    y: this.y,
-        //    actived: this.actived,
-        //    endurance: this.endurance,
-        //    light: this.light,
-
-        //    battery: this.battery,
-        //    hp: this.hp,
-        //    currentRotation: this.currentRotation,
-        //    action: this.action,
-        //    accessObject: this.accessObject,
-
-        //    visibleObject: this.visibleObject,
-        //    visibleCharacter: this.visibleCharacter,
-        //    longInteractionObj: this.longInteractionObj,
-        //    soundObject: this.soundObject,
-        //    danger: this.danger,
-
-        //    win:this.win
-        //};
         return [
             this.x,                     // 0
             this.y,
@@ -145,20 +117,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             this.currentRotation,
 
             this.action,                // 5
-            this.accessObject,
-            this.visibleObject,
-            this.visibleCharacter,
-            this.longInteractionObj,
-
-            this.danger,                // 10
             this.win,
             this.actived,
             this.light,
-            this.battery,
-
-            this.soundObject,           // 15
+            this.battery
         ];
+    };
 
+    Basic.prototype.toJSONAssist = function () {
+        return [
+            this.visibleCharacter,      // 0
+            this.danger,
+            this.accessObject,              
+            this.visibleObject,
+            this.longInteractionObj,
+
+            this.soundObject            // 5
+        ];
     };
 
     Basic.prototype.getSetupData = function () {
@@ -174,8 +149,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (this.role === Data.character.type.survivor) this.rush = rush_in;
         this.stay = stay_in;
         this.headFollow = headFollow_in;
-        if (!stay_in) this.requiredRotation.body = direction;
-        if (!headFollow_in) this.requiredRotation.head = directionHead;
+        if (!stay_in) this.requiredRotation[1] = direction;
+        if (!headFollow_in) this.requiredRotation[0] = directionHead;
     };
 
     Basic.prototype.longInteraction = function () {
@@ -217,42 +192,42 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             speed;
 
         if (!this.stay && !this.headFollow && !this.rush) {
-            d_back = Math.abs(this.requiredRotation.body - this.requiredRotation.head);
+            d_back = Math.abs(this.requiredRotation[1] - this.requiredRotation[0]);
             if (d_back > 90 && d_back < 270) isBack = true;
         }
         // body rotation
-        realDirection_body = this.stay ? this.currentRotation.head : (isBack ? (this.requiredRotation.body + 180) % 360 : this.requiredRotation.body);
-        d_body = realDirection_body - this.currentRotation.body;
+        realDirection_body = this.stay ? this.currentRotation[0] : (isBack ? (this.requiredRotation[1] + 180) % 360 : this.requiredRotation[1]);
+        d_body = realDirection_body - this.currentRotation[1];
         if (d_body < -180) d_body += 360;
         else if (d_body > 180) d_body -= 360;
         if (d_body !== 0) {
             if (Math.abs(d_body) < _speed_rotate.body) {
-                this.currentRotation.body += d_body;
+                this.currentRotation[1] += d_body;
             } else {
-                this.currentRotation.body += ((d_body < 0) ? -1 : 1) * _speed_rotate.body;
+                this.currentRotation[1] += ((d_body < 0) ? -1 : 1) * _speed_rotate.body;
             }
-            if (this.currentRotation.body < 0) this.currentRotation.body += 360;
-            this.currentRotation.body = this.currentRotation.body % 360;
+            if (this.currentRotation[1] < 0) this.currentRotation[1] += 360;
+            this.currentRotation[1] = this.currentRotation[1] % 360;
         }
         // head rotation
-        realDirection_head = (!this.stay && (this.headFollow || (this.rush && !isBack))) ? this.currentRotation.body : (this.headFollow ? this.currentRotation.head : this.requiredRotation.head);
-        d_head = realDirection_head - this.currentRotation.head;
+        realDirection_head = (!this.stay && (this.headFollow || (this.rush && !isBack))) ? this.currentRotation[1] : (this.headFollow ? this.currentRotation[0] : this.requiredRotation[0]);
+        d_head = realDirection_head - this.currentRotation[0];
         if (d_head < -180) d_head += 360;
         else if (d_head > 180) d_head -= 360;
         if (d_head !== 0) {
             if (Math.abs(d_head) < _speed_rotate.head) {
-                this.currentRotation.head += d_head;
+                this.currentRotation[0] += d_head;
             } else {
-                this.currentRotation.head += ((d_head < 0) ? -1 : 1) * _speed_rotate.head;
+                this.currentRotation[0] += ((d_head < 0) ? -1 : 1) * _speed_rotate.head;
             }
-            if (this.currentRotation.head < 0) this.currentRotation.head += 360;
-            this.currentRotation.head = this.currentRotation.head % 360;
+            if (this.currentRotation[0] < 0) this.currentRotation[0] += 360;
+            this.currentRotation[0] = this.currentRotation[0] % 360;
         }
         // head-body rotation
-        d_headBody = this.currentRotation.head - this.currentRotation.body;
+        d_headBody = this.currentRotation[0] - this.currentRotation[1];
         if (d_headBody < -180) d_headBody += 360;
         else if (d_headBody > 180) d_headBody -= 360;
-        this.currentRotation.headBody = d_headBody;
+        this.currentRotation[2] = d_headBody;
 
         // move
         if (this.actionForce !== null) {
@@ -271,8 +246,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 speed = _speed_move[this.action] / 100;
                 var _radius_x = 0;
                 var _radius_y = 0;
-                var deltaX = speed * Math.sin(this.currentRotation.body / 180 * Math.PI);
-                var deltaY = speed * Math.cos(this.currentRotation.body / 180 * Math.PI);
+                var deltaX = speed * Math.sin(this.currentRotation[1] / 180 * Math.PI);
+                var deltaY = speed * Math.cos(this.currentRotation[1] / 180 * Math.PI);
 
                 this._move(deltaX, deltaY);
             }
@@ -300,7 +275,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             this.x += deltaX;
         } else {
             x_t = deltaX > 0 ? (newX - _radius) : (newX + 1 + _radius);
-            if ((deltaX > 0 && x_t > this.x) || (deltaX < 0 && x_t < this.x)) this.x = x_t;                
+            if ((deltaX > 0 && x_t > this.x) || (deltaX < 0 && x_t < this.x)) this.x = x_t;
             canMove = true;
         }
 
@@ -330,9 +305,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Basic.prototype._updateInteraction = function () {
-        this.visibleObject = this.entity.interAction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation.head);
+        this.visibleObject = this.entity.interAction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation[0]);
         this.soundObject = this.entity.interAction.checkSoundObj(this.id, this.x, this.y);
-        this.accessObject = this.entity.interAction.getAccessObject(this.id, this.x, this.y, this.currentRotation.head);
+        this.accessObject = this.entity.interAction.getAccessObject(this.id, this.x, this.y, this.currentRotation[0]);
 
         if (this.longInteractionObj !== null && this.longInteractionObj !== this.accessObject) this.cancelLongInteraction();
     };
@@ -360,7 +335,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Basic.prototype.updateData = function () {
         if (this.onChange === null) return;
-        this.onChange(this.id, this.toJSON());
+        this.onChange(this.id, this.toJSON(), this.toJSONAssist());
     };
 
     // ---------------------------------------------------------------

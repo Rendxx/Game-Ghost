@@ -89,7 +89,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // public method --------------------------------------------------
         // update data from system
-        this.update = function (data_in, isVisible_in) {
+        this.update = function (data_in, assist_in, isVisible_in) {
             gameData = {
                 x: data_in[0],
                 y: data_in[1],
@@ -98,20 +98,18 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 currentRotation: data_in[4],
                 
                 action: data_in[5],
-                accessObject: data_in[6],
-                visibleObject: data_in[7],
-                visibleCharacter: data_in[8],
-                longInteractionObj: data_in[9],
-                
-                danger: data_in[10],
-                win: data_in[11],
-                actived: data_in[12],
-                light: data_in[13],
-                battery: data_in[14],
+                win: data_in[6],
+                actived: data_in[7],
+                light: data_in[8],
+                battery: data_in[9],
 
-                soundObject: data_in[15],
+                visibleCharacter: assist_in[0],
+                danger: assist_in[1],
+                accessObject: assist_in[2],
+                visibleObject: assist_in[3],
+                longInteractionObj: assist_in[4],
 
-                teleporting: data_in[19] == null ? null : data_in[19]
+                soundObject: assist_in[5]
             };
 
             if (lightType !== gameData.light) {
@@ -140,8 +138,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var action = gameData.action;
             var x = (gameData.x - entity.map.width / 2) * GridSize;
             var y = (gameData.y - entity.map.height / 2) * GridSize;
-            var r_body = gameData.currentRotation.body;
-            var r_head = gameData.currentRotation.headBody;
+            var r_body = gameData.currentRotation[1];
+            var r_head = gameData.currentRotation[2];
             var isDead = gameData.hp === 0;
             var isWin = gameData.win;
             //console.log(x+"  "+y+"  "+r_body+"  "+r_head);

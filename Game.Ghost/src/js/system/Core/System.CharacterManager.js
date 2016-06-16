@@ -57,6 +57,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         this.reset = function (setupData_in, recoverData) {
             this.setupData = setupData_in;
+            if (recoverData != null) recoverData = recoverData[0];
             for (var i = 0; i < len; i++) {
                 this.characters[i].reset((recoverData !== null) ? recoverData[i] : null);
             }
@@ -131,8 +132,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 } else if (p.role === Data.character.type.ghost) {
                     c = new SYSTEM.Character.Ghost[Data.character.className.ghost[p.modelId]](index, p, modelData.characters, entity);
                 }
-                c.onChange = function (idx, data) {
-                    gameData[idx] = data;
+                c.onChange = function (idx, data, dataAssist) {
+                    gameData[0][idx] = data;
+                    gameData[1][idx] = dataAssist;
                 };
                 
                 that.characters[index] = c;

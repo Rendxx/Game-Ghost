@@ -137,17 +137,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = that.characters.length; i < l; i++) {
                 if (this.team[that.characters[i].team]===true) {
                     playerVisibleList[i] = true;
-                    for (var idx in gameData.characters[i][8]) {
-                        if (gameData.characters[i][8][idx] === true) playerVisibleList[idx] = true;
+                    for (var idx in gameData.assist[i][0]) {
+                        if (gameData.assist[i][0][idx] === true) playerVisibleList[idx] = true;
                     }
                 }
             }
 
             for (var i = 0, l = that.characters.length; i < l; i++) {
                 if (gameData.message!=null && gameData.message[i]!=null) that.characters[i].showMessage(gameData.message[i]);
-                that.characters[i].update(gameData.characters[i], playerVisibleList[i] === true);
+                that.characters[i].update(gameData.characters[i], gameData.assist[i], playerVisibleList[i] === true);
             }
-            that.sound.update(gameData.sound, gameData.characters);
+            that.sound.update(gameData.sound, gameData.assist);
         };
     };
 
