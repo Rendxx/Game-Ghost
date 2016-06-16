@@ -120,10 +120,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             // handle player visible 
             var playerVisibleList = {};
 
-            if (gameData[1] && gameData[1][this.viewPlayer]!=null) playerVisibleList = gameData[1][this.viewPlayer][8];
-            if (gameData[2] != null && gameData[2][this.viewPlayer] != null) that.characters[this.viewPlayer].showMessage(gameData[2][this.viewPlayer]);
+            if (gameData[2] && gameData[2][this.viewPlayer]!=null) playerVisibleList = gameData[2][this.viewPlayer][0];
+            if (gameData[3] != null && gameData[3][this.viewPlayer] != null) that.characters[this.viewPlayer].showMessage(gameData[3][this.viewPlayer]);
             for (var i = 0, l = that.characters.length; i < l; i++) {
-                that.characters[i].update(gameData[1][i], playerVisibleList[i] === true);
+                that.characters[i].update(gameData[1][i], gameData[2][i], playerVisibleList[i] === true);
             }
         };
     };

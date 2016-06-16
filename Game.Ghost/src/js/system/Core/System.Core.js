@@ -51,9 +51,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // reset game with given data
         this.reset = function (setupData_in, gameData_in) {
             if (setupData_in === undefined || setupData_in === null) return;
-            gameData = gameData_in;
+            gameData.map[0] = gameData_in[0];
+            gameData.characters[0] = gameData_in[1];
             initComponent(setupData_in.model, setupData_in.map, setupData_in.player);
-            this.characterManager.reset(setupData_in.player, (gameData_in !== null && gameData_in !== undefined) ? gameData_in.characters : null);
+            this.characterManager.reset(setupData_in.player, (gameData_in !== null && gameData_in !== undefined) ? gameData_in[1] : null);
             this.map.reset(setupData_in.mapSetup);
             this.interAction.reset();
             this.userInput.reset(this.characterManager.characters, this.characterManager.index2Id);
@@ -142,17 +143,17 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
 
                 if (that.onUpdated) that.onUpdated(                    
-                    {   // to RENDERER
-                        map: gameData.map[0],
-                        characters: gameData.characters[0],
-                        assist: gameData.characters[1],
-                        message: gameData.message,
-                        sound: gameData.sound
-                    },
-                    {   // to SERVER
-                        map: gameData.map[0],
-                        characters: gameData.characters[0]
-                    },
+                    [   // to RENDERER
+                        gameData.map[0],
+                        gameData.characters[0],
+                        gameData.characters[1],
+                        gameData.message,
+                        gameData.sound
+                    ],
+                    [   // to SERVER
+                        gameData.map[0],
+                        gameData.characters[0]
+                    ],
                         // to CLIENT
                         clientData);
             } else {
@@ -167,17 +168,17 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
 
                 if (that.onUpdated) that.onUpdated(
-                    {   // to RENDERER
-                        map: gameData.map[1],
-                        characters: gameData.characters[0],
-                        assist: gameData.characters[1],
-                        message: gameData.message,
-                        sound: gameData.sound
-                    },
-                    {   // to SERVER
-                        map: gameData.map[0],
-                        characters: gameData.characters[0]
-                    },
+                    [   // to RENDERER
+                        gameData.map[0],
+                        gameData.characters[0],
+                        gameData.characters[1],
+                        gameData.message,
+                        gameData.sound
+                    ],
+                    [   // to SERVER
+                        gameData.map[0],
+                        gameData.characters[0]
+                    ],
                         // to CLIENT
                         clientData);
             }

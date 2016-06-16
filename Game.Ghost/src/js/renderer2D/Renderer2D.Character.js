@@ -93,8 +93,28 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // public method --------------------------------------------------
         // update data from system
-        this.update = function (data_in, isVisible_in) {
-            gameData = data_in;
+        this.update = function (data_in, assist_in, isVisible_in) {
+            gameData = {
+                x: data_in[0],
+                y: data_in[1],
+                endurance: data_in[2],
+                hp: data_in[3],
+                currentRotation: data_in[4],
+
+                action: data_in[5],
+                win: data_in[6],
+                actived: data_in[7],
+                light: data_in[8],
+                battery: data_in[9],
+
+                visibleCharacter: assist_in[0],
+                danger: assist_in[1],
+                accessObject: assist_in[2],
+                visibleObject: assist_in[3],
+                longInteractionObj: assist_in[4],
+
+                soundObject: assist_in[5]
+            };
             that.isVisible = isVisible_in;
         };
 
@@ -113,18 +133,22 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 this.element.css({ opacity: 1 });
                 this.shadow.css({ opacity: 1 });
             }
-            var x = (gameData[0]) * GridSize;
-            var y = (gameData[1]) * GridSize;
-            this.endurance = gameData[2];
-            var isDead = gameData[3] === 0;
-            var r_body = gameData[4].body;
-            var r_head = gameData[4].headBody;
-            var action = gameData[5];
-            this.accessObject = gameData[6];
-            this.visibleObject = gameData[7];
-            this.longInteractionObj = gameData[9];
-            this.danger = gameData[10];
-            var isWin = gameData[11];
+
+            var action = gameData.action;
+            var x = (gameData.x) * GridSize;
+            var y = (gameData.y) * GridSize;
+            var r_body = gameData.currentRotation[1];
+            var r_head = gameData.currentRotation[2];
+            var isDead = gameData.hp === 0;
+            var isWin = gameData.win;
+
+            this.endurance = gameData.endurance;
+            this.accessObject = gameData.accessObject;
+            this.longInteractionObj = gameData.longInteractionObj;
+            this.visibleObject = gameData.visibleObject;
+            this.danger = gameData.danger;
+
+
             //console.log(x+"  "+y+"  "+r_body+"  "+r_head);
             if (!this.setuped) return;
 
