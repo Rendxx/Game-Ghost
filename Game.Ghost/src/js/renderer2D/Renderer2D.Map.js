@@ -109,6 +109,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
         this.posEnd = null;
         this.dark = null;
+        this.danger = 0;
 
         // callback --------------------------------
         this.onLoaded = null;
@@ -660,6 +661,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         var updateLight = function () {
+            if (gameData.da != null) that.danger = gameData.da;
         };
 
         var createEndPos = function (dat) {

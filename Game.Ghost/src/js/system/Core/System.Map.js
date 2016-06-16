@@ -77,9 +77,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         // set map danger effort
-        this.setDanger = function (danger_in) {            
+        this.setDanger = function (danger_in) {
+            if (this.danger !== danger_in) gameData.updateData.da = danger_in;
             gameData.danger = this.danger = danger_in;
-            gameData.updateData.danger = danger_in;
         };
 
         // data ------------------------------------------------

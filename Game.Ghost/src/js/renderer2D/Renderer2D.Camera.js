@@ -380,7 +380,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var _dangerCache = 0;
         var updateEdge = function () {
             if (_dangerCache === that.character.danger) return;
-            _dangerCache = that.character.danger;
+            _dangerCache = Math.max(that.character.danger, entity.map.danger);
             sprites["edges"].css({
                 'opacity': _dangerCache
             });
