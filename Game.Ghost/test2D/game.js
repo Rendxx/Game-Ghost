@@ -20,10 +20,13 @@ $(function () {
         $$.info.alert(s, t, false, "rgba(0,0,0,0.6)", null);
         console.log(endData);
     };
-    system.onUpdated = function (renderData, gameData, clientData) {
-        renderer.updateGame(clientData[viewId]);
+    system.onUpdated = function (renderData, gameData) {
+        //renderer.updateGame(clientData[viewId]);
         HELPER.cacheGame(gameData);
         HELPER.updateStat();
+    };
+    system.clientUpdate = function (targets, clientData) {
+        if (viewId == targets[0]) renderer.updateGame(clientData);
     };
     
 

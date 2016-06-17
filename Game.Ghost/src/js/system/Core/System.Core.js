@@ -127,7 +127,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method -----------------------------------------
         // handler update data
         var _update = function () {
-            var clientData = {};
             if (--check_count < 0) { 
                 check_count = 200;
                 // full data
@@ -136,12 +135,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var id = that.characterManager.index2Id[i];
                     var assist = [];
                     assist[i] = gameData.characters[1][i];
-                    clientData[id] = [
+                    that.clientUpdate([id], [
                         gameData.map[0],
                         gameData.characters[0],
                         assist,
                         gameData.message
-                    ];
+                    ]);
                 }
 
                 if (that.onUpdated) that.onUpdated(                    
@@ -155,25 +154,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     [   // to SERVER
                         gameData.map[0],
                         gameData.characters[0]
-                    ],
-                        // to CLIENT
-                        clientData);
+                    ]);
             } else {
                 for (var i = 0, len = that.characterManager.characters.length; i < len; i++) {
                     var id = that.characterManager.index2Id[i];
                     var assist = [];
                     assist[i] = gameData.characters[1][i];
-                    clientData[id] = [
+                    that.clientUpdate([id], [
                         gameData.map[1],
                         gameData.characters[0],
                         assist,
                         gameData.message
-                    ];
+                    ]);
                 }
 
                 if (that.onUpdated) that.onUpdated(
                     [   // to RENDERER
-                        gameData.map[0],
+                        gameData.map[1],
                         gameData.characters[0],
                         gameData.characters[1],
                         gameData.message,
@@ -182,9 +179,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     [   // to SERVER
                         gameData.map[0],
                         gameData.characters[0]
-                    ],
-                        // to CLIENT
-                        clientData);
+                    ]);
             }
             gameData.map.updateData = {};
         };

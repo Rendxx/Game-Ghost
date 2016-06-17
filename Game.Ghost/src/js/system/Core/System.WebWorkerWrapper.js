@@ -20,13 +20,12 @@ var funcMap = {
                 }
             });
         };
-        _system.onUpdated = function (renderData, gameData, clientData) {
+        _system.onUpdated = function (renderData, gameData) {
             postMessage({
                 func: 'onUpdated',
                 para: {
                     renderData: renderData,
-                    gameData: gameData,
-                    clientData: clientData
+                    gameData: gameData
                 }
             });
         };
@@ -39,11 +38,11 @@ var funcMap = {
                 }
             });
         };
-        _system.clientUpdate = function (targetArr, clientData) {
+        _system.clientUpdate = function (targets, clientData) {
             postMessage({
                 func: 'clientUpdate',
                 para: {
-                    targetArr: targetArr,
+                    targets: targets,
                     clientData: clientData
                 }
             });
