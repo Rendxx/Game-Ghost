@@ -3,7 +3,8 @@
 $(function () {
     // game -----------------------------------------------------
     var _root = null;
-    var renderer = window.Rendxx.Game.Ghost.Renderer2D.Create(document.getElementById('game-container'), _root, 'p7');
+    var viewId = 'p7';
+    var renderer = window.Rendxx.Game.Ghost.Renderer2D.Create(document.getElementById('game-container'), _root, viewId);
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -20,7 +21,7 @@ $(function () {
         console.log(endData);
     };
     system.onUpdated = function (renderData, gameData, clientData) {
-        renderer.updateGame(renderData);
+        renderer.updateGame(clientData[viewId]);
         HELPER.cacheGame(gameData);
         HELPER.updateStat();
     };
@@ -106,5 +107,5 @@ $(function () {
     // helper --------------------------------------------------------
     HELPER.addStats($('#game-container'));
     HELPER.addDatGUI($('body'));
-    SetupControl(system, 'p7');
+    SetupControl(system, viewId);
 });

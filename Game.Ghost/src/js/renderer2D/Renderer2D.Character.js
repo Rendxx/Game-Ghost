@@ -94,6 +94,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // public method --------------------------------------------------
         // update data from system
         this.update = function (data_in, assist_in, isVisible_in) {
+            assist_in = assist_in || [];
             gameData = {
                 x: data_in[0],
                 y: data_in[1],
