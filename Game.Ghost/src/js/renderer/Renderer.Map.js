@@ -165,7 +165,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         // get data ---------------------------------
         this.isDoorLock = function (idx) {
-            return gameData.door[idx].status === _Data.status.door.Locked;
+            return gameData.d[idx].status === _Data.status.door.Locked;
         };
 
         // private method ---------------------------
@@ -706,9 +706,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // Update items ----------------------------------------------------------
         var updateFuniture = function () {
             // update furniture
-            for (var i in gameData.furniture) {
-                if (gameData.furniture[i].status !== itemStatus['furniture'][i] && itemStatus['furniture'][i] !== null) {
-                    itemStatus['furniture'][i] = gameData.furniture[i].status;
+            for (var i in gameData.f) {
+                if (gameData.f[i].status !== itemStatus['furniture'][i] && itemStatus['furniture'][i] !== null) {
+                    itemStatus['furniture'][i] = gameData.f[i].status;
                     if (itemTween['furniture'][i] !== null) {
                         var t = itemTween['furniture'][i][1 - _Data.animationId.furniture[itemStatus['furniture'][i]]];
                         for (var j = 0; j < t.length; j++) {
@@ -725,10 +725,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var updateDoor = function () {
             // update door
-            for (var i in gameData.door) {
+            for (var i in gameData.d) {
                 if (itemStatus['door'][i] !== null) {
-                    if (gameData.door[i].status !== itemStatus['door'][i]) {
-                        itemStatus['door'][i] = gameData.door[i].status;
+                    if (gameData.d[i].status !== itemStatus['door'][i]) {
+                        itemStatus['door'][i] = gameData.d[i].status;
                         if (itemTween['door'] !== null && itemTween['door'][i] !== null) {
                             var t = itemTween['door'][i][1 - _Data.animationId.door[itemStatus['door'][i]]];
                             for (var j = 0; j < t.length; j++) {
@@ -746,7 +746,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var updateBody = function () {
             // update body
-            for (var i in gameData.body) {
+            for (var i in gameData.b) {
                 if (itemData['body'][i] === undefined || itemData['body'][i] === null) {
                     if (entity.characters !== null && entity.characters[i] !== null) {
                         itemData['body'][i] = {
@@ -763,17 +763,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // update key
             if (_mapData === null) return;
             for (var i in mesh_key) {
-                if (gameData.key.hasOwnProperty(i) && gameData.key[i] !== null && gameData.key[i].mapObjectId !== -1) continue;
+                if (gameData.k.hasOwnProperty(i) && gameData.k[i] !== null && gameData.k[i].mapObjectId !== -1) continue;
                 if (mesh_key[i] === null) continue;
                 removeKey(i, _scene, function (idx) {
                     delete mesh_key[idx];
                 });
             }
 
-            for (var i in gameData.key) {
-                if (mesh_key.hasOwnProperty(i) || gameData.key[i].mapObjectId === -1) continue;
+            for (var i in gameData.k) {
+                if (mesh_key.hasOwnProperty(i) || gameData.k[i].mapObjectId === -1) continue;
                 mesh_key[i] = null;
-                var key = gameData.key[i];
+                var key = gameData.k[i];
                 createKey(_mapData.item.furniture[key.mapObjectId], i, _scene, function (idx, mesh) {
                     _scene.add(mesh);
                     mesh_key[idx] = mesh;
@@ -782,8 +782,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var updateLight = function () {
-            if (_dangerCache === gameData.danger) return;
-            _dangerCache = gameData.danger;
+            if (_dangerCache === gameData.da) return;
+            _dangerCache = gameData.da;
             var vector =  _dangerCache / 100;
             that.ambient.color.r = _ambientNormal.r + (_ambientDanger.r - _ambientNormal.r) * vector;
             that.ambient.color.g = _ambientNormal.g + (_ambientDanger.g - _ambientNormal.g) * vector;

@@ -155,23 +155,23 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.isDead = isDead;
             this.isWin = isWin;
 
-            if (gameData.teleporting!=null) {
-                if (this.topLight !== null) {
-                    if (gameData.teleporting && !teleportingFlag) {
-                        this.topLight.position.y = this.mesh.position.y + (10 + topLightData.y) * GridSize;
-                        this.topLight.distance = (10 + topLightData.distance) * GridSize;
-                        this.topLight.color.r = 3;
-                        this.topLight.visible = true;
-                        teleportingFlag = true;
-                    } else if (!gameData.teleporting && teleportingFlag) {
-                        this.topLight.position.y = this.mesh.position.y + topLightData.y * GridSize;
-                        this.topLight.distance = topLightData.distance * GridSize;
-                        this.topLight.color.r = cache_lightR;
-                        this.topLight.visible = (entity.team[_para.team] === true);
-                        teleportingFlag = false;
-                    }
-                }
-            }
+            //if (gameData.teleporting!=null) {
+            //    if (this.topLight !== null) {
+            //        if (gameData.teleporting && !teleportingFlag) {
+            //            this.topLight.position.y = this.mesh.position.y + (10 + topLightData.y) * GridSize;
+            //            this.topLight.distance = (10 + topLightData.distance) * GridSize;
+            //            this.topLight.color.r = 3;
+            //            this.topLight.visible = true;
+            //            teleportingFlag = true;
+            //        } else if (!gameData.teleporting && teleportingFlag) {
+            //            this.topLight.position.y = this.mesh.position.y + topLightData.y * GridSize;
+            //            this.topLight.distance = topLightData.distance * GridSize;
+            //            this.topLight.color.r = cache_lightR;
+            //            this.topLight.visible = (entity.team[_para.team] === true);
+            //            teleportingFlag = false;
+            //        }
+            //    }
+            //}
 
             // dead
             if (isDead) {
