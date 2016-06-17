@@ -7,7 +7,7 @@ $(function () {
     var renderer = window.Rendxx.Game.Ghost.Renderer2D.Create(document.getElementById('game-container'), _root, viewId);
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
-        renderer.reset(setupData);
+        //renderer.reset(setupData);
         HELPER.cacheSetup(setupData);
     };
     system.onStarted = function (modelData, mapData) {
@@ -27,6 +27,9 @@ $(function () {
     };
     system.clientUpdate = function (targets, clientData) {
         if (viewId == targets[0]) renderer.updateGame(clientData);
+    };
+    system.clientSetup = function (targets, clientData) {
+        if (viewId == targets[0]) renderer.reset(clientData.game);
     };
     
 

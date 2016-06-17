@@ -115,7 +115,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         //var lookCache = false;
         this.updateGame = function (gameData) {
             if (gameData === undefined || gameData === null || !flag_loaded) return;
-            that.map.update(gameData[0]);
 
             // handle player visible 
             var playerVisibleList = {};
@@ -125,6 +124,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i = 0, l = that.characters.length; i < l; i++) {
                 that.characters[i].update(gameData[1][i], gameData[2][i], playerVisibleList[i] === true);
             }
+            that.map.update(gameData[0]);
         };
     };
 

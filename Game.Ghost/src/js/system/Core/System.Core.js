@@ -51,6 +51,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // reset game with given data
         this.reset = function (setupData_in, gameData_in) {
             if (setupData_in === undefined || setupData_in === null) return;
+            gameData.map = [{}, {}];                // [ all data , modified data ]
+            gameData.characters = [[], []];         // [ basic data , assist data ]
             gameData.map[0] = gameData_in[0];
             gameData.characters[0] = gameData_in[1];
             initComponent(setupData_in.model, setupData_in.map, setupData_in.player);
@@ -77,15 +79,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 'mapSetup': this.map.setupData,
                 'player': this.characterManager.setupData
             };
+
+            flag_setuped = true;
             for (var i in playerData) {
                 this.clientSetup([i], {
                     role: playerData[i].role,
                     portrait: this.characterManager.characters[this.characterManager.id2Index[i]].modelData.portrait,
-                    color: this.characterManager.characters[this.characterManager.id2Index[i]].color
+                    color: this.characterManager.characters[this.characterManager.id2Index[i]].color,
+                    game: setupData
                 });
             }
-
-            flag_setuped = true;
             this.onSetuped(setupData);
             if (flag_started && !isStarted) this.start();
         };

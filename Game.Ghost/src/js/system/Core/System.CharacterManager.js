@@ -57,7 +57,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         this.reset = function (setupData_in, recoverData) {
             this.setupData = setupData_in;
-            if (recoverData != null) recoverData = recoverData[0];
             for (var i = 0; i < len; i++) {
                 this.characters[i].reset((recoverData !== null) ? recoverData[i] : null);
             }

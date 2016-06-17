@@ -162,6 +162,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (isDead) {
                 if (currentAction !== action) {
                     this.element.css({
+                        'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) '
+                    });
+                    this.shadow.css({
+                        'transform': 'translate(' + x + 'px,' + y + 'px) '
+                    });
+                    this.element.css({
                         'background-image': 'url("' + root + Data.character.path + _data.path + action + '.gif")'
                     });
                 }
