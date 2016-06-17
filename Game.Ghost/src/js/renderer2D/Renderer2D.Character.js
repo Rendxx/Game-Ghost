@@ -17,6 +17,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         ],
         html: {
             character: '<div class="_character"></div>',
+            imgWrap: '<div class="_img_wrap"></div>',
+            img: '<img src="" class="_img" />',
             shadow: '<div class="_shadow"></div>',
             layer: '<div class="_layer _layer_char"></div>',
             scene: {
@@ -58,7 +60,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.torchDirectionObj = null;
         this.element = null;
         this.shadow = null;
-        this.highlight = null;
         this.materials = null;
         this.actions = null;
         this.setuped = false;
@@ -86,7 +87,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             teleportingFlag = false,
             torchData = Data.character.parameter[_para.role].light.torch,
             topLightData = Data.character.parameter[_para.role].light.top,
-            noTorchData = Data.character.parameter[_para.role].light.noTorch;
+            noTorchData = Data.character.parameter[_para.role].light.noTorch,
+
+            html_imgWrap = null,
+            html_img = null;
 
         // callback -------------------------------------------------------
         this.onLoaded = null;
@@ -167,25 +171,19 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     this.shadow.css({
                         'transform': 'translate(' + x + 'px,' + y + 'px) '
                     });
-                    this.element.css({
-                        'background-image': 'url("' + root + Data.character.path + _data.path + action + '.gif")'
-                    });
+                    changeAction(action);
                 }
                 return;
             } else if (isWin) {
                 if (currentAction !== action) {
-                    this.element.css({
-                        'background-image': 'url("' + root + Data.character.path + _data.path + action + '.gif")'
-                    });
+                    changeAction(action);
                 }
                 return;
             }
             // move
 
             if (currentAction !== action) {
-                this.element.css({
-                    'background-image': 'url("' + root + Data.character.path + _data.path + action + '.gif")'
-                });
+                changeAction(action);
                 currentAction = action;
             }
 
@@ -229,12 +227,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (isMain) {
                 var layer = entity.env.scene['character'] = $(_Data.html.scene['character']).appendTo($(entity.domElement));;
                 that.element = $(_Data.html.character).css({
-                    'width': GridSize + 'px',
-                    'height': GridSize + 'px',
-                    'margin-top': -GridSize / 2 + 'px',
-                    'margin-left': -GridSize / 2 + 'px',
-                    'background-image': 'url("' + root + Data.character.path + _data.path + 'idle.gif")'
+                    'width': GridSize * 2 + 'px',
+                    'height': GridSize * 2 + 'px',
+                    'margin-top': -GridSize + 'px',
+                    'margin-left': -GridSize + 'px',
                 }).appendTo(layer);
+                html_imgWrap = $(_Data.html.imgWrap).css({
+                    'width': GridSize * 2 + 'px',
+                    'height': GridSize * 2 + 'px',
+                    'line-height': GridSize * 2 + 'px'
+                }).appendTo(that.element);
+                html_img = $(_Data.html.img).appendTo(html_imgWrap);
+                changeAction('idle');
                 that.shadow = $(_Data.html.shadow).css({
                     'width': 2 + 'px',
                     'height': 2 + 'px',
@@ -247,12 +251,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     entity.env.layers.character = layer = $(_Data.html.layer).appendTo(entity.env.scene['map']);
                 }
                 that.element = $(_Data.html.character).css({
-                    'width': GridSize + 'px',
-                    'height': GridSize + 'px',
-                    'margin-top': -GridSize / 2 + 'px',
-                    'margin-left': -GridSize / 2 + 'px',
-                    'background-image': 'url("' + root + Data.character.path + _data.path + 'idle.gif")'
+                    'width': GridSize * 2 + 'px',
+                    'height': GridSize * 2 + 'px',
+                    'margin-top': -GridSize + 'px',
+                    'margin-left': -GridSize + 'px'
                 }).appendTo(layer);
+                html_imgWrap = $(_Data.html.imgWrap).css({
+                    'width': GridSize * 2 + 'px',
+                    'height': GridSize * 2 + 'px',
+                    'line-height': GridSize * 2 + 'px'
+                }).appendTo(that.element);
+                html_img = $(_Data.html.img).appendTo(html_imgWrap);
+                changeAction('idle');
                 that.shadow = $(_Data.html.shadow).css({
                     'width': 2 + 'px',
                     'height': 2 + 'px',
@@ -264,14 +274,22 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             that.setuped = true;
             if (that.onLoaded !== null) that.onLoaded();
         };
-        
+
         // sprite ---------------------------------------------------------
+        var changeAction = function (action) {
+            html_img[0].src = getSrc(action, root + Data.character.path + _data.path + action + '.gif');
+        };
+
+        var getSrc = function (name, src) {
+            if (!spriteTex.hasOwnProperty(name)) {
+                spriteTex[name] = _loadImg(src);
+            }
+            return spriteTex[name].src;
+        };
+
         var setupSprite = function () {
             spriteTex = {
             };
-            //var textureLoader = new THREE.TextureLoader();
-            //spriteTex['highlight'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.png');
-            spriteTex['highlight'] = _loadImg(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.png');
         };
         var _loadImg = function (name) {
             var img = new Image();

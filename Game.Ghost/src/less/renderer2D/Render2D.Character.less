@@ -16,14 +16,6 @@
             ._character {
                 position: absolute;
                 display: block;
-                background-position: center center;
-                background-repeat: no-repeat;
-                background-size: contain;
-                -moz-transform-origin: center center;
-                -ms-transform-origin: center center;
-                -o-transform-origin: center center;
-                -webkit-transform-origin: center center;
-                transform-origin: center center;
                 -moz-transform: scale(1.25,1.25);
                 -ms-transform: scale(1.25,1.25);
                 -o-transform: scale(1.25,1.25);
@@ -34,6 +26,16 @@
                 -o-transition: opacity 0.2s;
                 -webkit-transition: opacity 0.2s;
                 transition: opacity 0.2s;
+
+                ._img_wrap {
+                    display:inline-block; 
+                    text-align:center; 
+                    vertical-align:middle;
+
+                    ._img{
+                        vertical-align:middle;
+                    }
+                }
             }
 
             ._shadow {
@@ -80,15 +82,17 @@
         top: 50%;
         left: 50%;
         display: block;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        -moz-transform-origin: center center;
-        -ms-transform-origin: center center;
-        -o-transform-origin: center center;
-        -webkit-transform-origin: center center;
-        transform-origin: center center;
         z-index: 10;
+        
+        ._img_wrap {
+            display:inline-block; 
+            text-align:center; 
+            vertical-align:middle;
+
+            ._img{
+                vertical-align:middle;
+            }
+        }
     }
 
     ._shadow {

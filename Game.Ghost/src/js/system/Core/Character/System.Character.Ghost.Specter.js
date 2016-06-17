@@ -64,9 +64,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Ghost.prototype.getDanger = function (d) {
         return 0.3;
     };
+    
+    Ghost.prototype.move = function (direction, directionHead, rush_in, stay_in, headFollow_in) {
+        if (this.isAction) return;
+        SYSTEM.Character.Basic.prototype.move.call(this, direction, directionHead, rush_in, stay_in, headFollow_in);
+    }
 
     Ghost.prototype._move = function (deltaX, deltaY){
-        if (this.isAction) return;
         var _radius = this.modelData.radius;
         var x2 = this.x + deltaX + (deltaX > 0 ? _radius : -_radius),
             y2 = this.y + deltaY + (deltaY > 0 ? _radius : -_radius),
@@ -171,6 +175,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Ghost.prototype.kill = function () {
+        if (this.isAction) return;
         if (this.endurance < this.enduranceMax / 20 && this.isAction) return;
         this.actionForce = 'attack';
         this.isAction = true;
@@ -178,7 +183,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         setTimeout(function () {
             that.isAction = false;
             that.actionForce = null;
-        },300);
+        },1600);
         this.endurance -= this.enduranceMax / 20;
         for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
             var c = this.entity.characterManager.characters[i];
@@ -187,7 +192,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             
             if (r < 0.5) {
                 c.die();
-            } else if (r < 1) {
+            } else if (r < 1.5) {
                 var d = Math.abs(this.currentRotation[0] - this.entity.interAction.chracterAngle[this.id][c.id]);
                 if (d > 180) d = 360 - d;
 

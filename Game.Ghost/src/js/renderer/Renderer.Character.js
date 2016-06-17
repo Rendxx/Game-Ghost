@@ -188,6 +188,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 return;
             } else if (isWin) {
                 if (currentAction !== action) {
+                    that.actions[action].reset();
                     tween.show[action].start();
                     tween.hide[currentAction].start();
                     currentAction = action;
@@ -209,6 +210,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 //(new TWEEN.Tween(this.actions[action]).to({ weight: 1 }, 200)).start();
                 //(new TWEEN.Tween(this.actions[currentAction]).to({ weight: 0 }, 200)).start();
 
+                that.actions[action].reset();
                 tween.show[action].start();
                 tween.hide[currentAction].start();
                 currentAction = action;
@@ -220,8 +222,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var r1 = r_body / 180 * Math.PI;
             var r2 = -r_head / 180 * Math.PI;
             var r3 = r1 - r2;
-            r_head_1.rotation.z = r2 / 3 * 2;
-            r_head_2.rotation.z = r2 / 3;
+            //r_head_1.rotation.z = r2 / 3 * 2;
+            //r_head_2.rotation.z = r2 / 3;
             this.mesh.rotation.y = r1;
 
             this.rotation = {
