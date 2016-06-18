@@ -325,9 +325,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype.nextInterval = function () {
         if (!this.actived) return;
 
+        this._updateStatus();
         this._updateMove();
         this._updatePositionTrigger();
-        this._updateStatus();
         this._updateInteraction();
         this._updateVisible();
         this.updateData();
