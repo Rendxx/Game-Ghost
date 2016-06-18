@@ -130,9 +130,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             //    'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
             //});
             if (that.character.isDead) {
-                showDeadScreen();
+                //showDeadScreen();
             } else if (that.character.isWin) {
-                showEscapeScreen();
+                //showEscapeScreen();
             } else {
                 // update edge
                 updateEdge();
