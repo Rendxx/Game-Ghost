@@ -23,7 +23,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             'Danger': 10,
             'Die': 11,
             'Scream': 12,
-            'Bell': 13
+            'Bell': 13,
+            'Hurt': 14
         },
         Type: {
             Effort: 0,
@@ -221,6 +222,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             });
             sounds[_Data.Name.Bell] = new Howl({
                 urls: [path + 'bell.wav'],
+                loop: false
+            });
+            sounds[_Data.Name.Hurt] = new Howl({
+                urls: [path + 'hurt.wav'],
                 loop: false
             });
         };

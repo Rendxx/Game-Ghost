@@ -147,7 +147,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 if (gameData[3] != null && gameData[3][i] != null) that.characters[i].showMessage(gameData[3][i]);
                 that.characters[i].update(gameData[1][i], gameData[2][i], playerVisibleList[i] === true);
             }
-            //that.sound.update(gameData[4], gameData[2]);
+            that.sound.update(gameData[4], gameData[2]);
         };
     };
 

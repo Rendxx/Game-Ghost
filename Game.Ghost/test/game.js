@@ -46,13 +46,13 @@ $(function () {
             modelId: 'bobo',
             team: 1
         },
-        //'p2': {
-        //    id: 'p2',
-        //    name: 'player 2',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'capboy',
-        //    team: 1
-        //},
+        'p2': {
+            id: 'p2',
+            name: 'player 2',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'capboy',
+            team: 1
+        },
         //'p3': {
         //    id: 'p3',
         //    name: 'player 3',
@@ -92,7 +92,7 @@ $(function () {
     GameSetup = function () {
         system.setup(playerData, {
             player: playerData,
-            map: 'test2'
+            map: 'test'
         });
         system.start();
         renderer.show();

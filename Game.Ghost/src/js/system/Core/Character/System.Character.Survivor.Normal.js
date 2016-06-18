@@ -321,6 +321,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (this.hp === Data.character.para.survivor.init.hp) {
             this.hp = 1;
             this.protect = _Data.protectTime;
+            this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Hurt);
         } else {
             this.hp = 0;
             this.action = 'die';

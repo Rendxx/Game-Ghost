@@ -23,7 +23,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             'Danger': 10,
             'Die': 11,
             'Scream': 12,
-            'Bell': 13
+            'Bell': 13,
+            'Hurt': 14
         },
         Type: {
             Effort: 0,
