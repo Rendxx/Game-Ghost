@@ -22,7 +22,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         range: {
             danger: 14
         },
-        touchNumer: 16
+        touchNumer: 60,
+        hurtNumer: 160
     };
 
     // Construct -----------------------------------------------------
@@ -192,11 +193,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             
             if (r < 0.5) {
                 c.die();
+                this.touchList[c.id] = _Data.hurtNumer;
             } else if (r < 1.5) {
                 var d = Math.abs(this.currentRotation[0] - this.entity.interAction.chracterAngle[this.id][c.id]);
                 if (d > 180) d = 360 - d;
 
-                if (d < 30) c.die();
+                if (d < 30) {
+                    c.die();
+                    this.touchList[c.id] = _Data.hurtNumer;
+                }
             }
             //console.log(angle);
         }

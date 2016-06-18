@@ -25,7 +25,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         teamColor: [
             0xFF6600,
             0x0099CC
-        ]
+        ],
+        protectTime :120
     };
 
     // Construct -----------------------------------------------------
@@ -36,6 +37,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.recover = 0;       // recover enfurance count
         this.key = {};          // key list {door id : key id}
         this.lockDoor = {};     // record of locked door
+        this.protect = 0;     // this player can not been hurted if > 0
     };
     Survivor.prototype = Object.create(SYSTEM.Character.Basic.prototype);
     Survivor.prototype.constructor = Survivor;
@@ -48,6 +50,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         if (_recoverData[16] != null) this.key = _recoverData[16];
         if (_recoverData[18] != null) this.recover = _recoverData[18];
+        if (_recoverData[19] != null) this.protect = _recoverData[19];
         SYSTEM.Character.Basic.prototype.reset.call(this, _recoverData);
     };
 
@@ -56,6 +59,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         dat[16] = this.key;
         dat[17] = this.lockDoor;
         dat[18] = this.recover;
+        dat[19] = this.protect;
         return dat;
     };
 
@@ -227,6 +231,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Survivor.prototype._updateStatus = function () {
+        // protect
+        if (this.protect > 0) this.protect--;
+
         // endurance
         if (this.endurance <= 0) this.rush = false;
         if (!this.rush) {
@@ -310,9 +317,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Survivor.prototype.die = function () {
-        if (!this.actived) return;
+        if (!this.actived || this.protect>0) return;
         if (this.hp === Data.character.para.survivor.init.hp) {
             this.hp = 1;
+            this.protect = _Data.protectTime;
         } else {
             this.hp = 0;
             this.action = 'die';

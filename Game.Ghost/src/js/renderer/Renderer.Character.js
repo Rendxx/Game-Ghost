@@ -78,6 +78,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 show: {},
                 hide: {}
             },
+            cache_protect= null,
             cache_lightR = null,
             teleportingFlag = false,
             torchData = Data.character.parameter[_para.role].light.torch,
@@ -102,6 +103,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 actived: data_in[7],
                 light: data_in[8],
                 battery: data_in[9],
+                protect: data_in[19],               // survivor
 
                 visibleCharacter: assist_in[0],
                 danger: assist_in[1],
@@ -154,6 +156,19 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.visibleObject = gameData.visibleObject;
             this.isDead = isDead;
             this.isWin = isWin;
+            
+            if (gameData.protect != undefined && gameData.protect !== cache_protect) {
+                cache_protect = gameData.protect;
+                if (gameData.protect > 0) {
+                    for (var i = 0; i < this.materials.length; i++) {
+                        this.materials[i].opacity = 0.5;
+                    }
+                } else {
+                    for (var i = 0; i < this.materials.length; i++) {
+                        this.materials[i].opacity = 1;
+                    }
+                }
+            }
 
             //if (gameData.teleporting!=null) {
             //    if (this.topLight !== null) {
@@ -271,6 +286,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     actions = {},
                     mixer = null;
                 for (var i = 0; i < materials.length; i++) {
+                    materials[i].transparent = true;
+                    materials[i].opacity = 1;
                     materials[i].skinning = true;
                 }
                 mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));

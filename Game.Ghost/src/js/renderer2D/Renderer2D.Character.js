@@ -84,6 +84,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 hide: {}
             },
             cache_lightR = null,
+            cache_protect = null,
             teleportingFlag = false,
             torchData = Data.character.parameter[_para.role].light.torch,
             topLightData = Data.character.parameter[_para.role].light.top,
@@ -111,6 +112,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 actived: data_in[7],
                 light: data_in[8],
                 battery: data_in[9],
+                protect: data_in[19],               // survivor
 
                 visibleCharacter: assist_in[0],
                 danger: assist_in[1],
@@ -161,6 +163,19 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.y = y;
             this.isDead = isDead;
             this.isWin = isWin;
+
+            if (gameData.protect != undefined && gameData.protect !== cache_protect) {
+                cache_protect = gameData.protect;
+                if (gameData.protect > 0) {
+                    this.shadow.css({
+                        'border': '2px solid #fff'
+                    });
+                } else {
+                    this.shadow.css({
+                        'border': '0'
+                    });
+                }
+            }
 
             // dead
             if (isDead) {
@@ -240,10 +255,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 html_img = $(_Data.html.img).appendTo(html_imgWrap);
                 changeAction('idle');
                 that.shadow = $(_Data.html.shadow).css({
-                    'width': 2 + 'px',
-                    'height': 2 + 'px',
-                    'margin-top': -1 + 'px',
-                    'margin-left': -1 + 'px'
+                    'width': GridSize + 'px',
+                    'height': GridSize + 'px',
+                    'margin-top': -GridSize / 2 + 'px',
+                    'margin-left': -GridSize / 2 + 'px'
                 }).appendTo(layer);
             } else {
                 var layer = entity.env.layers.character;
@@ -264,10 +279,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 html_img = $(_Data.html.img).appendTo(html_imgWrap);
                 changeAction('idle');
                 that.shadow = $(_Data.html.shadow).css({
-                    'width': 2 + 'px',
-                    'height': 2 + 'px',
-                    'margin-top': -1 + 'px',
-                    'margin-left': -1 + 'px'
+                    'width': GridSize + 'px',
+                    'height': GridSize + 'px',
+                    'margin-top': -GridSize / 2 + 'px',
+                    'margin-left': -GridSize / 2 + 'px'
                 }).appendTo(layer);
             }
 
