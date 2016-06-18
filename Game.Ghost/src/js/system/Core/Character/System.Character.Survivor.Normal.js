@@ -288,6 +288,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         //        obj.unblock(this.id);
                         //    }
                         //    break;
+                        case SYSTEM.MapObject.Position.Data.ObjType:
+                            this.winning(false);
+                            break;
                     }
                 }
             }
@@ -306,7 +309,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         //    }
                         //    break;
                         case SYSTEM.MapObject.Position.Data.ObjType:
-                            this.winning();
+                            this.winning(true);
                             break;
                     }
                 }
@@ -336,12 +339,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.updateData();
     };
 
-    Survivor.prototype.winning = function () {
+    Survivor.prototype.winning = function (isWin) {
         if (!this.actived) return;
-        this.win = true;
-        this.action = 'idle';
-        this.actived = false;
-        this.entity.sound.once(SYSTEM.Sound.Data.Type.OverAll, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Bell);
+        this.win = isWin!==false;
+        //this.action = 'idle';
+        //this.actived = false;
+        //this.entity.sound.once(SYSTEM.Sound.Data.Type.OverAll, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Bell);
         this.updateData();
     };
 
