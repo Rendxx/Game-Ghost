@@ -373,17 +373,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // Edges -----------------------------------------------------
         var createEdges = function () {
-            sprites["edges"] = $(_Data.html.edges).appendTo(that.scene['ortho']).css({
-                'opacity': 0
-            });;
+            sprites["edges"] = $(_Data.html.edges).appendTo(that.scene['ortho']);;
         };
         var _dangerCache = 0;
         var updateEdge = function () {
             if (_dangerCache === that.character.danger) return;
             _dangerCache = Math.max(that.character.danger, entity.map.danger);
-            sprites["edges"].css({
-                'opacity': _dangerCache
-            });
+            sprites["edges"].css('border-color', 'rgb(' + Math.floor(_dangerCache *100)+ ', 0, 0)');
         };
 
         // Helper ----------------------------------------------------

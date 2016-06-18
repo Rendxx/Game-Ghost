@@ -160,10 +160,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // private method ---------------------------
         var setupLight = function () {
-            _layers['light'] = $(_Data.html.layer.light).appendTo(_scene);
-            var darkScreen = $(_Data.html.dark).css({
-                'opacity': 0.6
-            }).appendTo(_layers['light']);
+            //_layers['light'] = $(_Data.html.layer.light).appendTo(_scene);
+            //var darkScreen = $(_Data.html.dark).appendTo(_layers['light']);
         };
 
         var setupGround = function (scene, grid, ground_in) {

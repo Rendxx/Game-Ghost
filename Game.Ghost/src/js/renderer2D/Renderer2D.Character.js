@@ -131,12 +131,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.render = function (delta) {
             if (gameData === null) return;
             if (this.isVisible === false) {
-                this.element.css({ opacity: 0 });
-                this.shadow.css({ opacity: 0 });
+                this.element.css({ 'visibility': 'hidden' });
+                this.shadow.css({ 'visibility': 'hidden' });
                 return;
             } else {
-                this.element.css({ opacity: 1 });
-                this.shadow.css({ opacity: 1 });
+                this.element.css({ 'visibility': 'visible' });
+                this.shadow.css({ 'visibility': 'visible' });
             }
 
             var action = gameData.action;
