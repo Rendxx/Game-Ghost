@@ -109,7 +109,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (intervalFunc !== null) clearInterval(intervalFunc);
 
             gameData['end'] = this.characterManager.getEndInfo();
-            if (this.onEnd) this.onEnd(gameData['end']);
         };
 
         // renew game
@@ -152,7 +151,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.characters[0],
                         gameData.characters[1],
                         gameData.message,
-                        gameData.sound
+                        gameData.sound,
+                        gameData.end
                     ],
                     [   // to SERVER
                         gameData.map[0],
@@ -177,7 +177,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.characters[0],
                         gameData.characters[1],
                         gameData.message,
-                        gameData.sound
+                        gameData.sound,
+                        gameData.end
                     ],
                     [   // to SERVER
                         gameData.map[0],
@@ -194,8 +195,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.characterManager.update();
                 gameData.message = that.message.getNewMsg();
                 gameData.sound = that.sound.getSoundDat();
+                var _isEnd = that.characterManager.checkEnd();
+                if (_isEnd) { that.end(); }
                 _update();
-                if (that.characterManager.checkEnd()) { that.end(); }
+                if (_isEnd && that.onEnd) that.onEnd(gameData['end']);
             } catch (e) {
                 console.log(e);
             }
