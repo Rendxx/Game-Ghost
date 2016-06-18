@@ -162,7 +162,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 for (var i = 0, len = that.characterManager.characters.length; i < len; i++) {
                     var id = that.characterManager.index2Id[i];
                     var assist = [];
-                    assist[i] = gameData.characters[1][i];
+                    assist[i] = gameData.characters[1][0];
                     that.clientUpdate([id], [
                         gameData.map[1],
                         gameData.characters[0],

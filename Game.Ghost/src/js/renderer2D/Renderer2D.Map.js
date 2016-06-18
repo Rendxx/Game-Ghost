@@ -671,7 +671,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i = 0; i < dat.length; i++) {
                 _layers['pos'] = $(_Data.html.layer.pos).appendTo(_scene);
                 var mesh = $(_Data.html.pos).css({
-                    'background-image': 'url("' + _tex['end'].src + '")',
+                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png' + '")',
                     'width': GridSize * 2 + 'px',
                     'height': GridSize * 2 + 'px',
                     'top': (dat[i][1] * GridSize) + 'px',

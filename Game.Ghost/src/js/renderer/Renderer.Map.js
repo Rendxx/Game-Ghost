@@ -706,6 +706,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // Update items ----------------------------------------------------------
         var updateFuniture = function () {
             // update furniture
+            if (!gameData.hasOwnProperty('f')) return;
             for (var i in gameData.f) {
                 if (gameData.f[i].status !== itemStatus['furniture'][i] && itemStatus['furniture'][i] !== null) {
                     itemStatus['furniture'][i] = gameData.f[i].status;
@@ -725,6 +726,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var updateDoor = function () {
             // update door
+            if (!gameData.hasOwnProperty('d')) return;
             for (var i in gameData.d) {
                 if (itemStatus['door'][i] !== null) {
                     if (gameData.d[i].status !== itemStatus['door'][i]) {
@@ -746,6 +748,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var updateBody = function () {
             // update body
+            if (!gameData.hasOwnProperty('b')) return;
             for (var i in gameData.b) {
                 if (itemData['body'][i] === undefined || itemData['body'][i] === null) {
                     if (entity.characters !== null && entity.characters[i] !== null) {
@@ -761,7 +764,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var updateKey = function () {
             // update key
-            if (_mapData === null) return;
+            if (_mapData === null || !gameData.hasOwnProperty('k')) return;
             for (var i in mesh_key) {
                 if (gameData.k.hasOwnProperty(i) && gameData.k[i] !== null && gameData.k[i].mapObjectId !== -1) continue;
                 if (mesh_key[i] === null) continue;
@@ -782,6 +785,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var updateLight = function () {
+            if (!gameData.hasOwnProperty('da')) return;
             if (_dangerCache === gameData.da) return;
             _dangerCache = gameData.da;
             var vector =  _dangerCache / 100;
