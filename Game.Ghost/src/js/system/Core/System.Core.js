@@ -134,6 +134,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 // full data
 
                 for (var i = 0, len = that.characterManager.characters.length; i < len; i++) {
+                    //if (that.characterManager.characters[i].role !== 'ghost') continue;
                     var id = that.characterManager.index2Id[i];
                     var assist = [];
                     assist[i] = gameData.characters[1][i];
@@ -160,6 +161,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     ]);
             } else {
                 for (var i = 0, len = that.characterManager.characters.length; i < len; i++) {
+                    //if (that.characterManager.characters[i].role !== 'ghost') continue;
                     var id = that.characterManager.index2Id[i];
                     var assist = [];
                     assist[i] = gameData.characters[1][i];
@@ -200,7 +202,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 _update();
                 if (_isEnd && that.onEnd) that.onEnd(gameData['end']);
             } catch (e) {
-                console.log(e);
+                //console.log(e);
             }
         };
 

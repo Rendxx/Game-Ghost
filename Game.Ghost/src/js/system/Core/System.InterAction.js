@@ -689,7 +689,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
             }
 
-            console.log('---------------------------------------------------------------');
+            //console.log('---------------------------------------------------------------');
             for (var i = 0; i < height; i++) {
                 for (var j = 0; j < width; j++) {
                     if (sGrid[i][j] === null) continue;
@@ -724,7 +724,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
 
             //console.log(surroundGrid);
-            console.log('---------------------------------------------------------------');
+            //console.log('---------------------------------------------------------------');
         };
 
         var setupTriggerPos = function () {
