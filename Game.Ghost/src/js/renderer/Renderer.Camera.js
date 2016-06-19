@@ -172,7 +172,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (that.character.isDead) {
                 showDeadScreen();
             } else if (that.character.isWin) {
-                showEscapeScreen();
+                //showEscapeScreen();
             } else {
                 // update edge
                 updateEdge();

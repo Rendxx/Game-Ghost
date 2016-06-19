@@ -18,6 +18,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             doorBlock: "The door is blocked from other side!",
             useKey: "Key [#key#] is used",
             noKey: "Nothing found",
+            win:"Ready to escape. Wait for other survivors..."
         },
         range: {
             danger: 14
@@ -341,7 +342,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Survivor.prototype.winning = function (isWin) {
         if (!this.actived) return;
-        this.win = isWin!==false;
+        this.win = isWin !== false;
+        if (this.win)this.entity.message.send(this.id, _Data.message.win);
+
         //this.action = 'idle';
         //this.actived = false;
         //this.entity.sound.once(SYSTEM.Sound.Data.Type.OverAll, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Bell);

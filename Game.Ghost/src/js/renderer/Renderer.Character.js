@@ -201,16 +201,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 }
                 if (this.mixer) this.mixer.update(delta);
                 return;
-            } else if (isWin) {
-                if (currentAction !== action) {
-                    that.actions[action].reset();
-                    tween.show[action].start();
-                    tween.hide[currentAction].start();
-                    currentAction = action;
-                }
-                if (this.mixer) this.mixer.update(delta);
-                return;
             }
+            //else if (isWin) {
+            //    if (currentAction !== action) {
+            //        that.actions[action].reset();
+            //        tween.show[action].start();
+            //        tween.hide[currentAction].start();
+            //        currentAction = action;
+            //    }
+            //    if (this.mixer) this.mixer.update(delta);
+            //    return;
+            //}
             // move
             this.mesh.position.x = x;
             this.mesh.position.z = y;
