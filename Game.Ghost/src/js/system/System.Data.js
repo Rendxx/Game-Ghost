@@ -163,7 +163,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 dogcan2: 'DogCan2.json',
                 FurnitureTest: 'FurnitureTest.json',
                 Hospital1: 'Hospital1.json',
-                Hospital2: 'Hospital2.json'
+                Hospital2: 'Hospital2.json',
+                TestApple: 'TestApple.json'
             },
             path: '/GameData/Map/',
             para: {

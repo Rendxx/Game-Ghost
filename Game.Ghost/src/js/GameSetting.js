@@ -15,6 +15,10 @@ window.Rendxx.Game.Ghost.GameSetting = {
         {
             name: "test2",
             id: "test2"
+        },
+        {
+            name: "Test Apple",
+            id: "TestApple"
         }
     ],
     ghost: [
