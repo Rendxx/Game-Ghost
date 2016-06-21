@@ -124,7 +124,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var y = that.character.y;
 
             this.scene['map'].css({
-                'transform': 'translate(' + -x + 'px,' + -y + 'px)'
+                'transform': 'translate(' + -x + 'px,' + -y + 'px) translateZ(0)'
             });
             //this.scene['effort'].css({
             //    'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
@@ -170,7 +170,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var w = (that.character.endurance / that.character.maxEndurance);
 
             sprites["enduranceBar"].css({
-                'transform': 'scaleX(' + w + ')'
+                'transform': 'scaleX(' + w + ') translateZ(0)'
             });
         };
 

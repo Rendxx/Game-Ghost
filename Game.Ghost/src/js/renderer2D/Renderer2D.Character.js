@@ -181,10 +181,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (isDead) {
                 if (currentAction !== action) {
                     this.element.css({
-                        'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) '
+                        'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) translateZ(0)'
                     });
                     this.shadow.css({
-                        'transform': 'translate(' + x + 'px,' + y + 'px) '
+                        'transform': 'translate(' + x + 'px,' + y + 'px) translateZ(0)'
                     });
                     changeAction(action);
                 }
@@ -210,14 +210,14 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             // transform
             if (isMain) {
                 this.element.css({
-                    'transform': 'rotate(' + -r_body + 'deg) scale(1.25, 1.25) '
+                    'transform': 'rotate(' + -r_body + 'deg) scale(1.25, 1.25) translateZ(0)'
                 });
             } else {
                 this.element.css({
-                    'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) '
+                    'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) translateZ(0)'
                 });
                 this.shadow.css({
-                    'transform': 'translate(' + x + 'px,' + y + 'px) '
+                    'transform': 'translate(' + x + 'px,' + y + 'px) translateZ(0)'
                 });
             }
 
