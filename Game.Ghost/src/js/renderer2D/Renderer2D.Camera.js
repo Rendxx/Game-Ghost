@@ -80,6 +80,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             msg = null,
 
             // cache
+            _loader = false;
             interactionIcon = {},
             highLightIcon = null,
             doorIcon = {};
@@ -382,40 +383,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             sprites["edges"].css('border-color', 'rgb(' + Math.floor(_dangerCache *100)+ ', 0, 0)');
         };
 
-        // Helper ----------------------------------------------------
-
-        // dead -----------------------------------------------------
-        var showDeadScreen = function () {
-            if (sprites["deadScreen"] !== undefined && sprites["deadScreen"] !== null) return;
-            sprites["deadScreen"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["deadScreen"] }));
-            sprites["deadScreen"].scale.set(512, 512, 1.0);
-            sprites["deadScreen"].material.transparent = true;
-            sprites["deadScreen"].material.opacity = 0;
-            sprites["deadScreen"].position.set(0, 0, 9);
-            that.scene['ortho'].add(sprites["deadScreen"]);
-            var mat = sprites["deadScreen"].material;
-            new TWEEN.Tween({ t: 0 }).to({ t: 20 }, 500)
-                .onUpdate(function () {
-                    mat.opacity = this.t * 0.04;
-                })
-                .start();
-        };
-
-        var showEscapeScreen = function () {
-            if (sprites["escapeScreen"] !== undefined && sprites["escapeScreen"] !== null) return;
-            sprites["escapeScreen"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["escapeScreen"] }));
-            sprites["escapeScreen"].scale.set(512, 512, 1.0);
-            sprites["escapeScreen"].material.transparent = true;
-            sprites["escapeScreen"].material.opacity = 0;
-            sprites["escapeScreen"].position.set(0, 0, 9);
-            that.scene['ortho'].add(sprites["escapeScreen"]);
-            var mat = sprites["escapeScreen"].material;
-            new TWEEN.Tween({ t: 0 }).to({ t: 20 }, 500)
-                .onUpdate(function () {
-                    mat.opacity = this.t * 0.04;
-                })
-                .start();
-        };
 
         // setup -----------------------------------------------------
         var _setupTex = function () {
@@ -423,9 +390,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var path = root + Data.files.path[Data.categoryName.sprite];
 
             // png Loader -------------------------------------------------------------------------------------------
-            tex['deadScreen'] = _loadImg(path + 'DeadScreen.png');
-            tex['escapeScreen'] = _loadImg(path + 'EscapeScreen.png');
-
             tex['interaction'] = {
                 'normal': {
                     'furniture': {
@@ -445,29 +409,49 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 }
             };
 
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = _loadImg(path + 'interaction.open.png');
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = _loadImg(path + 'interaction.close.png');
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = _loadImg(path + 'interaction.key.png');
-            tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = _loadImg(path + 'interaction.search.png');
-            tex['interaction']['normal']['body'][_Data.operation.body.Search] = _loadImg(path + 'interaction.search.png');
-            tex['interaction']['normal']['door'][_Data.operation.door.Open] = _loadImg(path + 'interaction.door.open.png');
-            tex['interaction']['normal']['door'][_Data.operation.door.Close] = _loadImg(path + 'interaction.door.close.png');
-            tex['interaction']['normal']['door'][_Data.operation.door.Locked] = _loadImg(path + 'interaction.lock.png');
-            tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = _loadImg(path + 'interaction.unlock.png');
-            //tex['interaction']['normal']['door'][_Data.operation.door.Block] = _loadImg(path + 'interaction.block.png');
+            PIXI.loader
+            .add(path + 'interaction.open.png')
+            .add(path + 'interaction.close.png')
+            .add(path + 'interaction.key.png')
+            .add(path + 'interaction.search.png')
+            .add(path + 'interaction.search.png')
+            .add(path + 'interaction.door.open.png')
+            .add(path + 'interaction.door.close.png')
+            .add(path + 'interaction.lock.png')
+            .add(path + 'interaction.unlock.png')
+            .add(path + 'interaction.open-2.png')
+            .add(path + 'interaction.close-2.png')
+            .add(path + 'interaction.key-2.png')
+            .add(path + 'interaction.search-2.png')
+            .add(path + 'interaction.search-2.png')
+            .add(path + 'interaction.door.open-2.png')
+            .add(path + 'interaction.door.close-2.png')
+            .add(path + 'interaction.lock-2.png')
+            .add(path + 'interaction.unlock-2.png')
+            .add(path + 'interaction.door.block-2.png')
+            .load(function (loader, resources) {
+                tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = PIXI.Texture.fromImage(path + 'interaction.open.png');
+                tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = PIXI.Texture.fromImage(path + 'interaction.close.png');
+                tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = PIXI.Texture.fromImage(path + 'interaction.key.png');
+                tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = PIXI.Texture.fromImage(path + 'interaction.search.png');
+                tex['interaction']['normal']['body'][_Data.operation.body.Search] = PIXI.Texture.fromImage(path + 'interaction.search.png');
+                tex['interaction']['normal']['door'][_Data.operation.door.Open] = PIXI.Texture.fromImage(path + 'interaction.door.open.png');
+                tex['interaction']['normal']['door'][_Data.operation.door.Close] = PIXI.Texture.fromImage(path + 'interaction.door.close.png');
+                tex['interaction']['normal']['door'][_Data.operation.door.Locked] = PIXI.Texture.fromImage(path + 'interaction.lock.png');
+                tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = PIXI.Texture.fromImage(path + 'interaction.unlock.png');
 
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = _loadImg(path + 'interaction.open-2.png');
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close] = _loadImg(path + 'interaction.close-2.png');
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key] = _loadImg(path + 'interaction.key-2.png');
-            tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search] = _loadImg(path + 'interaction.search-2.png');
-            tex['interaction']['highlight']['body'][_Data.operation.body.Search] = _loadImg(path + 'interaction.search-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Open] = _loadImg(path + 'interaction.door.open-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Close] = _loadImg(path + 'interaction.door.close-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = _loadImg(path + 'interaction.lock-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = _loadImg(path + 'interaction.unlock-2.png');
-            tex['interaction']['highlight']['door'][_Data.operation.door.Block] = _loadImg(path + 'interaction.door.block-2.png');
+                tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = PIXI.Texture.fromImage(path + 'interaction.open-2.png');
+                tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close] = PIXI.Texture.fromImage(path + 'interaction.close-2.png');
+                tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key] = PIXI.Texture.fromImage(path + 'interaction.key-2.png');
+                tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search] = PIXI.Texture.fromImage(path + 'interaction.search-2.png');
+                tex['interaction']['highlight']['body'][_Data.operation.body.Search] = PIXI.Texture.fromImage(path + 'interaction.search-2.png');
+                tex['interaction']['highlight']['door'][_Data.operation.door.Open] = PIXI.Texture.fromImage(path + 'interaction.door.open-2.png');
+                tex['interaction']['highlight']['door'][_Data.operation.door.Close] = PIXI.Texture.fromImage(path + 'interaction.door.close-2.png');
+                tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = PIXI.Texture.fromImage(path + 'interaction.lock-2.png');
+                tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = PIXI.Texture.fromImage(path + 'interaction.unlock-2.png');
+                tex['interaction']['highlight']['door'][_Data.operation.door.Block] = PIXI.Texture.fromImage(path + 'interaction.door.block-2.png');
+            });
 
-            //tex['enduranceBarBase'] = _loadImg(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
         };
 
         var _loadImg = function (name) {

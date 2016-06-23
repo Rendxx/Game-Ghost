@@ -10,7 +10,8 @@
     "dat-gui": "^0.5.1",
     "InfoBox": "^0.6.4",
     "tweenjs": "^16.3.4",
-    "howler.js": "^1.1.29"
+    "howler.js": "^1.1.29",
+    "pixi.js": "^3.0.11"
   },
   "authors": [],
   "license": "MIT",

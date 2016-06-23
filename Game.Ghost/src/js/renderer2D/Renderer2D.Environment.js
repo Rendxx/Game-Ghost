@@ -3,42 +3,10 @@ window.Rendxx.Game = window.Rendxx.Game || {};
 window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
-// drop back for no requestAnimationFrame
-(function () {
-    if (window.requestAnimationFrame != null) return;
-    var lastTime = 0;
-    var vendors = ['ms', 'moz', 'webkit', 'o'];
-    for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
-    }
-    if (!window.requestAnimationFrame)
-        window.requestAnimationFrame = function (callback, element) {
-            var currTime = new Date().getTime();
-            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function () {
-                callback(currTime + timeToCall);
-            },
-            timeToCall);
-            lastTime = currTime + timeToCall;
-            return id;
-        };
-    if (!window.cancelAnimationFrame)
-        window.cancelAnimationFrame = function (id) {
-            clearTimeout(id);
-        };
-}());
-
 /**
  * Setup base environment in three.js 
  */
 (function (RENDERER) {
-    var _Data = {
-        html: {
-            scene: '<div class="_scene"></div>',
-            wrap: '<div class="_sceneWrap"></div>'
-        }
-    };
     var Data = RENDERER.Data;
     /**
      * Setup environment in three.js
@@ -53,9 +21,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             SCREEN_WIDTH = 0,
             SCREEN_HEIGHT = 0,
             GridSize = Data.grid.size,
-            viewPlayerIdx = null;
+            viewPlayerIdx = null,
+            ratio = 1,          // scale layers
+            renderer = null;
 
-        this.wrap = null;
+        this.stage = null;
         this.scene = {};
         this.layers = {};
         this.camera = null;
@@ -94,13 +64,40 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var resize = function () {
             SCREEN_WIDTH = window.innerWidth;
             SCREEN_HEIGHT = window.innerHeight;
+            renderer.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
             _cameraResize(SCREEN_WIDTH, SCREEN_HEIGHT);
         };
 
-        // helper ------------------------
+        var _setupScale = function () {
+            SCREEN_WIDTH = window.innerWidth;
+            SCREEN_HEIGHT = window.innerHeight;
+
+            var min = Math.max(window.innerHeight, window.innerWidth);
+            ratio = min / Data.visibleSize * GridSize;
+        };
+
+        // setup ------------------------
         var _init = function () {
-            that.wrap = $(_Data.html.wrap).appendTo($(entity.domElement));
-            that.scene['map'] = $(_Data.html.scene).appendTo(that.wrap);
+            _setupScale();
+            renderer = new PIXI.WebGLRenderer(SCREEN_WIDTH, SCREEN_HEIGHT);
+            that.stage = new PIXI.Stage(0x333333, true);
+
+            that.scene['map'] = new PIXI.Container();
+            that.scene['character'] = new PIXI.Container();
+            that.scene['effort'] = new PIXI.Container();
+            that.scene['hud'] = new PIXI.Container();
+
+            that.scene['map'].scale.x = ratio;
+            that.scene['map'].scale.y = ratio;
+            that.scene['character'].scale.x = ratio;
+            that.scene['character'].scale.y = ratio;
+            that.scene['effort'].scale.x = ratio;
+            that.scene['effort'].scale.y = ratio;
+
+            that.stage.addChild(that.scene['map']);
+            that.stage.addChild(that.scene['character']);
+            that.stage.addChild(that.scene['effort']);
+            that.stage.addChild(that.scene['hud']);
 
             // bind resize function
             $(window).resize(resize);
