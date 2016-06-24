@@ -261,7 +261,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             that.element = new PIXI.Container();
 
-            PIXI.loader.add('walk', 'a.json').load(function (loader, resources) {
+            PIXI.loader.add('walk', root + Data.character.path + _data.path+ 'walk.json').load(function (loader, resources) {
 
                 var frames = [];
 
