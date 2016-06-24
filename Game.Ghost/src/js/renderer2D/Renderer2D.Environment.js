@@ -85,6 +85,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             that.scene['map'] = new PIXI.Container();
             that.scene['character'] = new PIXI.Container();
             that.scene['effort'] = new PIXI.Container();
+            that.scene['marker'] = new PIXI.Container();
             that.scene['hud'] = new PIXI.Container();
 
             that.scene['map'].scale.x = ratio;
@@ -93,10 +94,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             that.scene['character'].scale.y = ratio;
             that.scene['effort'].scale.x = ratio;
             that.scene['effort'].scale.y = ratio;
+            that.scene['marker'].scale.x = ratio;
+            that.scene['marker'].scale.y = ratio;
 
             that.stage.addChild(that.scene['map']);
             that.stage.addChild(that.scene['character']);
             that.stage.addChild(that.scene['effort']);
+            that.stage.addChild(that.scene['marker']);
             that.stage.addChild(that.scene['hud']);
 
             // bind resize function

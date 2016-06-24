@@ -59,7 +59,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
      * Setup camera in three.js
      * @param {game entity} entity - Game entity
      */
-    var Camera = function (entity, scene_in) {
+    var Camera = function (entity, scene) {
         // data ----------------------------------------------
         var that = this,
             tex = {},
@@ -85,7 +85,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             highLightIcon = null,
             doorIcon = {};
 
-        this.scene = scene_in;
+        this.layer = {};
         this.character = -1;
         this.width = -1;
         this.height = -1;
@@ -97,27 +97,21 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.character = character;
             this.width = w;
             this.height = h;
-            this.scene['ortho'] = $(_Data.html.scene['ortho']).appendTo($(entity.domElement));
-            this.scene['effort'] = $(_Data.html.scene['effort']).appendTo(entity.env.wrap);
-
-            createFrame();
-            createEdges();
-            createEnduranceBar();
+            sprites = {};
+            
+            createMessage(scene['hud']);
+            createDanger(scene['hud']);
+            createEnduranceBar(scene['hud']);
+            that.resize(that.width, that.height);
         };
 
         this.resize = function (w, h) {
             this.width = w;
             this.height = h;
 
-            var t = Math.max(w, h);
-            this.scene['map'].css({
-                'margin-top': h / 2 + 'px',
-                'margin-left': w / 2 + 'px'
-            });
-            this.scene['effort'].css({
-                'margin-top': h / 2 + 'px',
-                'margin-left': w / 2 + 'px'
-            });
+            resizeMessage();
+            resizeDanger();
+            resizeEnduranceBar();
         };
 
         this.render = function () {
@@ -136,7 +130,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 //showEscapeScreen();
             } else {
                 // update edge
-                updateEdge();
+                updateDanger();
                 // update sprite
                 updateEnduranceBar();
                 // update effort
@@ -149,30 +143,43 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // private method -------------------------------------------------
 
         // Frame ----------------------------------------------------
-        var createFrame = function () {
-            sprites = {};
+        var createMessage = function (layer) {
+            sprites["message"] = new PIXI.Text('', {
+                font: 'bold 30px Poor Richard',
+                fill: '#fff',
+                align: 'center',
+                stroke: '#000',
+                strokeThickness: 2
+            });
 
-            that.resize(that.width, that.height);
+            sprites["message"].position.x = that.width/2;
+            sprites["message"].position.y = that.height / 4;
+            countingText.anchor.x = 0.5;
 
-            // message
-            sprites["message"] = $(_Data.html.message).appendTo(that.scene['ortho']);
+            layer.addChild(sprites["message"]);
+        };
 
+        var resizeMessage = function () {
+            sprites["message"].position.x = that.width / 2;
+            sprites["message"].position.y = that.height / 4;
         };
 
         // Endurance ------------------------------------------------
         var createEnduranceBar = function () {
             // endurance
-            sprites["enduranceBarWrap"] = $(_Data.html.enduranceBarWrap).appendTo(that.scene['ortho']);
-            sprites["enduranceBar"] = $(_Data.html.enduranceBar).appendTo(sprites["enduranceBarWrap"]);
+            //sprites["enduranceBarWrap"] = $(_Data.html.enduranceBarWrap).appendTo(that.scene['ortho']);
+            //sprites["enduranceBar"] = $(_Data.html.enduranceBar).appendTo(sprites["enduranceBarWrap"]);
         };
 
-        var updateEnduranceBar = function () {
-            if (!sprites.hasOwnProperty('enduranceBar')) return;
-            var w = (that.character.endurance / that.character.maxEndurance);
+        var resizeEnduranceBar = function () { };
 
-            sprites["enduranceBar"].css({
-                'transform': 'scaleX(' + w + ') translateZ(0)'
-            });
+        var updateEnduranceBar = function () {
+            //if (!sprites.hasOwnProperty('enduranceBar')) return;
+            //var w = (that.character.endurance / that.character.maxEndurance);
+
+            //sprites["enduranceBar"].css({
+            //    'transform': 'scaleX(' + w + ') translateZ(0)'
+            //});
         };
 
         // Interaction icon ------------------------------------------
@@ -372,15 +379,26 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // Fog -------------------------------------------------------
 
-        // Edges -----------------------------------------------------
-        var createEdges = function () {
-            sprites["edges"] = $(_Data.html.edges).appendTo(that.scene['ortho']);;
+        // Danger -----------------------------------------------------
+        var createDanger = function (layer) {
+            var graphics = new PIXI.Graphics();
+
+            // set a fill and line style
+            graphics.lineStyle(0);
+            graphics.beginFill(0x993300, 1);
+            graphics.drawRect(0, 0, that.width, that.height);
+            sprites["danger"] = graphics;
+            layer.addChild(graphics);
         };
         var _dangerCache = 0;
-        var updateEdge = function () {
+        var resizeDanger = function () {
+            graphics.width = that.width;
+            graphics.height = that.height;
+        };
+        var updateDanger = function () {
             if (_dangerCache === that.character.danger) return;
             _dangerCache = Math.max(that.character.danger, entity.map.danger);
-            sprites["edges"].css('border-color', 'rgb(' + Math.floor(_dangerCache *100)+ ', 0, 0)');
+            sprites["danger"].alpha = _dangerCache;
         };
 
 
@@ -451,7 +469,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = PIXI.Texture.fromImage(path + 'interaction.unlock-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Block] = PIXI.Texture.fromImage(path + 'interaction.door.block-2.png');
             });
-
         };
 
         var _loadImg = function (name) {
