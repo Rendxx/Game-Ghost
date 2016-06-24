@@ -86,6 +86,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             itemData = null,
             root = entity.root,
             _tex = {},
+            _frames = {},
             _scene = entity.env.scene['map'],
             _layers = entity.env.layers,
             _loadCount = 0,
@@ -223,9 +224,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var setupDoor = function (scene, doors) {
             mesh_door = {};
-            _layers['door'] = $(_Data.html.layer.door).appendTo(_scene);
+
+            _layers['door'] = new PIXI.Container();
+            _scene.addChild(_layers['door']);
+
             itemStatus['door'] = {};
             itemData['door'] = {};
+
             for (var i = 0, l = doors.length; i < l; i++) {
                 if (doors[i] === null) continue;
                 _loadCount++;
@@ -243,13 +248,14 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var setupFurniture = function (scene, furniture) {
             mesh_furniture = {};
             itemStatus['furniture'] = {};
-            _layers['furniture'] = $(_Data.html.layer.furniture).appendTo(_scene);
-            _layers['furniture2'] = _layers['furniture2'] || ($(_Data.html.layer.furniture2).attr({ width: that.width * GridSize, height: that.height * GridSize }));
+
+            _layers['furniture'] = new PIXI.Container();
+            _scene.addChild(_layers['furniture']);
 
             for (var i = 0, l = furniture.length; i < l; i++) {
                 if (furniture[i] === null) continue;
                 _loadCount++;
-                createFurniture(i, furniture[i], _layers['furniture'], _layers['furniture2'], function (idx, dat, mesh) {
+                createFurniture(i, furniture[i], _layers['furniture'], function (idx, dat, mesh) {
                     var id = dat.id;
                     mesh_furniture[idx] = (mesh);
 
@@ -265,7 +271,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         var setupStuff = function (scene, stuff) {
-            _layers['stuff'] = _layers['stuff'] || ($(_Data.html.layer.stuff).attr({ width: that.width * GridSize, height: that.height * GridSize }));
+            _layers['stuff'] = new PIXI.Container();
+            _scene.addChild(_layers['stuff']);
 
             if (stuff === null || stuff.length === 0) return;
             for (var i = 0, l = stuff.length; i < l; i++) {
@@ -314,7 +321,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var w = (dat.right - dat.left + 1) * GridSize;
             var h = (dat.bottom - dat.top + 1) * GridSize;
 
-            var tex = _loadImg('g_' + id, root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.model2D[0],
+            var tex = _loadTex('g_' + id, root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.model2D[0],
                 function (texture) {
                     var obj = new PIXI.extras.TilingSprite(texture, w, h);
 
@@ -385,8 +392,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             //console.log(dat);
             //console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
-            var img = _loadImg('wall_' + id, root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.model2D[0],
-                function (img) {
+            var tex = _loadTex('wall_' + id, root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.model2D[0],
+                function (texture) {
                     var obj = new PIXI.extras.TilingSprite(texture, w, h);
 
                     obj.anchor.x = 0;
@@ -416,7 +423,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             graphics.endFill();
 
             var dropShadowFilter = new PIXI.filters.DropShadowFilter();
-            dropShadowFilter.color = 0x000020;
+            dropShadowFilter.color = 0x000000;
             dropShadowFilter.alpha = 0.5;
             dropShadowFilter.blur = GridSize/4;
             dropShadowFilter.distance = 0;
@@ -427,7 +434,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             onSuccess(idx, dat);
         };
         
-        var createFurniture = function (idx, dat, layer, layer2, onSuccess) {
+        var createFurniture = function (idx, dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
             var para = _modelData.items[Data.categoryName.furniture][id];
@@ -461,58 +468,68 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _animation['furniture'][idx] = {};
 
             if (!para.hasOwnProperty('action') || para['action'] == null) {
-                var img = _loadImg('f_' + id, root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0],
-                    function (img) {
-                        // data for graw in canvas  
-                        var x2 = (dat.left + dat.right + 1)/2 * GridSize;
-                        var y2 = (dat.top + dat.bottom + 1) / 2 * GridSize;
+                var tex = _loadTex('f_' + id, root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0],
+                    function (texture) {
+                        var obj = new PIXI.Sprite(texture);
 
-                        var ctx = layer2[0].getContext("2d");
-                        ctx.save();
-                        ctx.translate(x2, y2);
+                        obj.anchor.x = 0;
+                        obj.anchor.y = 0;
+                        obj.position.x = x;
+                        obj.position.y = y;
+                        obj.pivot.set(GridSize * 0.5, GridSize * 0.5);
+                        obj.rotation = (4 - r) / 2 * Math.PI;
 
-                        // rotate around this point
-                        ctx.rotate(-(4 - r) * Math.PI / 2);
-                        ctx.translate(-w / 2, -h / 2);
-                        ctx.shadowBlur = 20;
-                        ctx.shadowColor = "#000000";
+                        var dropShadowFilter = new PIXI.filters.DropShadowFilter();
+                        dropShadowFilter.color = 0x000000;
+                        dropShadowFilter.alpha = 0.5;
+                        dropShadowFilter.blur = 6;
+                        dropShadowFilter.distance = 0;
 
-                        ctx.drawImage(img, 0, 0, w, h);
-                        ctx.restore();
-                        onSuccess(idx, dat); 
+                        obj.filters = [dropShadowFilter];
+                        layer.addChild(obj);
+                        onSuccess(idx, dat, obj);
                     });
                 return;
             }
 
+            var addObj = function (frames) {
+                var item = new PIXI.extras.MovieClip(frames);
+                item.loop = false;
+                item.position.x = x;
+                item.position.y = y;
+                item.pivot.set(GridSize * 0.5, GridSize * 0.5);
+                item.rotation = (4 - r) / 2 * Math.PI;
+                layer.addChild(item);
 
-            var mesh = $(_Data.html.furniture).css({
-                'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")',
-                'margin-top': offset_y + 'px',
-                'margin-left': offset_x + 'px',
-                'width': w + 'px',
-                'height': h + GridSize + 'px',
-                'top': y + 'px',
-                'left': x + 'px',
-                'transform': 'rotate(' + -((4 - r) * 90) + 'deg)',
-                'transform-origin': GridSize / 2 + 'px ' + GridSize / 2 + 'px'
-            }).appendTo(layer);
+                _animation['furniture'][idx][_Data.status.furniture.None] = function () {
+                    item.gotoAndStop(0);
+                };
+                _animation['furniture'][idx][_Data.status.furniture.Opened] = function () {
+                    item.animationSpeed = 1;
+                    item.gotoAndPlay(0);
+                };
+                _animation['furniture'][idx][_Data.status.furniture.Closed] = function () {
+                    item.animationSpeed = -1;
+                    item.gotoAndPlay(9);
+                };
+                onSuccess(idx, dat, item);
+            };
 
-            _animation['furniture'][idx][_Data.status.furniture.None] = function () {
-                mesh.css({
-                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")'
+
+            if (_frames['f_' + para.id] == null) {
+                PIXI.loader.add('f_' + para.id, root + Data.files.path[Data.categoryName.furniture] + para.id + '/animation_2d.json').load(function (loader, resources) {
+                    var _f = [];
+                    for (var i = 0; i < 10; i++) {
+                        var val = i < 10 ? '0' + i : i;
+                        _f.push(PIXI.Texture.fromFrame('sprite00' + val));
+                    }
+                    _frames['f_' + para.id] = _f;
+                    addObj(_f);
                 });
-            };
-            _animation['furniture'][idx][_Data.status.furniture.Opened] = function () {
-                mesh.css({
-                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[1] + '")'
-                });
-            };
-            _animation['furniture'][idx][_Data.status.furniture.Closed] = function () {
-                mesh.css({
-                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0] + '")'
-                });
-            };
-            onSuccess(idx, dat, mesh);
+
+            } else {
+                addObj(_frames['f_' + para.id]);
+            }
         };
 
         var createDoor = function (idx, dat, layer, onSuccess) {
@@ -549,41 +566,51 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
             that.objectPos.door[idx] = [(dat.left + dat.right) / 2 * GridSize, (dat.top + dat.bottom) / 2 * GridSize];
 
-            var mesh = $(_Data.html.door).css({
-                'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[0] + '")',
-                'margin-top': offset_y + 'px',
-                'margin-left': offset_x + 'px',
-                'width': w + 'px',
-                'height': h + GridSize + 'px',
-                'top': y + 'px',
-                'left': x + 'px',
-                'transform': 'rotate(' + -((4 - r) * 90) + 'deg)',
-                'transform-origin': GridSize / 2 + 'px ' + GridSize / 2 + 'px'
-            }).appendTo(layer);
-
             _animation['door'] = _animation['door'] || {};
             _animation['door'][idx] = {};
-            _animation['door'][idx][_Data.status.door.Locked] = function () {
-                mesh.css({
-                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[0] + '")'
-                });
+
+            var addObj = function (frames) {
+                var item = new PIXI.extras.MovieClip(frames);
+                item.loop = false;
+                item.position.x = x;
+                item.position.y = y;
+                item.pivot.set(GridSize * 0.5, GridSize * 0.5);
+                item.rotation = (4 - r) / 2 * Math.PI;
+                layer.addChild(item);
+
+                _animation['door'][idx][_Data.status.door.Locked] = function () {                    
+                    item.gotoAndStop(0);
+                };
+                _animation['door'][idx][_Data.status.door.Opened] = function () {
+                    item.animationSpeed = 1;
+                    item.gotoAndPlay(0);
+                };
+                _animation['door'][idx][_Data.status.door.Closed] = function () {
+                    item.animationSpeed = -1;
+                    item.gotoAndPlay(9);
+                };
+                _animation['door'][idx][_Data.status.door.Blocked] = function () {
+                    item.gotoAndStop(0);
+                };
+                onSuccess(idx, dat, item);
             };
-            _animation['door'][idx][_Data.status.door.Opened] = function () {
-                mesh.css({
-                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[1] + '")'
+
+            if (_frames['door_' + para.id] == null) {
+                PIXI.loader.add('door_' + para.id, root + Data.files.path[Data.categoryName.door] + para.id + '/animation_2d.json').load(function (loader, resources) {
+
+                    var _f = [];
+
+                    for (var i = 0; i < 10; i++) {
+                        var val = i < 10 ? '0' + i : i;
+                        _f.push(PIXI.Texture.fromFrame('sprite00' + val));
+                    }
+                    _frames['door_' + para.id] = _f;
+                    addObj(_f);
                 });
-            };
-            _animation['door'][idx][_Data.status.door.Closed] = function () {
-                mesh.css({
-                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[0] + '")'
-                });
-            };
-            _animation['door'][idx][_Data.status.door.Blocked] = function () {
-                mesh.css({
-                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.door] + para.id + '/' + para.model2D[0] + '")'
-                });
-            };
-            onSuccess(idx, dat, mesh);
+
+            } else {
+                addObj(_frames['door_' + para.id]);
+            }
 
             //console.log(dat);
             //console.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
@@ -598,25 +625,26 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var w = GridSize;
             var h = GridSize;
             var para = _modelData.items[Data.categoryName.stuff][id];
+            
+            var tex = _loadTex('stuff_' + id, root + Data.files.path[Data.categoryName.stuff] + para.id + '/' + para.model2D[0],
+                function (texture) {
+                    var obj = new PIXI.Sprite(texture);
 
-            _loadImg('stuff_' + id, root + Data.files.path[Data.categoryName.stuff] + para.id + '/' + para.model2D[0],
-                function (img) {
-                    // data for graw in canvas  
-                    var x2 = (dat.left + dat.right + 1) / 2 * GridSize;
-                    var y2 = (dat.top + dat.bottom + 1) / 2 * GridSize;
+                    obj.anchor.x = 0;
+                    obj.anchor.y = 0;
+                    obj.position.x = x;
+                    obj.position.y = y;
+                    obj.pivot.set(GridSize * 0.5, GridSize * 0.5);
+                    obj.rotation = (4 - r) / 2 * Math.PI;
 
-                    var ctx = layer[0].getContext("2d");
-                    ctx.save();
-                    ctx.translate(x2, y2);
+                    var dropShadowFilter = new PIXI.filters.DropShadowFilter();
+                    dropShadowFilter.color = 0x000000;
+                    dropShadowFilter.alpha = 0.5;
+                    dropShadowFilter.blur = 6;
+                    dropShadowFilter.distance = 0;
 
-                    // rotate around this point
-                    ctx.rotate(-(4 - r) * Math.PI / 2);
-                    ctx.translate(-w / 2, -h / 2);
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = "#000000";
-
-                    ctx.drawImage(img, 0, 0, w, h);
-                    ctx.restore();
+                    obj.filters = [dropShadowFilter];
+                    layer.addChild(obj);
                     onSuccess(dat);
                 });
         };
@@ -675,28 +703,28 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (that.posEnd !== null) return;
             that.posEnd = [];
 
+            _layers['pos'] = new PIXI.Container();
+            _scene.addChild(_layers['pos']);
+
             for (var i = 0; i < dat.length; i++) {
-                _layers['pos'] = $(_Data.html.layer.pos).appendTo(_scene);
-                var mesh = $(_Data.html.pos).css({
-                    'background-image': 'url("' + root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png' + '")',
-                    'width': GridSize * 2 + 'px',
-                    'height': GridSize * 2 + 'px',
-                    'top': (dat[i][1] * GridSize) + 'px',
-                    'left': (dat[i][0] * GridSize) + 'px',
-                    'margin-top': -GridSize / 2 + 'px',
-                    'margin-left': -GridSize / 2 + 'px'
-                }).appendTo(_layers['pos']);
-                that.posEnd[i] = mesh;
+                var obj = new PIXI.Sprite.fromImage(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
+                
+                obj.anchor.x = 0;
+                obj.anchor.y = 0;
+                obj.position.x = dat[i][1] * GridSize;
+                obj.position.y = dat[i][0] * GridSize;
+                _layers['pos'].addChild(obj);
+                that.posEnd[i] = obj;
             }
         };
 
         // Setup ----------------------------------------------------------
         var _setupTex = function () {
             _tex = {};
-            _loadImg('end', root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
+            _loadTex('end', root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
         };
 
-        var _loadImg = function (name, src, onload) {
+        var _loadTex = function (name, src, onload) {
             if (_tex[name] != null) {
                 if (onload) onload(_tex[name]);
                 return _tex[name];
