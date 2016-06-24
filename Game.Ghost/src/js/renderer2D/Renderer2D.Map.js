@@ -169,7 +169,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             /*create ground*/
             that.width = grid.width;
             that.height = grid.height;
-            _scene.width(that.width * GridSize).height(that.height * GridSize);
             _layers['ground'] = new PIXI.Container();
             _scene.addChild(_layers['ground']);
 
@@ -517,7 +516,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
 
             if (_frames['f_' + para.id] == null) {
-                PIXI.loader.add('f_' + para.id, root + Data.files.path[Data.categoryName.furniture] + para.id + '/animation_2d.json').load(function (loader, resources) {
+                
+                if (PIXI.loader.resources.hasOwnProperty('f_' + para.id)) {
                     var _f = [];
                     for (var i = 0; i < 10; i++) {
                         var val = i < 10 ? '0' + i : i;
@@ -525,8 +525,17 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     }
                     _frames['f_' + para.id] = _f;
                     addObj(_f);
-                });
-
+                } else {
+                    PIXI.loader.add('f_' + para.id, root + Data.files.path[Data.categoryName.furniture] + para.id + '/animation_2d.json').load(function (loader, resources) {
+                        var _f = [];
+                        for (var i = 0; i < 10; i++) {
+                            var val = i < 10 ? '0' + i : i;
+                            _f.push(PIXI.Texture.fromFrame('sprite00' + val));
+                        }
+                        _frames['f_' + para.id] = _f;
+                        addObj(_f);
+                    });
+                }
             } else {
                 addObj(_frames['f_' + para.id]);
             }
@@ -596,18 +605,25 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             };
 
             if (_frames['door_' + para.id] == null) {
-                PIXI.loader.add('door_' + para.id, root + Data.files.path[Data.categoryName.door] + para.id + '/animation_2d.json').load(function (loader, resources) {
-
+                if (PIXI.loader.resources.hasOwnProperty('door_' + para.id)) {
                     var _f = [];
-
                     for (var i = 0; i < 10; i++) {
                         var val = i < 10 ? '0' + i : i;
                         _f.push(PIXI.Texture.fromFrame('sprite00' + val));
                     }
                     _frames['door_' + para.id] = _f;
                     addObj(_f);
-                });
-
+                } else {
+                    PIXI.loader.add('door_' + para.id, root + Data.files.path[Data.categoryName.door] + para.id + '/animation_2d.json').load(function (loader, resources) {
+                        var _f = [];
+                        for (var i = 0; i < 10; i++) {
+                            var val = i < 10 ? '0' + i : i;
+                            _f.push(PIXI.Texture.fromFrame('sprite00' + val));
+                        }
+                        _frames['door_' + para.id] = _f;
+                        addObj(_f);
+                    });
+                }
             } else {
                 addObj(_frames['door_' + para.id]);
             }
@@ -726,6 +742,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var _loadTex = function (name, src, onload) {
             if (_tex[name] != null) {
+                if (onload) onload(_tex[name]);
+                return _tex[name];
+            }
+            if (PIXI.loader.resources.hasOwnProperty(name)) {
+                _tex[name] = PIXI.loader.resources[name].texture;
                 if (onload) onload(_tex[name]);
                 return _tex[name];
             }

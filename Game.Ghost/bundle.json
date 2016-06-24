@@ -33,7 +33,8 @@
       "#dest#/dat-gui": "#src#/dat-gui/build/*.{js,map}",
       "#dest#/InfoBox": "#src#/InfoBox/js/*.{js,map}",
       "#dest#/tween": "#src#/tweenjs/src/*.{js,map}",
-      "#dest#/howler": "#src#/howler.js/*.{js,map}"
+      "#dest#/howler": "#src#/howler.js/*.{js,map}",
+      "#dest#/pixi": "#src#/pixi.js/bin/*.{js,map}"
     },
     "less": {
       "#mapDesigner#/index": [
