@@ -41,6 +41,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.team = _para.team;
         this.role = _para.role;
         this.modelId = _para.modelId;
+        this.action2D = _data.action2D;
         //this.color = parseInt(_data.color, 16);
         this.color = _Data.teamColor[_para.team];
         this.maxEndurance = _para.setupData.enduranceMax;
@@ -77,15 +78,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             light_radiusadius = 0,
             light_angle = 0,
             gameData = null,
-            sprite = {},
-            spriteTex = {},
-            tween = {
-                show: {},
-                hide: {}
-            },
             cache_lightR = null,
             cache_protect = null,
             teleportingFlag = false,
+            actionList = {},
+            currentAction = null,
             torchData = Data.character.parameter[_para.role].light.torch,
             topLightData = Data.character.parameter[_para.role].light.top,
             noTorchData = Data.character.parameter[_para.role].light.noTorch,
@@ -133,12 +130,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.render = function (delta) {
             if (gameData === null) return;
             if (this.isVisible === false) {
-                this.element.css({ 'visibility': 'hidden' });
-                this.shadow.css({ 'visibility': 'hidden' });
+                this.element.visible=false;
                 return;
             } else {
-                this.element.css({ 'visibility': 'visible' });
-                this.shadow.css({ 'visibility': 'visible' });
+                this.element.true = false;
             }
 
             var action = gameData.action;
@@ -167,25 +162,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (gameData.protect != undefined && gameData.protect !== cache_protect) {
                 cache_protect = gameData.protect;
                 if (gameData.protect > 0) {
-                    this.shadow.css({
-                        'border': '2px solid #fff'
-                    });
+                    this.element.alpha = 0.5;
                 } else {
-                    this.shadow.css({
-                        'border': '0'
-                    });
+                    this.element.alpha = 1;
                 }
             }
 
             // dead
             if (isDead) {
                 if (currentAction !== action) {
-                    this.element.css({
-                        'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) translateZ(0)'
-                    });
-                    this.shadow.css({
-                        'transform': 'translate(' + x + 'px,' + y + 'px) translateZ(0)'
-                    });
+                    this.element.position.x = x;
+                    this.element.position.y = y;
+                    this.element.position.rotation = -r_body/180*Math.PI;
                     changeAction(action);
                 }
                 return;
@@ -233,84 +221,56 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
          */
         // private method -------------------------------------------------
         this.load = function () {
-            var layer = entity.env.layers.character;
-            if (layer == null) {
-                entity.env.layers.character = layer = $(_Data.html.layer).appendTo(entity.env.scene['map']);
-            }
-            that.element = $(_Data.html.character).css({
-                'width': GridSize * 2 + 'px',
-                'height': GridSize * 2 + 'px',
-                'margin-top': -GridSize + 'px',
-                'margin-left': -GridSize + 'px'
-            }).appendTo(layer);
-            html_imgWrap = $(_Data.html.imgWrap).css({
-                'width': GridSize * 2 + 'px',
-                'height': GridSize * 2 + 'px',
-                'line-height': GridSize * 2 + 'px'
-            }).appendTo(that.element);
-            html_img = $(_Data.html.img).appendTo(html_imgWrap);
-            changeAction('idle');
-
-            that.shadow = $(_Data.html.shadow).css({
-                'width': GridSize + 'px',
-                'height': GridSize + 'px',
-                'margin-top': -GridSize / 2 + 'px',
-                'margin-left': -GridSize / 2 + 'px'
-            }).appendTo(layer);
-
-
             that.element = new PIXI.Container();
+            that.element.pivot.set(0.5 * GridSize, 0.5 * GridSize);
+            entity.env.scene['character'].addChild(that.element);
+            var _loadCount = 0;
 
-            PIXI.loader.add('walk', root + Data.character.path + _data.path+ 'walk.json').load(function (loader, resources) {
+            var _onLoad = function () {
+                if (--_loadCount > 0) return;
+                that.setuped = true;
+                if (that.onLoaded !== null) that.onLoaded();
+            };
 
-                var frames = [];
+            for (var i = 0; i < that.action2D.length; i++) {
+                var actionName = that.action2D[i];
+                _loadCount++;
+                PIXI.loader
+                    .add(actionName, root + Data.character.path + _data.path +actionName+ '.json')
+                    .load(function (loader, resources) {
+                        var frames = [];
 
-                for (var i = 0; i < 45; i++) {
-                    var val = i < 10 ? '0' + i : i;
-                    frames.push(PIXI.Texture.fromFrame('iconA00' + val));
-                }
+                        var i = 0;
+                        while (true) {
+                            var val = i < 10 ? '0' + i : i;
+                            if (!resources[actionName].data.frames.hasOwnProperty(actionName + '00' + val)) break;
+                            frames.push(PIXI.Texture.fromFrame(actionName+'00' + val));
+                        }
 
-                var item = new PIXI.extras.MovieClip(frames);
-                item.animationSpeed = 0.5;
-                item.anchor.set(0.5);
-                container.addChild(item);
-                item.loop = false;
-                window.test = item;
-                item.play();
-            });
-
-
-
-
-            that.setuped = true;
-            if (that.onLoaded !== null) that.onLoaded();
+                        var item = new PIXI.extras.MovieClip(frames);
+                        item.animationSpeed = 1;
+                        that.element.addChild(item);
+                        item.loop = true;
+                        item.visible = false;
+                        actionList[actionName] = item;
+                        _onLoad();
+                    });
+            }
         };
 
         // sprite ---------------------------------------------------------
         var changeAction = function (action) {
-            html_img[0].src = getSrc(action, root + Data.character.path + _data.path + action + '.gif');
-        };
-
-        var getSrc = function (name, src) {
-            if (!spriteTex.hasOwnProperty(name)) {
-                spriteTex[name] = _loadImg(src);
+            if (currentAction !== null) {
+                actionList[currentAction].stop();
+                actionList[currentAction].visible = false;
             }
-            return spriteTex[name].src;
-        };
-
-        var setupSprite = function () {
-            spriteTex = {
-            };
-        };
-        var _loadImg = function (name) {
-            var img = new Image();
-            img.src = name;
-            return img;
+            currentAction = action;
+            actionList[currentAction].gotoAndPlay(0);
+            actionList[currentAction].visible = true;
         };
 
         // setup ----------------------------------------------------------
         var _init = function () {
-            setupSprite();
         };
 
         _init();

@@ -39,5 +39,11 @@
       "8": "walk"
     },
     "init": "3"
-  }
+  },
+  "action2D": [
+    "idle",
+    "walk",
+    "run",
+    "attack"
+  ]
 }
