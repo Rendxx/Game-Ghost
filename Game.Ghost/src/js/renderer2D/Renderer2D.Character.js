@@ -26,7 +26,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
         }
     };
-    var Character = function (entity, id, modelData, characterPara, isMain) {
+    var Character = function (entity, id, modelData, characterPara) {
         // data ----------------------------------------------
         var that = this,
             root = entity.root,
@@ -208,18 +208,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var r3 = r1 - r2;
 
             // transform
-            if (isMain) {
-                this.element.css({
-                    'transform': 'rotate(' + -r_body + 'deg) scale(1.25, 1.25) translateZ(0)'
-                });
-            } else {
-                this.element.css({
-                    'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) translateZ(0)'
-                });
-                this.shadow.css({
-                    'transform': 'translate(' + x + 'px,' + y + 'px) translateZ(0)'
-                });
-            }
+            this.element.css({
+                'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) translateZ(0)'
+            });
+            this.shadow.css({
+                'transform': 'translate(' + x + 'px,' + y + 'px) translateZ(0)'
+            });
 
             this.rotation = {
                 body: r2,
@@ -239,52 +233,54 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
          */
         // private method -------------------------------------------------
         this.load = function () {
-            if (isMain) {
-                var layer = entity.env.scene['character'] = $(_Data.html.scene['character']).appendTo($(entity.domElement));;
-                that.element = $(_Data.html.character).css({
-                    'width': GridSize * 2 + 'px',
-                    'height': GridSize * 2 + 'px',
-                    'margin-top': -GridSize + 'px',
-                    'margin-left': -GridSize + 'px',
-                }).appendTo(layer);
-                html_imgWrap = $(_Data.html.imgWrap).css({
-                    'width': GridSize * 2 + 'px',
-                    'height': GridSize * 2 + 'px',
-                    'line-height': GridSize * 2 + 'px'
-                }).appendTo(that.element);
-                html_img = $(_Data.html.img).appendTo(html_imgWrap);
-                changeAction('idle');
-                that.shadow = $(_Data.html.shadow).css({
-                    'width': GridSize + 'px',
-                    'height': GridSize + 'px',
-                    'margin-top': -GridSize / 2 + 'px',
-                    'margin-left': -GridSize / 2 + 'px'
-                }).appendTo(layer);
-            } else {
-                var layer = entity.env.layers.character;
-                if (layer == null) {
-                    entity.env.layers.character = layer = $(_Data.html.layer).appendTo(entity.env.scene['map']);
-                }
-                that.element = $(_Data.html.character).css({
-                    'width': GridSize * 2 + 'px',
-                    'height': GridSize * 2 + 'px',
-                    'margin-top': -GridSize + 'px',
-                    'margin-left': -GridSize + 'px'
-                }).appendTo(layer);
-                html_imgWrap = $(_Data.html.imgWrap).css({
-                    'width': GridSize * 2 + 'px',
-                    'height': GridSize * 2 + 'px',
-                    'line-height': GridSize * 2 + 'px'
-                }).appendTo(that.element);
-                html_img = $(_Data.html.img).appendTo(html_imgWrap);
-                changeAction('idle');
-                that.shadow = $(_Data.html.shadow).css({
-                    'width': GridSize + 'px',
-                    'height': GridSize + 'px',
-                    'margin-top': -GridSize / 2 + 'px',
-                    'margin-left': -GridSize / 2 + 'px'
-                }).appendTo(layer);
+            var layer = entity.env.layers.character;
+            if (layer == null) {
+                entity.env.layers.character = layer = $(_Data.html.layer).appendTo(entity.env.scene['map']);
             }
+            that.element = $(_Data.html.character).css({
+                'width': GridSize * 2 + 'px',
+                'height': GridSize * 2 + 'px',
+                'margin-top': -GridSize + 'px',
+                'margin-left': -GridSize + 'px'
+            }).appendTo(layer);
+            html_imgWrap = $(_Data.html.imgWrap).css({
+                'width': GridSize * 2 + 'px',
+                'height': GridSize * 2 + 'px',
+                'line-height': GridSize * 2 + 'px'
+            }).appendTo(that.element);
+            html_img = $(_Data.html.img).appendTo(html_imgWrap);
+            changeAction('idle');
+
+            that.shadow = $(_Data.html.shadow).css({
+                'width': GridSize + 'px',
+                'height': GridSize + 'px',
+                'margin-top': -GridSize / 2 + 'px',
+                'margin-left': -GridSize / 2 + 'px'
+            }).appendTo(layer);
+
+
+            that.element = new PIXI.Container();
+
+            PIXI.loader.add('walk', 'a.json').load(function (loader, resources) {
+
+                var frames = [];
+
+                for (var i = 0; i < 45; i++) {
+                    var val = i < 10 ? '0' + i : i;
+                    frames.push(PIXI.Texture.fromFrame('iconA00' + val));
+                }
+
+                var item = new PIXI.extras.MovieClip(frames);
+                item.animationSpeed = 0.5;
+                item.anchor.set(0.5);
+                container.addChild(item);
+                item.loop = false;
+                window.test = item;
+                item.play();
+            });
+
+
+
 
             that.setuped = true;
             if (that.onLoaded !== null) that.onLoaded();

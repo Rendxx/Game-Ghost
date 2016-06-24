@@ -891,6 +891,7 @@
     <Content Include="Model\Player\ghost-mary\walk.gif" />
     <Content Include="Model\Player\ghost-specter\attack.gif" />
     <Content Include="Model\Player\ghost-specter\idle.gif" />
+    <Content Include="Model\Player\ghost-specter\player-specter.json" />
     <Content Include="Model\Player\ghost-specter\player-specter.portrait.png" />
     <Content Include="Model\Player\ghost-specter\player-specter.portrait2.png" />
     <Content Include="Model\Player\ghost-specter\player-specter.tex.png" />
@@ -943,6 +944,7 @@
     <Content Include="Model\Player\orange\Player-Texture.dds" />
     <Content Include="Model\Player\orange\Player-Texture.png" />
     <Content Include="Model\Player\player_ghost_mary.data.json" />
+    <Content Include="Model\Player\player_ghost_specter.data.json" />
     <Content Include="Model\Player\player_ghost_white.data.json" />
     <Content Include="Model\Player\player_survivor_basic.data.json" />
     <Content Include="Model\Player\player_survivor_blue.data.json" />
@@ -1250,8 +1252,6 @@
     <Content Include="ModelBuilder\Sprite\interaction.door.fla" />
     <Content Include="ModelBuilder\Sprite\fog.fla" />
     <Content Include="ModelBuilder\Sprite\playerHighlight.fla" />
-    <Content Include="Model\Player\player_ghost_specter.data.json" />
-    <Content Include="Model\Player\ghost-specter\player-specter.json" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.2d.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.2d.fla" />
     <Content Include="ModelBuilder\Stuff\books_1.2d.fla" />
