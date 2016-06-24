@@ -168,9 +168,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             /*create ground*/
             that.width = grid.width;
             that.height = grid.height;
-            //_layers['ground'] = $(_Data.html.layer.ground).appendTo(_scene);
             _scene.width(that.width * GridSize).height(that.height * GridSize);
-            _layers['ground'] = _layers['ground'] || ($(_Data.html.layer.ground).attr({ width: that.width * GridSize, height: that.height * GridSize }));
+            _layers['ground'] = new PIXI.Container();
+            _scene.addChild(_layers['ground']);
 
             for (var i = 0, l = ground_in.length; i < l; i++) {
                 if (ground_in[i] === null) continue;
@@ -184,19 +184,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         var setupWall = function (scene, wall, wallTop) {
-
-            _layers['wallEdge'] = _layers['wallEdge'] || ($(_Data.html.layer.wallEdge).attr({ width: that.width * GridSize, height: that.height * GridSize }));
-            for (var i = 0, l = wall.length; i < l; i++) {
-                if (wall[i] === null) continue;
-                _loadCount++;
-                createWallEdge(i, wall[i], _layers['wallEdge'], function (idx, dat) {
-                    var id = dat.id;
-                    _loadCount--;
-                    onLoaded();
-                });
-            }
-
-            _layers['wallShadow'] = _layers['wallShadow'] || ($(_Data.html.layer.wallShadow).attr({ width: that.width * GridSize, height: that.height * GridSize }));
+            _layers['wallShadow'] = new PIXI.Container();
+            _scene.addChild(_layers['wallShadow']);
             for (var i = 0, l = wallTop.length; i < l; i++) {
                 if (wallTop[i] === null) continue;
                 _loadCount++;
@@ -206,11 +195,25 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     onLoaded();
                 });
             }
-            _layers['wall'] = _layers['wall'] || ($(_Data.html.layer.wall).attr({ width: that.width * GridSize, height: that.height * GridSize }));
+
+            _layers['wall'] = new PIXI.Container();
+            _scene.addChild(_layers['wall']);
             for (var i = 0, l = wallTop.length; i < l; i++) {
                 if (wallTop[i] === null) continue;
                 _loadCount++;
                 createWall(i, wallTop[i], _layers['wall'], function (idx, dat) {
+                    var id = dat.id;
+                    _loadCount--;
+                    onLoaded();
+                });
+            }
+
+            _layers['wallEdge'] = new PIXI.Container();
+            _scene.addChild(_layers['wallEdge']);
+            for (var i = 0, l = wall.length; i < l; i++) {
+                if (wall[i] === null) continue;
+                _loadCount++;
+                createWallEdge(i, wall[i], _layers['wallEdge'], function (idx, dat) {
                     var id = dat.id;
                     _loadCount--;
                     onLoaded();
@@ -311,14 +314,16 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var w = (dat.right - dat.left + 1) * GridSize;
             var h = (dat.bottom - dat.top + 1) * GridSize;
 
-            var img = _loadImg('g_' + id, root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.model2D[0],
-                function () {
-                    var ctx = layer[0].getContext("2d");
-                    ctx.save();
-                    var ptrn = ctx.createPattern(img, 'repeat'); // Create a pattern with this image, and set it to "repeat".
-                    ctx.fillStyle = ptrn;
-                    ctx.fillRect(x, y, w, h);
-                    ctx.restore();
+            var tex = _loadImg('g_' + id, root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.model2D[0],
+                function (texture) {
+                    var obj = new PIXI.extras.TilingSprite(texture, w, h);
+
+                    obj.anchor.x = 0;
+                    obj.anchor.y = 0;
+                    obj.position.x = x;
+                    obj.position.y = y;
+
+                    layer.addChild(obj);
                     onSuccess(idx, dat);
                 });
         };
@@ -357,17 +362,14 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     y2 = y + len + wid;
                     break;
             }
+            
+            var graphics = new PIXI.Graphics();
+            graphics.lineStyle(wid, 0x111111, 1);
+            graphics.moveTo(x, y);
+            graphics.lineTo(x2, y2);
 
-            var ctx = layer[0].getContext("2d");
-            ctx.save();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.lineTo(x2, y2);
-            ctx.lineWidth = wid;
-            ctx.strokeStyle = "#111111";
-            ctx.stroke();
+            layer.addChild(graphics);
 
-            ctx.restore();
             onSuccess(idx, dat);
         };
 
@@ -385,13 +387,14 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             var img = _loadImg('wall_' + id, root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.model2D[0],
                 function (img) {
-                    var ctx = layer[0].getContext("2d");
-                    ctx.save();
-                    var ptrn = ctx.createPattern(img, 'repeat'); // Create a pattern with this image, and set it to "repeat".
-                    ctx.fillStyle = ptrn;
-                    ctx.fillRect(x, y, w, h);
+                    var obj = new PIXI.extras.TilingSprite(texture, w, h);
 
-                    ctx.restore();
+                    obj.anchor.x = 0;
+                    obj.anchor.y = 0;
+                    obj.position.x = x;
+                    obj.position.y = y;
+
+                    layer.addChild(obj);
                     onSuccess(idx, dat);
                 });
         };
@@ -406,15 +409,21 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var w = (dat.right - dat.left + 1) * GridSize;
             var h = (dat.bottom - dat.top + 1) * GridSize;
 
-            var ctx = layer[0].getContext("2d");
-            ctx.save();
-            ctx.shadowBlur = 30;
-            ctx.shadowColor = "#000000";
-            ctx.fillStyle = "#000000";
-            ctx.fillRect(x, y, w, h);
-            ctx.fillRect(x, y, w, h);
+            var graphics = new PIXI.Graphics();
+            graphics.lineStyle(0);
+            graphics.beginFill(0x000000);
+            graphics.drawRect(x, y, w, h);
+            graphics.endFill();
 
-            ctx.restore();
+            var dropShadowFilter = new PIXI.filters.DropShadowFilter();
+            dropShadowFilter.color = 0x000020;
+            dropShadowFilter.alpha = 0.5;
+            dropShadowFilter.blur = GridSize/4;
+            dropShadowFilter.distance = 0;
+
+            graphics.filters = [dropShadowFilter];
+            layer.addChild(graphics);
+
             onSuccess(idx, dat);
         };
         
@@ -692,13 +701,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 if (onload) onload(_tex[name]);
                 return _tex[name];
             }
-            var img = new Image();
-            img.onload = function () {
-                _tex[name] = img;
-                if (onload) onload(img);
-            };
-            img.src = src;
-            return img;
+            PIXI.loader.add(name, src).load(function (loader, resources) {
+                _tex[name] = resources[name].texture;
+                if (onload) onload(_tex[name]);
+            });
+            return _tex[name];
         };
 
         var _init = function () {
