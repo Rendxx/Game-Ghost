@@ -173,7 +173,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 if (currentAction !== action) {
                     this.element.position.x = x;
                     this.element.position.y = y;
-                    this.element.position.rotation = -r_body/180*Math.PI;
+                    this.element.position.rotation = -r_body / 180 * Math.PI;
+                    currentAction = action;
                     changeAction(action);
                 }
                 return;
@@ -196,12 +197,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var r3 = r1 - r2;
 
             // transform
-            this.element.css({
-                'transform': 'translate(' + x + 'px,' + y + 'px) rotate(' + -r_body + 'deg) scale(1.25, 1.25) translateZ(0)'
-            });
-            this.shadow.css({
-                'transform': 'translate(' + x + 'px,' + y + 'px) translateZ(0)'
-            });
+            this.element.position.x = x;
+            this.element.position.y = y;
+            this.element.position.rotation = -r1;
 
             this.rotation = {
                 body: r2,
