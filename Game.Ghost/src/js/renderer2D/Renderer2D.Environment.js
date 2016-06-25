@@ -42,6 +42,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var animate = function () {
             requestAnimationFrame(animate);
             _cameraUpdate();
+            renderer.render(that.stage);
             if (entity._onRender !== null) entity._onRender();
         }
 
@@ -73,13 +74,14 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             SCREEN_HEIGHT = window.innerHeight;
 
             var min = Math.max(window.innerHeight, window.innerWidth);
-            ratio = min / Data.visibleSize * GridSize;
+            ratio = min / (Data.visibleSize * GridSize);
         };
 
         // setup ------------------------
         var _init = function () {
             _setupScale();
             renderer = new PIXI.WebGLRenderer(SCREEN_WIDTH, SCREEN_HEIGHT);
+            entity.domElement.appendChild(renderer.view);
             that.stage = new PIXI.Container();
 
             that.scene['map'] = new PIXI.Container();

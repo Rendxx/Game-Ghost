@@ -118,9 +118,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var x = that.character.x;
             var y = that.character.y;
 
-            this.scene['map'].css({
-                'transform': 'translate(' + -x + 'px,' + -y + 'px) translateZ(0)'
-            });
+            scene['map'].position.x = -x;
+            scene['map'].position.y = -y;
             //this.scene['effort'].css({
             //    'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
             //});
@@ -154,7 +153,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             sprites["message"].position.x = that.width/2;
             sprites["message"].position.y = that.height / 4;
-            countingText.anchor.x = 0.5;
+            sprites["message"].anchor.x = 0.5;
 
             layer.addChild(sprites["message"]);
         };
@@ -392,8 +391,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
         var _dangerCache = 0;
         var resizeDanger = function () {
-            graphics.width = that.width;
-            graphics.height = that.height;
+            sprites["danger"].width = that.width;
+            sprites["danger"].height = that.height;
         };
         var updateDanger = function () {
             if (_dangerCache === that.character.danger) return;
@@ -432,7 +431,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             .add(path + 'interaction.close.png')
             .add(path + 'interaction.key.png')
             .add(path + 'interaction.search.png')
-            .add(path + 'interaction.search.png')
             .add(path + 'interaction.door.open.png')
             .add(path + 'interaction.door.close.png')
             .add(path + 'interaction.lock.png')
@@ -440,7 +438,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             .add(path + 'interaction.open-2.png')
             .add(path + 'interaction.close-2.png')
             .add(path + 'interaction.key-2.png')
-            .add(path + 'interaction.search-2.png')
             .add(path + 'interaction.search-2.png')
             .add(path + 'interaction.door.open-2.png')
             .add(path + 'interaction.door.close-2.png')

@@ -179,7 +179,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 loadGroundTex(fileArr, _modelData.items[Data.categoryName.ground][ground_in[i].id]);
             }
 
-            PIXI.loader.add(fileArr).load(function (loader, resources) {
+            var arr = [];
+            for (var i in fileArr) {
+                arr.push(fileArr[i]);
+            }
+
+            PIXI.loader.add(arr).load(function (loader, resources) {
                 for (var i = 0, l = ground_in.length; i < l; i++) {
                     if (ground_in[i] === null) continue;
                     createGround(i, ground_in[i], _layers['ground'], function (idx, dat) {
@@ -213,7 +218,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             _layers['wall'] = new PIXI.Container();
             _scene.addChild(_layers['wall']);
-            PIXI.loader.add(fileArr).load(function (loader, resources) {
+
+            var arr = [];
+            for (var i in fileArr) {
+                arr.push(fileArr[i]);
+            }
+            PIXI.loader.add(arr).load(function (loader, resources) {
                 for (var i = 0, l = wallTop.length; i < l; i++) {
                     if (wallTop[i] === null) continue;
                     createWall(i, wallTop[i], _layers['wall'], function (idx, dat) {
@@ -252,7 +262,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 _loadCount++;
                 loadDoorTex(fileArr, _modelData.items[Data.categoryName.door][doors[i].id]);
             }
-            PIXI.loader.add(fileArr).load(function (loader, resources) {
+
+            var arr = [];
+            for (var i in fileArr) {
+                arr.push(fileArr[i]);
+            }
+            PIXI.loader.add(arr).load(function (loader, resources) {
                 for (var i = 0, l = doors.length; i < l; i++) {
                     if (doors[i] === null) continue;
                     createDoor(i, doors[i], _layers['door'], function (idx, dat, mesh) {
@@ -275,13 +290,17 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _scene.addChild(_layers['furniture']);
             
             var fileArr = [];
-            for (var i = 0, l = doors.length; i < l; i++) {
+            for (var i = 0, l = furniture.length; i < l; i++) {
                 if (furniture[i] === null) continue;
                 _loadCount++;
                 loadFurnitureTex(fileArr, _modelData.items[Data.categoryName.furniture][furniture[i].id]);
             }
-            
-            PIXI.loader.add(fileArr).load(function (loader, resources) {
+
+            var arr = [];
+            for (var i in fileArr) {
+                arr.push(fileArr[i]);
+            }
+            PIXI.loader.add(arr).load(function (loader, resources) {
                 for (var i = 0, l = furniture.length; i < l; i++) {
                     if (furniture[i] === null) continue;
                     createFurniture(i, furniture[i], _layers['furniture'], function (idx, dat, mesh) {
@@ -312,7 +331,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 loadStuffTex(fileArr, _modelData.items[Data.categoryName.stuff][stuff[i].id]);
             }
 
-            PIXI.loader.add(fileArr).load(function (loader, resources) {
+            var arr = [];
+            for (var i in fileArr) {
+                arr.push(fileArr[i]);
+            }
+            PIXI.loader.add(arr).load(function (loader, resources) {
                 for (var i = 0, l = stuff.length; i < l; i++) {
                     if (stuff[i] === null) continue;
                     createStuff(stuff[i], _layers['stuff'], function (dat) {
@@ -333,29 +356,17 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var onLoaded = function () {
             if (_loadCount > 0) return;
-            _layers['staticMapTop'] = ($(_Data.html.layer.staticMapTop).attr({ width: that.width * GridSize, height: that.height * GridSize }).appendTo(_scene));
-            _layers['staticMapBtm'] = ($(_Data.html.layer.staticMapBtm).attr({ width: that.width * GridSize, height: that.height * GridSize }).appendTo(_scene));
-
-            var ctx = _layers['staticMapBtm'][0].getContext("2d");
-            ctx.drawImage(_layers['ground'][0], 0, 0);
-            ctx.drawImage(_layers['furniture2'][0], 0, 0);
-            ctx.drawImage(_layers['stuff'][0], 0, 0);
-
-            var ctx2 = _layers['staticMapTop'][0].getContext("2d");
-            ctx2.drawImage(_layers['wallShadow'][0], 0, 0);
-            ctx2.drawImage(_layers['wall'][0], 0, 0);
-            ctx2.drawImage(_layers['wallEdge'][0], 0, 0);
 
             if (that.onLoaded) that.onLoaded();
         };
 
         // Add items ----------------------------------------------------------
         var loadGroundTex = function (fileArr, para) {
-            fileArr.push({
+            fileArr['g_' + para.id] = ({
                 name: 'g_' + para.id,
                 url: root + Data.files.path[Data.categoryName.ground] + para.id + '/' + para.model2D[0],
                 onComplete: function (loader, resources) {
-                    _tex['g_' + para.id] = resources.texture;
+                    _tex['g_' + para.id] = PIXI.loader.resources['g_' + para.id].texture;
                 }
             });
         };
@@ -426,11 +437,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         var loadWallTex = function (fileArr, para) {
-            fileArr.push({
+            fileArr['wall_' + para.id] = ({
                 name: 'wall_' + para.id,
                 url: root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.model2D[0],
                 onComplete: function (loader, resources) {
-                    _tex['wall_' + para.id] = resources.texture;
+                    _tex['wall_' + para.id] = PIXI.loader.resources['wall_' + para.id].texture;
                 }
             });
         };
@@ -486,15 +497,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var loadFurnitureTex = function (fileArr, para) {
             if (!para.hasOwnProperty('action') || para['action'] == null) {
-                fileArr.push({
+                fileArr['f_' + para.id] = ({
                     name: 'f_' + para.id,
                     url: root + Data.files.path[Data.categoryName.furniture] + para.id + '/' + para.model2D[0],
                     onComplete: function (loader, resources) {
-                        _tex['f_' + para.id] = resources.texture;
+                        _tex['f_' + para.id] = PIXI.loader.resources['f_' + para.id].texture;
                     }
                 });
             } else {
-                fileArr.push({
+                fileArr['f_' + para.id] = ({
                     name: 'f_' + para.id,
                     url: root + Data.files.path[Data.categoryName.furniture] + para.id + '/animation_2d.json',
                     onComplete: function (loader, resources) {
@@ -559,8 +570,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
                 obj.filters = [dropShadowFilter];
                 layer.addChild(obj);
+                _animation['furniture'][idx][_Data.status.furniture.None] = function () {
+                };
                 onSuccess(idx, dat, obj);
-                return;
             }else{                
                 var item = new PIXI.extras.MovieClip(_frames['f_' + para.id]);
                 item.loop = false;
@@ -586,7 +598,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         var loadDoorTex = function (fileArr,para) {
-            fileArr.push({
+            fileArr['door_' + para.id] = ({
                 name: 'door_' + para.id,
                 url: root + Data.files.path[Data.categoryName.door] + para.id + '/animation_2d.json',
                 onComplete: function (loader, resources) {
@@ -663,11 +675,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         var loadStuffTex = function (fileArr, para) {
-            fileArr.push({
+            fileArr['stuff_' + para.id] = ({
                 name: 'stuff_' + para.id,
                 url: root + Data.files.path[Data.categoryName.stuff] + para.id + '/' + para.model2D[0],
                 onComplete: function (loader, resources) {
-                    _tex['stuff_' + para.id] = resources.texture;
+                    _tex['stuff_' + para.id] = PIXI.loader.resources['stuff_' + para.id].texture;
                 }
             });
         };

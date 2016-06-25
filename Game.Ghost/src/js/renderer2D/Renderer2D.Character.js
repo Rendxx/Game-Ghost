@@ -233,26 +233,29 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i = 0; i < that.action2D.length; i++) {
                 var actionName = that.action2D[i];
                 _loadCount++;
-                PIXI.loader
-                    .add(actionName, root + Data.character.path + _data.path +actionName+ '.json')
-                    .load(function (loader, resources) {
-                        var frames = [];
+                (function (actionName) {
+                    PIXI.loader
+                        .add(root + Data.character.path + _data.path + actionName + '.json')
+                        .load(function (loader, resources) {
+                            var frames = [];
+                            var _f = resources[root + Data.character.path + _data.path + actionName + '.json'].data.frames;
+                            var i = 0;
+                            while (true) {
+                                var val = i < 10 ? '0' + i : i;
+                                if (!_f.hasOwnProperty(actionName + '00' + val)) break;
+                                frames.push(PIXI.Texture.fromFrame(actionName + '00' + val));
+                                i++;
+                            }
 
-                        var i = 0;
-                        while (true) {
-                            var val = i < 10 ? '0' + i : i;
-                            if (!resources[actionName].data.frames.hasOwnProperty(actionName + '00' + val)) break;
-                            frames.push(PIXI.Texture.fromFrame(actionName+'00' + val));
-                        }
-
-                        var item = new PIXI.extras.MovieClip(frames);
-                        item.animationSpeed = 1;
-                        that.element.addChild(item);
-                        item.loop = true;
-                        item.visible = false;
-                        actionList[actionName] = item;
-                        _onLoad();
-                    });
+                            var item = new PIXI.extras.MovieClip(frames);
+                            item.animationSpeed = 1;
+                            that.element.addChild(item);
+                            item.loop = true;
+                            item.visible = false;
+                            actionList[actionName] = item;
+                            _onLoad();
+                        });
+                })(actionName);
             }
         };
 
