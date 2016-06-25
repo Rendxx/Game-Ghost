@@ -172,13 +172,35 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         // Endurance ------------------------------------------------
-        var createEnduranceBar = function () {
+        var createEnduranceBar = function (layer) {
             // endurance
-            //sprites["enduranceBarWrap"] = $(_Data.html.enduranceBarWrap).appendTo(that.scene['ortho']);
-            //sprites["enduranceBar"] = $(_Data.html.enduranceBar).appendTo(sprites["enduranceBarWrap"]);
+            sprites["enduranceBar"] = {
+                wrap: new PIXI.Container(),
+                bg: new PIXI.Graphics(),
+                val: new PIXI.Graphics()
+            };
+            layer.addChild(sprites["enduranceBar"].wrap);
+            sprites["enduranceBar"].wrap.addChild(sprites["enduranceBar"].bg);
+            sprites["enduranceBar"].wrap.addChild(sprites["enduranceBar"].val);
+
+            resizeEnduranceBar();
         };
 
-        var resizeEnduranceBar = function () { };
+        var resizeEnduranceBar = function () {
+            if (sprites["enduranceBar"] == null) return;
+            sprites["enduranceBar"].wrap.position.set(that.width / 4+1, that.height / 8);
+            var graphics = sprites["enduranceBar"].bg;
+            graphics.clear();
+            graphics.lineStyle(2, 0x000000, 1);
+            graphics.beginFill(0x333333, 1);
+            graphics.drawRect(-1, 0, that.width / 2, 10);
+
+            graphics = sprites["enduranceBar"].val;
+            graphics.clear();
+            graphics.lineStyle(0);
+            graphics.beginFill(0xffffff, 1);
+            graphics.drawRect(0, 1, that.width / 2-2, 8);
+        };
 
         var updateEnduranceBar = function () {
             //if (!sprites.hasOwnProperty('enduranceBar')) return;
@@ -187,6 +209,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             //sprites["enduranceBar"].css({
             //    'transform': 'scaleX(' + w + ') translateZ(0)'
             //});
+            var w = Math.max((that.character.endurance / that.character.maxEndurance),0);
+            sprites["enduranceBar"].val.scale.x = w;
         };
 
         // Interaction icon ------------------------------------------
@@ -310,13 +334,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var msgHideFunc = null;
         var showMessage = function (content) {
             if (msgHideFunc !== null) clearTimeout(msgHideFunc);
-            sprites["message"].text(content).css({
-                'opacity': 1
-            });
+            sprites["message"].text = content;
+            sprites["message"].alpha = 1;
             msgHideFunc = setTimeout(function () {
-                sprites["message"].css({
-                    'opacity': 0
-                });
+                sprites["message"].alpha = 0;
             }, 3000);
         };
 
