@@ -392,7 +392,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             // set a fill and line style
             graphics.lineStyle(0);
-            graphics.beginFill(0x993300, 1);
+            graphics.beginFill(0x993333, 1);
             graphics.drawRect(0, 0, that.width, that.height);
             sprites["danger"] = graphics;
             sprites["danger"].alpha = 0;
@@ -406,7 +406,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var updateDanger = function () {
             if (_dangerCache === that.character.danger) return;
             _dangerCache = Math.max(that.character.danger, entity.map.danger);
-            sprites["danger"].alpha = _dangerCache;
+            sprites["danger"].alpha = _dangerCache*0.6;
         };
 
 

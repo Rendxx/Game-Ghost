@@ -199,7 +199,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             // transform
             this.element.position.x = x;
             this.element.position.y = y;
-            this.element.position.rotation = -r1;
+            this.element.rotation = -r1;
 
             this.rotation = {
                 body: r2,
@@ -220,8 +220,29 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // private method -------------------------------------------------
         this.load = function () {
             that.element = new PIXI.Container();
-            that.element.pivot.set(0.5 * GridSize, 0.5 * GridSize);
             entity.env.scene['character'].addChild(that.element);
+
+            // shadow
+
+
+            var graphics = new PIXI.Graphics();
+            graphics.lineStyle(0);
+            graphics.beginFill(0x000000);
+            graphics.drawCircle(0, 0, 0.20 * GridSize);
+            graphics.endFill();
+            graphics.alpha = 0.6;
+
+            var blurFilter = new PIXI.filters.BlurFilter;
+            blurFilter.padding = GridSize / 2;
+            blurFilter.blurX = GridSize / 2;
+            blurFilter.blurY = GridSize / 2;
+
+            graphics.filters = [blurFilter];
+            that.element.addChild(graphics);
+            
+            that.shadow = graphics;
+
+            // action
             var _loadCount = 0;
 
             var _onLoad = function () {
@@ -233,29 +254,31 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i = 0; i < that.action2D.length; i++) {
                 var actionName = that.action2D[i];
                 _loadCount++;
-                (function (actionName) {
+                (function (ele, actionList, actionName, path) {
                     PIXI.loader
-                        .add(root + Data.character.path + _data.path + actionName + '.json')
+                        .add(path)
                         .load(function (loader, resources) {
                             var frames = [];
-                            var _f = resources[root + Data.character.path + _data.path + actionName + '.json'].data.frames;
+                            var _f = resources[path].data.frames;
                             var i = 0;
                             while (true) {
                                 var val = i < 10 ? '0' + i : i;
                                 if (!_f.hasOwnProperty(actionName + '00' + val)) break;
-                                frames.push(PIXI.Texture.fromFrame(actionName + '00' + val));
+                                frames.push(loader.resources[path].textures[actionName + '00' + val]);
                                 i++;
                             }
 
                             var item = new PIXI.extras.MovieClip(frames);
                             item.animationSpeed = 1;
-                            that.element.addChild(item);
+                            ele.addChild(item);
                             item.loop = true;
                             item.visible = false;
+                            item.anchor.set(0.5, 0.5);
+                            item.scale.set(1.2, 1.2);
                             actionList[actionName] = item;
                             _onLoad();
                         });
-                })(actionName);
+                })(that.element, actionList, actionName, root + Data.character.path + _data.path + actionName + '.json');
             }
         };
 
