@@ -85,6 +85,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
 
             // cache
+            ratio = 1,
             _loader = false;
             interactionIcon = {},
             highLightIcon = null,
@@ -117,14 +118,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             offset_x = this.width / 2;
             offset_y = this.height / 2;
 
+            _setupScale();
             resizeMessage();
             resizeDanger();
             resizeEnduranceBar();
         };
 
         this.render = function () {
-            var x = that.character.x;
-            var y = that.character.y;
+            var x = that.character.x * ratio;
+            var y = that.character.y * ratio;
 
             wrap['game'].position.x = -x + offset_x;
             wrap['game'].position.y = -y + offset_y;
@@ -432,6 +434,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
 
         // setup -----------------------------------------------------
+        var _setupScale = function () {
+            var min = Math.max(that.width, that.height);
+            ratio = min / (Data.visibleSize * GridSize);
+            wrap['game'].scale.x = ratio;
+            wrap['game'].scale.y = ratio;
+        };
+
         var _setupTex = function () {
             tex = {};
             var path = root + Data.files.path[Data.categoryName.sprite];

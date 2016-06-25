@@ -22,7 +22,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             SCREEN_HEIGHT = 0,
             GridSize = Data.grid.size,
             viewPlayerIdx = null,
-            ratio = 1,          // scale layers
             renderer = null;
 
         this.stage = null;
@@ -70,17 +69,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _cameraResize(SCREEN_WIDTH, SCREEN_HEIGHT);
         };
 
-        var _setupScale = function () {
-            SCREEN_WIDTH = window.innerWidth;
-            SCREEN_HEIGHT = window.innerHeight;
-
-            var min = Math.max(window.innerHeight, window.innerWidth);
-            ratio = min / (Data.visibleSize * GridSize);
-        };
-
         // setup ------------------------
         var _init = function () {
-            _setupScale();
             renderer = new PIXI.WebGLRenderer(SCREEN_WIDTH, SCREEN_HEIGHT);
             entity.domElement.appendChild(renderer.view);
             that.stage = new PIXI.Container();
@@ -92,16 +82,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             that.scene['effort'] = new PIXI.Container();
             that.scene['marker'] = new PIXI.Container();
             that.scene['hud'] = new PIXI.Container();
-
-            ratio = 1;
-            that.scene['map'].scale.x = ratio;
-            that.scene['map'].scale.y = ratio;
-            that.scene['character'].scale.x = ratio;
-            that.scene['character'].scale.y = ratio;
-            that.scene['effort'].scale.x = ratio;
-            that.scene['effort'].scale.y = ratio;
-            that.scene['marker'].scale.x = ratio;
-            that.scene['marker'].scale.y = ratio;
 
             that.stage.addChild(that.wrap['game']);
             that.stage.addChild(that.wrap['hud']);
