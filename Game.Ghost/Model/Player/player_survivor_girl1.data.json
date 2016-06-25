@@ -33,10 +33,10 @@
     },
     "init": "3"
   },
-  "action2D": [
-    "idle",
-    "walk",
-    "run",
-    "die"
-  ]
+  "action2D": {
+    "idle": true,
+    "walk": true,
+    "run": true,
+    "die": true
+  }
 }

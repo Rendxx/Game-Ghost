@@ -251,10 +251,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 if (that.onLoaded !== null) that.onLoaded();
             };
 
-            for (var i = 0; i < that.action2D.length; i++) {
-                var actionName = that.action2D[i];
+            for (var actionName in that.action2D) {
                 _loadCount++;
-                (function (ele, actionList, actionName, path) {
+                (function (ele, actionList, actionName, path, isLoop) {
                     PIXI.loader
                         .add(path)
                         .load(function (loader, resources) {
@@ -269,16 +268,16 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                             }
 
                             var item = new PIXI.extras.MovieClip(frames);
-                            item.animationSpeed = 1;
+                            item.animationSpeed = 0.5;
                             ele.addChild(item);
-                            item.loop = true;
+                            item.loop = isLoop;
                             item.visible = false;
                             item.anchor.set(0.5, 0.5);
                             item.scale.set(1.2, 1.2);
                             actionList[actionName] = item;
                             _onLoad();
                         });
-                })(that.element, actionList, actionName, root + Data.character.path + _data.path + actionName + '.json');
+                })(that.element, actionList, actionName, root + Data.character.path + _data.path + actionName + '.json', that.action2D[actionName]);
             }
         };
 

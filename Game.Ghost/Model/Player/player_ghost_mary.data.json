@@ -39,9 +39,9 @@
     },
     "init": "3"
   },
-  "action2D": [
-    "idle",
-    "walk",
-    "run"
-  ]
+  "action2D": {
+    "idle": true,
+    "walk": true,
+    "run": true
+  }
 }
