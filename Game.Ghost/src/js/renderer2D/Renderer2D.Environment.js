@@ -80,7 +80,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var _init = function () {
             _setupScale();
             renderer = new PIXI.WebGLRenderer(SCREEN_WIDTH, SCREEN_HEIGHT);
-            that.stage = new PIXI.Stage(0x333333, true);
+            that.stage = new PIXI.Container();
 
             that.scene['map'] = new PIXI.Container();
             that.scene['character'] = new PIXI.Container();

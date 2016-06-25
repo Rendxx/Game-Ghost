@@ -176,7 +176,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i = 0, l = ground_in.length; i < l; i++) {
                 if (ground_in[i] === null) continue;
                 _loadCount++;
-                loadGroundTex(fileArr, _modelData.items[Data.categoryName.ground][i]);
+                loadGroundTex(fileArr, _modelData.items[Data.categoryName.ground][ground_in[i].id]);
             }
 
             PIXI.loader.add(fileArr).load(function (loader, resources) {
@@ -208,7 +208,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i = 0, l = wallTop.length; i < l; i++) {
                 if (wallTop[i] === null) continue;
                 _loadCount++;
-                loadWallTex(fileArr, _modelData.items[Data.categoryName.wall][i]);
+                loadWallTex(fileArr, _modelData.items[Data.categoryName.wall][wallTop[i].id]);
             }
 
             _layers['wall'] = new PIXI.Container();
@@ -250,7 +250,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i = 0, l = doors.length; i < l; i++) {
                 if (doors[i] === null) continue;
                 _loadCount++;
-                loadDoorTex(fileArr, _modelData.items[Data.categoryName.door][i]);
+                loadDoorTex(fileArr, _modelData.items[Data.categoryName.door][doors[i].id]);
             }
             PIXI.loader.add(fileArr).load(function (loader, resources) {
                 for (var i = 0, l = doors.length; i < l; i++) {
@@ -278,7 +278,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i = 0, l = doors.length; i < l; i++) {
                 if (furniture[i] === null) continue;
                 _loadCount++;
-                loadFurnitureTex(fileArr, _modelData.items[Data.categoryName.furniture][i]);
+                loadFurnitureTex(fileArr, _modelData.items[Data.categoryName.furniture][furniture[i].id]);
             }
             
             PIXI.loader.add(fileArr).load(function (loader, resources) {
@@ -309,7 +309,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             for (var i = 0, l = stuff.length; i < l; i++) {
                 if (stuff[i] === null) continue;
                 _loadCount++;
-                loadStuffTex(fileArr, _modelData.items[Data.categoryName.stuff][i]);
+                loadStuffTex(fileArr, _modelData.items[Data.categoryName.stuff][stuff[i].id]);
             }
 
             PIXI.loader.add(fileArr).load(function (loader, resources) {
