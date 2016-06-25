@@ -133,6 +133,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             setupStuff(_scene, mapData.item.stuff);
             setupWall(_scene, mapData.wall, mapData.item.wall);
             setupKey(_scene);
+            setupLight(_scene);
 
             createEndPos(_mapSetupData.position.end);
             _loadCount--;
@@ -161,8 +162,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // private method ---------------------------
         var setupLight = function () {
-            //_layers['light'] = $(_Data.html.layer.light).appendTo(_scene);
-            //var darkScreen = $(_Data.html.dark).appendTo(_layers['light']);
+            _layers['light'] = new PIXI.Container();
+            _scene.addChild(_layers['light']);
+
+            var graphics = new PIXI.Graphics();
+
+            // set a fill and line style
+            graphics.lineStyle(0);
+            graphics.beginFill(0x333333, 1);
+            graphics.drawRect(0, 0, that.width * GridSize, that.height * GridSize);
+            graphics.alpha = 0.4;
+            _layers['light'].addChild(graphics);
+            darkScreen = graphics;
         };
 
         var setupGround = function (scene, grid, ground_in) {
@@ -486,16 +497,17 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var graphics = new PIXI.Graphics();
             graphics.lineStyle(0);
             graphics.beginFill(0x000000);
-            graphics.drawRect(x, y, w, h);
+            graphics.drawRect(x-8, y-8, w+16, h+16);
             graphics.endFill();
+            graphics.alpha = 0.4;
 
-            var dropShadowFilter = new PIXI.filters.DropShadowFilter();
-            dropShadowFilter.color = 0x000000;
-            dropShadowFilter.alpha = 0.5;
-            dropShadowFilter.blur = GridSize/4;
-            dropShadowFilter.distance = 0;
+            var blurFilter = new PIXI.filters.BlurFilter();
+            blurFilter.padding = 10;
+            blurFilter.blurX = 10;
+            blurFilter.blurY = 10;
 
-            graphics.filters = [dropShadowFilter];
+            graphics.filters = [blurFilter];
+
             layer.addChild(graphics);
 
             onSuccess(idx, dat);
@@ -543,14 +555,14 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var offset_y = 0;
             switch (r) {
                 case 1:
-                    offset_x = h - GridSize;
+                    offset_x = h;
                     break;
                 case 2:
-                    offset_x = w - GridSize;
-                    offset_y = h - GridSize;
+                    offset_x = w;
+                    offset_y = h;
                     break;
                 case 3:
-                    offset_y = w - GridSize;
+                    offset_y = w;
                     break;
             }
 
@@ -563,15 +575,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 var obj = new PIXI.Sprite(_tex['f_' + para.id]);
                 obj.anchor.x = 0;
                 obj.anchor.y = 0;
-                obj.position.x = x;
-                obj.position.y = y;
-                obj.pivot.set(GridSize * 0.5, GridSize * 0.5);
-                obj.rotation = (4 - r) / 2 * Math.PI;
+                obj.position.x = x + offset_x;
+                obj.position.y = y + offset_y;
+                obj.rotation = (r-4) / 2 * Math.PI;
 
                 var dropShadowFilter = new PIXI.filters.DropShadowFilter();
                 dropShadowFilter.color = 0x000000;
                 dropShadowFilter.alpha = 0.5;
-                dropShadowFilter.blur = 6;
+                dropShadowFilter.padding = 10;
+                dropShadowFilter.blur = 10;
                 dropShadowFilter.distance = 0;
 
                 obj.filters = [dropShadowFilter];
@@ -582,10 +594,19 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }else{                
                 var item = new PIXI.extras.MovieClip(_frames['f_' + para.id]);
                 item.loop = false;
-                item.position.x = x;
-                item.position.y = y;
-                item.pivot.set(GridSize * 0.5, GridSize * 0.5);
-                item.rotation = (4 - r) / 2 * Math.PI;
+                item.position.x = x + offset_x;
+                item.position.y = y + offset_y;
+                item.rotation = (r - 4) / 2 * Math.PI;
+
+
+                var dropShadowFilter = new PIXI.filters.DropShadowFilter();
+                dropShadowFilter.color = 0x000000;
+                dropShadowFilter.alpha = 0.5;
+                dropShadowFilter.padding = 10;
+                dropShadowFilter.blur = 10;
+                dropShadowFilter.distance = 0;
+
+                item.filters = [dropShadowFilter];
                 layer.addChild(item);
 
                 _animation['furniture'][idx][_Data.status.furniture.None] = function () {
@@ -632,14 +653,14 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var offset_y = 0;
             switch (r) {
                 case 1:
-                    offset_x = h - GridSize;
+                    offset_x = h ;
                     break;
                 case 2:
-                    offset_x = w - GridSize;
-                    offset_y = h - GridSize;
+                    offset_x = w ;
+                    offset_y = h ;
                     break;
                 case 3:
-                    offset_y = w - GridSize;
+                    offset_y = w ;
                     break;
             }
 
@@ -657,10 +678,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             var item = new PIXI.extras.MovieClip(_frames['door_' + para.id]);
             item.loop = false;
-            item.position.x = x;
-            item.position.y = y;
-            item.pivot.set(GridSize * 0.5, GridSize * 0.5);
-            item.rotation = (4 - r) / 2 * Math.PI;
+            item.position.x = x + offset_x;
+            item.position.y = y + offset_y;
+            item.rotation = (r-4) / 2 * Math.PI;
             layer.addChild(item);
 
             _animation['door'][idx][_Data.status.door.Locked] = function () {
@@ -702,17 +722,32 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             
             var obj = new PIXI.Sprite(_tex['stuff_' + para.id]);
 
+            var offset_x = 0;
+            var offset_y = 0;
+            switch (r) {
+                case 1:
+                    offset_x = h;
+                    break;
+                case 2:
+                    offset_x = w;
+                    offset_y = h;
+                    break;
+                case 3:
+                    offset_y = w;
+                    break;
+            }
+
             obj.anchor.x = 0;
             obj.anchor.y = 0;
-            obj.position.x = x;
-            obj.position.y = y;
-            obj.pivot.set(GridSize * 0.5, GridSize * 0.5);
-            obj.rotation = (4 - r) / 2 * Math.PI;
+            obj.position.x = x + offset_x;
+            obj.position.y = y + offset_y;
+            obj.rotation = (r-4) / 2 * Math.PI;
 
             var dropShadowFilter = new PIXI.filters.DropShadowFilter();
             dropShadowFilter.color = 0x000000;
             dropShadowFilter.alpha = 0.5;
             dropShadowFilter.blur = 6;
+            dropShadowFilter.padding = 6;
             dropShadowFilter.distance = 0;
 
             obj.filters = [dropShadowFilter];
@@ -784,8 +819,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
                     obj.anchor.x = 0;
                     obj.anchor.y = 0;
-                    obj.position.x = dat[i][1] * GridSize;
-                    obj.position.y = dat[i][0] * GridSize;
+                    obj.position.x = dat[i][0] * GridSize;
+                    obj.position.y = dat[i][1] * GridSize;
                     _layers['pos'].addChild(obj);
                     that.posEnd[i] = obj;
                 }
@@ -798,7 +833,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         var _init = function () {
-            setupLight(_scene);
             _setupTex();
         };
 

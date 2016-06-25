@@ -133,7 +133,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 this.element.visible=false;
                 return;
             } else {
-                this.element.true = false;
+                this.element.visible = true;
             }
 
             var action = gameData.action;
@@ -228,9 +228,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var graphics = new PIXI.Graphics();
             graphics.lineStyle(0);
             graphics.beginFill(0x000000);
-            graphics.drawCircle(0, 0, 0.20 * GridSize);
+            graphics.drawCircle(0, 0, 0.25 * GridSize);
             graphics.endFill();
-            graphics.alpha = 0.6;
+            graphics.alpha = 0.75;
 
             var blurFilter = new PIXI.filters.BlurFilter;
             blurFilter.padding = GridSize / 2;
