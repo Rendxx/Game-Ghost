@@ -59,11 +59,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
      * Setup camera in three.js
      * @param {game entity} entity - Game entity
      */
-    var Camera = function (entity, scene) {
+    var Camera = function (entity) {
         // data ----------------------------------------------
         var that = this,
             tex = {},
             root = entity.root,
+            scene = entity.env.scene,
+            wrap = entity.env.wrap,
             sprites = {},
             spritesInteraction = {
                 normal: {
@@ -78,6 +80,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 }
             },
             msg = null,
+            offset_x = 0,
+            offset_y = 0,
+
 
             // cache
             _loader = false;
@@ -109,6 +114,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.width = w;
             this.height = h;
 
+            offset_x = this.width / 2;
+            offset_y = this.height / 2;
+
             resizeMessage();
             resizeDanger();
             resizeEnduranceBar();
@@ -118,8 +126,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var x = that.character.x;
             var y = that.character.y;
 
-            scene['map'].position.x = -x;
-            scene['map'].position.y = -y;
+            wrap['game'].position.x = -x + offset_x;
+            wrap['game'].position.y = -y + offset_y;
             //this.scene['effort'].css({
             //    'transform': 'translate(' + -x  + 'px,' + -y  + 'px)'
             //});
@@ -387,6 +395,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             graphics.beginFill(0x993300, 1);
             graphics.drawRect(0, 0, that.width, that.height);
             sprites["danger"] = graphics;
+            sprites["danger"].alpha = 0;
             layer.addChild(graphics);
         };
         var _dangerCache = 0;

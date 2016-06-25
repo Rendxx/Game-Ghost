@@ -26,6 +26,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             renderer = null;
 
         this.stage = null;
+        this.wrap = {};
         this.scene = {};
         this.layers = {};
         this.camera = null;
@@ -83,6 +84,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             renderer = new PIXI.WebGLRenderer(SCREEN_WIDTH, SCREEN_HEIGHT);
             entity.domElement.appendChild(renderer.view);
             that.stage = new PIXI.Container();
+            that.wrap['game'] = new PIXI.Container();
+            that.wrap['hud'] = new PIXI.Container();
 
             that.scene['map'] = new PIXI.Container();
             that.scene['character'] = new PIXI.Container();
@@ -90,6 +93,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             that.scene['marker'] = new PIXI.Container();
             that.scene['hud'] = new PIXI.Container();
 
+            ratio = 1;
             that.scene['map'].scale.x = ratio;
             that.scene['map'].scale.y = ratio;
             that.scene['character'].scale.x = ratio;
@@ -99,11 +103,14 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             that.scene['marker'].scale.x = ratio;
             that.scene['marker'].scale.y = ratio;
 
-            that.stage.addChild(that.scene['map']);
-            that.stage.addChild(that.scene['character']);
-            that.stage.addChild(that.scene['effort']);
-            that.stage.addChild(that.scene['marker']);
-            that.stage.addChild(that.scene['hud']);
+            that.stage.addChild(that.wrap['game']);
+            that.stage.addChild(that.wrap['hud']);
+
+            that.wrap['game'].addChild(that.scene['map']);
+            that.wrap['game'].addChild(that.scene['character']);
+            that.wrap['game'].addChild(that.scene['effort']);
+            that.wrap['game'].addChild(that.scene['marker']);
+            that.wrap['hud'].addChild(that.scene['hud']);
 
             // bind resize function
             $(window).resize(resize);

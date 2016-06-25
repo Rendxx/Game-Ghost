@@ -356,6 +356,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var onLoaded = function () {
             if (_loadCount > 0) return;
+            var offset_x = -1 * GridSize / 2;
+            var offset_y = -1 * GridSize / 2;
+            entity.env.scene['map'].position.set(offset_x, offset_y);
+            entity.env.scene['character'].position.set(offset_x, offset_y);
+            entity.env.scene['effort'].position.set(offset_x, offset_y);
+            entity.env.scene['marker'].position.set(offset_x, offset_y);
 
             if (that.onLoaded) that.onLoaded();
         };
