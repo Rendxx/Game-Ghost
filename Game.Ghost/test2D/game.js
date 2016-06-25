@@ -23,7 +23,7 @@ $(function () {
     system.onUpdated = function (renderData, gameData) {
         //renderer.updateGame(clientData[viewId]);
         HELPER.cacheGame(gameData);
-        //HELPER.updateStat();
+        HELPER.updateStat();
     };
     system.clientUpdate = function (targets, clientData) {
         if (viewId == targets[0]) renderer.updateGame(clientData);
@@ -95,7 +95,7 @@ $(function () {
     GameSetup = function () {
         system.setup(playerData, {
             player:playerData,
-            map: 'test2'
+            map: 'Hospital1'
         });
         system.start();
         renderer.show();
@@ -111,7 +111,7 @@ $(function () {
 
 
     // helper --------------------------------------------------------
-    //HELPER.addStats($('#game-container'));
+    HELPER.addStats($('#game-container'));
     HELPER.addDatGUI($('body'));
     SetupControl(system, viewId);
 });
