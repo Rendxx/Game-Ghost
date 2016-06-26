@@ -11,7 +11,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var GridSize = RENDERER.Data.grid.size;
     var _Data = {
         teamColor: [
-            0xFF6600,
+            0xFF0000,
             0x0099CC,
             0xff0000
         ]
@@ -387,6 +387,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var changeTorch = function (type) {
+            return;
             if (that.torch === null) return;
             if (type === 1) {
                 that.torch.intensity = torchData.intensity;

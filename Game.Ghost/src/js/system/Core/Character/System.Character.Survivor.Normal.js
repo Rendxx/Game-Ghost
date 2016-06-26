@@ -24,7 +24,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             danger: 14
         },
         teamColor: [
-            0xFF6600,
+            0xFF0000,
             0x0099CC
         ],
         protectTime :120

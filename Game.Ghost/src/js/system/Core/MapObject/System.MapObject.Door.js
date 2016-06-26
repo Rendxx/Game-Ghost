@@ -29,6 +29,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Door = function (id, info, modelData, name, entity) {
         SYSTEM.MapObject.Basic.call(this, id, info, modelData, entity);
 
+        this.destoyed = false;
         this.objType = _Data.ObjType;
         this.blockSight = modelData.blockSight;
         this.blockList = {};
@@ -77,12 +78,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Door.prototype.close = function () {
+        if (this.destoyed) return;
         this.status = _Data.Status.Closed;
         this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.CloseDoor);
         this.updateData();
     };
 
     Door.prototype.unlock = function (isSuccess) {
+        if (this.destoyed) return;
         if (!isSuccess) {
             this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.Locked);
             return;
@@ -93,12 +96,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Door.prototype.lock = function () {
+        if (this.destoyed) return;
         this.status = _Data.Status.Locked;
         //this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.Unlock);
         this.updateData();
     };
 
     Door.prototype.block = function (characterId) {
+        if (this.destoyed) return;
         this.blockList[characterId] = true;
         this.updateData();
     };
@@ -106,6 +111,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Door.prototype.unblock = function (characterId) {
         delete this.blockList[characterId];
         this.updateData();
+    };
+
+    Door.prototype.destroy = function (characterId) {
+        Door.prototype.open(true);
+        this.destoyed = true;
     };
 
     // ----------------------------------------------------------------

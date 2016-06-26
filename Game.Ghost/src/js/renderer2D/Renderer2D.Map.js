@@ -137,7 +137,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             setupFurniture(_scene, mapData.item.furniture);
             setupStuff(_scene, mapData.item.stuff);
             setupKey(_scene);
-            //setupLight(_scene);
+            setupLight(_scene);
 
             createEndPos(_mapSetupData.position.end);
             _loadCount--;

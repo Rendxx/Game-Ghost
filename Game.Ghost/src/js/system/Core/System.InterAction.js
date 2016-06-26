@@ -183,18 +183,22 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             forceVisible[c.id] = false;
         }
 
-        this.checkVisible = function (characterA, characterB) {
-            if (forceVisible[characterB.id]===true) return true;
+        this.checkVisible = function (characterA, characterB, distance, angle, blockCheck) {
+            if (forceVisible[characterB.id] === true) return true;
+            if (angle === undefined) angle = 60;
+            if (distance === undefined) distance = 400;
             var x1 = characterA.x,
                 y1 = characterA.y,
                 x2 = characterB.x,
                 y2 = characterB.y;
+            if (Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) > distance) return false;
+
             var r = Math.atan2(x2 - x1, y2 - y1) * 180 / Math.PI;
             var d = Math.abs(r - characterA.currentRotation[0]);
             if (d > 180) d = 360 - d;
             var d2 = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-            if (d > 60 && d2 > 2.5) return false;
-            return _checkVisibleLine(x1, y1, x2, y2, null, null);
+            if (d > angle && d2 > 1.5) return false;
+            return blockCheck === false ? true : _checkVisibleLine(x1, y1, x2, y2, null, null);
         };
 
         var _checkVisibleLine = function (x1, y1, x2, y2, objType, objId) {
@@ -246,7 +250,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 return true;
             }
             if (map.grid.empty[y][x] === SYSTEM.Map.Data.Grid.Door) {
-                if ((!(map.objList.door[map.grid.door[y][x]].status === SYSTEM.MapObject.Door.Data.Status.Opened) && map.objList.door[map.grid.door[y][x]].blockSight)
+                if ((!(map.objList.door[map.grid.door[y][x]].status === SYSTEM.MapObject.Door.Data.Status.Opened || map.objList.door[map.grid.door[y][x]].status === SYSTEM.MapObject.Door.Data.Status.Destroyed) && map.objList.door[map.grid.door[y][x]].blockSight)
                 && !(objType === SYSTEM.Map.Data.Grid.Door && objId === map.grid.door[y][x])) {
                     return false;
                 }
