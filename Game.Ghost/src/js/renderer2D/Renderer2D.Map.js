@@ -93,6 +93,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             darkScreen = null,
 
             _animation = {},
+            // base map
+            _baseMap = null,
 
             // mesh
             mesh_door = null,           // door
@@ -126,14 +128,16 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             itemStatus = {};
             itemData = {};
             _loadCount = 1;
-            setupGround(_scene, mapData.grid, mapData.item.ground);
+            _baseMap = new PIXI.Container();
+            setupBaseMap(_scene);
+            setupGround(_baseMap, mapData.grid, mapData.item.ground);
+            setupWall(_baseMap, mapData.wall, mapData.item.wall);
             setupDoor(_scene, mapData.item.door);
             setupBody();
             setupFurniture(_scene, mapData.item.furniture);
             setupStuff(_scene, mapData.item.stuff);
-            setupWall(_scene, mapData.wall, mapData.item.wall);
             setupKey(_scene);
-            setupLight(_scene);
+            //setupLight(_scene);
 
             createEndPos(_mapSetupData.position.end);
             _loadCount--;
@@ -181,7 +185,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             that.width = grid.width;
             that.height = grid.height;
             _layers['ground'] = new PIXI.Container();
-            _scene.addChild(_layers['ground']);
+            scene.addChild(_layers['ground']);
 
             var fileArr = [];
             for (var i = 0, l = ground_in.length; i < l; i++) {
@@ -209,7 +213,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var setupWall = function (scene, wall, wallTop) {
             _layers['wallShadow'] = new PIXI.Container();
-            _scene.addChild(_layers['wallShadow']);
+            scene.addChild(_layers['wallShadow']);
             for (var i = 0, l = wallTop.length; i < l; i++) {
                 if (wallTop[i] === null) continue;
                 _loadCount++;
@@ -228,7 +232,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
 
             _layers['wall'] = new PIXI.Container();
-            _scene.addChild(_layers['wall']);
+            scene.addChild(_layers['wall']);
 
             var arr = [];
             for (var i in fileArr) {
@@ -246,7 +250,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             });
 
             _layers['wallEdge'] = new PIXI.Container();
-            _scene.addChild(_layers['wallEdge']);
+            scene.addChild(_layers['wallEdge']);
             for (var i = 0, l = wall.length; i < l; i++) {
                 if (wall[i] === null) continue;
                 _loadCount++;
@@ -373,7 +377,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             entity.env.scene['character'].position.set(offset_x, offset_y);
             entity.env.scene['effort'].position.set(offset_x, offset_y);
             entity.env.scene['marker'].position.set(offset_x, offset_y);
-
+            loadBaseMap(_scene, _baseMap);
             if (that.onLoaded) that.onLoaded();
         };
 
@@ -407,7 +411,17 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             layer.addChild(obj);
             onSuccess(idx, dat);
         };
-        
+
+        var loadWallTex = function (fileArr, para) {
+            fileArr['wall_' + para.id] = ({
+                name: 'wall_' + para.id,
+                url: root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.model2D[0],
+                onComplete: function (loader, resources) {
+                    _tex['wall_' + para.id] = PIXI.loader.resources['wall_' + para.id].texture;
+                }
+            });
+        };
+
         var createWallEdge = function (idx, dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
@@ -452,17 +466,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             onSuccess(idx, dat);
         };
-
-        var loadWallTex = function (fileArr, para) {
-            fileArr['wall_' + para.id] = ({
-                name: 'wall_' + para.id,
-                url: root + Data.files.path[Data.categoryName.wall] + para.id + '/' + para.model2D[0],
-                onComplete: function (loader, resources) {
-                    _tex['wall_' + para.id] = PIXI.loader.resources['wall_' + para.id].texture;
-                }
-            });
-        };
-
+        
         var createWall = function (idx, dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
@@ -578,15 +582,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 obj.position.x = x + offset_x;
                 obj.position.y = y + offset_y;
                 obj.rotation = (r-4) / 2 * Math.PI;
-
-                var dropShadowFilter = new PIXI.filters.DropShadowFilter();
-                dropShadowFilter.color = 0x000000;
-                dropShadowFilter.alpha = 0.5;
-                dropShadowFilter.padding = 10;
-                dropShadowFilter.blur = 10;
-                dropShadowFilter.distance = 0;
-
-                obj.filters = [dropShadowFilter];
                 layer.addChild(obj);
                 _animation['furniture'][idx][_Data.status.furniture.None] = function () {
                 };
@@ -598,15 +593,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 item.position.y = y + offset_y;
                 item.rotation = (r - 4) / 2 * Math.PI;
 
-
-                var dropShadowFilter = new PIXI.filters.DropShadowFilter();
-                dropShadowFilter.color = 0x000000;
-                dropShadowFilter.alpha = 0.5;
-                dropShadowFilter.padding = 10;
-                dropShadowFilter.blur = 10;
-                dropShadowFilter.distance = 0;
-
-                item.filters = [dropShadowFilter];
                 layer.addChild(item);
 
                 _animation['furniture'][idx][_Data.status.furniture.None] = function () {
@@ -743,14 +729,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             obj.position.y = y + offset_y;
             obj.rotation = (r-4) / 2 * Math.PI;
 
-            var dropShadowFilter = new PIXI.filters.DropShadowFilter();
-            dropShadowFilter.color = 0x000000;
-            dropShadowFilter.alpha = 0.5;
-            dropShadowFilter.blur = 6;
-            dropShadowFilter.padding = 6;
-            dropShadowFilter.distance = 0;
-
-            obj.filters = [dropShadowFilter];
             layer.addChild(obj);
             onSuccess(dat);
         };
@@ -826,6 +804,22 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 }
             });
         };
+
+        // Base map -------------------------------------------------------
+        var setupBaseMap = function (scene) {
+            _layers['baseMap'] = new PIXI.Container();
+            scene.addChild(_layers['baseMap']);
+        };
+
+        var loadBaseMap = function (scene, baseMap) {
+            var renderTexture = new PIXI.RenderTexture(entity.env.renderer, that.width * GridSize, that.height * GridSize);
+            renderTexture.render(baseMap, null, true);
+
+            var baseMapSprite = new PIXI.Sprite(renderTexture);
+            _layers['baseMap'].addChild(baseMapSprite);
+        };
+
+
 
         // Setup ----------------------------------------------------------
         var _setupTex = function () {

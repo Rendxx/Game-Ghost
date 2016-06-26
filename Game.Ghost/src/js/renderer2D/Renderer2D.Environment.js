@@ -25,6 +25,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             renderer = null;
 
         this.stage = null;
+        this.renderer = null;
         this.wrap = {};
         this.scene = {};
         this.layers = {};
@@ -72,6 +73,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // setup ------------------------
         var _init = function () {
             renderer = new PIXI.WebGLRenderer(SCREEN_WIDTH, SCREEN_HEIGHT);
+            that.renderer = renderer;
             entity.domElement.appendChild(renderer.view);
             that.stage = new PIXI.Container();
             that.wrap['game'] = new PIXI.Container();

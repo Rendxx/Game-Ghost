@@ -226,21 +226,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
 
             var graphics = new PIXI.Graphics();
-            graphics.lineStyle(0);
-            graphics.beginFill(0x000000);
-            graphics.drawCircle(0, 0, 0.25 * GridSize);
-            graphics.endFill();
-            graphics.alpha = 0.75;
+            var texture = PIXI.Texture.fromImage(root + Data.files.path[Data.categoryName.sprite] + 'shadow.png');
 
-            var blurFilter = new PIXI.filters.BlurFilter;
-            blurFilter.padding = GridSize / 2;
-            blurFilter.blurX = GridSize / 2;
-            blurFilter.blurY = GridSize / 2;
-
-            graphics.filters = [blurFilter];
-            that.element.addChild(graphics);
-            
-            that.shadow = graphics;
+            // create a new Sprite using the texture
+            that.shadow = new PIXI.Sprite(texture);
+            that.shadow.anchor.set(0.5, 0.5);
+            that.shadow.scale.set(1.2, 1.2);
+            that.element.addChild(that.shadow);
 
             // action
             var _loadCount = 0;

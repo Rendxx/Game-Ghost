@@ -83,7 +83,7 @@
 "meta": {
 	"app": "Adobe Flash Professional",
 	"version": "15.0.0.173",
-	"image": "animation_2d .png",
+	"image": "animation_2d.png",
 	"format": "RGBA8888",
 	"size": {"w":512,"h":512},
 	"scale": "1"

@@ -1068,6 +1068,7 @@
     <Content Include="Model\Sprite\name-deco-white.png" />
     <Content Include="Model\Sprite\playerHighlight.dds" />
     <Content Include="Model\Sprite\playerHighlight.png" />
+    <Content Include="Model\Sprite\shadow.png" />
     <Content Include="Model\Sprite\Sprite_block.dds" />
     <Content Include="Model\Sprite\Sprite_block.png" />
     <Content Include="Model\Sprite\Sprite_EndPos.dds" />
@@ -1371,6 +1372,7 @@
     <Content Include="Model\Player\mohicans\idle.json" />
     <Content Include="Model\Player\mohicans\run.json" />
     <Content Include="Model\Player\mohicans\walk.json" />
+    <Content Include="ModelBuilder\Sprite\shadow.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />
