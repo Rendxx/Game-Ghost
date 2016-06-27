@@ -159,7 +159,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         }
                     }
                     continue;
-                }
+                } 
                 var d = Math.abs(r - list[i].angle);
                 if (d > 180) d = 360 - d;
                 if (d > 80) continue;

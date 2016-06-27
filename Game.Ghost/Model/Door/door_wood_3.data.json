@@ -5,7 +5,10 @@
   "accessPos": [
     [ 0, 1 ],
     [ 0, 0 ],
-    [ 0, -1 ]
+    [ 0, -1 ],
+    [ 1, 1 ],
+    [ 1, 0 ],
+    [ 1, -1 ]
   ],
   "model": "door_wood_3.json",
   "texture": [ "door_wood_3.png" ],

@@ -42,7 +42,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 0: 1,
                 1: 0,
                 2: 1,
-                3: 1
+                3: 1,
+                6: 2
             }
         }
     };
@@ -114,6 +115,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _mapData = mapData;
             _mapSetupData = mapSetupData;
             itemTween = {};
+            itemTweenCurrent = {};
             itemStatus = {};
             itemData = {};
             _loadCount = 1;
@@ -236,6 +238,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var setupDoor = function (scene, doors) {
             mesh_door = {};
+            itemTweenCurrent['door'] = {};
             itemTween['door'] = {};
             itemStatus['door'] = {};
             itemData['door'] = {};
@@ -249,6 +252,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                     itemStatus['door'][idx] = _Data.status.door.Closed;
                     itemTween['door'][idx] = tween;
+                    itemTweenCurrent['door'][idx] = null;
                     _loadCount--;
                     onLoaded();
                 });
@@ -257,6 +261,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var setupFurniture = function (scene, furniture) {
             mesh_furniture = {};
+            itemTweenCurrent['furniture'] = {};
             itemTween['furniture'] = {};
             itemStatus['furniture'] = {};
             _map = [];
@@ -275,6 +280,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                     itemStatus['furniture'][idx] = _Data.status.furniture.Closed;
                     itemTween['furniture'][idx] = tween;
+                    itemTweenCurrent['furniture'][idx] = null;
                     _loadCount--;
                     onLoaded();
                 });
@@ -604,12 +610,18 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         }
                     }
 
-                    tweenNew = [[], []];
+
+
+
+                    tweenNew = [[], [], []];
                     for (var i in actionPara) {
                         tweenNew[0].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(actionPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));
                     }
                     for (var i in recoverPara) {
                         tweenNew[1].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(recoverPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));
+                    }
+                    for (var i = 0; i < materials.length; i++) {
+                        tweenNew[2].push(new TWEEN.Tween(materials[i].opacity).to(0, para.duration).easing(TWEEN.Easing.Quadratic.Out));
                     }
                 }
 
@@ -711,11 +723,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 if (gameData.f[i].status !== itemStatus['furniture'][i] && itemStatus['furniture'][i] !== null) {
                     itemStatus['furniture'][i] = gameData.f[i].status;
                     if (itemTween['furniture'][i] !== null) {
-                        var t = itemTween['furniture'][i][1 - _Data.animationId.furniture[itemStatus['furniture'][i]]];
-                        for (var j = 0; j < t.length; j++) {
-                            t[j].stop();
+                        var t = itemTweenCurrent['furniture'][i];
+                        if (t !== null) {
+                            for (var j = 0; j < t.length; j++) {
+                                t[j].stop();
+                            }
                         }
                         t = itemTween['furniture'][i][_Data.animationId.furniture[itemStatus['furniture'][i]]];
+                        itemTweenCurrent['furniture'][i] = t;
                         for (var j = 0; j < t.length; j++) {
                             t[j].start();
                         }
@@ -732,11 +747,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     if (gameData.d[i].status !== itemStatus['door'][i]) {
                         itemStatus['door'][i] = gameData.d[i].status;
                         if (itemTween['door'] !== null && itemTween['door'][i] !== null) {
-                            var t = itemTween['door'][i][1 - _Data.animationId.door[itemStatus['door'][i]]];
-                            for (var j = 0; j < t.length; j++) {
-                                t[j].stop();
+                            var t = itemTweenCurrent['door'][i];
+                            if (t !== null) {
+                                for (var j = 0; j < t.length; j++) {
+                                    t[j].stop();
+                                }
                             }
                             t = itemTween['door'][i][_Data.animationId.door[itemStatus['door'][i]]];
+                            itemTweenCurrent['door'][i] = t;
                             for (var j = 0; j < t.length; j++) {
                                 t[j].start();
                             }

@@ -44,6 +44,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var info = obj.check();
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.Destroyed) {
+                    break;
+                }
                 if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened) {
                     return [SYSTEM.MapObject.Door.Data.Operation.Close];
                 }
@@ -191,5 +194,5 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // ---------------------------------------------------------------
     SYSTEM.Character = SYSTEM.Character || {};
     SYSTEM.Character.Ghost = SYSTEM.Character.Ghost || {};
-    SYSTEM.Character.Ghost.Specter = Ghost;
+    SYSTEM.Character.Ghost.Butcher = Ghost;
 })(window.Rendxx.Game.Ghost.System);
