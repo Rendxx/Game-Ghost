@@ -70,7 +70,6 @@
     <Content Include="mapDesigner\Scripts\ItemSelector.js" />
     <Content Include="mapDesigner\Scripts\Main.js" />
     <Content Include="mapDesigner\Scripts\GridPanel.js" />
-    <Content Include="ModelBuilder\Door\door_wood_1\animation_2d.png" />
     <Content Include="ModelBuilder\Door\door_wood_1\door_wood_1.2d.fla" />
     <Content Include="ModelBuilder\Door\door_wood_1\door_wood_1.blend" />
     <Content Include="ModelBuilder\Door\door_wood_1\door_wood_1.blend1" />
@@ -78,7 +77,6 @@
     <Content Include="ModelBuilder\Door\door_wood_1\door_wood_1.icon.fla" />
     <Content Include="ModelBuilder\Door\door_wood_1\door_wood_1.tex.png" />
     <Content Include="ModelBuilder\Door\door_wood_1\door_wood_1.uv.png" />
-    <Content Include="ModelBuilder\Door\door_wood_2\animation_2d.png" />
     <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.2d.fla" />
     <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.2d.swf" />
     <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.blend" />
@@ -87,7 +85,6 @@
     <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.icon.fla" />
     <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.tex.png" />
     <Content Include="ModelBuilder\Door\door_wood_2\door_wood_2.uv.png" />
-    <Content Include="ModelBuilder\Door\door_wood_3\animation_2d.png" />
     <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.2d.fla" />
     <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.blend" />
     <Content Include="ModelBuilder\Door\door_wood_3\door_wood_3.blend1" />
@@ -123,7 +120,6 @@
     <Content Include="ModelBuilder\Furniture\bench_wood_2_1\bench_wood_2_1.tex.fla" />
     <Content Include="ModelBuilder\Furniture\bench_wood_2_1\bench_wood_2_1.tex.png" />
     <Content Include="ModelBuilder\Furniture\bench_wood_2_1\bench_wood_2_1.uv.png" />
-    <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\animation_2d.png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet.1.blend" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet.1.blend1" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet.1.uv.png" />
@@ -133,7 +129,6 @@
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet_wood_1_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet_wood_1_1.tex.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\cabinet_wood_1_1.tex.png" />
-    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\animation_2d.png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet.2.blend" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet.2.blend1" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet.2.uv.png" />
@@ -143,14 +138,11 @@
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.icon.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.tex.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.tex.png" />
-    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\animation_2d .json" />
-    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\animation_2d .png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet.3.blend" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet.3.blend1" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet.3.uv.png" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_b.3.blend" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_b.3.blend1" />
-    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.2d.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.icon.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.tex.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.tex.png" />
@@ -1333,11 +1325,6 @@
     <Content Include="ModelBuilder\Player\survivor\mohicans\animation\idle.json" />
     <Content Include="ModelBuilder\Player\survivor\mohicans\animation\run.json" />
     <Content Include="ModelBuilder\Player\survivor\mohicans\animation\walk.json" />
-    <Content Include="ModelBuilder\Door\door_wood_1\animation_2d.json" />
-    <Content Include="ModelBuilder\Door\door_wood_2\animation_2d.json" />
-    <Content Include="ModelBuilder\Door\door_wood_3\animation_2d.json" />
-    <Content Include="ModelBuilder\Furniture\cabinet_wood_1_1\animation_2d.json" />
-    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1\animation_2d.json" />
     <Content Include="Model\Door\door_wood_1\animation_2d.json" />
     <Content Include="Model\Door\door_wood_2\animation_2d.json" />
     <Content Include="Model\Door\door_wood_3\animation_2d.json" />
@@ -1377,6 +1364,7 @@
     <Content Include="Model\Player\mohicans\walk.json" />
     <Content Include="ModelBuilder\Sprite\shadow.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.destroy.fla" />
+    <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.2d.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />

@@ -557,18 +557,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             //console.log(dat);
             //aconsole.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
-            var offset_x = 0;
-            var offset_y = 0;
+            var offset_x = -GridSize / 2;
+            var offset_y = -GridSize / 2;
             switch (r) {
                 case 1:
-                    offset_x = h;
+                    offset_x = h + GridSize / 2;
                     break;
                 case 2:
-                    offset_x = w;
-                    offset_y = h;
+                    offset_x = w + GridSize / 2;
+                    offset_y = h + GridSize / 2;
                     break;
                 case 3:
-                    offset_y = w;
+                    offset_y = w + GridSize / 2;
                     break;
             }
 
@@ -637,18 +637,18 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var w = para.dimension[0] * GridSize;
             var h = (para.dimension[1]) * GridSize;
 
-            var offset_x = 0;
-            var offset_y = 0;
+            var offset_x = -GridSize / 2;
+            var offset_y = -GridSize / 2;
             switch (r) {
                 case 1:
-                    offset_x = h ;
+                    offset_x = h + GridSize / 2;
                     break;
                 case 2:
-                    offset_x = w ;
-                    offset_y = h ;
+                    offset_x = w + GridSize / 2;
+                    offset_y = h + GridSize / 2;
                     break;
                 case 3:
-                    offset_y = w ;
+                    offset_y = w + GridSize / 2;
                     break;
             }
 
