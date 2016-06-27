@@ -36,7 +36,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 Close: 2,
                 Locked: 3,
                 Unlock: 4,
-                Block: 5
+                Block: 5,
+                Destroy: 6
             },
             body: {
                 Search: 1
@@ -802,6 +803,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction']['normal']['door'][_Data.operation.door.Open] = ddsLoader.load(path + 'interaction.door.open.dds');
             tex['interaction']['normal']['door'][_Data.operation.door.Open].anisotropy = 4;
             tex['interaction']['normal']['door'][_Data.operation.door.Close] = ddsLoader.load(path + 'interaction.door.close.dds');
+            tex['interaction']['normal']['door'][_Data.operation.door.Destroy] = ddsLoader.load(path + 'interaction.key.dds');
+            tex['interaction']['normal']['door'][_Data.operation.door.Destroy].anisotropy = 4;
             tex['interaction']['normal']['door'][_Data.operation.door.Close].anisotropy = 4;
             tex['interaction']['normal']['door'][_Data.operation.door.Locked] = ddsLoader.load(path + 'interaction.lock.dds');
             tex['interaction']['normal']['door'][_Data.operation.door.Locked].anisotropy = 4;
@@ -823,6 +826,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction']['highlight']['door'][_Data.operation.door.Open].anisotropy = 4;
             tex['interaction']['highlight']['door'][_Data.operation.door.Close] = ddsLoader.load(path + 'interaction.door.close-2.dds');
             tex['interaction']['highlight']['door'][_Data.operation.door.Close].anisotropy = 4;
+            tex['interaction']['highlight']['door'][_Data.operation.door.Destroy] = ddsLoader.load(path + 'interaction.key-2.dds');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Destroy].anisotropy = 4;
             tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = ddsLoader.load(path + 'interaction.lock-2.dds');
             tex['interaction']['highlight']['door'][_Data.operation.door.Locked].anisotropy = 4;
             tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = ddsLoader.load(path + 'interaction.unlock-2.dds');

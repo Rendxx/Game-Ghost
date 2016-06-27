@@ -29,7 +29,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 Locked: 0,
                 Opened: 1,
                 Closed: 2,
-                Blocked: 3
+                Blocked: 3,
+                Destroyed: 4
             }
         },
         animationId: {
@@ -43,7 +44,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 1: 0,
                 2: 1,
                 3: 1,
-                6: 2
+                4: 2
             }
         }
     };
@@ -609,10 +610,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                             }
                         }
                     }
-
-
-
-
+                    
                     tweenNew = [[], [], []];
                     for (var i in actionPara) {
                         tweenNew[0].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(actionPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));

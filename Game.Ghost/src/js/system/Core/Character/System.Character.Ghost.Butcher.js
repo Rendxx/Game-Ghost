@@ -44,14 +44,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var info = obj.check();
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
-                if (info.status === SYSTEM.MapObject.Door.Data.Status.Destroyed) {
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened) {
                     break;
                 }
-                if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened) {
-                    return [SYSTEM.MapObject.Door.Data.Operation.Close];
-                }
-                return [SYSTEM.MapObject.Door.Data.Operation.Open];
-                break;
+                return [SYSTEM.MapObject.Door.Data.Operation.Destroy];
             case SYSTEM.MapObject.Furniture.Data.ObjType:
                 if (info.status === SYSTEM.MapObject.Furniture.Data.Status.None) return [SYSTEM.MapObject.Basic.Data.Operation.None];
                 if (info.status === SYSTEM.MapObject.Furniture.Data.Status.Closed) {
@@ -185,7 +181,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 return;
             }
 
-            obj.open(true);
+            obj.destroy();
         }
         this.entity.interAction.updateInteraction(obj.objType, info.id);
         this.updateData();

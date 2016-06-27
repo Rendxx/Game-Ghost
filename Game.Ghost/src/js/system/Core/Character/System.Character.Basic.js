@@ -269,9 +269,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var obj_x = this.entity.interAction.getObject(newX, oldY);
         var obj_y = this.entity.interAction.getObject(oldX, newY);
         var obj_new = this.entity.interAction.getObject(newX, newY);
-        var canMove = (obj_new === null || (obj_new.type === SYSTEM.Map.Data.Grid.Door && obj_new.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened));
+        var canMove = (obj_new === null || (obj_new.type === SYSTEM.Map.Data.Grid.Door && (obj_new.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened || obj_new.obj.status === SYSTEM.MapObject.Door.Data.Status.Destroyed)));
 
-        if (obj_x === null || (obj_x.type === SYSTEM.Map.Data.Grid.Door && obj_x.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened)) {
+        if (obj_x === null || (obj_x.type === SYSTEM.Map.Data.Grid.Door && (obj_x.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened || obj_x.obj.status === SYSTEM.MapObject.Door.Data.Status.Destroyed))) {
             this.x += deltaX;
         } else {
             x_t = deltaX > 0 ? (newX - _radius) : (newX + 1 + _radius);
@@ -279,7 +279,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             canMove = true;
         }
 
-        if (obj_y === null || (obj_y.type === SYSTEM.Map.Data.Grid.Door && obj_y.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened)) {
+        if (obj_y === null || (obj_y.type === SYSTEM.Map.Data.Grid.Door && (obj_y.obj.status === SYSTEM.MapObject.Door.Data.Status.Opened || obj_y.obj.status === SYSTEM.MapObject.Door.Data.Status.Destroyed))) {
             this.y += deltaY;
         } else {
             y_t = deltaY > 0 ? (newY - _radius) : (newY + 1 + _radius);
