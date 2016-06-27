@@ -1034,6 +1034,8 @@
     <Content Include="Model\Sprite\interaction.close-2.png" />
     <Content Include="Model\Sprite\interaction.close.dds" />
     <Content Include="Model\Sprite\interaction.close.png" />
+    <Content Include="Model\Sprite\interaction.destroy-2.png" />
+    <Content Include="Model\Sprite\interaction.destroy.png" />
     <Content Include="Model\Sprite\interaction.door.block-2.dds" />
     <Content Include="Model\Sprite\interaction.door.block-2.png" />
     <Content Include="Model\Sprite\interaction.door.close-2.dds" />
@@ -1374,6 +1376,7 @@
     <Content Include="Model\Player\mohicans\run.json" />
     <Content Include="Model\Player\mohicans\walk.json" />
     <Content Include="ModelBuilder\Sprite\shadow.fla" />
+    <Content Include="ModelBuilder\Sprite\interaction.destroy.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />
