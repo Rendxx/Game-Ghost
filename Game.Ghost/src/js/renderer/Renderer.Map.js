@@ -583,6 +583,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     // dynamic furniture
                     for (var i = 0; i < materials.length; i++) {
                         materials[i].skinning = true;
+                        materials[i].transparent = true;
+                        materials[i].opacity = 1;
                     }
                     mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
 
@@ -619,7 +621,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         tweenNew[1].push(new TWEEN.Tween(mesh.skeleton.bones[i].rotation).to(recoverPara[i], para.duration).easing(TWEEN.Easing.Quadratic.Out));
                     }
                     for (var i = 0; i < materials.length; i++) {
-                        tweenNew[2].push(new TWEEN.Tween(materials[i].opacity).to(0, para.duration).easing(TWEEN.Easing.Quadratic.Out));
+                        tweenNew[2].push(new TWEEN.Tween(mesh.material.materials[i].opacity).to(0, para.duration).easing(TWEEN.Easing.Quadratic.Out));
                     }
                 }
 
