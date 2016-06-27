@@ -704,11 +704,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         var getTexture = function (path, onSuccess) {
-            //return _textureLoader.load(path, onSuccess);
-            return _ddsLoader.load(path, function (tex) {
-                tex.anisotropy = 4;
-                if (onSuccess) onSuccess(tex);
+            return _textureLoader.load(path, onSuccess, null, function (e) {
+                console.log(e)
             });
+            //return _ddsLoader.load(path, function (tex) {
+            //    tex.anisotropy = 4;
+            //    if (onSuccess) onSuccess(tex);
+            //});
         };
 
         // Update items ----------------------------------------------------------
@@ -933,15 +935,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // Setup ----------------------------------------------------------
         var _setupTex = function () {
             _tex = {};
-            //_textureLoader = new THREE.TextureLoader();
-            //_tex['lock'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_locked.png');
-            //_tex['end'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
+            _textureLoader = new THREE.TextureLoader();
+            _tex['end'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
 
-            _ddsLoader = new THREE.DDSLoader();
-            _tex['lock'] = _ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_locked.dds');
-            _tex['lock'].anisotropy = 4;
-            _tex['end'] = _ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.dds');
-            _tex['end'].anisotropy = 4;
+            //_ddsLoader = new THREE.DDSLoader();
+            //_tex['end'] = _ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.dds');
+            //_tex['end'].anisotropy = 4;
         };
 
         var _init = function () {

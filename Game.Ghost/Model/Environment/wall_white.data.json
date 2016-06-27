@@ -1,6 +1,6 @@
 ﻿{
   "id": "wall_0",
-  "texture": [ "wall-top.dds", "wall.dds" ],
+  "texture": [ "wall-top.png", "wall.png" ],
   "model2D": [ "wall.2d.png" ],
   "icon": "wall_white.icon.png"
 }

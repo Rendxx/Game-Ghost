@@ -1,6 +1,6 @@
 ﻿{
   "id": "ground_ceramic",
-  "texture": [ "ground_ceramic.icon.dds" ],
+  "texture": [ "ground_ceramic.icon.png" ],
   "model2D": [ "ground_ceramic.2d.png" ],
   "icon": "ground_ceramic.icon.png"
 }
