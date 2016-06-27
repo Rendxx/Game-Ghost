@@ -145,7 +145,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 // update effort
                 //updateInteractionIcon();
                 updateMessage();
-                //updateDoor();
+                updateDoor();
             }
         };
 
@@ -373,38 +373,38 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var createDoorLock = function (idx) {
             var pos = entity.map.doorPos[idx];
-            var marker = $(_Data.html.marker).appendTo(that.scene['effort']).css({
-                'background-image': 'url("' + tex['interaction-lock'].src + '")',
-                left: pos[0],
-                top: pos[1]
-            });
+            var marker = new PIXI.Sprite(tex['interaction-lock']);
+            marker.anchor.set(0.5, 0.5);
+            marker.position.x = pos[0];
+            marker.position.y = pos[1];
+            scene['effort'].addChild(marker);
 
-            return spr;
+            return marker;
         };
 
         var createDoorUnlock = function (idx) {
             var pos = entity.map.doorPos[idx];
-            var marker = $(_Data.html.marker).appendTo(that.scene['effort']).css({
-                'background-image': 'url("' + tex['interaction-unlock'].src + '")',
-                left: pos[0],
-                top: pos[1]
-            });
+            var marker = new PIXI.Sprite(tex['interaction-unlock']);
+            marker.anchor.set(0.5, 0.5);
+            marker.position.x = pos[0];
+            marker.position.y = pos[1];
+            scene['effort'].addChild(marker);
 
-            return spr;
+            return marker;
         };
 
         var removeDoorIcon = function (idx) {
             if (doorIcon[idx][0] !== undefined || doorIcon[idx][0] !== null)
-                doorIcon[idx][0].css('opacity', 0);
+                doorIcon[idx][0].alpha = 0;
             if (doorIcon[idx][1] !== undefined || doorIcon[idx][1] !== null)
-                doorIcon[idx][1].css('opacity', 0);
+                doorIcon[idx][1].alpha = 0;
         };
 
         var showDoorIcon = function (idx) {
             if (doorIcon[idx][0] !== undefined || doorIcon[idx][0] !== null)
-                doorIcon[idx][0].css('opacity', 1);
+                doorIcon[idx][0].alpha = 1;
             if (doorIcon[idx][1] !== undefined || doorIcon[idx][1] !== null)
-                doorIcon[idx][1].css('opacity', 1);
+                doorIcon[idx][1].alpha = 1;
         };
 
         // Fog -------------------------------------------------------
