@@ -44,7 +44,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var info = obj.check();
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
-                if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened) {
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened || info.status === SYSTEM.MapObject.Door.Data.Status.Destroyed) {
                     break;
                 }
                 return [SYSTEM.MapObject.Door.Data.Operation.Destroy];
