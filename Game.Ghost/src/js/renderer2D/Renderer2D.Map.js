@@ -93,8 +93,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             darkScreen = null,
 
             _animation = {},
-            // base map
-            _baseMap = null,
+            // static map
+            _topMap = null,
+            _btmMap = null,
 
             // mesh
             mesh_door = null,           // door
@@ -128,14 +129,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             itemStatus = {};
             itemData = {};
             _loadCount = 1;
-            _baseMap = new PIXI.Container();
-            setupBaseMap(_scene);
-            setupGround(_baseMap, mapData.grid, mapData.item.ground);
-            setupWall(_baseMap, mapData.wall, mapData.item.wall);
+            _topMap = new PIXI.Container();
+            _btmMap = new PIXI.Container();
+            setupStaticMap(_scene);
+            setupGround(_btmMap, mapData.grid, mapData.item.ground);
+            setupWall(_topMap, mapData.wall, mapData.item.wall);
             setupDoor(_scene, mapData.item.door);
             setupBody();
-            setupFurniture(_scene, mapData.item.furniture);
-            setupStuff(_scene, mapData.item.stuff);
+            setupFurniture(_scene, _btmMap, mapData.item.furniture);
+            setupStuff(_topMap, mapData.item.stuff);
             setupKey(_scene);
             setupLight(_scene);
 
@@ -266,7 +268,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             mesh_door = {};
 
             _layers['door'] = new PIXI.Container();
-            _scene.addChild(_layers['door']);
+            scene.addChild(_layers['door']);
 
             itemStatus['door'] = {};
             itemData['door'] = {};
@@ -297,12 +299,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             });
         };
 
-        var setupFurniture = function (scene, furniture) {
+        var setupFurniture = function (scene, staticScene, furniture) {
             mesh_furniture = {};
             itemStatus['furniture'] = {};
 
             _layers['furniture'] = new PIXI.Container();
-            _scene.addChild(_layers['furniture']);
+            scene.addChild(_layers['furniture']);
             
             var fileArr = [];
             for (var i = 0, l = furniture.length; i < l; i++) {
@@ -318,7 +320,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             PIXI.loader.add(arr).load(function (loader, resources) {
                 for (var i = 0, l = furniture.length; i < l; i++) {
                     if (furniture[i] === null) continue;
-                    createFurniture(i, furniture[i], _layers['furniture'], function (idx, dat, mesh) {
+                    createFurniture(i, furniture[i], _layers['furniture'],staticScene, function (idx, dat, mesh) {
                         var id = dat.id;
                         mesh_furniture[idx] = (mesh);
 
@@ -336,7 +338,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var setupStuff = function (scene, stuff) {
             _layers['stuff'] = new PIXI.Container();
-            _scene.addChild(_layers['stuff']);
+            scene.addChild(_layers['stuff']);
 
             if (stuff === null || stuff.length === 0) return;
             var fileArr = [];
@@ -377,7 +379,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             entity.env.scene['character'].position.set(offset_x, offset_y);
             entity.env.scene['effort'].position.set(offset_x, offset_y);
             entity.env.scene['marker'].position.set(offset_x, offset_y);
-            loadBaseMap(_scene, _baseMap);
+            loadBaseMap(_scene, _btmMap, _topMap);
             if (that.onLoaded) that.onLoaded();
         };
 
@@ -542,7 +544,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
         };
 
-        var createFurniture = function (idx, dat, layer, onSuccess) {
+        var createFurniture = function (idx, dat, layer, layer2, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
             var para = _modelData.items[Data.categoryName.furniture][id];
@@ -581,12 +583,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 obj.anchor.y = 0;
                 obj.position.x = x + offset_x;
                 obj.position.y = y + offset_y;
-                obj.rotation = (r-4) / 2 * Math.PI;
-                layer.addChild(obj);
+                obj.rotation = (r - 4) / 2 * Math.PI;
+                layer2.addChild(obj);
                 _animation['furniture'][idx][_Data.status.furniture.None] = function () {
                 };
                 onSuccess(idx, dat, obj);
-            }else{                
+            } else {
                 var item = new PIXI.extras.MovieClip(_frames['f_' + para.id]);
                 item.loop = false;
                 item.position.x = x + offset_x;
@@ -806,20 +808,28 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         // Base map -------------------------------------------------------
-        var setupBaseMap = function (scene) {
-            _layers['baseMap'] = new PIXI.Container();
-            scene.addChild(_layers['baseMap']);
+        var setupStaticMap = function (scene) {
+            _layers['btnMap'] = new PIXI.Container();
+            _layers['topMap'] = new PIXI.Container();
+            scene.addChild(_layers['btnMap']);
         };
 
-        var loadBaseMap = function (scene, baseMap) {
+        var loadBaseMap = function (scene, btnMap, topMap) {
+            // btn
             var renderTexture = new PIXI.RenderTexture(entity.env.renderer, that.width * GridSize, that.height * GridSize);
-            renderTexture.render(baseMap, null, true);
+            renderTexture.render(btnMap, null, true);
+            _layers['btnMap'].addChild(new PIXI.Sprite(renderTexture));
 
-            var baseMapSprite = new PIXI.Sprite(renderTexture);
-            _layers['baseMap'].addChild(baseMapSprite);
+            // top
+            scene.addChild(_layers['topMap']);
+            var renderTexture2 = new PIXI.RenderTexture(entity.env.renderer, that.width * GridSize, that.height * GridSize);
+            renderTexture2.render(topMap, null, true);
+            _layers['topMap'].addChild(new PIXI.Sprite(renderTexture2));
+
+            //clear up
+            btnMap.destroy();
+            topMap.destroy();
         };
-
-
 
         // Setup ----------------------------------------------------------
         var _setupTex = function () {
