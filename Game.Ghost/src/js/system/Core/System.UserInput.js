@@ -50,7 +50,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 } else if (c instanceof SYSTEM.Character.Ghost.Specter) {
                     // ghost.specter
                     _setupGhostSpecter(func, c);
-                }
+                } else if (c instanceof SYSTEM.Character.Ghost.Butcher) {
+                    // ghost.specter
+                    _setupGhostButcher(func, c);
+                } 
             }
         };
 
@@ -71,6 +74,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         var _setupGhostSpecter = function (func, c) {
+            func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
+            func[_Data.actionType.tap_move] = function (dat) { c.observe(); };
+            func[_Data.actionType.tap_1] = function (dat) { c.kill(); };
+        };
+
+        var _setupGhostButcher = function (func, c) {
             func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
             func[_Data.actionType.tap_move] = function (dat) { c.observe(); };
             func[_Data.actionType.tap_1] = function (dat) { c.kill(); };
