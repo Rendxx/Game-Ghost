@@ -2,18 +2,18 @@
 
 "die0000":
 {
-	"frame": {"x":0,"y":0,"w":64,"h":64},
+	"frame": {"x":0,"y":0,"w":80,"h":80},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64}
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
+	"sourceSize": {"w":80,"h":80}
 }},
 "meta": {
 	"app": "Adobe Flash Professional",
-	"version": "15.0.1.179",
+	"version": "15.0.0.173",
 	"image": "die.png",
 	"format": "RGBA8888",
-	"size": {"w":256,"h":512},
+	"size": {"w":128,"h":128},
 	"scale": "1"
 }
 }
