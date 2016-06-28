@@ -632,6 +632,7 @@
     <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.tex.fla" />
     <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.tex.png" />
     <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.uv.png" />
+    <Content Include="ModelBuilder\Sprite\energyLine.png" />
     <Content Include="ModelBuilder\Sprite\name-deco-white.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-2.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture.png" />
@@ -955,6 +956,10 @@
     <Content Include="Model\Sprite\DeadScreen.png" />
     <Content Include="Model\Sprite\EnduranceBar.dds" />
     <Content Include="Model\Sprite\EnduranceBar.png" />
+    <Content Include="Model\Sprite\energy_l.png" />
+    <Content Include="Model\Sprite\energy_line.png" />
+    <Content Include="Model\Sprite\energy_line_bg.png" />
+    <Content Include="Model\Sprite\energy_r.png" />
     <Content Include="Model\Sprite\EscapeScreen.dds" />
     <Content Include="Model\Sprite\EscapeScreen.png" />
     <Content Include="Model\Sprite\fog.dds" />
@@ -1274,6 +1279,8 @@
     <Content Include="ModelBuilder\Sprite\interaction.destroy.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.2d.fla" />
     <Content Include="ModelBuilder\Sprite\2dEdge.fla" />
+    <Content Include="ModelBuilder\Sprite\Energy.fla" />
+    <Content Include="ModelBuilder\Sprite\energyLine.psd" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />

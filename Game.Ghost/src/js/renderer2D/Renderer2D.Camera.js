@@ -122,6 +122,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             offset_y = this.height / 2;
 
             _setupScale();
+            resizeEdge();
             resizeMessage();
             resizeDanger();
             resizeEnduranceBar();
@@ -453,7 +454,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 layer.addChild(item);
                 fogEdge[2] = item;
 
-                // left
+                // bottom
                 item = new PIXI.Sprite(tex);
                 item.anchor.set(0, 0);
                 item.rotation = -0.5 * Math.PI;
@@ -466,6 +467,25 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             });
         };
 
+        var resizeEdge = function () {
+
+            if (fogEdge[0] == null) return;
+            // left
+            fogEdge[0].height = that.height;
+
+            // top
+            fogEdge[1].position.x = that.width;
+            fogEdge[1].height = that.width;
+
+            // right
+            fogEdge[2].position.x = that.width;
+            fogEdge[2].position.y = that.height;
+            fogEdge[2].height = that.height;
+
+            // bottom
+            fogEdge[3].position.y = that.height;
+            fogEdge[3].height = that.width;
+        };
 
         // Danger -----------------------------------------------------
         var createDanger = function (layer) {
