@@ -143,7 +143,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 // update sprite
                 updateEnduranceBar();
                 // update effort
-                //updateInteractionIcon();
+                updateInteractionIcon();
                 updateMessage();
                 updateDoor();
             }
@@ -280,7 +280,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (spritesInteraction.highlight[objType][objId] === undefined || spritesInteraction.highlight[objType][objId] === null
                 || spritesInteraction.highlight[objType][objId][objOp] === undefined || spritesInteraction.highlight[objType][objId][objOp] === null) return;
             var sprPkg = spritesInteraction.highlight[objType][objId][objOp];
-            sprPkg.css({ opacity: 0 });
+            sprPkg.alpha = 0;
         };
 
         var showInteraction_highlight = function (objType, objId, objOp) {
@@ -289,7 +289,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 spritesInteraction.highlight[objType][objId][objOp] = createInteractionIcon(objType, objId, objOp, true);
             var sprPkg = spritesInteraction.highlight[objType][objId][objOp];
             if (sprPkg === null) return;
-            sprPkg.css({ opacity: 1 });
+            sprPkg.alpha = 1;
         };
 
         // interation normal
@@ -298,7 +298,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 || spritesInteraction.normal[objType][objId][objOp] === undefined || spritesInteraction.normal[objType][objId][objOp] === null) return;
             var sprPkg = spritesInteraction.normal[objType][objId][objOp];
 
-            sprPkg.css({ opacity: 0 });
+            sprPkg.alpha = 0;
         };
 
         var showInteraction_normal = function (objType, objId, objOp) {
@@ -308,7 +308,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var sprPkg = spritesInteraction.normal[objType][objId][objOp];
 
             if (sprPkg === null) return;
-            sprPkg.css({ opacity: 1 });
+            sprPkg.alpha = 1;
         };
 
         var createInteractionIcon = function (objType, objId, objOp, isHighlight) {
@@ -316,12 +316,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (tex1 === undefined || tex1 === null) return null;
 
             var pos = entity.map.objectPos[objType][objId];
-            var marker = $(_Data.html.marker).css({
-                'background-image': 'url("' + tex1.src + '")',
-                left: pos[0],
-                top: pos[1],
-                opacity: 0
-            }).appendTo(that.scene['effort']);
+            var marker = new PIXI.Sprite(tex1);
+            marker.anchor.set(0.5, 0.5);
+            marker.position.x = pos[0]+GridSize/2;
+            marker.position.y = pos[1] ;
+            marker.scale.set(1.5, 1.5);
+            marker.alpha = 0;
+            scene['effort'].addChild(marker);
 
             return marker;
         };
@@ -374,7 +375,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var createDoorLock = function (idx) {
             var pos = entity.map.doorPos[idx];
             var marker = new PIXI.Sprite(tex['interaction-lock']);
-            marker.anchor.set(0.5, 0.5);
+            marker.anchor.set(0, 0);
             marker.position.x = pos[0];
             marker.position.y = pos[1];
             scene['effort'].addChild(marker);
@@ -385,7 +386,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var createDoorUnlock = function (idx) {
             var pos = entity.map.doorPos[idx];
             var marker = new PIXI.Sprite(tex['interaction-unlock']);
-            marker.anchor.set(0.5, 0.5);
+            marker.anchor.set(0, 0);
             marker.position.x = pos[0];
             marker.position.y = pos[1];
             scene['effort'].addChild(marker);
