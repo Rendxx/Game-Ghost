@@ -79,6 +79,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     body: {}
                 }
             },
+            fogEdge = [],
             msg = null,
             offset_x = 0,
             offset_y = 0,
@@ -86,7 +87,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             // cache
             ratio = 1,
-            _loader = false;
+            _isLoaded = false,
+            _loader = false,
             interactionIcon = {},
             highLightIcon = null,
             doorIcon = {};
@@ -108,6 +110,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             createMessage(scene['hud']);
             createDanger(scene['hud']);
             createEnduranceBar(scene['hud']);
+            createFog(scene['hud']);
             that.resize(that.width, that.height);
         };
 
@@ -409,6 +412,60 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         // Fog -------------------------------------------------------
+        var createFog = function (layer) {
+            fogEdge = [];
+            var path = root + Data.files.path[Data.categoryName.sprite];
+
+            PIXI.loader.add(path + 'fogEdge.png')
+            .load(function (loader, resources) {
+                var tex = PIXI.Texture.fromImage(path + 'fogEdge.png');
+                var item = null;
+
+                // left
+                item = new PIXI.Sprite(tex);
+                item.anchor.set(0, 0);
+                item.position.x = 0;
+                item.position.y = 0;
+                item.width = GridSize * 2;
+                item.height = that.height;
+                layer.addChild(item);
+                fogEdge[0] = item;
+
+                // top
+                item = new PIXI.Sprite(tex);
+                item.anchor.set(0, 0);
+                item.rotation = 0.5 * Math.PI;
+                item.position.x = that.width;
+                item.position.y = 0;
+                item.width = GridSize * 2;
+                item.height = that.width;
+                layer.addChild(item);
+                fogEdge[1] = item;
+
+                // right
+                item = new PIXI.Sprite(tex);
+                item.anchor.set(0, 0);
+                item.rotation = Math.PI;
+                item.position.x = that.width;
+                item.position.y = that.height;
+                item.width = GridSize * 2;
+                item.height = that.height;
+                layer.addChild(item);
+                fogEdge[2] = item;
+
+                // left
+                item = new PIXI.Sprite(tex);
+                item.anchor.set(0, 0);
+                item.rotation = -0.5 * Math.PI;
+                item.position.x = 0;
+                item.position.y = that.height;
+                item.width = GridSize * 2;
+                item.height = that.width;
+                layer.addChild(item);
+                fogEdge[3] = item;
+            });
+        };
+
 
         // Danger -----------------------------------------------------
         var createDanger = function (layer) {
@@ -505,6 +562,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = PIXI.Texture.fromImage(path + 'interaction.lock-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = PIXI.Texture.fromImage(path + 'interaction.unlock-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Block] = PIXI.Texture.fromImage(path + 'interaction.door.block-2.png');
+                _isLoaded = true;
             });
         };
 

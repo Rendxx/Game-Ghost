@@ -960,6 +960,7 @@
     <Content Include="Model\Sprite\fog.dds" />
     <Content Include="Model\Sprite\fog.png" />
     <Content Include="Model\Sprite\fog2.png" />
+    <Content Include="Model\Sprite\fogEdge.png" />
     <Content Include="Model\Sprite\interaction.close-2.dds" />
     <Content Include="Model\Sprite\interaction.close-2.png" />
     <Content Include="Model\Sprite\interaction.close.dds" />
@@ -1272,6 +1273,7 @@
     <Content Include="ModelBuilder\Sprite\shadow.fla" />
     <Content Include="ModelBuilder\Sprite\interaction.destroy.fla" />
     <Content Include="ModelBuilder\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.2d.fla" />
+    <Content Include="ModelBuilder\Sprite\2dEdge.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />
