@@ -762,6 +762,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _animation['door'][idx][_Data.status.door.Blocked] = function () {
                 item.gotoAndStop(0);
             };
+            _animation['door'][idx][_Data.status.door.Destroyed] = function () {
+                item.gotoAndStop(0);
+                item.visible = false;
+            };
             onSuccess(idx, dat, item);
         };
 
