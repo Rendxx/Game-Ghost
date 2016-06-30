@@ -87,6 +87,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             // cache
             ratio = 1,
+            _enduranceBarOffset = 0,
             _isLoaded = false,
             _loader = false,
             interactionIcon = {},
@@ -388,43 +389,66 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // Endurance ------------------------------------------------
         var createEnduranceBar = function (layer) {
             // endurance
-            sprites["enduranceBar"] = {
-                wrap: new PIXI.Container(),
-                bg: new PIXI.Graphics(),
-                val: new PIXI.Graphics()
-            };
-            layer.addChild(sprites["enduranceBar"].wrap);
-            sprites["enduranceBar"].wrap.addChild(sprites["enduranceBar"].bg);
-            sprites["enduranceBar"].wrap.addChild(sprites["enduranceBar"].val);
+            var path = root + Data.files.path[Data.categoryName.sprite];
+            PIXI.loader
+                .add(path + 'energy_l.png')
+                .add(path + 'energy_line.png')
+                .add(path + 'energy_line_bg.png')
+                .load(function (loader, resources) {
+                    sprites["enduranceBar"] = {
+                        wrap: new PIXI.Container(),
+                        bg: null,
+                        left: null,
+                        bar: null,
+                        mask: null
+                    };
+                    layer.addChild(sprites["enduranceBar"].wrap);
 
-            resizeEnduranceBar();
+                    var offset = 0,
+                        wid = 0,
+                        hgt = 32;
+                    // bg
+                    var tex1 = PIXI.Texture.fromImage(path + 'energy_line_bg.png');
+                    sprites["enduranceBar"].bg = new PIXI.Sprite(tex1);
+                    sprites["enduranceBar"].wrap.addChild(sprites["enduranceBar"].bg);
+                    sprites["enduranceBar"].bg.position.y = (hgt - tex1.height) / 2;
+                    wid = tex1.width;
+                    //left
+                    var tex2 = PIXI.Texture.fromImage(path + 'energy_l.png');
+                    sprites["enduranceBar"].left = new PIXI.Sprite(tex2);
+                    sprites["enduranceBar"].wrap.addChild(sprites["enduranceBar"].left);
+                    sprites["enduranceBar"].left.position.y = (hgt - tex2.height) / 2;
+                    offset = tex2.width;
+                    //mask
+                    sprites["enduranceBar"].mask = new PIXI.Graphics();
+                    sprites["enduranceBar"].mask.beginFill(0xffffff, 1);
+                    sprites["enduranceBar"].mask.drawRect(0, 0, wid - offset, hgt);
+                    sprites["enduranceBar"].mask.endFill();
+                    sprites["enduranceBar"].wrap.addChild(sprites["enduranceBar"].mask);
+                    //bar
+                    var tex3 = PIXI.Texture.fromImage(path + 'energy_line.png');
+                    sprites["enduranceBar"].bar = new PIXI.Sprite(tex3);
+                    sprites["enduranceBar"].bar.mask = sprites["enduranceBar"].mask;
+                    sprites["enduranceBar"].wrap.addChild(sprites["enduranceBar"].bar);
+                    sprites["enduranceBar"].bar.position.y = (hgt - tex3.height) / 2;
+
+                    sprites["enduranceBar"].bg.position.x = -offset;
+                    sprites["enduranceBar"].left.position.x = -offset;
+                    sprites["enduranceBar"].bar.position.x = -offset;
+                    _enduranceBarOffset = (offset - wid) / 2;
+                    resizeEnduranceBar();
+                });
         };
 
         var resizeEnduranceBar = function () {
             if (sprites["enduranceBar"] == null) return;
-            sprites["enduranceBar"].wrap.position.set(that.width / 4+1, that.height / 8);
-            var graphics = sprites["enduranceBar"].bg;
-            graphics.clear();
-            graphics.lineStyle(2, 0x000000, 1);
-            graphics.beginFill(0x333333, 1);
-            graphics.drawRect(-1, 0, that.width / 2, 10);
-
-            graphics = sprites["enduranceBar"].val;
-            graphics.clear();
-            graphics.lineStyle(0);
-            graphics.beginFill(0xffffff, 1);
-            graphics.drawRect(0, 1, that.width / 2-2, 8);
+            sprites["enduranceBar"].wrap.position.set(that.width / 2 + _enduranceBarOffset, 32);
         };
 
         var updateEnduranceBar = function () {
-            //if (!sprites.hasOwnProperty('enduranceBar')) return;
-            //var w = (that.character.endurance / that.character.maxEndurance);
-
-            //sprites["enduranceBar"].css({
-            //    'transform': 'scaleX(' + w + ') translateZ(0)'
-            //});
+            if (sprites["enduranceBar"] == null) return;
             var w = Math.max((that.character.endurance / that.character.maxEndurance),0);
-            sprites["enduranceBar"].val.scale.x = w;
+            sprites["enduranceBar"].mask.scale.x = w;
         };
 
         // Interaction icon ------------------------------------------
