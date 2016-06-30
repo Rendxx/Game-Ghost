@@ -195,17 +195,17 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             gameData.map.updateData = {};
         };
 
-        var _test = 100;
+        //var _test = 100;
         // called every time frame
         var nextInterval = function () {
             try {
                 // ---------------------------------------
-                if (_test == 0) {
-                    _test = 500;
-                    that.noise.once(SYSTEM.Noise.Data.Name.Key, 10, 10);
-                    _test=-1;
-                } else if(_test > 0)
-                _test--;
+                //if (_test <= 0) {
+                //    //that.noise.once(SYSTEM.Noise.Data.Name.Key, 10, 10);
+                //    that.noise.once(Math.floor(Math.random() * 4), 10 + Math.floor(Math.random() * 20), 10 + Math.floor(Math.random() * 20));
+                //    _test=30;
+                //} else
+                //_test--;
                 
                 // ---------------------------------------
                 that.interAction.update();

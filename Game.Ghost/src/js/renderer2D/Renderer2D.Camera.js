@@ -42,8 +42,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
         },
         noise:{
-            step: 0.01,
+            step: 0.005,
             offset: 64,
+            rangeRatio: 0.03
         },
         html: {
             sceneCharacter: '<div class="_scene_character"></div>',
@@ -490,12 +491,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var noise = {
                 x: noiseDat[2],
                 y: noiseDat[3],
-                step: 1,
+                step: Math.max(0.4, Math.min(1, (1.2 -Math.sqrt( Math.pow(noiseDat[2] - that.character.gridX,2)+  Math.pow(noiseDat[3]-that.character.gridY,2)) * _Data.noise.rangeRatio))),
                 wrap: new PIXI.Container(),
                 bg: new PIXI.Sprite(tex['noise']['bg']),
                 icon: new PIXI.Sprite(tex['noise'][noiseDat[1]])
             };
-
+            
             noise.icon.anchor.set(0.5, 0.5);
             noise.bg.anchor.set(0.5, 0.5);
 
@@ -507,12 +508,21 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             noise.wrap.addChild(noise.icon);
             sprites["noise"].wrap.addChild(noise.wrap);
         };
+        
+        var destroyNoise = function (idx) {
+            var noise = noiseList[idx];
+            sprites["noise"].wrap.removeChild(noise.wrap);
+            noise.icon.destroy(false);
+            noise.bg.destroy(false);
+            noise.wrap.destroy(false);
+            delete noiseList[idx];
+        };
 
         var stepNoise = function (idx) {
             var noise = noiseList[idx];
-            //noise.step-=_Data.noise.step;
+            noise.step-=_Data.noise.step;
             if (noise.step <= 0) {
-                noise.wrap.destroy(true);
+                destroyNoise(idx);
                 return;
             }
 
