@@ -83,7 +83,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             msg = null,
             offset_x = 0,
             offset_y = 0,
-
+            mask = null,
 
             // cache
             ratio = 1,
@@ -150,10 +150,218 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 updateInteractionIcon();
                 updateMessage();
                 updateDoor();
+                updateVision(that.character.x, that.character.y, that.character.rotation.body + Math.PI / 2, Math.PI / 2);
             }
         };
 
         // private method -------------------------------------------------
+        // viewport ------------------------------------------------
+        var createVision = function () {
+            //sprites['visionEdge'] = new PIXI.Graphics();
+            mask = new PIXI.Graphics();
+            entity.map.shadowMap.mask = mask;
+            entity.env.layers['shadowMap'].addChild(mask);
+            entity.env.layers['shadowMap'].addChild(entity.map.shadowMap);
+            //entity.env.layers['shadowMap'].addChild(sprites['visionEdge']);
+        };
+
+        var resizeVision = function () {
+        };
+
+        var updateVision = function (x, y, rotation, fov) {
+            if (mask === null) {
+                if (entity.map.shadowMap == null) {
+                    return;
+                }
+                createVision();
+            }
+            RENDERER.RayCasting(x / GridSize, y / GridSize, rotation, fov, Data.visibleSize * 3 / 2, entity.map.blockMap, 60, drawShadowMap);
+        };
+
+        var drawShadowMap = function (block) {
+            var x = that.character.x;
+            var y = that.character.y;
+            var rotation = that.character.rotation.body + Math.PI / 2;
+            var fov = Math.PI / 2;
+            var visibleLen = Data.visibleSize * GridSize * 3 / 2;
+
+            // vision edge
+            //var edges = sprites['visionEdge'];
+            //edges.clear();
+
+            //edges.lineStyle(6, 0x000000,1);
+            //edges.beginFill(0x000000, 0);
+            ////edges.moveTo(x + GridSize * Math.cos(rotation - fov / 2), y + GridSize * Math.sin(rotation - fov / 2));
+            ////edges.lineTo(x + visibleLen * Math.cos(rotation - fov / 2), y + visibleLen * Math.sin(rotation - fov / 2));
+            //////edges.arc(x, y, GridSize , rotation - fov / 2, rotation + fov / 2, true);
+            //////edges.arc(x, y, visibleLen, rotation + fov / 2, rotation - fov / 2);
+            ////edges.moveTo(x + GridSize * Math.cos(rotation + fov / 2), y + GridSize * Math.sin(rotation + fov / 2));
+            ////edges.lineTo(x + visibleLen * Math.cos(rotation + fov / 2), y + visibleLen * Math.sin(rotation + fov / 2));
+            //edges.moveTo(x + visibleLen * Math.cos(rotation - fov / 2), y + visibleLen * Math.sin(rotation - fov / 2));
+            //edges.lineTo(x,y);
+            //edges.lineTo(x + visibleLen * Math.cos(rotation + fov / 2), y + visibleLen * Math.sin(rotation + fov / 2));
+            //edges.endFill();
+
+            mask.clear();
+            mask.moveTo(x, y);
+            mask.lineStyle(0);
+            mask.beginFill(0x000000, 1);
+            mask.arc(x, y, GridSize*0.5, rotation - fov / 2, rotation + fov / 2,true);
+            mask.arc(x, y, visibleLen, rotation + fov / 2, rotation - fov / 2);
+            mask.lineTo(x, y);
+            mask.endFill();
+
+            for (var k in block) {
+                var _itemPos = entity.map.blockItemSet[k];
+
+                /*
+                 *        (1)     (4)
+                 *   [0,1] |       | [2,1] 
+                 *   ----- +-------+ -----
+                 *         | BLOCK | 
+                 *   ----- +-------+ -----
+                 *   [0,3] |       | [2,3] 
+                 *        (2)     (3)
+                 * 
+                 * 
+                 *          |      
+                 *     -1   |    0
+                 *          |
+                 *  --------+--------->  [X]
+                 *          |        
+                 *     2    |    1
+                 *          |
+                 *          v  [Y]
+                 *         
+                 */
+                var r = Math.ceil(Math.atan2(y - _itemPos[5], x - _itemPos[4]) * 2 / Math.PI),
+                    p1 = null,
+                    p2 = null,
+                    drawList = [];
+
+                switch (r) {
+                    case -1:
+                        p1 = [_itemPos[0], _itemPos[3]]; // (2)
+                        p2 = [_itemPos[2], _itemPos[1]]; // (4)
+
+                        if (x >= _itemPos[0]) {
+                            drawList.push(_itemPos[0]); // (1)
+                            drawList.push(_itemPos[1]);
+                            p1 = [_itemPos[0], _itemPos[1]];
+                        }
+
+                        drawList.push(_itemPos[0]); // (2)                 
+                        drawList.push(_itemPos[3]);
+
+                        drawList.push(_itemPos[2]); // (3)
+                        drawList.push(_itemPos[3]);
+
+                        drawList.push(_itemPos[2]); // (4)
+                        drawList.push(_itemPos[1]);
+
+                        if (y >= _itemPos[1]) {
+                            drawList.push(_itemPos[0]); // (1)
+                            drawList.push(_itemPos[1]);
+                            p2 = [_itemPos[0], _itemPos[1]];
+                        }
+                        break;
+                    case 0:
+                        p1 = [_itemPos[0], _itemPos[1]]; // (1)
+                        p2 = [_itemPos[2], _itemPos[3]]; // (3)
+
+                        if (y >= _itemPos[1]) {
+                            drawList.push(_itemPos[2]); // (4)
+                            drawList.push(_itemPos[1]);
+                            p1 = [_itemPos[2], _itemPos[1]];
+                        }
+
+                        drawList.push(_itemPos[0]); // (1)
+                        drawList.push(_itemPos[1]);
+
+                        drawList.push(_itemPos[0]); // (2)
+                        drawList.push(_itemPos[3]);
+
+                        drawList.push(_itemPos[2]); // (3)
+                        drawList.push(_itemPos[3]);
+
+                        if (x <= _itemPos[2]) {
+                            drawList.push(_itemPos[2]); // (4)
+                            drawList.push(_itemPos[1]);
+                            p2 = [_itemPos[2], _itemPos[1]];
+                        }
+                        break;
+                    case 1:
+                        p1 = [_itemPos[2], _itemPos[1]]; // (4)
+                        p2 = [_itemPos[0], _itemPos[3]]; // (2)
+
+                        if (x <= _itemPos[2]) {
+                            drawList.push(_itemPos[2]); // (3)
+                            drawList.push(_itemPos[3]);
+                            p1 = [_itemPos[2], _itemPos[3]];
+                        }
+                        drawList.push(_itemPos[2]); // (4)
+                        drawList.push(_itemPos[1]);
+
+                        drawList.push(_itemPos[0]); // (1)
+                        drawList.push(_itemPos[1]);
+
+                        drawList.push(_itemPos[0]); // (2)
+                        drawList.push(_itemPos[3]);
+
+                        if (y <= _itemPos[3]) {
+                            drawList.push(_itemPos[2]); // (3)
+                            drawList.push(_itemPos[3]);
+                            p2 = [_itemPos[2], _itemPos[3]];
+                        }
+                        break;
+                    case 2:
+                        p1 = [_itemPos[2], _itemPos[3]]; // (3)
+                        p2 = [_itemPos[0], _itemPos[1]]; // (1)
+
+                        if (y <= _itemPos[3]) {
+                            drawList.push(_itemPos[0]); // (2)
+                            drawList.push(_itemPos[3]);
+                            p1 = [_itemPos[0], _itemPos[3]];
+                        }
+
+                        drawList.push(_itemPos[2]); // (3)
+                        drawList.push(_itemPos[3]);
+
+                        drawList.push(_itemPos[2]); // (4)
+                        drawList.push(_itemPos[1]);
+
+                        drawList.push(_itemPos[0]); // (1)
+                        drawList.push(_itemPos[1]);
+
+                        if (x >= _itemPos[0]) {
+                            drawList.push(_itemPos[0]); // (2)
+                            drawList.push(_itemPos[3]);
+                            p2 = [_itemPos[0], _itemPos[3]];
+                        }
+                        break;
+                }
+
+                var r1 = Math.atan2(p1[1] - y, p1[0] - x),
+                    r2 = Math.atan2(p2[1] - y, p2[0] - x);
+
+                drawList.push(x + visibleLen * Math.cos(r2));
+                drawList.push(y + visibleLen * Math.sin(r2));
+                drawList.push(x + visibleLen * Math.cos(r1));
+                drawList.push(y + visibleLen * Math.sin(r1));
+
+                mask.moveTo(x + visibleLen * Math.cos(r2), y + visibleLen * Math.sin(r2));
+                mask.lineStyle(0);
+                mask.beginFill(0xffffff, 1);
+                mask.arc(x, y, visibleLen, r2, r1);
+                mask.endFill();
+
+                mask.moveTo(drawList[0], drawList[1]);
+                mask.lineStyle(0);
+                mask.beginFill(0xffffff, 1);
+                mask.drawPolygon(drawList);
+                mask.endFill();
+            }
+        };
 
         // Frame ----------------------------------------------------
         var createMessage = function (layer) {

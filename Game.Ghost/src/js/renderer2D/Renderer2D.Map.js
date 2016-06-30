@@ -29,7 +29,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 Locked: 0,
                 Opened: 1,
                 Closed: 2,
-                Blocked: 3
+                Blocked: 3,
+                Destroyed: 4
             }
         },
         animationId: {
@@ -114,6 +115,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.posEnd = null;
         this.dark = null;
         this.danger = 0;
+        this.shadowMap = null;
+        this.blockMap = null;
+        this.blockItemSet = {};
 
         // callback --------------------------------
         this.onLoaded = null;
@@ -135,6 +139,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             setupGround(_btmMap, mapData.grid, mapData.item.ground);
             setupWall(_topMap, mapData.wall, mapData.item.wall);
             setupDoor(_scene, mapData.item.door);
+            setupBlockMap(mapData, modelData);
             setupBody();
             setupFurniture(_scene, _btmMap, mapData.item.furniture);
             setupStuff(_topMap, mapData.item.stuff);
@@ -180,6 +185,78 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             graphics.alpha = 0.4;
             _layers['light'].addChild(graphics);
             darkScreen = graphics;
+        };
+
+        var setupBlockMap = function (mapData, modelData) {
+            that.blockMap = [];
+            that.blockItemSet = {};
+            for (var i = 0; i < mapData.grid.height; i++) {
+                that.blockMap[i] = [];
+                for (var j = 0; j < mapData.grid.width; j++) {
+                    that.blockMap[i][j] = null;
+                }
+            }
+
+            var walls = mapData.item.wall;
+            for (var k = 0; k < walls.length; k++) {
+                if (walls[k] === null) continue;
+                var wall = walls[k];
+                var pos = [
+                    (wall.left) * GridSize,
+                    (wall.top) * GridSize,
+                    (wall.right + 1) * GridSize,
+                    (wall.bottom + 1) * GridSize,
+                    (wall.right + wall.left + 1) / 2 * GridSize,
+                    (wall.top + wall.bottom + 1) / 2 * GridSize
+                ];
+                for (var i = wall.top; i <= wall.bottom; i++) {
+                    for (var j = wall.left; j <= wall.right; j++) {
+                        that.blockItemSet['w_' + k] = pos;
+                        that.blockMap[i][j] = 'w_' + k;
+                    }
+                }
+            }
+
+            var furnitures = mapData.item.furniture;
+            for (var k = 0; k < furnitures.length; k++) {
+                if (furnitures[k] === null) continue;
+                var furniture = furnitures[k];
+                if (modelData.items[Data.categoryName.furniture][furniture.id].blockSight !== true) continue;
+                var pos = [
+                    (furniture.left) * GridSize,
+                    (furniture.top) * GridSize,
+                    (furniture.right + 1) * GridSize,
+                    (furniture.bottom + 1) * GridSize,
+                    (furniture.right + furniture.left + 1) / 2 * GridSize,
+                    (furniture.top + furniture.bottom + 1) / 2 * GridSize
+                ];
+                for (var i = furniture.top; i <= furniture.bottom; i++) {
+                    for (var j = furniture.left; j <= furniture.right; j++) {
+                        that.blockItemSet['f_' + k] = pos;
+                        that.blockMap[i][j] = 'f_' + k;
+                    }
+                }
+            }
+
+            var doors = mapData.item.door;
+            for (var k = 0; k < doors.length; k++) {
+                if (doors[k] === null) continue;
+                var door = doors[k];
+                var pos = [
+                    (door.left) * GridSize,
+                    (door.top) * GridSize,
+                    (door.right + 1) * GridSize,
+                    (door.bottom + 1) * GridSize,
+                    (door.right + door.left + 1) / 2 * GridSize,
+                    (door.top + door.bottom + 1) / 2 * GridSize
+                ];
+                for (var i = door.top; i <= door.bottom; i++) {
+                    for (var j = door.left; j <= door.right; j++) {
+                        that.blockItemSet['d_' + k] = pos;
+                        that.blockMap[i][j] = 'd_' + k;
+                    }
+                }
+            }
         };
 
         var setupGround = function (scene, grid, ground_in) {
@@ -485,7 +562,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             obj.anchor.y = 0;
             obj.position.x = x;
             obj.position.y = y;
-
+            
             layer.addChild(obj);
             onSuccess(idx, dat);
         };
@@ -756,6 +833,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     if (gameData.d[i].status !== itemStatus['door'][i]) {
                         itemStatus['door'][i] = gameData.d[i].status;
                         _animation['door'][i][itemStatus['door'][i]]();
+                        var door = _mapData.item.door[i];
+                        var s = (gameData.d[i].status === _Data.status.door.Opened || gameData.d[i].status === _Data.status.door.Destroyed) ? null : 'd_' + i;
+                        for (var i = door.top; i <= door.bottom; i++) {
+                            for (var j = door.left; j <= door.right; j++) {
+                                that.blockMap[i][j] = s;
+                            }
+                        }
                     }
                 }
             }
@@ -811,6 +895,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var setupStaticMap = function (scene) {
             _layers['btnMap'] = new PIXI.Container();
             _layers['topMap'] = new PIXI.Container();
+            _layers['shadowMap'] = new PIXI.Container();
             scene.addChild(_layers['btnMap']);
         };
 
@@ -822,13 +907,39 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             // top
             scene.addChild(_layers['topMap']);
-            var renderTexture2 = new PIXI.RenderTexture(entity.env.renderer, that.width * GridSize, that.height * GridSize);
-            renderTexture2.render(topMap, null, true);
-            _layers['topMap'].addChild(new PIXI.Sprite(renderTexture2));
+            renderTexture = new PIXI.RenderTexture(entity.env.renderer, that.width * GridSize, that.height * GridSize);
+            renderTexture.render(topMap, null, true);
+            _layers['topMap'].addChild(new PIXI.Sprite(renderTexture));
 
             //clear up
             btnMap.destroy();
             topMap.destroy();
+
+            // shadow map
+            var blurFilter = new PIXI.filters.BlurFilter();
+            blurFilter.blurX = 1;
+            blurFilter.blurY = 1;
+            var grayFilter = new PIXI.filters.GrayFilter();
+            var colorFilter = new PIXI.filters.ColorMatrixFilter();
+            colorFilter.matrix = [
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            ];
+            colorFilter.brightness(0.9);
+
+            _layers['door'].visible = false;
+            renderTexture = new PIXI.RenderTexture(entity.env.renderer, that.width * GridSize, that.height * GridSize);
+            renderTexture.render(scene, null, true);
+            _layers['door'].visible = true;
+            var tmp = new PIXI.Sprite(renderTexture);
+            tmp.filters = [blurFilter, grayFilter, colorFilter];
+
+            renderTexture = new PIXI.RenderTexture(entity.env.renderer, that.width * GridSize, that.height * GridSize);
+            renderTexture.render(tmp, null, true);
+            that.shadowMap = new PIXI.Sprite(renderTexture);
+            scene.addChild(_layers['shadowMap']);
         };
 
         // Setup ----------------------------------------------------------

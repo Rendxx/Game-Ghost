@@ -202,7 +202,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.element.rotation = -r1;
 
             this.rotation = {
-                body: r2,
+                body: -r1,
                 head: r3
             };
         };
