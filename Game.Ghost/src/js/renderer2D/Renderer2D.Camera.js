@@ -36,7 +36,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 Close: 2,
                 Locked: 3,
                 Unlock: 4,
-                Block: 5
+                Block: 5,
+                Destroy: 6
             },
             body: {
                 Search: 1
@@ -554,9 +555,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var pos = entity.map.objectPos[objType][objId];
             var marker = new PIXI.Sprite(tex1);
             marker.anchor.set(0.5, 0.5);
-            marker.position.x = pos[0]+GridSize/2;
-            marker.position.y = pos[1] ;
-            marker.scale.set(1.5, 1.5);
+            marker.position.x = pos[0] + GridSize / 2;
+            marker.position.y = pos[1] - GridSize / 4;
+            marker.scale.set(2, 2);
             marker.alpha = 0;
             scene['effort'].addChild(marker);
 
@@ -782,6 +783,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             .add(path + 'interaction.search.png')
             .add(path + 'interaction.door.open.png')
             .add(path + 'interaction.door.close.png')
+            .add(path + 'interaction.destroy.png')
             .add(path + 'interaction.lock.png')
             .add(path + 'interaction.unlock.png')
             .add(path + 'interaction.open-2.png')
@@ -790,6 +792,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             .add(path + 'interaction.search-2.png')
             .add(path + 'interaction.door.open-2.png')
             .add(path + 'interaction.door.close-2.png')
+            .add(path + 'interaction.destroy-2.png')
             .add(path + 'interaction.lock-2.png')
             .add(path + 'interaction.unlock-2.png')
             .add(path + 'interaction.door.block-2.png')
@@ -801,6 +804,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 tex['interaction']['normal']['body'][_Data.operation.body.Search] = PIXI.Texture.fromImage(path + 'interaction.search.png');
                 tex['interaction']['normal']['door'][_Data.operation.door.Open] = PIXI.Texture.fromImage(path + 'interaction.door.open.png');
                 tex['interaction']['normal']['door'][_Data.operation.door.Close] = PIXI.Texture.fromImage(path + 'interaction.door.close.png');
+                tex['interaction']['normal']['door'][_Data.operation.door.Destroy] = PIXI.Texture.fromImage(path + 'interaction.destroy.png');
                 tex['interaction']['normal']['door'][_Data.operation.door.Locked] = PIXI.Texture.fromImage(path + 'interaction.lock.png');
                 tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = PIXI.Texture.fromImage(path + 'interaction.unlock.png');
 
@@ -811,6 +815,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 tex['interaction']['highlight']['body'][_Data.operation.body.Search] = PIXI.Texture.fromImage(path + 'interaction.search-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Open] = PIXI.Texture.fromImage(path + 'interaction.door.open-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Close] = PIXI.Texture.fromImage(path + 'interaction.door.close-2.png');
+                tex['interaction']['highlight']['door'][_Data.operation.door.Destroy] = PIXI.Texture.fromImage(path + 'interaction.destroy-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = PIXI.Texture.fromImage(path + 'interaction.lock-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = PIXI.Texture.fromImage(path + 'interaction.unlock-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Block] = PIXI.Texture.fromImage(path + 'interaction.door.block-2.png');

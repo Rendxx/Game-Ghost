@@ -49,11 +49,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
                 return [SYSTEM.MapObject.Door.Data.Operation.Destroy];
             case SYSTEM.MapObject.Furniture.Data.ObjType:
-                if (info.status === SYSTEM.MapObject.Furniture.Data.Status.None) return [SYSTEM.MapObject.Basic.Data.Operation.None];
-                if (info.status === SYSTEM.MapObject.Furniture.Data.Status.Closed) {
-                    return [SYSTEM.MapObject.Furniture.Data.Operation.Open];
-                }
-                return [SYSTEM.MapObject.Furniture.Data.Operation.Close];
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:
                 break;
