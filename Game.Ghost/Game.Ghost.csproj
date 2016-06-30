@@ -632,6 +632,8 @@
     <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.tex.fla" />
     <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.tex.png" />
     <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.uv.png" />
+    <Content Include="ModelBuilder\Sprite\danger.png" />
+    <Content Include="ModelBuilder\Sprite\danger2.png" />
     <Content Include="ModelBuilder\Sprite\energyLine.png" />
     <Content Include="ModelBuilder\Sprite\name-deco-white.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-2.png" />
@@ -956,6 +958,7 @@
     <Content Include="Model\Position\start_1\start_1.icon.png" />
     <Content Include="Model\Position\start_2.data.json" />
     <Content Include="Model\Position\start_2\start_2.icon.png" />
+    <Content Include="Model\Sprite\danger.png" />
     <Content Include="Model\Sprite\DeadScreen.dds" />
     <Content Include="Model\Sprite\DeadScreen.png" />
     <Content Include="Model\Sprite\EnduranceBar.dds" />
@@ -1298,6 +1301,9 @@
     <Content Include="ModelBuilder\Sprite\noise.key.fla" />
     <Content Include="ModelBuilder\Sprite\noise.operation.fla" />
     <Content Include="ModelBuilder\Sprite\noise.touch.fla" />
+    <Content Include="ModelBuilder\Sprite\danger.fla" />
+    <Content Include="ModelBuilder\Sprite\danger.psd" />
+    <Content Include="ModelBuilder\Sprite\danger2.psd" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />

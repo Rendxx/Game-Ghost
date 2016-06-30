@@ -113,9 +113,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             sprites = {};
             
             createMessage(scene['hud']);
-            createDanger(scene['hud']);
             createEnduranceBar(scene['hud']);
             createFog(scene['hud']);
+            createDanger(scene['hud']);
             setupNoise(scene['hud']);
             that.resize(that.width, that.height);
         };
@@ -805,25 +805,28 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // Danger -----------------------------------------------------
         var createDanger = function (layer) {
-            var graphics = new PIXI.Graphics();
+            var path = root + Data.files.path[Data.categoryName.sprite];
 
-            // set a fill and line style
-            graphics.lineStyle(0);
-            graphics.beginFill(0x993333, 1);
-            graphics.drawRect(0, 0, that.width, that.height);
-            sprites["danger"] = graphics;
-            sprites["danger"].alpha = 0;
-            layer.addChild(graphics);
+            PIXI.loader.add(path + 'danger.png')
+            .load(function (loader, resources) {
+                var tex = PIXI.Texture.fromImage(path + 'danger.png');
+                sprites["danger"] = new PIXI.Sprite(tex);
+                sprites["danger"].alpha = 0;
+                layer.addChild(sprites["danger"]);
+                resizeDanger();
+            });
         };
         var _dangerCache = 0;
         var resizeDanger = function () {
+            if (sprites["danger"] == null) return;
+            //sprites["danger"].scale.set();
             sprites["danger"].width = that.width;
             sprites["danger"].height = that.height;
         };
         var updateDanger = function () {
             if (_dangerCache === that.character.danger) return;
             _dangerCache = Math.max(that.character.danger, entity.map.danger);
-            sprites["danger"].alpha = _dangerCache*0.6;
+            sprites["danger"].alpha = _dangerCache;
         };
 
 
