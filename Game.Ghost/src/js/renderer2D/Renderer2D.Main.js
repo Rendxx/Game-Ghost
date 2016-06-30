@@ -16,6 +16,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.domElement = container;
         this.env = null;
         this.map = null;
+        this.noise = null;
         this.root = root || '';
         this.characters = null;
         this.loading = null;
@@ -115,16 +116,22 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         //var lookCache = false;
         this.updateGame = function (gameData) {
             if (gameData === undefined || gameData === null || !flag_loaded) return;
+            var _dat_map = gameData[0],
+                _dat_character = gameData[1],
+                _dat_character_assist = gameData[2],
+                _dat_message = gameData[3],
+                _dat_noise = gameData[4];
 
             // handle player visible 
             var playerVisibleList = {};
 
-            if (gameData[2] && gameData[2][this.viewPlayer]!=null) playerVisibleList = gameData[2][this.viewPlayer][0];
-            if (gameData[3] != null && gameData[3][this.viewPlayer] != null) that.characters[this.viewPlayer].showMessage(gameData[3][this.viewPlayer]);
+            if (_dat_character_assist && _dat_character_assist[this.viewPlayer] != null) playerVisibleList = _dat_character_assist[this.viewPlayer][0];
+            if (_dat_message != null && _dat_message[this.viewPlayer] != null) that.characters[this.viewPlayer].showMessage(_dat_message[this.viewPlayer]);
             for (var i = 0, l = that.characters.length; i < l; i++) {
-                that.characters[i].update(gameData[1][i], gameData[2][i], playerVisibleList[i] === true);
+                that.characters[i].update(_dat_character[i], _dat_character_assist[i], playerVisibleList[i] === true);
             }
-            that.map.update(gameData[0]);
+            that.map.update(_dat_map);
+            that.noise.update(_dat_noise);
         };
     };
 
@@ -137,6 +144,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var entity = new Entity(container, root, viewPlayer_in);
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
+        entity.noise = new RENDERER.Noise();
         entity.loading = new RENDERER.Loading(container);
         return entity;
     };

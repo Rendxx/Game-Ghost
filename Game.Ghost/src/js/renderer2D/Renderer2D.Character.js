@@ -51,6 +51,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.endurance = 0;
         this.x = 0;
         this.y = 0;
+        this.gridX = 0;
+        this.gridY = 0;
         this.rotation = {
             body: 0,
             head: 0
@@ -154,6 +156,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             //console.log(x+"  "+y+"  "+r_body+"  "+r_head);
             if (!this.setuped) return;
 
+            this.gridX = gameData.x;
+            this.gridY = gameData.y;
             this.x = x;
             this.y = y;
             this.isDead = isDead;

@@ -129,7 +129,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         //var lookCache = false;
         this.updateGame = function (gameData) {
             if (gameData === undefined || gameData === null || !flag_loaded) return;
-            that.map.update(gameData[0]);
+            var _dat_map = gameData[0],
+                _dat_character = gameData[1],
+                _dat_character_assist = gameData[2],
+                _dat_message = gameData[3],
+                _dat_sound = gameData[4],
+                _dat_noise = gameData[5];
+
+            that.map.update(_dat_map);
 
             // handle player visible 
             var playerVisibleList = {};
@@ -137,17 +144,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = that.characters.length; i < l; i++) {
                 if (this.team[that.characters[i].team]===true) {
                     playerVisibleList[i] = true;
-                    for (var idx in gameData[2][i][0]) {
-                        if (gameData[2][i][0][idx] === true) playerVisibleList[idx] = true;
+                    for (var idx in _dat_character_assist[i][0]) {
+                        if (_dat_character_assist[i][0][idx] === true) playerVisibleList[idx] = true;
                     }
                 }
             }
 
             for (var i = 0, l = that.characters.length; i < l; i++) {
-                if (gameData[3] != null && gameData[3][i] != null) that.characters[i].showMessage(gameData[3][i]);
-                that.characters[i].update(gameData[1][i], gameData[2][i], playerVisibleList[i] === true);
+                if (_dat_message != null && _dat_message[i] != null) that.characters[i].showMessage(_dat_message[i]);
+                that.characters[i].update(_dat_character[i], _dat_character_assist[i], playerVisibleList[i] === true);
             }
-            that.sound.update(gameData[4], gameData[2]);
+            that.sound.update(_dat_sound, _dat_character_assist);
         };
     };
 

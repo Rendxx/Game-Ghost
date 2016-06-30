@@ -639,6 +639,10 @@
     <Content Include="ModelBuilder\Player\survivor.old\player-uv.png" />
     <Content Include="ModelBuilder\Environment\wall_0\wall.jpg" />
     <Content Include="ModelBuilder\Sprite\name-deco.png" />
+    <Content Include="ModelBuilder\Sprite\noise.door.png" />
+    <Content Include="ModelBuilder\Sprite\noise.key.png" />
+    <Content Include="ModelBuilder\Sprite\noise.operation.png" />
+    <Content Include="ModelBuilder\Sprite\noise.touch.png" />
     <Content Include="ModelBuilder\Sprite\sports.png" />
     <Content Include="ModelBuilder\Stuff\vase_1.png" />
     <Content Include="ModelBuilder\Player\survivor.old\wood-table.jpg" />
@@ -1004,6 +1008,11 @@
     <Content Include="Model\Sprite\interaction.unlock.png" />
     <Content Include="Model\Sprite\name-deco-white.dds" />
     <Content Include="Model\Sprite\name-deco-white.png" />
+    <Content Include="Model\Sprite\noise.bg.png" />
+    <Content Include="Model\Sprite\noise.door.png" />
+    <Content Include="Model\Sprite\noise.key.png" />
+    <Content Include="Model\Sprite\noise.operation.png" />
+    <Content Include="Model\Sprite\noise.touch.png" />
     <Content Include="Model\Sprite\playerHighlight.dds" />
     <Content Include="Model\Sprite\playerHighlight.png" />
     <Content Include="Model\Sprite\shadow.png" />
@@ -1069,6 +1078,7 @@
     <Content Include="src\js\renderer2D\Renderer2D.Environment.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Loading.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Main.js" />
+    <Content Include="src\js\renderer2D\Renderer2D.Noise.js" />
     <Content Include="src\js\renderer2D\Renderer2D.RayCasting.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Map.js" />
     <Content Include="src\js\renderer\Renderer.Character.js" />
@@ -1088,6 +1098,7 @@
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Position.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Body.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Basic.js" />
+    <Content Include="src\js\system\Core\System.Noise.js" />
     <Content Include="src\js\system\Core\System.Sound.js" />
     <Content Include="src\js\system\Core\System.CharacterManager.js" />
     <Content Include="src\js\system\Core\System.UserInput.js" />
@@ -1282,6 +1293,11 @@
     <Content Include="ModelBuilder\Sprite\2dEdge.fla" />
     <Content Include="ModelBuilder\Sprite\Energy.fla" />
     <Content Include="ModelBuilder\Sprite\energyLine.psd" />
+    <Content Include="ModelBuilder\Sprite\noise.bg.fla" />
+    <Content Include="ModelBuilder\Sprite\noise.door.fla" />
+    <Content Include="ModelBuilder\Sprite\noise.key.fla" />
+    <Content Include="ModelBuilder\Sprite\noise.operation.fla" />
+    <Content Include="ModelBuilder\Sprite\noise.touch.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />

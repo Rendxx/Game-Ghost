@@ -11,8 +11,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
     var GridSize = Data.grid.size;
     var _Data = {
         fogRange: 34,
-        enduranceBarWidth: 100,
-        enduranceBarHeight: 2,
         furnitureOperation: {
             Open: 0,
             Key: 1,
@@ -42,6 +40,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             body: {
                 Search: 1
             }
+        },
+        noise:{
+            step: 0.01,
+            offset: 64,
         },
         html: {
             sceneCharacter: '<div class="_scene_character"></div>',
@@ -93,9 +95,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _loader = false,
             interactionIcon = {},
             highLightIcon = null,
+            noiseList = [],
             doorIcon = {};
 
-        this.layer = {};
         this.character = -1;
         this.width = -1;
         this.height = -1;
@@ -113,6 +115,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             createDanger(scene['hud']);
             createEnduranceBar(scene['hud']);
             createFog(scene['hud']);
+            setupNoise(scene['hud']);
             that.resize(that.width, that.height);
         };
 
@@ -120,14 +123,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.width = w;
             this.height = h;
 
-            offset_x = this.width / 2;
-            offset_y = this.height / 2;
-
             _setupScale();
+
+            offset_x = this.width / 2 + GridSize * ratio / 2;
+            offset_y = this.height / 2 + GridSize * ratio / 2;
             resizeEdge();
             resizeMessage();
             resizeDanger();
             resizeEnduranceBar();
+            resizeNoise();
         };
 
         this.render = function () {
@@ -153,6 +157,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 updateMessage();
                 updateDoor();
                 updateVision(that.character.x, that.character.y, that.character.rotation.body + Math.PI / 2, Math.PI / 2);
+                updateNoise(entity.noise.getNoiseDat());
             }
         };
 
@@ -450,6 +455,74 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             if (sprites["enduranceBar"] == null) return;
             var w = Math.max((that.character.endurance / that.character.maxEndurance),0);
             sprites["enduranceBar"].mask.scale.x = w;
+        };
+
+        // Noise -----------------------------------------------------
+        var setupNoise = function (layer) {
+            noiseList = {};
+            sprites["noise"] = {
+                wrap: null,
+                list:null
+            };
+            sprites["noise"].wrap = new PIXI.Container();
+            layer.addChild(sprites["noise"].wrap);
+            resizeNoise();
+        };
+
+        var resizeNoise = function () {
+            sprites["noise"].wrap.position.set(that.width / 2, that.height / 2);
+        };
+
+        var updateNoise = function (newNoiseDat) {
+            if (!_isLoaded) return;
+            if (newNoiseDat!==null){
+                for (var i = 0; i < newNoiseDat.length; i++) {
+                    createNoise(newNoiseDat[i]);
+                }
+            }
+
+            for (var i in noiseList) {
+                stepNoise(i);
+            }
+        };
+
+        var createNoise = function (noiseDat) {
+            var noise = {
+                x: noiseDat[2],
+                y: noiseDat[3],
+                step: 1,
+                wrap: new PIXI.Container(),
+                bg: new PIXI.Sprite(tex['noise']['bg']),
+                icon: new PIXI.Sprite(tex['noise'][noiseDat[1]])
+            };
+
+            noise.icon.anchor.set(0.5, 0.5);
+            noise.bg.anchor.set(0.5, 0.5);
+
+            noiseList[noiseDat[0]] = noise;
+
+            noise.bg.position.set(0, 0);
+            noise.icon.position.set(0, 0);
+            noise.wrap.addChild(noise.bg);
+            noise.wrap.addChild(noise.icon);
+            sprites["noise"].wrap.addChild(noise.wrap);
+        };
+
+        var stepNoise = function (idx) {
+            var noise = noiseList[idx];
+            //noise.step-=_Data.noise.step;
+            if (noise.step <= 0) {
+                noise.wrap.destroy(true);
+                return;
+            }
+
+            var _r = Math.atan2(noise.y - that.character.gridY, noise.x - that.character.gridX)+Math.PI/2,
+                _x = _Data.noise.offset * Math.sin(_r),
+                _y = -_Data.noise.offset * Math.cos(_r);
+            noise.wrap.alpha = noise.step;
+            noise.bg.rotation = _r;
+
+            noise.wrap.position.set(_x, _y);
         };
 
         // Interaction icon ------------------------------------------
@@ -775,6 +848,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     }
                 }
             };
+            tex['noise'] = {
+
+            };
 
             PIXI.loader
             .add(path + 'interaction.open.png')
@@ -796,6 +872,13 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             .add(path + 'interaction.lock-2.png')
             .add(path + 'interaction.unlock-2.png')
             .add(path + 'interaction.door.block-2.png')
+
+            .add(path + 'noise.bg.png')
+            .add(path + 'noise.key.png')
+            .add(path + 'noise.door.png')
+            .add(path + 'noise.touch.png')
+            .add(path + 'noise.operation.png')
+
             .load(function (loader, resources) {
                 tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = PIXI.Texture.fromImage(path + 'interaction.open.png');
                 tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = PIXI.Texture.fromImage(path + 'interaction.close.png');
@@ -819,6 +902,12 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = PIXI.Texture.fromImage(path + 'interaction.lock-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = PIXI.Texture.fromImage(path + 'interaction.unlock-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Block] = PIXI.Texture.fromImage(path + 'interaction.door.block-2.png');
+
+                tex['noise']['bg'] = PIXI.Texture.fromImage(path + 'noise.bg.png');
+                tex['noise'][RENDERER.Noise.Data.Name.Key] = PIXI.Texture.fromImage(path + 'noise.key.png');
+                tex['noise'][RENDERER.Noise.Data.Name.Door] = PIXI.Texture.fromImage(path + 'noise.door.png');
+                tex['noise'][RENDERER.Noise.Data.Name.Touch] = PIXI.Texture.fromImage(path + 'noise.touch.png');
+                tex['noise'][RENDERER.Noise.Data.Name.Operation] = PIXI.Texture.fromImage(path + 'noise.operation.png');
                 _isLoaded = true;
             });
         };

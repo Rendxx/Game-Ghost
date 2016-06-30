@@ -93,6 +93,7 @@
         "#src#/system/System.Data.js",
         "#src#/system/Core/System.Message.js",
         "#src#/system/Core/System.Sound.js",
+        "#src#/system/Core/System.Noise.js",
         // MapObject
         "#src#/system/Core/MapObject/System.MapObject.Basic.js",
         "#src#/system/Core/MapObject/System.MapObject.Body.js",

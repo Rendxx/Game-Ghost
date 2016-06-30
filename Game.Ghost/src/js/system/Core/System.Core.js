@@ -24,6 +24,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // component ----------------------------------------------
         this.map = null;
         this.sound = null;
+        this.noise = null;
         this.message = null;
         this.userInput = null;
         this.interAction = null;
@@ -142,7 +143,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.map[0],
                         gameData.characters[0],
                         assist,
-                        gameData.message
+                        gameData.message,
+                        gameData.noise
                     ]);
                 }
 
@@ -153,6 +155,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.characters[1],
                         gameData.message,
                         gameData.sound,
+                        gameData.noise,
                         gameData.end
                     ],
                     [   // to SERVER
@@ -169,7 +172,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.map[1],
                         gameData.characters[0],
                         assist,
-                        gameData.message
+                        gameData.message,
+                        gameData.noise
                     ]);
                 }
 
@@ -180,6 +184,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.characters[1],
                         gameData.message,
                         gameData.sound,
+                        gameData.noise,
                         gameData.end
                     ],
                     [   // to SERVER
@@ -190,13 +195,24 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             gameData.map.updateData = {};
         };
 
+        var _test = 100;
         // called every time frame
         var nextInterval = function () {
             try {
+                // ---------------------------------------
+                if (_test == 0) {
+                    _test = 500;
+                    that.noise.once(SYSTEM.Noise.Data.Name.Key, 10, 10);
+                    _test=-1;
+                } else if(_test > 0)
+                _test--;
+                
+                // ---------------------------------------
                 that.interAction.update();
                 that.characterManager.update();
                 gameData.message = that.message.getNewMsg();
                 gameData.sound = that.sound.getSoundDat();
+                gameData.noise = that.noise.getNoiseDat();
                 var _isEnd = that.characterManager.checkEnd();
                 if (_isEnd) { that.end(); }
                 _update();
@@ -213,6 +229,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.interAction = new SYSTEM.InterAction(that);
             that.message = new SYSTEM.Message();
             that.sound = new SYSTEM.Sound();
+            that.noise = new SYSTEM.Noise();
             that.userInput = new SYSTEM.UserInput(that);
         };
     };

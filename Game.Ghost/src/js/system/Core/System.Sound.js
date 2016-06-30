@@ -4,7 +4,7 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
 /**
- * Message manager
+ * Sound manager
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
@@ -49,7 +49,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ----------------------------------------------------------
         var that = this,
             _sounds_once = {},
-            _sounds_conherent = {}
+            _sounds_conherent = {};
 
         // callback ------------------------------------------------------
 
