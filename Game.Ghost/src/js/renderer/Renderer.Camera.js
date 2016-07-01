@@ -183,6 +183,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 updateInteractionIcon();
                 updateMessage();
                 updateDoor();
+                updateNoise();
             }
 
             // fog
@@ -281,6 +282,46 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 sprites["enduranceBar"].material.color.b = 0.8 * w;
                 sprites["enduranceBar"].material.color.g = 0.8 * w;
             }
+        };
+
+        // Noise -----------------------------------------------------
+        var updateNoise = function () {
+            var newNoiseDat = entity.noise.getNoiseDat();
+            if (newNoiseDat !== null) {
+                for (var i = 0; i < newNoiseDat.length; i++) {
+                    createNoise(newNoiseDat[i]);
+                }
+            }
+        };
+
+        var createNoise = function (noiseDat) {
+            var _tex = tex['noise'][noiseDat[1]];
+            if (_tex === undefined || _tex === null) return null;
+
+            var mat = new THREE.SpriteMaterial({
+                map: _tex,
+                transparent: true,
+                depthTest: false
+            });
+            mat.opacity = 1;
+
+            var spr = new THREE.Sprite(mat);
+            
+            spr.position.set((noiseDat[2]-entity.map.width / 2) * GridSize, GridSize + 1, (noiseDat[3]-entity.map.height / 2) * GridSize);
+            spr.scale.set(GridSize * 3, GridSize * 3, 1.0);
+
+            var start_opacity = 0;
+            that.sceneEffort.add(spr);
+
+            var tween_show = new TWEEN.Tween({ t: 100 }).to({ t: 0 }, 2000)
+                        .onStart(function () {
+                            that.sceneEffort.add(spr);
+                        }).onUpdate(function () {
+                            mat.opacity = this.t * 0.01;
+                        }).onComplete(function () {
+                            that.sceneEffort.remove(spr);
+                        });
+            tween_show.start();
         };
 
         // Interaction icon ------------------------------------------
@@ -734,6 +775,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     }
                 }
             };
+            tex['noise'] = {
+
+            };
 
             tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open.png');
             tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close.png');
@@ -759,6 +803,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock-2.png');
             tex['interaction']['highlight']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.door.block-2.png');
 
+            tex['noise'][RENDERER.Noise.Data.Name.Key] = textureLoader.load(path + 'noise.bg.png');
+            tex['noise'][RENDERER.Noise.Data.Name.Door] = textureLoader.load(path + 'noise.door.png');
+            tex['noise'][RENDERER.Noise.Data.Name.Touch] = textureLoader.load(path + 'noise.touch.png');
+            tex['noise'][RENDERER.Noise.Data.Name.Operation] = textureLoader.load(path + 'noise.operation.png');
             //tex['enduranceBarBase'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
 
             //// DDS Loader -------------------------------------------------------------------------------------------

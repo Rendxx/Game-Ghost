@@ -155,6 +155,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 that.characters[i].update(_dat_character[i], _dat_character_assist[i], playerVisibleList[i] === true);
             }
             that.sound.update(_dat_sound, _dat_character_assist);
+            that.noise.update(_dat_noise);
         };
     };
 
@@ -168,6 +169,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
         entity.sound = new RENDERER.Sound(entity);
+        entity.noise = new RENDERER.Noise(entity);
         entity.loading = new RENDERER.Loading(container);
         //entity.test = new RENDERER.Test(entity);
         return entity;

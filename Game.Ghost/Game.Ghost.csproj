@@ -1094,6 +1094,7 @@
     <Content Include="src\js\renderer\Renderer.Test.js" />
     <Content Include="src\js\renderer\Renderer.Main.js" />
     <Content Include="src\js\renderer\Renderer.Environment.js" />
+    <Content Include="src\js\renderer\Renderer.Noise.js" />
     <Content Include="src\js\system\Core\Character\System.Character.Basic.js" />
     <Content Include="src\js\system\Core\Character\System.Character.Ghost.Butcher.js" />
     <Content Include="src\js\system\Core\Character\System.Character.Ghost.Specter.js" />

@@ -73,7 +73,7 @@
       ],
       "#dest#/Game.Ghost.Renderer": [
         "#src#/lib/OBJLoader.js",
-        "#src#/lib/DDSLoader.js",
+        //"#src#/lib/DDSLoader.js",
         "#src#/renderer/Renderer.Data.js",
         "#src#/renderer/Renderer.Loading.js",
         "#src#/renderer/Renderer.Environment.js",
@@ -81,6 +81,7 @@
         "#src#/renderer/Renderer.Map.js",
         "#src#/renderer/Renderer.Character.js",
         "#src#/renderer/Renderer.Sound.js",
+        "#src#/renderer/Renderer.Noise.js",
         "#src#/renderer/Renderer.Test.js",
         "#src#/renderer/Renderer.Main.js"
       ],
