@@ -56,34 +56,34 @@ $(function () {
             modelId: 'capboy',
             team: 1
         },
-        'p3': {
-            id: 'p3',
-            name: 'player 3',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'highcircle',
-            team: 1
-        },
-        'p4': {
-            id: 'p4',
-            name: 'player 4',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'girl1',
-            team: 1
-        },
-        'p5': {
-            id: 'p5',
-            name: 'player 5',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'mohicans',
-            team: 2
-        },
-        'p6': {
-            id: 'p6',
-            name: 'player 6',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'girl2',
-            team: 2
-        },
+        //'p3': {
+        //    id: 'p3',
+        //    name: 'player 3',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'highcircle',
+        //    team: 1
+        //},
+        //'p4': {
+        //    id: 'p4',
+        //    name: 'player 4',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'girl1',
+        //    team: 1
+        //},
+        //'p5': {
+        //    id: 'p5',
+        //    name: 'player 5',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'mohicans',
+        //    team: 2
+        //},
+        //'p6': {
+        //    id: 'p6',
+        //    name: 'player 6',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'girl2',
+        //    team: 2
+        //},
         'p7': {
             id: 'p7',
             name: 'player 7',
@@ -95,7 +95,7 @@ $(function () {
     GameSetup = function () {
         system.setup(playerData, {
             player:playerData,
-            map: 'Hospital1'
+            map: 'test2'
         });
         system.start();
         renderer.show();

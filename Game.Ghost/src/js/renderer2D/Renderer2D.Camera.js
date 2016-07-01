@@ -214,7 +214,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             mask.moveTo(x, y);
             mask.lineStyle(0);
             mask.beginFill(0x000000, 1);
-            mask.arc(x, y, GridSize*0.5, rotation - fov / 2, rotation + fov / 2,true);
+            mask.arc(x, y, GridSize*1, rotation - fov / 2, rotation + fov / 2,true);
             mask.arc(x, y, visibleLen, rotation + fov / 2, rotation - fov / 2);
             mask.lineTo(x, y);
             mask.endFill();
