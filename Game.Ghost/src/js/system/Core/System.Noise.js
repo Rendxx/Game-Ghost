@@ -20,13 +20,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ----------------------------------------------------------
         var that = this,
             _sounds_once = [],
-            id = 0;
+            id = 0,
+            ratio = 1;
 
         // callback ------------------------------------------------------
 
         // public method -------------------------------------------------
-        this.once = function (soundName, x, y) {
-            _sounds_once.push([id,soundName, x, y]);
+        this.once = function (noiseName, x, y) {
+            _sounds_once.push([id,noiseName, x, y]);
             id = (id + 1) % 100;
         };
 
@@ -34,6 +35,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var s = _sounds_once;
             _sounds_once = [];
             return s;
+        };
+
+        this.setRatio = function (ratio_in) {
+            ratio = ratio_in;
+        };
+
+        this.generateNoise = function (probability, noiseName, x, y) {
+            if (Math.random() > probability * ratio) return;
+            this.once(noiseName,x ,y);
         };
 
         // setup -----------------------------------------------

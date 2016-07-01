@@ -255,7 +255,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         doorId: k
                     };
                     setupData[index] = _setupDat;
-                    var keyItem = new SYSTEM.Item.Key(_setupDat.id, _setupDat.mapObjectId, _setupDat.name, _setupDat.doorId);
+                    var keyItem = new SYSTEM.Item.Key(_setupDat.id, _setupDat.mapObjectId, _setupDat.name, _setupDat.doorId, entity);
                     keyItem.onChange = function (idx, data) {
                         gameData[0].k[idx] = data;
                         gameData[1].k = gameData[1].k || {};
@@ -278,7 +278,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.objList.key = {};
             for (var i in recoverData) {
                 var setupData = recoverData[i];
-                var keyItem = new SYSTEM.Item.Key(setupData.id, setupData.mapObjectId, setupData.name, setupData.doorId);
+                var keyItem = new SYSTEM.Item.Key(setupData.id, setupData.mapObjectId, setupData.name, setupData.doorId, entity);
                 keyItem.onChange = function (idx, data) {
                     gameData[0].k[idx] = data;
                     gameData[1].k = gameData[1].k || {};

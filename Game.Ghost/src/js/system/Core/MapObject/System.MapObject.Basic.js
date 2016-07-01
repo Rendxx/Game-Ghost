@@ -53,6 +53,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype.check = function () {
     };
 
+    // touch object when character get close to it
+    Basic.prototype.touch = function () {
+    };
+
     // setup Immutable data
     Basic.prototype.setup = function (id, para, modelData) {
         if (id !== undefined && id !== null) this.id = id;

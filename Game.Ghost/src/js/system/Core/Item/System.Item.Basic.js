@@ -12,7 +12,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Data = SYSTEM.Data;
 
     // Construct -----------------------------------------------------
-    var Basic = function (id, mapObjectId, name) {
+    var Basic = function (id, mapObjectId, name, entity) {
+        this.entity = entity;
         this.id = id;
         this.mapObjectId = mapObjectId;
         this.characterId = -1;
@@ -53,6 +54,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype.updateData = function () {
         if (this.onChange === null) return;
         this.onChange(this.id, this.toJSON());
+    };
+
+    Basic.prototype.touch = function (x, y) {
     };
 
     // ----------------------------------------------------------------

@@ -44,6 +44,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         noise:{
             step: 0.005,
             offset: 64,
+            closeRange: 5,
             rangeRatio: 0.03
         },
         html: {
@@ -460,7 +461,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         // Noise -----------------------------------------------------
         var setupNoise = function (layer) {
-            noiseList = {};
+            noiseList = [{}, {}];
             sprites["noise"] = {
                 wrap: null,
                 list:null
@@ -482,44 +483,78 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 }
             }
 
-            for (var i in noiseList) {
+            for (var i in noiseList[0]) {
                 stepNoise(i);
+            }
+            for (var i in noiseList[1]) {
+                stepNoiseClose(i);
             }
         };
 
         var createNoise = function (noiseDat) {
-            var noise = {
-                x: noiseDat[2],
-                y: noiseDat[3],
-                step: Math.max(0.4, Math.min(1, (1.2 -Math.sqrt( Math.pow(noiseDat[2] - that.character.gridX,2)+  Math.pow(noiseDat[3]-that.character.gridY,2)) * _Data.noise.rangeRatio))),
-                wrap: new PIXI.Container(),
-                bg: new PIXI.Sprite(tex['noise']['bg']),
-                icon: new PIXI.Sprite(tex['noise'][noiseDat[1]])
-            };
-            
-            noise.icon.anchor.set(0.5, 0.5);
-            noise.bg.anchor.set(0.5, 0.5);
+            var d = Math.sqrt(Math.pow(noiseDat[2] - that.character.gridX, 2) + Math.pow(noiseDat[3] - that.character.gridY, 2));
+            var noise;
+            if (d < _Data.noise.closeRange) {
+                noise = {
+                    x: noiseDat[2],
+                    y: noiseDat[3],
+                    step: 1,
+                    wrap: new PIXI.Container(),
+                    icon: new PIXI.Sprite(tex['noise'][noiseDat[1]])
+                };
 
-            noiseList[noiseDat[0]] = noise;
+                noise.icon.anchor.set(0.5, 0.5);
 
-            noise.bg.position.set(0, 0);
-            noise.icon.position.set(0, 0);
-            noise.wrap.addChild(noise.bg);
-            noise.wrap.addChild(noise.icon);
-            sprites["noise"].wrap.addChild(noise.wrap);
+                noiseList[1][noiseDat[0]] = noise;
+                noise.icon.position.set(0, 0);
+                noise.icon.scale.set(2, 2);
+                noise.wrap.addChild(noise.icon);
+                noise.wrap.position.set(noise.x * GridSize, noise.y * GridSize);
+                scene['effort'].addChild(noise.wrap);
+            } else {
+                noise = {
+                    x: noiseDat[2],
+                    y: noiseDat[3],
+                    step: Math.max(0.4, Math.min(1, (1.2 - d) * _Data.noise.rangeRatio)),
+                    wrap: new PIXI.Container(),
+                    bg: new PIXI.Sprite(tex['noise']['bg']),
+                    icon: new PIXI.Sprite(tex['noise'][noiseDat[1]])
+                };
+
+                noise.icon.anchor.set(0.5, 0.5);
+                noise.bg.anchor.set(0.5, 0.5);
+
+                noiseList[0][noiseDat[0]] = noise;
+
+                noise.bg.position.set(0, 0);
+                noise.icon.position.set(0, 0);
+                noise.wrap.addChild(noise.bg);
+                noise.wrap.addChild(noise.icon);
+                sprites["noise"].wrap.addChild(noise.wrap);
+            }
         };
         
         var destroyNoise = function (idx) {
-            var noise = noiseList[idx];
+            var noise = noiseList[0][idx];
+            var l = noiseList[0];
             sprites["noise"].wrap.removeChild(noise.wrap);
             noise.icon.destroy(false);
             noise.bg.destroy(false);
             noise.wrap.destroy(false);
-            delete noiseList[idx];
+            delete l[idx];
+        };
+
+        var destroyNoiseClose = function (idx) {
+            var noise = noiseList[1][idx];
+            var l = noiseList[1];
+            scene['effort'].removeChild(noise.wrap);
+            noise.icon.destroy(false);
+            noise.wrap.destroy(false);
+            delete l[idx];
         };
 
         var stepNoise = function (idx) {
-            var noise = noiseList[idx];
+            var noise = noiseList[0][idx];
             noise.step-=_Data.noise.step;
             if (noise.step <= 0) {
                 destroyNoise(idx);
@@ -533,6 +568,16 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             noise.bg.rotation = _r;
 
             noise.wrap.position.set(_x, _y);
+        };
+
+        var stepNoiseClose = function (idx) {
+            var noise = noiseList[1][idx];
+            noise.step -= _Data.noise.step;
+            if (noise.step <= 0) {
+                destroyNoiseClose(idx);
+                return;
+            }
+            noise.wrap.alpha = noise.step;
         };
 
         // Interaction icon ------------------------------------------

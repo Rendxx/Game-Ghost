@@ -30,6 +30,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         this.objType = _Data.ObjType;
         this.actioning = false;          // this furnition is actioning
+        this.noiseName = SYSTEM.Noise.Data.Name.Touch;
+        this.noiseProbability = Data.noise.furniture.probability;
         this.blockSight = modelData.blockSight;
         this.status = modelData.statusChange === true ? _Data.Status.Closed : _Data.Status.None;
         this.key = null;                // {key id : door id}
@@ -115,6 +117,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Furniture.prototype.placeKey = function (key) {
         if (this.key === null) this.key = {};
         this.key[key.id] = key.doorId;
+    };
+
+    Furniture.prototype.touch = function (key) {
+        this.entity.noise.generateNoise(this.noiseProbability, this.noiseName, this.x, this.y);
     };
 
     // ----------------------------------------------------------------

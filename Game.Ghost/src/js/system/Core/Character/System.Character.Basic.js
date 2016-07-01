@@ -307,8 +307,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype._updateInteraction = function () {
         this.visibleObject = this.entity.interAction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation[0]);
         this.soundObject = this.entity.interAction.checkSoundObj(this.id, this.x, this.y);
+        var _a = this.accessObject;
         this.accessObject = this.entity.interAction.getAccessObject(this.id, this.x, this.y, this.currentRotation[0]);
-
+        if (_a !== this.accessObject && this.accessObject !== null)
+            this.entity.map.objList[this.accessObject.type][this.accessObject.id].touch();
         if (this.longInteractionObj !== null && this.longInteractionObj !== this.accessObject) this.cancelLongInteraction();
     };
 

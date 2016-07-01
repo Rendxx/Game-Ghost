@@ -156,6 +156,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     for (var i in newKeys) {
                         this.key[newKeys[i]] = i;
                         this.entity.map.objList.key[i].take(this.id);
+                        this.entity.map.objList.key[i].touch(this.x, this.y);
                         keyNames += this.entity.map.objList.key[i].name + ", ";
                     }
                     if (keyNames.length > 0) {
@@ -188,6 +189,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 for (var i in newKeys) {
                     this.key[newKeys[i]] = i;
                     this.entity.map.objList.key[i].take(this.id);
+                    this.entity.map.objList.key[i].touch(this.x, this.y);
                     keyNames += this.entity.map.objList.key[i].name + ", ";
                 }
                 if (keyNames.length > 0) {

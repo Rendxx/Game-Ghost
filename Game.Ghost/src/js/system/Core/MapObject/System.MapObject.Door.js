@@ -33,6 +33,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         SYSTEM.MapObject.Basic.call(this, id, info, modelData, entity);
 
         this.actived = true;
+        this.noiseName = SYSTEM.Noise.Data.Name.Door;
+        this.noiseProbability = Data.noise.door.probability;
         this.objType = _Data.ObjType;
         this.blockSight = modelData.blockSight;
         this.blockList = {};
@@ -77,12 +79,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return;
         }
         this.status = _Data.Status.Opened;
+        this.entity.noise.generateNoise(this.noiseProbability, this.noiseName, this.x, this.y);
         this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.OpenDoor);
         this.updateData();
     };
 
     Door.prototype.close = function () {
         this.status = _Data.Status.Closed;
+        this.entity.noise.generateNoise(this.noiseProbability, this.noiseName, this.x, this.y);
         this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.CloseDoor);
         this.updateData();
     };

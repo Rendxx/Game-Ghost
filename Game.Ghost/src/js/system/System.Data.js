@@ -156,6 +156,17 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 end: 'end_1'
             }
         },
+        noise: {
+            door: {
+                probability: 0.05
+            },
+            furniture: {
+                probability: 0.02
+            },
+            key: {
+                probability: 0.2
+            }
+        },
         map: {
             files: {
                 test: 'MapDataTest.json',
