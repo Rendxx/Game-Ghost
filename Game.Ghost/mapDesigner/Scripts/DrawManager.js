@@ -316,9 +316,13 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
 
             for (var k in Data.categoryName) {
                 var list = item_in[Data.categoryName[k]];
-                for (var i = 0; i < list.length; i++) {
-                    if (list[i] == null) continue;
-                    addItem(list[i]);
+                for (var i = 1; i < list.length; i++) {
+                    if (list[i] == null) {
+                        count[k]++;
+                        itemList[k][i] = null;
+                    } else {
+                        addItem(list[i]);
+                    }
                 }
             }
 
