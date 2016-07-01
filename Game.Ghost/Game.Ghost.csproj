@@ -1070,6 +1070,7 @@
     <Content Include="Sound\key.mp3" />
     <Content Include="Sound\knock.mp3" />
     <Content Include="Sound\lock.mp3" />
+    <Content Include="Sound\touch.wav" />
     <Content Include="Sound\unlock.mp3" />
     <Content Include="src\js\lib\DDSLoader.js" />
     <Content Include="src\js\lib\OBJLoader.js" />

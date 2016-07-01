@@ -229,7 +229,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.interAction = new SYSTEM.InterAction(that);
             that.message = new SYSTEM.Message();
             that.sound = new SYSTEM.Sound();
-            that.noise = new SYSTEM.Noise();
+            that.noise = new SYSTEM.Noise(that);
             that.userInput = new SYSTEM.UserInput(that);
         };
     };

@@ -24,7 +24,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             'Die': 11,
             'Scream': 12,
             'Bell': 13,
-            'Hurt': 14
+            'Hurt': 14,
+            'Touch': 15
         },
         Type: {
             Effort: 0,

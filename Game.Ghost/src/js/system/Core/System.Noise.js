@@ -9,6 +9,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
     var _Data = {
+        ObjType: 'noise',
         Name: {
             'Key': 0,
             'Door': 1,
@@ -27,6 +28,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // public method -------------------------------------------------
         this.once = function (noiseName, x, y) {
+            entity.sound.once(SYSTEM.Sound.Data.Type.OverAll, _Data.ObjType, 0, SYSTEM.Sound.Data.Name.Touch);
             _sounds_once.push([id,noiseName, x, y]);
             id = (id + 1) % 100;
         };
