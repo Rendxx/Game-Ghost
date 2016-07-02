@@ -17,6 +17,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         this.characters = null;
         this.setupData = null;
+        this.survivorNumber = 0;
         this.id2Index = {};      // {id: index}
         this.index2Id = {};      // {index: id}
         this.team = {};
@@ -126,11 +127,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var _init = function () {
             var index = 0;
             that.characters = [];
+            that.survivorNumber = 0;
             for (var id in playerData_in) {
                 var p = playerData_in[id];
                 var c = null;
                 if (p.role === Data.character.type.survivor) {
                     c = new SYSTEM.Character.Survivor[Data.character.className.survivor[p.modelId]](index, p, modelData.characters, entity);
+                    that.survivorNumber++;
                 } else if (p.role === Data.character.type.ghost) {
                     c = new SYSTEM.Character.Ghost[Data.character.className.ghost[p.modelId]](index, p, modelData.characters, entity);
                 }

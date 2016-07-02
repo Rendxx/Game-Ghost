@@ -74,13 +74,13 @@ $(function () {
             modelId: 'mohicans',
             team: 2
         },
-        'p6': {
-            id: 'p6',
-            name: 'player 6',
-            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-            modelId: 'girl2',
-            team: 2
-        },
+        //'p6': {
+        //    id: 'p6',
+        //    name: 'player 6',
+        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+        //    modelId: 'girl2',
+        //    team: 2
+        //},
         'p7': {
             id: 'p7',
             name: 'player 7',
@@ -92,7 +92,7 @@ $(function () {
     GameSetup = function () {
         system.setup(playerData, {
             player: playerData,
-            map: 'Hospital1'
+            map: 'test3'
         });
         system.start();
         renderer.show();

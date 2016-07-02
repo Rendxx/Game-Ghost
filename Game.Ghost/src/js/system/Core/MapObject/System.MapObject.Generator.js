@@ -38,6 +38,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.process = modelData.process;
         this.maxProcess = modelData.process;
         this.fixFunc = {};
+
+        // callback
+        this.onFixed = null;
     };
     Generator.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
     Generator.prototype.constructor = Generator;
@@ -79,6 +82,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.entity.interAction.updateInteraction(that.objType, that.id);
                 that.stopFix(characterId);
                 that.entity.message.send(characterId, _Data.message.fixed);
+                if (that.onFixed) that.onFixed(that.id);
                 return;
             }
             that.process--;

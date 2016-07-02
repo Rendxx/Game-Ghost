@@ -993,6 +993,7 @@
     <Content Include="Model\Sprite\GeneratorLight.green.png" />
     <Content Include="Model\Sprite\GeneratorLight.png" />
     <Content Include="Model\Sprite\GeneratorLight.red.png" />
+    <Content Include="Model\Sprite\ghostSight.png" />
     <Content Include="Model\Sprite\interaction.close-2.dds" />
     <Content Include="Model\Sprite\interaction.close-2.png" />
     <Content Include="Model\Sprite\interaction.close.dds" />
@@ -1344,6 +1345,7 @@
     <Content Include="Model\Player\ghost-butcher\run.json" />
     <Content Include="Model\Player\ghost-butcher\walk.json" />
     <Content Include="Model\Furniture\cabinet_wood_2_1_b\animation_2d.json" />
+    <Content Include="ModelBuilder\Sprite\ghostSight.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />

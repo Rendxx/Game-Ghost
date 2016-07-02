@@ -84,7 +84,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                             "shadowMapWidth": 2056,
                             "shadowMapHeight": 2056,
                             "shadowBias": 0,
-                            "shadowDarkness": 1.0
+                            "shadowDarkness": 1.0,
+                            "shadow": true
                         },
                         "noTorch": {
                             "color": 0xE9F0F3,

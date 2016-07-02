@@ -18,7 +18,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             doorBlock: "The door is blocked from other side!",
             useKey: "Key [#key#] is used",
             noKey: "Nothing found",
-            win:"Ready to escape. Wait for other survivors..."
+            win: "Ready to escape. Wait for other survivors...",
+            noPower: "We need to get electricity back to open it"
         },
         range: {
             danger: 14
@@ -138,6 +139,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         break;
                     }
                 }
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.NoPower) {
+                    this.entity.message.send(this.id, _Data.message.noPower);
+                    break;
+                }
                 if (info.blocked) {
                     obj.open(false);
                     this.entity.message.send(this.id, _Data.message.doorBlock);
@@ -232,6 +237,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     } else if (this.lockDoor[info.id]) {
                         return [SYSTEM.MapObject.Door.Data.Operation.Locked];
                     }
+                }
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.NoPower) {
+                    return [SYSTEM.MapObject.Door.Data.Operation.Check];
                 }
                 return [SYSTEM.MapObject.Door.Data.Operation.Open, SYSTEM.MapObject.Door.Data.Operation.Block];
                 break;

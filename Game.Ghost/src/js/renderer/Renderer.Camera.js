@@ -22,7 +22,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             Locked: 0,
             Opened: 1,
             Closed: 2,
-            Blocked: 3
+            Blocked: 3,
+            Destroyed: 4,
+            NoPower: 5
         },
         operation: {
             furniture: {
@@ -37,7 +39,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 Locked: 3,
                 Unlock: 4,
                 Block: 5,
-                Destroy: 6
+                Destroy: 6,
+                Check: 7
             },
             generator: {
                 Fix: 1
@@ -804,6 +807,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction']['normal']['door'][_Data.operation.door.Destroy] = textureLoader.load(path + 'interaction.destroy.png');
             tex['interaction']['normal']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock.png');
             tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock.png');
+            tex['interaction']['normal']['door'][_Data.operation.door.Check] = textureLoader.load(path + 'interaction.search.png');
             tex['interaction']['normal']['generator'][_Data.operation.generator.Fix] = textureLoader.load(path + 'interaction.fix.png');
             //tex['interaction']['normal']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.block.png');
 
@@ -817,6 +821,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction']['highlight']['door'][_Data.operation.door.Destroy] = textureLoader.load(path + 'interaction.destroy-2.png');
             tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock-2.png');
             tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock-2.png');
+            tex['interaction']['highlight']['door'][_Data.operation.door.Check] = textureLoader.load(path + 'interaction.search-2.png');
             tex['interaction']['highlight']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.door.block-2.png');
             tex['interaction']['highlight']['generator'][_Data.operation.generator.Fix] = textureLoader.load(path + 'interaction.fix-2.png');
 

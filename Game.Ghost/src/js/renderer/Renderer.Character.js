@@ -79,7 +79,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 show: {},
                 hide: {}
             },
-            cache_protect= null,
+            cache_protect = null,
             cache_lightR = null,
             teleportingFlag = false,
             torchData = Data.character.parameter[_para.role].light.torch,
@@ -98,7 +98,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 endurance: data_in[2],
                 hp: data_in[3],
                 currentRotation: data_in[4],
-                
+
                 action: data_in[5],
                 win: data_in[6],
                 actived: data_in[7],
@@ -130,11 +130,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         this.updateVisible = function (isVisible, topLight) {
             if (this.mesh === null) return;
-            this.isVisible = isVisible===true;
+            this.isVisible = isVisible === true;
             this.mesh.visible = this.isVisible;
             this.highlight.visible = this.isVisible;
-            if (this.torch) this.torch.visible = this.isVisible;
-            if (this.topLight) this.topLight.visible = topLight === true;
+            if (this.torch) this.torch.intensity = this.isVisible?1:0;
+            if (this.topLight) this.topLight.intensity = topLight ? 1 : 0;
         };
 
         // render model
@@ -167,7 +167,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.visibleObject = gameData.visibleObject;
             this.isDead = isDead;
             this.isWin = isWin;
-            
+
             if (gameData.protect != undefined && gameData.protect !== cache_protect) {
                 cache_protect = gameData.protect;
                 if (gameData.protect > 0) {
@@ -360,8 +360,19 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         that.torch.castShadow = true;
                         that.torch.target = that.torchDirectionObj;
                         scene.add(that.torch);
-                        that.torch.visible = (entity.team[_para.team] === true);
+                        //that.torch.visible = (entity.team[_para.team] === true);
                     }
+
+                    //else if (this.role === Data.character.type.ghost) {
+                    //    var mat = new THREE.SpriteMaterial({
+                    //        map: spriteTex['ghostSight'],
+                    //        transparent: true
+                    //    });
+                    //    mat.opacity = 0.7;
+                    //    that.torch = new THREE.Sprite(mat);
+                    //    that.torch.scale.set(GridSize * 2, GridSize * 2, 1.0);
+                    //    scene.add(that.torch);
+                    //};
 
                     if (topLightData !== null) {
                         that.topLight = new THREE.SpotLight(parseInt(topLightData.color));
@@ -377,7 +388,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                         scene.add(that.topLight);
                         that.topLight.visible = (entity.team[_para.team] === true);
                     }
-                    setupLightCache();
+                setupLightCache();
 
                 // setup highlight
                 var mat = new THREE.SpriteMaterial({
@@ -432,6 +443,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             };
             var textureLoader = new THREE.TextureLoader();
             spriteTex['highlight'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.png');
+            spriteTex['ghostSight'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'ghostSight.png');
 
             //var ddsLoader = new THREE.DDSLoader();
             //spriteTex['highlight'] = ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.dds');

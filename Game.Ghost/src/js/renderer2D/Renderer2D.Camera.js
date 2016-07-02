@@ -20,7 +20,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             Locked: 0,
             Opened: 1,
             Closed: 2,
-            Blocked: 3
+            Blocked: 3,
+            Destroyed: 4,
+            NoPower: 5
         },
         operation: {
             furniture: {
@@ -35,7 +37,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 Locked: 3,
                 Unlock: 4,
                 Block: 5,
-                Destroy: 6
+                Destroy: 6,
+                Check: 7
             },
             generator: {
                 Fix: 1
@@ -960,6 +963,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 tex['interaction']['normal']['door'][_Data.operation.door.Destroy] = PIXI.Texture.fromImage(path + 'interaction.destroy.png');
                 tex['interaction']['normal']['door'][_Data.operation.door.Locked] = PIXI.Texture.fromImage(path + 'interaction.lock.png');
                 tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = PIXI.Texture.fromImage(path + 'interaction.unlock.png');
+                tex['interaction']['normal']['door'][_Data.operation.door.Check] = PIXI.Texture.fromImage(path + 'interaction.search.png');
                 tex['interaction']['normal']['generator'][_Data.operation.generator.Fix] = PIXI.Texture.fromImage(path + 'interaction.fix.png');
 
                 tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = PIXI.Texture.fromImage(path + 'interaction.open-2.png');
@@ -972,6 +976,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 tex['interaction']['highlight']['door'][_Data.operation.door.Destroy] = PIXI.Texture.fromImage(path + 'interaction.destroy-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = PIXI.Texture.fromImage(path + 'interaction.lock-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = PIXI.Texture.fromImage(path + 'interaction.unlock-2.png');
+                tex['interaction']['highlight']['door'][_Data.operation.door.Check] = PIXI.Texture.fromImage(path + 'interaction.search-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Block] = PIXI.Texture.fromImage(path + 'interaction.door.block-2.png');
                 tex['interaction']['highlight']['generator'][_Data.operation.generator.Fix] = PIXI.Texture.fromImage(path + 'interaction.fix-2.png');
 

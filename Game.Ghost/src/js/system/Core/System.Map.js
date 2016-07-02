@@ -35,6 +35,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.modelData = modelData;
         this.width = 0;
         this.height = 0;
+        this.electricNeed = 0;
+        this.electricDoor = [];
         this.grid = {
             furniture: [],
             wall: [],
@@ -71,6 +73,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             setupBody();
         };
 
+        this.setElecticNeed = function (n) {
+            this.electricNeed = n;
+            gameData[0].el = n;
+            gameData[1].el = n;
+        };
+
         // reset key / player / position with given data
         this.reset = function (setupData_in) {
             this.setupData = setupData_in;
@@ -80,6 +88,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             recoverKey(setupData_in.key);
             recoverDoor();
             recoverBody();
+            recoverElectric();
         };
 
         // set map danger effort
@@ -92,6 +101,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var initData = function () {
             gameData[0].da = 0;
             gameData[1].da = 0;
+            gameData[0].el = 0;
+            gameData[1].el = 0;
         };
 
         // grid ------------------------------------------------
@@ -260,6 +271,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     gameData[1].g = gameData[1].g || {};
                     gameData[1].g[idx] = data;
                 };
+                that.objList.generator[k].onFixed = function (idx) {
+                    if (that.electricNeed <= 0) return;
+                    that.setElecticNeed(that.electricNeed - 1);
+                    if (that.electricNeed <= 0) {
+                        for (var t = 0; t < that.electricDoor.length; t++) {
+                            that.electricDoor[t].powerOn();
+                        }
+                    }
+                };
             }
         };
 
@@ -347,6 +367,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // door --------------------------------------------
         var initDoor = function (doors, doorSetting) {
             that.objList.door = {};
+            that.electricDoor = [];
+            
             for (var k = 0; k < doors.length; k++) {
                 if (doors[k] === null) continue;
                 var door = doors[k];
@@ -357,6 +379,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     gameData[1].d = gameData[1].d || {};
                     gameData[1].d[idx] = data;
                 };
+                if (that.objList.door[k].electric) {
+                    that.electricDoor.push(that.objList.door[k]);
+                }
             }
         };
 
@@ -412,6 +437,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             gameData[1].b[character.id] = b.toJSON();
 
             entity.interAction.updateMap();
+        };
+
+        // electric -------------------------------------------
+        var recoverElectric = function () {
+            this.setElecticNeed(gameData[0].el)
         };
 
         // init -----------------------------

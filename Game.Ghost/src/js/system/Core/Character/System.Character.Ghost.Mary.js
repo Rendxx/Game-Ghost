@@ -50,6 +50,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 } else if (info.status === SYSTEM.MapObject.Door.Data.Status.Locked) {
                     obj.unlock(false);
                     this.entity.message.send(this.id, _Data.message.doorLock.replace('#name#', obj.name));
+                } else if (info.status === SYSTEM.MapObject.Door.Data.Status.NoPower) {
+                    this.entity.message.send(this.id, _Data.message.doorLock.replace('#name#', obj.name));
                 } else if (info.blocked) {
                     obj.open(false);
                     this.entity.message.send(this.id, _Data.message.doorBlock);
@@ -76,6 +78,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var info = obj.check();
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
+                if (info.status === SYSTEM.MapObject.Door.Data.Status.Destroyed) {
+                    break;
+                }
                 if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened) {
                     return [SYSTEM.MapObject.Door.Data.Operation.Close];
                 }

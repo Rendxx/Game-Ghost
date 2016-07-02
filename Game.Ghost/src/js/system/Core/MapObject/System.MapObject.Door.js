@@ -16,7 +16,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Opened: 1,
             Closed: 2,
             Blocked: 3,
-            Destroyed: 4
+            Destroyed: 4,
+            NoPower: 5
         },
         Operation: {
             Open: 1,
@@ -24,7 +25,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Locked: 3,
             Unlock: 4,
             Block: 5,
-            Destroy: 6
+            Destroy: 6,
+            Check: 7
         }
     };
 
@@ -37,9 +39,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.noiseProbability = Data.noise.door.probability;
         this.objType = _Data.ObjType;
         this.blockSight = modelData.blockSight;
+        this.electric = modelData.electric === true;
         this.blockList = {};
         this.name = name;
-        this.status = _Data.Status.Closed;
+        this.status = this.electric ? _Data.Status.NoPower : _Data.Status.Closed;
+
+        this._lockCache = false;// use for lock and electric
     };
     Door.prototype = Object.create(SYSTEM.MapObject.Basic.prototype);
     Door.prototype.constructor = Door;
@@ -102,6 +107,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Door.prototype.lock = function () {
+        if (this.electric) {
+            this._lockCache = true;
+            return;
+        }
         this.status = _Data.Status.Locked;
         //this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.Unlock);
         this.updateData();
@@ -121,6 +130,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.actived = false;
         this.blockList = {};
         this.status = _Data.Status.Destroyed;
+        this.updateData();
+    };
+
+    Door.prototype.powerOn = function () {
+        this.status = this._lockCache ? _Data.Status.Locked : _Data.Status.Closed;
         this.updateData();
     };
 

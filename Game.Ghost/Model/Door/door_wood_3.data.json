@@ -15,6 +15,7 @@
   "model2D": [ "door_wood_3.2d.close.png", "door_wood_3.2d.open.png" ],
   "icon": "door_wood_3.icon.png",
   "duration": 200,
+  "electric":  true,
   "action": {
     "l_Bone.Door": { "z": 90 },
     "r_Bone.Door": { "z": -90 }

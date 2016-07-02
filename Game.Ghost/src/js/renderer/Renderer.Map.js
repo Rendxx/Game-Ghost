@@ -30,7 +30,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 Opened: 1,
                 Closed: 2,
                 Blocked: 3,
-                Destroyed: 4
+                Destroyed: 4,
+                NoPower: 5
             },
             generator: {
                 Broken: 0,
@@ -49,7 +50,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 1: 0,
                 2: 1,
                 3: 1,
-                4: 2
+                4: 2,
+                5: 1
             },
             generator: {
                 0: 0,
@@ -266,12 +268,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i = 0, l = doors.length; i < l; i++) {
                 if (doors[i] === null) continue;
                 _loadCount++;
-                createDoor(i, doors[i], scene, function (idx, dat, mesh, tween) {
+                createDoor(i, doors[i], scene, function (idx, dat, mesh, isElectric, tween) {
                     var id = dat.id;
                     if (!mesh_door.hasOwnProperty(id)) mesh_door[id] = [];
                     mesh_door[id].push(mesh);
 
-                    itemStatus['door'][idx] = _Data.status.door.Closed;
+                    itemStatus['door'][idx] = isElectric ? _Data.status.door.NoPower : _Data.status.door.Closed;
                     itemTween['door'][idx] = tween;
                     itemTweenCurrent['door'][idx] = null;
                     _loadCount--;
@@ -608,6 +610,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var w = (dat.right - dat.left + 1) * GridSize;
             var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.door][id];
+            var isElectric = para.electric === true;
 
             itemData['door'][idx] = {
                 x: x,
@@ -680,7 +683,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 mesh.position.z = y;
                 mesh.rotation.y = (4 - r) / 2 * Math.PI;
 
-                onSuccess(idx, dat, mesh, tweenNew);
+                onSuccess(idx, dat, mesh, isElectric, tweenNew);
             });
         };
         
