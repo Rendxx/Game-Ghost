@@ -31,19 +31,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 Closed: 2,
                 Blocked: 3,
                 Destroyed: 4
-            }
-        },
-        animationId: {
-            furniture: {
-                0: 1,
-                1: 1,
-                2: 0
             },
-            door: {
-                0: 1,
-                1: 0,
-                2: 1,
-                3: 1
+            generator: {
+                Broken: 0,
+                Fixing: 1,
+                Worked: 2
             }
         },
         html: {
@@ -101,6 +93,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             // mesh
             mesh_door = null,           // door
             mesh_furniture = null,      // furniture
+            mesh_generator = null,      // generator
+            mesh_generatorLight = null,
             mesh_key = null;            // key objects: funiture id: key object
 
 
@@ -110,7 +104,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.objectPos = {              //  id: [x, y]
             furniture: {},
             door: {},
-            body: {}
+            body: {},
+            generator: {}
         };
         this.posEnd = null;
         this.dark = null;
@@ -142,6 +137,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             setupBlockMap(mapData, modelData);
             setupBody();
             setupFurniture(_scene, _btmMap, mapData.item.furniture);
+            setupGenerator(_scene, _topMap, mapData.item.generator);
             setupStuff(_topMap, mapData.item.stuff);
             setupKey(_scene);
             setupLight(_scene);
@@ -158,6 +154,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             //updateKey();
             updateFuniture();
             updateDoor();
+            updateGenerator();
             updateBody();
             updateLight();
         };
@@ -349,7 +346,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             itemStatus['door'] = {};
             itemData['door'] = {};
-            
+
             var fileArr = [];
             for (var i = 0, l = doors.length; i < l; i++) {
                 if (doors[i] === null) continue;
@@ -382,7 +379,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             _layers['furniture'] = new PIXI.Container();
             scene.addChild(_layers['furniture']);
-            
+
             var fileArr = [];
             for (var i = 0, l = furniture.length; i < l; i++) {
                 if (furniture[i] === null) continue;
@@ -397,11 +394,67 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             PIXI.loader.add(arr).load(function (loader, resources) {
                 for (var i = 0, l = furniture.length; i < l; i++) {
                     if (furniture[i] === null) continue;
-                    createFurniture(i, furniture[i], _layers['furniture'],staticScene, function (idx, dat, mesh) {
+                    createFurniture(i, furniture[i], _layers['furniture'], staticScene, function (idx, dat, mesh) {
                         var id = dat.id;
                         mesh_furniture[idx] = (mesh);
 
                         itemStatus['furniture'][idx] = (mesh == null) ? _Data.status.furniture.None : _Data.status.furniture.Closed;
+                        _loadCount--;
+                        onLoaded();
+                    });
+                }
+            });
+        };
+
+        var setupGenerator = function (scene, staticScene, generator) {
+            mesh_generator = {};
+            mesh_generatorLight = {};
+            itemStatus['generator'] = {};
+
+            _layers['generator'] = new PIXI.Container();
+            scene.addChild(_layers['generator']);
+
+            var fileArr = [];
+            for (var i = 0, l = generator.length; i < l; i++) {
+                if (generator[i] === null) continue;
+                _loadCount++;
+                loadGeneratorTex(fileArr, _modelData.items[Data.categoryName.generator][generator[i].id]);
+            }
+
+            var arr = [];
+            for (var i in fileArr) {
+                arr.push(fileArr[i]);
+            }
+            arr.push({
+                name: 'g_light_white',
+                url: root + Data.files.path[Data.categoryName.sprite] + 'GeneratorLight.png',
+                onComplete: function (loader, resources) {
+                    _tex['g_light_white'] = PIXI.loader.resources['g_light_white'].texture;
+                }
+            });
+            arr.push({
+                name: 'g_light_red',
+                url: root + Data.files.path[Data.categoryName.sprite] + 'GeneratorLight.red.png',
+                onComplete: function (loader, resources) {
+                    _tex['g_light_red'] = PIXI.loader.resources['g_light_red'].texture;
+                }
+            });
+            arr.push({
+                name: 'g_light_green',
+                url: root + Data.files.path[Data.categoryName.sprite] + 'GeneratorLight.green.png',
+                onComplete: function (loader, resources) {
+                    _tex['g_light_green'] = PIXI.loader.resources['g_light_green'].texture;
+                }
+            });
+            PIXI.loader.add(arr).load(function (loader, resources) {
+                for (var i = 0, l = generator.length; i < l; i++) {
+                    if (generator[i] === null) continue;
+                    createGenerator(i, generator[i], _layers['generator'], staticScene, function (idx, dat, mesh, meshLight) {
+                        var id = dat.id;
+                        mesh_generator[idx] = (mesh);
+                        mesh_generatorLight[idx] = (meshLight);
+
+                        itemStatus['generator'][idx] = _Data.status.generator.Broken;
                         _loadCount--;
                         onLoaded();
                     });
@@ -535,7 +588,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     y2 = y + len + wid;
                     break;
             }
-            
+
             var graphics = new PIXI.Graphics();
             graphics.lineStyle(wid, 0x111111, 1);
             graphics.moveTo(x, y);
@@ -545,7 +598,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             onSuccess(idx, dat);
         };
-        
+
         var createWall = function (idx, dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
@@ -562,7 +615,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             obj.anchor.y = 0;
             obj.position.x = x;
             obj.position.y = y;
-            
+
             layer.addChild(obj);
             onSuccess(idx, dat);
         };
@@ -580,7 +633,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var graphics = new PIXI.Graphics();
             graphics.lineStyle(0);
             graphics.beginFill(0x000000);
-            graphics.drawRect(x-8, y-8, w+16, h+16);
+            graphics.drawRect(x - 8, y - 8, w + 16, h + 16);
             graphics.endFill();
             graphics.alpha = 0.4;
 
@@ -689,7 +742,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
         };
 
-        var loadDoorTex = function (fileArr,para) {
+        var loadDoorTex = function (fileArr, para) {
             fileArr['door_' + para.id] = ({
                 name: 'door_' + para.id,
                 url: root + Data.files.path[Data.categoryName.door] + para.id + '/animation_2d.json',
@@ -745,7 +798,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             item.loop = false;
             item.position.x = x + offset_x;
             item.position.y = y + offset_y;
-            item.rotation = (r-4) / 2 * Math.PI;
+            item.rotation = (r - 4) / 2 * Math.PI;
             layer.addChild(item);
 
             _animation['door'][idx][_Data.status.door.Locked] = function () {
@@ -779,6 +832,86 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             });
         };
 
+
+        var loadGeneratorTex = function (fileArr, para) {
+            fileArr['g_' + para.id] = ({
+                name: 'g_' + para.id,
+                url: root + Data.files.path[Data.categoryName.generator] + para.id + '/' + para.model2D[0],
+                onComplete: function (loader, resources) {
+                    _tex['g_' + para.id] = PIXI.loader.resources['g_' + para.id].texture;
+                }
+            });
+        };
+
+        var createGenerator = function (idx, dat, layer, layer2, onSuccess) {
+            if (dat === null) return null;
+            var id = dat.id;
+            var para = _modelData.items[Data.categoryName.generator][id];
+            var x = dat.left * GridSize;
+            var y = dat.top * GridSize;
+            var r = dat.rotation;
+            var w = para.dimension[0] * GridSize;
+            var h = (para.dimension[1]) * GridSize;
+
+            //console.log(dat);
+            //aconsole.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
+
+            var offset_x = -GridSize / 2;
+            var offset_y = -GridSize / 2;
+            switch (r) {
+                case 1:
+                    offset_x = h + GridSize / 2;
+                    break;
+                case 2:
+                    offset_x = w + GridSize / 2;
+                    offset_y = h + GridSize / 2;
+                    break;
+                case 3:
+                    offset_y = w + GridSize / 2;
+                    break;
+            }
+
+            that.objectPos.generator[idx] = [(dat.left + dat.right) / 2 * GridSize, (dat.top + dat.bottom) / 2 * GridSize];
+
+            _animation['generator'] = _animation['generator'] || {};
+            _animation['generator'][idx] = {};
+
+            var obj = new PIXI.Sprite(_tex['g_' + para.id]);
+            obj.anchor.x = 0;
+            obj.anchor.y = 0;
+            obj.position.x = x + offset_x;
+            obj.position.y = y + offset_y;
+            obj.rotation = (r - 4) / 2 * Math.PI;
+            layer2.addChild(obj);
+
+            var _frames = [];
+            _frames.push(_tex['g_light_red']);
+            _frames.push(_tex['g_light_white']);
+            _frames.push(_tex['g_light_green']);
+
+            var objLight = new PIXI.extras.MovieClip(_frames);
+            objLight.anchor.x = 0.5;
+            objLight.anchor.y = 0.5;
+            objLight.scale.x = 2;
+            objLight.scale.y = 2;
+            objLight.position.x = x + GridSize / 2;
+            objLight.position.y = y + GridSize / 2;
+
+            layer.addChild(objLight);
+
+            _animation['generator'][idx][_Data.status.generator.Broken] = function () {
+                objLight.gotoAndStop(0);
+            };
+            _animation['generator'][idx][_Data.status.generator.Fixing] = function () {
+                objLight.gotoAndStop(1);
+            };
+            _animation['generator'][idx][_Data.status.generator.Worked] = function () {
+                objLight.gotoAndStop(2);
+            };
+            onSuccess(idx, dat, obj, objLight);
+        };
+
+
         var createStuff = function (dat, layer, onSuccess) {
             if (dat === null) return null;
             var id = dat.id;
@@ -788,7 +921,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var w = GridSize;
             var h = GridSize;
             var para = _modelData.items[Data.categoryName.stuff][id];
-            
+
             var obj = new PIXI.Sprite(_tex['stuff_' + para.id]);
 
             var offset_x = 0;
@@ -810,7 +943,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             obj.anchor.y = 0;
             obj.position.x = x + offset_x;
             obj.position.y = y + offset_y;
-            obj.rotation = (r-4) / 2 * Math.PI;
+            obj.rotation = (r - 4) / 2 * Math.PI;
 
             layer.addChild(obj);
             onSuccess(dat);
@@ -844,6 +977,17 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                                 that.blockMap[i][j] = s;
                             }
                         }
+                    }
+                }
+            }
+        };
+
+        var updateGenerator = function () {
+            for (var i in gameData.g) {
+                if (itemStatus['generator'][i] !== null) {
+                    if (gameData.g[i].status !== itemStatus['generator'][i]) {
+                        itemStatus['generator'][i] = gameData.g[i].status;
+                        _animation['generator'][i][itemStatus['generator'][i]]();
                     }
                 }
             }

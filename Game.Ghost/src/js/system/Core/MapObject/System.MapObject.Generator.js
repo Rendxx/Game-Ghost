@@ -70,7 +70,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         if (this.fixFunc.hasOwnProperty(characterId)) clearInterval(this.fixFunc[characterId]);
         var that = this;
-        var messageCount=25;
+        var messageCount=15;
         this.fixFunc[characterId] = setInterval(function () {
             if (that.process <= 0) {
                 that.process = 0;
@@ -85,7 +85,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.entity.noise.generateNoise(that.noiseProbability, that.noiseName, that.x, that.y);
             if (--messageCount <= 0) {
                 that.entity.message.send(characterId, _Data.message.fixing + (100-Math.ceil(that.process * 100 / that.maxProcess)) + '%');
-                messageCount = 25;
+                messageCount = 15;
             }
             that.updateData();
         }, 40);

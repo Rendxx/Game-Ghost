@@ -979,6 +979,9 @@
     <Content Include="Model\Sprite\fog.png" />
     <Content Include="Model\Sprite\fog2.png" />
     <Content Include="Model\Sprite\fogEdge.png" />
+    <Content Include="Model\Sprite\GeneratorLight.green.png" />
+    <Content Include="Model\Sprite\GeneratorLight.png" />
+    <Content Include="Model\Sprite\GeneratorLight.red.png" />
     <Content Include="Model\Sprite\interaction.close-2.dds" />
     <Content Include="Model\Sprite\interaction.close-2.png" />
     <Content Include="Model\Sprite\interaction.close.dds" />
@@ -1323,6 +1326,7 @@
     <Content Include="Model\Generator\generator_1\generator_1.json" />
     <Content Include="Model\Generator\generator_1.data.json" />
     <Content Include="ModelBuilder\Sprite\interaction.fix.fla" />
+    <Content Include="ModelBuilder\Sprite\GeneratorLight.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />

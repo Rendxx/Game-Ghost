@@ -1090,7 +1090,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _tex = {};
             _textureLoader = new THREE.TextureLoader();
             _tex['end'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
-            _tex['light'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.png');
+            _tex['light'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'GeneratorLight.png');
 
             //_ddsLoader = new THREE.DDSLoader();
             //_tex['end'] = _ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.dds');

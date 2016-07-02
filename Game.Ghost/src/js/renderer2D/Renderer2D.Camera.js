@@ -37,6 +37,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 Block: 5,
                 Destroy: 6
             },
+            generator: {
+                Fix: 1
+            },
             body: {
                 Search: 1
             }
@@ -76,12 +79,14 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 normal: {
                     furniture: {},
                     door: {},
-                    body: {}
+                    body: {},
+                    generator: {}
                 },
                 highlight: {
                     furniture: {},
                     door: {},
-                    body: {}
+                    body: {},
+                    generator: {}
                 }
             },
             fogEdge = [],
@@ -588,7 +593,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var visibleObject = {
                 furniture: {},      // {id : op}
                 door: {},
-                body: {}
+                body: {},
+                generator: {}
             };
             for (var i = 0; i < that.character.visibleObject.length; i++) {
                 visibleObject[that.character.visibleObject[i].type][that.character.visibleObject[i].id] = that.character.visibleObject[i].op[0];
@@ -895,6 +901,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     'door': {
                     },
                     'body': {
+                    },
+                    'generator': {
                     }
                 },
                 'highlight': {
@@ -903,6 +911,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     'door': {
                     },
                     'body': {
+                    },
+                    'generator': {
                     }
                 }
             };
@@ -920,6 +930,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             .add(path + 'interaction.destroy.png')
             .add(path + 'interaction.lock.png')
             .add(path + 'interaction.unlock.png')
+            .add(path + 'interaction.fix.png')
             .add(path + 'interaction.open-2.png')
             .add(path + 'interaction.close-2.png')
             .add(path + 'interaction.key-2.png')
@@ -930,6 +941,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             .add(path + 'interaction.lock-2.png')
             .add(path + 'interaction.unlock-2.png')
             .add(path + 'interaction.door.block-2.png')
+            .add(path + 'interaction.fix-2.png')
 
             .add(path + 'noise.bg.png')
             .add(path + 'noise.key.png')
@@ -948,6 +960,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 tex['interaction']['normal']['door'][_Data.operation.door.Destroy] = PIXI.Texture.fromImage(path + 'interaction.destroy.png');
                 tex['interaction']['normal']['door'][_Data.operation.door.Locked] = PIXI.Texture.fromImage(path + 'interaction.lock.png');
                 tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = PIXI.Texture.fromImage(path + 'interaction.unlock.png');
+                tex['interaction']['normal']['generator'][_Data.operation.generator.Fix] = PIXI.Texture.fromImage(path + 'interaction.fix.png');
 
                 tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = PIXI.Texture.fromImage(path + 'interaction.open-2.png');
                 tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close] = PIXI.Texture.fromImage(path + 'interaction.close-2.png');
@@ -960,6 +973,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = PIXI.Texture.fromImage(path + 'interaction.lock-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = PIXI.Texture.fromImage(path + 'interaction.unlock-2.png');
                 tex['interaction']['highlight']['door'][_Data.operation.door.Block] = PIXI.Texture.fromImage(path + 'interaction.door.block-2.png');
+                tex['interaction']['highlight']['generator'][_Data.operation.generator.Fix] = PIXI.Texture.fromImage(path + 'interaction.fix-2.png');
 
                 tex['noise']['bg'] = PIXI.Texture.fromImage(path + 'noise.bg.png');
                 tex['noise'][RENDERER.Noise.Data.Name.Key] = PIXI.Texture.fromImage(path + 'noise.key.png');
