@@ -26,7 +26,7 @@
         "DbgIndex":0,
         "DbgName":"Material",
         "shading":"phong",
-        "colorEmissive":[0.05,0.02,0.02],
+        "colorEmissive":[0.02,0.02,0.02],
         "mapDiffuseRepeat":[1,1],
         "transparent":false,
         "depthTest":true,

@@ -256,23 +256,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var f = generators[k];
                 that.objList.generator[k] = new SYSTEM.MapObject.Generator(k, f, modelData.items[Data.item.categoryName.generator][f.id], entity);
                 that.objList.generator[k].onChange = function (idx, data) {
-                    gameData[0].f[idx] = data;
-                    gameData[1].f = gameData[1].f || {};
-                    gameData[1].f[idx] = data;
+                    gameData[0].g[idx] = data;
+                    gameData[1].g = gameData[1].g || {};
+                    gameData[1].g[idx] = data;
                 };
             }
         };
 
         var setupGenerator = function () {
-            gameData[0].f = {};
+            gameData[0].g = {};
             for (var k in that.objList.generator) {
-                gameData[0].f[k] = that.objList.generator[k].toJSON();
+                gameData[0].g[k] = that.objList.generator[k].toJSON();
             }
         };
 
         var recoverGenerator = function () {
-            for (var k in gameData[0].f) {
-                that.objList.generator[k].reset(gameData[0].f[k]);
+            for (var k in gameData[0].g) {
+                that.objList.generator[k].reset(gameData[0].g[k]);
             }
         };
 

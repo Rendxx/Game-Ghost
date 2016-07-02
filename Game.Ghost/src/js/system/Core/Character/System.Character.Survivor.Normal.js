@@ -244,7 +244,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 return [SYSTEM.MapObject.Body.Data.Operation.Search];
                 break;
             case SYSTEM.MapObject.Generator.Data.ObjType:
-                if (info.status !== SYSTEM.MapObject.Door.Data.Status.Worked) {
+                if (info.status !== SYSTEM.MapObject.Generator.Data.Status.Worked) {
                     return [SYSTEM.MapObject.Generator.Data.Operation.Fix];
                 }
         }

@@ -50,6 +50,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 2: 1,
                 3: 1,
                 4: 2
+            },
+            generator: {
+                0: 0,
+                1: 0,
+                2: 1
             }
         }
     };
@@ -96,6 +101,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             combined_stuff = null,
             mesh_generator = null,      // generator
             combined_generator = null,
+            mesh_generatorLight = null,
+            combined_generatorLight = null,
             mesh_key = null,            // key objects: funiture id: key object
             combined_key = null;
 
@@ -149,6 +156,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             updateKey();
             updateFuniture();
             updateDoor();
+            updateGenerator();
             updateBody();
             updateLight();
         };
@@ -303,17 +311,26 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var setupGenerator = function (scene, generator) {
             mesh_generator = {};
+            mesh_generatorLight = {};
+            itemTweenCurrent['generator'] = {};
             itemStatus['generator'] = {};
+            itemTween['generator'] = {};
 
             for (var i = 0, l = generator.length; i < l; i++) {
                 if (generator[i] === null) continue;
                 _loadCount++;
-                createGenerator(i, generator[i], scene, function (idx, dat, mesh) {
+                createGenerator(i, generator[i], scene, function (idx, dat, mesh, meshLight, tween) {
                     var id = dat.id;
-                    if (!mesh_generator.hasOwnProperty(id)) mesh_generator[id] = [];
+                    if (!mesh_generator.hasOwnProperty(id)) {
+                        mesh_generator[id] = [];
+                        mesh_generatorLight[id] = [];
+                    }
                     mesh_generator[id].push(mesh);
+                    mesh_generatorLight[id].push(meshLight);
 
                     itemStatus['generator'][idx] = _Data.status.generator.Broken;
+                    itemTween['generator'][idx] = tween;
+                    itemTweenCurrent['generator'][idx] = null;
                     _loadCount--;
                     onLoaded();
                 });
@@ -675,9 +692,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var w = (dat.right - dat.left + 1) * GridSize;
             var h = (dat.bottom - dat.top + 1) * GridSize;
             var para = _modelData.items[Data.categoryName.generator][id];
-
-            var mesh = null;
-
+            
             //console.log(dat);
             //aconsole.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
 
@@ -685,8 +700,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             var loader = new THREE.JSONLoader();
             loader.load(root + Data.files.path[Data.categoryName.generator] + para.id + '/' + para.model, function (geometry, materials) {
-                var mesh = null;
-                    mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+                var mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
 
                 mesh.castShadow = true;
                 mesh.receiveShadow = true;
@@ -694,8 +708,30 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 mesh.position.x = x;
                 mesh.position.z = y;
                 mesh.rotation.y = (4 - r) / 2 * Math.PI;
+                
+                var meshLight = null;
 
-                onSuccess(idx, dat, mesh);
+                var mat = new THREE.SpriteMaterial({
+                    color: 0xff0000,
+                    map: _tex['light'],
+                    transparent: true
+                });
+                mat.opacity = 0.3;
+                meshLight = new THREE.Sprite(mat);
+                meshLight.scale.set(GridSize * 2, GridSize * 2, 1.0);
+                meshLight.position.x = x ;
+                meshLight.position.z = y ;
+                meshLight.position.y = 0.5;
+
+                var tweenNew = [[], []];
+                tweenNew[0].push(new TWEEN.Tween(mat).to({ opacity: 0.5 }, 200).onStart(function () {
+                    mat.color.setHex(0xffffff);
+                }).easing(TWEEN.Easing.Quadratic.Out));
+                tweenNew[1].push(new TWEEN.Tween(mat).to({ opacity: 1.2 }, 200).onComplete(function () {
+                    mat.color.setHex(0x9CFF00);
+                }).easing(TWEEN.Easing.Quadratic.Out));
+                
+                onSuccess(idx, dat, mesh, meshLight, tweenNew);
             });
         };
 
@@ -819,6 +855,31 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                             }
                             t = itemTween['door'][i][_Data.animationId.door[itemStatus['door'][i]]];
                             itemTweenCurrent['door'][i] = t;
+                            for (var j = 0; j < t.length; j++) {
+                                t[j].start();
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        var updateGenerator = function () {
+            // update generator
+            if (!gameData.hasOwnProperty('g')) return;
+            for (var i in gameData.g) {
+                if (itemStatus['generator'][i] !== null) {
+                    if (gameData.g[i].status !== itemStatus['generator'][i]) {
+                        itemStatus['generator'][i] = gameData.g[i].status;
+                        if (itemTween['generator'] !== null && itemTween['generator'][i] !== null) {
+                            var t = itemTweenCurrent['generator'][i];
+                            if (t !== null) {
+                                for (var j = 0; j < t.length; j++) {
+                                    t[j].stop();
+                                }
+                            }
+                            t = itemTween['generator'][i][_Data.animationId.door[itemStatus['generator'][i]]];
+                            itemTweenCurrent['generator'][i] = t;
                             for (var j = 0; j < t.length; j++) {
                                 t[j].start();
                             }
@@ -999,6 +1060,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     _scene.add(combined_generator[idx]);
                 }
             }
+
+            combined_generatorLight = {};
+            for (var id in mesh_generatorLight) {
+                for (var i = 0; i < mesh_generatorLight[id].length; i++) {
+                    var idx = id + '__' + i;
+                    combined_generatorLight[idx] = mesh_generatorLight[id][i];
+                    combined_generatorLight[idx].castShadow = false;
+                    combined_generatorLight[idx].receiveShadow = false;
+                    _scene.add(combined_generatorLight[idx]);
+                }
+            }
                         
             // stuff 
             if (combined_stuff !== null) {
@@ -1018,6 +1090,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _tex = {};
             _textureLoader = new THREE.TextureLoader();
             _tex['end'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.png');
+            _tex['light'] = _textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'playerHighlight.png');
 
             //_ddsLoader = new THREE.DDSLoader();
             //_tex['end'] = _ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'Sprite_EndPos.dds');
