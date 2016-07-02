@@ -178,9 +178,9 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             // set a fill and line style
             graphics.lineStyle(0);
-            graphics.beginFill(0x333333, 1);
+            graphics.beginFill(0x111111, 1);
             graphics.drawRect(0, 0, that.width * GridSize, that.height * GridSize);
-            graphics.alpha = 0.4;
+            graphics.alpha = 0.6;
             _layers['light'].addChild(graphics);
             darkScreen = graphics;
         };

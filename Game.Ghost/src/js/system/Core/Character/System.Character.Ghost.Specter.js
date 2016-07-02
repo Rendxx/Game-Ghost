@@ -198,7 +198,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 var d = Math.abs(this.currentRotation[0] - this.entity.interAction.chracterAngle[this.id][c.id]);
                 if (d > 180) d = 360 - d;
 
-                if (d < 30) {
+                if (d < 50) {
                     c.die();
                     this.touchList[c.id] = _Data.hurtNumer;
                 }
