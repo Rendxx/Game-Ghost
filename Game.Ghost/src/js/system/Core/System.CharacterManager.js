@@ -72,6 +72,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.checkEnd = function () {
             var isEnd = {};
             var e = -1;
+            var live = 0;
             for (var i = 0; i < len; i++) {
                 if (this.characters[i].role === Data.character.type.survivor) {
                     if (this.characters[i].win) {
@@ -79,12 +80,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         isEnd[this.characters[i].team] = true;
                         e = this.characters[i].team;
                     } else if (this.characters[i].hp > 0) {
+                        live++;
                         isEnd[this.characters[i].team] = false;
                         if (this.characters[i].team === e) e=-1;
                      }
-                }
+                } 
             }
-            return e!==-1;
+            return e !== -1 || live===0;
         };
 
         this.getEndInfo = function () {

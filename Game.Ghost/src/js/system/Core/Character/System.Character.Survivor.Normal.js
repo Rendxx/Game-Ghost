@@ -28,7 +28,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             0xFF0000,
             0x0099CC
         ],
-        protectTime :120
+        protectTime :60
     };
 
     // Construct -----------------------------------------------------
