@@ -33,7 +33,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     //'white': 'player_ghost_white.data.json',
                     'ghost-mary': 'player_ghost_mary.data.json',
                     'ghost-specter': 'player_ghost_specter.data.json',
-                    'ghost-butcher': 'player_ghost_specter.data.json'
+                    'ghost-butcher': 'player_ghost_butcher.data.json'
                 }
             },
             className: {

@@ -1,0 +1,49 @@
+﻿{
+  "id": "ghost-butcher",
+  "path": "ghost-butcher/",
+  "radius": 0.4,
+  "model": "ghost-butcher/player-butcher.json",
+  "portrait": "ghost-butcher/player-butcher.portrait2.png",
+  "color": "0xff0000",
+  "para": {
+    "endurance": {
+      "init": 0,
+      "max": 1000,
+      "cost": 400,
+      "recover": 20
+    },
+    "hp": 1,
+    "speed": {
+      "rotate": {
+        "head": 40,
+        "body": 20
+      },
+      "move": {
+        "walk": 12,
+        "run": 80,
+        "back": -4
+      }
+    },
+    "interactionDistance": 0.42
+  },
+  "action": {
+    "list": {
+      "0": "attack",
+      "1": "back",
+      "2": "init",
+      "3": "die",
+      "4": "idle",
+      "5": "idle2",
+      "6": "run",
+      "7": "turn",
+      "8": "walk"
+    },
+    "init": "3"
+  },
+  "action2D": {
+    "idle": true,
+    "walk": true,
+    "run": true,
+    "attack": false
+  }
+}
