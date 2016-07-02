@@ -19,7 +19,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             useKey: "Key [#key#] is used",
             noKey: "Nothing found",
             win: "Ready to escape. Wait for other survivors...",
-            noPower: "We need to get electricity back to open it"
+            noPower: "Need power!"
         },
         range: {
             danger: 14
