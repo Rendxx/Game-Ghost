@@ -18,6 +18,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             Key: 1,
             Close: 2
         },
+        dangerSpeed: 0.002,
         doorStatus: {
             Locked: 0,
             Opened: 1,
@@ -618,7 +619,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // Fog -------------------------------------------------------
         var updateFog = function (x, y) {
             var d = that.character.danger;
-            sprites["fog"].material.color.g = sprites["fog"].material.color.b = 1 - 0.5 * d;
+            //sprites["fog"].material.color.g = sprites["fog"].material.color.b = 1 - 0.5 * d;
             sprites["fog"].position.set(x, 3 * GridSize - 0.1, y);
         };
 
@@ -632,7 +633,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         var updateEdge = function () {
             var d = that.character.danger;
-            sprites["edges"].material.opacity = d;
+            var d2 = sprites["edges"].material.opacity;
+            if (Math.abs(d2 - d) <= _Data.dangerSpeed) {
+                d2 = d;
+            }
+            else if (d2 < d) {
+                d2 += _Data.dangerSpeed;
+            } else if (d2 > d) {
+                d2 -= _Data.dangerSpeed;
+            }
+            sprites["edges"].material.opacity = d2;
         };
 
         // Helper ----------------------------------------------------

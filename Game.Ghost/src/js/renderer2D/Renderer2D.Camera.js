@@ -16,6 +16,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             Key: 1,
             Close: 2
         },
+        dangerSpeed: 0.002,
         doorStatus: {
             Locked: 0,
             Opened: 1,
@@ -99,6 +100,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             mask = null,
 
             // cache
+            visibleSize = Data.visibleSize,
             ratio = 1,
             _enduranceBarOffset = 0,
             _isLoaded = false,
@@ -120,6 +122,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             this.width = w;
             this.height = h;
             sprites = {};
+            if (that.character.role === Data.character.type.ghost)
+                visibleSize = 30;
+            else
+                visibleSize = 22;
             
             createMessage(scene['hud']);
             createEnduranceBar(scene['hud']);
@@ -192,7 +198,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 }
                 createVision();
             }
-            RENDERER.RayCasting(x / GridSize, y / GridSize, rotation, fov, Data.visibleSize * 3 / 2, entity.map.blockMap, 60, drawShadowMap);
+            RENDERER.RayCasting(x / GridSize, y / GridSize, rotation, fov, visibleSize * 3 / 2, entity.map.blockMap, 60, drawShadowMap);
         };
 
         var drawShadowMap = function (block) {
@@ -200,7 +206,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var y = that.character.y;
             var rotation = that.character.rotation.body + Math.PI / 2;
             var fov = Math.PI / 2;
-            var visibleLen = Data.visibleSize * GridSize * 3 / 2;
+            var visibleLen = visibleSize * GridSize * 3 / 2;
 
             // vision edge
             //var edges = sprites['visionEdge'];
@@ -879,7 +885,16 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
         var updateDanger = function () {
             if (_dangerCache === that.character.danger) return;
-            _dangerCache = Math.max(that.character.danger, entity.map.danger);
+            var d = Math.max(that.character.danger, entity.map.danger);
+
+            if (Math.abs(_dangerCache - d) <= _Data.dangerSpeed) {
+                _dangerCache = d;
+            }
+            else if (_dangerCache < d) {
+                _dangerCache += _Data.dangerSpeed;
+            } else if (_dangerCache > d) {
+                _dangerCache -= _Data.dangerSpeed;
+            }
             sprites["danger"].alpha = _dangerCache;
         };
 
@@ -887,7 +902,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // setup -----------------------------------------------------
         var _setupScale = function () {
             var min = Math.max(that.width, that.height);
-            ratio = min / (Data.visibleSize * GridSize);
+            ratio = min / (visibleSize * GridSize);
             wrap['game'].scale.x = ratio;
             wrap['game'].scale.y = ratio;
         };

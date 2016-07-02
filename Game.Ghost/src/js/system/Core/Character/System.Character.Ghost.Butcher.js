@@ -57,7 +57,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Ghost.prototype.getDanger = function (d) {
-        return 0.3;
+        return Math.max(d-0.3,0);
     };
     
     Ghost.prototype.move = function (direction, directionHead, rush_in, stay_in, headFollow_in) {

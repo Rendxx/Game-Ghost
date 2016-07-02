@@ -30,7 +30,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 Opened: 1,
                 Closed: 2,
                 Blocked: 3,
-                Destroyed: 4
+                Destroyed: 4,
+                NoPower: 5
             },
             generator: {
                 Broken: 0,
@@ -361,11 +362,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             PIXI.loader.add(arr).load(function (loader, resources) {
                 for (var i = 0, l = doors.length; i < l; i++) {
                     if (doors[i] === null) continue;
-                    createDoor(i, doors[i], _layers['door'], function (idx, dat, mesh) {
+                    createDoor(i, doors[i], _layers['door'], function (idx, dat, mesh, isElectric) {
                         var id = dat.id;
                         mesh_door[idx] = (mesh);
 
-                        itemStatus['door'][idx] = _Data.status.door.Closed;
+                        itemStatus['door'][idx] = isElectric ? _Data.status.door.NoPower : _Data.status.door.Closed;
                         _loadCount--;
                         onLoaded();
                     });
@@ -767,6 +768,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var r = dat.rotation;
             var w = para.dimension[0] * GridSize;
             var h = (para.dimension[1]) * GridSize;
+            var isElectric = para.electric === true;
 
             var offset_x = -GridSize / 2;
             var offset_y = -GridSize / 2;
@@ -820,7 +822,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 item.gotoAndStop(0);
                 item.visible = false;
             };
-            onSuccess(idx, dat, item);
+            _animation['door'][idx][_Data.status.door.NoPower] = function () {
+                item.gotoAndStop(0);
+            };
+            onSuccess(idx, dat, item, isElectric);
         };
 
         var loadStuffTex = function (fileArr, para) {
