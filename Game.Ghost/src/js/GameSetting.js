@@ -17,8 +17,8 @@ window.Rendxx.Game.Ghost.GameSetting = {
             id: "Hospital2"
         },
         {
-            name: "Test Apple",
-            id: "TestApple"
+            name: "Test3",
+            id: "test3"
         }
     ],
     ghost: [
@@ -29,6 +29,10 @@ window.Rendxx.Game.Ghost.GameSetting = {
         {
             name: "Specter",
             id: "ghost-specter"
+        },
+        {
+            name: "Butcher",
+            id: "ghost-butcher"
         }
     ],
     survivor: [
