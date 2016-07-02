@@ -18,7 +18,7 @@
       "visible": true,
       "mapDiffuseAnisotropy": 1,
       "transparent": false,
-      "shading": "phong",
+      "shading": "lambert",
       "colorDiffuse": [ 0.8, 0.8, 0.8 ],
       "DbgName": "TableWoodMat.001",
       "blending": "NormalBlending",

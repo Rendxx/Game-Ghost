@@ -1,25 +1,27 @@
 {
     "name":"CubeGeometry",
     "vertices":[1.64302,4.24011,-0.609229,1.64302,3.77784,-0.609229,1.64302,4.24011,0.582417,1.64302,3.77784,0.582417,1.18075,4.24011,-0.609229,1.18075,3.77784,-0.609229,1.18075,4.24011,0.582417,1.18075,3.77784,0.582417,2,3.78688e-07,-0.2,2,3.96172e-07,0.2,-2,9.81492e-08,0.2,-2,8.06647e-08,-0.2,2,8,-0.2,2,8,0.2,-2,8,0.199999,-2,8,-0.2],
-    "materials":[{
-        "mapDiffuse":"door_wood_1.tex.png",
-        "mapDiffuseRepeat":[1,1],
-        "opacity":1,
-        "shading":"phong",
-        "DbgName":"DoorMat",
-        "colorEmissive":[0,0,0],
-        "depthTest":true,
-        "mapDiffuseWrap":["RepeatWrapping","RepeatWrapping"],
-        "transparent":false,
-        "colorDiffuse":[0.8,0.8,0.8],
-        "visible":true,
-        "blending":"NormalBlending",
-        "mapDiffuseAnisotropy":1,
-        "DbgIndex":0,
-        "depthWrite":true,
-        "DbgColor":15658734,
-        "wireframe":false
-    }],
+  "materials": [
+    {
+      "mapDiffuse": "door_wood_1.tex.png",
+      "mapDiffuseRepeat": [ 1, 1 ],
+      "opacity": 1,
+      "shading": "lambert",
+      "DbgName": "DoorMat",
+      "colorEmissive": [ 0, 0, 0 ],
+      "depthTest": true,
+      "mapDiffuseWrap": [ "RepeatWrapping", "RepeatWrapping" ],
+      "transparent": false,
+      "colorDiffuse": [ 0.8, 0.8, 0.8 ],
+      "visible": true,
+      "blending": "NormalBlending",
+      "mapDiffuseAnisotropy": 1,
+      "DbgIndex": 0,
+      "depthWrite": true,
+      "DbgColor": 15658734,
+      "wireframe": false
+    }
+  ],
     "skinIndices":[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
     "uvs":[[0.101923,0.447488,0.00432018,0.447488,0.00432019,0.413622,0.101923,0.413622,0.101923,0.515221,0.00432018,0.515221,0.00432018,0.481354,0.101923,0.481354,0.0115739,0.628571,0.0115739,0.590708,0.0454402,0.590708,0.0454402,0.628571,0.101923,0.481354,0.101923,0.549087,0.00432017,0.549087,0.101923,0.515221,0.0454402,0.590708,0.0793066,0.590708,0.0793066,0.628571,0.0454402,0.628571,0.143964,0.497086,0.120131,0.497086,0.120131,0.073657,0.143964,0.073657,0.970155,0.497086,0.970155,0.0736571,0.993988,0.073657,0.993987,0.497086,0.970155,0.539429,0.143964,0.539429,0.970155,0.962858,0.143964,0.962857,0.143964,0.0313145,0.970155,0.0313142]],
     "bones":[{

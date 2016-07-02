@@ -50666,7 +50666,7 @@
       "mapDiffuseAnisotropy": 1,
       "transparent": false,
       "wireframe": false,
-      "shading": "phong",
+      "shading": "lambert",
       "depthTest": true,
       "mapDiffuse": "player-highcircle.tex.png",
       "blending": "NormalBlending",

@@ -734,7 +734,7 @@
     <Content Include="Model\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.icon.png" />
     <Content Include="Model\Furniture\cabinet_wood_2_1\cabinet_wood_2_1.tex.png" />
     <Content Include="Model\Furniture\cabinet_wood_2_1_b.data.json" />
-    <Content Include="Model\Furniture\cabinet_wood_2_1_b\animation_2d .png" />
+    <Content Include="Model\Furniture\cabinet_wood_2_1_b\animation_2d.png" />
     <Content Include="Model\Furniture\cabinet_wood_2_1_b\cabinet_b.3.json" />
     <Content Include="Model\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.2d.close.png" />
     <Content Include="Model\Furniture\cabinet_wood_2_1_b\cabinet_wood_2_1_b.2d.open.png" />
@@ -1283,7 +1283,6 @@
     <Content Include="Model\Door\door_wood_3\animation_2d.json" />
     <Content Include="Model\Furniture\cabinet_wood_1_1\animation_2d.json" />
     <Content Include="Model\Furniture\cabinet_wood_2_1\animation_2d.json" />
-    <Content Include="Model\Furniture\cabinet_wood_2_1_b\animation_2d .json" />
     <Content Include="Model\Player\bobo\die.json" />
     <Content Include="Model\Player\bobo\idle.json" />
     <Content Include="Model\Player\bobo\run.json" />
@@ -1344,6 +1343,7 @@
     <Content Include="Model\Player\ghost-butcher\player-butcher.json" />
     <Content Include="Model\Player\ghost-butcher\run.json" />
     <Content Include="Model\Player\ghost-butcher\walk.json" />
+    <Content Include="Model\Furniture\cabinet_wood_2_1_b\animation_2d.json" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />

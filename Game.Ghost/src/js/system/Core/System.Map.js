@@ -164,7 +164,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
 
             // add generator
-            var generators = _data.item.generator;
+            var generators = _data.item.generator || [];
             for (var k = 0; k < generators.length; k++) {
                 if (generators[k] === null) continue;
                 var generator = generators[k];
@@ -420,7 +420,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             initGrid(mapData);
             initPosition();
             initFurniture(mapData.item.furniture);
-            initGenerator(mapData.item.generator);
+            initGenerator(mapData.item.generator || []);
             initKey();
             initDoor(mapData.item.door, mapData.doorSetting);
             initBody();

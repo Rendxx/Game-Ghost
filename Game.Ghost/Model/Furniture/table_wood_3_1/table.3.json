@@ -13,24 +13,26 @@
         "materials":1,
         "normals":12
     },
-    "materials":[{
-        "colorEmissive":[0,0,0],
-        "visible":true,
-        "wireframe":false,
-        "mapDiffuseRepeat":[1,1],
-        "transparent":false,
-        "mapDiffuseWrap":["RepeatWrapping","RepeatWrapping"],
-        "DbgName":"TableWoodMat.001",
-        "blending":"NormalBlending",
-        "mapDiffuse":"table_wood_3_1.tex.png",
-        "opacity":1,
-        "depthWrite":true,
-        "DbgIndex":0,
-        "depthTest":true,
-        "mapDiffuseAnisotropy":1,
-        "colorDiffuse":[0.8,0.8,0.8],
-        "shading":"phong",
-        "DbgColor":15658734
-    }],
+  "materials": [
+    {
+      "colorEmissive": [ 0, 0, 0 ],
+      "visible": true,
+      "wireframe": false,
+      "mapDiffuseRepeat": [ 1, 1 ],
+      "transparent": false,
+      "mapDiffuseWrap": [ "RepeatWrapping", "RepeatWrapping" ],
+      "DbgName": "TableWoodMat.001",
+      "blending": "NormalBlending",
+      "mapDiffuse": "table_wood_3_1.tex.png",
+      "opacity": 1,
+      "depthWrite": true,
+      "DbgIndex": 0,
+      "depthTest": true,
+      "mapDiffuseAnisotropy": 1,
+      "colorDiffuse": [ 0.8, 0.8, 0.8 ],
+      "shading": "lambert",
+      "DbgColor": 15658734
+    }
+  ],
     "normals":[-0.577349,-0.577349,-0.577349,0.577349,-0.577349,-0.577349,0.577349,-0.577349,0.577349,-0.577349,-0.577349,0.577349,-0.577349,0.577349,0.577349,-0.577349,0.577349,-0.577349,0.577349,0.577349,0.577349,0.577349,0.577349,-0.577349,0.707083,0,-0.707083,-0.707083,0,-0.707083,0.707083,0,0.707083,-0.707083,0,0.707083]
 }

@@ -11,25 +11,27 @@
         "faces":409
     },
     "name":"CubeGeometry.1",
-    "materials":[{
-        "DbgName":"Material",
-        "DbgColor":15658734,
-        "colorEmissive":[0,0,0],
-        "mapDiffuseRepeat":[1,1],
-        "depthTest":true,
-        "mapDiffuse":"player-mohicans.tex.png",
-        "shading":"phong",
-        "mapDiffuseAnisotropy":1,
-        "transparent":false,
-        "mapDiffuseWrap":["RepeatWrapping","RepeatWrapping"],
-        "visible":true,
-        "colorDiffuse":[0.8,0.8,0.8],
-        "opacity":1,
-        "DbgIndex":0,
-        "depthWrite":true,
-        "wireframe":false,
-        "blending":"NormalBlending"
-    }],
+  "materials": [
+    {
+      "DbgName": "Material",
+      "DbgColor": 15658734,
+      "colorEmissive": [ 0, 0, 0 ],
+      "mapDiffuseRepeat": [ 1, 1 ],
+      "depthTest": true,
+      "mapDiffuse": "player-mohicans.tex.png",
+      "shading": "lambert",
+      "mapDiffuseAnisotropy": 1,
+      "transparent": false,
+      "mapDiffuseWrap": [ "RepeatWrapping", "RepeatWrapping" ],
+      "visible": true,
+      "colorDiffuse": [ 0.8, 0.8, 0.8 ],
+      "opacity": 1,
+      "DbgIndex": 0,
+      "depthWrite": true,
+      "wireframe": false,
+      "blending": "NormalBlending"
+    }
+  ],
     "bones":[{
         "name":"Arm_IK.L",
         "scl":[1,1,1],

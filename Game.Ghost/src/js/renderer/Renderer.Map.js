@@ -310,6 +310,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
 
         var setupGenerator = function (scene, generator) {
+            generator = generator || [];
             mesh_generator = {};
             mesh_generatorLight = {};
             itemTweenCurrent['generator'] = {};

@@ -407,6 +407,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         var setupGenerator = function (scene, staticScene, generator) {
+            generator = generator || [];
             mesh_generator = {};
             mesh_generatorLight = {};
             itemStatus['generator'] = {};
