@@ -73,6 +73,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             case SYSTEM.MapObject.Door.Data.ObjType:
                 if (info.status === SYSTEM.MapObject.Door.Data.Status.Closed) {
                     this.longInteractionObj = this.accessObject;
+                    this.focus = true;
                     obj.block(this.id);
                 }
                 break;
@@ -83,6 +84,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             case SYSTEM.MapObject.Generator.Data.ObjType:
                 if (info.status !== SYSTEM.MapObject.Door.Data.Status.Worked) {
                     this.longInteractionObj = this.accessObject;
+                    this.focus = true;
                     obj.fix(this.id);
                 }
                 break;
@@ -92,6 +94,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Survivor.prototype.cancelLongInteraction = function () {
+        this.focus = false;
         if (this.longInteractionObj !== null) {
             var obj = this.entity.map.objList[this.longInteractionObj.type][this.longInteractionObj.id];
             var info = obj.check();
@@ -113,6 +116,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // use the item in front of the character
     Survivor.prototype.interaction = function () {
         if (!this.actived) return;
+        this.focus = false;
         if (this.accessObject === null) return;
         var obj = this.entity.map.objList[this.accessObject.type][this.accessObject.id];
         var info = obj.check();

@@ -106,7 +106,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (that.character.role === Data.character.type.ghost)
                 that.camera.position.y = 30 * GridSize;
             else
-                that.camera.position.y = 20 * GridSize;
+                that.camera.position.y = 24 * GridSize;
             that.camera.position.x = 0;
             that.camera.position.z = 0;
             that.camera.lookAt(new THREE.Vector3(0, 0, 0));
@@ -166,6 +166,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.render = function () {
             var x = that.character.x;
             var y = that.character.y;
+
+            // update visible
+            for (var i = 0, l = entity.characters.length; i < l; i++) {
+                entity.characters[i].updateVisible(that.character.visibleCharacter[i], that.character === entity.characters[i]);
+            }
 
             // update camera
             that.camera.position.x = x;

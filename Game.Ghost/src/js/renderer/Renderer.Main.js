@@ -139,21 +139,27 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.map.update(_dat_map);
 
             // handle player visible 
-            var playerVisibleList = {};
+            //var playerVisibleList = {};
 
-            for (var i = 0, l = that.characters.length; i < l; i++) {
-                if (this.team[that.characters[i].team]===true) {
-                    playerVisibleList[i] = true;
-                    for (var idx in _dat_character_assist[i][0]) {
-                        if (_dat_character_assist[i][0][idx] === true) playerVisibleList[idx] = true;
-                    }
-                }
-            }
+            //for (var i = 0, l = that.characters.length; i < l; i++) {
+            //    if (this.team[that.characters[i].team]===true) {
+            //        playerVisibleList[i] = true;
+            //        for (var idx in _dat_character_assist[i][0]) {
+            //            if (_dat_character_assist[i][0][idx] === true) playerVisibleList[idx] = true;
+            //        }
+            //    }
+            //}
+
+            //for (var i = 0, l = that.characters.length; i < l; i++) {
+            //    if (_dat_message != null && _dat_message[i] != null) that.characters[i].showMessage(_dat_message[i]);
+            //    that.characters[i].update(_dat_character[i], _dat_character_assist[i], playerVisibleList[i] === true);
+            //}
 
             for (var i = 0, l = that.characters.length; i < l; i++) {
                 if (_dat_message != null && _dat_message[i] != null) that.characters[i].showMessage(_dat_message[i]);
-                that.characters[i].update(_dat_character[i], _dat_character_assist[i], playerVisibleList[i] === true);
+                that.characters[i].update(_dat_character[i], _dat_character_assist[i], true);
             }
+
             that.sound.update(_dat_sound, _dat_character_assist);
             that.noise.update(_dat_noise);
         };

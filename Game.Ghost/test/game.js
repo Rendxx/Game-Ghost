@@ -4,7 +4,7 @@ $(function () {
     // game -----------------------------------------------------
     var _root = null;
     var viewId = 'p1';
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], { 0: true, 1: true });
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], { 0: false, 1: true, 2: true });
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -53,34 +53,34 @@ $(function () {
             modelId: 'capboy',
             team: 1
         },
-        //'p3': {
-        //    id: 'p3',
-        //    name: 'player 3',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'highcircle',
-        //    team: 1
-        //},
-        //'p4': {
-        //    id: 'p4',
-        //    name: 'player 4',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'girl1',
-        //    team: 1
-        //},
-        //'p5': {
-        //    id: 'p5',
-        //    name: 'player 5',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'mohicans',
-        //    team: 2
-        //},
-        //'p6': {
-        //    id: 'p6',
-        //    name: 'player 6',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'girl2',
-        //    team: 2
-        //},
+        'p3': {
+            id: 'p3',
+            name: 'player 3',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'highcircle',
+            team: 1
+        },
+        'p4': {
+            id: 'p4',
+            name: 'player 4',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'girl1',
+            team: 1
+        },
+        'p5': {
+            id: 'p5',
+            name: 'player 5',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'mohicans',
+            team: 2
+        },
+        'p6': {
+            id: 'p6',
+            name: 'player 6',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'girl2',
+            team: 2
+        },
         'p7': {
             id: 'p7',
             name: 'player 7',

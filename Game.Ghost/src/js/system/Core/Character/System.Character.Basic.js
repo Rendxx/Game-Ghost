@@ -57,6 +57,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         this.requiredRotation = [0, 0]; // [head, body]
         this.actived = true;
+        this.focus = false;         // flag: character is focus on working on something
         this.rush = false;          // flag: character is rushing
         this.stay = true;           // flag: character does not move
         this.headFollow = true;     // flag: character dose not turn his head
@@ -322,9 +323,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             var c = this.entity.characterManager.characters[i];
             if (!c.actived || c.team == this.team)
                 this.visibleCharacter[c.id] = true;
-            else
+            else {
                 this.visibleCharacter[c.id] = this.entity.interAction.checkVisible(this, c);
+                this.visibleCharacter[c.id] = c.checkVisible(this, this.visibleCharacter[c.id]);
+            }
         }
+    };
+    
+    Basic.prototype.checkVisible = function (c, isVisible) {
+        return isVisible;
     };
 
     Basic.prototype.nextInterval = function () {

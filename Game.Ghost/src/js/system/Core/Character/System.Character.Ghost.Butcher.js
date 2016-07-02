@@ -132,6 +132,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             this.obCount = 24;
         }
     };
+    
+    Ghost.prototype.checkVisible = function (c, isVisible) {
+        return c.focus || c.rush ? isVisible : true;
+    };
 
     Ghost.prototype.kill = function () {
         if (this.isAction) return;

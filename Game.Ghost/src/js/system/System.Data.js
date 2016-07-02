@@ -164,10 +164,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         },
         noise: {
             door: {
-                probability: 0.1
+                probability: 0.05
             },
             furniture: {
-                probability: 0.02
+                probability: 0.01
             },
             key: {
                 probability: 0.2

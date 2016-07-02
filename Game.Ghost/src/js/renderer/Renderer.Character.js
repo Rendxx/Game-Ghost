@@ -58,6 +58,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.mixer = null;
         this.setuped = false;
         this.message = null;
+        this.visibleCharacter = [];
         this.isVisible = false;
         this.danger = 0;
         this.isDead = false;
@@ -119,11 +120,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 lightType = gameData.light;
             }
 
+            that.visibleCharacter = gameData.visibleCharacter;
             that.isVisible = isVisible_in;
         };
 
         this.showMessage = function (msg) {
             this.message = msg;
+        };
+
+        this.updateVisible = function (isVisible, topLight) {
+            if (this.mesh === null) return;
+            this.isVisible = isVisible===true;
+            this.mesh.visible = this.isVisible;
+            this.highlight.visible = this.isVisible;
+            if (this.torch) this.torch.visible = this.isVisible;
+            if (this.topLight) this.topLight.visible = topLight === true;
         };
 
         // render model
@@ -132,7 +143,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (this.isVisible === false) {
                 this.mesh.visible = false;
                 this.highlight.visible = false;
-                return;
+                //return;
             } else {
                 this.mesh.visible = true;
                 this.highlight.visible = true;
