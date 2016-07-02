@@ -109,7 +109,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             if (that.character.role === Data.character.type.ghost)
                 that.camera.position.y = 30 * GridSize;
             else
-                that.camera.position.y = 24 * GridSize;
+                that.camera.position.y = 22 * GridSize;
             that.camera.position.x = 0;
             that.camera.position.z = 0;
             that.camera.lookAt(new THREE.Vector3(0, 0, 0));

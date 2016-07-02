@@ -73,7 +73,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             this.map.setup();
             this.interAction.reset();
             this.characterManager.setup(this.map.position.survivor, this.map.position.ghost);
-            this.map.setElecticNeed(this.characterManager.survivorNumber);
+            this.map.setElecticNeed(this.characterManager.survivorNumber+1);
             this.userInput.reset(this.characterManager.characters, this.characterManager.index2Id);
             var setupData = {
                 'model': modelData,

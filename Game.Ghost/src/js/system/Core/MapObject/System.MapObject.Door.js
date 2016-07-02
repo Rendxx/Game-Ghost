@@ -135,6 +135,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Door.prototype.powerOn = function () {
         this.status = this._lockCache ? _Data.Status.Locked : _Data.Status.Closed;
+        this.entity.interAction.updateInteraction(this.objType, this.id);
         this.updateData();
     };
 
