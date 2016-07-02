@@ -80,6 +80,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:
                 break;
+            case SYSTEM.MapObject.Generator.Data.ObjType:
+                if (info.status !== SYSTEM.MapObject.Door.Data.Status.Worked) {
+                    this.longInteractionObj = this.accessObject;
+                    obj.fix(this.id);
+                }
+                break;
         }
         this.entity.interAction.updateInteraction(obj.objType, info.id);
         this.updateData();
@@ -94,6 +100,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     if (info.status === SYSTEM.MapObject.Door.Data.Status.Closed) {
                         obj.unblock(this.id);
                     }
+                    break;
+                case SYSTEM.MapObject.Generator.Data.ObjType:
+                    obj.stopFix(this.id);
                     break;
             }
         }
@@ -196,6 +205,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     this.entity.message.send(this.id, _Data.message.getKey + keyNames.substring(0, keyNames.length - 2));
                 }
                 break;
+            case SYSTEM.MapObject.Generator.Data.ObjType:
+                break;
         }
         this.entity.interAction.updateInteraction(obj.objType, info.id);
         this.updateData();
@@ -232,6 +243,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             case SYSTEM.MapObject.Body.Data.ObjType:
                 return [SYSTEM.MapObject.Body.Data.Operation.Search];
                 break;
+            case SYSTEM.MapObject.Generator.Data.ObjType:
+                if (info.status !== SYSTEM.MapObject.Door.Data.Status.Worked) {
+                    return [SYSTEM.MapObject.Generator.Data.Operation.Fix];
+                }
         }
         return [SYSTEM.MapObject.Basic.Data.Operation.None];
     };
@@ -324,7 +339,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         this.triggeringList = triggerList;
     };
-
+    
     Survivor.prototype.die = function () {
         if (!this.actived || this.protect>0) return;
         if (this.hp === Data.character.para.survivor.init.hp) {

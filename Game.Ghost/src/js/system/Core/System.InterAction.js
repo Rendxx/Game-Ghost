@@ -17,7 +17,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             height = 0,
             statusList = {
                 door: {},           // door id: door status
-                furniture: {}       // furniture id: furniture status
+                furniture: {},      // furniture id: furniture status
+                generator: {}       // generator id: generator status
             },
             emptyPos = [],
             emptyGrids = [],
@@ -202,6 +203,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         };
 
         var _checkVisibleLine = function (x1, y1, x2, y2, objType, objId) {
+            objId = Number(objId);
             var r = Math.atan2(x2 - x1, y2 - y1) * 180 / Math.PI;
             if (x1 === x2) {
                 var y_min = Math.min(y1, y2),
@@ -256,6 +258,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 }
                 return true;
             }
+            if (map.grid.empty[y][x] === SYSTEM.Map.Data.Grid.Generator) {
+                if (!(objType === SYSTEM.Map.Data.Grid.Generator && objId === map.grid.generator[y][x])) {
+                    return false;
+                }
+                return true;
+            }
 
             return false;
         };
@@ -293,6 +301,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             objOperation = {
                 furniture: {},
                 door: {},
+                generator: {},
                 body: {}
             };
 
@@ -320,6 +329,20 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         'type': 'door',
                         'id': k,
                         'op': characters[c].checkOperation(door)
+                    };
+                }
+            }
+
+            var generators = map.objList.generator;
+            for (var k in generators) {
+                var generator = generators[k];
+
+                objOperation['generator'][k] = [];
+                for (var c = 0, l = characters.length; c < l; c++) {
+                    objOperation['generator'][k][c] = {
+                        'type': 'generator',
+                        'id': k,
+                        'op': characters[c].checkOperation(generator)
                     };
                 }
             }
@@ -365,7 +388,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var new_x = (r1 === 0 || r1 === 3 ? 1 : -1) * Math.abs(((r & 1) === 0) ? p[0] : p[1]) + x;
                     var new_y = (r1 === 0 || r1 === 1 ? 1 : -1) * Math.abs(((r & 1) === 0) ? p[1] : p[0]) + y;
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
-                    if (accessGrid_angle[new_y][new_x] === null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {}, body: {} };
+                    if (accessGrid_angle[new_y][new_x] === null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {}, generator: {}, body: {} };
                     accessGrid_angle[new_y][new_x]['furniture'][k] = -1;
                 }
             }
@@ -386,10 +409,32 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var new_x = (r1 === 0 || r1 === 3 ? 1 : -1) * Math.abs(((r & 1) === 0) ? p[0] : p[1]) + x;
                     var new_y = (r1 === 0 || r1 === 1 ? 1 : -1) * Math.abs(((r & 1) === 0) ? p[1] : p[0]) + y;
                     if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
-                    if (accessGrid_angle[new_y][new_x] === null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {}, body: {} };
+                    if (accessGrid_angle[new_y][new_x] === null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {}, generator: {}, body: {} };
                     accessGrid_angle[new_y][new_x]['door'][k] = -1;
                 }
             }
+
+            // add accesslist for generator
+            var generators = map.objList.generator;
+            for (var k in generators) {
+                var generator = generators[k];
+                var x = generator.anchor[0];
+                var y = generator.anchor[1];
+                var r = generator.rotation;
+                var accessPos = generator.modelData.accessPos;
+                if (accessPos === null || accessPos === undefined) continue;
+
+                for (var i = 0; i < accessPos.length; i++) {
+                    var p = accessPos[i];
+                    var r1 = (((p[1] >= 0) ? (p[0] >= 0 ? 0 : 1) : (p[0] >= 0 ? 3 : 2)) + r) % 4;
+                    var new_x = (r1 === 0 || r1 === 3 ? 1 : -1) * Math.abs(((r & 1) === 0) ? p[0] : p[1]) + x;
+                    var new_y = (r1 === 0 || r1 === 1 ? 1 : -1) * Math.abs(((r & 1) === 0) ? p[1] : p[0]) + y;
+                    if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) continue;
+                    if (accessGrid_angle[new_y][new_x] === null) accessGrid_angle[new_y][new_x] = { furniture: {}, door: {}, generator: {}, body: {} };
+                    accessGrid_angle[new_y][new_x]['generator'][k] = -1;
+                }
+            }
+
 
             // add accesslist for body
             var bodies = map.objList.body;
@@ -429,17 +474,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             if (t !== -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 225;
                             t = map.grid.door[i - 1][j - 1];
                             if (t !== -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 225;
+                            t = map.grid.generator[i - 1][j - 1];
+                            if (t !== -1 && accessGrid_angle[i][j].generator.hasOwnProperty(t)) accessGrid_angle[i][j].generator[t] = 225;
                         }
                         if (j < width - 1) {
                             t = map.grid.furniture[i - 1][j + 1];
                             if (t !== -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 135;
                             t = map.grid.door[i - 1][j + 1];
                             if (t !== -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 135;
+                            t = map.grid.generator[i - 1][j + 1];
+                            if (t !== -1 && accessGrid_angle[i][j].generator.hasOwnProperty(t)) accessGrid_angle[i][j].generator[t] = 135;
                         }
                         t = map.grid.furniture[i - 1][j];
                         if (t !== -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 180;
                         t = map.grid.door[i - 1][j];
                         if (t !== -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 180;
+                        t = map.grid.generator[i - 1][j];
+                        if (t !== -1 && accessGrid_angle[i][j].generator.hasOwnProperty(t)) accessGrid_angle[i][j].generator[t] = 180;
                     }
                     if (i < height - 1) {
                         if (j > 0) {
@@ -447,29 +498,39 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             if (t !== -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 315;
                             t = map.grid.door[i + 1][j - 1];
                             if (t !== -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 315;
+                            t = map.grid.generator[i + 1][j - 1];
+                            if (t !== -1 && accessGrid_angle[i][j].generator.hasOwnProperty(t)) accessGrid_angle[i][j].generator[t] = 315;
                         }
                         if (j < width - 1) {
                             t = map.grid.furniture[i + 1][j + 1];
                             if (t !== -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 45;
                             t = map.grid.door[i + 1][j + 1];
                             if (t !== -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 45;
+                            t = map.grid.generator[i + 1][j + 1];
+                            if (t !== -1 && accessGrid_angle[i][j].generator.hasOwnProperty(t)) accessGrid_angle[i][j].generator[t] = 45;
                         }
                         t = map.grid.furniture[i + 1][j];
                         if (t !== -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 0;
                         t = map.grid.door[i + 1][j];
                         if (t !== -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 0;
+                        t = map.grid.generator[i + 1][j];
+                        if (t !== -1 && accessGrid_angle[i][j].generator.hasOwnProperty(t)) accessGrid_angle[i][j].generator[t] = 0;
                     }
                     if (j > 0) {
                         t = map.grid.furniture[i][j - 1];
                         if (t !== -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 270;
                         t = map.grid.door[i][j - 1];
                         if (t !== -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 270;
+                        t = map.grid.generator[i][j - 1];
+                        if (t !== -1 && accessGrid_angle[i][j].generator.hasOwnProperty(t)) accessGrid_angle[i][j].generator[t] = 270;
                     }
                     if (j < width - 1) {
                         t = map.grid.furniture[i][j + 1];
                         if (t !== -1 && accessGrid_angle[i][j].furniture.hasOwnProperty(t)) accessGrid_angle[i][j].furniture[t] = 90;
                         t = map.grid.door[i][j + 1];
                         if (t !== -1 && accessGrid_angle[i][j].door.hasOwnProperty(t)) accessGrid_angle[i][j].door[t] = 90;
+                        t = map.grid.generator[i][j + 1];
+                        if (t !== -1 && accessGrid_angle[i][j].generator.hasOwnProperty(t)) accessGrid_angle[i][j].generator[t] = 90;
                     }
                 }
             }
@@ -501,6 +562,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             accessGrid[i][j][c].push({
                                 angle: accessGrid_angle[i][j].door[k],
                                 info: objOperation.door[k][c]
+                            });
+                        }
+                    }
+                    for (var k in accessGrid_angle[i][j].generator) {
+                        for (var c = 0; c < characters.length; c++) {
+                            accessGrid[i][j][c].push({
+                                angle: accessGrid_angle[i][j].generator[k],
+                                info: objOperation.generator[k][c]
                             });
                         }
                     }
@@ -553,7 +622,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 soundGrid[i] = [];
 
                 for (var j = 0; j < width; j++) {
-                    soundGrid[i][j] = { furniture: {}, door: {}, body: {} };
+                    soundGrid[i][j] = { furniture: {}, door: {}, generator: {}, body: {} };
                     var x_min = j - range;
                     var x_max = j + range;
                     var y_min = i - range;
@@ -579,6 +648,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                                 if (!(d_id in soundGrid[i][j].door) || soundGrid[i][j].door[d_id] > r)
                                     soundGrid[i][j].door[d_id] = r;
                             }
+                            // generator
+                            var d_id = map.grid.generator[m][n];
+                            if (d_id !== -1) {
+                                var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
+                                if (!(d_id in soundGrid[i][j].generator) || soundGrid[i][j].generator[d_id] > r)
+                                    soundGrid[i][j].generator[d_id] = r;
+                            }
                             // body
                             var b_id = map.grid.body[m][n];
                             if (b_id !== -1) {
@@ -600,6 +676,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         if (!_checkVisibleLine(j, i, map.objList.door[t].x, map.objList.door[t].y, SYSTEM.Map.Data.Grid.door, t))
                             soundGrid[i][j].door[t] += 1;
                         if (soundGrid[i][j].door[t] > range) delete soundGrid[i][j].door[t];
+                    }
+                    for (var t in soundGrid[i][j].generator) {
+                        soundGrid[i][j].generator[t] = Math.sqrt(soundGrid[i][j].generator[t]);
+                        if (!_checkVisibleLine(j, i, map.objList.generator[t].x, map.objList.generator[t].y, SYSTEM.Map.Data.Grid.generator, t))
+                            soundGrid[i][j].generator[t] += 1;
+                        if (soundGrid[i][j].generator[t] > range) delete soundGrid[i][j].generator[t];
                     }
                     for (var t in soundGrid[i][j].body) {
                         soundGrid[i][j].body[t] = Math.sqrt(soundGrid[i][j].body[t]);
@@ -636,7 +718,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             // furniture
                             var f_id = map.grid.furniture[m][n];
                             if (f_id !== -1) {
-                                if (sGrid[i][j] === null) sGrid[i][j] = { furniture: {}, door: {}, body: {} };
+                                if (sGrid[i][j] === null) sGrid[i][j] = { furniture: {}, door: {}, generator: {}, body: {} };
                                 var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
                                 if (!(f_id in sGrid[i][j].furniture) || sGrid[i][j].furniture[f_id] > r)
                                     sGrid[i][j].furniture[f_id] = r;
@@ -644,15 +726,23 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                             // door
                             var d_id = map.grid.door[m][n];
                             if (d_id !== -1) {
-                                if (sGrid[i][j] === null) sGrid[i][j] = { furniture: {}, door: {}, body: {} };
+                                if (sGrid[i][j] === null) sGrid[i][j] = { furniture: {}, door: {}, generator: {}, body: {} };
                                 var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
                                 if (!(d_id in sGrid[i][j].door) || sGrid[i][j].door[d_id] > r)
                                     sGrid[i][j].door[d_id] = r;
                             }
+                            // generator
+                            var d_id = map.grid.generator[m][n];
+                            if (d_id !== -1) {
+                                if (sGrid[i][j] === null) sGrid[i][j] = { furniture: {}, door: {}, generator: {}, body: {} };
+                                var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
+                                if (!(d_id in sGrid[i][j].generator) || sGrid[i][j].generator[d_id] > r)
+                                    sGrid[i][j].generator[d_id] = r;
+                            }
                             // body
                             var b_id = map.grid.body[m][n];
                             if (b_id !== -1) {
-                                if (sGrid[i][j] === null) sGrid[i][j] = { furniture: {}, door: {}, body: {} };
+                                if (sGrid[i][j] === null) sGrid[i][j] = { furniture: {}, door: {}, generator: {}, body: {} };
                                 var r = Math.pow(m - i, 2) + Math.pow(n - j, 2);
                                 if (!(b_id in sGrid[i][j].body) || sGrid[i][j].body[b_id] > r)
                                     sGrid[i][j].body[b_id] = r;
@@ -668,6 +758,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         if (sGrid[i][j].door[t] > range2 || !_checkVisibleLine(j, i, map.objList.door[t].x, map.objList.door[t].y, SYSTEM.Map.Data.Grid.Door, t)) delete sGrid[i][j].door[t];
                         else sGrid[i][j].door[t] = [sGrid[i][j].door[t], (360 + Math.atan2(map.objList.door[t].x - j + 0.5, map.objList.door[t].y - i + 0.5) * 180 / Math.PI) % 360];
                     }
+                    for (var t in sGrid[i][j].generator) {
+                        if (sGrid[i][j].generator[t] > range2 || !_checkVisibleLine(j, i, map.objList.generator[t].x, map.objList.generator[t].y, SYSTEM.Map.Data.Grid.Generator, t)) delete sGrid[i][j].generator[t];
+                        else sGrid[i][j].generator[t] = [sGrid[i][j].generator[t], (360 + Math.atan2(map.objList.generator[t].x - j + 0.5, map.objList.generator[t].y - i + 0.5) * 180 / Math.PI) % 360];
+                    }
                     for (var t in sGrid[i][j].body) {
                         if (sGrid[i][j].body[t] > range2 || !_checkVisibleLine(j, i, map.objList.body[t].x, map.objList.body[t].y, SYSTEM.Map.Data.Grid.Door, t)) delete sGrid[i][j].body[t];
                         else sGrid[i][j].body[t] = [sGrid[i][j].body[t], (360 + Math.atan2(map.objList.body[t].x - j + 0.5, map.objList.body[t].y - i + 0.5) * 180 / Math.PI) % 360];
@@ -676,6 +770,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     var nothing = true;
                     for (var t in sGrid[i][j].furniture) { nothing = false; break; }
                     for (var t in sGrid[i][j].door) { nothing = false; break; }
+                    for (var t in sGrid[i][j].generator) { nothing = false; break; }
                     for (var t in sGrid[i][j].body) { nothing = false; break; }
                     if (nothing) sGrid[i][j] = null;
                 }
@@ -712,6 +807,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                                 angle: sGrid[i][j].door[k][1],
                                 dst: sGrid[i][j].door[k][0],
                                 info: objOperation.door[k][c]
+                            });
+                        }
+                    }
+                    for (var k in sGrid[i][j].generator) {
+                        for (var c = 0; c < characters.length; c++) {
+                            surroundGrid[i][j][c].push({
+                                angle: sGrid[i][j].generator[k][1],
+                                dst: sGrid[i][j].generator[k][0],
+                                info: objOperation.generator[k][c]
                             });
                         }
                     }

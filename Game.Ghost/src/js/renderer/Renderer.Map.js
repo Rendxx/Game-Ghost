@@ -31,6 +31,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 Closed: 2,
                 Blocked: 3,
                 Destroyed: 4
+            },
+            generator: {
+                Broken: 0,
+                Fixing: 1,
+                Worked: 2
             }
         },
         animationId: {
@@ -89,6 +94,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             combined_furniture = null,
             mesh_stuff = null,          // stuff
             combined_stuff = null,
+            mesh_generator = null,      // generator
+            combined_generator = null,
             mesh_key = null,            // key objects: funiture id: key object
             combined_key = null;
 
@@ -99,7 +106,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.objectPos = {              //  id: [x, y]
             furniture: {},
             door: {},
-            body: {}
+            body: {},
+            generator: {}
         };
         this.posEnd = null;
         this.ambient = null;
@@ -125,6 +133,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             setupDoor(_scene, mapData.item.door);
             setupBody();
             setupFurniture(_scene, mapData.item.furniture);
+            setupGenerator(_scene, mapData.item.generator);
             setupStuff(_scene, mapData.item.stuff);
             setupKey(_scene);
 
@@ -153,6 +162,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             for (var i in combined_door)
                 for (var j = 0, l2 = combined_door[i].material.materials.length; j < l2; j++)
                     combined_door[i].material.materials[j].needsUpdate = true;
+            for (var i in combined_generator)
+                for (var j = 0, l2 = combined_generator[i].material.materials.length; j < l2; j++)
+                    combined_generator[i].material.materials[j].needsUpdate = true;
             for (var i in combined_furniture)
                 for (var j = 0, l2 = combined_furniture[i].material.materials.length; j < l2; j++)
                     combined_furniture[i].material.materials[j].needsUpdate = true;
@@ -288,6 +300,27 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             }
         };
 
+
+        var setupGenerator = function (scene, generator) {
+            mesh_generator = {};
+            itemStatus['generator'] = {};
+
+            for (var i = 0, l = generator.length; i < l; i++) {
+                if (generator[i] === null) continue;
+                _loadCount++;
+                createGenerator(i, generator[i], scene, function (idx, dat, mesh) {
+                    var id = dat.id;
+                    if (!mesh_generator.hasOwnProperty(id)) mesh_generator[id] = [];
+                    mesh_generator[id].push(mesh);
+
+                    itemStatus['generator'][idx] = _Data.status.generator.Broken;
+                    _loadCount--;
+                    onLoaded();
+                });
+            }
+        };
+
+        
         var setupBody = function () {
             itemData['body'] = {};
         };
@@ -632,6 +665,39 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 onSuccess(idx, dat, mesh, tweenNew);
             });
         };
+        
+        var createGenerator = function (idx, dat, scene, onSuccess) {
+            if (dat === null) return null;
+            var id = dat.id;
+            var x = (dat.left + dat.right + 1 - that.width) / 2 * GridSize;
+            var y = (dat.top + dat.bottom + 1 - that.height) / 2 * GridSize;
+            var r = dat.rotation;
+            var w = (dat.right - dat.left + 1) * GridSize;
+            var h = (dat.bottom - dat.top + 1) * GridSize;
+            var para = _modelData.items[Data.categoryName.generator][id];
+
+            var mesh = null;
+
+            //console.log(dat);
+            //aconsole.log(id, 'x:' + x, 'y:' + y, 'w:' + w, 'h:' + h, 'r:' + r);
+
+            that.objectPos.generator[idx] = [x, y];
+
+            var loader = new THREE.JSONLoader();
+            loader.load(root + Data.files.path[Data.categoryName.generator] + para.id + '/' + para.model, function (geometry, materials) {
+                var mesh = null;
+                    mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+                mesh.position.x = x;
+                mesh.position.z = y;
+                mesh.rotation.y = (4 - r) / 2 * Math.PI;
+
+                onSuccess(idx, dat, mesh);
+            });
+        };
 
         var createStuff = function (dat, scene, onSuccess) {
             if (dat === null) return null;
@@ -919,6 +985,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 }
             }
 
+            // generator 
+            if (combined_generator !== null) {
+                for (var id in combined_generator) _scene.remove(combined_generator[id]);
+            }
+            combined_generator = {};
+            for (var id in mesh_generator) {
+                for (var i = 0; i < mesh_generator[id].length; i++) {
+                    var idx = id + '__' + i;
+                    combined_generator[idx] = mesh_generator[id][i];
+                    combined_generator[idx].castShadow = true;
+                    combined_generator[idx].receiveShadow = true;
+                    _scene.add(combined_generator[idx]);
+                }
+            }
+                        
             // stuff 
             if (combined_stuff !== null) {
                 for (var id in combined_stuff) _scene.remove(combined_stuff[id]);

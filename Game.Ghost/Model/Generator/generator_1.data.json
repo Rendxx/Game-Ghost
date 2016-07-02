@@ -1,0 +1,23 @@
+﻿{
+  "id": "generator_1",
+  "dimension": [ 1, 1, 1 ],
+  "blockSight": false,
+  "accessPos": [
+    [ -1, -1 ],
+    [ -1, 0 ],
+    [ -1, 1 ],
+
+    [ 0, -1 ],
+    [ 0, 1 ],
+
+    [ 1, -1 ],
+    [ 1, 0 ],
+    [ 1, 1 ]
+  ],
+  "process": 400,
+  "slotInside": false,
+  "model": "generator_1.json",
+  "texture": [ "generator_1.tex.png" ],
+  "model2D": [ "generator_1.2d.png" ],
+  "icon": "generator_1.icon.png"
+}

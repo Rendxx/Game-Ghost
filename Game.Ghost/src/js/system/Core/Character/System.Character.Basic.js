@@ -304,6 +304,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype._updateStatus = function () {
     };
 
+    Basic.prototype._updateLongInteraction = function () {
+    };
+    
     Basic.prototype._updateInteraction = function () {
         this.visibleObject = this.entity.interAction.checkInteractionObj(this.id, this.x, this.y, this.currentRotation[0]);
         this.soundObject = this.entity.interAction.checkSoundObj(this.id, this.x, this.y);
@@ -330,6 +333,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this._updateStatus();
         this._updateMove();
         this._updatePositionTrigger();
+        this._updateLongInteraction();
         this._updateInteraction();
         this._updateVisible();
         this.updateData();

@@ -14,14 +14,16 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             Wall: 1,
             Furniture: 2,
             Door: 3,
-            Body: 4
+            Body: 4,
+            Generator: 5
         },
         ObjectMap: {
             0: 'empty',
             1: 'wall',
             2: 'furniture',
             3: 'door',
-            4: 'body'
+            4: 'body',
+            5: 'generator'
         },
         bodyId: 'body_1'
     };
@@ -37,6 +39,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             furniture: [],
             wall: [],
             door: [],
+            generator: [],
             body: [],
             empty: []
         };
@@ -44,6 +47,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             furniture: {},
             door: {},
             body: {},
+            generator: {},
             key: {},
             position: {}
         };
@@ -61,6 +65,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             this.setupData = {};
             setupPosition(mapData.item.position);
             setupFurniture();
+            setupGenerator();
             setupKey(mapData.doorSetting);
             setupDoor(mapData.doorSetting);
             setupBody();
@@ -71,6 +76,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             this.setupData = setupData_in;
             recoverPosition(setupData_in.position);
             recoverFurniture();
+            recoverGenerator();
             recoverKey(setupData_in.key);
             recoverDoor();
             recoverBody();
@@ -95,6 +101,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 furniture: [],
                 wall: [],
                 door: [],
+                generator: [],
                 empty: [],
                 body: []
             };
@@ -104,12 +111,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 that.grid.furniture[i] = [];
                 that.grid.wall[i] = [];
                 that.grid.door[i] = [];
+                that.grid.generator[i] = [];
                 that.grid.empty[i] = [];
                 that.grid.body[i] = [];
                 for (var j = 0; j < _data.grid.width; j++) {
                     that.grid.furniture[i][j] = -1;
                     that.grid.wall[i][j] = -1;
                     that.grid.door[i][j] = -1;
+                    that.grid.generator[i][j] = -1;
                     that.grid.body[i][j] = -1;
                     that.grid.empty[i][j] = _Data.Grid.Empty;
                 }
@@ -150,6 +159,19 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     for (var j = door.left; j <= door.right; j++) {
                         that.grid.empty[i][j] = _Data.Grid.Door;
                         that.grid.door[i][j] = k;
+                    }
+                }
+            }
+
+            // add generator
+            var generators = _data.item.generator;
+            for (var k = 0; k < generators.length; k++) {
+                if (generators[k] === null) continue;
+                var generator = generators[k];
+                for (var i = generator.top; i <= generator.bottom; i++) {
+                    for (var j = generator.left; j <= generator.right; j++) {
+                        that.grid.empty[i][j] = _Data.Grid.Generator;
+                        that.grid.generator[i][j] = k;
                     }
                 }
             }
@@ -223,6 +245,34 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var recoverFurniture = function () {
             for (var k in gameData[0].f) {
                 that.objList.furniture[k].reset(gameData[0].f[k]);
+            }
+        };
+
+        // generator --------------------------------------------
+        var initGenerator = function (generators) {
+            that.objList.generator = {};
+            for (var k = 0; k < generators.length; k++) {
+                if (generators[k] === null) continue;
+                var f = generators[k];
+                that.objList.generator[k] = new SYSTEM.MapObject.Generator(k, f, modelData.items[Data.item.categoryName.generator][f.id], entity);
+                that.objList.generator[k].onChange = function (idx, data) {
+                    gameData[0].f[idx] = data;
+                    gameData[1].f = gameData[1].f || {};
+                    gameData[1].f[idx] = data;
+                };
+            }
+        };
+
+        var setupGenerator = function () {
+            gameData[0].f = {};
+            for (var k in that.objList.generator) {
+                gameData[0].f[k] = that.objList.generator[k].toJSON();
+            }
+        };
+
+        var recoverGenerator = function () {
+            for (var k in gameData[0].f) {
+                that.objList.generator[k].reset(gameData[0].f[k]);
             }
         };
 
@@ -370,6 +420,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             initGrid(mapData);
             initPosition();
             initFurniture(mapData.item.furniture);
+            initGenerator(mapData.item.generator);
             initKey();
             initDoor(mapData.item.door, mapData.doorSetting);
             initBody();

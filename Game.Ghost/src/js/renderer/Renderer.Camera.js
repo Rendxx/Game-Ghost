@@ -39,6 +39,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 Block: 5,
                 Destroy: 6
             },
+            generator: {
+                Fix: 1
+            },
             body: {
                 Search: 1
             }
@@ -58,12 +61,14 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 normal: {
                     furniture: {},
                     door: {},
-                    body: {}
+                    body: {},
+                    generator: {}
                 },
                 highlight: {
                     furniture: {},
                     door: {},
-                    body: {}
+                    body: {},
+                    generator: {}
                 }
             },
             msg = null,
@@ -332,7 +337,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var visibleObject = {
                 furniture: {},      // {id : op}
                 door: {},
-                body: {}
+                body: {},
+                generator: {}
             };
             for (var i = 0; i < that.character.visibleObject.length; i++) {
                 visibleObject[that.character.visibleObject[i].type][that.character.visibleObject[i].id] = that.character.visibleObject[i].op[0];
@@ -764,6 +770,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     'door': {
                     },
                     'body': {
+                    },
+                    'generator': {
                     }
                 },
                 'highlight': {
@@ -772,6 +780,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     'door': {
                     },
                     'body': {
+                    },
+                    'generator': {
                     }
                 }
             };
@@ -789,6 +799,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction']['normal']['door'][_Data.operation.door.Destroy] = textureLoader.load(path + 'interaction.destroy.png');
             tex['interaction']['normal']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock.png');
             tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock.png');
+            tex['interaction']['normal']['generator'][_Data.operation.generator.Fix] = textureLoader.load(path + 'interaction.fix.png');
             //tex['interaction']['normal']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.block.png');
 
             tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open-2.png');
@@ -802,6 +813,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = textureLoader.load(path + 'interaction.lock-2.png');
             tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = textureLoader.load(path + 'interaction.unlock-2.png');
             tex['interaction']['highlight']['door'][_Data.operation.door.Block] = textureLoader.load(path + 'interaction.door.block-2.png');
+            tex['interaction']['highlight']['generator'][_Data.operation.generator.Fix] = textureLoader.load(path + 'interaction.fix-2.png');
 
             tex['noise'][RENDERER.Noise.Data.Name.Key] = textureLoader.load(path + 'noise.bg.png');
             tex['noise'][RENDERER.Noise.Data.Name.Door] = textureLoader.load(path + 'noise.door.png');

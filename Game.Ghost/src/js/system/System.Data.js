@@ -90,11 +90,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 furniture: 'furniture',
                 body: 'body',
                 stuff: 'stuff',
-                door: 'door'
+                door: 'door',
+                generator: 'generator'
             },
             categoryOrder: [
                 'stuff',
                 'body',
+                'generator',
                 'furniture',
                 'door',
                 'wall',
@@ -138,6 +140,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     'Door (Wood) 2': 'door_wood_2.data.json',
                     'Door (Wood) 3': 'door_wood_3.data.json',
                 },
+                generator: {
+                    'Generator 1': 'generator_1.data.json',
+                },
                 body: {
                     'Body 1': 'body_1.data.json',
                 }
@@ -148,7 +153,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 furniture: '/Model/Furniture/',
                 body: '/Model/Body/',
                 stuff: '/Model/Stuff/',
-                door: '/Model/Door/'
+                door: '/Model/Door/',
+                generator: '/Model/Generator/'
             },
             positionType: {
                 survivor: 'start_1',
@@ -165,6 +171,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             },
             key: {
                 probability: 0.2
+            },
+            generator: {
+                probability: 0.001
             }
         },
         map: {

@@ -99,6 +99,7 @@
         "#src#/system/Core/MapObject/System.MapObject.Basic.js",
         "#src#/system/Core/MapObject/System.MapObject.Body.js",
         "#src#/system/Core/MapObject/System.MapObject.Furniture.js",
+        "#src#/system/Core/MapObject/System.MapObject.Generator.js",
         "#src#/system/Core/MapObject/System.MapObject.Door.js",
         "#src#/system/Core/MapObject/System.MapObject.Position.js",
         // Item

@@ -119,7 +119,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.key[key.id] = key.doorId;
     };
 
-    Furniture.prototype.touch = function (key) {
+    Furniture.prototype.touch = function () {
         this.entity.noise.generateNoise(this.noiseProbability, this.noiseName, this.x, this.y);
     };
 

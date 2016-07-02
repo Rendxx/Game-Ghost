@@ -57,6 +57,7 @@
     <Content Include="mapDesigner\Document\category-icon0004.png" />
     <Content Include="mapDesigner\Document\category-icon0005.png" />
     <Content Include="mapDesigner\Document\category-icon0006.png" />
+    <Content Include="mapDesigner\Document\category-icon0007.png" />
     <Content Include="mapDesigner\Document\key.icon.png" />
     <Content Include="mapDesigner\Document\shoeprint3-300px.png" />
     <Content Include="mapDesigner\Images\key.icon.png" />
@@ -255,6 +256,8 @@
     <Content Include="ModelBuilder\Furniture\toilet_b_1_1\toilet_b_1_1.tex.fla" />
     <Content Include="ModelBuilder\Furniture\toilet_b_1_1\toilet_b_1_1.tex.png" />
     <Content Include="ModelBuilder\Furniture\toilet_b_1_1\toilet_b_1_1.uv.png" />
+    <Content Include="ModelBuilder\Generator\generator_1\generator_1.tex.png" />
+    <Content Include="ModelBuilder\Generator\generator_1\generator_1.uv.png" />
     <Content Include="ModelBuilder\Player\basic\player-basic.tex.png" />
     <Content Include="ModelBuilder\Player\ghost\mary\animation\idle\0001.png" />
     <Content Include="ModelBuilder\Player\ghost\mary\animation\run\0001.png" />
@@ -792,6 +795,9 @@
     <Content Include="Model\Furniture\toilet_b_1_1\toilet_b_1_1.icon.png" />
     <Content Include="Model\Furniture\toilet_b_1_1\toilet_b_1_1.json" />
     <Content Include="Model\Furniture\toilet_b_1_1\toilet_b_1_1.tex.png" />
+    <Content Include="Model\Generator\generator_1\generator_1.2d.png" />
+    <Content Include="Model\Generator\generator_1\generator_1.icon.png" />
+    <Content Include="Model\Generator\generator_1\generator_1.tex.png" />
     <Content Include="Model\Player\basic\player-basic.json" />
     <Content Include="Model\Player\basic\player-basic.tex.dds" />
     <Content Include="Model\Player\basic\player-basic.tex.png" />
@@ -989,6 +995,8 @@
     <Content Include="Model\Sprite\interaction.door.open-2.png" />
     <Content Include="Model\Sprite\interaction.door.open.dds" />
     <Content Include="Model\Sprite\interaction.door.open.png" />
+    <Content Include="Model\Sprite\interaction.fix-2.png" />
+    <Content Include="Model\Sprite\interaction.fix.png" />
     <Content Include="Model\Sprite\interaction.key-2.dds" />
     <Content Include="Model\Sprite\interaction.key-2.png" />
     <Content Include="Model\Sprite\interaction.key.dds" />
@@ -1100,6 +1108,7 @@
     <Content Include="src\js\system\Core\Character\System.Character.Ghost.Specter.js" />
     <Content Include="src\js\system\Core\Character\System.Character.Survivor.Normal.js" />
     <Content Include="src\js\system\Core\Item\System.Item.Basic.js" />
+    <Content Include="src\js\system\Core\MapObject\System.MapObject.Generator.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Position.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Body.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Basic.js" />
@@ -1306,6 +1315,14 @@
     <Content Include="ModelBuilder\Sprite\danger.fla" />
     <Content Include="ModelBuilder\Sprite\danger.psd" />
     <Content Include="ModelBuilder\Sprite\danger2.psd" />
+    <Content Include="ModelBuilder\Generator\generator_1\generator_1.2d.fla" />
+    <Content Include="ModelBuilder\Generator\generator_1\generator_1.blend" />
+    <Content Include="ModelBuilder\Generator\generator_1\generator_1.blend1" />
+    <Content Include="ModelBuilder\Generator\generator_1\generator_1.icon.fla" />
+    <Content Include="ModelBuilder\Generator\generator_1\generator_1.tex.fla" />
+    <Content Include="Model\Generator\generator_1\generator_1.json" />
+    <Content Include="Model\Generator\generator_1.data.json" />
+    <Content Include="ModelBuilder\Sprite\interaction.fix.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />

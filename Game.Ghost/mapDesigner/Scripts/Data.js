@@ -29,6 +29,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             furniture: '_furniture',
             stuff: '_stuff',
             door: '_door',
+            generator: '_generator',
             position: '_position'
         },
         categoryName: {
@@ -37,6 +38,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             furniture: 'furniture',
             stuff: 'stuff',
             door: 'door',
+            generator: 'generator',
             position: 'position'
         },
         categoryOrder: [
@@ -44,6 +46,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             'stuff',
             'furniture',
             'door',
+            'generator',
             'wall',
             'ground'
         ],
@@ -85,6 +88,9 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
                 'Door (Wood) 2': 'door_wood_2.data.json',
                 'Door (Wood) 3': 'door_wood_3.data.json',
             },
+            generator: {
+                'Generator 1': 'generator_1.data.json',
+            },
             position: {
                 'Start (Survivor)': 'start_1.data.json',
                 'Start (Ghost)': 'start_2.data.json',
@@ -97,6 +103,7 @@ window.Rendxx.MapDesigner = window.Rendxx.MapDesigner || {};
             furniture: '/Model/Furniture/',
             stuff: '/Model/Stuff/',
             door: '/Model/Door/',
+            generator: '/Model/Generator/',
             position: '/Model/Position/'
         },
         defaultItem: {
