@@ -95,7 +95,7 @@ $(function () {
     GameSetup = function () {
         system.setup(playerData, {
             player:playerData,
-            map: 'test2'
+            map: 'Hospital5'
         });
         system.start();
         renderer.show();

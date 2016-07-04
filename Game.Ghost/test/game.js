@@ -92,7 +92,7 @@ $(function () {
     GameSetup = function () {
         system.setup(playerData, {
             player: playerData,
-            map: 'test2'
+            map: 'test3'
         });
         system.start();
         renderer.show();

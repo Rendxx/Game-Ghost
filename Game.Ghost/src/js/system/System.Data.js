@@ -60,10 +60,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         battery: 100,
                     },
                     endurance:{
-                        init: 10,
-                        max: 10,
+                        init: 18,
+                        max: 18,
                         cost: 3,
-                        recover:1.5
+                        recover:1.0
                     },
                     batteryCost: 0
                 },
@@ -173,7 +173,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 probability: 0.2
             },
             generator: {
-                probability: 0.001
+                probability: 0.0005
             }
         },
         map: {
@@ -186,6 +186,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 FurnitureTest: 'FurnitureTest.json',
                 Hospital1: 'Hospital1.json',
                 Hospital2: 'Hospital2.json',
+                Hospital5: 'Hospital5.json',
                 TestApple: 'TestApple.json'
             },
             path: '/GameData/Map/',

@@ -441,7 +441,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // electric -------------------------------------------
         var recoverElectric = function () {
-            this.setElecticNeed(gameData[0].el)
+            that.setElecticNeed(gameData[0].el)
         };
 
         // init -----------------------------

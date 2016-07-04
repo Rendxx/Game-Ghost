@@ -39,6 +39,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 Worked: 2
             }
         },
+        canvasLimit :4096,
         html: {
             dark: '<div class="_dark"></div>',
             layer: {
@@ -1055,15 +1056,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
         var loadBaseMap = function (scene, btnMap, topMap) {
             // btn
-            var renderTexture = new PIXI.RenderTexture(entity.env.renderer, that.width * GridSize, that.height * GridSize);
-            renderTexture.render(btnMap, null, true);
-            _layers['btnMap'].addChild(new PIXI.Sprite(renderTexture));
+            _loadMap(_layers['btnMap'],btnMap);
 
             // top
             scene.addChild(_layers['topMap']);
-            renderTexture = new PIXI.RenderTexture(entity.env.renderer, that.width * GridSize, that.height * GridSize);
-            renderTexture.render(topMap, null, true);
-            _layers['topMap'].addChild(new PIXI.Sprite(renderTexture));
+            _loadMap(_layers['topMap'], topMap);
 
             //clear up
             btnMap.destroy();
@@ -1084,17 +1081,58 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             colorFilter.brightness(0.9);
 
             _layers['door'].visible = false;
-            renderTexture = new PIXI.RenderTexture(entity.env.renderer, that.width * GridSize, that.height * GridSize);
-            renderTexture.render(scene, null, true);
+            that.shadowMap = new PIXI.Container();
+            scene.filters = [blurFilter, grayFilter, colorFilter];
+            _loadMap(that.shadowMap, scene);
             _layers['door'].visible = true;
-            var tmp = new PIXI.Sprite(renderTexture);
-            tmp.filters = [blurFilter, grayFilter, colorFilter];
-
-            renderTexture = new PIXI.RenderTexture(entity.env.renderer, that.width * GridSize, that.height * GridSize);
-            renderTexture.render(tmp, null, true);
-            that.shadowMap = new PIXI.Sprite(renderTexture);
+            scene.filters = null;
             scene.addChild(_layers['shadowMap']);
         };
+
+        var _loadMap = function (layer, texObj) {
+            var w = Math.floor(texObj.width / _Data.canvasLimit);
+            var h = Math.floor(texObj.height / _Data.canvasLimit);
+
+            for (var i = 0; i < w; i++) {
+                for (var j = 0; j < h; j++) {
+                    var renderTexture = new PIXI.RenderTexture(entity.env.renderer, _Data.canvasLimit, _Data.canvasLimit);
+                    var m = new PIXI.Matrix();
+                    m.translate(-i * _Data.canvasLimit, -j * _Data.canvasLimit);
+                    renderTexture.render(texObj, m)
+                    var spr = new PIXI.Sprite(renderTexture);
+                    spr.position.set(i * _Data.canvasLimit, j * _Data.canvasLimit);
+                    layer.addChild(spr);
+                }
+
+                var renderTexture = new PIXI.RenderTexture(entity.env.renderer, _Data.canvasLimit, texObj.height - h * _Data.canvasLimit);
+                var m = new PIXI.Matrix();
+                m.translate(-i * _Data.canvasLimit, -h * _Data.canvasLimit);
+                renderTexture.render(texObj, m)
+                var spr = new PIXI.Sprite(renderTexture);
+                spr.position.set(i * _Data.canvasLimit, h * _Data.canvasLimit);
+                layer.addChild(spr);
+            }
+
+            for (var j = 0; j < h; j++) {
+                var renderTexture = new PIXI.RenderTexture(entity.env.renderer, texObj.width - w * _Data.canvasLimit, _Data.canvasLimit);
+                var m = new PIXI.Matrix();
+                m.translate(-w * _Data.canvasLimit, -j * _Data.canvasLimit);
+                renderTexture.render(texObj, m)
+                var spr = new PIXI.Sprite(renderTexture);
+                spr.position.set(w * _Data.canvasLimit, j * _Data.canvasLimit);
+                layer.addChild(spr);
+            }
+            
+            var renderTexture = new PIXI.RenderTexture(entity.env.renderer, texObj.width - w * _Data.canvasLimit, texObj.height - h * _Data.canvasLimit);
+            var m = new PIXI.Matrix();
+            m.translate(-w * _Data.canvasLimit, -h * _Data.canvasLimit);
+            renderTexture.render(texObj, m);
+            var spr = new PIXI.Sprite(renderTexture);
+            spr.position.set(w * _Data.canvasLimit, h * _Data.canvasLimit);
+            layer.addChild(spr);
+        };
+
+
 
         // Setup ----------------------------------------------------------
         var _setupTex = function () {
