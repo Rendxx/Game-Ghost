@@ -6,19 +6,6 @@
   "portrait": "capboy/player-capboy.portrait2.png",
   "color": "0x0066CC",
   "para": {
-    "hp": 1,
-    "speed": {
-      "rotate": {
-        "head": 80,
-        "body": 60
-      },
-      "move": {
-        "walk": 8,
-        "run": 18,
-        "back": -6
-      }
-    },
-    "interactionDistance": 0.6
   },
   "action": {
     "list": {

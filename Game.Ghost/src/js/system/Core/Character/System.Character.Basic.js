@@ -26,7 +26,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     // Construct -----------------------------------------------------
     var Basic = function (id, characterPara, characterData, entity) {
         // data ----------------------------------------------------------
-        var _para = Data.character.para[characterPara.role];
+        var _defaultPara = Data.character.para[characterPara.role];
 
         this.entity = entity;
         this.id = id;
@@ -39,9 +39,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.para = characterPara;
         this.modelData = characterData[characterPara.role][characterPara.modelId];
         this.color = parseInt(this.modelData.color, 16);
-        this.light = _para.init.light;
-        this.battery = _para.init.battery;
-        this.hp = _para.init.hp;
         this.action = this.modelData.action.list[this.modelData.action.init];
         this.actionForce = null;
         this.danger = 0;        // danger level
@@ -66,13 +63,60 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.visibleObject = {};    // visible object list: {Object type: {Object Id: [distance, angle from front]}}
         this.visibleCharacter = {}; // visible character list
 
-        this.endurance = (this.modelData.para.hasOwnProperty('endurance') && this.modelData.para.endurance.hasOwnProperty('init')) ? this.modelData.para.endurance.init : _para.endurance.init;
-        this.enduranceRecover = (this.modelData.para.hasOwnProperty('endurance') && this.modelData.para.endurance.hasOwnProperty('recover')) ? this.modelData.para.endurance.recover : _para.endurance.recover;
-        this.enduranceCost = (this.modelData.para.hasOwnProperty('endurance') && this.modelData.para.endurance.hasOwnProperty('cost')) ? this.modelData.para.endurance.cost : _para.endurance.cost;
-        this.enduranceMax = (this.modelData.para.hasOwnProperty('endurance') && this.modelData.para.endurance.hasOwnProperty('max')) ? this.modelData.para.endurance.max : _para.endurance.max;
         this.triggeringList = {};
         this.longInteractionObj = null;
         this.warningMark = false;
+
+        // para
+        this.hp = _defaultPara.hp.init;
+        this.hpMax = _defaultPara.hp.max;
+        this.light = _defaultPara.light;
+        this.battery = _defaultPara.battery.init;
+        this.batteryMax = _defaultPara.battery.max;
+        this.endurance =  _defaultPara.endurance.init;
+        this.enduranceRecover = _defaultPara.endurance.recover;
+        this.enduranceCost =  _defaultPara.endurance.cost;
+        this.enduranceMax = _defaultPara.endurance.max;
+
+        this.speed_rotate = {
+            'head': _defaultPara.speed.rotate.head,
+            'body': _defaultPara.speed.rotate.body
+        };
+        this.speed_move = {
+            'walk': _defaultPara.speed.move.walk,
+            'run': _defaultPara.speed.move.run,
+            'back': _defaultPara.speed.move.back
+        };
+
+        if (this.modelData.para.hasOwnProperty('light')) this.light = this.modelData.para['light'];
+        if (this.modelData.para.hasOwnProperty('hp')) {
+            if (this.modelData.para['hp'].hasOwnProperty('init')) this.hp = this.modelData.para['hp']['init'];
+            if (this.modelData.para['hp'].hasOwnProperty('max')) this.hpMax = this.modelData.para['hp']['max'];
+        }
+        if (this.modelData.para.hasOwnProperty('battery')) {
+            if (this.modelData.para['battery'].hasOwnProperty('init')) this.battery = this.modelData.para['battery']['init'];
+            if (this.modelData.para['battery'].hasOwnProperty('max')) this.batteryMax = this.modelData.para['battery']['max'];
+        }
+
+        if (this.modelData.para.hasOwnProperty('endurance')) {
+            if (this.modelData.para['endurance'].hasOwnProperty('init')) this.endurance = this.modelData.para['endurance']['init'];
+            if (this.modelData.para['endurance'].hasOwnProperty('recover')) this.enduranceRecover = this.modelData.para['endurance']['recover'];
+            if (this.modelData.para['endurance'].hasOwnProperty('cost')) this.enduranceCost = this.modelData.para['endurance']['cost'];
+            if (this.modelData.para['endurance'].hasOwnProperty('max')) this.enduranceMax = this.modelData.para['endurance']['max'];
+        }
+
+        if (this.modelData.para.hasOwnProperty('speed')) {
+            if (this.modelData.para['speed'].hasOwnProperty('rotate')) {
+                if (this.modelData.para['speed']['rotate'].hasOwnProperty('head')) this.speed_rotate.head = this.modelData.para['speed']['rotate']['head'];
+                if (this.modelData.para['speed']['rotate'].hasOwnProperty('body')) this.speed_rotate.body = this.modelData.para['speed']['rotate']['body'];
+            }
+            if (this.modelData.para['speed'].hasOwnProperty('move')) {
+                if (this.modelData.para['speed']['move'].hasOwnProperty('walk')) this.speed_move.walk = this.modelData.para['speed']['move']['walk'];
+                if (this.modelData.para['speed']['move'].hasOwnProperty('run')) this.speed_move.run = this.modelData.para['speed']['move']['run'];
+                if (this.modelData.para['speed']['move'].hasOwnProperty('back')) this.speed_move.back = this.modelData.para['speed']['move']['back'];
+            }
+        }
+
 
         // callback ------------------------------------------------------
         this.onChange = null;
@@ -182,8 +226,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     Basic.prototype._updateMove = function () {
         // is back?
         var isBack = false,
-            _speed_move = this.modelData.para.speed.move,
-            _speed_rotate = this.modelData.para.speed.rotate,
             d_back,
             d_body,
             d_head,
@@ -202,10 +244,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (d_body < -180) d_body += 360;
         else if (d_body > 180) d_body -= 360;
         if (d_body !== 0) {
-            if (Math.abs(d_body) < _speed_rotate.body) {
+            if (Math.abs(d_body) < this.speed_rotate.body) {
                 this.currentRotation[1] += d_body;
             } else {
-                this.currentRotation[1] += ((d_body < 0) ? -1 : 1) * _speed_rotate.body;
+                this.currentRotation[1] += ((d_body < 0) ? -1 : 1) * this.speed_rotate.body;
             }
             if (this.currentRotation[1] < 0) this.currentRotation[1] += 360;
             this.currentRotation[1] = this.currentRotation[1] % 360;
@@ -216,10 +258,10 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (d_head < -180) d_head += 360;
         else if (d_head > 180) d_head -= 360;
         if (d_head !== 0) {
-            if (Math.abs(d_head) < _speed_rotate.head) {
+            if (Math.abs(d_head) < this.speed_rotate.head) {
                 this.currentRotation[0] += d_head;
             } else {
-                this.currentRotation[0] += ((d_head < 0) ? -1 : 1) * _speed_rotate.head;
+                this.currentRotation[0] += ((d_head < 0) ? -1 : 1) * this.speed_rotate.head;
             }
             if (this.currentRotation[0] < 0) this.currentRotation[0] += 360;
             this.currentRotation[0] = this.currentRotation[0] % 360;
@@ -244,7 +286,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             }
 
             if (Math.abs(d_body) <= 90) {
-                speed = _speed_move[this.action] / 100;
+                speed = this.speed_move[this.action] / 100;
                 var _radius_x = 0;
                 var _radius_y = 0;
                 var deltaX = speed * Math.sin(this.currentRotation[1] / 180 * Math.PI);

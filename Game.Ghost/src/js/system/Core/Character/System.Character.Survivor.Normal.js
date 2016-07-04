@@ -274,7 +274,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 this.recover -= this.enduranceRecover / 20;
             } else {
                 this.recover = 0;
-                if (this.endurance < this.enduranceMax * (this.hp/Data.character.para.survivor.init.hp)) {
+                if (this.endurance < this.enduranceMax * (this.hp / this.hpMax)) {
                     this.endurance += this.enduranceRecover / 20;
                 } else {
                     this.endurance = this.enduranceMax;
@@ -286,7 +286,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         }
 
         // danger
-        if (this.hp < Data.character.para.survivor.init.hp || this.warningMark) {
+        if (this.hp < this.hpMax || this.warningMark) {
             this.danger = 1;
         } else {
             var min = 100000;
@@ -354,8 +354,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     
     Survivor.prototype.die = function () {
         if (!this.actived || this.protect>0) return;
-        if (this.hp === Data.character.para.survivor.init.hp) {
-            this.hp = 1;
+        if (this.hp > 1) {
+            this.hp--;
             this.protect = _Data.protectTime;
             this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.objType, this.id, SYSTEM.Sound.Data.Name.Hurt);
         } else {

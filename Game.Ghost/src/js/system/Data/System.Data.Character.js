@@ -46,10 +46,14 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
         path: '/Model/Player/',
         para: {
             survivor: {
-                init: {
-                    hp: 2,
-                    light: 1,
-                    battery: 100,
+                light: 1,               // torch type
+                hp: {
+                    init: 2,
+                    max: 2
+                },
+                battery: {
+                    init: 100,
+                    max: 100
                 },
                 endurance: {
                     init: 18,
@@ -57,13 +61,29 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
                     cost: 3,
                     recover: 1.0
                 },
+                speed: {
+                    "rotate": {
+                        "head": 80,
+                        "body": 60
+                    },
+                    "move": {
+                        "walk": 8,
+                        "run": 18,
+                        "back": -6
+                    }
+                },
+                interactionDistance: 0.6,
                 batteryCost: 0
             },
             ghost: {
-                init: {
-                    hp: 100,
-                    light: 0,
-                    battery: 100
+                light: 0,
+                hp: {
+                    init: 1,
+                    max: 1
+                },
+                battery: {
+                    init: 0,
+                    max: 100
                 },
                 endurance: {
                     init: 0,
@@ -71,6 +91,18 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
                     cost: 500,
                     recover: 20
                 },
+                speed: {
+                    "rotate": {
+                        "head": 40,
+                        "body": 20
+                    },
+                    "move": {
+                        "walk": 12,
+                        "run": 80,
+                        "back": -4
+                    }
+                },
+                interactionDistance: 0.6,
                 batteryCost: 0
             }
         }

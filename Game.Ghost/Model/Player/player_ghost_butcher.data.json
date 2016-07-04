@@ -11,20 +11,7 @@
       "max": 1000,
       "cost": 400,
       "recover": 20
-    },
-    "hp": 1,
-    "speed": {
-      "rotate": {
-        "head": 40,
-        "body": 20
-      },
-      "move": {
-        "walk": 12,
-        "run": 80,
-        "back": -4
-      }
-    },
-    "interactionDistance": 0.42
+    }
   },
   "action": {
     "list": {
