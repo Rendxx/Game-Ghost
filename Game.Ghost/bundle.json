@@ -91,7 +91,7 @@
       ],
       "#dest#/Game.Ghost.System.Core": [
         "#src#/system/Core/System.WebWorkerWrapper.js",
-        "#src#/system/System.Data.js",
+        "#src#/system/Data/*.js",
         "#src#/system/Core/System.Message.js",
         "#src#/system/Core/System.Sound.js",
         "#src#/system/Core/System.Noise.js",
@@ -119,7 +119,7 @@
         "#src#/system/Core/System.Core.js"
       ],
       "#dest#/Game.Ghost.System.Wrapper": [
-        "#src#/system/System.Data.js",
+        "#src#/system/Data/*.js",
         "#src#/system/System.FileLoader.js",
         "#src#/system/System.Main.js"
       ],

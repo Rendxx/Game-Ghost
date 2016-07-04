@@ -3,7 +3,7 @@
 $(function () {
     // game -----------------------------------------------------
     var _root = null;
-    var viewId = 'p7';
+    var viewId = 'p1';
     var renderer = window.Rendxx.Game.Ghost.Renderer2D.Create(document.getElementById('game-container'), _root, viewId);
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
@@ -95,7 +95,7 @@ $(function () {
     GameSetup = function () {
         system.setup(playerData, {
             player:playerData,
-            map: 'Hospital5'
+            map: 'test3'
         });
         system.start();
         renderer.show();

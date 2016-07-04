@@ -310,7 +310,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var k in doors) {
                 if (doors[k] === null) continue;
                 var door = doors[k];
-                var keyNum = Math.floor(Data.keyNumber * Math.random() + 1);
+                var keyNum = Math.floor(Data.map.keyNumber * Math.random() + 1);
                 var tmpList = [];
                 for (var i in door.keys) {
                     if (hasKeyList.hasOwnProperty(i)) continue;

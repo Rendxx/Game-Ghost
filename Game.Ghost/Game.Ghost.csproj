@@ -1133,6 +1133,10 @@
     <Content Include="src\js\system\Core\System.UserInput.js" />
     <Content Include="src\js\system\Core\System.Message.js" />
     <Content Include="src\js\system\Core\System.WebWorkerWrapper.js" />
+    <Content Include="src\js\system\Data\System.Data.Noise.js" />
+    <Content Include="src\js\system\Data\System.Data.Map.js" />
+    <Content Include="src\js\system\Data\System.Data.Item.js" />
+    <Content Include="src\js\system\Data\System.Data.Character.js" />
     <Content Include="src\js\system\System.Main.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Door.js" />
     <Content Include="src\js\system\Core\Item\System.Item.Key.js" />
@@ -1141,7 +1145,6 @@
     <Content Include="src\js\system\Core\System.InterAction.js" />
     <Content Include="src\js\system\Core\System.Map.js" />
     <Content Include="src\js\system\System.FileLoader.js" />
-    <Content Include="src\js\system\System.Data.js" />
     <Content Include="src\js\system\Core\System.Core.js" />
     <Content Include="src\js\Renderer.End.js" />
     <Content Include="test2D\game.js" />
