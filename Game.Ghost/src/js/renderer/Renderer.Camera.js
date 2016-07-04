@@ -155,7 +155,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprites["left"].scale.set(1, that.height, 1.0);
 
             // endurance
-            if (sprites["enduranceBar"]) sprites["enduranceBar"].position.set(-that.width / 2, -50 + that.height / 2, 6);
+            if (sprites["enduranceBar"]) {
+                sprites["enduranceBar"].position.set(-that.width / 2, -50 + that.height / 2, 6);
+                sprites["enduranceBarBase"].position.set(-that.width / 2, -50 + that.height / 2, 6);
+            }
 
             // camera
             that.camera.aspect = that.width / that.height;
