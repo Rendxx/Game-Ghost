@@ -18,15 +18,6 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
             door: 'door',
             generator: 'generator'
         },
-        categoryOrder: [
-            'stuff',
-            'body',
-            'generator',
-            'furniture',
-            'door',
-            'wall',
-            'ground'
-        ],
         files: {
             wall: {
                 'White Wall': 'wall_white.data.json'

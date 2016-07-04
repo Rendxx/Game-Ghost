@@ -11,6 +11,13 @@
       "max": 1000,
       "cost": 500,
       "recover": 6
+    },
+    "speed": {
+      "move": {
+        "walk": 5,
+        "run": 80,
+        "back": -4
+      }
     }
   },
   "action": {

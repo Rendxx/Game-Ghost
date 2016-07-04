@@ -3,7 +3,7 @@
 $(function () {
     // game -----------------------------------------------------
     var _root = null;
-    var viewId = 'p1';
+    var viewId = 'p7';
     var renderer = window.Rendxx.Game.Ghost.Renderer2D.Create(document.getElementById('game-container'), _root, viewId);
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
@@ -88,7 +88,7 @@ $(function () {
             id: 'p7',
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
-            modelId: 'ghost-butcher',
+            modelId: 'ghost-mary',
             team: 0
         }
     };
