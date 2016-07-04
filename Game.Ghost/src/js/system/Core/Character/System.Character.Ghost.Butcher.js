@@ -64,8 +64,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         if (this.isAction) return;
         SYSTEM.Character.Basic.prototype.move.call(this, direction, directionHead, rush_in, stay_in, headFollow_in);
     }
-
-
+    
     Ghost.prototype._updateStatus = function () {
         // endurance
         if ((this.obCount <= 0 || this.endurance <= 0) && this.observing) { this.observing = false; this.obCount = 0; }
@@ -104,25 +103,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // danger
         this.danger = Math.floor((_Data.range.danger - closest) / 2) * 2 / (_Data.range.danger);
         if (this.danger > 0.6) this.danger = 0.6;
-    };
-
-
-    Ghost.prototype._updateVisible = function () {
-        for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
-            var c = this.entity.characterManager.characters[i];
-            if (!c.actived || c.team == this.team || this.touchList.hasOwnProperty(c.id)) {
-                this.visibleCharacter[c.id] = true;
-            } else {
-                this.visibleCharacter[c.id] = (c.rush || this.observing);
-            }
-        }
-        for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
-            var c = this.entity.characterManager.characters[i];
-            if (!c.actived || c.team == this.team || this.touchList.hasOwnProperty(c.id)) 
-                this.visibleCharacter[c.id] = true;
-            else
-                this.visibleCharacter[c.id] = (c.rush || this.entity.interAction.checkVisible(this, c, 81, 40));
-        }
     };
 
     Ghost.prototype.observe = function () {
