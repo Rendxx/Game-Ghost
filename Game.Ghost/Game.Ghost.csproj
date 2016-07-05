@@ -669,6 +669,8 @@
     <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.tex.fla" />
     <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.tex.png" />
     <Content Include="ModelBuilder\Player\survivor\mohicans\player-mohicans.uv.png" />
+    <Content Include="ModelBuilder\Sprite\blood1.png" />
+    <Content Include="ModelBuilder\Sprite\blood2.png" />
     <Content Include="ModelBuilder\Sprite\danger.png" />
     <Content Include="ModelBuilder\Sprite\danger2.png" />
     <Content Include="ModelBuilder\Sprite\energyLine.png" />
@@ -1358,6 +1360,7 @@
     <Content Include="ModelBuilder\OldFile\Player\white\player-2.json" />
     <Content Include="ModelBuilder\OldFile\Player\white\player-ghost-mary.json" />
     <Content Include="ModelBuilder\OldFile\Player\yellow\player-2.json" />
+    <Content Include="ModelBuilder\Sprite\effort.blood.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />
