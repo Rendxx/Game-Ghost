@@ -1062,9 +1062,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             scene.addChild(_layers['topMap']);
             _loadMap(_layers['topMap'], topMap);
 
-            //clear up
-            btnMap.destroy();
-            topMap.destroy();
 
             // shadow map
             var blurFilter = new PIXI.filters.BlurFilter();
@@ -1082,16 +1079,31 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
 
             _layers['door'].visible = false;
             that.shadowMap = new PIXI.Container();
-            scene.filters = [blurFilter, grayFilter, colorFilter];
-            _loadMap(that.shadowMap, scene);
+            _loadMap(that.shadowMap, scene, [blurFilter, grayFilter, colorFilter]);
             _layers['door'].visible = true;
             scene.filters = null;
             scene.addChild(_layers['shadowMap']);
+            //_layers['shadowMap'].alpha = 0.75;
+            //clear up
+            btnMap.destroy();
+            topMap.destroy();
         };
 
-        var _loadMap = function (layer, texObj) {
+        var _loadMap = function (layer, texObj, filters) {
             var w = Math.floor(texObj.width / _Data.canvasLimit);
             var h = Math.floor(texObj.height / _Data.canvasLimit);
+
+            var createSprite = function (renderTexture, filters) {
+                var spr = new PIXI.Sprite(renderTexture);
+                if (filters != null) {
+                    var spr2 = spr;
+                    spr2.filters = filters;
+                    renderTexture.render(spr2);
+                    spr = new PIXI.Sprite(renderTexture);
+                    spr2.destroy();
+                }
+                return spr;
+            };
 
             for (var i = 0; i < w; i++) {
                 for (var j = 0; j < h; j++) {
@@ -1099,7 +1111,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     var m = new PIXI.Matrix();
                     m.translate(-i * _Data.canvasLimit, -j * _Data.canvasLimit);
                     renderTexture.render(texObj, m)
-                    var spr = new PIXI.Sprite(renderTexture);
+                    var spr = createSprite(renderTexture, filters);
                     spr.position.set(i * _Data.canvasLimit, j * _Data.canvasLimit);
                     layer.addChild(spr);
                 }
@@ -1108,7 +1120,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 var m = new PIXI.Matrix();
                 m.translate(-i * _Data.canvasLimit, -h * _Data.canvasLimit);
                 renderTexture.render(texObj, m)
-                var spr = new PIXI.Sprite(renderTexture);
+                var spr = createSprite(renderTexture, filters);
                 spr.position.set(i * _Data.canvasLimit, h * _Data.canvasLimit);
                 layer.addChild(spr);
             }
@@ -1118,7 +1130,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 var m = new PIXI.Matrix();
                 m.translate(-w * _Data.canvasLimit, -j * _Data.canvasLimit);
                 renderTexture.render(texObj, m)
-                var spr = new PIXI.Sprite(renderTexture);
+                var spr = createSprite(renderTexture, filters);
                 spr.position.set(w * _Data.canvasLimit, j * _Data.canvasLimit);
                 layer.addChild(spr);
             }
@@ -1127,7 +1139,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var m = new PIXI.Matrix();
             m.translate(-w * _Data.canvasLimit, -h * _Data.canvasLimit);
             renderTexture.render(texObj, m);
-            var spr = new PIXI.Sprite(renderTexture);
+            var spr = createSprite(renderTexture, filters);
             spr.position.set(w * _Data.canvasLimit, h * _Data.canvasLimit);
             layer.addChild(spr);
         };

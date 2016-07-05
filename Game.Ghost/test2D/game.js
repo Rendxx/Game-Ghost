@@ -88,14 +88,14 @@ $(function () {
             id: 'p7',
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
-            modelId: 'ghost-mary',
+            modelId: 'ghost-specter',
             team: 0
         }
     };
     GameSetup = function () {
         system.setup(playerData, {
             player:playerData,
-            map: 'test3'
+            map: 'Hospital5'
         });
         system.start();
         renderer.show();
