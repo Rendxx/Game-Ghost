@@ -1102,6 +1102,7 @@
     <Content Include="src\js\renderer\Renderer.Data.js" />
     <Content Include="src\js\renderer\Renderer.Camera.js" />
     <Content Include="src\js\renderer\Renderer.Loading.js" />
+    <Content Include="src\js\renderer\Renderer.Effort.js" />
     <Content Include="src\js\renderer\Renderer.Sound.js" />
     <Content Include="src\js\renderer\Renderer.Map.js" />
     <Content Include="src\js\renderer\Renderer.Test.js" />
