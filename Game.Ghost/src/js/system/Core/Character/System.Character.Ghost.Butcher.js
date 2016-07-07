@@ -128,25 +128,29 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.actionForce = null;
         },1600);
         this.endurance -= this.enduranceMax / 20;
-        for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
-            var c = this.entity.characterManager.characters[i];
-            if (!c.actived || c.team == this.team) continue;
-            var r = this.entity.interAction.chracterRange[this.id][c.id];            
-            
-            if (r < 0.5) {
-                c.die();
-                this.touchList[c.id] = _Data.hurtNumer;
-            } else if (r < 1.5) {
-                var d = Math.abs(this.currentRotation[0] - this.entity.interAction.chracterAngle[this.id][c.id]);
-                if (d > 180) d = 360 - d;
+        var that = this;
+        setTimeout(function () {
+            for (var i = 0, l = that.entity.characterManager.characters.length; i < l; i++) {
+                var c = that.entity.characterManager.characters[i];
+                if (!c.actived || c.team == that.team) continue;
+                var r = that.entity.interAction.chracterRange[that.id][c.id];
 
-                if (d < 50) {
+                if (r < 0.5) {
                     c.die();
-                    this.touchList[c.id] = _Data.hurtNumer;
+                    that.touchList[c.id] = _Data.hurtNumer;
+                } else if (r < 1.5) {
+                    var d = Math.abs(that.currentRotation[0] - that.entity.interAction.chracterAngle[that.id][c.id]);
+                    if (d > 180) d = 360 - d;
+
+                    if (d < 50) {
+                        c.die();
+                        that.touchList[c.id] = _Data.hurtNumer;
+                    }
                 }
+                //console.log(angle);
             }
-            //console.log(angle);
-        }
+        }, 300);
+
 
         this.destroyDoor();
     };
