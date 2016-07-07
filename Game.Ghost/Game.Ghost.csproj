@@ -673,6 +673,9 @@
     <Content Include="ModelBuilder\Sprite\blood2.png" />
     <Content Include="ModelBuilder\Sprite\danger.png" />
     <Content Include="ModelBuilder\Sprite\danger2.png" />
+    <Content Include="ModelBuilder\Sprite\electronic.png" />
+    <Content Include="ModelBuilder\Sprite\electronic2.png" />
+    <Content Include="ModelBuilder\Sprite\electronic3.png" />
     <Content Include="ModelBuilder\Sprite\energyLine.png" />
     <Content Include="ModelBuilder\Sprite\name-deco-white.png" />
     <Content Include="ModelBuilder\Player\survivor.old\Player-Texture-2.png" />
@@ -968,6 +971,8 @@
     <Content Include="Model\Sprite\danger.png" />
     <Content Include="Model\Sprite\DeadScreen.dds" />
     <Content Include="Model\Sprite\DeadScreen.png" />
+    <Content Include="Model\Sprite\effort.blood.png" />
+    <Content Include="Model\Sprite\effort.electric.png" />
     <Content Include="Model\Sprite\EnduranceBar.dds" />
     <Content Include="Model\Sprite\EnduranceBar.png" />
     <Content Include="Model\Sprite\energy_l.png" />
@@ -1362,6 +1367,7 @@
     <Content Include="ModelBuilder\OldFile\Player\white\player-ghost-mary.json" />
     <Content Include="ModelBuilder\OldFile\Player\yellow\player-2.json" />
     <Content Include="ModelBuilder\Sprite\effort.blood.fla" />
+    <Content Include="ModelBuilder\Sprite\effort.electric.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />

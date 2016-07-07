@@ -5,16 +5,17 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
 (function (RENDERER) {
     var Data = RENDERER.Data;
+    var GridSize = Data.grid.size;
     var _Data = {
+        size: 128,
+        tileDispDuration: 50,
         Name: {
-            'Key': 0,
-            'Door': 1,
-            'Touch': 2,
-            'Operation': 3
+            'Blood': 0,
+            'Electric': 1
         }
     };
 
-    var TextureAnimator = function (texture, tilesHoriz, tilesVert, numTiles, tileDispDuration) {
+    var TextureAnimator = function (texture, tilesHoriz, tilesVert, tileDispDuration) {
         this.isEnd = false;
         this.mesh = null;
 
@@ -25,7 +26,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // how many images does this spritesheet contain?
         //  usually equals tilesHoriz * tilesVert, but not necessarily,
         //  if there at blank tiles at the bottom of the spritesheet. 
-        this.numberOfTiles = numTiles;
+        this.numberOfTiles = tilesHoriz * tilesVert;
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(1 / this.tilesHorizontal, 1 / this.tilesVertical);
 
@@ -60,7 +61,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         var that = this,
             currentAnimation = [],
             tex = {},
-                _scene = null;
+            _scene = entity.env.scene;
 
         // callback ------------------------------------------------------
 
@@ -74,13 +75,12 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         this.render = function (delta) {
             for (var i = 0; i < currentAnimation.length; i++) {
-                currentAnimation[i].update();
+                currentAnimation[i].update(delta);
                 if (currentAnimation[i].isEnd) {
                     clearEffort(i);
                     i--;
                 }
             }
-            annie.update(delta);
         };
 
         // private method -------------------------------------------------
@@ -91,11 +91,16 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var y = effort.y;
 
             if (!tex.hasOwnProperty(effortName)) return;
-            var animation = new TextureAnimator(tex[effortName], 4, 4, 15, 50);
+            var animation = new TextureAnimator(
+                tex[effortName],
+                Math.floor(tex[effortName].image.width / _Data.size), 
+                Math.floor(tex[effortName].image.height / _Data.size),
+                _Data.tileDispDuration);
             var mat = new THREE.MeshBasicMaterial({ map: tex[effortName], transparent: true });
-            var geo = new THREE.PlaneGeometry(128, 128, 1, 1);
+            var geo = new THREE.PlaneGeometry(_Data.size, _Data.size, 1, 1);
             var mesh = new THREE.Mesh(geo, mat);
-            animation.position.set(x, y, 10);
+            mesh.position.set(x * GridSize - entity.map.width / 2, GridSize, y * GridSize - entity.map.height / 2);
+            animation.mesh = mesh;
             _scene.add(mesh);
         };
 
@@ -111,10 +116,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             // texture loader -------------------------------------------------------------------------------------------
             var textureLoader = new THREE.TextureLoader();
-            tex['fog'] = textureLoader.load(path + 'fog.png');
-            tex['nameDeco'] = textureLoader.load(path + 'name-deco-white.png');
-            tex['deadScreen'] = textureLoader.load(path + 'DeadScreen.png');
-            tex['escapeScreen'] = textureLoader.load(path + 'EscapeScreen.png');
+            tex[_Data.Name.Blood] = textureLoader.load(path + 'effort.blood.png');
+            tex[_Data.Name.Electric] = textureLoader.load(path + 'name-deco-white.png');
         };
 
         var _init = function () {
