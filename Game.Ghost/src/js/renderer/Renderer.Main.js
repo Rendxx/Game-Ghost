@@ -19,6 +19,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.root = root || '';
         this.characters = null;
         this.sound = null;
+        this.effort = null;
         this.loading = null;
         this.test = null;
         this.started = false;
@@ -43,6 +44,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this._onRender = function (delta) {
             if (!this.started || !flag_loaded) return;
             this.map.render();
+            this.effort.render(delta);
             for (var i = 0, l = this.characters.length; i < l; i++) {
                 this.characters[i].render(delta);
             }
@@ -134,7 +136,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 _dat_character_assist = gameData[2],
                 _dat_message = gameData[3],
                 _dat_sound = gameData[4],
-                _dat_noise = gameData[5];
+                _dat_noise = gameData[5],
+                _dat_effort = gameData[6];
 
             that.map.update(_dat_map);
 
@@ -162,6 +165,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             that.sound.update(_dat_sound, _dat_character_assist);
             that.noise.update(_dat_noise);
+            that.effort.update(_dat_effort);
         };
     };
 
@@ -176,6 +180,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         entity.map = new RENDERER.Map(entity);
         entity.sound = new RENDERER.Sound(entity);
         entity.noise = new RENDERER.Noise(entity);
+        entity.effort = new RENDERER.Effort(entity);
         entity.loading = new RENDERER.Loading(container);
         //entity.test = new RENDERER.Test(entity);
         return entity;

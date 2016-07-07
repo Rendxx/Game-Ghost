@@ -1123,6 +1123,7 @@
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Position.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Body.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Basic.js" />
+    <Content Include="src\js\system\Core\System.Effort.js" />
     <Content Include="src\js\system\Core\System.Noise.js" />
     <Content Include="src\js\system\Core\System.Sound.js" />
     <Content Include="src\js\system\Core\System.CharacterManager.js" />

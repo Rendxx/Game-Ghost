@@ -82,6 +82,7 @@
         "#src#/renderer/Renderer.Character.js",
         "#src#/renderer/Renderer.Sound.js",
         "#src#/renderer/Renderer.Noise.js",
+        "#src#/renderer/Renderer.Effort.js",
         "#src#/renderer/Renderer.Test.js",
         "#src#/renderer/Renderer.Main.js"
       ],
@@ -95,6 +96,7 @@
         "#src#/system/Core/System.Message.js",
         "#src#/system/Core/System.Sound.js",
         "#src#/system/Core/System.Noise.js",
+        "#src#/system/Core/System.Effort.js",
         // MapObject
         "#src#/system/Core/MapObject/System.MapObject.Basic.js",
         "#src#/system/Core/MapObject/System.MapObject.Body.js",

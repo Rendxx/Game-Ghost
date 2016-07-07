@@ -25,6 +25,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.map = null;
         this.sound = null;
         this.noise = null;
+        this.effort = null;
         this.message = null;
         this.userInput = null;
         this.interAction = null;
@@ -145,7 +146,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.characters[0],
                         assist,
                         gameData.message,
-                        gameData.noise
+                        gameData.noise,
+                        gameData.effort
                     ]);
                 }
 
@@ -157,6 +159,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.message,
                         gameData.sound,
                         gameData.noise,
+                        gameData.effort,
                         gameData.end
                     ],
                     [   // to SERVER
@@ -174,7 +177,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.characters[0],
                         assist,
                         gameData.message,
-                        gameData.noise
+                        gameData.noise,
+                        gameData.effort
                     ]);
                 }
 
@@ -186,6 +190,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.message,
                         gameData.sound,
                         gameData.noise,
+                        gameData.effort,
                         gameData.end
                     ],
                     [   // to SERVER
@@ -214,6 +219,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 gameData.message = that.message.getNewMsg();
                 gameData.sound = that.sound.getSoundDat();
                 gameData.noise = that.noise.getNoiseDat();
+                gameData.effort = that.effort.getEffortDat();
                 var _isEnd = that.characterManager.checkEnd();
                 if (_isEnd) { that.end(); }
                 _update();
@@ -231,6 +237,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.message = new SYSTEM.Message();
             that.sound = new SYSTEM.Sound();
             that.noise = new SYSTEM.Noise(that);
+            that.effort = new SYSTEM.Effort(that);
             that.userInput = new SYSTEM.UserInput(that);
         };
     };

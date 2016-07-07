@@ -7,7 +7,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var Data = RENDERER.Data;
     var GridSize = Data.grid.size;
     var _Data = {
-        size: 128,
+        size: 3,
+        tileSize: 128,
         tileDispDuration: 50,
         Name: {
             'Blood': 0,
@@ -74,11 +75,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         this.render = function (delta) {
+            delta = delta * 1000;
             for (var i = 0; i < currentAnimation.length; i++) {
-                currentAnimation[i].update(delta);
                 if (currentAnimation[i].isEnd) {
                     clearEffort(i);
                     i--;
+                } else {
+                    currentAnimation[i].update(delta);
                 }
             }
         };
@@ -86,33 +89,35 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // private method -------------------------------------------------
         var createEffort = function (effort) {
             if (effort==null) return;
-            var effortName = effort.name;
-            var x = effort.x;
-            var y = effort.y;
+            var effortName = effort[0];
+            var x = effort[1];
+            var y = effort[2];
 
             if (!tex.hasOwnProperty(effortName)) return;
             var animation = new TextureAnimator(
                 tex[effortName],
-                Math.floor(tex[effortName].image.width / _Data.size), 
-                Math.floor(tex[effortName].image.height / _Data.size),
+                Math.floor(tex[effortName].image.width / _Data.tileSize),
+                Math.floor(tex[effortName].image.height / _Data.tileSize),
                 _Data.tileDispDuration);
-            var mat = new THREE.MeshBasicMaterial({ map: tex[effortName], transparent: true });
-            var geo = new THREE.PlaneGeometry(_Data.size, _Data.size, 1, 1);
+            var mat = new THREE.MeshBasicMaterial({ map: tex[effortName], transparent: true, side: THREE.DoubleSide });
+            var geo = new THREE.PlaneGeometry(_Data.size * GridSize, _Data.size * GridSize, 1, 1);
             var mesh = new THREE.Mesh(geo, mat);
-            mesh.position.set(x * GridSize - entity.map.width / 2, GridSize, y * GridSize - entity.map.height / 2);
+            mesh.rotation.x = -.5 * Math.PI;
+            mesh.position.set((x - entity.map.width / 2) * GridSize, 2*GridSize, (y - entity.map.height / 2) * GridSize);
             animation.mesh = mesh;
             _scene.add(mesh);
+            currentAnimation.push(animation);
         };
 
         var clearEffort = function (idx) {
             _scene.remove(currentAnimation[idx].mesh);
-            currentAnimation.slice(idx, 1);
+            currentAnimation.splice(idx, 1);
         };
 
         // setup -----------------------------------------------
         var _setupTex = function () {
             tex = {};
-            var path = root + Data.files.path[Data.categoryName.sprite];
+            var path = entity.root + Data.files.path[Data.categoryName.sprite];
 
             // texture loader -------------------------------------------------------------------------------------------
             var textureLoader = new THREE.TextureLoader();
@@ -128,4 +133,5 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     };
 
     RENDERER.Effort = Effort;
+    RENDERER.Effort.Data = _Data;
 })(window.Rendxx.Game.Ghost.Renderer);

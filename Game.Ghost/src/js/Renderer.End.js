@@ -51,7 +51,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
         this.updateGame = function (gameData) {
             var s;
-            var endData = gameData[6];
+            var endData = gameData[7];
             if (endData.survivorWin) {
                 s = "Survivor Escaped!"
                 _html['icon'].addClass(_Data.cssClass.success);
