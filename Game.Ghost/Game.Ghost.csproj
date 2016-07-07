@@ -1094,6 +1094,7 @@
     <Content Include="src\js\lib\OBJLoader.js" />
     <Content Include="src\js\GameSetting.js" />
     <Content Include="src\js\Renderer.Prepare.js" />
+    <Content Include="src\js\renderer2D\Renderer2D.Effort.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Camera.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Character.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Data.js" />
@@ -1369,6 +1370,8 @@
     <Content Include="ModelBuilder\OldFile\Player\yellow\player-2.json" />
     <Content Include="ModelBuilder\Sprite\effort.blood.fla" />
     <Content Include="ModelBuilder\Sprite\effort.electric.fla" />
+    <Content Include="Model\Sprite\effort.blood.json" />
+    <Content Include="Model\Sprite\effort.electric.json" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />

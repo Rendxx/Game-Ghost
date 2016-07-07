@@ -17,6 +17,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         this.env = null;
         this.map = null;
         this.noise = null;
+        this.effort = null;
         this.root = root || '';
         this.characters = null;
         this.loading = null;
@@ -120,7 +121,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 _dat_character = gameData[1],
                 _dat_character_assist = gameData[2],
                 _dat_message = gameData[3],
-                _dat_noise = gameData[4];
+                _dat_noise = gameData[4],
+                _dat_effort = gameData[5];
 
             // handle player visible 
             var playerVisibleList = {};
@@ -132,6 +134,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
             that.map.update(_dat_map);
             that.noise.update(_dat_noise);
+            that.effort.update(_dat_effort);
         };
     };
 
@@ -144,7 +147,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         var entity = new Entity(container, root, viewPlayer_in);
         entity.env = new RENDERER.SetupEnv(entity);
         entity.map = new RENDERER.Map(entity);
-        entity.noise = new RENDERER.Noise();
+        entity.noise = new RENDERER.Noise(entity);
+        entity.effort = new RENDERER.Effort(entity);
         entity.loading = new RENDERER.Loading(container);
         return entity;
     };

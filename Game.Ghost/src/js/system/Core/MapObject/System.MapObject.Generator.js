@@ -78,7 +78,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (that.process <= 0) {
                 that.process = 0;
                 that.status = _Data.Status.Worked;
-                that.entity.noise.generateNoise(1, that.noiseName, that.x, that.y);
+                if (that.entity.noise.generateNoise(1, that.noiseName, that.x, that.y)) {
+                    that.entity.effort.once(SYSTEM.Effort.Data.Name.Electric, that.x, that.y);
+                }
                 that.entity.interAction.updateInteraction(that.objType, that.id);
                 that.stopFix(characterId);
                 that.entity.message.send(characterId, _Data.message.fixed);

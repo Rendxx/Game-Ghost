@@ -103,7 +103,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var geo = new THREE.PlaneGeometry(_Data.size * GridSize, _Data.size * GridSize, 1, 1);
             var mesh = new THREE.Mesh(geo, mat);
             mesh.rotation.x = -.5 * Math.PI;
-            mesh.position.set((x - entity.map.width / 2) * GridSize, 2*GridSize, (y - entity.map.height / 2) * GridSize);
+            mesh.position.set((x - entity.map.width / 2) * GridSize, GridSize, (y - entity.map.height / 2) * GridSize);
             animation.mesh = mesh;
             _scene.add(mesh);
             currentAnimation.push(animation);
@@ -122,7 +122,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // texture loader -------------------------------------------------------------------------------------------
             var textureLoader = new THREE.TextureLoader();
             tex[_Data.Name.Blood] = textureLoader.load(path + 'effort.blood.png');
-            tex[_Data.Name.Electric] = textureLoader.load(path + 'name-deco-white.png');
+            tex[_Data.Name.Electric] = textureLoader.load(path + 'effort.electric.png');
         };
 
         var _init = function () {

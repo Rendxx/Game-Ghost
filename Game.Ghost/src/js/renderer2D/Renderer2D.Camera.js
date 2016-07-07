@@ -208,23 +208,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             var fov = Math.PI / 2;
             var visibleLen = visibleSize * GridSize * 3 / 2;
 
-            // vision edge
-            //var edges = sprites['visionEdge'];
-            //edges.clear();
-
-            //edges.lineStyle(6, 0x000000,1);
-            //edges.beginFill(0x000000, 0);
-            ////edges.moveTo(x + GridSize * Math.cos(rotation - fov / 2), y + GridSize * Math.sin(rotation - fov / 2));
-            ////edges.lineTo(x + visibleLen * Math.cos(rotation - fov / 2), y + visibleLen * Math.sin(rotation - fov / 2));
-            //////edges.arc(x, y, GridSize , rotation - fov / 2, rotation + fov / 2, true);
-            //////edges.arc(x, y, visibleLen, rotation + fov / 2, rotation - fov / 2);
-            ////edges.moveTo(x + GridSize * Math.cos(rotation + fov / 2), y + GridSize * Math.sin(rotation + fov / 2));
-            ////edges.lineTo(x + visibleLen * Math.cos(rotation + fov / 2), y + visibleLen * Math.sin(rotation + fov / 2));
-            //edges.moveTo(x + visibleLen * Math.cos(rotation - fov / 2), y + visibleLen * Math.sin(rotation - fov / 2));
-            //edges.lineTo(x,y);
-            //edges.lineTo(x + visibleLen * Math.cos(rotation + fov / 2), y + visibleLen * Math.sin(rotation + fov / 2));
-            //edges.endFill();
-
             mask.clear();
             mask.moveTo(x, y);
             mask.lineStyle(0);
