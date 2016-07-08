@@ -1458,6 +1458,7 @@
     <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.blend1" />
     <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.portrait.fla" />
     <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.tex.fla" />
+    <Content Include="ModelBuilder\Sprite\QTE.generator.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />
