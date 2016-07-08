@@ -772,6 +772,9 @@
     <Content Include="ModelBuilder\Sprite\noise.key.png" />
     <Content Include="ModelBuilder\Sprite\noise.operation.png" />
     <Content Include="ModelBuilder\Sprite\noise.touch.png" />
+    <Content Include="ModelBuilder\Sprite\QTE.generator.circle.png" />
+    <Content Include="ModelBuilder\Sprite\QTE.generator.pointer.png" />
+    <Content Include="ModelBuilder\Sprite\QTE.generator.tip.png" />
     <Content Include="ModelBuilder\Sprite\sports.png" />
     <Content Include="ModelBuilder\Stuff\vase_1.png" />
     <Content Include="ModelBuilder\Player\survivor.old\wood-table.jpg" />
@@ -1116,6 +1119,9 @@
     <Content Include="Model\Sprite\noise.touch.png" />
     <Content Include="Model\Sprite\playerHighlight.dds" />
     <Content Include="Model\Sprite\playerHighlight.png" />
+    <Content Include="Model\Sprite\QTE.generator.circle.png" />
+    <Content Include="Model\Sprite\QTE.generator.pointer.png" />
+    <Content Include="Model\Sprite\QTE.generator.tip.png" />
     <Content Include="Model\Sprite\shadow.png" />
     <Content Include="Model\Sprite\Sprite_block.dds" />
     <Content Include="Model\Sprite\Sprite_block.png" />
