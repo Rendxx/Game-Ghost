@@ -30,7 +30,6 @@
   "action2D": {
     "idle": true,
     "walk": true,
-    "run": true,
     "attack": false
   }
 }
