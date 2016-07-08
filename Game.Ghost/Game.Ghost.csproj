@@ -293,6 +293,10 @@
     <Content Include="ModelBuilder\OldFile\Player\yellow\Player-Texture.dds" />
     <Content Include="ModelBuilder\OldFile\Player\yellow\Player-Texture.png" />
     <Content Include="ModelBuilder\Player\basic\player-basic.tex.png" />
+    <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.portrait.png" />
+    <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.portrait2.png" />
+    <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.tex.png" />
+    <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.uv.png" />
     <Content Include="ModelBuilder\Player\ghost\mary\animation\idle\0001.png" />
     <Content Include="ModelBuilder\Player\ghost\mary\animation\run\0001.png" />
     <Content Include="ModelBuilder\Player\ghost\mary\animation\run\0002.png" />
@@ -1165,6 +1169,10 @@
     <Folder Include="css\" />
     <Folder Include="js\" />
     <Folder Include="lib\" />
+    <Folder Include="ModelBuilder\Player\ghost\butcher\animation\die\" />
+    <Folder Include="ModelBuilder\Player\ghost\butcher\animation\idle\" />
+    <Folder Include="ModelBuilder\Player\ghost\butcher\animation\run\" />
+    <Folder Include="ModelBuilder\Player\ghost\butcher\animation\walk\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />
@@ -1372,6 +1380,11 @@
     <Content Include="ModelBuilder\Sprite\effort.electric.fla" />
     <Content Include="Model\Sprite\effort.blood.json" />
     <Content Include="Model\Sprite\effort.electric.json" />
+    <Content Include="ModelBuilder\Player\ghost\butcher\animation\animation.fla" />
+    <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.blend" />
+    <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.blend1" />
+    <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.portrait.fla" />
+    <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.tex.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />
