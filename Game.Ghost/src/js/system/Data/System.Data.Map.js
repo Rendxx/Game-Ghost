@@ -17,7 +17,7 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
             dogcan2: 'DogCan2.json',
             FurnitureTest: 'FurnitureTest.json',
             Hospital1: 'Hospital1.json',
-            Hospital2: 'Hospital2.json',
+            Hospital4: 'Hospital4.json',
             Hospital5: 'Hospital5.json',
             TestApple: 'TestApple.json'
         },

@@ -56,10 +56,10 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
                     max: 100
                 },
                 endurance: {
-                    init: 18,
-                    max: 18,
+                    init: 10,
+                    max: 10,
                     cost: 3,
-                    recover: 1.0
+                    recover: 1.2
                 },
                 speed: {
                     "rotate": {
@@ -67,8 +67,8 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
                         "body": 60
                     },
                     "move": {
-                        "walk": 8,
-                        "run": 18,
+                        "walk": 10,
+                        "run": 19,
                         "back": -6
                     }
                 },

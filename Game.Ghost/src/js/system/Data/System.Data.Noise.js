@@ -10,10 +10,10 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
 (function (DATA) {
     DATA.noise = {
         door: {
-            probability: 0.05
+            probability: 0.06
         },
         furniture: {
-            probability: 0.01
+            probability: 0.02
         },
         key: {
             probability: 0.2

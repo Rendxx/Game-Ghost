@@ -4,17 +4,17 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.GameSetting = {
     max:7,
     map: [
+        //{
+        //    name: "Hospital5",
+        //    id: "Hospital5"
+        //},
+        //{
+        //    name: "Hospital1",
+        //    id: "Hospital1"
+        //},
         {
-            name: "Hospital5",
-            id: "Hospital5"
-        },
-        {
-            name: "Hospital1",
-            id: "Hospital1"
-        },
-        {
-            name: "Hospital2",
-            id: "Hospital2"
+            name: "Hospital",
+            id: "Hospital4"
         },
         {
             name: "Test3",
