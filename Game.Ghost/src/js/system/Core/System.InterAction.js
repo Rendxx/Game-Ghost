@@ -163,7 +163,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 } 
                 var d = Math.abs(r - list[i].angle);
                 if (d > 180) d = 360 - d;
-                if (d > 80 && !(list[i].info.type === SYSTEM.MapObject.Door.Data.ObjType && list[i].info.op[0] === SYSTEM.MapObject.Door.Data.Operation.Close && )) continue;
+                if (d > 80 && !(list[i].info.type === SYSTEM.MapObject.Door.Data.ObjType && list[i].info.op[0] === SYSTEM.MapObject.Door.Data.Operation.Close)) continue;
 
                 if (d < closestAngle) {
                     closestAngle = d;
