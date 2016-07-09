@@ -73,12 +73,24 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         if (this.fixFunc.hasOwnProperty(characterId)) clearInterval(this.fixFunc[characterId]);
         var that = this;
-        var messageCount=15;
+        var messageCount = 15;
+        var qteCount = 0;
+        var qteSuccess = function () {
+            that.process = Math.max(that.process-30, 0);
+            that.entity.message.send(characterId, _Data.message.fixing + (100 - Math.ceil(that.process * 100 / that.maxProcess)) + '%'+ '  (+)');
+            messageCount = 15;
+        };
+        var qteFail = function () {
+            that.entity.noise.generate(1, that.noiseName, that.x, that.y);
+            that.process = Math.min(100 + that.process, that.maxProcess);
+            that.entity.message.send(characterId, _Data.message.fixing + (100 - Math.ceil(that.process * 100 / that.maxProcess)) + '%' + '  (-)');
+            messageCount = 15;
+        };
         this.fixFunc[characterId] = setInterval(function () {
             if (that.process <= 0) {
                 that.process = 0;
                 that.status = _Data.Status.Worked;
-                if (that.entity.noise.generateNoise(1, that.noiseName, that.x, that.y)) {
+                if (that.entity.noise.generate(1, that.noiseName, that.x, that.y)) {
                     that.entity.effort.once(SYSTEM.Effort.Data.Name.Electric, that.x, that.y);
                 }
                 that.entity.interAction.updateInteraction(that.objType, that.id);
@@ -88,10 +100,15 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 return;
             }
             that.process--;
-            that.entity.noise.generateNoise(that.noiseProbability, that.noiseName, that.x, that.y);
             if (--messageCount <= 0) {
                 that.entity.message.send(characterId, _Data.message.fixing + (100-Math.ceil(that.process * 100 / that.maxProcess)) + '%');
                 messageCount = 15;
+            }
+            if (--qteCount <= 0) {
+                qteCount = 0;
+                if (that.entity.quickTimeEvent.generate(Data.qte.generator.probability, SYSTEM.QuickTimeEvent.Data.Name.Generator, characterId,qteSuccess, qteFail)) {
+                    qteCount = 240;
+                }
             }
             that.updateData();
         }, 40);
@@ -100,6 +117,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Generator.prototype.stopFix = function (characterId) {
         if (this.fixFunc.hasOwnProperty(characterId)) clearInterval(this.fixFunc[characterId]);
+        this.entity.quickTimeEvent.tryCancel(characterId);
         this.updateData();
     }
 

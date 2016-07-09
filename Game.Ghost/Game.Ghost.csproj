@@ -1195,6 +1195,7 @@
     <Content Include="src\js\renderer\Renderer.Camera.js" />
     <Content Include="src\js\renderer\Renderer.Loading.js" />
     <Content Include="src\js\renderer\Renderer.Effort.js" />
+    <Content Include="src\js\renderer\Renderer.QuickTimeEvent.js" />
     <Content Include="src\js\renderer\Renderer.Sound.js" />
     <Content Include="src\js\renderer\Renderer.Map.js" />
     <Content Include="src\js\renderer\Renderer.Test.js" />
@@ -1211,12 +1212,14 @@
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Body.js" />
     <Content Include="src\js\system\Core\MapObject\System.MapObject.Basic.js" />
     <Content Include="src\js\system\Core\System.Effort.js" />
+    <Content Include="src\js\system\Core\System.QuickTimeEvent.js" />
     <Content Include="src\js\system\Core\System.Noise.js" />
     <Content Include="src\js\system\Core\System.Sound.js" />
     <Content Include="src\js\system\Core\System.CharacterManager.js" />
     <Content Include="src\js\system\Core\System.UserInput.js" />
     <Content Include="src\js\system\Core\System.Message.js" />
     <Content Include="src\js\system\Core\System.WebWorkerWrapper.js" />
+    <Content Include="src\js\system\Data\System.Data.QuickTimeEvent.js" />
     <Content Include="src\js\system\Data\System.Data.Noise.js" />
     <Content Include="src\js\system\Data\System.Data.Map.js" />
     <Content Include="src\js\system\Data\System.Data.Item.js" />

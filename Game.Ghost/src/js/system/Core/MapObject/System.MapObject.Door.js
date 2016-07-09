@@ -84,14 +84,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             return;
         }
         this.status = _Data.Status.Opened;
-        this.entity.noise.generateNoise(this.noiseProbability, this.noiseName, this.x, this.y);
+        this.entity.noise.generate(this.noiseProbability, this.noiseName, this.x, this.y);
         this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.OpenDoor);
         this.updateData();
     };
 
     Door.prototype.close = function () {
         this.status = _Data.Status.Closed;
-        this.entity.noise.generateNoise(this.noiseProbability, this.noiseName, this.x, this.y);
+        this.entity.noise.generate(this.noiseProbability, this.noiseName, this.x, this.y);
         this.entity.sound.once(SYSTEM.Sound.Data.Type.Normal, _Data.ObjType, this.id, SYSTEM.Sound.Data.Name.CloseDoor);
         this.updateData();
     };

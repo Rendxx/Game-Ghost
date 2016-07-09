@@ -43,7 +43,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             ratio = ratio_in;
         };
 
-        this.generateNoise = function (probability, noiseName, x, y) {
+        this.generate = function (probability, noiseName, x, y) {
             if (Math.random() > probability * ratio) return false;
             this.once(noiseName, x, y);
             return true;

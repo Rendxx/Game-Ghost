@@ -78,6 +78,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             msg = null,
 
             // cache
+            qte = null,
             interactionIcon = {},
             highLightIcon = null,
             doorIcon = {};
@@ -124,6 +125,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             createFrame();
             createEnduranceBar();
+            setupQTE();
         };
 
         this.resize = function (x, y, w, h) {
@@ -201,6 +203,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 updateMessage();
                 updateDoor();
                 updateNoise();
+                updateQTE();
             }
 
             // fog
@@ -648,6 +651,87 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprites["edges"].material.opacity = d2;
         };
 
+        // QTE -------------------------------------------------------
+        var setupQTE = function(){
+            sprites["qte"] = {};
+        };
+
+        var updateQTE = function () {
+            var q = entity.quickTimeEvent.list[that.character.id];
+            if (qte !== null && (q == null || q.name !== qte.name)) {
+                hideQTE();
+            }
+
+            if (q == null) {
+                return;
+            }
+            else if (qte === null) {
+                showQTE(q);
+            } else {
+                increaseQTE(q);
+            }
+        };
+
+        var showQTE = function (qte_data) {
+            if (!sprites["qte"] .hasOwnProperty(qte_data.name)){
+                var s = {};
+                s['container'] = new THREE.Group();
+                s['container'].position.set(0,0,5);
+
+                var spr = new THREE.Sprite(new THREE.SpriteMaterial({
+                    map: tex['qte']['circle'][qte_data.name],
+                    transparent: true,
+                    opa:0.8
+                }));
+                spr.scale.set(128, 128, 1);
+                spr.position.set(0,0,1);
+                s['container'].add(spr);
+                s['circle'] = spr;
+
+                var spr = new THREE.Sprite(new THREE.SpriteMaterial({
+                    map: tex['qte']['pointer'][qte_data.name],
+                    transparent: true,
+                    opa: 0.8
+                }));
+                spr.scale.set(128, 128, 1);
+                spr.position.set(0, 0, 2);
+                s['container'].add(spr);
+                s['pointer'] = spr;
+
+                var spr = new THREE.Sprite(new THREE.SpriteMaterial({
+                    map: tex['qte']['tip'][qte_data.name],
+                    transparent: true
+                }));
+                spr.scale.set(128, 128, 1);
+                spr.position.set(0,0,3);
+                s['container'].add(spr);
+                s['tip'] = spr;
+
+
+                sprites["qte"][qte_data.name] = s;
+            }
+
+            var t = sprites["qte"][qte_data.name];
+            t['container'].position.y = -that.height / 6;
+            t['circle'].material.rotation = -(qte_data.start/qte_data.duration)*Math.PI*2;
+            t['pointer'].material.rotation = 0;
+            that.sceneOrtho.add(t['container']);
+            
+            qte = {
+                name: qte_data.name,
+                spr: t
+            };
+        };
+
+        var increaseQTE = function (qte_data) {
+            qte.spr['pointer'].material.rotation = -(qte_data.current / qte_data.duration) * Math.PI * 2;
+        };
+
+        var hideQTE = function () {
+            that.sceneOrtho.remove(qte.spr['container']);
+            qte = null;
+        };
+
         // Helper ----------------------------------------------------
         var _helper_canvas = document.createElement('canvas');
         var _helper_canvas_ctx = _helper_canvas.getContext('2d');
@@ -806,8 +890,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                     }
                 }
             };
-            tex['noise'] = {
-
+            tex['noise'] = {};
+            tex['qte'] = {
+                'circle': {},
+                'pointer': {},
+                'tip': {}
             };
 
             tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open.png');
@@ -843,6 +930,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['noise'][RENDERER.Noise.Data.Name.Touch] = textureLoader.load(path + 'noise.touch.png');
             tex['noise'][RENDERER.Noise.Data.Name.Operation] = textureLoader.load(path + 'noise.operation.png');
             //tex['enduranceBarBase'] = textureLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.png');
+
+            tex['qte']['circle'][RENDERER.QuickTimeEvent.Data.Name.Generator] = textureLoader.load(path + 'QTE.generator.circle.png');
+            tex['qte']['pointer'][RENDERER.QuickTimeEvent.Data.Name.Generator] = textureLoader.load(path + 'QTE.generator.pointer.png');
+            tex['qte']['tip'][RENDERER.QuickTimeEvent.Data.Name.Generator] = textureLoader.load(path + 'QTE.generator.tip.png');
+
 
             //// DDS Loader -------------------------------------------------------------------------------------------
             //var ddsLoader = new THREE.DDSLoader();

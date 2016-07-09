@@ -83,6 +83,7 @@
         "#src#/renderer/Renderer.Sound.js",
         "#src#/renderer/Renderer.Noise.js",
         "#src#/renderer/Renderer.Effort.js",
+        "#src#/renderer/Renderer.QuickTimeEvent.js",
         "#src#/renderer/Renderer.Test.js",
         "#src#/renderer/Renderer.Main.js"
       ],
@@ -97,6 +98,7 @@
         "#src#/system/Core/System.Sound.js",
         "#src#/system/Core/System.Noise.js",
         "#src#/system/Core/System.Effort.js",
+        "#src#/system/Core/System.QuickTimeEvent.js",
         // MapObject
         "#src#/system/Core/MapObject/System.MapObject.Basic.js",
         "#src#/system/Core/MapObject/System.MapObject.Body.js",

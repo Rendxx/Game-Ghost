@@ -20,6 +20,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.characters = null;
         this.sound = null;
         this.effort = null;
+        this.quickTimeEvent = null;
         this.loading = null;
         this.test = null;
         this.started = false;
@@ -137,7 +138,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 _dat_message = gameData[3],
                 _dat_sound = gameData[4],
                 _dat_noise = gameData[5],
-                _dat_effort = gameData[6];
+                _dat_effort = gameData[6],
+                _dat_qte = gameData[7];
 
             that.map.update(_dat_map);
 
@@ -166,6 +168,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             that.sound.update(_dat_sound, _dat_character_assist);
             that.noise.update(_dat_noise);
             that.effort.update(_dat_effort);
+            that.quickTimeEvent.update(_dat_qte);
         };
     };
 
@@ -181,6 +184,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         entity.sound = new RENDERER.Sound(entity);
         entity.noise = new RENDERER.Noise(entity);
         entity.effort = new RENDERER.Effort(entity);
+        entity.quickTimeEvent = new RENDERER.QuickTimeEvent(entity);        
         entity.loading = new RENDERER.Loading(container);
         //entity.test = new RENDERER.Test(entity);
         return entity;

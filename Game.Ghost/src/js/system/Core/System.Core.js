@@ -26,6 +26,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.sound = null;
         this.noise = null;
         this.effort = null;
+        this.quickTimeEvent = null;
         this.message = null;
         this.userInput = null;
         this.interAction = null;
@@ -55,6 +56,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (setupData_in === undefined || setupData_in === null) return;
             gameData.map = [{}, {}];                // [ all data , modified data ]
             gameData.characters = [[], []];         // [ basic data , assist data ]
+            gameData.qte = {};
             gameData.map[0] = gameData_in[0];
             gameData.characters[0] = gameData_in[1];
             initComponent(setupData_in.model, setupData_in.map, setupData_in.player);
@@ -70,6 +72,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         this.setup = function (modelData, mapData, playerData) {
             gameData.map = [{}, {}];                // [ all data , modified data ]
             gameData.characters = [[], []];         // [ basic data , assist data ]
+            gameData.qte = {};
             initComponent(modelData, mapData, playerData);
             this.map.setup();
             this.interAction.reset();
@@ -147,7 +150,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         assist,
                         gameData.message,
                         gameData.noise,
-                        gameData.effort
+                        gameData.effort,
+                        gameData.qte
                     ]);
                 }
 
@@ -160,6 +164,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.sound,
                         gameData.noise,
                         gameData.effort,
+                        gameData.qte,
                         gameData.end
                     ],
                     [   // to SERVER
@@ -178,7 +183,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         assist,
                         gameData.message,
                         gameData.noise,
-                        gameData.effort
+                        gameData.effort,
+                        gameData.qte
                     ]);
                 }
 
@@ -191,6 +197,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.sound,
                         gameData.noise,
                         gameData.effort,
+                        gameData.qte,
                         gameData.end
                     ],
                     [   // to SERVER
@@ -216,6 +223,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 // ---------------------------------------
                 that.interAction.update();
                 that.characterManager.update();
+                that.quickTimeEvent.update();
                 gameData.message = that.message.getNewMsg();
                 gameData.sound = that.sound.getSoundDat();
                 gameData.noise = that.noise.getNoiseDat();
@@ -238,6 +246,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.sound = new SYSTEM.Sound();
             that.noise = new SYSTEM.Noise(that);
             that.effort = new SYSTEM.Effort(that);
+            that.quickTimeEvent = new SYSTEM.QuickTimeEvent(that, gameData.qte);
             that.userInput = new SYSTEM.UserInput(that);
         };
     };

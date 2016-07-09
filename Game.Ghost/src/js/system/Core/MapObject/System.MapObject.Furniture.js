@@ -120,7 +120,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     };
 
     Furniture.prototype.touch = function () {
-        this.entity.noise.generateNoise(this.noiseProbability, this.noiseName, this.x, this.y);
+        this.entity.noise.generate(this.noiseProbability, this.noiseName, this.x, this.y);
     };
 
     // ----------------------------------------------------------------

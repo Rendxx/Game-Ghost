@@ -23,7 +23,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Method --------------------------------------------------------
     Key.prototype.touch = function (x, y) {
-        this.entity.noise.generateNoise(this.noiseProbability, this.noiseName, x, y);
+        this.entity.noise.generate(this.noiseProbability, this.noiseName, x, y);
     };
 
     // ---------------------------------------------------------------
