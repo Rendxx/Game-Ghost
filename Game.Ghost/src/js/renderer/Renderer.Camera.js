@@ -680,8 +680,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                 var spr = new THREE.Sprite(new THREE.SpriteMaterial({
                     map: tex['qte']['circle'][qte_data.name],
-                    transparent: true,
-                    opa:0.8
+                    transparent: true
                 }));
                 spr.scale.set(128, 128, 1);
                 spr.position.set(0,0,1);
@@ -690,8 +689,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
                 var spr = new THREE.Sprite(new THREE.SpriteMaterial({
                     map: tex['qte']['pointer'][qte_data.name],
-                    transparent: true,
-                    opa: 0.8
+                    transparent: true
                 }));
                 spr.scale.set(128, 128, 1);
                 spr.position.set(0, 0, 2);

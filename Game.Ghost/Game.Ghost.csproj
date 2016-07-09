@@ -1188,6 +1188,7 @@
     <Content Include="src\js\renderer2D\Renderer2D.Loading.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Main.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Noise.js" />
+    <Content Include="src\js\renderer2D\Renderer2D.QuickTimeEvent.js" />
     <Content Include="src\js\renderer2D\Renderer2D.RayCasting.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Map.js" />
     <Content Include="src\js\renderer\Renderer.Character.js" />

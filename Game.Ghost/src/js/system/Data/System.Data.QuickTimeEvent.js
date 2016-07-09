@@ -11,9 +11,9 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
     DATA.qte = {
         generator: {
             name: 'generator',
-            duration: 60,
-            receive: 15,
-            probability: 0.005
+            duration: 64,
+            receive: 16,
+            probability: 0.004
         }
     };
 })(window.Rendxx.Game.Ghost.System.Data);

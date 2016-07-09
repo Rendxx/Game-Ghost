@@ -98,6 +98,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             offset_x = 0,
             offset_y = 0,
             mask = null,
+            qte=null,
 
             // cache
             visibleSize = Data.visibleSize,
@@ -132,6 +133,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             createFog(scene['hud']);
             createDanger(scene['hud']);
             setupNoise(scene['hud']);
+            setupQTE();
             that.resize(that.width, that.height);
         };
 
@@ -174,6 +176,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 updateDoor();
                 updateVision(that.character.x, that.character.y, that.character.rotation.body + Math.PI / 2, Math.PI / 2);
                 updateNoise(entity.noise.getNoiseDat());
+                updateQTE(entity.quickTimeEvent.list[that.character.id]);
             }
         };
 
@@ -881,6 +884,76 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             sprites["danger"].alpha = _dangerCache;
         };
 
+        // QTE -------------------------------------------------------
+        var setupQTE = function () {
+            sprites["qte"] = {};
+        };
+
+        var updateQTE = function (q) {
+            if (qte !== null && (q == null || q.name !== qte.name)) {
+                hideQTE();
+            }
+
+            if (q == null) {
+                return;
+            }
+            else if (qte === null) {
+                showQTE(q);
+            } else {
+                increaseQTE(q);
+            }
+        };
+
+        var showQTE = function (qte_data) {
+            if (!sprites["qte"].hasOwnProperty(qte_data.name)) {
+                var s = {};
+                s['container'] = new PIXI.Container();
+                s['container'].position.set(0, 0);
+                s['container'].scale.set(1.5, 1.5);
+
+                spr = new PIXI.Sprite(tex['qte']['circle'][qte_data.name]);
+                spr.anchor.set(0.5,0.5);
+                spr.position.set(0, 0);
+                s['container'].addChild(spr);
+                s['circle'] = spr;
+
+                spr = new PIXI.Sprite(tex['qte']['pointer'][qte_data.name]);
+                spr.anchor.set(0.5, 0.5);
+                spr.position.set(0, 0);
+                s['container'].addChild(spr);
+                s['pointer'] = spr;
+
+                spr = new PIXI.Sprite(tex['qte']['tip'][qte_data.name]);
+                spr.anchor.set(0.5, 0.5);
+                spr.position.set(0, 0);
+                s['container'].addChild(spr);
+                s['tip'] = spr;
+                
+                sprites["qte"][qte_data.name] = s;
+            }
+
+            var t = sprites["qte"][qte_data.name];
+            t['container'].position.x = that.width / 2;
+            t['container'].position.y = that.height*2 / 3;
+            t['circle'].rotation = (qte_data.start / qte_data.duration) * Math.PI * 2;
+            t['pointer'].rotation = 0;
+            scene['hud'].addChild(t['container']);
+
+            qte = {
+                name: qte_data.name,
+                spr: t
+            };
+        };
+
+        var increaseQTE = function (qte_data) {
+            qte.spr['pointer'].rotation = (qte_data.current / qte_data.duration) * Math.PI * 2;
+        };
+
+        var hideQTE = function () {
+            scene['hud'].removeChild(qte.spr['container']);
+            qte = null;
+        };
+
 
         // setup -----------------------------------------------------
         var _setupScale = function () {
@@ -917,8 +990,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     }
                 }
             };
-            tex['noise'] = {
-
+            tex['noise'] = {};
+            tex['qte'] = {
+                'circle': {},
+                'pointer': {},
+                'tip': {}
             };
 
             PIXI.loader
@@ -949,6 +1025,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             .add(path + 'noise.door.png')
             .add(path + 'noise.touch.png')
             .add(path + 'noise.operation.png')
+
+            .add(path + 'QTE.generator.circle.png')
+            .add(path + 'QTE.generator.pointer.png')
+            .add(path + 'QTE.generator.tip.png')
 
             .load(function (loader, resources) {
                 tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = PIXI.Texture.fromImage(path + 'interaction.open.png');
@@ -983,6 +1063,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 tex['noise'][RENDERER.Noise.Data.Name.Door] = PIXI.Texture.fromImage(path + 'noise.door.png');
                 tex['noise'][RENDERER.Noise.Data.Name.Touch] = PIXI.Texture.fromImage(path + 'noise.touch.png');
                 tex['noise'][RENDERER.Noise.Data.Name.Operation] = PIXI.Texture.fromImage(path + 'noise.operation.png');
+
+                tex['qte']['circle'][RENDERER.QuickTimeEvent.Data.Name.Generator] = PIXI.Texture.fromImage(path + 'QTE.generator.circle.png');
+                tex['qte']['pointer'][RENDERER.QuickTimeEvent.Data.Name.Generator] = PIXI.Texture.fromImage(path + 'QTE.generator.pointer.png');
+                tex['qte']['tip'][RENDERER.QuickTimeEvent.Data.Name.Generator] = PIXI.Texture.fromImage(path + 'QTE.generator.tip.png');
                 _isLoaded = true;
             });
         };

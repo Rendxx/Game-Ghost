@@ -77,13 +77,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         var qteCount = 0;
         var qteSuccess = function () {
             that.process = Math.max(that.process-30, 0);
-            that.entity.message.send(characterId, _Data.message.fixing + (100 - Math.ceil(that.process * 100 / that.maxProcess)) + '%'+ '  (+)');
+            that.entity.message.send(characterId, _Data.message.fixing + (100 - Math.ceil(that.process * 100 / that.maxProcess)) + '%' + '  [↑]');
             messageCount = 15;
         };
         var qteFail = function () {
             that.entity.noise.generate(1, that.noiseName, that.x, that.y);
             that.process = Math.min(100 + that.process, that.maxProcess);
-            that.entity.message.send(characterId, _Data.message.fixing + (100 - Math.ceil(that.process * 100 / that.maxProcess)) + '%' + '  (-)');
+            that.entity.message.send(characterId, _Data.message.fixing + (100 - Math.ceil(that.process * 100 / that.maxProcess)) + '%' + '  [↓]');
             messageCount = 15;
         };
         this.fixFunc[characterId] = setInterval(function () {
