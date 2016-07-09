@@ -10,7 +10,12 @@
       "init": 0,
       "max": 1000,
       "cost": 400,
-      "recover": 20
+      "recover": 8
+    },
+    "speed": {
+      "move": {
+        "walk": 10
+      }
     }
   },
   "action": {

@@ -65,6 +65,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         SYSTEM.Character.Basic.prototype.move.call(this, direction, directionHead, rush_in, stay_in, headFollow_in);
     }
     
+    Ghost.prototype._move = function (deltaX, deltaY) {
+        var ratio = 1 + (this.endurance / this.enduranceMax) * 0.5;
+        SYSTEM.Character.Basic.prototype._move.call(this, deltaX * ratio, deltaY * ratio);
+    }
+    
     Ghost.prototype._updateStatus = function () {
         // endurance
         if ((this.obCount <= 0 || this.endurance <= 0) && this.observing) { this.observing = false; this.obCount = 0; }
@@ -119,7 +124,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Ghost.prototype.kill = function () {
         if (this.isAction) return;
-        if (this.endurance < this.enduranceMax / 20 && this.isAction) return;
+        this.endurance = Math.max(this.endurance - this.enduranceMax / 6, 0);
         this.actionForce = 'attack';
         this.isAction = true;
         var that = this;
@@ -127,7 +132,6 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.isAction = false;
             that.actionForce = null;
         },1600);
-        this.endurance -= this.enduranceMax / 20;
         var that = this;
         setTimeout(function () {
             for (var i = 0, l = that.entity.characterManager.characters.length; i < l; i++) {
