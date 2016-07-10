@@ -85,7 +85,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _scene = entity.env.scene['map'],
             _layers = entity.env.layers,
             _loadCount = 0,
-            darkScreen = null,
+            _dangerCache=0,
 
             _animation = {},
             // static map
@@ -176,14 +176,20 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             _scene.addChild(_layers['light']);
 
             var graphics = new PIXI.Graphics();
-
-            // set a fill and line style
             graphics.lineStyle(0);
             graphics.beginFill(0x111111, 1);
             graphics.drawRect(0, 0, that.width * GridSize, that.height * GridSize);
             graphics.alpha = 0.6;
             _layers['light'].addChild(graphics);
-            darkScreen = graphics;
+            that.dark = graphics;
+
+            var graphics = new PIXI.Graphics();
+            graphics.lineStyle(0);
+            graphics.beginFill(0x990000, 1);
+            graphics.drawRect(0, 0, that.width * GridSize, that.height * GridSize);
+            graphics.alpha = 0;
+            _layers['light'].addChild(graphics);
+            that.danger = graphics;
         };
 
         var setupBlockMap = function (mapData, modelData) {
@@ -1021,7 +1027,10 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
 
         var updateLight = function () {
-            if (gameData.da != null) that.danger = gameData.da;
+            if (!gameData.hasOwnProperty('da')) return;
+            if (_dangerCache === gameData.da) return;
+            _dangerCache = gameData.da;
+            that.danger.alpha=(_dangerCache / 400);
         };
 
         var createEndPos = function (dat) {

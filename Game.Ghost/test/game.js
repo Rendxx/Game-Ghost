@@ -3,7 +3,7 @@
 $(function () {
     // game -----------------------------------------------------
     var _root = null;
-    var viewId = 'p1';
+    var viewId = 'p7';
     var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], { 0: true, 1: true, 2: true });
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
@@ -85,14 +85,14 @@ $(function () {
             id: 'p7',
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
-            modelId: 'ghost-butcher',
+            modelId: 'ghost-specter',
             team: 0
         }
     };
     GameSetup = function () {
         system.setup(playerData, {
             player: playerData,
-            map: 'Hospital4'
+            map: 'test3'
         });
         system.start();
         renderer.show();

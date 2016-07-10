@@ -201,7 +201,11 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 }
                 createVision();
             }
-            RENDERER.RayCasting(x / GridSize, y / GridSize, rotation, fov, visibleSize * 3 / 2, entity.map.blockMap, 60, drawShadowMap);
+            if (!that.character.isVisible) {
+                mask.clear();
+            } else {
+                RENDERER.RayCasting(x / GridSize, y / GridSize, rotation, fov, visibleSize * 3 / 2, entity.map.blockMap, 60, drawShadowMap);
+            }
         };
 
         var drawShadowMap = function (block) {
@@ -871,7 +875,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         };
         var updateDanger = function () {
             if (_dangerCache === that.character.danger) return;
-            var d = Math.max(that.character.danger, entity.map.danger);
+            var d = that.character.danger;
 
             if (Math.abs(_dangerCache - d) <= _Data.dangerSpeed) {
                 _dangerCache = d;
@@ -953,8 +957,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             scene['hud'].removeChild(qte.spr['container']);
             qte = null;
         };
-
-
+        
         // setup -----------------------------------------------------
         var _setupScale = function () {
             var min = Math.max(that.width, that.height);

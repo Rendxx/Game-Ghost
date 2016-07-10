@@ -80,6 +80,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 hide: {}
             },
             cache_protect = null,
+            cache_appearing = null,
             cache_lightR = null,
             teleportingFlag = false,
             torchData = Data.character.parameter[_para.role].light.torch,
@@ -105,6 +106,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 light: data_in[8],
                 battery: data_in[9],
                 protect: data_in[19],               // survivor
+                appearing: data_in[20],             // ghost: specter
 
                 visibleCharacter: assist_in[0],
                 danger: assist_in[1],
@@ -122,6 +124,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             that.visibleCharacter = gameData.visibleCharacter;
             that.isVisible = isVisible_in;
+            if (gameData.appearing === 0) that.isVisible = false;
         };
 
         this.showMessage = function (msg) {
@@ -177,6 +180,21 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 } else {
                     for (var i = 0; i < this.materials.length; i++) {
                         this.materials[i].opacity = 1;
+                    }
+                }
+            } else if (gameData.appearing != undefined && gameData.appearing !== cache_appearing) {
+                cache_appearing = gameData.appearing;
+                if (gameData.appearing === 1 ) {
+                    for (var i = 0; i < this.materials.length; i++) {
+                        this.materials[i].opacity = 1;
+                    }
+                }else if (gameData.appearing === 0) {
+                    for (var i = 0; i < this.materials.length; i++) {
+                        this.materials[i].opacity = 0.5;
+                    }
+                } else {
+                    for (var i = 0; i < this.materials.length; i++) {
+                        this.materials[i].opacity = gameData.appearing;
                     }
                 }
             }

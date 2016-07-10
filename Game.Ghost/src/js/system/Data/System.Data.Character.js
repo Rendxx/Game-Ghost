@@ -89,7 +89,7 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
                     init: 0,
                     max: 1000,
                     cost: 500,
-                    recover: 20
+                    recover: 16
                 },
                 speed: {
                     "rotate": {

@@ -12,16 +12,12 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var _Data = {
         objType: 'character',
         message: {
-            getKey: "Get: ",
-            hasKey: "Already have: ",
-            doorLock: "The door [#name#] is locked",
-            doorBlock: "The door is blocked from other side!",
-            useKey: "Key [#key#] is used",
-            noKey: "Nothing found",
+            cantAppear: "I need more power!"
         },
         range: {
-            danger: 14
+            danger: 12
         },
+        appearingTime: 40,
         touchNumer: 60,
         hurtNumer: 160
     };
@@ -30,8 +26,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     var Ghost = function (id, characterPara, characterData, entity) {
         SYSTEM.Character.Basic.call(this, id, characterPara, characterData, entity);
         // data
-        this.observing = false;
-        this.obCount = 0;       // count to observer
+        this.hidden = true;
+        this.appearCount = 0;
+        this.appearing = false;
         this.touchList = {};
         this.isAction = false;
     };
@@ -40,21 +37,33 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     // Method --------------------------------------------------------
 
+    Ghost.prototype.reset = function (_recoverData) {
+        if (_recoverData === null || _recoverData === undefined) return;
+        if (_recoverData[20] != null) this.hidden = _recoverData[20]==0;
+        SYSTEM.Character.Basic.prototype.reset.call(this, _recoverData);
+    };
+
+    Ghost.prototype.toJSON = function () {
+        var dat = SYSTEM.Character.Basic.prototype.toJSON.call(this);
+        dat[20] = this.hidden ? this.appearCount / _Data.appearingTime : 1;
+        return dat;
+    };
+
     Ghost.prototype.checkOperation = function (obj) {
         var info = obj.check();
         switch (obj.objType) {
             case SYSTEM.MapObject.Door.Data.ObjType:
-                if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened) {
-                    return [SYSTEM.MapObject.Door.Data.Operation.Close];
-                }
-                return [SYSTEM.MapObject.Door.Data.Operation.Open];
+                //if (info.status === SYSTEM.MapObject.Door.Data.Status.Opened) {
+                //    return [SYSTEM.MapObject.Door.Data.Operation.Close];
+                //}
+                //return [SYSTEM.MapObject.Door.Data.Operation.Open];
                 break;
             case SYSTEM.MapObject.Furniture.Data.ObjType:
-                if (info.status === SYSTEM.MapObject.Furniture.Data.Status.None) return [SYSTEM.MapObject.Basic.Data.Operation.None];
-                if (info.status === SYSTEM.MapObject.Furniture.Data.Status.Closed) {
-                    return [SYSTEM.MapObject.Furniture.Data.Operation.Open];
-                }
-                return [SYSTEM.MapObject.Furniture.Data.Operation.Close];
+                //if (info.status === SYSTEM.MapObject.Furniture.Data.Status.None) return [SYSTEM.MapObject.Basic.Data.Operation.None];
+                //if (info.status === SYSTEM.MapObject.Furniture.Data.Status.Closed) {
+                //    return [SYSTEM.MapObject.Furniture.Data.Operation.Open];
+                //}
+                //return [SYSTEM.MapObject.Furniture.Data.Operation.Close];
                 break;
             case SYSTEM.MapObject.Body.Data.ObjType:
                 break;
@@ -68,10 +77,18 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
     
     Ghost.prototype.move = function (direction, directionHead, rush_in, stay_in, headFollow_in) {
         if (this.isAction) return;
+        rush_in = this.hidden;
         SYSTEM.Character.Basic.prototype.move.call(this, direction, directionHead, rush_in, stay_in, headFollow_in);
     }
 
-    Ghost.prototype._move = function (deltaX, deltaY){
+    Ghost.prototype._move = function (deltaX, deltaY) {
+        if (!this.hidden) {
+            SYSTEM.Character.Basic.prototype._move.call(this, deltaX, deltaY);
+            return;
+        } else if (this.appearing) {
+            deltaX /= 4;
+            deltaY /= 4;
+        }
         var _radius = this.modelData.radius;
         var x2 = this.x + deltaX + (deltaX > 0 ? _radius : -_radius),
             y2 = this.y + deltaY + (deltaY > 0 ? _radius : -_radius),
@@ -117,15 +134,18 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
     Ghost.prototype._updateStatus = function () {
         // endurance
-        if ((this.obCount <= 0 || this.endurance <= 0) && this.observing) { this.observing = false; this.obCount = 0; }
-        if (this.endurance < this.enduranceMax) {
-            this.endurance += this.enduranceRecover / 20;
-        }
-        if (this.observing) {
-            this.obCount--;
-            this.entity.map.setDanger(Math.floor(50 + this.endurance * 50 / this.enduranceMax));
+        if (!this.hidden && this.endurance <= 0) { this.hidden = true; }
+        if (this.hidden) {
+            if (this.endurance < this.enduranceMax) {
+                this.endurance += this.enduranceRecover / 20;
+            }
+            this.entity.map.setDanger(Math.floor(this.appearCount * 50 / _Data.appearingTime));
         } else {
-            this.entity.map.setDanger(0);
+            this.endurance -= this.enduranceMax / 800;
+            this.entity.map.setDanger(80);
+            if (this.endurance <= 0) {
+                this.hidden = true;
+            }
         }
 
         var closest = _Data.range.danger;
@@ -153,30 +173,39 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // danger
         this.danger = (_Data.range.danger - closest) / _Data.range.danger;
         this.danger = this.danger;
+
+        // appear
+        if (this.appearing) {
+            if (++this.appearCount >= _Data.appearingTime) {
+                this.hidden = false;
+                this.appearCount = 0;
+                this.appearing = false;
+            }
+        } else if (this.appearCount>0) {
+            this.appearCount--;
+        }
     };
-
-
+    
     Ghost.prototype._updateVisible = function () {
         for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
             var c = this.entity.characterManager.characters[i];
             if (!c.actived || c.team == this.team || this.touchList.hasOwnProperty(c.id)) {
                 this.visibleCharacter[c.id] = true;
+            } else if (!this.hidden) {
+                this.visibleCharacter[c.id] = c.rush || this.entity.interAction.checkVisible(this, c);
+                this.visibleCharacter[c.id] = c.checkVisible(this, this.visibleCharacter[c.id]);
             } else {
-                this.visibleCharacter[c.id] = (c.rush || this.observing);
+                this.visibleCharacter[c.id] = false;
             }
         }
     };
 
-    Ghost.prototype.observe = function () {
-        if (this.obCount === 0 && this.endurance >= this.enduranceMax / 3) {
-            this.endurance -= this.enduranceMax / 2;
-            this.observing = true;
-            this.obCount = 24;
-        }
+    Ghost.prototype.checkVisible = function (c, isVisible) {
+        return (this.hidden && !this.appearing)? false : isVisible;
     };
 
     Ghost.prototype.kill = function () {
-        if (this.isAction) return;
+        if (this.isAction || this.hidden) return;
         if (this.endurance < this.enduranceMax / 20 && this.isAction) return;
         this.actionForce = 'attack';
         this.isAction = true;
@@ -185,7 +214,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             that.isAction = false;
             that.actionForce = null;
         },1600);
-        this.endurance -= this.enduranceMax / 20;
+        this.endurance -= this.enduranceMax / 50;
         for (var i = 0, l = this.entity.characterManager.characters.length; i < l; i++) {
             var c = this.entity.characterManager.characters[i];
             if (!c.actived || c.team == this.team) continue;
@@ -207,7 +236,20 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         }
     };
 
+    Ghost.prototype.startToggle = function () {
+        if (!this.hidden) {
+            return;
+        }
+        if (this.endurance < this.enduranceMax / 3) {
+            this.entity.message.send(this.id, _Data.message.cantAppear);
+            return;
+        }
+        this.appearing = true;
+    };
 
+    Ghost.prototype.endToggle = function () {
+        this.appearing = false;
+    };
     // ---------------------------------------------------------------
     SYSTEM.Character = SYSTEM.Character || {};
     SYSTEM.Character.Ghost = SYSTEM.Character.Ghost || {};

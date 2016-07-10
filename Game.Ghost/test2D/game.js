@@ -88,7 +88,7 @@ $(function () {
             id: 'p7',
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
-            modelId: 'ghost-butcher',
+            modelId: 'ghost-specter',
             team: 0
         }
     };

@@ -26,7 +26,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             }
         }
     };
-    var Character = function (entity, id, modelData, characterPara) {
+    var Character = function (entity, id, modelData, characterPara, isMain) {
         // data ----------------------------------------------
         var that = this,
             root = entity.root,
@@ -82,6 +82,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             gameData = null,
             cache_lightR = null,
             cache_protect = null,
+            cache_appearing = null,
             teleportingFlag = false,
             actionList = {},
             currentAction = null,
@@ -112,6 +113,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 light: data_in[8],
                 battery: data_in[9],
                 protect: data_in[19],               // survivor
+                appearing: data_in[20],             // ghost: specter
 
                 visibleCharacter: assist_in[0],
                 danger: assist_in[1],
@@ -122,6 +124,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 soundObject: assist_in[5]
             };
             that.isVisible = isVisible_in;
+            if (gameData.appearing === 0) that.isVisible = false;
         };
 
         this.showMessage = function (msg) {
@@ -131,9 +134,8 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
         // render model
         this.render = function (delta) {
             if (gameData === null) return;
-            if (this.isVisible === false) {
+            if (this.isVisible === false && !isMain) {
                 this.element.visible=false;
-                return;
             } else {
                 this.element.visible = true;
             }
@@ -169,6 +171,15 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                     this.element.alpha = 0.5;
                 } else {
                     this.element.alpha = 1;
+                }
+            } else if (gameData.appearing != undefined && gameData.appearing !== cache_appearing) {
+                cache_appearing = gameData.appearing;
+                if (gameData.appearing === 1) {
+                    this.element.alpha = 1;
+                } else if (gameData.appearing === 0) {
+                    this.element.alpha = 0.5;
+                } else {
+                    this.element.alpha = gameData.appearing;
                 }
             }
 
