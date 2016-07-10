@@ -135,7 +135,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             this.y = y;
 
             // edge 
-            resizeEdge();
+            //resizeEdge();
+
+            //danger
+            resizeDanger();
 
             // name
             sprites["name"].position.set(84 - that.width / 2, -32 + that.height / 2, 6);
@@ -191,11 +194,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             if (that.character.isDead) {
                 showDeadScreen();
+                updateDanger();
             } else if (that.character.isWin) {
                 //showEscapeScreen();
             } else {
                 // update edge
-                updateEdge();
+                //updateEdge();
+                updateDanger();
                 // update sprite
                 updateEnduranceBar();
                 // update effort
@@ -256,6 +261,9 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             sprites["left"] = new THREE.Sprite(border_mat);
             that.sceneOrtho.add(sprites["left"]);
+
+            // danger
+            createDanger();
 
             that.resize(that.x, that.y, that.width, that.height);
         };
@@ -629,6 +637,34 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             sprites["fog"].position.set(x, 3 * GridSize - 0.1, y);
         };
 
+        // Danger -----------------------------------------------------
+        var createDanger = function (layer) {
+            sprites["danger"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["danger"] }));
+            sprites["danger"].material.transparent = true;
+            sprites["danger"].material.opacity = 0;
+            sprites["danger"].position.set(0, 0, 1);
+            that.sceneOrtho.add(sprites["danger"]);
+        };
+        var _dangerCache = 0;
+        var resizeDanger = function () {
+            if (sprites["danger"] == null) return;
+            sprites["danger"].scale.set(that.width, that.height, 1.0);
+        };
+        var updateDanger = function () {
+            if (_dangerCache === that.character.danger) return;
+            var d = that.character.danger;
+
+            if (Math.abs(_dangerCache - d) <= _Data.dangerSpeed) {
+                _dangerCache = d;
+            }
+            else if (_dangerCache < d) {
+                _dangerCache += _Data.dangerSpeed;
+            } else if (_dangerCache > d) {
+                _dangerCache -= _Data.dangerSpeed;
+            }
+            sprites["danger"].material.opacity = _dangerCache;
+        };
+
         // Edges -----------------------------------------------------
         var resizeEdge = function () {
             if (sprites['edges'] !== undefined && sprites['edges'] !== null) that.sceneOrtho.remove(sprites["edges"]);
@@ -866,6 +902,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['nameDeco'] = textureLoader.load(path + 'name-deco-white.png');
             tex['deadScreen'] = textureLoader.load(path + 'DeadScreen.png');
             tex['escapeScreen'] = textureLoader.load(path + 'EscapeScreen.png');
+            tex['danger'] = textureLoader.load(path + 'danger.png');
             tex['interaction'] = {
                 'normal': {
                     'furniture': {
