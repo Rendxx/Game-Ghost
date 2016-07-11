@@ -50,6 +50,7 @@
     <Content Include="Images\start.png" />
     <Content Include="Images\teamWin.png" />
     <Content Include="Images\verticalLine.png" />
+    <Content Include="Images\WaitingScreenClient.png" />
     <Content Include="logo.png" />
     <Content Include="mapDesigner\Document\category-icon0001.png" />
     <Content Include="mapDesigner\Document\category-icon0002.png" />
@@ -1233,6 +1234,7 @@
     <Content Include="src\js\system\System.FileLoader.js" />
     <Content Include="src\js\system\Core\System.Core.js" />
     <Content Include="src\js\GameSetting.js" />
+    <Content Include="src\js\UI\client\UI.Client.Prepare.js" />
     <Content Include="src\js\UI\host\UI.Host.End.js" />
     <Content Include="src\js\UI\host\UI.Host.Prepare.js" />
     <Content Include="test2D\game.js" />
@@ -1257,8 +1259,6 @@
     <Folder Include="js\" />
     <Folder Include="lib\" />
     <Folder Include="ModelBuilder\Player\ghost\butcher\animation\run\" />
-    <Folder Include="src\js\UI\client\" />
-    <Folder Include="src\less\client\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />
@@ -1482,6 +1482,7 @@
     <Content Include="src\less\host\end.less" />
     <Content Include="ImageEdit\EndScreen.fla" />
     <Content Include="src\less\host\prepare.less" />
+    <Content Include="src\less\client\prepare.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

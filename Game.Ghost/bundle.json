@@ -47,6 +47,7 @@
         "#mapDesigner#/Styles/doorSetting.less",
         "#mapDesigner#/Styles/itemSelectorList.less"
       ],
+      // Host UI
       "#dest#/Game.Ghost.Host.Main": [
         "#src#/host/loadingScreen.less"
       ],
@@ -55,9 +56,16 @@
       ],
       "#dest#/Game.Ghost.Host.Prepare": [
         "#src#/host/prepare.less"
+      ],
+      // Client UI
+      "#dest#/Game.Ghost.Client.Prepare": [
+        "#src#/client/prepare.less"
       ]
     },
     "js": {
+      "#dest#/Game.Ghost.UI.Client.Prepare": [
+        "#src#/UI/client/UI.Client.Prepare.js"
+      ],
       "#dest#/Game.Ghost.UI.Host.Prepare": [
         "#src#/renderer/Renderer.Data.js",
         "#src#/system/Data/*.js",

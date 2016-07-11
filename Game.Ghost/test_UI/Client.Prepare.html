@@ -20,64 +20,21 @@
             height: 100%;
         }
     </style>
-    <link type="text/css" rel="stylesheet" href="../css/Game.Ghost.Host.Prepare.css" />
+    <link type="text/css" rel="stylesheet" href="../css/Game.Ghost.Client.Prepare.css" />
     <title>PREPARE - GHOST</title>
 </head>
 <body>
-    <div class="prepare">
-    </div>
+    <div class="prepare"></div>
     <!--Base-->
     <script type="text/javascript" src="../lib/jquery.js"></script>
-    <script type="text/javascript" src="../js/Game.Ghost.Host.Prepare.js"></script>
+    <script type="text/javascript" src="../js/Game.Ghost.UI.Client.Prepare.js"></script>
     <script>
         $(function () {
-            var p = {
-                0: {
-                    name: 'player 00',
-                    number: 0
-                },
-                1: {
-                    name: 'playerplayer 01',
-                    number: 1
-                },
-                2: {
-                    name: 'test Gamer 02',
-                    number: 2
-                },
-                3: {
-                    name: 'test Gamer33',
-                    number: 3
-                },
-                4: {
-                    name: 'test Gamer4444',
-                    number: 4
-                },
-                5: {
-                    name: 'test Gamer55',
-                    number: 5
-                },
-                6: {
-                    name: 'test Gamer66',
-                    number: 6
-                }
-            };
-            var ob = {
-                0: {
-                    name: 'ob 01',
-                    number: 0
-                },
-                1: {
-                    name: 'viewer viewer',
-                    number: 2
-                }
-            };
 
-            var prepare = new window.Rendxx.Game.Ghost.UI.Host.Prepare($('.prepare')[0], function (dat) {
+            var prepare = new window.Rendxx.Game.Ghost.UI.Client.Prepare($('.prepare')[0], 'Biliansr WA', function (dat) {
                 alert(JSON.stringify(dat));
                 console.log(dat);
             });
-            prepare.updateClientList(p);
-            prepare.updateObList(ob);
         });
     </script>
 </body>
