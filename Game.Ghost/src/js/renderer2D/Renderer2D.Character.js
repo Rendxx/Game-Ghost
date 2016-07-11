@@ -14,17 +14,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             0xFF6600,
             0x0099CC,
             0xff0000
-        ],
-        html: {
-            character: '<div class="_character"></div>',
-            imgWrap: '<div class="_img_wrap"></div>',
-            img: '<img src="" class="_img" />',
-            shadow: '<div class="_shadow"></div>',
-            layer: '<div class="_layer _layer_char"></div>',
-            scene: {
-                character: '<div class="_scene_character"></div>'
-            }
-        }
+        ]
     };
     var Character = function (entity, id, modelData, characterPara, isMain) {
         // data ----------------------------------------------
@@ -88,10 +78,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             currentAction = null,
             torchData = Data.character.parameter[_para.role].light.torch,
             topLightData = Data.character.parameter[_para.role].light.top,
-            noTorchData = Data.character.parameter[_para.role].light.noTorch,
-
-            html_imgWrap = null,
-            html_img = null;
+            noTorchData = Data.character.parameter[_para.role].light.noTorch;
 
         // callback -------------------------------------------------------
         this.onLoaded = null;

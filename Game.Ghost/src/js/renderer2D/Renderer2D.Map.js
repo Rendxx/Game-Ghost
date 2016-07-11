@@ -39,34 +39,7 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
                 Worked: 2
             }
         },
-        canvasLimit :4096,
-        html: {
-            dark: '<div class="_dark"></div>',
-            layer: {
-                ground: '<canvas class="_layer _layer_ground"></canvas>',
-                wall: '<canvas class="_layer _layer_wall"></canvas>',
-                wallEdge: '<canvas class="_layer _layer_wallEdge"></canvas>',
-                wallShadow: '<canvas class="_layer _layer_wallShadow"></canvas>',
-                furniture2: '<canvas class="_layer _layer_furniture_static"></canvas>',
-                stuff: '<canvas class="_layer _layer_stuff"></canvas>',
-                staticMapTop: '<canvas class="_layer _layer_static_top"></canvas>',
-                staticMapBtm: '<canvas class="_layer _layer_static_btm"></canvas>',
-
-                light: '<div class="_layer _layer_light"></div>',
-                door: '<div class="_layer _layer_door"></div>',
-                furniture: '<div class="_layer _layer_furniture"></div>',
-                pos: '<div class="_layer _layer_pos"></div>'
-            },
-
-            ground: '<div class="_ground"></div>',
-            wallTop: '<div class="_wallTop"></div>',
-            wallEdge: '<div class="_wallEdge"></div>',
-            wallShadow: '<div class="_wallShadow"></div>',
-            door: '<div class="_door"></div>',
-            furniture: '<div class="_furniture"></div>',
-            stuff: '<div class="_stuff"></div>',
-            pos: '<div class="_pos"></div>'
-        }
+        canvasLimit :4096
     };
 
     var Map = function (entity) {

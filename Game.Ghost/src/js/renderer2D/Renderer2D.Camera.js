@@ -53,18 +53,6 @@ window.Rendxx.Game.Ghost.Renderer2D = window.Rendxx.Game.Ghost.Renderer2D || {};
             offset: 64,
             closeRange: 5,
             rangeRatio: 0.03
-        },
-        html: {
-            sceneCharacter: '<div class="_scene_character"></div>',
-            scene: {
-                ortho: '<div class="_scene_ortho"></div>',
-                effort: '<div class="_scene_effort"></div>'
-            },
-            enduranceBarWrap: '<div class="_enduranceBarWrap"></div>',
-            enduranceBar: '<div class="_enduranceBar"></div>',
-            edges: '<div class="_edges"></div>',
-            message: '<div class="_message"></div>',
-            marker: '<div class="_marker"></div>'
         }
     };
     /**
