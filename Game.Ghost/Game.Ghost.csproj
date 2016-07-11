@@ -1241,8 +1241,9 @@
     <Content Include="test2D\sample.html" />
     <Content Include="test\helper.js" />
     <Content Include="test\inputSimulator.js" />
-    <Content Include="test_UI\prepare.html" />
-    <Content Include="test_UI\end.html" />
+    <Content Include="test_UI\Client.Prepare.html" />
+    <Content Include="test_UI\Host.Prepare.html" />
+    <Content Include="test_UI\Host.End.html" />
     <Content Include="test\sample.html" />
     <Content Include="test\game.js" />
     <Content Include="Sound\bell.wav" />
@@ -1257,6 +1258,7 @@
     <Folder Include="lib\" />
     <Folder Include="ModelBuilder\Player\ghost\butcher\animation\run\" />
     <Folder Include="src\js\UI\client\" />
+    <Folder Include="src\less\client\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />
@@ -1475,14 +1477,11 @@
     <Content Include="ImageEdit\StartScreen.psd" />
     <Content Include="ImageEdit\LoadingScreen.fla" />
     <Content Include="ImageEdit\Logo.fla" />
-    <Content Include="src\less\loadingScreen.less" />
+    <Content Include="src\less\host\loadingScreen.less" />
     <Content Include="ImageEdit\pic.fla" />
-    <Content Include="src\less\end.less" />
+    <Content Include="src\less\host\end.less" />
     <Content Include="ImageEdit\EndScreen.fla" />
-    <Content Include="src\less\prepare.less" />
-    <Content Include="src\less\renderer2D\Render2D.Character.less" />
-    <Content Include="src\less\renderer2D\Render2D.Map.less" />
-    <Content Include="src\less\renderer2D\Render2D.Camera.less" />
+    <Content Include="src\less\host\prepare.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

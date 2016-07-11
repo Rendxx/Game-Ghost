@@ -47,17 +47,14 @@
         "#mapDesigner#/Styles/doorSetting.less",
         "#mapDesigner#/Styles/itemSelectorList.less"
       ],
-      "#dest#/Game.Ghost.Main": [
-        "#src#/loadingScreen.less"
+      "#dest#/Game.Ghost.Host.Main": [
+        "#src#/host/loadingScreen.less"
       ],
-      "#dest#/Game.Ghost.Renderer2D": [
-        "#src#/renderer2D/*.less"
+      "#dest#/Game.Ghost.Host.End": [
+        "#src#/host/end.less"
       ],
-      "#dest#/Game.Ghost.End": [
-        "#src#/end.less"
-      ],
-      "#dest#/Game.Ghost.Prepare": [
-        "#src#/prepare.less"
+      "#dest#/Game.Ghost.Host.Prepare": [
+        "#src#/host/prepare.less"
       ]
     },
     "js": {
