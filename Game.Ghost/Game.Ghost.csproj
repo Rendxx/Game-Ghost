@@ -16,6 +16,7 @@
   <ItemGroup>
     <Content Include="Document\Notice.txt" />
     <Content Include="gulpfile.js" />
+    <Content Include="ImageEdit\2d.png" />
     <Content Include="ImageEdit\crown.png" />
     <Content Include="ImageEdit\delLine.png" />
     <Content Include="ImageEdit\dogcan.png" />
@@ -35,6 +36,7 @@
     <Content Include="ImageEdit\verticalLine2.png" />
     <Content Include="ImageEdit\WaitingScreenClient.png" />
     <Content Include="Images\crown.png" />
+    <Content Include="Images\EndScreenClient_bg.png" />
     <Content Include="Images\gamePad.png" />
     <Content Include="Images\ghost.png" />
     <Content Include="Images\LoadingScreen_1.png" />
@@ -1234,6 +1236,7 @@
     <Content Include="src\js\system\System.FileLoader.js" />
     <Content Include="src\js\system\Core\System.Core.js" />
     <Content Include="src\js\GameSetting.js" />
+    <Content Include="src\js\UI\client\UI.Client.End.js" />
     <Content Include="src\js\UI\client\UI.Client.Prepare.js" />
     <Content Include="src\js\UI\host\UI.Host.End.js" />
     <Content Include="src\js\UI\host\UI.Host.Prepare.js" />
@@ -1244,6 +1247,7 @@
     <Content Include="test\helper.js" />
     <Content Include="test\inputSimulator.js" />
     <Content Include="test_UI\Client.Prepare.html" />
+    <Content Include="test_UI\Client.End.html" />
     <Content Include="test_UI\Host.Prepare.html" />
     <Content Include="test_UI\Host.End.html" />
     <Content Include="test\sample.html" />
@@ -1309,6 +1313,8 @@
     <Content Include="GameData\Map\Hospital3.json" />
     <Content Include="GameData\Map\Hospital4.json" />
     <Content Include="GameData\Map\Hospital5.json" />
+    <Content Include="ImageEdit\EndScreenClient.fla" />
+    <Content Include="ImageEdit\EndScreenClient_bg.fla" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.icon.fla" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.icon.fla" />
@@ -1483,6 +1489,7 @@
     <Content Include="ImageEdit\EndScreen.fla" />
     <Content Include="src\less\host\prepare.less" />
     <Content Include="src\less\client\prepare.less" />
+    <Content Include="src\less\client\end.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

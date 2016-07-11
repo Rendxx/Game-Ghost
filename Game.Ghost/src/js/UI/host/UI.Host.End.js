@@ -28,9 +28,7 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
     };
     var End = function (container, root, onRenew) {
         var isShown = false,
-            _html = {},
-            html_content = null,
-            html_renew = null;
+            _html = {};
 
         // interface controll --------------------------------
         this.show = function () {

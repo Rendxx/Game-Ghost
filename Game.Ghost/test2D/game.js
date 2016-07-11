@@ -54,7 +54,7 @@ $(function () {
             name: 'player 2',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'capboy',
-            team: 1
+            team: 2
         },
         //'p3': {
         //    id: 'p3',
@@ -88,7 +88,7 @@ $(function () {
             id: 'p7',
             name: 'player 7',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
-            modelId: 'ghost-specter',
+            modelId: 'ghost-butcher',
             team: 0
         }
     };

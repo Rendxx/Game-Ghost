@@ -208,6 +208,43 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             gameData.map.updateData = {};
         };
 
+        // send end message
+        var _updateEnd = function () {
+        for (var i = 0, len = that.characterManager.characters.length; i < len; i++) {
+            var id = that.characterManager.index2Id[i];
+            var assist = [];
+            assist[i] = gameData.characters[1][i];
+            that.clientUpdate([id], [
+                gameData.map[0],
+                gameData.characters[0],
+                assist,
+                gameData.message,
+                gameData.noise,
+                gameData.effort,
+                gameData.end,
+                i
+            ]);
+        }
+
+        if (that.onUpdated) that.onUpdated(
+            [
+                gameData.map[0],
+                gameData.characters[0],
+                gameData.characters[1],
+                gameData.message,
+                gameData.sound,
+                gameData.noise,
+                gameData.effort,
+                gameData.qte,
+                gameData.end
+            ],
+            [   // to SERVER
+                gameData.map[0],
+                gameData.characters[0]
+            ]);
+            gameData.map.updateData = {};
+        };
+
         //var _test = 100;
         // called every time frame
         var nextInterval = function () {
@@ -228,10 +265,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 gameData.sound = that.sound.getSoundDat();
                 gameData.noise = that.noise.getNoiseDat();
                 gameData.effort = that.effort.getEffortDat();
-                var _isEnd = that.characterManager.checkEnd();
-                if (_isEnd) { that.end(); }
-                _update();
-                if (_isEnd && that.onEnd) that.onEnd(gameData['end']);
+                if (that.characterManager.checkEnd()) {
+                    that.end();
+                    _updateEnd();
+                    if (that.onEnd) that.onEnd(gameData['end']);
+                } else {
+                    _update();
+                }
             } catch (e) {
                 //console.log(e);
             }
