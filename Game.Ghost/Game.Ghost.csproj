@@ -1178,8 +1178,6 @@
     <Content Include="Sound\unlock.mp3" />
     <Content Include="src\js\lib\DDSLoader.js" />
     <Content Include="src\js\lib\OBJLoader.js" />
-    <Content Include="src\js\interface\host\GameSetting.js" />
-    <Content Include="src\js\interface\host\Renderer.Prepare.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Effort.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Camera.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Character.js" />
@@ -1234,15 +1232,17 @@
     <Content Include="src\js\system\Core\System.Map.js" />
     <Content Include="src\js\system\System.FileLoader.js" />
     <Content Include="src\js\system\Core\System.Core.js" />
-    <Content Include="src\js\interface\host\Renderer.End.js" />
+    <Content Include="src\js\GameSetting.js" />
+    <Content Include="src\js\UI\host\UI.Host.End.js" />
+    <Content Include="src\js\UI\host\UI.Host.Prepare.js" />
     <Content Include="test2D\game.js" />
     <Content Include="test2D\helper.js" />
     <Content Include="test2D\inputSimulator.js" />
     <Content Include="test2D\sample.html" />
     <Content Include="test\helper.js" />
     <Content Include="test\inputSimulator.js" />
-    <Content Include="test_screen\prepare.html" />
-    <Content Include="test_screen\end.html" />
+    <Content Include="test_UI\prepare.html" />
+    <Content Include="test_UI\end.html" />
     <Content Include="test\sample.html" />
     <Content Include="test\game.js" />
     <Content Include="Sound\bell.wav" />
@@ -1256,7 +1256,7 @@
     <Folder Include="js\" />
     <Folder Include="lib\" />
     <Folder Include="ModelBuilder\Player\ghost\butcher\animation\run\" />
-    <Folder Include="src\js\interface\client\" />
+    <Folder Include="src\js\UI\client\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />

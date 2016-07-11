@@ -1,9 +1,10 @@
 ﻿window.Rendxx = window.Rendxx || {};
 window.Rendxx.Game = window.Rendxx.Game || {};
 window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
-window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
+window.Rendxx.Game.Ghost.UI = window.Rendxx.Game.Ghost.UI || {};
+window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
 
-(function (RENDERER) {
+(function (HOST, RENDERER) {
     var Data = RENDERER.Data;
     var _Data = {
         html: {
@@ -109,5 +110,5 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             _setupHtml();
         }();
     };
-    RENDERER.End = End;
-})(window.Rendxx.Game.Ghost.Renderer);
+    HOST.End = End;
+})(window.Rendxx.Game.Ghost.UI.Host, window.Rendxx.Game.Ghost.Renderer);

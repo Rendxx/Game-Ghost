@@ -3,8 +3,8 @@
 $(function () {
     // game -----------------------------------------------------
     var _root = null;
-    var viewId = 'p7';
-    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], { 0: true, 1: true, 2: true });
+    var viewId = 'p1';
+    var renderer = window.Rendxx.Game.Ghost.Renderer.Create(document.getElementById('game-container'), _root, ['p7'], { 0: true, 1: true, 2: false });
     var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
     system.onSetuped = function (setupData) {
         renderer.reset(setupData);
@@ -19,6 +19,7 @@ $(function () {
         var t = endData.survivorWin ? "GOOD JOB" + " Team " + endData.team : "GAME OVER";
         $$.info.alert(s, t, false, "rgba(0,0,0,0.6)", null);
         console.log(endData);
+        console.log(JSON.stringify( endData ));
     };
     system.onUpdated = function (renderData, gameData) {
         renderer.updateGame(renderData);
@@ -51,22 +52,22 @@ $(function () {
             name: 'player 2',
             role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
             modelId: 'capboy',
-            team: 1
+            team: 2
         },
-        //'p3': {
-        //    id: 'p3',
-        //    name: 'player 3',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'highcircle',
-        //    team: 1
-        //},
-        //'p4': {
-        //    id: 'p4',
-        //    name: 'player 4',
-        //    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
-        //    modelId: 'girl1',
-        //    team: 1
-        //},
+        'p3': {
+            id: 'p3',
+            name: 'player 3',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'highcircle',
+            team: 2
+        },
+        'p4': {
+            id: 'p4',
+            name: 'player 4',
+            role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+            modelId: 'girl1',
+            team: 2
+        },
         //'p5': {
         //    id: 'p5',
         //    name: 'player 5',

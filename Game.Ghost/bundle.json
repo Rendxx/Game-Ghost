@@ -61,15 +61,15 @@
       ]
     },
     "js": {
-      "#dest#/Game.Ghost.Prepare": [
+      "#dest#/Game.Ghost.UI.Host.Prepare": [
         "#src#/renderer/Renderer.Data.js",
-        "#src#/system/System.Data.js",
-        "#src#/interface/host/GameSetting.js",
-        "#src#/interface/host/Renderer.Prepare.js"
+        "#src#/system/Data/*.js",
+        "#src#/GameSetting.js",
+        "#src#/UI/host/UI.Host.Prepare.js"
       ],
-      "#dest#/Game.Ghost.End": [
+      "#dest#/Game.Ghost.UI.Host.End": [
         "#src#/renderer/Renderer.Data.js",
-        "#src#/interface/host/Renderer.End.js"
+        "#src#/UI/host/UI.Host.End.js"
       ],
       "#dest#/Game.Ghost.Renderer": [
         "#src#/lib/OBJLoader.js",
