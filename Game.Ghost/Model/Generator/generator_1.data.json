@@ -14,7 +14,7 @@
     [ 1, 0 ],
     [ 1, 1 ]
   ],
-  "process": 3000,
+  "process": 4000,
   "slotInside": false,
   "model": "generator_1.json",
   "texture": [ "generator_1.tex.png" ],

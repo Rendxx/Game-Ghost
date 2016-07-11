@@ -1178,8 +1178,8 @@
     <Content Include="Sound\unlock.mp3" />
     <Content Include="src\js\lib\DDSLoader.js" />
     <Content Include="src\js\lib\OBJLoader.js" />
-    <Content Include="src\js\GameSetting.js" />
-    <Content Include="src\js\Renderer.Prepare.js" />
+    <Content Include="src\js\interface\host\GameSetting.js" />
+    <Content Include="src\js\interface\host\Renderer.Prepare.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Effort.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Camera.js" />
     <Content Include="src\js\renderer2D\Renderer2D.Character.js" />
@@ -1234,7 +1234,7 @@
     <Content Include="src\js\system\Core\System.Map.js" />
     <Content Include="src\js\system\System.FileLoader.js" />
     <Content Include="src\js\system\Core\System.Core.js" />
-    <Content Include="src\js\Renderer.End.js" />
+    <Content Include="src\js\interface\host\Renderer.End.js" />
     <Content Include="test2D\game.js" />
     <Content Include="test2D\helper.js" />
     <Content Include="test2D\inputSimulator.js" />
@@ -1256,6 +1256,7 @@
     <Folder Include="js\" />
     <Folder Include="lib\" />
     <Folder Include="ModelBuilder\Player\ghost\butcher\animation\run\" />
+    <Folder Include="src\js\interface\client\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bower.json" />

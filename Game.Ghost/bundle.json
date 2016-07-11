@@ -64,12 +64,12 @@
       "#dest#/Game.Ghost.Prepare": [
         "#src#/renderer/Renderer.Data.js",
         "#src#/system/System.Data.js",
-        "#src#/GameSetting.js",
-        "#src#/Renderer.Prepare.js"
+        "#src#/interface/host/GameSetting.js",
+        "#src#/interface/host/Renderer.Prepare.js"
       ],
       "#dest#/Game.Ghost.End": [
         "#src#/renderer/Renderer.Data.js",
-        "#src#/Renderer.End.js"
+        "#src#/interface/host/Renderer.End.js"
       ],
       "#dest#/Game.Ghost.Renderer": [
         "#src#/lib/OBJLoader.js",
