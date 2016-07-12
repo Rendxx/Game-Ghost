@@ -61,6 +61,12 @@
       "#dest#/Game.Ghost.Client.Prepare": [
         "#src#/client/prepare.less"
       ],
+      "#dest#/Game.Ghost.Client.Main": [
+        "#src#/clientController/controller.move.less",
+        "#src#/clientController/controller.button.less",
+        "#src#/clientController/controller.info.less",
+        "#src#/client/controller.less"
+      ],
       "#dest#/Game.Ghost.Client.End": [
         "#src#/client/end.less"
       ]
@@ -68,6 +74,15 @@
     "js": {
       "#dest#/Game.Ghost.UI.Client.Prepare": [
         "#src#/UI/client/UI.Client.Prepare.js"
+      ],
+      "#dest#/Game.Ghost.UI.Client.Main": [
+        "#src#/renderer/Renderer.Data.js",
+        "#src#/system/Data/System.Data.UserInput.js",
+        "#src#/clientController/controller.move.js",
+        "#src#/clientController/controller.button.js",
+        "#src#/clientController/controller.info.js",
+        "#src#/UI/client/UI.Client.Controller.js",
+        "#src#/UI/client/UI.Client.Main.js"
       ],
       "#dest#/Game.Ghost.UI.Client.End": [
         "#src#/renderer/Renderer.Data.js",

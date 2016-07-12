@@ -1,0 +1,113 @@
+﻿.helperWrap {
+    position:absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    margin:0;
+    border:0;
+    padding:0;
+    overflow:hidden;
+    background-image: url('../Images/EndScreenClient_bg.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+    ._color {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 10;
+        box-shadow: 0 0 120px 80px #000 inset;
+        
+        &._survivor{
+            background-color: rgba(51, 153, 255, 0.15);
+        }
+        &._ghost{
+            background-color: rgba(255, 0, 0, 0.15);
+        }
+    }
+
+    ._portrait {
+        position:absolute;
+        top:20px;
+        left:50%;
+        margin-left:-40px;
+        width:100px;
+        height:100px;
+        overflow:hidden;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 100px 100px;
+    }
+
+    .__instruction {
+        position:relative;
+        top:0;
+        left:0;
+        color:#fff;
+        z-index:20;
+        font-size:16px;
+        font-family:Calibri;
+        line-height:20px;
+        padding:10px 20px;
+        padding-top:40px;
+
+        ._title{
+            position:absolute;
+            top:10px;
+            border:1px solid #fff;
+            border-radius:3px;
+            padding:4px;
+            line-height:16px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        ._content{
+        }
+    }
+
+    .__panel {
+        height:100%;
+        width:50%;
+        position:absolute;
+        top:0;
+        display:block;
+        &:after{
+            content:'';
+            display:block;
+            position:absolute;
+            top:10px;
+            left:0px;
+            bottom:10px;
+            left:10px;
+            background-color:rgba(255, 255, 255, 0.1);
+            border-radius:3px;
+            z-index:1;
+        }
+    }
+
+    ._move {
+        .__panel;
+        ._instruction {
+            .__instruction;
+            ._title{
+                left:20px;
+            }
+        }
+    }
+
+    ._action {
+        .__panel;
+        ._instruction {
+            .__instruction;
+            ._title{
+                right:20px;
+            }
+        }
+    }
+}

@@ -8,20 +8,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
  */
 (function (SYSTEM) {
     var Data = SYSTEM.Data;
-    var _Data = {
-        actionType: {
-            'move': 'm',
-            'tap_move': 'tm',
-
-            'tap_1': 't1',
-            'press_1': 'p1',
-            'release_1': 'r1',
-
-            'tap_2': 't2',
-            'press_2': 'p2',
-            'release_2': 'r2',
-        }
-    };
+    var ActionType = SYSTEM.Data.userInput.actionType;
     var UserInput = function (entity) {
         // data ----------------------------------------------------------
         var that = this,
@@ -31,7 +18,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // public method -------------------------------------------------
         this.action = function (clientId, dat) {
-            if (characterFunc[clientId].hasOwnProperty(dat['actionType'])) characterFunc[clientId][dat['actionType']](dat);
+            if (characterFunc[clientId].hasOwnProperty(dat[0])) characterFunc[clientId][dat[0]](dat);
         };
 
         // bind character function to user input
@@ -59,32 +46,62 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // private method ------------------------------------------------
         var _setupSurvivor = function (func, c) {
-            func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
-            func[_Data.actionType.tap_move] = function (dat) { c.interaction(); };
-            func[_Data.actionType.press_1] = function (dat) { c.longInteraction(); };
-            func[_Data.actionType.release_1] = function (dat) { c.cancelLongInteraction(); };
+            var rushTag = false;
+            var movingTag = false;
+            var longInteractionTag = false;
+            func[ActionType.move] = function (dat) {
+                movingTag = true;
+                c.move(dat[1], 0, rushTag, false, true);
+            };
+            func[ActionType.stop] = function (dat) {
+                movingTag = false;
+                c.move(0, 0, false, true, true);
+            };
+            func[ActionType.tap_move] = function (dat) {
+                movingTag = false;
+                c.move(0, 0, false, true, true);
+            };
+            func[ActionType.tap_1] = function (dat) {
+                rushTag = false;
+                c.interaction();
+            };
+            func[ActionType.press_1] = function (dat) {
+                rushTag = true;
+                if (!movingTag) {
+                    longInteractionTag = true;
+                    c.longInteraction();
+                }
+                else {
+                    longInteractionTag = false;
+                }
+            };
+            func[ActionType.release_1] = function (dat) {
+                rushTag = false;
+                if (longInteractionTag) c.cancelLongInteraction();
+            };
         };
 
         var _setupGhostMary = function (func, c) {
-            func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
-            func[_Data.actionType.tap_move] = function (dat) { c.interaction(); };
-            func[_Data.actionType.tap_1] = function (dat) { c.crazy(); };
-            func[_Data.actionType.press_1] = function (dat) { c.teleportStart(); };
-            func[_Data.actionType.release_1] = function (dat) { c.teleportEnd(); };
+            func[ActionType.move] = function (dat) { c.move(dat[1], 0, false, false, true); };
+            func[ActionType.stop] = function (dat) { c.move(0, 0, false, true, true); };
+            func[ActionType.tap_move] = function (dat) { c.crazy();  c.move(0, 0, false, true, true); };
+            func[ActionType.tap_1] = function (dat) { c.interaction(); };
+            func[ActionType.press_1] = function (dat) { c.teleportStart(); };
+            func[ActionType.release_1] = function (dat) { c.teleportEnd(); };
         };
 
         var _setupGhostSpecter = function (func, c) {
-            func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
-            //func[_Data.actionType.tap_move] = function (dat) { c.observe(); };
-            func[_Data.actionType.tap_1] = function (dat) { c.kill(); };
-            func[_Data.actionType.press_1] = function (dat) { c.startToggle(); };
-            func[_Data.actionType.release_1] = function (dat) { c.endToggle(); };
+            func[ActionType.move] = function (dat) { c.move(dat[1], 0, false, false, true); };
+            func[ActionType.stop] = function (dat) { c.move(0, 0, false, true, true); };
+            func[ActionType.tap_1] = function (dat) { c.kill(); };
+            func[ActionType.press_1] = function (dat) { c.startToggle(); };
+            func[ActionType.release_1] = function (dat) { c.endToggle(); };
         };
 
         var _setupGhostButcher = function (func, c) {
-            func[_Data.actionType.move] = function (dat) { c.move(dat['direction'], dat['directionHead'], dat['rush'], dat['stay'], dat['headFollow']); };
-            func[_Data.actionType.tap_move] = function (dat) { c.observe(); };
-            func[_Data.actionType.tap_1] = function (dat) { c.kill(); };
+            func[ActionType.move] = function (dat) { c.move(dat[1], 0, false, false, true); };
+            func[ActionType.stop] = function (dat) { c.move(0, 0, false, true, true); };
+            func[ActionType.tap_1] = function (dat) { c.kill(); };
         };
 
         var _init = function () {

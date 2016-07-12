@@ -1221,6 +1221,7 @@
     <Content Include="src\js\system\Core\System.UserInput.js" />
     <Content Include="src\js\system\Core\System.Message.js" />
     <Content Include="src\js\system\Core\System.WebWorkerWrapper.js" />
+    <Content Include="src\js\system\Data\System.Data.UserInput.js" />
     <Content Include="src\js\system\Data\System.Data.QuickTimeEvent.js" />
     <Content Include="src\js\system\Data\System.Data.Noise.js" />
     <Content Include="src\js\system\Data\System.Data.Map.js" />
@@ -1236,6 +1237,11 @@
     <Content Include="src\js\system\System.FileLoader.js" />
     <Content Include="src\js\system\Core\System.Core.js" />
     <Content Include="src\js\GameSetting.js" />
+    <Content Include="src\js\UI\clientController\controller.button.js" />
+    <Content Include="src\js\UI\clientController\controller.info.js" />
+    <Content Include="src\js\UI\clientController\controller.move.js" />
+    <Content Include="src\js\UI\client\UI.Client.Controller.js" />
+    <Content Include="src\js\UI\client\UI.Client.Main.js" />
     <Content Include="src\js\UI\client\UI.Client.End.js" />
     <Content Include="src\js\UI\client\UI.Client.Prepare.js" />
     <Content Include="src\js\UI\host\UI.Host.End.js" />
@@ -1490,6 +1496,10 @@
     <Content Include="src\less\host\prepare.less" />
     <Content Include="src\less\client\prepare.less" />
     <Content Include="src\less\client\end.less" />
+    <Content Include="src\less\client\controller.less" />
+    <Content Include="src\js\UI\clientController\controller.button.less" />
+    <Content Include="src\js\UI\clientController\controller.info.less" />
+    <Content Include="src\js\UI\clientController\controller.move.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

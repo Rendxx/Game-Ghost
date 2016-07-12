@@ -90,6 +90,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             for (var i in playerData) {
                 this.clientSetup([i], {
                     role: playerData[i].role,
+                    modelId: playerData[i].modelId,
                     portrait: this.characterManager.characters[this.characterManager.id2Index[i]].modelData.portrait,
                     color: this.characterManager.characters[this.characterManager.id2Index[i]].color,
                     game: setupData
