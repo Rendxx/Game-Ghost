@@ -15,11 +15,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // data ---------------------------------------------------
         var that = this,
             isStarted = false,
-            playerReady = {},
             gameData = {},          // store all data in the game, use to render
             intervalFunc = null,
             flag_started = false,
             flag_setuped = false,
+            flag_playing = false;
             check_count = 0;        // count left to send full data  
 
         // component ----------------------------------------------
@@ -58,6 +58,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             gameData.map = [{}, {}];                // [ all data , modified data ]
             gameData.characters = [[], []];         // [ basic data , assist data ]
             gameData.qte = {};
+            gameData.status = gameData_in[8];
             gameData.map[0] = gameData_in[0];
             gameData.characters[0] = gameData_in[1];
             initComponent(setupData_in.model, setupData_in.map, setupData_in.player);
@@ -74,6 +75,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             gameData.map = [{}, {}];                // [ all data , modified data ]
             gameData.characters = [[], []];         // [ basic data , assist data ]
             gameData.qte = {};
+            gameData.status = [];
             initComponent(modelData, mapData, playerData);
             this.map.setup();
             this.interAction.reset();
@@ -88,9 +90,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             };
 
             flag_setuped = true;
-            playerReady = {};
             for (var i in playerData) {
-                playerReady[this.characterManager.characters[this.characterManager.id2Index[i]].id] = false;
+                gameData.status[this.characterManager.id2Index[i]]=Data.status.client.unready;
                 this.clientSetup([i], {
                     role: playerData[i].role,
                     modelId: playerData[i].modelId,
@@ -110,6 +111,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (flag_setuped === false) return;
             isStarted = true;
             if (intervalFunc !== null) clearInterval(intervalFunc);
+            intervalFunc = setInterval(function () { nextInterval(); }, 40);
         };
 
         // end game
@@ -137,18 +139,20 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         this.userReady = function (id) {
             if (!flag_started || !isStarted) return;
-            _start(id);
+            _tryStart(id);
         };
 
         // private method -----------------------------------------
         // start playing game
-        var _start = function (id) {
+        var _tryStart = function (id) {
             if (intervalFunc != null) return;
-            playerReady[id] = true;
-            for (var i in playerReady) {
-                if (!playerReady[i]) return;
+            if (id!==undefined) gameData.status[id] = Data.status.client.ready;
+            for (var i in gameData.status) {
+                if (gameData.status[i] !== Data.status.client.ready) return;
             }
-            intervalFunc = setInterval(function () { nextInterval(); }, 40);
+            for (var i in gameData.status) {
+                gameData.status[i] = Data.status.client.player;
+            }
         };
 
         // handler update data
@@ -156,11 +160,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             if (--check_count < 0) {
                 check_count = 200;
                 // full data
-                var idList = [];
                 for (var i = 0, len = that.characterManager.characters.length; i < len; i++) {
                     var id = that.characterManager.index2Id[i];
                     if (that.characterManager.characters[i].role !== Data.character.type.ghost) {
-                        idList.push(id);
                         continue;
                     };
                     var assist = [];
@@ -172,10 +174,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.message,
                         gameData.noise,
                         gameData.effort,
-                        gameData.qte
+                        gameData.qte,
+                        gameData.status[i]
                     ]);
                 }
-                if (idList.length>0) that.clientUpdate([idList], 1);
+                for (var i = 0; i < 3;i++) if (statusList[i].length > 0) that.clientUpdate(statusList[i], i);
 
                 if (that.onUpdated) that.onUpdated(
                     [   // to RENDERER
@@ -187,18 +190,18 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.noise,
                         gameData.effort,
                         gameData.qte,
-                        gameData.end
+                        gameData.status
                     ],
                     [   // to SERVER
                         gameData.map[0],
                         gameData.characters[0]
                     ]);
             } else {
-                var idList = [];
+                var statusList = [[], [], []];
                 for (var i = 0, len = that.characterManager.characters.length; i < len; i++) {
                     var id = that.characterManager.index2Id[i];
                     if (that.characterManager.characters[i].role !== Data.character.type.ghost) {
-                        idList.push(id);
+                        statusList[gameData.status[i]].push(id);
                         continue;
                     };
                     var assist = [];
@@ -210,10 +213,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.message,
                         gameData.noise,
                         gameData.effort,
-                        gameData.qte
+                        gameData.qte,
+                        gameData.status[i]
                     ]);
                 }
-                if (idList.length > 0) that.clientUpdate([idList], 1);
+                for (var i = 0; i < 3; i++) if (statusList[i].length > 0) that.clientUpdate(statusList[i], i);
 
                 if (that.onUpdated) that.onUpdated(
                     [   // to RENDERER
@@ -225,7 +229,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.noise,
                         gameData.effort,
                         gameData.qte,
-                        gameData.end
+                        gameData.status
                     ],
                     [   // to SERVER
                         gameData.map[0],
@@ -248,6 +252,8 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     gameData.message,
                     gameData.noise,
                     gameData.effort,
+                    gameData.qte,
+                    gameData.status[i],
                     gameData.end,
                     i
                 ]);
@@ -263,6 +269,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                     gameData.noise,
                     gameData.effort,
                     gameData.qte,
+                    gameData.status,
                     gameData.end
                 ],
                 [   // to SERVER

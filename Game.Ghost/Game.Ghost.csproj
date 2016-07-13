@@ -1222,6 +1222,7 @@
     <Content Include="src\js\system\Core\System.UserInput.js" />
     <Content Include="src\js\system\Core\System.Message.js" />
     <Content Include="src\js\system\Core\System.WebWorkerWrapper.js" />
+    <Content Include="src\js\system\Data\System.Data.Status.js" />
     <Content Include="src\js\system\Data\System.Data.UserInput.js" />
     <Content Include="src\js\system\Data\System.Data.QuickTimeEvent.js" />
     <Content Include="src\js\system\Data\System.Data.Noise.js" />

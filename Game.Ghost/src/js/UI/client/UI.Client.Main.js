@@ -36,8 +36,12 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
         };
 
         this.updateGame = function (gameData) {
-            if (gameDisplay) game.updateGame(gameData);
-            controller.start();
+            if (gameDisplay) {
+                game.updateGame(gameData);
+                controller.updateGame(gameData[8]);
+            } else {
+                controller.updateGame(gameData);
+            }
         };
 
         // api -------------------------------------------

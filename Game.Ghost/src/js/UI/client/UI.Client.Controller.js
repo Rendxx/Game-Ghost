@@ -154,7 +154,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             shown = false;
             _html['container'].fadeOut();
         };
-        this.start = function () {
+        this.updateGame = function () {
             if (!started && loaded) {
                 started = true;
                 _gameStart();
