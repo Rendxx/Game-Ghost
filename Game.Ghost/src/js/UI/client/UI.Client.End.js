@@ -21,7 +21,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
         }
     };
 
-    var End = function (container, root, id, onShow) {
+    var End = function (container, root, onShow) {
         var _html = {},
             isShown = false;
 
@@ -46,7 +46,8 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
         };
 
         this.updateGame = function (gameData) {
-            var endData = gameData[8];
+            var endData = gameData[7];
+            var id = Number(gameData[8]);
             var c = null;
 
             if (endData.ghost.hasOwnProperty(id)) {
