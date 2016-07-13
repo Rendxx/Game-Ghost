@@ -4,12 +4,14 @@ window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.UI = window.Rendxx.Game.Ghost.UI || {};
 window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
 
-(function (CLIENT) {
+(function (CLIENT, SYSTEM) {
     var _Data = {
     };
+    var Role = SYSTEM.Data.character.type;
 
     var Main = function (controller, game, onShow) {
         var isShown = false;
+        var gameDisplay = false;
         this.message = {};
 
         // interface controll --------------------------------
@@ -34,13 +36,22 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
         };
 
         this.updateGame = function (gameData) {
-            game.updateGame(gameData);
+            if (gameDisplay) game.updateGame(gameData);
+            controller.start();
         };
+
         // api -------------------------------------------
         this.reset = function (setupData) {
-            game.reset(setupData.game);
             controller.reset(setupData);
             controller.message = this.message;
+            if (setupData.role !== Role.ghost) {
+                gameDisplay = false;
+                game.hide();
+                controller.setLoaded();
+            } else {
+                gameDisplay = true;
+                game.reset(setupData.game);
+            }
         };
 
 
@@ -49,8 +60,9 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
         };
 
         var _init = function () {
+            game.onSetuped = function () { controller.setLoaded(); };
             _setupHtml();
         }();
     };
     CLIENT.Main = Main;
-})(Rendxx.Game.Ghost.UI.Client);
+})(Rendxx.Game.Ghost.UI.Client, window.Rendxx.Game.Ghost.System);

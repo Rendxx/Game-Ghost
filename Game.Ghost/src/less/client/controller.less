@@ -1,4 +1,4 @@
-﻿.infoWrap {
+﻿.__infoWrap {
     position: absolute;
     top: 0;
     left: 0;
@@ -31,6 +31,10 @@
             background-color: rgba(255, 0, 0, 0.15);
         }
     }
+}
+
+.loadWrap{
+    .__infoWrap;
 
     ._portrait {
         position: absolute;
@@ -100,20 +104,20 @@
 
         ._processTip {
             position: relative;
-            display:inline-block;
-            margin:0 auto;
-            margin-top:20px;
+            display: inline-block;
+            margin: 0 auto;
+            margin-top: 20px;
             height: 20px;
             line-height: 20px;
             font-size: 16px;
             font-family: Calibri, Arial;
-            letter-spacing:1px;
+            letter-spacing: 1px;
             overflow: hidden;
             z-index: 50;
             text-align: center;
             color: #fff;
             padding: 5px 20px;
-            border-radius:3px;
+            border-radius: 3px;
             //border:1px solid rgba(255, 255, 255, 0.2);
             animation-duration: 2s;
             animation-name: blink;
@@ -122,6 +126,11 @@
             animation-timing-function: ease-in-out;
         }
     }
+}
+
+
+.helperWrap{
+    .__infoWrap;
 
     .__instruction {
         position: relative;
@@ -206,7 +215,6 @@
             }
         }
     }
-
 }
 
 .helperBtn {

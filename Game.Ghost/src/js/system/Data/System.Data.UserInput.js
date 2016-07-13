@@ -21,6 +21,8 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
             'tap_2': 't2',
             'press_2': 'p2',
             'release_2': 'r2',
+
+            'tap_load': 'tl'
         }
     };
 })(window.Rendxx.Game.Ghost.System.Data);

@@ -79,6 +79,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                 rushTag = false;
                 if (longInteractionTag) c.cancelLongInteraction();
             };
+            func[ActionType.tap_load] = function (dat) { entity.userReady(c.id); };
         };
 
         var _setupGhostMary = function (func, c) {
@@ -88,6 +89,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             func[ActionType.tap_1] = function (dat) { c.interaction(); };
             func[ActionType.press_1] = function (dat) { c.teleportStart(); };
             func[ActionType.release_1] = function (dat) { c.teleportEnd(); };
+            func[ActionType.tap_load] = function (dat) {entity.userReady(c.id);};
         };
 
         var _setupGhostSpecter = function (func, c) {
@@ -96,12 +98,14 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             func[ActionType.tap_1] = function (dat) { c.kill(); };
             func[ActionType.press_1] = function (dat) { c.startToggle(); };
             func[ActionType.release_1] = function (dat) { c.endToggle(); };
+            func[ActionType.tap_load] = function (dat) { entity.userReady(c.id); };
         };
 
         var _setupGhostButcher = function (func, c) {
             func[ActionType.move] = function (dat) { c.move(dat[1], 0, false, false, true); };
             func[ActionType.stop] = function (dat) { c.move(0, 0, false, true, true); };
             func[ActionType.tap_1] = function (dat) { c.kill(); };
+            func[ActionType.tap_load] = function (dat) { entity.userReady(c.id); };
         };
 
         var _init = function () {

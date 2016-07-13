@@ -7,10 +7,6 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
 (function (CLIENT, SYSTEM, RENDERER) {
     var Data = RENDERER.Data;
     var _Data = {
-        Role: {
-            Survivor: 'survivor',
-            Ghost: 'ghost'
-        },
         text: {
             def: {
                 move: 'Move',
@@ -36,7 +32,8 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
         info: {
             html: {
                 btn: '<div class="helperBtn"></div>',
-                wrap: '<div class="infoWrap"></div>',
+                wrapHelper: '<div class="helperWrap"></div>',
+                wrapLoad: '<div class="loadWrap"></div>',
                 color: '<div class="_color"></div>',
                 portrait: '<div class="_portrait"></div>',
                 guide: '<div class="_guide"></div>',
@@ -117,15 +114,17 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
         }
     };
     var ActionType = SYSTEM.Data.userInput.actionType;
+    var Role = SYSTEM.Data.character.type;
 
     var ControlPad = function (container, root) {
         // Property -----------------------------------------------
         var that = this,
             _html = {},
+            shown = false,
             started = false,
-            helperStr = "",
             helperVisible = false,
             setuped = false,
+            loaded = false,
             root = root || '',
             controller = {};
 
@@ -141,35 +140,49 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
 
         this.reset = function (setupData) {
             if (setupData == null) return;
-            helperStr = _createHelper(setupData.role, setupData.modelId);
+            var helperStr = _createHelper(setupData.role, setupData.modelId);
             var loadingStr = _createLoading(setupData.role, setupData.modelId, setupData.portrait);
-            _resetController(setupData.role, setupData.modelId, loadingStr);
+            _resetController(setupData.role, setupData.modelId, loadingStr, helperStr);
         };
 
         // game ---------------------------------------------------
         this.show = function () {
-            started = true;
+            shown = true;
             _html['container'].fadeIn();
         };
         this.hide = function () {
-            started = false;
+            shown = false;
             _html['container'].fadeOut();
+        };
+        this.start = function () {
+            if (!started && loaded) {
+                started = true;
+                _gameStart();
+            }
         };
         this.pause = function () {
         };
         this.continue = function () {
         };
 
+        this.setLoaded = function () {
+            loaded = true;
+            _setLoaded();
+        };
+
         // Controller -----------------------------------------------
-        var _resetController = function (role, modleId, loadingStr) {
-            var isBrief = (role !== _Data.Role.Survivor);
+        var _resetController = function (role, modleId, loadingStr, helperStr) {
+            var isBrief = (role === Role.ghost);
 
             var t = _Data.text.def;
             if (_Data.text[role] != null && _Data.text[role][modleId] != null) {
                 t = _Data.text[role][modleId];
             }
-            controller.info.reset({
+            controller.load.reset({
                 content: loadingStr
+            });
+            controller.helper.reset({
+                content: helperStr
             });
 
             controller.move.reset({
@@ -181,13 +194,9 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                 text: t.action
             });
 
-            controller.info.onTap = function () {
-                _hideHelper();
-                controller.move.show();
-                controller.action.show();
-            };
-
-            controller.info.show();
+            if (loaded) { _setLoaded(); }
+            controller.load.show();
+            controller.helper.hide();
             controller.move.hide();
             controller.action.hide();
             setuped = true;
@@ -200,7 +209,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             }
 
             var div = $('<div></div>');
-            var wrap = $(_Data.info.html.wrap).appendTo(div);
+            var wrap = $(_Data.info.html.wrapHelper).appendTo(div);
             var color = $(_Data.info.html.color).addClass(_Data.info.cssClass[role]).appendTo(wrap);
             var move = $(_Data.info.html.move).appendTo(wrap);
             var inner_m = $(_Data.info.html.inner).appendTo(move);
@@ -222,7 +231,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             }
 
             var div = $('<div></div>');
-            var wrap = $(_Data.info.html.wrap).appendTo(div);
+            var wrap = $(_Data.info.html.wrapLoad).appendTo(div);
             var color = $(_Data.info.html.color).addClass(_Data.info.cssClass[role]).appendTo(wrap);
             var portrait = $(_Data.info.html.portrait).css('background-image', 'url(' + root + Data.character.path + portraitPath + ')').appendTo(wrap);
 
@@ -235,22 +244,49 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             return div.html();
         };
 
+        var _setLoaded = function () {
+            var t = $('.loadWrap').find('._processTip');
+            if (t == null || t.length == 0) return;
+            if (started) {
+                _gameStart();
+            }
+            t.text('[tap to READY]');
+            controller.load.onTap = function () {
+                that.message.action([ActionType.tap_load]);
+                t.text('[READY]');
+            };
+        };
+
+        var _gameStart = function () {
+            controller.load.hide();
+            controller.move.show();
+            controller.action.show();
+            _hideHelper();
+        };
+
         var _showHelper = function () {
-            controller.info.reset({
-                content: helperStr
-            });
-            controller.info.show();
+            controller.helper.show();
             helperVisible = true;
         };
 
         var _hideHelper = function () {
-            controller.info.hide();
+            controller.helper.hide();
             helperVisible = false;
         };
 
         var _setupController = function () {
-            // Info ------------------------------------------------------------------------------
-            var controllerInfo = new Rendxx.Game.Client.Controller.Info({
+            // Loading ------------------------------------------------------------------------------
+            var controllerLoad = new Rendxx.Game.Client.Controller.Info({
+                container: _html['container'],
+                css: {
+                    'z-index': 70,
+                    'background-color': '#111'
+                },
+                content: ''
+            });
+
+            // Helper ------------------------------------------------------------------------------
+            var controllerHelper = new Rendxx.Game.Client.Controller.Info({
                 container: _html['container'],
                 css: {
                     'z-index': 80,
@@ -258,6 +294,10 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                 },
                 content: ''
             });
+
+            controllerHelper.onTap = function () {
+                _hideHelper();
+            };
 
             // Move ------------------------------------------------------------------------------
             var controllerMove = new Rendxx.Game.Client.Controller.Move({
@@ -312,7 +352,8 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             };
 
             controller = {
-                info: controllerInfo,
+                load: controllerLoad,
+                helper: controllerHelper,
                 action: controllerAction,
                 move: controllerMove
             };
