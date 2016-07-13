@@ -10,13 +10,15 @@
       "src": "src/js",
       "dest": "js",
       "test": "test",
-      "mapDesigner": "mapDesigner"
+      "mapDesigner": "mapDesigner",
+      "controller": "src/clientController"
     },
     "less": {
       "src": "src/less",
       "dest": "css",
       "test": "test",
-      "mapDesigner": "mapDesigner"
+      "mapDesigner": "mapDesigner",
+      "controller": "src/clientController"
     }
   },
 
@@ -62,9 +64,9 @@
         "#src#/client/prepare.less"
       ],
       "#dest#/Game.Ghost.Client.Main": [
-        "#src#/clientController/controller.move.less",
-        "#src#/clientController/controller.button.less",
-        "#src#/clientController/controller.info.less",
+        "#controller#/controller.move.less",
+        "#controller#/controller.button.less",
+        "#controller#/controller.info.less",
         "#src#/client/controller.less"
       ],
       "#dest#/Game.Ghost.Client.End": [
@@ -78,9 +80,9 @@
       "#dest#/Game.Ghost.UI.Client.Main": [
         "#src#/renderer/Renderer.Data.js",
         "#src#/system/Data/System.Data.UserInput.js",
-        "#src#/clientController/controller.move.js",
-        "#src#/clientController/controller.button.js",
-        "#src#/clientController/controller.info.js",
+        "#controller#/controller.move.js",
+        "#controller#/controller.button.js",
+        "#controller#/controller.info.js",
         "#src#/UI/client/UI.Client.Controller.js",
         "#src#/UI/client/UI.Client.Main.js"
       ],

@@ -1237,9 +1237,9 @@
     <Content Include="src\js\system\System.FileLoader.js" />
     <Content Include="src\js\system\Core\System.Core.js" />
     <Content Include="src\js\GameSetting.js" />
-    <Content Include="src\js\UI\clientController\controller.button.js" />
-    <Content Include="src\js\UI\clientController\controller.info.js" />
-    <Content Include="src\js\UI\clientController\controller.move.js" />
+    <Content Include="src\clientController\controller.button.js" />
+    <Content Include="src\clientController\controller.info.js" />
+    <Content Include="src\clientController\controller.move.js" />
     <Content Include="src\js\UI\client\UI.Client.Controller.js" />
     <Content Include="src\js\UI\client\UI.Client.Main.js" />
     <Content Include="src\js\UI\client\UI.Client.End.js" />
@@ -1252,6 +1252,7 @@
     <Content Include="test2D\sample.html" />
     <Content Include="test\helper.js" />
     <Content Include="test\inputSimulator.js" />
+    <Content Include="test_UI\Client.Main.html" />
     <Content Include="test_UI\Client.Prepare.html" />
     <Content Include="test_UI\Client.End.html" />
     <Content Include="test_UI\Host.Prepare.html" />
@@ -1497,9 +1498,9 @@
     <Content Include="src\less\client\prepare.less" />
     <Content Include="src\less\client\end.less" />
     <Content Include="src\less\client\controller.less" />
-    <Content Include="src\js\UI\clientController\controller.button.less" />
-    <Content Include="src\js\UI\clientController\controller.info.less" />
-    <Content Include="src\js\UI\clientController\controller.move.less" />
+    <Content Include="src\clientController\controller.button.less" />
+    <Content Include="src\clientController\controller.info.less" />
+    <Content Include="src\clientController\controller.move.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

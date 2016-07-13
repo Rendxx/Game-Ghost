@@ -53,9 +53,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                     },
                     action: {
                         'Tap': 'Interaction with the nearest object',
-                        'Hold': 'Run (if you\'re moving)<br/>' +
-                                'Blocked a closed door<br/>' +
-                                'Repairing a generator',
+                        'Hold': 'Run Mode / Block Door / Repair',
 
                     }
                 },

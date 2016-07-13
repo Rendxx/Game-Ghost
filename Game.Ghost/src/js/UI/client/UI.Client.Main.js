@@ -10,6 +10,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
 
     var Main = function (controller, game, onShow) {
         var isShown = false;
+        this.message = {};
 
         // interface controll --------------------------------
         this.show = function () {

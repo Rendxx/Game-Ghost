@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width">
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f2f2f2;
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: auto;
+        }
+
+        .controller{
+            width:100%;
+            height:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:100;
+        }
+
+        .main{
+            width:100%;
+            height:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:10;
+        }
+    </style>
+    <link type="text/css" rel="stylesheet" href="../css/Game.Ghost.Client.Main.css" />
+    <title>Main - GHOST</title>
+</head>
+<body>
+    <div id="controller" class="controller"></div>
+    <div id="game-container" class="main"></div>
+
+    <!--Base-->  
+    <script type="text/javascript" src="../lib/jquery.js"></script>
+    <script type="text/javascript" src="../lib/InfoBox.js"></script>
+    <!--Game-->
+    <script type="text/javascript" src="../lib/pixi.js"></script>
+    <script type="text/javascript" src="../js/Game.Ghost.Renderer2D.js"></script>
+    <script type="text/javascript" src="../js/Game.Ghost.System.Wrapper.js"></script>
+
+    <script type="text/javascript" src="../js/Game.Ghost.UI.Client.Main.js"></script>
+    <script>
+        $(function () {
+            // game -----------------------------------------------------
+            var viewId = 'p7';
+            var _root = null;
+            // client setup
+            var renderer = window.Rendxx.Game.Ghost.Renderer2D.Create(document.getElementById('game-container'), _root, viewId);
+            var main = new window.Rendxx.Game.Ghost.UI.Client.Main(
+                new Rendxx.Game.Ghost.UI.Client.ControlPad(document.getElementById('controller')),
+                renderer,
+                function () { });
+
+            main.message.action = function (content) {
+                system.action(viewId, content);
+            };
+
+            // system --------------------------------------------
+            var system = window.Rendxx.Game.Ghost.System.Create(_root, "../js/Game.Ghost.System.Core.js");
+            system.onSetuped = function (setupData) {
+            };
+            system.onStarted = function (modelData, mapData) {
+            };
+
+            system.onEnd = function (endData) {
+                main.hide();
+                var s = endData.survivorWin ? "Survivor Escaped!!!!" : "Survior all killed!!!";
+                var t = endData.survivorWin ? "GOOD JOB" + " Team " + endData.team : "GAME OVER";
+                $$.info.alert(s, t, false, "rgba(0,0,0,0.6)", null);
+                console.log(endData);
+            };
+            system.onUpdated = function (renderData, gameData) {
+            };
+            system.clientUpdate = function (targets, clientData) {
+                if (viewId == targets[0]) main.updateGame(clientData);
+            };
+            system.clientSetup = function (targets, clientData) {
+                if (viewId == targets[0]) {
+                    main.reset(clientData.game);
+                }
+            };
+
+            // game setup --------------------------------------------------
+            var playerData = {
+                'p1': {
+                    id: 'p1',
+                    name: 'player 1',
+                    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+                    modelId: 'bobo',
+                    team: 1
+                },
+                'p2': {
+                    id: 'p2',
+                    name: 'player 2',
+                    role: window.Rendxx.Game.Ghost.System.Data.character.type.survivor,
+                    modelId: 'capboy',
+                    team: 2
+                },
+                'p7': {
+                    id: 'p7',
+                    name: 'player 7',
+                    role: window.Rendxx.Game.Ghost.System.Data.character.type.ghost,
+                    modelId: 'ghost-butcher',
+                    team: 0
+                }
+            };
+            var GameSetup = function () {
+                system.setup(playerData, {
+                    player: playerData,
+                    map: 'test3'
+                });
+                system.start();
+                main.show();
+            };
+
+
+            GameSetup();
+        });
+    </script>
+</body>
+</html>
