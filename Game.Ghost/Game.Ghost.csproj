@@ -23,6 +23,7 @@
     <Content Include="ImageEdit\dogcan2.png" />
     <Content Include="ImageEdit\gamePad.png" />
     <Content Include="ImageEdit\ghost.png" />
+    <Content Include="ImageEdit\helperBtn.png" />
     <Content Include="ImageEdit\horizontalLine.png" />
     <Content Include="ImageEdit\logo-preview.png" />
     <Content Include="ImageEdit\map.png" />
@@ -1322,6 +1323,7 @@
     <Content Include="GameData\Map\Hospital5.json" />
     <Content Include="ImageEdit\EndScreenClient.fla" />
     <Content Include="ImageEdit\EndScreenClient_bg.fla" />
+    <Content Include="ImageEdit\helperBtn.fla" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.icon.fla" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.icon.fla" />

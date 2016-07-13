@@ -42,7 +42,9 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                 guide: '<div class="_guide"></div>',
                 move: '<div class="_move"></div>',
                 action: '<div class="_action"></div>',
-                instruction: '<div class="_instruction"><div class="_title">#title#</div><div class="_content">#content#</div></div>'
+                inner: '<div class="_inner"></div>',
+                instruction: '<div class="_instruction"><div class="_title">#title#</div><div class="_content">#content#</div></div>',
+                processTip: '<div class="_processTip"></div>'
             },
             cssClass: {
                 survivor: '_survivor',
@@ -51,8 +53,8 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             content: {
                 def: {
                     guide: [
-                        'Some doors are locked, so you need to find keys',
-                        'Repair enough generators to get electric doors work',
+                        'Repair enough generators',
+                        'Find keys',
                         'All alive survivors enter the escape room to win',
                     ],
                     move: {
@@ -79,7 +81,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                         },
                         action: {
                             'Tap': 'Interaction with the nearest object',
-                            'Hold': 'Enter teleporting mode<br/>',
+                            'Hold': 'Enter teleporting mode',
 
                         }
                     },
@@ -94,8 +96,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                         },
                         action: {
                             'Tap': 'Attack',
-                            'Hold': 'Appear<br/>' +
-                                    'Be able to see and attack survivors'
+                            'Hold': 'Appear'
                         }
                     },
                     'ghost-butcher': {
@@ -108,8 +109,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                             'Hold & Move': 'Move your character'
                         },
                         action: {
-                            'Tap': 'Attack<br/>' +
-                                    'Break door',
+                            'Tap': 'Attack / Break door',
                         }
                     }
                 }
@@ -125,6 +125,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             started = false,
             helperStr = "",
             helperVisible = false,
+            setuped = false,
             root = root || '',
             controller = {};
 
@@ -189,6 +190,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             controller.info.show();
             controller.move.hide();
             controller.action.hide();
+            setuped = true;
         };
 
         var _createHelper = function (role, modleId) {
@@ -201,12 +203,14 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             var wrap = $(_Data.info.html.wrap).appendTo(div);
             var color = $(_Data.info.html.color).addClass(_Data.info.cssClass[role]).appendTo(wrap);
             var move = $(_Data.info.html.move).appendTo(wrap);
+            var inner_m = $(_Data.info.html.inner).appendTo(move);
             var action = $(_Data.info.html.action).appendTo(wrap);
+            var inner_a = $(_Data.info.html.inner).appendTo(action);
             for (var title in dat.move) {
-                $(_Data.info.html.instruction.replace('#title#', title).replace('#content#', dat.move[title])).appendTo(move)
+                $(_Data.info.html.instruction.replace('#title#', title).replace('#content#', dat.move[title])).appendTo(inner_m)
             }
             for (var title in dat.action) {
-                $(_Data.info.html.instruction.replace('#title#', title).replace('#content#', dat.action[title])).appendTo(action)
+                $(_Data.info.html.instruction.replace('#title#', title).replace('#content#', dat.action[title])).appendTo(inner_a)
             }
             return div.html();
         };
@@ -226,7 +230,8 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             for (var i = 0; i < dat.guide.length; i++) {
                 g += dat.guide[i]+'<br/>';
             }
-            $(_Data.info.html.guide).html(g).appendTo(wrap)
+            var guide = $(_Data.info.html.guide).html(g).appendTo(wrap);
+            var processTip = $(_Data.info.html.processTip).text('[ LOADING... ]').appendTo(guide);
             return div.html();
         };
 
@@ -248,16 +253,10 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             var controllerInfo = new Rendxx.Game.Client.Controller.Info({
                 container: _html['container'],
                 css: {
+                    'z-index': 80,
                     'background-color': '#111'
                 },
                 content: ''
-            });
-
-            _html['helper'] = $(_Data.info.html.btn).appendTo(_html['container']);
-            _html['helper'].click(function () {
-                if (!helperVisible) {
-                    _showHelper();
-                }
             });
 
             // Move ------------------------------------------------------------------------------
@@ -324,6 +323,13 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             _html = {
             };
             _html['container'] = $(container);
+            _html['helper'] = $(_Data.info.html.btn).appendTo(_html['container']);
+            _html['helper'].click(function () {
+                if (setuped) {
+                    if (helperVisible) _hideHelper();
+                    else _showHelper();
+                }
+            });
         };
 
         var _init = function () {
