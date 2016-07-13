@@ -59,7 +59,7 @@
         $(function () {
             // game -----------------------------------------------------
             var viewId = 'p7';
-            var _root = null;
+            var _root = '';
             // client setup
             var renderer = window.Rendxx.Game.Ghost.Renderer2D.Create(document.getElementById('game-container'), _root, viewId);
             var main = new window.Rendxx.Game.Ghost.UI.Client.Main(
@@ -92,7 +92,7 @@
             };
             system.clientSetup = function (targets, clientData) {
                 if (viewId == targets[0]) {
-                    main.reset(clientData.game);
+                    main.reset(clientData);
                 }
             };
 

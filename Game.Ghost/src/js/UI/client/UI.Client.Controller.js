@@ -33,11 +33,13 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                 }
             }
         },
-        helper: {
+        info: {
             html: {
-                wrap: '<div class="helperWrap"></div>',
+                btn: '<div class="helperBtn"></div>',
+                wrap: '<div class="infoWrap"></div>',
                 color: '<div class="_color"></div>',
                 portrait: '<div class="_portrait"></div>',
+                guide: '<div class="_guide"></div>',
                 move: '<div class="_move"></div>',
                 action: '<div class="_action"></div>',
                 instruction: '<div class="_instruction"><div class="_title">#title#</div><div class="_content">#content#</div></div>'
@@ -48,6 +50,11 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             },
             content: {
                 def: {
+                    guide: [
+                        'Some doors are locked, so you need to find keys',
+                        'Repair enough generators to get electric doors work',
+                        'All alive survivors enter the escape room to win',
+                    ],
                     move: {
                         'Hold & Move': 'Move your character'
                     },
@@ -60,16 +67,28 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                 survivor: {
                 },
                 ghost: {
-                    'ghost-mary':  {
-                        'Hold & Move': 'Move your character',
-                        'Tap': 'Get CRAZY and will attack nearby!'
-                    },
-                    action: {
-                        'Tap': 'Interaction with the nearest object',
-                        'Hold': 'Enter teleporting mode<br/>' ,
+                    'ghost-mary': {
+                        guide: [
+                            'Teleport to a place',
+                            'Get crazy after your power-bar is full',
+                            'Kill all the survivors',
+                        ],
+                        move: {
+                            'Hold & Move': 'Move your character',
+                            'Tap': 'Get CRAZY and will attack nearby!'
+                        },
+                        action: {
+                            'Tap': 'Interaction with the nearest object',
+                            'Hold': 'Enter teleporting mode<br/>',
 
+                        }
                     },
                     'ghost-specter': {
+                        guide: [
+                            'Neither you or survivor can see each other before you appear',
+                            'You can appear to reality as long as you have power',
+                            'Kill all the survivors',
+                        ],
                         move: {
                             'Hold & Move': 'Move your character'
                         },
@@ -80,6 +99,11 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                         }
                     },
                     'ghost-butcher': {
+                        guide: [
+                            'You can break any door if you want',
+                            'More power will make you go faster',
+                            'Kill all the survivors',
+                        ],
                         move: {
                             'Hold & Move': 'Move your character'
                         },
@@ -99,6 +123,9 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
         var that = this,
             _html = {},
             started = false,
+            helperStr = "",
+            helperVisible = false,
+            root = root || '',
             controller = {};
 
         // message -----------------------------------------------
@@ -113,8 +140,9 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
 
         this.reset = function (setupData) {
             if (setupData == null) return;
-            var helper = _createHelper(setupData.role, setupData.modelId,setupData.portrait);
-            _resetController(setupData.role, setupData.modelId, helper);
+            helperStr = _createHelper(setupData.role, setupData.modelId);
+            var loadingStr = _createLoading(setupData.role, setupData.modelId, setupData.portrait);
+            _resetController(setupData.role, setupData.modelId, loadingStr);
         };
 
         // game ---------------------------------------------------
@@ -132,7 +160,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
         };
 
         // Controller -----------------------------------------------
-        var _resetController = function (role, modleId, helper) {
+        var _resetController = function (role, modleId, loadingStr) {
             var isBrief = (role !== _Data.Role.Survivor);
 
             var t = _Data.text.def;
@@ -140,7 +168,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                 t = _Data.text[role][modleId];
             }
             controller.info.reset({
-                content: helper
+                content: loadingStr
             });
 
             controller.move.reset({
@@ -153,7 +181,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             });
 
             controller.info.onTap = function () {
-                controller.info.hide();
+                _hideHelper();
                 controller.move.show();
                 controller.action.show();
             };
@@ -163,25 +191,56 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             controller.action.hide();
         };
 
-        var _createHelper = function (role, modleId, portraitPath) {
-            var dat = _Data.helper.content.def;
-            if (_Data.helper.content[role] != null && _Data.helper.content[role][modleId] != null) {
-                dat = _Data.helper.content[role][modleId];
+        var _createHelper = function (role, modleId) {
+            var dat = _Data.info.content.def;
+            if (_Data.info.content[role] != null && _Data.info.content[role][modleId] != null) {
+                dat = _Data.info.content[role][modleId];
             }
 
-            var div = $('div');
-            var wrap = $(_Data.helper.html.wrap).appendTo(div);
-            var color = $(_Data.helper.html.color).addClass(_Data.helper.cssClass[role]).appendTo(wrap);
-            var portrait = $(_Data.helper.html.portrait).css('background-image', 'url(' + root + Data.character.path + portraitPath + ')').appendTo(wrap);
-            var move = $(_Data.helper.html.move).appendTo(wrap);
-            var action = $(_Data.helper.html.action).appendTo(wrap);
+            var div = $('<div></div>');
+            var wrap = $(_Data.info.html.wrap).appendTo(div);
+            var color = $(_Data.info.html.color).addClass(_Data.info.cssClass[role]).appendTo(wrap);
+            var move = $(_Data.info.html.move).appendTo(wrap);
+            var action = $(_Data.info.html.action).appendTo(wrap);
             for (var title in dat.move) {
-                $(_Data.helper.html.instruction.replace('#title#', title).replace('#content#', dat.move[title])).appendTo(move)
+                $(_Data.info.html.instruction.replace('#title#', title).replace('#content#', dat.move[title])).appendTo(move)
             }
             for (var title in dat.action) {
-                $(_Data.helper.html.instruction.replace('#title#', title).replace('#content#', dat.action[title])).appendTo(action)
+                $(_Data.info.html.instruction.replace('#title#', title).replace('#content#', dat.action[title])).appendTo(action)
             }
             return div.html();
+        };
+
+        var _createLoading = function (role, modleId, portraitPath) {
+            var dat = _Data.info.content.def;
+            if (_Data.info.content[role] != null && _Data.info.content[role][modleId] != null) {
+                dat = _Data.info.content[role][modleId];
+            }
+
+            var div = $('<div></div>');
+            var wrap = $(_Data.info.html.wrap).appendTo(div);
+            var color = $(_Data.info.html.color).addClass(_Data.info.cssClass[role]).appendTo(wrap);
+            var portrait = $(_Data.info.html.portrait).css('background-image', 'url(' + root + Data.character.path + portraitPath + ')').appendTo(wrap);
+
+            var g = '';
+            for (var i = 0; i < dat.guide.length; i++) {
+                g += dat.guide[i]+'<br/>';
+            }
+            $(_Data.info.html.guide).html(g).appendTo(wrap)
+            return div.html();
+        };
+
+        var _showHelper = function () {
+            controller.info.reset({
+                content: helperStr
+            });
+            controller.info.show();
+            helperVisible = true;
+        };
+
+        var _hideHelper = function () {
+            controller.info.hide();
+            helperVisible = false;
         };
 
         var _setupController = function () {
@@ -192,6 +251,13 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                     'background-color': '#111'
                 },
                 content: ''
+            });
+
+            _html['helper'] = $(_Data.info.html.btn).appendTo(_html['container']);
+            _html['helper'].click(function () {
+                if (!helperVisible) {
+                    _showHelper();
+                }
             });
 
             // Move ------------------------------------------------------------------------------
@@ -212,10 +278,10 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                 that.message.action([ActionType.move, data.degree]);
             };
             controllerMove.onStop = function (data) {
-                that.message.action([ ActionType.stop]);
+                that.message.action([ActionType.stop]);
             };
             controllerMove.onTap = function (data) {
-                that.message.action([ ActionType.tap_move]);
+                that.message.action([ActionType.tap_move]);
             };
 
             // Action ------------------------------------------------------------------------------
@@ -235,15 +301,15 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             });
 
             controllerAction.onTap = function (data) {
-                that.message.action([ ActionType.tap_1 ]);
+                that.message.action([ActionType.tap_1]);
             };
 
             controllerAction.onPress = function (data) {
-                that.message.action([ ActionType.press_1 ]);
+                that.message.action([ActionType.press_1]);
             };
 
             controllerAction.onRelease = function (data) {
-                that.message.action([ ActionType.release_1 ]);
+                that.message.action([ActionType.release_1]);
             };
 
             controller = {
@@ -255,7 +321,8 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
 
         // Setup -----------------------------------------------
         var _setupHtml = function () {
-            _html = {};
+            _html = {
+            };
             _html['container'] = $(container);
         };
 
