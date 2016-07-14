@@ -319,7 +319,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             });
 
             controllerMove.onMove = function (data) {
-                that.message.action([ActionType.move, data.degree]);
+                that.message.action([ActionType.move, 180 - data.degree]);
             };
             controllerMove.onStop = function (data) {
                 that.message.action([ActionType.stop]);
