@@ -417,6 +417,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         var recoverBody = function () {
             that.objList.body = {};
+            gameData[0].b = gameData[0].b || {};
             for (var k in gameData[0].b) {
                 var b = new SYSTEM.MapObject.Body(modelData.items[Data.item.categoryName.body][_Data.bodyId]);
                 var character = entity.characterManager.characters[gameData[0].b[k].id];
