@@ -38,7 +38,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
         this.updateGame = function (gameData) {
             if (gameDisplay) {
                 game.updateGame(gameData);
-                controller.updateGame(gameData[8]);
+                controller.updateGame(gameData[7]);
             } else {
                 controller.updateGame(gameData);
             }
