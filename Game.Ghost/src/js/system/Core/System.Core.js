@@ -68,6 +68,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             this.userInput.reset(this.characterManager.characters, this.characterManager.index2Id);
             flag_setuped = true;
             if (flag_started && !isStarted) this.start();
+            _tryStart();
         };
 
         // setup game
@@ -145,13 +146,13 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
         // private method -----------------------------------------
         // start playing game
         var _tryStart = function (id) {
-            if (intervalFunc != null) return;
+            if (id === undefined || gameData.status[id] === Data.status.client.playing) return;
             if (id!==undefined) gameData.status[id] = Data.status.client.ready;
             for (var i in gameData.status) {
                 if (gameData.status[i] !== Data.status.client.ready) return;
             }
             for (var i in gameData.status) {
-                gameData.status[i] = Data.status.client.player;
+                gameData.status[i] = Data.status.client.playing;
             }
         };
 

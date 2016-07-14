@@ -12,7 +12,7 @@ window.Rendxx.Game.Ghost.System.Data = window.Rendxx.Game.Ghost.System.Data || {
         client: {
             unready: 0,
             ready: 1,
-            player:2
+            playing:2
         }
     };
 })(window.Rendxx.Game.Ghost.System.Data);

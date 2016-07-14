@@ -115,11 +115,13 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
     };
     var ActionType = SYSTEM.Data.userInput.actionType;
     var Role = SYSTEM.Data.character.type;
+    var Status = SYSTEM.Data.status.client;
 
     var ControlPad = function (container, root) {
         // Property -----------------------------------------------
         var that = this,
             _html = {},
+            _currentStatus = null,
             shown = false,
             started = false,
             helperVisible = false,
@@ -154,9 +156,12 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             shown = false;
             _html['container'].fadeOut();
         };
-        this.updateGame = function () {
-            if (!started && loaded) {
-                started = true;
+        this.updateGame = function (status) {
+            if (!loaded || _currentStatus === status) return;
+            _currentStatus=status;
+            if (_currentStatus !== Status.playing) {
+                _setLoaded();
+            } else {
                 _gameStart();
             }
         };

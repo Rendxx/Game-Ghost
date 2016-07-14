@@ -80,6 +80,7 @@
       "#dest#/Game.Ghost.UI.Client.Main": [
         "#src#/renderer/Renderer.Data.js",
         "#src#/system/Data/System.Data.Character.js",
+        "#src#/system/Data/System.Data.Status.js",
         "#src#/system/Data/System.Data.UserInput.js",
         "#controller#/controller.move.js",
         "#controller#/controller.button.js",
