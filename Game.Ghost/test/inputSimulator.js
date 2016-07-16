@@ -16,7 +16,6 @@
      * 7 0 3
      * 8 1 2
      */
-
     var keyCode = {
         'up': 104,
         'down': 101,
@@ -33,6 +32,7 @@
         'c': 67
     };
 
+    var directionFlag = false;
     var codeMap = {};
     codeMap[keyCode['up']] = false;
     codeMap[keyCode['down']] = false;
@@ -48,63 +48,81 @@
         //console.log(e.keyCode);
         if (e.keyCode in codeMap) {
             codeMap[e.keyCode] = true;
-            getDirection(codeMap);
-
-            if (direction[0] == 0)
-                system.action(pId, ['s']);
-            else
-                system.action(pId, ['m', (direction[0] - 1) * 45]);
-
+            directionFlag = true;
             e.preventDefault();
         } else if (e.keyCode == keyCode['g']) {
             if (!longPress2) {
                 delayFunc2 = setTimeout(function () {
                     delayFunc2 = null;
                     longPress2 = true;
-                    system.action(pId, ['p2']);
+                    bufferAction(['p2']);
                 }, 200);
             }
+            e.preventDefault();
         } else if (e.keyCode == keyCode['f']) {            
         } else if (e.keyCode == keyCode['e']) {
-            system.action(pId, ['tm']);
+            bufferAction(['tm']);
+            e.preventDefault();
         } else if (e.keyCode == keyCode['space']) {
             if (!longPress) {
                 delayFunc = setTimeout(function () {
                     delayFunc = null;
                     longPress = true;
-                    system.action(pId, ['p1']);
+                    bufferAction(['p1']);
                 }, 200);
             }
+            e.preventDefault();
         }
+
+        if (directionFlag) {
+            getDirection(codeMap);
+            console.log('move');
+
+            if (direction[0] == 0) {
+                bufferAction(['s']);
+                directionFlag = false;
+            }
+            else
+                bufferAction(['m', (direction[0] - 1) * 45]);
+        }
+
     }).keyup(function (e) {
         if (e.keyCode in codeMap) {
             codeMap[e.keyCode] = false;
-            getDirection(codeMap, true);
-
-            if (direction[0] == 0)
-                system.action(pId, ['s']);
-            else
-                system.action(pId, ['m', (direction[0] - 1) * 45]);
             e.preventDefault();
         } else if (e.keyCode == keyCode['g']) {
             longPress2 = false;
             if (delayFunc2 != null) {
                 clearTimeout(delayFunc2);
                 delayFunc2 = null;
-                system.action(pId, ['t2']);
+                bufferAction(['t2']);
             } else {
-                system.action(pId, ['r2']);
+                bufferAction(['r2']);
             }
+            e.preventDefault();
         } else if (e.keyCode == keyCode['f']) {
         } else if (e.keyCode == keyCode['space']) {
             longPress = false;
             if (delayFunc != null) {
                 clearTimeout(delayFunc);
                 delayFunc = null;
-                system.action(pId, ['t1']);
+                bufferAction(['t1']);
             } else {
-                system.action(pId, ['r1']);
+                bufferAction(['r1']);
             }
+            e.preventDefault();
+        }
+
+        if (directionFlag) {
+            getDirection(codeMap);
+            console.log('move');
+
+            if (direction[0] == 0) {
+                bufferAction(['s']);
+                directionFlag = false;
+            }
+            else
+                bufferAction(['m', (direction[0] - 1) * 45]);
         }
     });
     //controlPlayer(direction);
@@ -156,4 +174,23 @@
             direction[0] = 0;
         }
     };
+
+    // ------------------------------------
+    var actionList = [];
+
+    var bufferAction = function ( action) {
+        actionList.push(action);
+    }
+    var sendAction = function () {
+        if (actionList.length === 0) return;
+        system.action(pId, actionList);
+        //console.log(actionList);
+        actionList = [];
+    }
+
+    var animate = function () {
+        sendAction();
+    };
+
+    var t = setInterval(animate, 40);
 };

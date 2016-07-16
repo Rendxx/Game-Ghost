@@ -11,8 +11,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
     var GridSize = Data.grid.size;
     var _Data = {
         fogRange: 34,
-        enduranceBarWidth: 100,
-        enduranceBarHeight: 2,
         furnitureOperation: {
             Open: 0,
             Key: 1,
@@ -81,7 +79,10 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             qte = null,
             interactionIcon = {},
             highLightIcon = null,
+            hp_cache = 0,
             doorIcon = {};
+
+        var textureLoader = new THREE.TextureLoader();
 
         this.scene = scene_in;
         this.renderer = renderer_in
@@ -120,11 +121,11 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             that.sceneOrtho = new THREE.Scene();
             that.sceneEffort = new THREE.Scene();
-            that.cameraOrtho = new THREE.OrthographicCamera(-that.width / 2, that.width / 2, that.height / 2, -that.height / 2, 1, 10);
+            that.cameraOrtho = new THREE.OrthographicCamera(-that.width / 2, that.width / 2, that.height / 2, -that.height / 2, 1, 20);
             that.cameraOrtho.position.z = 10;
 
             createFrame();
-            createEnduranceBar();
+            createPlayerInfo();
             setupQTE();
         };
 
@@ -139,12 +140,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             //danger
             resizeDanger();
-
-            // name
-            sprites["name"].position.set(84 - that.width / 2, -32 + that.height / 2, 6);
-
-            // name deco
-            sprites["nameDeco"].position.set(60 - that.width / 2, -30 + that.height / 2, 5);
 
             // border
             sprites["top"].position.set(0, that.height / 2, 8);
@@ -162,7 +157,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             // endurance
             if (sprites["enduranceBar"]) {
                 sprites["enduranceBar"].position.set(-that.width / 2, -50 + that.height / 2, 6);
-                sprites["enduranceBarBase"].position.set(-that.width / 2, -50 + that.height / 2, 6);
             }
 
             // camera
@@ -202,7 +196,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 //updateEdge();
                 updateDanger();
                 // update sprite
-                updateEnduranceBar();
+                updatePlayerInfo();
                 // update effort
                 updateInteractionIcon();
                 updateMessage();
@@ -226,17 +220,6 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         // Frame ----------------------------------------------------
         var createFrame = function () {
             sprites = {};
-
-            // name
-            sprites["name"] = makeTextSprite(that.character.name, { fontsize: 32, color: { r: 255, g: 255, b: 255, a: 1.0 }, align: "left", width: 160, height: 40, fontface: "Poor Richard, Calibri, Arial" });
-            that.sceneOrtho.add(sprites["name"]);
-
-            // name deco
-            sprites["nameDeco"] = new THREE.Sprite(new THREE.SpriteMaterial({ color: that.character.color, map: tex["nameDeco"] }));
-            sprites["nameDeco"].scale.set(120, 30, 1.0);
-            sprites["nameDeco"].material.transparent = true;
-            sprites["nameDeco"].material.opacity = 0.8;
-            that.sceneOrtho.add(sprites["nameDeco"]);
 
             // fog
             sprites["fog"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["fog"] }));
@@ -269,47 +252,88 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         };
 
         // Endurance ------------------------------------------------
-        var createEnduranceBar = function () {
+        var createPlayerInfo = function () {
+            sprites["player"] = {};
+            sprites["player"]['wrap'] = new THREE.Object3D();
+            sprites["player"]['wrap'].position.set(-that.width / 2 + 10, that.height / 2 - 45, 3.0);
+
+            // name
+            sprites["player"]["name"] = makeTextSprite(that.character.name, { fontsize: 32, color: { r: 255, g: 255, b: 255, a: 1.0 }, align: "left", width: 160, height: 40, fontface: "Poor Richard, Calibri, Arial" });
+            sprites["player"]["name"].position.set(206, -2, 3.0);
+            sprites["player"]['wrap'].add(sprites["player"]["name"]);
+
+            // bg
+            sprites["player"]["bg"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["player"]["bg"] }));
+            sprites["player"]["bg"].scale.set(300, 120, 1.0);
+            sprites["player"]["bg"].position.set(150, 60, 1.0);
+            sprites["player"]["bg"].material.transparent = true;
+            sprites["player"]['wrap'].add(sprites["player"]["bg"]);
+
+            sprites["player"]["bg"].position.set(84 - that.width / 2, -32 + that.height / 2, 6);
+
+            // portrait
+            tex["player"]['portriat'] = textureLoader.load(root + Data.character.path + that.character.portrait);
+            sprites["player"]["portriat"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["player"]["portriat"] }));
+            sprites["player"]["portriat"].scale.set(100, 100, 1.0);
+            sprites["player"]["portriat"].position.set(70, 20, 3.0);
+            sprites["player"]["portriat"].material.transparent = true;
+            sprites["player"]['wrap'].add(sprites["player"]["portriat"]);
+
+            // hp
+            sprites["player"]["hp"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["player"]["hp"][that.character.hp] }));
+            sprites["player"]["hp"].scale.set(100, 100, 1.0);
+            sprites["player"]["hp"].position.set(70, 20, 2.0);
+            sprites["player"]["hp"].material.transparent = true;
+            sprites["player"]['wrap'].add(sprites["player"]["hp"]);
+
             // endurance
-            var mat = new THREE.SpriteMaterial({
-                color: 0xcccccc,
-                transparent: true
-            });
-            mat.opacity = 0.8;
-            var spr = new THREE.Sprite(mat);
-            spr.position.set(-that.width / 2, -50 + that.height / 2, 6);
-            spr.scale.set(_Data.enduranceBarWidth * 2, _Data.enduranceBarHeight, 1.0);
-            that.sceneOrtho.add(spr);
+            sprites["player"]["endurance"] = {};
+            sprites["player"]["endurance"]['wrap'] = new THREE.Object3D();
+            sprites["player"]["endurance"]["wrap"].position.set(105, 10, 0.0);
+            that.sceneOrtho.add(sprites["player"]['wrap']);
 
-            sprites["enduranceBar"] = spr;
+            sprites["player"]["endurance"]["bg"] = new THREE.Sprite(new THREE.SpriteMaterial({ color: 0x111111 }));
+            sprites["player"]["endurance"]["bg"].scale.set(120, 8, 1.0);
+            sprites["player"]["endurance"]["bg"].position.set(80, 9, 1.0);
+            sprites["player"]["endurance"]['wrap'].add(sprites["player"]["endurance"]["bg"]);
 
-            // base
-            var mat = new THREE.SpriteMaterial({
-                color: 0x000000,
-                transparent: true
-            });
-            mat.opacity = 0.6;
-            var spr = new THREE.Sprite(mat);
-            spr.position.set(-that.width / 2, -50 + that.height / 2, 1);
-            spr.scale.set(2 + _Data.enduranceBarWidth * 2, 2 + _Data.enduranceBarHeight, 1.0);
-            that.sceneOrtho.add(spr);
+            sprites["player"]["endurance"]["val"] = new THREE.Sprite(new THREE.SpriteMaterial({ color: 0x333333 }));
+            sprites["player"]["endurance"]["val"].scale.set(120, 8, 1.0);
+            sprites["player"]["endurance"]["val"].position.set(80, 9, 2.0);
+            sprites["player"]["endurance"]['wrap'].add(sprites["player"]["endurance"]["val"]);
 
-            sprites["enduranceBarBase"] = spr;
+            sprites["player"]["endurance"]["mark"] = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex["player"]["endurance"] }));
+            sprites["player"]["endurance"]["mark"].scale.set(128, 18, 1.0);
+            sprites["player"]["endurance"]["mark"].position.set(80, 9, 3.0);
+            sprites["player"]["endurance"]['wrap'].add(sprites["player"]["endurance"]["mark"]);
+
+            sprites["player"]['wrap'].add(sprites["player"]["endurance"]["wrap"]);
+
         };
 
-        var updateEnduranceBar = function () {
-            if (!sprites.hasOwnProperty('enduranceBar')) return;
+        var updatePlayerInfo = function () {
+            if (!sprites.hasOwnProperty('player')) return;
             var val = that.character.endurance;
             var w = (val / that.character.maxEndurance);
-            sprites["enduranceBar"].scale.x = w * _Data.enduranceBarWidth * 2;
+            sprites["player"]["endurance"]["val"].scale.x = w * 120;
+            sprites["player"]["endurance"]["val"].position.x = w * 60+20;
 
             if (val >= that.character.maxEndurance) {
-                sprites["enduranceBar"].material.color.b = 0.8;
-                sprites["enduranceBar"].material.color.g = 0.8;
+                sprites["player"]["endurance"]["val"].material.color.r
+                 = sprites["player"]["endurance"]["val"].material.color.b
+                 = sprites["player"]["endurance"]["val"].material.color.g = 1;
             } else {
-                sprites["enduranceBar"].material.color.b = 0.8 * w;
-                sprites["enduranceBar"].material.color.g = 0.8 * w;
+                sprites["player"]["endurance"]["val"].material.color.r
+                 = sprites["player"]["endurance"]["val"].material.color.b
+                 = sprites["player"]["endurance"]["val"].material.color.g = 0.4 + 0.4 * w;
             }
+
+            var hp = that.character.hp;
+            if (hp_cache !== hp) {
+                hp_cache = hp;
+                sprites["player"]["hp"].material.map = tex["player"]["hp"][hp_cache];
+                sprites["player"]["hp"].material.needsUpdate = true;
+            }            
         };
 
         // Noise -----------------------------------------------------
@@ -897,9 +921,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             var path = root + Data.files.path[Data.categoryName.sprite];
 
             // texture loader -------------------------------------------------------------------------------------------
-            var textureLoader = new THREE.TextureLoader();
             tex['fog'] = textureLoader.load(path + 'fog.png');
-            tex['nameDeco'] = textureLoader.load(path + 'name-deco-white.png');
             tex['deadScreen'] = textureLoader.load(path + 'DeadScreen.png');
             tex['escapeScreen'] = textureLoader.load(path + 'EscapeScreen.png');
             tex['danger'] = textureLoader.load(path + 'danger.png');
@@ -931,6 +953,8 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
                 'pointer': {},
                 'tip': {}
             };
+
+            tex['player'] = {};
 
             tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = textureLoader.load(path + 'interaction.open.png');
             tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = textureLoader.load(path + 'interaction.close.png');
@@ -970,83 +994,13 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
             tex['qte']['pointer'][RENDERER.QuickTimeEvent.Data.Name.Generator] = textureLoader.load(path + 'QTE.generator.pointer.png');
             tex['qte']['tip'][RENDERER.QuickTimeEvent.Data.Name.Generator] = textureLoader.load(path + 'QTE.generator.tip.png');
 
+            tex['player']['bg'] = textureLoader.load(path + 'player.bg.png');
+            tex['player']['endurance'] = textureLoader.load(path + 'player.endurance.png');
+            tex['player']['hp'] = [];
+            tex['player']['hp'][0] = textureLoader.load(path + 'player.hp.0.png');
+            tex['player']['hp'][1] = textureLoader.load(path + 'player.hp.1.png');
+            tex['player']['hp'][2] = textureLoader.load(path + 'player.hp.2.png');
 
-            //// DDS Loader -------------------------------------------------------------------------------------------
-            //var ddsLoader = new THREE.DDSLoader();
-            //tex['fog'] = ddsLoader.load(path + 'fog.dds');
-            //tex['fog'].anisotropy = 4;
-            //tex['nameDeco'] = ddsLoader.load(path + 'name-deco-white.dds');
-            //tex['nameDeco'].anisotropy = 4;
-            //tex['deadScreen'] = ddsLoader.load(path + 'DeadScreen.dds');
-            //tex['deadScreen'].anisotropy = 4;
-            //tex['escapeScreen'] = ddsLoader.load(path + 'EscapeScreen.dds');
-            //tex['escapeScreen'].anisotropy = 4;
-
-            //tex['interaction'] = {
-            //    'normal': {
-            //        'furniture': {
-            //        },
-            //        'door': {
-            //        },
-            //        'body': {
-            //        }
-            //    },
-            //    'highlight': {
-            //        'furniture': {
-            //        },
-            //        'door': {
-            //        },
-            //        'body': {
-            //        }
-            //    }
-            //};
-                        
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open] = ddsLoader.load(path + 'interaction.open.dds');
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Open].anisotropy = 4;
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close] = ddsLoader.load(path + 'interaction.close.dds');
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Close].anisotropy = 4;
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key] = ddsLoader.load(path + 'interaction.key.dds');
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Key].anisotropy = 4;
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search] = ddsLoader.load(path + 'interaction.search.dds');
-            //tex['interaction']['normal']['furniture'][_Data.operation.furniture.Search].anisotropy = 4;
-            //tex['interaction']['normal']['body'][_Data.operation.body.Search] = ddsLoader.load(path + 'interaction.search.dds');
-            //tex['interaction']['normal']['body'][_Data.operation.body.Search].anisotropy = 4;
-            //tex['interaction']['normal']['door'][_Data.operation.door.Open] = ddsLoader.load(path + 'interaction.door.open.dds');
-            //tex['interaction']['normal']['door'][_Data.operation.door.Open].anisotropy = 4;
-            //tex['interaction']['normal']['door'][_Data.operation.door.Close] = ddsLoader.load(path + 'interaction.door.close.dds');
-            //tex['interaction']['normal']['door'][_Data.operation.door.Destroy] = ddsLoader.load(path + 'interaction.key.dds');
-            //tex['interaction']['normal']['door'][_Data.operation.door.Destroy].anisotropy = 4;
-            //tex['interaction']['normal']['door'][_Data.operation.door.Close].anisotropy = 4;
-            //tex['interaction']['normal']['door'][_Data.operation.door.Locked] = ddsLoader.load(path + 'interaction.lock.dds');
-            //tex['interaction']['normal']['door'][_Data.operation.door.Locked].anisotropy = 4;
-            //tex['interaction']['normal']['door'][_Data.operation.door.Unlock] = ddsLoader.load(path + 'interaction.unlock.dds');
-            //tex['interaction']['normal']['door'][_Data.operation.door.Unlock].anisotropy = 4;
-            ////tex['interaction']['normal']['door'][_Data.operation.door.Block] = ddsLoader.load(path + 'interaction.block.dds');
-
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open] = ddsLoader.load(path + 'interaction.open-2.dds');
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Open].anisotropy = 4;
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close] = ddsLoader.load(path + 'interaction.close-2.dds');
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Close].anisotropy = 4;
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key] = ddsLoader.load(path + 'interaction.key-2.dds');
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Key].anisotropy = 4;
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search] = ddsLoader.load(path + 'interaction.search-2.dds');
-            //tex['interaction']['highlight']['furniture'][_Data.operation.furniture.Search].anisotropy = 4;
-            //tex['interaction']['highlight']['body'][_Data.operation.body.Search] = ddsLoader.load(path + 'interaction.search-2.dds');
-            //tex['interaction']['highlight']['body'][_Data.operation.body.Search].anisotropy = 4;
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Open] = ddsLoader.load(path + 'interaction.door.open-2.dds');
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Open].anisotropy = 4;
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Close] = ddsLoader.load(path + 'interaction.door.close-2.dds');
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Close].anisotropy = 4;
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Destroy] = ddsLoader.load(path + 'interaction.key-2.dds');
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Destroy].anisotropy = 4;
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Locked] = ddsLoader.load(path + 'interaction.lock-2.dds');
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Locked].anisotropy = 4;
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Unlock] = ddsLoader.load(path + 'interaction.unlock-2.dds');
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Unlock].anisotropy = 4;
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Block] = ddsLoader.load(path + 'interaction.door.block-2.dds');
-            //tex['interaction']['highlight']['door'][_Data.operation.door.Block].anisotropy = 4;
-
-            ////tex['enduranceBarBase'] = ddsLoader.load(root + Data.files.path[Data.categoryName.sprite] + 'EnduranceBar.dds');
         };
 
         var _init = function () {

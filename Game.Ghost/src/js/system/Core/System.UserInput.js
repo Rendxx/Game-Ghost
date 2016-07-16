@@ -18,7 +18,11 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
 
         // public method -------------------------------------------------
         this.action = function (clientId, dat) {
-            if (characterFunc[clientId].hasOwnProperty(dat[0])) characterFunc[clientId][dat[0]](dat);
+            if (dat) {
+                for (var i = 0; i < dat.length; i++) {
+                    if (characterFunc[clientId].hasOwnProperty(dat[i][0])) characterFunc[clientId][dat[i][0]](dat[i]);
+                }
+            }
         };
 
         // bind character function to user input

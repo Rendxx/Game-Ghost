@@ -33,6 +33,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.name = _para.name;
         this.team = _para.team;
         this.role = _para.role;
+        this.portrait = _data.portrait;
         this.modelId = _para.modelId;
         //this.color = parseInt(_data.color, 16);
         this.color = _Data.teamColor[_para.team];
@@ -43,6 +44,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
         this.endurance = 0;
         this.x = 0;
         this.y = 0;
+        this.hp = 0;
         this.rotation = {
             body: 0,
             head: 0
@@ -163,6 +165,7 @@ window.Rendxx.Game.Ghost.Renderer = window.Rendxx.Game.Ghost.Renderer || {};
 
             this.x = x;
             this.y = y;
+            this.hp = gameData.hp;
             this.danger = gameData.danger;
             this.endurance = gameData.endurance;
             this.accessObject = gameData.accessObject;
