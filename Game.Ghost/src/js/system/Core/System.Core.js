@@ -179,7 +179,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.status[i]
                     ]);
                 }
-                for (var i = 0; i < 3;i++) if (statusList[i].length > 0) that.clientUpdate(statusList[i], i);
+                for (var i = 0; i < 3; i++) if (gameData.status[i].length > 0) that.clientUpdate(gameData.status[i], i);
 
                 if (that.onUpdated) that.onUpdated(
                     [   // to RENDERER
@@ -198,11 +198,9 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.characters[0]
                     ]);
             } else {
-                var statusList = [[], [], []];
                 for (var i = 0, len = that.characterManager.characters.length; i < len; i++) {
                     var id = that.characterManager.index2Id[i];
                     if (that.characterManager.characters[i].role !== Data.character.type.ghost) {
-                        statusList[gameData.status[i]].push(id);
                         continue;
                     };
                     var assist = [];
@@ -218,7 +216,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
                         gameData.status[i]
                     ]);
                 }
-                for (var i = 0; i < 3; i++) if (statusList[i].length > 0) that.clientUpdate(statusList[i], i);
+                for (var i = 0; i < 3; i++) if (gameData.status[i].length > 0) that.clientUpdate(gameData.status[i], i);
 
                 if (that.onUpdated) that.onUpdated(
                     [   // to RENDERER

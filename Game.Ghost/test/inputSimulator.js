@@ -42,7 +42,7 @@
     codeMap[keyCode['s']] = false;
     codeMap[keyCode['a']] = false;
     codeMap[keyCode['d']] = false;
-    codeMap[keyCode['space']] = false;
+    //codeMap[keyCode['space']] = false;
 
     $("body").keydown(function (e) {
         //console.log(e.keyCode);
@@ -50,83 +50,60 @@
             codeMap[e.keyCode] = true;
             getDirection(codeMap);
 
-            system.action(pId, {
-                actionType: 'm',
-                direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
-                directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
-                rush: rush,
-                stay: direction[0] == 0,
-                headFollow: direction[1] == 0
-            });
+            if (direction[0] == 0)
+                system.action(pId, ['s']);
+            else
+                system.action(pId, ['m', (direction[0] - 1) * 45]);
+
             e.preventDefault();
         } else if (e.keyCode == keyCode['g']) {
             if (!longPress2) {
                 delayFunc2 = setTimeout(function () {
                     delayFunc2 = null;
                     longPress2 = true;
-                    system.action(pId, {
-                        actionType: 'p2'
-                    });
+                    system.action(pId, ['p2']);
                 }, 200);
             }
-        } else if (e.keyCode == keyCode['f']) {
+        } else if (e.keyCode == keyCode['f']) {            
+        } else if (e.keyCode == keyCode['e']) {
+            system.action(pId, ['tm']);
+        } else if (e.keyCode == keyCode['space']) {
             if (!longPress) {
                 delayFunc = setTimeout(function () {
                     delayFunc = null;
                     longPress = true;
-                    system.action(pId, {
-                        actionType: 'p1'
-                    });
+                    system.action(pId, ['p1']);
                 }, 200);
             }
-        } else if (e.keyCode == keyCode['e']) {
-            system.action(pId, {
-                actionType: 'tm'
-            });
-        //} else if (e.keyCode == keyCode['c']) {
-        //    system.action(pId, {
-        //        actionType: 't1'
-        //    });
         }
     }).keyup(function (e) {
         if (e.keyCode in codeMap) {
             codeMap[e.keyCode] = false;
             getDirection(codeMap, true);
 
-            system.action(pId, {
-                actionType: 'm',
-                direction: (direction[0] == 0 ? 0 : (direction[0] - 1) * 45),
-                directionHead: (direction[1] == 0 ? 0 : (direction[1] - 1) * 45),
-                rush: rush,
-                stay: direction[0] == 0,
-                headFollow: direction[1] == 0
-            });
+            if (direction[0] == 0)
+                system.action(pId, ['s']);
+            else
+                system.action(pId, ['m', (direction[0] - 1) * 45]);
             e.preventDefault();
         } else if (e.keyCode == keyCode['g']) {
             longPress2 = false;
             if (delayFunc2 != null) {
                 clearTimeout(delayFunc2);
                 delayFunc2 = null;
-                system.action(pId, {
-                    actionType: 't2'
-                });
+                system.action(pId, ['t2']);
             } else {
-                system.action(pId, {
-                    actionType: 'r2'
-                });
+                system.action(pId, ['r2']);
             }
         } else if (e.keyCode == keyCode['f']) {
+        } else if (e.keyCode == keyCode['space']) {
             longPress = false;
             if (delayFunc != null) {
                 clearTimeout(delayFunc);
                 delayFunc = null;
-                system.action(pId, {
-                    actionType: 't1'
-                });
+                system.action(pId, ['t1']);
             } else {
-                system.action(pId, {
-                    actionType: 'r1'
-                });
+                system.action(pId, ['r1']);
             }
         }
     });
