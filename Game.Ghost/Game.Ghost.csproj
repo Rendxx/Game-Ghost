@@ -1121,6 +1121,11 @@
     <Content Include="Model\Sprite\noise.key.png" />
     <Content Include="Model\Sprite\noise.operation.png" />
     <Content Include="Model\Sprite\noise.touch.png" />
+    <Content Include="Model\Sprite\player.bg.png" />
+    <Content Include="Model\Sprite\player.endurance.png" />
+    <Content Include="Model\Sprite\player.hp.0.png" />
+    <Content Include="Model\Sprite\player.hp.1.png" />
+    <Content Include="Model\Sprite\player.hp.2.png" />
     <Content Include="Model\Sprite\playerHighlight.dds" />
     <Content Include="Model\Sprite\playerHighlight.png" />
     <Content Include="Model\Sprite\QTE.generator.circle.png" />
@@ -1325,7 +1330,7 @@
     <Content Include="ImageEdit\EndScreenClient.fla" />
     <Content Include="ImageEdit\EndScreenClient_bg.fla" />
     <Content Include="ImageEdit\helperBtn.fla" />
-    <Content Include="ImageEdit\character icon.fla" />
+    <Content Include="ModelBuilder\Sprite\character icon.fla" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.icon.fla" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.icon.fla" />
@@ -1489,6 +1494,9 @@
     <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.portrait.fla" />
     <Content Include="ModelBuilder\Player\ghost\butcher\player-butcher.tex.fla" />
     <Content Include="ModelBuilder\Sprite\QTE.generator.fla" />
+    <Content Include="ModelBuilder\Sprite\player.bg.fla" />
+    <Content Include="ModelBuilder\Sprite\player.endurance.fla" />
+    <Content Include="ModelBuilder\Sprite\player.hp.fla" />
     <None Include="package.json" />
     <Content Include="ImageEdit\StartScreen.fla" />
     <Content Include="ImageEdit\StartScreen.psd" />
