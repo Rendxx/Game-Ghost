@@ -159,10 +159,10 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
         this.updateGame = function (status) {
             if (!loaded || _currentStatus === status) return;
             _currentStatus=status;
-            if (_currentStatus !== Status.playing) {
-                _setLoaded();
-            } else {
+            if (_currentStatus === Status.playing) {
                 _gameStart();
+            } else {
+                _setLoaded();
             }
         };
         this.pause = function () {
@@ -249,16 +249,19 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             return div.html();
         };
 
-        var _setLoaded = function () {
+        var _setLoaded = function (isReady) {
             var t = $('.loadWrap').find('._processTip');
             if (t == null || t.length == 0) return;
-            if (started) {
+            if (_currentStatus === Status.player) {
                 _gameStart();
+            } else if (_currentStatus === Status.ready) {
+                t.text('[READY]');
+            } else {
+                t.text('[tap to READY]');
             }
-            t.text('[tap to READY]');
+
             controller.load.onTap = function () {
                 _sendMessage([ActionType.tap_load]);
-                t.text('[READY]');
             };
         };
 
