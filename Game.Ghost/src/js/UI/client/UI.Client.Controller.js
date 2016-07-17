@@ -257,7 +257,7 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             }
             t.text('[tap to READY]');
             controller.load.onTap = function () {
-                that.message.action([ActionType.tap_load]);
+                _sendMessage([ActionType.tap_load]);
                 t.text('[READY]');
             };
         };
@@ -319,13 +319,13 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             });
 
             controllerMove.onMove = function (data) {
-                that.message.action([ActionType.move, 180 - data.degree]);
+                _sendMessage([ActionType.move, 180 - data.degree]);
             };
             controllerMove.onStop = function (data) {
-                that.message.action([ActionType.stop]);
+                _sendMessage([ActionType.stop]);
             };
             controllerMove.onTap = function (data) {
-                that.message.action([ActionType.tap_move]);
+                _sendMessage([ActionType.tap_move]);
             };
 
             // Action ------------------------------------------------------------------------------
@@ -345,15 +345,15 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
             });
 
             controllerAction.onTap = function (data) {
-                that.message.action([ActionType.tap_1]);
+                _sendMessage([ActionType.tap_1]);
             };
 
             controllerAction.onPress = function (data) {
-                that.message.action([ActionType.press_1]);
+                _sendMessage([ActionType.press_1]);
             };
 
             controllerAction.onRelease = function (data) {
-                that.message.action([ActionType.release_1]);
+                _sendMessage([ActionType.release_1]);
             };
 
             controller = {
@@ -362,6 +362,10 @@ window.Rendxx.Game.Ghost.UI.Client = window.Rendxx.Game.Ghost.UI.Client || {};
                 action: controllerAction,
                 move: controllerMove
             };
+        };
+
+        var _sendMessage = function (action) {
+            that.message.action([action]);
         };
 
         // Setup -----------------------------------------------
