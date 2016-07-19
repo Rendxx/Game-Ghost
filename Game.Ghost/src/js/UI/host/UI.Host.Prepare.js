@@ -18,6 +18,7 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
             mapList: '<div class="_mapList"></div>',
             ghostList: '<div class="_ghostList"></div>',
             start: '<div class="_start"></div>',
+            version: '<div class="_version"></div>',
             listTitle: '<div class="_title"></div>',
             item: '<div class="_item"><div class="_text"></div></div>',
             sep: '<div class="_sep"></div>',
@@ -28,20 +29,13 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
             selected: '_selected'
         }
     };
-    var HTML = {
-        player: '<div class="_playerList"></div>',
-        ob: '<div class="_obList"></div>',
-        item: '<div class="_item"></div>',
-        mapSelector: '<div class="map-selector"><span></span></div>',
-        mapItemWrap: '<div class="map-item-wrap"></div>',
-        mapItem: '<div class="_map-item"></div>'
-    };
 
     var Prepare = function (container, onStart) {
         // Property -------------------------------------
         var // html
             _html = {},
             // data
+            _version = '',
             _max = 5,
             _map = [],
             _ghost = [],
@@ -64,6 +58,7 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
             isShown = true;
             _renderClient(cache_client);
             _renderOb(cache_ob);
+            _renderInfo();
             _html['container'].fadeIn();
         };
 
@@ -132,6 +127,10 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
                     _html['player'][i].html("").removeClass(_Data.cssClass.occupied);
                 }
             }
+        };
+
+        var _renderInfo = function () {
+            _html['version'].text(_version);
         };
 
         var _selectMap = function (id) {
@@ -238,6 +237,7 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
             _html['playerPanel'] = $(_Data.html.playerPanel).appendTo(_html['wrap']);
             _html['optionPanel'] = $(_Data.html.optionPanel).appendTo(_html['wrap']);
             _html['start'] = $(_Data.html.start).appendTo(_html['wrap']);
+            _html['version'] = $(_Data.html.version).appendTo(_html['wrap']);
 
             // player panel
             _html['logo'] = $(_Data.html.logo).appendTo(_html['playerPanel']);
@@ -287,6 +287,7 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
 
         var _init = function () {
             _max = GAMESETTING.max;
+            _version = 'ver. '+GAMESETTING.version;
             _ghost = GAMESETTING.ghost;
             _survivor = GAMESETTING.survivor;
             _map = GAMESETTING.map;

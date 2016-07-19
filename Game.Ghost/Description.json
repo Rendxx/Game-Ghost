@@ -1,5 +1,5 @@
 ﻿{
   "name": "Ghost",
-  "version": "0.1.0",
-  "description": "Find the key and ESCAPE from the building!<br/>One player will play as aghost to kill the others while other players are survivors trying to run away.<br/>The idea came from game [DAMNED].<br/><br/>Player number: 3 to 7 players.<br/>This game requires 2 screens: 1 for survivors, 1 for ghost."
+  "version": "0.3.1",
+  "description": "Find the key and ESCAPE from the building!<br/>One player will play as ghost to kill the others while other players are survivors trying to run away.<br/>Part of ideas and characters came from game [DAMNED] and [DEAD BY DAY LIGHT].<br/><br/>Player number: 3 to 7 players.<br/>This game requires 2 screens: 1 for survivors, 1 for ghost."
 }
