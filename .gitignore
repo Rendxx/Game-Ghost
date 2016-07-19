@@ -209,3 +209,12 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/Game.Ghost/css
+/Game.Ghost/bower_components
+/Game.Ghost/js
+/Game.Ghost/lib
+/Game.Ghost/mapDesigner/_index.min.js.map
+/Game.Ghost/mapDesigner/_index.min.js
+/Game.Ghost/mapDesigner/_index.js.map
+/Game.Ghost/mapDesigner/_index.js
+/Game.Ghost/mapDesigner/index.css.map
