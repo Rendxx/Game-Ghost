@@ -182,7 +182,7 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
                         id: id,
                         role: Data_System.character.type.survivor,
                         modelId: m.id,
-                        team: 0
+                        team: 1
                     };
                     survivorList.push(id);
                 } else {
@@ -201,31 +201,39 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
             }
 
             // setup team
-            var survivorTeamIdx = [],
-                ghostTeamIdx = [],
-                teamIdx = 0;
-            for (var i = 0; i < survivorList.length; i++) {
-                survivorTeamIdx.push(teamIdx);
-                teamIdx = (teamIdx + 1) % _team.survivor.length;
-            }
-            teamIdx = 0;
-            for (var i = 0; i < ghostList.length; i++) {
-                ghostTeamIdx.push(teamIdx);
-                teamIdx = (teamIdx + 1) % _team.ghost.length;
-            }
+            //var survivorTeamIdx = [],
+            //    ghostTeamIdx = [],
+            //    teamIdx = 0;
+            //for (var i = 0; i < survivorList.length; i++) {
+            //    survivorTeamIdx.push(teamIdx);
+            //    teamIdx = (teamIdx + 1) % _team.survivor.length;
+            //}
+            //teamIdx = 0;
+            //for (var i = 0; i < ghostList.length; i++) {
+            //    ghostTeamIdx.push(teamIdx);
+            //    teamIdx = (teamIdx + 1) % _team.ghost.length;
+            //}
+
+            //for (var i = 0; i < survivorList.length; i++) {
+            //    var t = Math.floor(survivorTeamIdx.length * Math.random());
+            //    playerData[survivorList[i]].team = _team.survivor[survivorTeamIdx[t]].id;
+            //    survivorTeamIdx.splice(t, 1);
+            //}
+
+            //for (var i = 0; i < ghostList.length; i++) {
+            //    var t = Math.floor(ghostTeamIdx.length * Math.random());
+            //    playerData[ghostList[i]].team = _team.ghost[ghostTeamIdx[t]].id;
+            //    ghostTeamIdx.splice(t, 1);
+            //}
+
 
             for (var i = 0; i < survivorList.length; i++) {
-                var t = Math.floor(survivorTeamIdx.length * Math.random());
-                playerData[survivorList[i]].team = _team.survivor[survivorTeamIdx[t]].id;
-                survivorTeamIdx.splice(t, 1);
+                playerData[survivorList[i]].team = _team.survivor[0].id;
             }
 
             for (var i = 0; i < ghostList.length; i++) {
-                var t = Math.floor(ghostTeamIdx.length * Math.random());
-                playerData[ghostList[i]].team = _team.ghost[ghostTeamIdx[t]].id;
-                ghostTeamIdx.splice(t, 1);
+                playerData[ghostList[i]].team = _team.ghost[0].id;
             }
-
             return playerData;
         };
 
