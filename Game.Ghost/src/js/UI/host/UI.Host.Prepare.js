@@ -165,12 +165,6 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
             var playerNum = 0;
             for (var i in cache_client) playerNum++;
 
-            //showHelperBox();
-            if (playerNum < _min) {
-                showHelperBox();
-                return;
-            }
-
             var ghostPlayerIdx = Math.floor(playerNum * Math.random());
             var ghostIdxList = [],
                 survivorIdxList = [];
@@ -248,9 +242,24 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
             return playerData;
         };
 
+        var checkPlayer = function () {
+            var playerNum = 0;
+            for (var i in cache_client) playerNum++;
+
+            //showHelperBox();
+            if (playerNum < _min) {
+                showHelperBox();
+                return false;
+            }
+            return true;
+        };
+
         var showHelperBox = function () {
             var wrap = $(_Data.html.helperBox);
             var text = $(_Data.html.helperBoxText).html('Need more than '+_min+' players.<br/><span>To join the game, login with your cellphone as client and enter the room with room number (on top-right corner).</span>').appendTo(wrap);
+            wrap.click(function () {
+                $$.info.hide();
+            });
             $$.info.show(wrap, true, "rgba(10,10,10,0.6)");
         };
 
@@ -302,6 +311,7 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
 
             // start
             _html['start'].click(function () {
+                if (!checkPlayer()) return;
                 clientData = _setupPlayer();
                 if (onStart) onStart({
                     map: _map[mapId].id,
