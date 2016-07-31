@@ -18,7 +18,7 @@ window.Rendxx.Game.Ghost.System = window.Rendxx.Game.Ghost.System || {};
             danger: 12
         },
         appearingTime: 40,
-        touchNumer: 60,
+        touchNumer: 20,
         hurtNumer: 160
     };
 
