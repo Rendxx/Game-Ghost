@@ -33,6 +33,7 @@
     <Content Include="ImageEdit\ResultIcon_failed.png" />
     <Content Include="ImageEdit\ResultIcon_success.png" />
     <Content Include="ImageEdit\selected.png" />
+    <Content Include="ImageEdit\startHelper.png" />
     <Content Include="ImageEdit\verticalLine.png" />
     <Content Include="ImageEdit\verticalLine2.png" />
     <Content Include="ImageEdit\WaitingScreenClient.png" />
@@ -51,6 +52,7 @@
     <Content Include="Images\ResultIcon_success.png" />
     <Content Include="Images\selected.png" />
     <Content Include="Images\start.png" />
+    <Content Include="Images\startHelper.png" />
     <Content Include="Images\teamWin.png" />
     <Content Include="Images\verticalLine.png" />
     <Content Include="Images\WaitingScreenClient.png" />
@@ -1331,6 +1333,7 @@
     <Content Include="ImageEdit\EndScreenClient_bg.fla" />
     <Content Include="ImageEdit\helperBtn.fla" />
     <Content Include="ModelBuilder\Sprite\character icon.fla" />
+    <Content Include="ImageEdit\start helper.fla" />
     <None Include="mapDesigner\Document\category-btn.fla" />
     <Content Include="ModelBuilder\Environment\ground_wood\ground_wood.icon.fla" />
     <Content Include="ModelBuilder\Environment\ground_ceramic\ground_ceramic.icon.fla" />

@@ -22,7 +22,10 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
             listTitle: '<div class="_title"></div>',
             item: '<div class="_item"><div class="_text"></div></div>',
             sep: '<div class="_sep"></div>',
-            clear: '<div class="_clear"></div>'
+            clear: '<div class="_clear"></div>',
+
+            helperBox: '<div class="helperBox"></div>',
+            helperBoxText: '<div class="helperBoxText"></div>'
         },
         cssClass: {
             occupied: '_occupied',
@@ -37,6 +40,7 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
             // data
             _version = '',
             _max = 5,
+            _min = 3,
             _map = [],
             _ghost = [],
             _survivor = [],
@@ -160,6 +164,13 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
             // setup data
             var playerNum = 0;
             for (var i in cache_client) playerNum++;
+
+            //showHelperBox();
+            if (playerNum < _min) {
+                showHelperBox();
+                return;
+            }
+
             var ghostPlayerIdx = Math.floor(playerNum * Math.random());
             var ghostIdxList = [],
                 survivorIdxList = [];
@@ -237,6 +248,12 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
             return playerData;
         };
 
+        var showHelperBox = function () {
+            var wrap = $(_Data.html.helperBox);
+            var text = $(_Data.html.helperBoxText).html('Need more than '+_min+' players.<br/><span>To join the game, login with your cellphone as client and enter the room with room number (on top-right corner).</span>').appendTo(wrap);
+            $$.info.show(wrap, true, "rgba(10,10,10,0.6)");
+        };
+
         // Setup -----------------------------------------
         var _setupHtml = function () {
             // containers
@@ -295,6 +312,7 @@ window.Rendxx.Game.Ghost.UI.Host = window.Rendxx.Game.Ghost.UI.Host || {};
 
         var _init = function () {
             _max = GAMESETTING.max;
+            _min = GAMESETTING.min;
             _version = 'ver. '+GAMESETTING.version;
             _ghost = GAMESETTING.ghost;
             _survivor = GAMESETTING.survivor;

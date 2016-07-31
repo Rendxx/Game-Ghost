@@ -3,7 +3,8 @@ window.Rendxx.Game = window.Rendxx.Game || {};
 window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.GameSetting = {
     version: '0.3.1',
-    max:7,
+    min: 2,
+    max: 7,
     map: [
         //{
         //    name: "Hospital5",
