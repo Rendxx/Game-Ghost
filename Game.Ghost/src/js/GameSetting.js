@@ -2,7 +2,7 @@
 window.Rendxx.Game = window.Rendxx.Game || {};
 window.Rendxx.Game.Ghost = window.Rendxx.Game.Ghost || {};
 window.Rendxx.Game.Ghost.GameSetting = {
-    version: '0.3.1',
+    version: '0.3.2',
     min: 2,
     max: 7,
     map: [
